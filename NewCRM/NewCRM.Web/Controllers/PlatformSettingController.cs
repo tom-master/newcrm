@@ -66,7 +66,7 @@ namespace NewCRM.Web.Controllers
         /// <param name="wallPaperId"></param>
         /// <returns></returns>
         public ActionResult DeleteWallPaper(Int32 wallPaperId = 0)
-        {
+        {  
             _userApplicationService = new UserApplicationService();
             var deleteResult = _userApplicationService.DeleteWallPaper(wallPaperId, UserEntity.Id);
             return Json(deleteResult ? new { data = 1 } : new { data = 0 });
