@@ -1,0 +1,84 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutDesk.cshtml";
+
+}
+<div class="loginmask"></div>
+<div class="loading"></div>
+<div class="login">
+    <div class="logo">NewCRM</div>
+    <div class="input">
+        <div class="log">
+            <div class="name">
+                <input id="username" name="Name" placeholder="用户名" tabindex="1" type="text" value="">
+            </div>
+            <div class="pwd">
+                <input id="password" name="Password" placeholder="密码" tabindex="2" type="password">
+                <input id="Login" type="submit" class="submit" tabindex="3" value="Login" /><div class="check"></div>
+            </div>
+            <div class="tip"></div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/HoorayUI/js/HoorayLibs/hooraylibs.js"></script>
+<script>
+    $(function () {
+        setTimeout(function () { $('#username').val('').focus(); }, 500);
+        //IE6升级提示
+        if ($.browser.msie && $.browser.version < 8) {
+            if ($.browser.version < 7) {
+                DD_belatedPNG.fix('.update_browser .browser');
+            }
+            $('.login').html('<div class="update_browser">' +
+                '<div class="subtitle">您正在使用的IE浏览器版本过低，<br>我们建议您升级或者更换浏览器，以便体验顺畅、兼容、安全的互联网。</div>' +
+                '<div class="title">选择一款<span>新</span>浏览器吧</div>' +
+                '<div class="browser">' +
+                '<a href="http://windows.microsoft.com/zh-CN/internet-explorer/downloads/ie" class="ie" target="_blank" title="ie浏览器">ie浏览器</a>' +
+                '<a href="http://www.google.cn/chrome/intl/zh-CN/landing_chrome.html" class="chrome" target="_blank" title="谷歌浏览器">谷歌浏览器</a>' +
+                '<a href="http://www.firefox.com.cn" class="firefox" target="_blank" title="火狐浏览器">火狐浏览器</a>' +
+                '<a href="http://www.opera.com" class="opera" target="_blank" title="opera浏览器">opera浏览器</a>' +
+                '<a href="http://www.apple.com.cn/safari" class="safari" target="_blank" title="safari浏览器">safari浏览器</a>' +
+                '</div>' +
+                '<div class="bottomtitle">[&nbsp;<a href="http://www.theie6countdown.cn" target="_blank">对IE6说再见</a>&nbsp;]</div>' +
+                '</div>');
+        }
+        $('.loading').fadeOut(500);
+        $('.login').show();
+    });
+</script>
+
+@* ReSharper disable once CallerCalleeUsing *@
+<script type="text/javascript">
+    $(function () {
+        $("#Login").click(function () {
+            $.ajax({
+                url: '@Url.Action("Landing","Index")',
+                type: 'post',
+                //data: { userName: $("#username").val(), passWord: $("#password").val() },.
+                data: { userName: 'admin', passWord: 'admin' },
+                dataType: 'json',
+                beforeSend: function () {
+                    $(".log .submit").hide();
+                    $(".log .check").show(1000);
+                },
+                success: function (result) {
+                    if (result.status === 1) {
+                        $(".loading").hide();
+                        $(".loginmask").fadeIn(500, function () {
+                            $.cookie('memberID', result.data.Id);
+                            sessionStorage.setItem('userData', JSON.stringify(result.data));
+                            location.href = '@Url.Action("Desktop", "Index")';
+                        });
+                    } else {
+                        $('.log .tip').text('用户名或密码错误').show();
+                    }
+                }
+            });
+        });
+        document.onkeydown = function (event) {
+            var ev = event || window.event || arguments.callee.caller.arguments[0];
+            if (ev && ev.keyCode === 13) {
+                $('#Login').trigger('click');
+            }
+        };
+    });
+</script>

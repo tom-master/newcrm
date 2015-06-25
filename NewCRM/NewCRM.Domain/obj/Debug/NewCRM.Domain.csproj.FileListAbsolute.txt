@@ -1,0 +1,6 @@
+F:\NewCRMTest\NewCRM\NewCRM.Domain\bin\Debug\NewCRM.Domain.dll.config
+F:\NewCRMTest\NewCRM\NewCRM.Domain\bin\Debug\NewCRM.Domain.dll
+F:\NewCRMTest\NewCRM\NewCRM.Domain\bin\Debug\NewCRM.Domain.pdb
+F:\NewCRMTest\NewCRM\NewCRM.Domain\obj\Debug\NewCRM.Domain.csprojResolveAssemblyReference.cache
+F:\NewCRMTest\NewCRM\NewCRM.Domain\obj\Debug\NewCRM.Domain.dll
+F:\NewCRMTest\NewCRM\NewCRM.Domain\obj\Debug\NewCRM.Domain.pdb

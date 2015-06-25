@@ -1,0 +1,105 @@
+﻿@using NewCRM.Models.Account
+@{
+    Layout = "~/Views/Shared/_LayoutApps.cshtml";
+
+    var userData = (ViewData["UserData"] as User) ?? new User();
+}
+
+<div class="title">默认桌面(登录后默认显示)</div>
+<div class="input-label">
+    <label class="label-text">默认显示：</label>
+    <div class="label-box form-inline control-group">
+        <label class="radio" style="margin-right: 10px">
+            <input type="radio" name="desk" value="1" @{ if (userData.DefaultDesk == 1) { <text> checked="checked" </text>               } }>第一桌面
+        </label>
+        <label class="radio" style="margin-right:10px">
+            <input type="radio" name="desk" value="2" @{ if (userData.DefaultDesk == 2) { <text> checked="checked" </text>                } }>第二桌面
+        </label>
+        <label class="radio" style="margin-right:10px">
+            <input type="radio" name="desk" value="3" @{ if (userData.DefaultDesk == 3) { <text> checked="checked" </text>               } }>第三桌面
+        </label>
+        <label class="radio" style="margin-right:10px">
+            <input type="radio" name="desk" value="4" @{ if (userData.DefaultDesk == 4) { <text> checked="checked" </text>              } }>第四桌面
+        </label>
+        <label class="radio">
+            <input type="radio" name="desk" value="5" @{ if (userData.DefaultDesk == 5) { <text> checked="checked" </text>              } }>第五桌面
+        </label>
+    </div>
+</div>
+<div class="title">桌面图标设置</div>
+<div class="input-label">
+    <label class="label-text">排列方式：</label>
+    <div class="label-box form-inline control-group">
+        <label class="radio" style="margin-right: 10px">
+            <input type="radio" name="appxy" value="x" @{ if (userData.AppXy == "x") { <text> checked="checked" </text>              } } />横向排列
+        </label>
+        <label class="radio">
+            <input type="radio" name="appxy" value="y" @{ if (userData.AppXy == "y") { <text> checked="checked" </text>              } } />纵向排列
+        </label>
+    </div>
+</div>
+<div class="input-label">
+    <label class="label-text">显示尺寸：</label>
+    <div class="label-box form-inline control-group">
+        <label class="radio" style="margin-right: 10px">
+            <input type="radio" name="appsize" value="s" @{ if (userData.AppSize == "s") { <text> checked="checked" </text>            } } />小图标
+        </label>
+        <label class="radio">
+            <input type="radio" name="appsize" value="m" @{ if (userData.AppSize == "m") { <text> checked="checked" </text>            } } />大图标
+        </label>
+    </div>
+</div>
+<div class="title">应用码头设置</div>
+<div class="dock_setting">
+    <table>
+        <tr>
+            <td colspan="3">
+                <div class="set_top form-inline">
+                    <label class="radio">
+                        <input type="radio" name="dockpos" value="top" @{ if (userData.DockPosition == "top") { <text> checked="checked" </text>          } }>顶部
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="75">
+                <div class="set_left form-inline">
+                    <label class="radio">
+                        <input type="radio" name="dockpos" value="left" @{ if (userData.DockPosition == "left") { <text> checked="checked" </text>         } }>左侧
+                    </label>
+                </div>
+            </td>
+            <td class="set_view set_view_@{var position = userData.DockPosition; <text>@position</text>}"></td>
+            <td width="75">
+                <div class="set_right form-inline"><label class="radio"><input type="radio" name="dockpos" value="right" @{ if (userData.DockPosition == "right") { <text> checked="checked" </text>         } }>右侧</label></div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div class="set_none form-inline"><label class="radio"><input type="radio" name="dockpos" value="none" @{ if (userData.DockPosition == "none") { <text> checked="checked" </text>        } }>停用并隐藏（如果应用码头存在应用，则会将应用转移到当前桌面）</label></div>
+            </td>
+        </tr>
+    </table>
+</div>
+<script>
+    $(function () {
+        $('input[name="desk"]').change(function () {
+            var desk = $('input[name="desk"]:checked').val();
+            window.parent.HROS.deskTop.updateDefaultDesk(desk);
+        });
+        $('input[name="appxy"]').change(function () {
+            var xy = $('input[name="appxy"]:checked').val();
+            window.parent.HROS.app.updateXY(xy);
+        });
+        $('input[name="appsize"]').change(function () {
+            var size = $('input[name="appsize"]:checked').val();
+            window.parent.HROS.app.updateSize(size);
+        });
+        $('input[name="dockpos"]').change(function () {
+            var pos = $('input[name="dockpos"]:checked').val();
+            $('.set_view').removeClass('set_view_top set_view_left set_view_right set_view_none');
+            $('.set_view').addClass('set_view_' + pos);
+            window.parent.HROS.dock.updatePos(pos);
+        });
+    });
+</script>

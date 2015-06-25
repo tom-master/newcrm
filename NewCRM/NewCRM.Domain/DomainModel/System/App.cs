@@ -1,0 +1,221 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using NewCRM.Domain.DomainModel.Account;
+using NewCRM.Domain.DomainModel.Security;
+
+namespace NewCRM.Domain.DomainModel.System
+{
+
+    [Serializable]
+    [Description("应用")]
+    public class App : EntityBase<Int32>, IAggregationRoot
+    {
+        #region private field
+        private String _name;
+        private String _imageUrl;
+        private String _navigateUrl;
+        private String _remark;
+        private String _appInternalClass;
+        private Int32 _sortIndex;
+        private Int32 _width;
+        private Int32 _height;
+        private Int32 _userCount;
+        private Int32 _startNumber;
+        private Boolean _isMax;
+        private Boolean _isMin;
+        private Boolean _isFull;
+        private Boolean _isSetbar;
+        private Boolean _isOpenMax;
+        private Boolean _isLock;
+        private Boolean _isSystem;
+        private AppType _appType;
+        private ICollection<Power> _powers;
+        private ICollection<Folder> _folders;
+        private ICollection<User> _users;
+        #endregion
+
+        #region ctor
+
+        public App(String name,
+            String imageUrl,
+            String navigateUrl,
+            String remake,
+            Int32 sortIndex,
+            Int32 width,
+            Int32 height,
+            Boolean isMax,
+            Boolean isMin,
+            Boolean isFull,
+            Boolean isSetbar,
+            Boolean isOpenMax,
+            Boolean isLock,
+            Int32 userCount,
+            Int32 startNumber,
+            Boolean isSystem,
+            String appInternalClass)
+            : this()
+        {
+            _name = name;
+            _imageUrl = imageUrl;
+            _navigateUrl = navigateUrl;
+            _remark = remake;
+            _sortIndex = sortIndex;
+            _width = width;
+            _height = height;
+            _isMax = isMax;
+            _isMin = isMin;
+            _isFull = isFull;
+            _isSetbar = isSetbar;
+            _isOpenMax = isOpenMax;
+            _isLock = isLock;
+            _userCount = userCount;
+            _startNumber = startNumber;
+            _isSystem = isSystem;
+            _appInternalClass = appInternalClass;
+        }
+
+        public App()
+        {
+            // TODO: Complete member initialization
+        }
+        #endregion
+
+        #region public attribute
+        
+       
+        public virtual ICollection<User> Users
+        {
+            get { return _users; }
+            set { _users = value; }
+        }
+
+        [Required, StringLength(50)]
+        public String Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+
+        [StringLength(200)]
+        public String ImageUrl
+        {
+            get { return _imageUrl; }
+            set { _imageUrl = value; }
+        }
+
+        [StringLength(200)]
+        public String NavigateUrl
+        {
+            get { return _navigateUrl; }
+            set { _navigateUrl = value; }
+        }
+
+        [StringLength(500)]
+        public String Remark
+        {
+            get { return _remark; }
+            set { _remark = value; }
+        }
+
+        [Required]
+        public int SortIndex
+        {
+            get { return _sortIndex; }
+            set { _sortIndex = value; }
+        }
+
+        [Required]
+        public int Width
+        {
+            get { return _width; }
+            set { _width = value; }
+        }
+        [Required]
+        public int Height
+        {
+            get { return _height; }
+            set { _height = value; }
+        }
+
+        public Boolean IsMax
+        {
+            get { return _isMax; }
+            set { _isMax = value; }
+        }
+
+        public Boolean IsMin
+        {
+            get { return _isMin; }
+            set { _isMin = value; }
+        }
+
+        public Boolean IsFull
+        {
+            get { return _isFull; }
+            set { _isFull = value; }
+        }
+
+        public Boolean IsSetbar
+        {
+            get { return _isSetbar; }
+            set { _isSetbar = value; }
+        }
+
+        public Boolean IsOpenMax
+        {
+            get { return _isOpenMax; }
+            set { _isOpenMax = value; }
+        }
+
+        public Boolean IsLock
+        {
+            get { return _isLock; }
+            set { _isLock = value; }
+        }
+
+        public int UserCount
+        {
+            get { return _userCount; }
+            set { _userCount = value; }
+        }
+
+        public Int32 StartNumber
+        {
+            get { return _startNumber; }
+            set { _startNumber = value; }
+        }
+
+        public Boolean IsSystem
+        {
+            get { return _isSystem; }
+            set { _isSystem = value; }
+        }
+
+        public String AppInternalClass
+        {
+            get { return _appInternalClass; }
+            set { _appInternalClass = value; }
+        }
+
+        public virtual ICollection<Power> Powers
+        {
+            get { return _powers; }
+            set { _powers = value; }
+        }
+
+        public virtual ICollection<Folder> Folder
+        {
+            get { return _folders; }
+            set { _folders = value; }
+        }
+
+        public virtual AppType AppType
+        {
+            get { return _appType; }
+            set { _appType = value; }
+        }
+        #endregion
+    }
+}

@@ -1,0 +1,12 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/Highlighting/AnalysisEnabled/@EntryValue">VISIBLE_FILES</s:String>
+	
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
+  &lt;Assembly Path="J:\NewCRM\NewCRM\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll" /&gt;&#xD;
+  &lt;Assembly Path="F:\NewCRMTest\NewCRM\NewCRM.CommonTools\bin\Debug\NewCRM.CommonTools.dll" /&gt;&#xD;
+  &lt;Assembly Path="F:\NewCRMTest\NewCRM\NewCRM.Domain\bin\Debug\NewCRM.Domain.dll" /&gt;&#xD;
+&lt;/AssemblyExplorer&gt;</s:String>
+	<s:Boolean x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=EBF1BF2F79C142D08110FCF431C34AC3/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=EBF1BF2F79C142D08110FCF431C34AC3/GroupingIndex/@EntryValue">4</s:Int64>
+	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=EBF1BF2F79C142D08110FCF431C34AC3/Name/@EntryValue">GetWallPaper</s:String>
+	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=EBF1BF2F79C142D08110FCF431C34AC3/XmlSerializedElements/@EntryValue">&lt;Session&gt;&lt;e Id="NewCRM.DomainServiceTest.UnitTest1.GetWallPaper" Project="64568F71-0065-4CA1-A211-8B0FD52A32C1" Provider="MSTest" /&gt;&lt;e Id="NewCRM.DomainServiceTest.UnitTest1" Project="64568F71-0065-4CA1-A211-8B0FD52A32C1" Provider="MSTest" /&gt;&lt;e Id="NewCRM.ApplicationTest.UnitTest1.TestMethod1" Project="E7C7A1EF-7450-41DF-9615-02DD20A41132" Provider="MSTest" /&gt;&lt;e Id="NewCRM.ApplicationTest.UnitTest1" Project="E7C7A1EF-7450-41DF-9615-02DD20A41132" Provider="MSTest" /&gt;&lt;/Session&gt;</s:String></wpf:ResourceDictionary>

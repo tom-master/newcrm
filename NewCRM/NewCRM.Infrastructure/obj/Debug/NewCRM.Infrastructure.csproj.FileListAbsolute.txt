@@ -1,0 +1,12 @@
+F:\NewCRMTest\NewCRM\NewCRM.Infrastructure\bin\Debug\NewCRM.Infrastructure.dll.config
+F:\NewCRMTest\NewCRM\NewCRM.Infrastructure\bin\Debug\NewCRM.Infrastructure.dll
+F:\NewCRMTest\NewCRM\NewCRM.Infrastructure\bin\Debug\NewCRM.Infrastructure.pdb
+F:\NewCRMTest\NewCRM\NewCRM.Infrastructure\bin\Debug\EntityFramework.dll
+F:\NewCRMTest\NewCRM\NewCRM.Infrastructure\bin\Debug\EntityFramework.SqlServer.dll
+F:\NewCRMTest\NewCRM\NewCRM.Infrastructure\bin\Debug\NewCRM.Domain.dll
+F:\NewCRMTest\NewCRM\NewCRM.Infrastructure\bin\Debug\EntityFramework.xml
+F:\NewCRMTest\NewCRM\NewCRM.Infrastructure\bin\Debug\EntityFramework.SqlServer.xml
+F:\NewCRMTest\NewCRM\NewCRM.Infrastructure\bin\Debug\NewCRM.Domain.pdb
+F:\NewCRMTest\NewCRM\NewCRM.Infrastructure\obj\Debug\NewCRM.Infrastructure.csprojResolveAssemblyReference.cache
+F:\NewCRMTest\NewCRM\NewCRM.Infrastructure\obj\Debug\NewCRM.Infrastructure.dll
+F:\NewCRMTest\NewCRM\NewCRM.Infrastructure\obj\Debug\NewCRM.Infrastructure.pdb

@@ -1,0 +1,51 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutApps.cshtml";
+}
+<div class="title">
+    <ul>
+        <li class="focus">壁纸设置</li>
+        <li><a href="@Url.Action("SettingSkin", "PlatformSetting")">皮肤设置</a></li>
+    </ul>
+</div>
+<div class="wallpapertype form-inline">
+    <div class="btn-group fl">
+        <a class="btn disabled">系统壁纸</a><a class="btn" href="@Url.Action("CustomWallPaper", "PlatformSetting")">自定义</a>
+    </div>
+    <div class="fr">
+        <label>显示方式：</label>
+        <select name="wallpapertype" id="wallpapertype" style="width:100px">
+            <option value="tianchong">填充</option>
+            <option value="shiying">适应</option>
+            <option value="pingpu">平铺</option>
+            <option value="lashen">拉伸</option>
+            <option value="juzhong">居中</option>
+        </select>
+    </div>
+</div>
+<ul class="wallpaper">
+</ul>
+<script type="text/javascript">
+    $(function() {
+        GetAllWallpaper(function() {
+                $("#wallpapertype").val(window.parent.HROS.CONFIG.wallpaperType);
+                $("#wallpapertype").on('change', function () {
+                    window.parent.HROS.wallpaper.update($('#wallpapertype').val(), '');
+                });
+                $('.wallpaper li').on('click', function () {
+                    window.parent.HROS.wallpaper.update($('#wallpapertype').val(), $(this).attr('wpid'));
+                });
+        });
+    });
+    function GetAllWallpaper(callback) {
+        $.get("@Url.Action("GetAllWallpaper", "PlatformSetting")", { __: Date.now() }, function (result) {
+            var html = '';
+            $.each(result.data, function(k,v) {
+                html += '<li  wpid="'+v.Id+'"><img src="'+v.SmallUrl+'" /><div>'+v.Title+'</div></li>';
+            });
+            $('.wallpaper').append(html);
+            if (typeof (callback) === 'function') {
+                callback && callback();
+            }
+        });
+    }
+</script>

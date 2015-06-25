@@ -1,0 +1,17 @@
+F:\NewCRMTest\NewCRM\NewCRM.Repositories\obj\Debug\NewCRM.Repositories.csprojResolveAssemblyReference.cache
+F:\NewCRMTest\NewCRM\NewCRM.Repositories\bin\Debug\NewCRM.Repositories.dll.config
+F:\NewCRMTest\NewCRM\NewCRM.Repositories\bin\Debug\NewCRM.Repositories.dll
+F:\NewCRMTest\NewCRM\NewCRM.Repositories\bin\Debug\NewCRM.Repositories.pdb
+F:\NewCRMTest\NewCRM\NewCRM.Repositories\bin\Debug\EntityFramework.dll
+F:\NewCRMTest\NewCRM\NewCRM.Repositories\bin\Debug\EntityFramework.SqlServer.dll
+F:\NewCRMTest\NewCRM\NewCRM.Repositories\bin\Debug\NewCRM.CommonTools.dll
+F:\NewCRMTest\NewCRM\NewCRM.Repositories\bin\Debug\NewCRM.Domain.dll
+F:\NewCRMTest\NewCRM\NewCRM.Repositories\bin\Debug\Newtonsoft.Json.dll
+F:\NewCRMTest\NewCRM\NewCRM.Repositories\bin\Debug\EntityFramework.xml
+F:\NewCRMTest\NewCRM\NewCRM.Repositories\bin\Debug\EntityFramework.SqlServer.xml
+F:\NewCRMTest\NewCRM\NewCRM.Repositories\bin\Debug\NewCRM.CommonTools.pdb
+F:\NewCRMTest\NewCRM\NewCRM.Repositories\bin\Debug\NewCRM.Domain.pdb
+F:\NewCRMTest\NewCRM\NewCRM.Repositories\bin\Debug\zh-Hans\EntityFramework.resources.dll
+F:\NewCRMTest\NewCRM\NewCRM.Repositories\bin\Debug\zh-Hans\EntityFramework.SqlServer.resources.dll
+F:\NewCRMTest\NewCRM\NewCRM.Repositories\obj\Debug\NewCRM.Repositories.dll
+F:\NewCRMTest\NewCRM\NewCRM.Repositories\obj\Debug\NewCRM.Repositories.pdb

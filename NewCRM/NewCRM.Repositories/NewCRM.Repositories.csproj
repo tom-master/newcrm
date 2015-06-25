@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D2C2A238-8C8B-461C-8AD0-33CC4FC07B16}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NewCRM.Repositories</RootNamespace>
+    <AssemblyName>NewCRM.Repositories</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="NewCRM.CommonTools">
+      <HintPath>..\NewCRM.CommonTools\bin\Debug\NewCRM.CommonTools.dll</HintPath>
+    </Reference>
+    <Reference Include="NewCRM.Domain">
+      <HintPath>..\NewCRM.Domain\bin\Debug\NewCRM.Domain.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration\Account\TitleConfiguration.generated.cs" />
+    <Compile Include="Configuration\Account\UserConfiguration.generated.cs" />
+    <Compile Include="Configuration\Security\DeptsConfiguration.generated.cs" />
+    <Compile Include="Configuration\Security\PowerConfiguration.generated.cs" />
+    <Compile Include="Configuration\Security\PowerTypeConfiguration.generated.cs" />
+    <Compile Include="Configuration\Security\RoleConfiguration.generated.cs" />
+    <Compile Include="Configuration\System\AppConfiguration.generated.cs" />
+    <Compile Include="Configuration\System\AppTypeConfiguration.generated.cs" />
+    <Compile Include="Configuration\System\ConfigsConfiguration.generated.cs" />
+    <Compile Include="Configuration\System\FolderConfiguration.generated.cs" />
+    <Compile Include="Configuration\System\LogConfiguration.generated.cs" />
+    <Compile Include="Configuration\System\OnlineConfiguration.generated.cs" />
+    <Compile Include="Configuration\System\WallpaperConfiguration.generated.cs" />
+    <Compile Include="Repositories\Account\ITitleRepository.cs" />
+    <Compile Include="Repositories\Account\IUserRepository.cs" />
+    <Compile Include="Repositories\Security\IDeptsRepository.cs" />
+    <Compile Include="Repositories\Security\IPowerRepository.cs" />
+    <Compile Include="Repositories\Security\IPowerTypeRepository.cs" />
+    <Compile Include="Repositories\Security\IRoleRepository.cs" />
+    <Compile Include="Repositories\System\IAppRepository.cs" />
+    <Compile Include="Repositories\System\IAppTypeRepository.cs" />
+    <Compile Include="Repositories\System\IFolderRepository.cs" />
+    <Compile Include="Repositories\System\IOnlineRepository.cs" />
+    <Compile Include="Repositories\System\IWallpaperRepository.cs" />
+    <Compile Include="RepositoryFactory.cs" />
+    <Compile Include="RepositoryProvide\DbContextExtensions.cs" />
+    <Compile Include="RepositoryProvide\EfRepositoryBase.cs" />
+    <Compile Include="RepositoryProvide\IEntityMappercs.cs" />
+    <Compile Include="UnitOfWorkProvide\EfUnitOfWorkContext.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="RepositoryProvide\NewCrmBackSite.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitOfWorkProvide\UnitOfWorkContextBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Repositories\Account\Impl\" />
+    <Folder Include="Repositories\Security\Impl\" />
+    <Folder Include="Repositories\System\Impl\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

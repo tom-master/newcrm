@@ -1,0 +1,427 @@
+﻿《FineUI3to4一键升级工具》 v1.1 by sanshi
+
+Web.config
+>>>[add] 修改节点的tagPrefix属性为f
+>>>[FineUI] 删除节点的属性EnableBigFont
+
+.\Default.aspx
+
+.\Default.aspx.cs
+
+.\main.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[PageManager(PageManager1)] 删除节点的属性HideScrollbar
+>>>[Region(regionLeft)] 删除节点的属性EnableLargeHeader
+>>>[Region(regionLeft)] 删除节点的属性EnableSplitTip
+>>>[Region(regionLeft)] 删除节点的属性CollapseMode
+
+.\main.aspx.cs
+
+.\AdminPage\AdminIndex.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[Panel] 删除节点的属性EnableBackgroundColor
+>>>[Panel(Panel5)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\AdminIndex.aspx.cs
+
+.\AdminPage\Config.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[SimpleForm(SimpleForm1)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\Config.aspx.cs
+
+.\AdminPage\Dept.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Grid(Grid1)] 为表格增加列RowNumberField
+>>>[Grid(Grid1)] 删除节点的属性EnableRowNumber
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[Panel(Panel1)] 删除节点的属性EnableLargeHeader
+
+.\AdminPage\Dept.aspx.cs
+
+.\AdminPage\DeptEdit.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[SimpleForm(SimpleForm1)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\DeptEdit.aspx.cs
+
+.\AdminPage\DeptNew.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[SimpleForm(SimpleForm1)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\DeptNew.aspx.cs
+
+.\AdminPage\DeptUser.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Form(Form3)] 删除节点的属性EnableBackgroundColor
+>>>[Grid(Grid1)] 修改节点的EnableRowClick属性名称为EnableRowClickEvent
+>>>[Grid(Grid1)] 删除节点的属性SortColumnIndex
+>>>[Grid(Grid1)] 为表格增加列RowNumberField
+>>>[Grid(Grid1)] 删除节点的属性EnableRowNumber
+>>>[Grid(Grid2)] 向节点添加属性SortField，值为Name
+>>>[Grid(Grid2)] 删除节点的属性SortColumnIndex
+>>>[Grid(Grid2)] 为表格增加列RowNumberField
+>>>[Grid(Grid2)] 删除节点的属性EnableRowNumber
+>>>[Region(Region1)] 删除节点的属性EnableBackgroundColor
+>>>[Region(Region1)] 删除节点的属性EnableSplitTip
+>>>[Region(Region1)] 删除节点的属性CollapseMode
+>>>[Region(Region2)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\DeptUser.aspx.cs
+>>>将代码*.SortColumnIndex = *.ColumnIndex;改为*.SortField = *.SortField;
+
+.\AdminPage\DeptUserAddUser.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Grid(Grid1)] 向节点添加属性SortField，值为Name
+>>>[Grid(Grid1)] 删除节点的属性SortColumnIndex
+>>>[Grid(Grid1)] 为表格增加列RowNumberField
+>>>[Grid(Grid1)] 删除节点的属性EnableRowNumber
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\DeptUserAddUser.aspx.cs
+>>>将代码*.SortColumnIndex = *.ColumnIndex;改为*.SortField = *.SortField;
+
+.\AdminPage\Logs.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Form(Form2)] 删除节点的属性EnableBackgroundColor
+>>>[Grid(Grid1)] 向节点添加属性SortField，值为DatetimeX
+>>>[Grid(Grid1)] 删除节点的属性SortColumnIndex
+>>>[Grid(Grid1)] 为表格增加列RowNumberField
+>>>[Grid(Grid1)] 删除节点的属性EnableRowNumber
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[Panel(Panel1)] 删除节点的属性EnableLargeHeader
+
+.\AdminPage\Logs.aspx.cs
+>>>将代码*.SortColumnIndex = *.ColumnIndex;改为*.SortField = *.SortField;
+
+.\AdminPage\LogView.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[SimpleForm(SimpleForm1)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\LogView.aspx.cs
+
+.\AdminPage\Menu.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Grid(Grid1)] 为表格增加列RowNumberField
+>>>[Grid(Grid1)] 删除节点的属性EnableRowNumber
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[Panel(Panel1)] 删除节点的属性EnableLargeHeader
+
+.\AdminPage\Menu.aspx.cs
+
+.\AdminPage\MenuEdit.aspx
+>>>服务器控件前缀x:更新为f:
+>>>将脚本中字符串X(替换为F(
+>>>将脚本中字符串function onReady() {}替换为F.ready(function() {});
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[SimpleForm(SimpleForm1)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\MenuEdit.aspx.cs
+
+.\AdminPage\MenuNew.aspx
+>>>服务器控件前缀x:更新为f:
+>>>将脚本中字符串X(替换为F(
+>>>将脚本中字符串function onReady() {}替换为F.ready(function() {});
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[SimpleForm(SimpleForm1)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\MenuNew.aspx.cs
+
+.\AdminPage\Online.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Form(Form2)] 删除节点的属性EnableBackgroundColor
+>>>[Grid(Grid1)] 向节点添加属性SortField，值为UpdateTime
+>>>[Grid(Grid1)] 删除节点的属性SortColumnIndex
+>>>[Grid(Grid1)] 为表格增加列RowNumberField
+>>>[Grid(Grid1)] 删除节点的属性EnableRowNumber
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[Panel(Panel1)] 删除节点的属性EnableLargeHeader
+
+.\AdminPage\Online.aspx.cs
+>>>将代码*.SortColumnIndex = *.ColumnIndex;改为*.SortField = *.SortField;
+
+.\AdminPage\Power.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Form(Form2)] 删除节点的属性EnableBackgroundColor
+>>>[Grid(Grid1)] 向节点添加属性SortField，值为GroupName
+>>>[Grid(Grid1)] 删除节点的属性SortColumnIndex
+>>>[Grid(Grid1)] 为表格增加列RowNumberField
+>>>[Grid(Grid1)] 删除节点的属性EnableRowNumber
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[Panel(Panel1)] 删除节点的属性EnableLargeHeader
+
+.\AdminPage\Power.aspx.cs
+>>>将代码*.SortColumnIndex = *.ColumnIndex;改为*.SortField = *.SortField;
+
+.\AdminPage\PowerEdit.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[SimpleForm(SimpleForm1)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\PowerEdit.aspx.cs
+
+.\AdminPage\PowerNew.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[SimpleForm(SimpleForm1)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\PowerNew.aspx.cs
+
+.\AdminPage\ProFile.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[SimpleForm(SimpleForm1)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\ProFile.aspx.cs
+
+.\AdminPage\Role.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Form(Form2)] 删除节点的属性EnableBackgroundColor
+>>>[Grid(Grid1)] 向节点添加属性SortField，值为Name
+>>>[Grid(Grid1)] 删除节点的属性SortColumnIndex
+>>>[Grid(Grid1)] 为表格增加列RowNumberField
+>>>[Grid(Grid1)] 删除节点的属性EnableRowNumber
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[Panel(Panel1)] 删除节点的属性EnableLargeHeader
+
+.\AdminPage\Role.aspx.cs
+>>>将代码*.SortColumnIndex = *.ColumnIndex;改为*.SortField = *.SortField;
+
+.\AdminPage\RoleEdit.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[SimpleForm(SimpleForm1)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\RoleEdit.aspx.cs
+
+.\AdminPage\RoleNew.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[SimpleForm(SimpleForm1)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\RoleNew.aspx.cs
+
+.\AdminPage\RolePower.aspx
+>>>服务器控件前缀x:更新为f:
+>>>将脚本中字符串X(替换为F(
+>>>将脚本中字符串.x-grid3替换为.x-grid
+>>>将脚本中字符串function onReady() {}替换为F.ready(function() {});
+>>>将脚本中字符串function onAjaxReady() {}替换为F.ajaxReady(function() {});
+>>>[Grid(Grid1)] 修改节点的EnableRowClick属性名称为EnableRowClickEvent
+>>>[Grid(Grid1)] 向节点添加属性SortField，值为Name
+>>>[Grid(Grid1)] 删除节点的属性SortColumnIndex
+>>>[Grid(Grid1)] 为表格增加列RowNumberField
+>>>[Grid(Grid1)] 删除节点的属性EnableRowNumber
+>>>[Grid(Grid2)] 向节点添加属性SortField，值为GroupName
+>>>[Grid(Grid2)] 删除节点的属性SortColumnIndex
+>>>[Grid(Grid2)] 为表格增加列RowNumberField
+>>>[Grid(Grid2)] 删除节点的属性EnableRowNumber
+>>>[Region(Region1)] 删除节点的属性EnableBackgroundColor
+>>>[Region(Region1)] 删除节点的属性EnableSplitTip
+>>>[Region(Region1)] 删除节点的属性CollapseMode
+>>>[Region(Region2)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\RolePower.aspx.cs
+>>>将代码*.SortColumnIndex = *.ColumnIndex;改为*.SortField = *.SortField;
+
+.\AdminPage\RoleUser.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Form(Form3)] 删除节点的属性EnableBackgroundColor
+>>>[Grid(Grid1)] 修改节点的EnableRowClick属性名称为EnableRowClickEvent
+>>>[Grid(Grid1)] 向节点添加属性SortField，值为Name
+>>>[Grid(Grid1)] 删除节点的属性SortColumnIndex
+>>>[Grid(Grid1)] 为表格增加列RowNumberField
+>>>[Grid(Grid1)] 删除节点的属性EnableRowNumber
+>>>[Grid(Grid2)] 向节点添加属性SortField，值为Name
+>>>[Grid(Grid2)] 删除节点的属性SortColumnIndex
+>>>[Grid(Grid2)] 为表格增加列RowNumberField
+>>>[Grid(Grid2)] 删除节点的属性EnableRowNumber
+>>>[Region(Region1)] 删除节点的属性EnableBackgroundColor
+>>>[Region(Region1)] 删除节点的属性EnableSplitTip
+>>>[Region(Region1)] 删除节点的属性CollapseMode
+>>>[Region(Region2)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\RoleUser.aspx.cs
+>>>将代码*.SortColumnIndex = *.ColumnIndex;改为*.SortField = *.SortField;
+
+.\AdminPage\RoleUserAddNew.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Grid(Grid1)] 向节点添加属性SortField，值为Name
+>>>[Grid(Grid1)] 删除节点的属性SortColumnIndex
+>>>[Grid(Grid1)] 为表格增加列RowNumberField
+>>>[Grid(Grid1)] 删除节点的属性EnableRowNumber
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\RoleUserAddNew.aspx.cs
+>>>将代码*.SortColumnIndex = *.ColumnIndex;改为*.SortField = *.SortField;
+
+.\AdminPage\Title.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Form(Form2)] 删除节点的属性EnableBackgroundColor
+>>>[Grid(Grid1)] 向节点添加属性SortField，值为Name
+>>>[Grid(Grid1)] 删除节点的属性SortColumnIndex
+>>>[Grid(Grid1)] 为表格增加列RowNumberField
+>>>[Grid(Grid1)] 删除节点的属性EnableRowNumber
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[Panel(Panel1)] 删除节点的属性EnableLargeHeader
+
+.\AdminPage\Title.aspx.cs
+>>>将代码*.SortColumnIndex = *.ColumnIndex;改为*.SortField = *.SortField;
+
+.\AdminPage\TitleEdit.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[SimpleForm(SimpleForm1)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\TitleEdit.aspx.cs
+
+.\AdminPage\TitleNew.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[SimpleForm(SimpleForm1)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\TitleNew.aspx.cs
+
+.\AdminPage\TitleUser.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Form(Form3)] 删除节点的属性EnableBackgroundColor
+>>>[Grid(Grid1)] 修改节点的EnableRowClick属性名称为EnableRowClickEvent
+>>>[Grid(Grid1)] 向节点添加属性SortField，值为Name
+>>>[Grid(Grid1)] 删除节点的属性SortColumnIndex
+>>>[Grid(Grid1)] 为表格增加列RowNumberField
+>>>[Grid(Grid1)] 删除节点的属性EnableRowNumber
+>>>[Grid(Grid2)] 向节点添加属性SortField，值为Name
+>>>[Grid(Grid2)] 删除节点的属性SortColumnIndex
+>>>[Grid(Grid2)] 为表格增加列RowNumberField
+>>>[Grid(Grid2)] 删除节点的属性EnableRowNumber
+>>>[Region(Region1)] 删除节点的属性EnableBackgroundColor
+>>>[Region(Region1)] 删除节点的属性EnableSplitTip
+>>>[Region(Region1)] 删除节点的属性CollapseMode
+>>>[Region(Region2)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\TitleUser.aspx.cs
+>>>将代码*.SortColumnIndex = *.ColumnIndex;改为*.SortField = *.SortField;
+
+.\AdminPage\TitleUserAddNew.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Grid(Grid1)] 向节点添加属性SortField，值为Name
+>>>[Grid(Grid1)] 删除节点的属性SortColumnIndex
+>>>[Grid(Grid1)] 为表格增加列RowNumberField
+>>>[Grid(Grid1)] 删除节点的属性EnableRowNumber
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\TitleUserAddNew.aspx.cs
+>>>将代码*.SortColumnIndex = *.ColumnIndex;改为*.SortField = *.SortField;
+
+.\AdminPage\User.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Form(Form2)] 删除节点的属性EnableBackgroundColor
+>>>[Grid(Grid1)] 向节点添加属性SortField，值为Name
+>>>[Grid(Grid1)] 删除节点的属性SortColumnIndex
+>>>[Grid(Grid1)] 为表格增加列RowNumberField，增加属性EnablePagingNumber
+>>>[Grid(Grid1)] 删除节点的属性EnableRowNumber
+>>>[Grid(Grid1)] 删除节点的属性EnableRowNumberPaging
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[Panel(Panel1)] 删除节点的属性EnableLargeHeader
+
+.\AdminPage\User.aspx.cs
+>>>将代码*.SortColumnIndex = *.ColumnIndex;改为*.SortField = *.SortField;
+
+.\AdminPage\UserChangePassword.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[SimpleForm(SimpleForm1)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\UserChangePassword.aspx.cs
+
+.\AdminPage\UserEdit.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Form(SimpleForm1)] 删除节点的属性EnableBackgroundColor
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[Window(Window1)] 向节点添加属性Hidden，值为true
+>>>[Window(Window1)] 删除节点的属性Popup
+
+.\AdminPage\UserEdit.aspx.cs
+
+.\AdminPage\UserNew.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Form(SimpleForm1)] 删除节点的属性EnableBackgroundColor
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+>>>[Window(Window1)] 向节点添加属性Hidden，值为true
+>>>[Window(Window1)] 删除节点的属性Popup
+
+.\AdminPage\UserNew.aspx.cs
+
+.\AdminPage\UserSelectDept.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Grid(Grid1)] 为表格增加列RowNumberField
+>>>[Grid(Grid1)] 删除节点的属性EnableRowNumber
+
+.\AdminPage\UserSelectDept.aspx.cs
+
+.\AdminPage\UserSelectRole.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Form(SimpleForm1)] 删除节点的属性EnableBackgroundColor
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\UserSelectRole.aspx.cs
+
+.\AdminPage\UserSelectTitle.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Form(SimpleForm1)] 删除节点的属性EnableBackgroundColor
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\UserSelectTitle.aspx.cs
+
+.\AdminPage\UserView.aspx
+>>>服务器控件前缀x:更新为f:
+>>>[Form(Form2)] 删除节点的属性EnableBackgroundColor
+>>>[Panel(Panel1)] 删除节点的属性EnableBackgroundColor
+
+.\AdminPage\UserView.aspx.cs
+
+.\Scripts\jquery-1.8.2.intellisense.js
+
+.\Scripts\jquery-1.8.2.js
+
+.\Scripts\jquery-1.8.2.min.js
+
+.\Scripts\jquery-ui-1.8.24.js
+
+.\Scripts\jquery-ui-1.8.24.min.js
+
+.\Scripts\modernizr-2.6.2.js
+
+.\Scripts\_references.js
+
+.\Scripts\CustomJavaScript\AjaxHandle.js
+
+.\Scripts\CustomJavaScript\main.js
+>>>将脚本中字符串Ext.getCmp(替换为F(
+>>>将脚本中字符串X.*.替换为F.*.
+>>>将脚本中字符串function onReady() {}替换为F.ready(function() {});
+
+.\extjs\ext-debug.js
+
+.\extjs\ext.js
+
+.\extjs\x-debug.js
+
+.\extjs\lang\en.js
+
+.\extjs\lang\pt_BR.js
+
+.\extjs\lang\ru.js
+
+.\extjs\lang\tr.js
+
+.\extjs\lang\zh_CN.js
+
+.\extjs\lang\zh_TW.js
+
+升级完成，共应用转换规则234次。

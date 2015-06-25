@@ -1,0 +1,8 @@
+F:\NewCRMTest\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.csprojResolveAssemblyReference.cache
+F:\NewCRMTest\NewCRM\NewCRM.Dto\bin\Debug\NewCRM.Dto.dll
+F:\NewCRMTest\NewCRM\NewCRM.Dto\bin\Debug\NewCRM.Dto.pdb
+F:\NewCRMTest\NewCRM\NewCRM.Dto\bin\Debug\AutoMapper.dll
+F:\NewCRMTest\NewCRM\NewCRM.Dto\bin\Debug\NewCRM.Domain.dll
+F:\NewCRMTest\NewCRM\NewCRM.Dto\bin\Debug\NewCRM.Domain.pdb
+F:\NewCRMTest\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.dll
+F:\NewCRMTest\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.pdb

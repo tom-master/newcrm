@@ -1,0 +1,5 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/WebPathMapping/IgnoredPaths/=SCRIPTS_005CHOORAYUI_005CCSS_005CDESK_005FSPRITE_002EPNG/@EntryIndexedValue">Scripts\HoorayUI\css\desk_sprite.png</s:String>
+	
+	
+	<s:String x:Key="/Default/CodeInspection/WebPathMapping/PathsInCorrectCasing/=SCRIPTS_005CHOORAYUI_005CCSS_005CDESK_005FSPRITE_002EPNG/@EntryIndexedValue">Scripts\HoorayUI\css\desk_sprite.png</s:String></wpf:ResourceDictionary>
