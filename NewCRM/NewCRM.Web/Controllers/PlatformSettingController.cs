@@ -70,7 +70,7 @@ namespace NewCRM.Web.Controllers
             _userApplicationService = new UserApplicationService();
             var deleteResult = _userApplicationService.DeleteWallPaper(wallPaperId, UserEntity.Id);
             return Json(deleteResult ? new { data = 1 } : new { data = 0 });
-        } 
+        }  
         /// <summary>
         /// 上传壁纸
         /// </summary>
