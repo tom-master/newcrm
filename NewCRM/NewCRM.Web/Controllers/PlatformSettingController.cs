@@ -72,7 +72,7 @@ namespace NewCRM.Web.Controllers
             return Json(deleteResult ? new { data = 1 } : new { data = 0 });
         }    
         /// <summary>
-        /// 上传壁纸
+        /// 上传壁纸 
         /// </summary>
         /// <returns></returns>
         public ActionResult UploadWallPaper()
