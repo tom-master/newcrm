@@ -33,5 +33,12 @@ namespace NewCRM.DomainService
         /// </summary>
         /// <param name="wallpaper"></param>
         Int32 SetWebWallPaper(Wallpaper wallpaper);
+
+        /// <summary>
+        /// 获取登录的用户
+        /// </summary>
+        /// <param name="userId">用户Id</param>
+        /// <returns>User</returns>
+        User GetUser(Int32 userId);
     }
 }

@@ -65,7 +65,6 @@
                         $(".loading").hide();
                         $(".loginmask").fadeIn(500, function () {
                             $.cookie('memberID', result.data.Id);
-                            sessionStorage.setItem('userData', JSON.stringify(result.data));
                             location.href = '@Url.Action("Desktop", "Index")';
                         });
                     } else {

@@ -46,7 +46,7 @@ namespace NewCRM.DomainService.Impl
             }
             if (userData.IsDeleted)
             {
-                throw new BusinessException("该用户已被禁用");
+                throw new RepositoryException("该用户已被禁用");
             }
             //检查用户的密码是否正确
             if (!PasswordUtil.ComparePasswords(userData.Password, userPassword))
@@ -165,7 +165,7 @@ namespace NewCRM.DomainService.Impl
             var folderEntity = _folderRepository.Entities.FirstOrDefault(folder => folder.Id == id && folder.IsDeleted == false);
             if (folderEntity == null)
             {
-                throw new BusinessException("文件夹打开出错");
+                throw new BusinessException(String.Format("未能找到编号为：{0}的文件夹，请重试", id));
             }
             result += string.Format(
                 "\"type\":\"{0}\",\"id\":{1},\"name\":\"{2}\",\"icon\":\"{3}\",\"width\":650,\"height\":400",
@@ -183,7 +183,7 @@ namespace NewCRM.DomainService.Impl
             var appEntity = _appRepository.Entities.FirstOrDefault(app => app.Id == id && app.IsDeleted == false);
             if (appEntity == null)
             {
-                throw new BusinessException("应用打开出错");
+                throw new BusinessException(String.Format("未能找到编号为：{0}的应用，请重试", id));
             }
             result +=
                 string.Format(
@@ -247,6 +247,21 @@ namespace NewCRM.DomainService.Impl
         {
             _wallpaperRepository.Add(wallpaper);
             return wallpaper.Id;
+        }
+
+        /// <summary>
+        /// 获取登录的用户
+        /// </summary>
+        /// <param name="userId">用户Id</param>
+        /// <returns>User</returns>
+        public User GetUser(int userId)
+        {
+            var userResult = _userRepository.Entities.FirstOrDefault(user => user.Id == userId);
+            if (userResult == null)
+            {
+                throw new RepositoryException("获取当前登录用户失败");
+            }
+            return userResult;
         }
     }
 }

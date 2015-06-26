@@ -21,6 +21,8 @@ namespace NewCRM.Web.Controllers
         [HttpGet]
         public ActionResult Desktop()
         {
+            _userApplicationService = new UserApplicationService();
+            ViewData["userEntity"] = _userApplicationService.GetUser(UserEntity.Id);
             return View();
         }
 
@@ -48,6 +50,7 @@ namespace NewCRM.Web.Controllers
             cookie["UserId"] = userData.Id.ToString(CultureInfo.InvariantCulture);
             cookie.Expires = isRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddHours(1);
             HttpContext.Response.Cookies.Add(cookie);
+
             Session["userEntity"] = userData;
 
             return Json(new { status = 1, data = userData });

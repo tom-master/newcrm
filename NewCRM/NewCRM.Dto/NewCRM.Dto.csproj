@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DtoExtension.cs" />
+    <Compile Include="DtoConfiguration.cs" />
     <Compile Include="Dto\UserDto.cs" />
     <Compile Include="Dto\WallpaperDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

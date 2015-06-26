@@ -361,7 +361,7 @@ HROS.app = (function () {
                                             $.ajax({
                                                 type: 'POST',
                                                 url: '/PlatformSetting/',
-                                                data: {moveType:'dock-folder',id:id,from:from,to:to}
+                                                data: { moveType: 'dock-folder', id: id, from: from, to: to }
                                             }).done(function (responseText) {
                                                 HROS.VAR.isAppMoving = false;
                                             });

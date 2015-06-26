@@ -1,10 +1,9 @@
-﻿using NewCRM.Dto.Dto;
-
-namespace NewCRM.Web.Controllers.ControllerHelper
+﻿namespace NewCRM.Web.Controllers.ControllerHelper
 {
     using System;
     using System.Web.Mvc;
-
+    using Dto.Dto;
+    using System.Text;
     public class BaseController : Controller
     {
         private Int32 _index = 0;
@@ -69,6 +68,7 @@ namespace NewCRM.Web.Controllers.ControllerHelper
         }
 
         #endregion
+
 
         /// <summary>
         /// 获取保存的用户实体
@@ -163,7 +163,7 @@ namespace NewCRM.Web.Controllers.ControllerHelper
         //}
         #endregion
 
-        protected override JsonResult Json(object data, string contentType, System.Text.Encoding contentEncoding, JsonRequestBehavior behavior)
+        protected override JsonResult Json(object data, string contentType, Encoding contentEncoding, JsonRequestBehavior behavior)
         {
             return new Jsons
             {

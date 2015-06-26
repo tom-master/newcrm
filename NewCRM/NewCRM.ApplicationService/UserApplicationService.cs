@@ -142,5 +142,16 @@ namespace NewCRM.ApplicationService
                 throw new BusinessException("未能获取到所指定的网络图片");
             }
         }
+
+        /// <summary>
+        /// 获取登录的用户
+        /// </summary>
+        /// <param name="userId">用户Id</param>
+        /// <returns>UserDto</returns>
+        public UserDto GetUser(Int32 userId)
+        {
+            PublicHelper.VaildateArgument(userId, "userId");
+            return _userDomainService.GetUser(userId).ConvertToDto<User, UserDto>();
+        }
     }
 }

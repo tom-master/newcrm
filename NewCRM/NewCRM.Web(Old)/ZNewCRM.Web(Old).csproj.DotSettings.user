@@ -1,0 +1,7 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/WebPathMapping/IgnoredPaths/=JS_005CHROS_002ECORE_002EJS/@EntryIndexedValue">js\hros.core.js</s:String>
+	<s:String x:Key="/Default/CodeInspection/WebPathMapping/IgnoredPaths/=RES_002EAXD/@EntryIndexedValue">res.axd</s:String>
+	<s:String x:Key="/Default/CodeInspection/WebPathMapping/MappedPaths/=JS_005CJQUERY_002D1_002E8_002E3_002EMIN_002EJS/@EntryIndexedValue"></s:String>
+	<s:String x:Key="/Default/CodeInspection/WebPathMapping/PathsInCorrectCasing/=JS_005CHROS_002ECORE_002EJS/@EntryIndexedValue">js\hros.core.js</s:String>
+	<s:String x:Key="/Default/CodeInspection/WebPathMapping/PathsInCorrectCasing/=JS_005CJQUERY_002D1_002E8_002E3_002EMIN_002EJS/@EntryIndexedValue">js\jquery-1.8.3.min.js</s:String>
+	<s:String x:Key="/Default/CodeInspection/WebPathMapping/PathsInCorrectCasing/=RES_002EAXD/@EntryIndexedValue">res.axd</s:String></wpf:ResourceDictionary>

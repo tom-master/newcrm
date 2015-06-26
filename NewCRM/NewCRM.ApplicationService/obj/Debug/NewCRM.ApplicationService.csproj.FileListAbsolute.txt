@@ -15,3 +15,6 @@ F:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\NewCRM.Infrastructure.p
 F:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\EntityFramework.xml
 F:\NewCRMTest\NewCRM\NewCRM.ApplicationService\obj\Debug\NewCRM.ApplicationService.dll
 F:\NewCRMTest\NewCRM\NewCRM.ApplicationService\obj\Debug\NewCRM.ApplicationService.pdb
+F:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\System.Web.Mvc.dll
+F:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\System.Web.Mvc.xml
+F:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\zh-Hans\System.Web.Mvc.resources.dll

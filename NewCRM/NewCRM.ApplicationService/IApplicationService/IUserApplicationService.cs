@@ -14,6 +14,12 @@ namespace NewCRM.ApplicationService.IApplicationService
         /// <returns>UserDto</returns>
         UserDto UserLogin(String userName, String passWord);
         /// <summary>
+        /// 获取登录的用户
+        /// </summary>
+        /// <param name="userId">用户Id</param>
+        /// <returns>UserDto</returns>
+        UserDto GetUser(Int32 userId);
+        /// <summary>
         /// 获取用户设置的壁纸
         /// </summary>
         /// <param name="userId"></param>

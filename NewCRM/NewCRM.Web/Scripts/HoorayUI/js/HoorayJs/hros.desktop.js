@@ -33,7 +33,6 @@ HROS.deskTop = (function () {
 		*/
         resize: function () {
             if ($('#desktop').is(':visible')) {
-
                 HROS.dock.setPos();
                 //更新应用定位
                 HROS.app.setPos();
@@ -51,6 +50,11 @@ HROS.deskTop = (function () {
                 $.post('/PlatformSetting/ChangeDefaultDesk', { deskNum: i }, function (result) {
                     if (parseInt(result.data) === 1) {
                         ZENG.msgbox.show('默认桌面更新成功', 4, 2000);
+                        $('.dock-pagination').find('a').each(function (k, v) {
+                            if (parseInt(i) === (k + 1)) {
+                                $(this).trigger('click');
+                            }
+                        });
                     } else {
                         ZENG.msgbox.show('默认桌面更新失败', 5, 2000);
                     }

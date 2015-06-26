@@ -1,5 +1,7 @@
-﻿@{
+﻿@using NewCRM.Dto.Dto
+@{
     Layout = "~/Views/Shared/_LayoutDesk.cshtml";
+    var userResult = ((UserDto)ViewData["userEntity"]);
 }
 <div class="loading"></div>
 <div id="desktop">
@@ -161,13 +163,12 @@
         };
         $(".loading").hide();
         $("#desktop").show();
-        var userData = JSON.parse(sessionStorage.getItem('userData'));
-        if ((userData + '').length !== 0 && typeof (userData) !== 'undefined') {
-            HROS.CONFIG.dockPos = userData.DockPosition;
-            HROS.CONFIG.appXY = userData.AppXy;
-            HROS.CONFIG.appSize = userData.AppSize;
-            HROS.CONFIG.desk = userData.DefaultDesk;
-        }
+        
+        HROS.CONFIG.dockPos = '@userResult.DockPosition';
+        HROS.CONFIG.appXY = '@userResult.AppXy';
+        HROS.CONFIG.appSize = '@userResult.Apps';
+        HROS.CONFIG.desk = '@userResult.DefaultDesk';
+
         HROS.base.init();
     })
 </script>
