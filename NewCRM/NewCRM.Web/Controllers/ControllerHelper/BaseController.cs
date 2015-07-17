@@ -1,10 +1,9 @@
-﻿using System;
-using System.Text;
-using System.Web.Mvc;
-using NewCRM.Dto.Dto;
-
-namespace NewCRM.Web.Controllers.ControllerHelper
+﻿namespace NewCRM.Web.Controllers.ControllerHelper
 {
+    using System;
+    using System.Web.Mvc;
+    using Dto.Dto;
+    using System.Text;
     public class BaseController : Controller
     {
         private Int32 _index = 0;

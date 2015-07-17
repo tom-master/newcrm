@@ -1,12 +1,9 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using NewCRM.Infrastructure;
-
 namespace NewCRM.Web
 {
-    public class MvcApplication : HttpApplication
+    public class MvcApplication : System.Web.HttpApplication
     {
         protected void Application_Start()
         {
@@ -17,7 +14,7 @@ namespace NewCRM.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
       
-            InitializeDataBase.Initialize();
+            Infrastructure.InitializeDataBase.Initialize();
         }
     }
 }
