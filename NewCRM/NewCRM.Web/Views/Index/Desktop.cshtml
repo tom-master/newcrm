@@ -163,12 +163,13 @@
         };
         $(".loading").hide();
         $("#desktop").show();
-        
+
         HROS.CONFIG.dockPos = '@userResult.DockPosition';
         HROS.CONFIG.appXY = '@userResult.AppXy';
-        HROS.CONFIG.appSize = '@userResult.Apps';
+        HROS.CONFIG.appSize = '@userResult.AppSize';
         HROS.CONFIG.desk = '@userResult.DefaultDesk';
-
+        HROS.CONFIG.appHorizontalSpacing = '@userResult.AppHorizontalSpacing';
+        HROS.CONFIG.appVerticalSpacing = '@userResult.AppVerticalSpacing';
         HROS.base.init();
     })
 </script>

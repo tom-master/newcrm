@@ -106,15 +106,41 @@ HROS.app = (function () {
                 HROS.deskTop.resize();
                 if (HROS.base.checkLogin()) {
                     $.post('/PlatformSetting/ChangeAppSize', { appSize: i }, function (result) {
-                        if (parseInt(result.data) === 1) {
-                            ZENG.msgbox.show('图标大小更新成功', 4, 2000);
-                        } else {
-                            ZENG.msgbox.show('图标大小更新失败', 5, 2000);
-                        }
+                      
                     });
                 }
             }
         },
+
+        /*
+		**  更新应用垂直间距
+		*/
+        updateVertical: function (i) {
+            if (HROS.CONFIG.appVerticalSpacing != i) {
+                HROS.CONFIG.appVerticalSpacing = i;
+                HROS.deskTop.resize();
+                if (HROS.base.checkLogin()) {
+                    $.post('/PlatformSetting/ChangeAppVertical', { appVertical: i }, function (result) {
+
+                    });
+                }
+            }
+        },
+        /*
+		**  更新应用水平间距
+		*/
+        updateHorizontal: function (i) {
+            if (HROS.CONFIG.appHorizontalSpacing != i) {
+                HROS.CONFIG.appHorizontalSpacing = i;
+                HROS.deskTop.resize();
+                if (HROS.base.checkLogin()) {
+                    $.post('/PlatformSetting/ChangeAppHorizontal', { appHorizontal: i }, function (result) {
+
+                    });
+                }
+            }
+        },
+
         /*
 		**  获取桌面应用数据
 		*/
@@ -210,29 +236,64 @@ HROS.app = (function () {
             //加载滚动条
             HROS.app.getScrollbar();
         },
+
         setPos: function (isAnimate) {
-            isAnimate = isAnimate === null ? true : isAnimate;
-            if ($('#desk').hasClass('smallIcon')) {
-                $('#desk').removeClass('smallIcon');
-            }
-            if (HROS.CONFIG.appSize === 's') {
-                $('#desk').addClass('smallIcon');
-            }
+            //isAnimate = isAnimate === null ? true : isAnimate;
+            //if ($('#desk').hasClass('smallIcon')) {
+            //    $('#desk').removeClass('smallIcon');
+            //}
+            //if (HROS.CONFIG.appSize === 's') {
+            //    $('#desk').addClass('smallIcon');
+            //}
+            //var grid = HROS.grid.getAppGrid(), dockGrid = HROS.grid.getDockAppGrid();
+            //$('#dock-bar .dock-applist li').each(function (i) {
+            //    $(this).css({
+            //        'top': HROS.CONFIG.dockPos === 'top' ? dockGrid[i]['startY'] : dockGrid[i]['startY'] + 5,
+            //        'left': HROS.CONFIG.dockPos === 'top' ? dockGrid[i]['startX'] + 5 : dockGrid[i]['startX']
+            //    }).attr('top', $(this).offset().top).attr('left', $(this).offset().left);
+            //});
+            //for (var j = 1; j <= 5; j++) {
+            //    $('#desk-' + j + ' li').each(function (i) {
+            //        var offsetTop = 7;
+            //        var offsetLeft = 16;
+            //        if (HROS.CONFIG.appSize === 's') {
+            //            offsetTop = 11;
+            //            offsetLeft = 21;
+            //        }
+            //        var top = grid[i]['startY'] + offsetTop;
+            //        var left = grid[i]['startX'] + offsetLeft;
+            //        $(this).stop(true, false).animate({
+            //            'top': top,
+            //            'left': left
+            //        }, isAnimate ? 500 : 0);
+            //        switch (HROS.CONFIG.dockPos) {
+            //            case 'top':
+            //                $(this).attr('left', left).attr('top', top + $('#dock-bar').height());
+            //                break;
+            //            case 'left':
+            //                $(this).attr('left', left + $('#dock-bar').width()).attr('top', top);
+            //                break;
+            //            default:
+            //                $(this).attr('left', left).attr('top', top);
+            //        }
+            //    });
+            //}
+            ////更新滚动条
+            //HROS.app.getScrollbar();
+            $('#desk .desktop-container .appbtn img').width(HROS.CONFIG.appSize).height(HROS.CONFIG.appSize);
+            $('#desk .desktop-container .appbtn span').width(Number(HROS.CONFIG.appSize) + 10);
+            isAnimate = isAnimate == null ? true : isAnimate;
             var grid = HROS.grid.getAppGrid(), dockGrid = HROS.grid.getDockAppGrid();
-            $('#dock-bar .dock-applist li').each(function (i) {
+            $('#dock-bar .dock-applist .appbtn').each(function (i) {
                 $(this).css({
                     'top': HROS.CONFIG.dockPos === 'top' ? dockGrid[i]['startY'] : dockGrid[i]['startY'] + 5,
                     'left': HROS.CONFIG.dockPos === 'top' ? dockGrid[i]['startX'] + 5 : dockGrid[i]['startX']
                 }).attr('top', $(this).offset().top).attr('left', $(this).offset().left);
             });
             for (var j = 1; j <= 5; j++) {
-                $('#desk-' + j + ' li').each(function (i) {
-                    var offsetTop = 7;
-                    var offsetLeft = 16;
-                    if (HROS.CONFIG.appSize === 's') {
-                        offsetTop = 11;
-                        offsetLeft = 21;
-                    }
+                $('#desk-' + j + ' .appbtn').each(function (i) {
+                    var offsetTop = HROS.CONFIG.appVerticalSpacing / 2;
+                    var offsetLeft = HROS.CONFIG.appHorizontalSpacing / 2;
                     var top = grid[i]['startY'] + offsetTop;
                     var left = grid[i]['startX'] + offsetLeft;
                     $(this).stop(true, false).animate({

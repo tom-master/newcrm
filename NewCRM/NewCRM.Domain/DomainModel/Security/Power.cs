@@ -22,13 +22,7 @@ namespace NewCRM.Domain.DomainModel.Security
 
         #region ctor
 
-        public Power(String name, String title, String remake)
-            : this()
-        {
-            _name = name;
-            _title = title;
-            _remark = remake;
-        }
+     
 
         private Power()
         {

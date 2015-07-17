@@ -16,7 +16,6 @@ namespace NewCRM.DomainService.Impl
     /// </summary>
     public class PlatformDomainService : BaseService, IPlatformDomainService
     {
-
         private readonly IWallpaperRepository _wallpaperRepository;
         private readonly IUserRepository _userRepository;
 
@@ -164,7 +163,7 @@ namespace NewCRM.DomainService.Impl
         /// <param name="appSize">应用大小</param>
         /// <param name="userId">用户Id</param>
         /// <returns>Boolean</returns>
-        public Boolean UpdateAppSize(String appSize, Int32 userId)
+        public Boolean UpdateAppSize(Int32 appSize, Int32 userId)
         {
             var userEntity = _userRepository.Entities.FirstOrDefault(user => user.Id == userId);
             if (userEntity == null)
@@ -192,6 +191,42 @@ namespace NewCRM.DomainService.Impl
             }
             userEntity.DockPosition = pos;
             userEntity.DefaultDesk = deskNum;
+            _userRepository.Update(userEntity);
+            return true;
+        }
+
+        /// <summary>
+        /// 更新应用图标的垂直间距
+        /// </summary>
+        /// <param name="appVertical">垂直艰巨</param>
+        /// <param name="userId">用户Id</param>
+        /// <returns>Boolean</returns>
+        public bool UpdateAppVertical(int appVertical, int userId)
+        {
+            var userEntity = _userRepository.Entities.FirstOrDefault(user => user.Id == userId);
+            if (userEntity == null)
+            {
+                throw new RepositoryException("更换应用图标的垂直间距失败");
+            }
+            userEntity.AppVerticalSpacing = appVertical;
+            _userRepository.Update(userEntity);
+            return true;
+        }
+
+        /// <summary>
+        /// 更新应用图标的水平间距
+        /// </summary>
+        /// <param name="appHorizontal">水平间距</param>
+        /// <param name="userId">用户Id</param>
+        /// <returns>Boolean</returns>
+        public bool UpdateAppHorizontal(int appHorizontal, int userId)
+        {
+            var userEntity = _userRepository.Entities.FirstOrDefault(user => user.Id == userId);
+            if (userEntity == null)
+            {
+                throw new RepositoryException("更换应用图标的水平间距失败");
+            }
+            userEntity.AppHorizontalSpacing = appHorizontal;
             _userRepository.Update(userEntity);
             return true;
         }

@@ -111,7 +111,7 @@ namespace NewCRM.ApplicationService
         /// <param name="appSize">app大小</param>
         /// <param name="userId">用户Id</param>
         /// <returns>Boolean</returns>
-        public Boolean UpdateAppSize(String appSize, Int32 userId)
+        public Boolean UpdateAppSize(Int32 appSize, Int32 userId)
         {
             PublicHelper.VaildateArgument(appSize, "appSize");
             PublicHelper.VaildateArgument(userId, "userId");
@@ -131,6 +131,33 @@ namespace NewCRM.ApplicationService
             PublicHelper.VaildateArgument(deskNum, "deskNum");
             PublicHelper.VaildateArgument(userId, "userId");
             return _platformDomainService.UpdateDockPosition(pos, deskNum, userId);
+        }
+
+        /// <summary>
+        /// 更新应用图标的垂直间距
+        /// </summary>
+        /// <param name="appVertical">垂直艰巨</param>
+        /// <param name="userId">用户Id</param>
+        /// <returns>Boolean</returns>
+        public Boolean UpdateAppVertical(Int32 appVertical, Int32 userId)
+        {
+            PublicHelper.VaildateArgument(appVertical, "appVertical", true);
+            PublicHelper.VaildateArgument(userId, "userId");
+            return _platformDomainService.UpdateAppVertical(appVertical, userId);
+
+        }
+
+        /// <summary>
+        /// 更新应用图标的水平间距
+        /// </summary>
+        /// <param name="appHorizontal">水平间距</param>
+        /// <param name="userId">用户Id</param>
+        /// <returns>Boolean</returns>
+        public bool UpdateAppHorizontal(int appHorizontal, int userId)
+        {
+            PublicHelper.VaildateArgument(appHorizontal, "appHorizontal", true);
+            PublicHelper.VaildateArgument(userId, "userId");
+            return _platformDomainService.UpdateAppHorizontal(appHorizontal, userId);
         }
     }
 }

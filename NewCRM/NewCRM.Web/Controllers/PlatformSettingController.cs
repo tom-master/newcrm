@@ -155,12 +155,31 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <param name="appSize"></param>
         /// <returns></returns>
-        public ActionResult ChangeAppSize(String appSize = "")
+        public ActionResult ChangeAppSize(Int32 appSize = 0)
         {
             _plantformApplicationService = new PlantformApplicationService();
             var result = _plantformApplicationService.UpdateAppSize(appSize, UserEntity.Id);
-            return Json(result ? new { data = 1 } : new { data = 0 }, JsonRequestBehavior.AllowGet);
+            return Json(result ? new { data = 1 } : new { data = 0 });
         }
+        /// <summary>
+        /// 更改应用图标的垂直间距
+        /// </summary>
+        /// <param name="appVertical"></param>
+        /// <returns></returns>
+        public ActionResult ChangeAppVertical(Int32 appVertical = 0)
+        {
+            _plantformApplicationService = new PlantformApplicationService();
+            var result = _plantformApplicationService.UpdateAppVertical(appVertical, UserEntity.Id);
+            return Json(result ? new { data = 1 } : new { data = 0 });
+        }
+
+        public ActionResult ChangeAppHorizontal(Int32 appHorizontal = 0)
+        {
+            _plantformApplicationService = new PlantformApplicationService();
+            var result = _plantformApplicationService.UpdateAppHorizontal(appHorizontal, UserEntity.Id);
+            return Json(result ? new { data = 1 } : new { data = 0 });
+        }
+
         /// <summary>
         /// 更改码头的位置
         /// </summary>

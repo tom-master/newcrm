@@ -20,7 +20,13 @@ namespace NewCRM.Dto.Dto
         public String Desk3 { get; set; }
         public String Desk4 { get; set; }
         public String Desk5 { get; set; }
-        public String AppSize { get; set; }
+        public Int32 AppSize { get; set; }
+        public Int32 AppVerticalSpacing
+        { get; set; }
+
+        public Int32 AppHorizontalSpacing
+        { get; set; }
+
         public String WallpaperShowType { get; set; }
         public String UserFace { get; set; }
         public Boolean Enabled { get; set; }

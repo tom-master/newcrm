@@ -38,47 +38,11 @@ namespace NewCRM.Domain.DomainModel.System
 
         #region ctor
 
-        public App(String name,
-            String imageUrl,
-            String navigateUrl,
-            String remake,
-            Int32 sortIndex,
-            Int32 width,
-            Int32 height,
-            Boolean isMax,
-            Boolean isMin,
-            Boolean isFull,
-            Boolean isSetbar,
-            Boolean isOpenMax,
-            Boolean isLock,
-            Int32 userCount,
-            Int32 startNumber,
-            Boolean isSystem,
-            String appInternalClass)
-            : this()
-        {
-            _name = name;
-            _imageUrl = imageUrl;
-            _navigateUrl = navigateUrl;
-            _remark = remake;
-            _sortIndex = sortIndex;
-            _width = width;
-            _height = height;
-            _isMax = isMax;
-            _isMin = isMin;
-            _isFull = isFull;
-            _isSetbar = isSetbar;
-            _isOpenMax = isOpenMax;
-            _isLock = isLock;
-            _userCount = userCount;
-            _startNumber = startNumber;
-            _isSystem = isSystem;
-            _appInternalClass = appInternalClass;
-        }
+  
 
         public App()
         {
-            // TODO: Complete member initialization
+          
         }
         #endregion
 

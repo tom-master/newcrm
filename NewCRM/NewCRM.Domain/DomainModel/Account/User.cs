@@ -15,6 +15,7 @@ namespace NewCRM.Domain.DomainModel.Account
         #region private field
         private String _name;
         private String _password;
+
         private String _appXy;
         private String _dockPosition;
         private String _skin;
@@ -24,7 +25,11 @@ namespace NewCRM.Domain.DomainModel.Account
         private String _desk3;
         private String _desk4;
         private String _desk5;
-        private String _appSize;
+        private Int32 _appSize;
+        private Int32 _appVerticalSpacing;
+        private Int32 _appHorizontalSpacing;
+
+      
         private String _wallpaperShowType;
         private String _userFace;
         private Boolean _enabled;
@@ -41,13 +46,6 @@ namespace NewCRM.Domain.DomainModel.Account
         #endregion
 
         #region ctor
-        public User(String name, String passWord, Boolean enabled)
-            : this()
-        {
-            _name = name;
-            _password = passWord;
-            _enabled = enabled;
-        }
 
         public User()
         {
@@ -173,11 +171,26 @@ namespace NewCRM.Domain.DomainModel.Account
             set { _config = value; }
         }
 
-        public String AppSize
+        public Int32 AppSize
         {
             get { return _appSize; }
             set { _appSize = value; }
         }
+
+        public Int32 AppVerticalSpacing
+        {
+            get { return _appVerticalSpacing; }
+            set { _appVerticalSpacing = value; }
+        }
+
+        public Int32 AppHorizontalSpacing
+        {
+            get { return _appHorizontalSpacing; }
+            set { _appHorizontalSpacing = value; }
+        }
+
+
+
 
         public Int32 DefaultDesk
         {

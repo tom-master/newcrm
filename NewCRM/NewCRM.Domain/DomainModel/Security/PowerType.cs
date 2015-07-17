@@ -12,12 +12,7 @@ namespace NewCRM.Domain.DomainModel.Security
 
         #region ctor
 
-        public PowerType(String typeName)
-            : this()
-        {
-            _typeName = typeName;
-        }
-
+      
         public PowerType()
         {
             // TODO: Complete member initialization

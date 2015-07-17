@@ -18,13 +18,7 @@ namespace NewCRM.Domain.DomainModel.System
         #endregion
 
         #region ctor
-        public Configs(String configKey, String configValue, String remake)
-            : this()
-        {
-            _configKey = configKey;
-            _configValue = configValue;
-            _remark = remake;
-        }
+      
 
         public Configs()
         {

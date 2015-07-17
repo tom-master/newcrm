@@ -29,30 +29,7 @@ namespace NewCRM.Domain.DomainModel.System
 
         #region ctor
 
-        public Wallpaper(String title,
-            String url,
-            String smallUrl,
-            String wallpaperType,
-            String wallpaperWebUr,
-            Int32 width,
-            Int32 heigth,
-            String description,
-            Boolean isSystem,
-            Int32 uploaderId)
-            : this()
-        {
-            _title = title;
-            _url = url;
-            _smallUrl = smallUrl;
-            _width = width;
-            _heigth = heigth;
-            _description = description;
-            _isSystem = isSystem;
-            _uploaderId = uploaderId;
-            _wallpaperType = wallpaperType;
-            _wallpaperWebUr = wallpaperWebUr;
-            _users = new List<User>();
-        }
+     
 
         public Wallpaper()
         {

@@ -16,13 +16,7 @@ namespace NewCRM.Domain.DomainModel.System
 
         #region ctor
 
-        public Online(String ipAddress, Int32 userId)
-            : this()
-        {
-            _ipAdddress = ipAddress;
-            _userId = userId;
-        }
-
+     
         public Online()
         {
             // TODO: Complete member initialization

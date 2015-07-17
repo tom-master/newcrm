@@ -58,14 +58,28 @@ namespace NewCRM.ApplicationService.IApplicationService
         /// <param name="appSize">app大小</param>
         /// <param name="userId">用户Id</param>
         /// <returns>Boolean</returns>
-        Boolean UpdateAppSize(String appSize, Int32 userId);
+        Boolean UpdateAppSize(Int32 appSize, Int32 userId);
         /// <summary>
         /// 更新应用码头的位置
         /// </summary>
-        /// <param name="pos"></param>
-        /// <param name="deskNum"></param>
-        /// <param name="userId"></param>
+        /// <param name="pos">码头的新位置</param>
+        /// <param name="deskNum">桌面Id</param>
+        /// <param name="userId">用户Id</param>
         /// <returns>Boolean</returns>
         Boolean UpdateDockPosition(String pos, Int32 deskNum, Int32 userId);
+        /// <summary>
+        /// 更新应用图标的垂直间距
+        /// </summary>
+        /// <param name="appVertical">垂直艰巨</param>
+        /// <param name="userId">用户Id</param>
+        /// <returns>Boolean</returns>
+        Boolean UpdateAppVertical(Int32 appVertical, Int32 userId);
+        /// <summary>
+        /// 更新应用图标的水平间距
+        /// </summary>
+        /// <param name="appHorizontal">水平间距</param>
+        /// <param name="userId">用户Id</param>
+        /// <returns>Boolean</returns>
+        Boolean UpdateAppHorizontal(Int32 appHorizontal, Int32 userId);
     }
 }

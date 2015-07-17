@@ -21,13 +21,7 @@ namespace NewCRM.Domain.DomainModel.System
 
         #region ctor
 
-        public Folder(String name, String icon, String remake)
-            : this()
-        {
-            _name = name;
-            _icon = icon;
-            _remake = remake;
-        }
+      
 
         public Folder()
         {

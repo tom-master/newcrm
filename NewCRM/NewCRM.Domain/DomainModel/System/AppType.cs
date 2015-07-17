@@ -15,12 +15,7 @@ namespace NewCRM.Domain.DomainModel.System
         #endregion
 
         #region ctor
-        public AppType(String name, String remake)
-            : this()
-        {
-            _name = name;
-            _remake = remake;
-        }
+      
 
         public AppType()
         {

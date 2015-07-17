@@ -16,14 +16,7 @@ namespace NewCRM.Domain.DomainModel.System
 
         #region ctor
 
-        public Log(String level, String logger, String message, String exception)
-            : this()
-        {
-            _level = level;
-            _logger = logger;
-            _message = message;
-            _exception = exception;
-        }
+    
 
         public Log()
         {

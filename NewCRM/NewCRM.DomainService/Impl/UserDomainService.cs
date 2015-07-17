@@ -54,7 +54,11 @@ namespace NewCRM.DomainService.Impl
                 throw new RepositoryException("用户名或密码错误");
             }
             //插入一条在线的信息
-            _onlineRepository.Add(new Online("127.0.0.1", userData.Id));
+            _onlineRepository.Add(new Online
+            {
+                IpAdddress = "127.0.0.1",
+                UserId = userData.Id
+            });
             return userData;
         }
 

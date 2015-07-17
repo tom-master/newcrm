@@ -21,12 +21,7 @@ namespace NewCRM.Domain.DomainModel.Security
 
         #region ctor
 
-        public Role(String name, String remake)
-            : this()
-        {
-            _name = name;
-            _remark = remake;
-        }
+      
 
         public Role()
         {

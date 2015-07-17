@@ -15,12 +15,6 @@ namespace NewCRM.Domain.DomainModel.Account
         #endregion
 
         #region ctor
-        public Title(String name, String remark)
-            : this()
-        {
-            _name = name;
-            _remark = remark;
-        }
 
         public Title()
         {

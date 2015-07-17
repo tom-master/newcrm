@@ -17,13 +17,7 @@ namespace NewCRM.Domain.DomainModel.Security
         #endregion
 
         #region ctor
-        public Depts(String name, String remake)
-            : this()
-        {
-            _name = name;
-            _remark = remake;
-        }
-
+      
         public Depts()
         {
             // TODO: Complete member initialization
