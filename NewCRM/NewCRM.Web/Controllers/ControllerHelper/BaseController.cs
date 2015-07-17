@@ -6,6 +6,8 @@
     using System.Text;
     public class BaseController : Controller
     {
+
+
         private Int32 _index = 0;
         /// <summary>
         /// 当前页面的浏览权限，为空的话 就是不受权限控制
