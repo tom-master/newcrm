@@ -7,10 +7,10 @@ var appbtnTemp = template.compile(
 );
 //桌面"添加应用"应用
 var addbtnTemp = template.compile(
-	'<div class="appbtn add">' +
-		'<img src="../Scripts/HoorayUI/img/ui/addicon.png"></i>' +
+	'<li class="appbtn add">' +
+		'<div><img src="../Scripts/HoorayUI/img/ui/addicon.png"></div>' +
 		'<span>添加应用</span>' +
-	'</div>'
+	'</li>'
 );
 //任务栏
 var taskTemp = template.compile(

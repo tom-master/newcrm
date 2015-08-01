@@ -134,7 +134,7 @@ HROS.window = (function(){
 		**  系统窗口：HROS.window.create(realappid, [type]);
 		**      示例：HROS.window.create(12);
 		*/
-		create : function(realappid, type){
+		create: function (realappid, type) {
 			var type = type == null ? 'window' : type, appid;
 			//判断窗口是否已打开
 			var iswindowopen = false;
