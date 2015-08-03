@@ -88,5 +88,13 @@ namespace NewCRM.DomainService
         /// <param name="userId">用户Id</param>
         /// <returns>Boolean</returns>
         Boolean UpdateAppHorizontal(Int32 appHorizontal, Int32 userId);
+
+        /// <summary>
+        /// 获取当前用户下的桌面中的app
+        /// </summary>
+        /// <param name="userId">用户Id</param>
+        /// <param name="desk">桌面</param>
+        /// <returns></returns>
+        List<String> GetAppsInDeskByUserId(Int32 userId, String desk);
     }
 }

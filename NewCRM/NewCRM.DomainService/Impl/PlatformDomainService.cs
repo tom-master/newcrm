@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using NewCRM.Domain.DomainModel.System;
 using NewCRM.Infrastructure.CommonTools.CustemException;
+using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewCRM.Infrastructure.Repositories.Repositories.Account;
 using NewCRM.Infrastructure.Repositories.Repositories.Account.Impl;
 using NewCRM.Infrastructure.Repositories.Repositories.System;
@@ -201,7 +202,7 @@ namespace NewCRM.DomainService.Impl
         /// <param name="appVertical">垂直艰巨</param>
         /// <param name="userId">用户Id</param>
         /// <returns>Boolean</returns>
-        public bool UpdateAppVertical(int appVertical, int userId)
+        public Boolean UpdateAppVertical(Int32 appVertical, Int32 userId)
         {
             var userEntity = _userRepository.Entities.FirstOrDefault(user => user.Id == userId);
             if (userEntity == null)
@@ -219,7 +220,7 @@ namespace NewCRM.DomainService.Impl
         /// <param name="appHorizontal">水平间距</param>
         /// <param name="userId">用户Id</param>
         /// <returns>Boolean</returns>
-        public bool UpdateAppHorizontal(int appHorizontal, int userId)
+        public Boolean UpdateAppHorizontal(Int32 appHorizontal, Int32 userId)
         {
             var userEntity = _userRepository.Entities.FirstOrDefault(user => user.Id == userId);
             if (userEntity == null)
@@ -229,6 +230,17 @@ namespace NewCRM.DomainService.Impl
             userEntity.AppHorizontalSpacing = appHorizontal;
             _userRepository.Update(userEntity);
             return true;
+        }
+        /// <summary>
+        /// 获取当前用户下的桌面中的app
+        /// </summary>
+        /// <param name="userId">用户Id</param>
+        /// <param name="desk">桌面</param>
+        /// <returns></returns>
+        public List<String> GetAppsInDeskByUserId(Int32 userId, String desk)
+        {
+            return null;
+
         }
     }
 }
