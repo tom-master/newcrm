@@ -27,7 +27,7 @@
             <div class="desktop-apps-container"></div>
             <div class="scrollbar scrollbar-x"></div><div class="scrollbar scrollbar-y"></div>
         </div>
-        <div id="dock-bar">  
+        <div id="dock-bar">
             <div id="dock-container">
                 <div class="dock-middle">
                     <div class="dock-applist"></div>
@@ -115,45 +115,37 @@
     <div id="amg_dock_container"></div>
     <div class="amg_line_x"></div>
     <div id="amg_folder_container">
-        <div class="folderItem">
-            <div class="folder_bg folder_bg1"></div>
-            <div class="folderOuter">
-                <div class="folderInner" desk="1"></div>
-                <div class="scrollBar"></div>
-            </div>
-        </div>
-        <div class="folderItem">
-            <div class="folder_bg folder_bg2"></div>
-            <div class="folderOuter">
-                <div class="folderInner" desk="2"></div>
-                <div class="scrollBar"></div>
-            </div>
-            <div class="amg_line_y"></div>
-        </div>
-        <div class="folderItem">
-            <div class="folder_bg folder_bg3"></div>
-            <div class="folderOuter">
-                <div class="folderInner" desk="3"></div>
-                <div class="scrollBar"></div>
-            </div>
-            <div class="amg_line_y"></div>
-        </div>
-        <div class="folderItem">
-            <div class="folder_bg folder_bg4"></div>
-            <div class="folderOuter">
-                <div class="folderInner" desk="4"></div>
-                <div class="scrollBar"></div>
-            </div>
-            <div class="amg_line_y"></div>
-        </div>
-        <div class="folderItem">
-            <div class="folder_bg folder_bg5"></div>
-            <div class="folderOuter">
-                <div class="folderInner" desk="5"></div>
-                <div class="scrollBar"></div>
-            </div>
-            <div class="amg_line_y"></div>
-        </div>
+
+        @{
+            Int32 internanIndex = 1;
+            var desks = userResult.Desks;
+            foreach (var deskItem in desks)
+            {
+
+                if (internanIndex == 1)
+                {
+                    <div class="folderItem" data-deskname="@deskItem.DeskName">
+                        <div class="folder_bg"></div>
+                        <div class="folderOuter">
+                            <div class="folderInner" desk="@internanIndex">@internanIndex</div>
+                            <div class="scrollBar"></div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="folderItem" data-deskname="@deskItem.DeskName">
+                        <div class="folder_bg"></div>
+                        <div class="folderOuter">
+                            <div class="folderInner" desk="@internanIndex">@internanIndex</div>
+                            <div class="scrollBar"></div>
+                        </div>
+                        <div class="amg_line_y"></div>
+                    </div>
+                }
+                internanIndex = internanIndex + 1;
+            }
+        }
     </div>
 </div>
 <script>
@@ -170,6 +162,7 @@
         HROS.CONFIG.desk = '@userResult.DefaultDesk';
         HROS.CONFIG.appHorizontalSpacing = '@userResult.AppHorizontalSpacing';
         HROS.CONFIG.appVerticalSpacing = '@userResult.AppVerticalSpacing';
+        HROS.CONFIG.deskCount = '@userResult.Desks.Count';
         HROS.base.init();
     })
 </script>

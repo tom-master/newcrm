@@ -154,7 +154,6 @@ HROS.app = (function () {
                     HROS.VAR.isAppMoving = true;
                 }
             }).done(function (data) {
-                debugger
                 HROS.VAR.isAppMoving = false;
                 if (typeof data === 'object') {
                     // ReSharper disable once QualifiedExpressionMaybeNull

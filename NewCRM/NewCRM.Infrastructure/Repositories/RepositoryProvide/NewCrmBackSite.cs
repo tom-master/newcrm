@@ -118,6 +118,8 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
                 .WithMany(w => w.Users)
                 .Map(w => w.MapKey("WallpaperId"));
 
+            modelBuilder.Entity<Desk>().HasOptional(d => d.User).WithMany(w => w.Desks).Map(w => w.MapKey("UserId"));
+
             modelBuilder.Entity<User>().HasMany(u => u.Apps).WithMany(a => a.Users).Map(s =>
             {
                 s.ToTable("UserApp");

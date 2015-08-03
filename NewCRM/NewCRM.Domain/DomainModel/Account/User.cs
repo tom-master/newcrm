@@ -20,11 +20,7 @@ namespace NewCRM.Domain.DomainModel.Account
         private String _dockPosition;
         private String _skin;
         private String _dock;
-        private String _desk1;
-        private String _desk2;
-        private String _desk3;
-        private String _desk4;
-        private String _desk5;
+
         private Int32 _appSize;
         private Int32 _appVerticalSpacing;
         private Int32 _appHorizontalSpacing;
@@ -117,41 +113,6 @@ namespace NewCRM.Domain.DomainModel.Account
         {
             get { return _dock; }
             set { _dock = value; }
-        }
-
-        [StringLength(500)]
-        public String Desk1
-        {
-            get { return _desk1; }
-            set { _desk1 = value; }
-        }
-
-        [StringLength(500)]
-        public String Desk2
-        {
-            get { return _desk2; }
-            set { _desk2 = value; }
-        }
-
-        [StringLength(500)]
-        public String Desk3
-        {
-            get { return _desk3; }
-            set { _desk3 = value; }
-        }
-
-        [StringLength(500)]
-        public String Desk4
-        {
-            get { return _desk4; }
-            set { _desk4 = value; }
-        }
-
-        [StringLength(500)]
-        public String Desk5
-        {
-            get { return _desk5; }
-            set { _desk5 = value; }
         }
 
         [StringLength(50)]

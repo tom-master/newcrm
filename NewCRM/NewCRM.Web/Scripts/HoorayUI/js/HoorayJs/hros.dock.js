@@ -71,7 +71,9 @@ HROS.dock = (function () {
             $('#dock-bar .dock-tool-appmanage').on('mousedown', function () {
                 return false;
             }).on('click', function () {
+             
                 HROS.appmanage.set();
+               
             });
             $('#dock-bar .dock-tool-search').on('mousedown', function () {
                 return false;

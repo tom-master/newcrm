@@ -75,9 +75,9 @@
         /// <summary>
         /// 获取保存的用户实体
         /// </summary>
-        protected UserDto UserEntity
+        protected static UserDto UserEntity
         {
-            get { return Session["userEntity"] as UserDto; }
+            get; set;
         }
 
 

@@ -51,7 +51,7 @@ namespace NewCRM.Web.Controllers
             cookie.Expires = isRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddHours(1);
             HttpContext.Response.Cookies.Add(cookie);
 
-            Session["userEntity"] = userData;
+            UserEntity = userData;
 
             return Json(new { status = 1, data = userData });
         }

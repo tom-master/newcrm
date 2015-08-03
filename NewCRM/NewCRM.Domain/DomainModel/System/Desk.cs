@@ -1,29 +1,36 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using NewCRM.Domain.DomainModel.Account;
 
 namespace NewCRM.Domain.DomainModel.System
 {
     public class Desk : EntityBase<Int32>
     {
-        private Int32 _userId;
+        #region private field
+       
+        private String _deskName;
+
+      
 
         private String _app;
 
         private User _user;
-
+        #endregion
 
         public Desk()
         {
         }
 
-        public Int32 UserId
+
+        #region public attribute
+
+        [StringLength(100)]
+        public String DeskName
         {
-            get
-            {
-                return _userId;
-            }
-            set { _userId = value; }
+            get { return _deskName; }
+            set { _deskName = value; }
         }
+
 
         public String App
         {
@@ -31,13 +38,12 @@ namespace NewCRM.Domain.DomainModel.System
             set { _app = value; }
         }
 
-
         public virtual User User
         {
             get { return _user; }
             set { _user = value; }
         }
-
+        #endregion
 
     }
 }

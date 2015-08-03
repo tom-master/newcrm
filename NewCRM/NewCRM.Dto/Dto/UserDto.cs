@@ -15,11 +15,6 @@ namespace NewCRM.Dto.Dto
         public String DockPosition { get; set; }
         public String Skin { get; set; }
         public String Dock { get; set; }
-        public String Desk1 { get; set; }
-        public String Desk2 { get; set; }
-        public String Desk3 { get; set; }
-        public String Desk4 { get; set; }
-        public String Desk5 { get; set; }
         public Int32 AppSize { get; set; }
         public Int32 AppVerticalSpacing
         { get; set; }
@@ -40,5 +35,7 @@ namespace NewCRM.Dto.Dto
         public ICollection<App> Apps { get; set; }
         public ICollection<Folder> Folders { get; set; }
         public ICollection<Role> Roles { get; set; }
+
+        public ICollection<Desk> Desks { get; set; }
     }
 }

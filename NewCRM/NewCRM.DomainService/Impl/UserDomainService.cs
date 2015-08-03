@@ -93,11 +93,11 @@ namespace NewCRM.DomainService.Impl
                 switch (i)
                 {
                     case 0: currentDesk = user.Dock; break;
-                    case 1: currentDesk = user.Desk1; break;
-                    case 2: currentDesk = user.Desk2; break;
-                    case 3: currentDesk = user.Desk3; break;
-                    case 4: currentDesk = user.Desk4; break;
-                    case 5: currentDesk = user.Desk5; break;
+                    //case 1: currentDesk = user.Desk1; break;
+                    //case 2: currentDesk = user.Desk2; break;
+                    //case 3: currentDesk = user.Desk3; break;
+                    //case 4: currentDesk = user.Desk4; break;
+                    //case 5: currentDesk = user.Desk5; break;
                 }
                 if ((currentDesk + "").Length > 0)
                 {
