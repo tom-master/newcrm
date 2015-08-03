@@ -239,8 +239,16 @@ namespace NewCRM.DomainService.Impl
         /// <returns></returns>
         public List<String> GetAppsInDeskByUserId(Int32 userId, String desk)
         {
-            return null;
+            var internalAppStr = new List<String>();
+            //var userEntity = _userRepository.Entities.Select(s =>
+            //{
+            //    if (desk == "Desk1")
+            //    {
+            //        internalAppStr = s.Desk1.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries).ToList();
+            //    }
+            //});
 
+            return internalAppStr;
         }
     }
 }

@@ -29,7 +29,7 @@ namespace NewCRM.Domain.DomainModel.Account
         private Int32 _appVerticalSpacing;
         private Int32 _appHorizontalSpacing;
 
-      
+
         private String _wallpaperShowType;
         private String _userFace;
         private Boolean _enabled;
@@ -42,6 +42,8 @@ namespace NewCRM.Domain.DomainModel.Account
         private ICollection<App> _apps;
         private ICollection<Folder> _folders;
         private ICollection<Role> _roles;
+        private ICollection<Desk> _desks;
+
 
         #endregion
 
@@ -233,6 +235,12 @@ namespace NewCRM.Domain.DomainModel.Account
             get { return _title; }
             set { _title = value; }
         }
+        public virtual ICollection<Desk> Desks
+        {
+            get { return _desks; }
+            set { _desks = value; }
+        }
+
 
         #endregion
     }
