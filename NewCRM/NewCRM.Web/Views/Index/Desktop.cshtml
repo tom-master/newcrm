@@ -121,7 +121,6 @@
             var desks = userResult.Desks;
             foreach (var deskItem in desks)
             {
-
                 if (internanIndex == 1)
                 {
                     <div class="folderItem" data-deskname="@deskItem.DeskName">
@@ -162,7 +161,7 @@
         HROS.CONFIG.desk = '@userResult.DefaultDesk';
         HROS.CONFIG.appHorizontalSpacing = '@userResult.AppHorizontalSpacing';
         HROS.CONFIG.appVerticalSpacing = '@userResult.AppVerticalSpacing';
-        HROS.CONFIG.deskCount = '@userResult.Desks.Count';
+        HROS.CONFIG.deskCount = parseInt('@userResult.Desks.Count');
         HROS.base.init();
     })
 </script>

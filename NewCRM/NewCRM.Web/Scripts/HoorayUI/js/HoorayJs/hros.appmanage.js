@@ -22,31 +22,31 @@ HROS.appmanage = (function () {
             $('#amg_folder_container .folderItem').show().addClass('folderItem_turn');
             $('#amg_folder_container .folderInner').height($(window).height() - 80);
             //加载应用码头应用
-            var dock_append = '';
-            if (HROS.VAR.dock != '') {
+            var dockAppend = '';
+            if (HROS.VAR.dock !== '') {
                 $(HROS.VAR.dock).each(function (i) {
-                    dock_append += appbtnTemp({
+                    dockAppend += appbtnTemp({
                         'title': this.name,
                         'type': this.type,
-                        'id': 'd_' + this.appid,
-                        'appid': this.appid,
-                        'realappid': this.realappid == 0 ? this.appid : this.realappid,
+                        'id': 'd_' + this.id,
+                        'appid': this.id,
+                        'realappid': this.id,
                         'imgsrc': this.icon
                     });
                 });
             }
-            $('#amg_dock_container').html(dock_append);
+            $('#amg_dock_container').html(dockAppend);
             //加载桌面应用
-            for (var j = 0; j < 5; j++) {
+            for (var j = 0; j < HROS.CONFIG.deskCount; j++) {
                 var desk_append = '', desk = eval('HROS.VAR.desk' + (j + 1));
-                if (desk != '') {
+                if (desk !== '') {
                     $(desk).each(function (i) {
                         desk_append += appbtnTemp({
                             'title': this.name,
                             'type': this.type,
-                            'id': 'd_' + this.appid,
-                            'appid': this.appid,
-                            'realappid': this.realappid == 0 ? this.appid : this.realappid,
+                            'id': 'd_' + this.id,
+                            'appid': this.id,
+                            'realappid': this.id,
                             'imgsrc': this.icon
                         });
                     });
@@ -77,7 +77,7 @@ HROS.appmanage = (function () {
             $('#amg_dock_container').on('mousedown', 'li', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-                if (e.button == 0 || e.button == 1) {
+                if (e.button === 0 || e.button === 1) {
                     var oldobj = $(this);
                     var obj = $('<li id="shortcut_shadow">' + oldobj.html() + '</li>');
                     var dx = e.clientX;
@@ -93,7 +93,7 @@ HROS.appmanage = (function () {
                         lay.show();
                         cx = e.clientX <= 0 ? 0 : e.clientX >= $(window).width() ? $(window).width() : e.clientX;
                         cy = e.clientY <= 0 ? 0 : e.clientY >= $(window).height() ? $(window).height() : e.clientY;
-                        if (dx != cx || dy != cy) {
+                        if (dx !== cx || dy !== cy) {
                             obj.css({
                                 left: cx - x,
                                 top: cy - y
@@ -104,7 +104,7 @@ HROS.appmanage = (function () {
                         obj.remove();
                         lay.hide();
                         //判断是否移动应用，如果没有则判断为click事件
-                        if (dx == cx && dy == cy) {
+                        if (dx === cx && dy === cy) {
                             HROS.appmanage.close();
                             switch (oldobj.attr('type')) {
                                 case 'widget':

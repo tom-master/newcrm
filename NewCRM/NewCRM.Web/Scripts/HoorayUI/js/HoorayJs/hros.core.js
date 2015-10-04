@@ -25,7 +25,7 @@ HROS.CONFIG = {
     wallpaperHeight: 0,         //壁纸高度
     appVerticalSpacing: 0,//应用垂直间距
     appHorizontalSpacing: 0,//应用水平间距
-    deskCount:0//当前用户拥有的桌面数量
+    deskCount: 0//当前用户拥有的桌面数量
 };
 
 HROS.VAR = {
@@ -37,5 +37,10 @@ HROS.VAR = {
     desk3: [],
     desk4: [],
     desk5: [],
+    desk6: [],
+    desk7: [],
+    desk8: [],
+    desk9: [],
+    desk10: [],
     folder: []
 };

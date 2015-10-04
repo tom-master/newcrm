@@ -25,8 +25,7 @@ namespace NewCRM.Web.Controllers
             ViewData["userEntity"] = _userApplicationService.GetUser(UserEntity.Id);
             return View();
         }
-
-        [HttpGet]
+        [HttpGet] 
         public ActionResult Login()
         {
             return View();

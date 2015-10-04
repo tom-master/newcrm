@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -86,19 +88,27 @@ namespace NewCRM.DomainService.Impl
             }
             StringBuilder builder = new StringBuilder("{");
             String currentDesk = String.Empty;
-            String[] docks = { "dock", "desk1", "desk2", "desk3", "desk4", "desk5" }, deskApps;
-            for (Int32 i = 0; i < docks.Length; i++)
+            IList<String> docks = new List<string> { "dock" }, deskApps;
+            for (int i = 0; i < user.Desks.Count; i++)
+            {
+                docks.Add("desk" + (i + 1));
+            }
+            for (Int32 i = 0; i < (user.Desks.Count + 1); i++)
             {
                 builder.AppendFormat("\"{0}\":[", docks[i]);
-                switch (i)
-                {
-                    case 0: currentDesk = user.Dock; break;
-                    //case 1: currentDesk = user.Desk1; break;
-                    //case 2: currentDesk = user.Desk2; break;
-                    //case 3: currentDesk = user.Desk3; break;
-                    //case 4: currentDesk = user.Desk4; break;
-                    //case 5: currentDesk = user.Desk5; break;
-                }
+                //switch (i)
+                //{
+                //    case 0: currentDesk = user.Dock; break;
+                //    case 1: currentDesk = user.Desk1; break;
+                //    case 2: currentDesk = user.Desk2; break;
+                //    case 3: currentDesk = user.Desk3; break;
+                //    case 4: currentDesk = user.Desk4; break;
+                //    case 5: currentDesk = user.Desk5; break;
+                //}
+
+                currentDesk = i == 0 ? user.Dock : (user.Desks.ToList()[i - 1]).App;
+
+
                 if ((currentDesk + "").Length > 0)
                 {
                     deskApps = currentDesk.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);

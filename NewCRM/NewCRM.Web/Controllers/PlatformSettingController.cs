@@ -192,18 +192,18 @@ namespace NewCRM.Web.Controllers
             var data = _plantformApplicationService.UpdateDockPosition(pos, deskNum, UserEntity.Id);
             return Json(data ? new { data = 1 } : new { data = 0 });
         }
-        ///// <summary>
-        ///// 桌面元素移动
-        ///// </summary>
-        ///// <returns></returns>
-        //public ActionResult ElementMove(String moveType = "", Int32 id = 0, Int32 from = 0, Int32 to = 0)
-        //{
-        //    switch (moveType)
-        //    {
-        //        case "dock-folder":
-        //            break;
-        //    }
-        //    return null;
-        //}
+        /// <summary>
+        /// 桌面元素移动
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ElementMove(String moveType = "", Int32 id = 0, Int32 from = 0, Int32 to = 0)
+        {
+            switch (moveType)
+            {
+                case "dock-folder":
+                    break;
+            }
+            return null;
+        }
     }
 }

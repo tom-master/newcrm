@@ -106,7 +106,7 @@ HROS.app = (function () {
                 HROS.deskTop.resize();
                 if (HROS.base.checkLogin()) {
                     $.post('/PlatformSetting/ChangeAppSize', { appSize: i }, function (result) {
-                      
+
                     });
                 }
             }
@@ -161,21 +161,39 @@ HROS.app = (function () {
                     if (typeof sc['dock'] === 'object') {
                         HROS.VAR.dock = sc['dock'];
                     }
-                    if (typeof sc['desk1'] === 'object') {
-                        HROS.VAR.desk1 = sc['desk1'];
+                    for (var i = 0; i < HROS.CONFIG.deskCount; i++) {
+                        if (typeof sc['desk1'] === 'object' && i + 1 === 1) {
+                            HROS.VAR.desk1 = sc['desk1'];
+                        }
+                        if (typeof sc['desk2'] === 'object' && i + 1 === 2) {
+                            HROS.VAR.desk2 = sc['desk2'];
+                        }
+                        if (typeof sc['desk3'] === 'object' && i + 1 === 3) {
+                            HROS.VAR.desk3 = sc['desk3'];
+                        }
+                        if (typeof sc['desk4'] === 'object' && i + 1 === 4) {
+                            HROS.VAR.desk4 = sc['desk4'];
+                        }
+                        if (typeof sc['desk5'] === 'object' && i + 1 === 5) {
+                            HROS.VAR.desk5 = sc['desk5'];
+                        }
+                        if (typeof sc['desk6'] === 'object' && i + 1 === 6) {
+                            HROS.VAR.desk6 = sc['desk6'];
+                        }
+                        if (typeof sc['desk7'] === 'object' && i + 1 === 7) {
+                            HROS.VAR.desk7 = sc['desk7'];
+                        }
+                        if (typeof sc['desk8'] === 'object' && i + 1 === 8) {
+                            HROS.VAR.desk8 = sc['desk8'];
+                        }
+                        if (typeof sc['desk9'] === 'object' && i + 1 === 9) {
+                            HROS.VAR.desk9 = sc['desk9'];
+                        }
+                        if (typeof sc['desk10'] === 'object' && i + 1 === 10) {
+                            HROS.VAR.desk10 = sc['desk10'];
+                        }
                     }
-                    if (typeof sc['desk2'] === 'object') {
-                        HROS.VAR.desk2 = sc['desk2'];
-                    }
-                    if (typeof sc['desk3'] === 'object') {
-                        HROS.VAR.desk3 = sc['desk3'];
-                    }
-                    if (typeof sc['desk4'] === 'object') {
-                        HROS.VAR.desk4 = sc['desk4'];
-                    }
-                    if (typeof sc['desk5'] === 'object') {
-                        HROS.VAR.desk5 = sc['desk5'];
-                    }
+
                     if (typeof sc['folder'] === 'object') {
                         HROS.VAR.folder = sc['folder'];
                     }
@@ -205,7 +223,7 @@ HROS.app = (function () {
             $('#dock-bar .dock-applist li').remove();
             $('#dock-bar .dock-applist').append(dock_append);
             //加载桌面应用
-            for (var j = 1; j <= 5; j++) {
+            for (var j = 1; j <= HROS.CONFIG.deskCount; j++) {
                 var desk_append = '';
                 var desk = eval('HROS.VAR.desk' + j);
                 if (desk !== '') {
