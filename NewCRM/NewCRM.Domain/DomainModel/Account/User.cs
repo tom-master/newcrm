@@ -16,30 +16,20 @@ namespace NewCRM.Domain.DomainModel.Account
         private String _name;
         private String _password;
 
-        private String _appXy;
-        private String _dockPosition;
-        private String _skin;
-        private String _dock;
-
-        private Int32 _appSize;
-        private Int32 _appVerticalSpacing;
-        private Int32 _appHorizontalSpacing;
-
-
-        private String _wallpaperShowType;
-        private String _userFace;
         private Boolean _enabled;
         private DateTime _lastLoginTime;
-        private Int32 _defaultDesk;
-        private Configs _config;
+
+
+        private UserConfig _config;
         private Title _title;
         private Depts _dept;
         private Wallpaper _wallpaper;
+
+        private ICollection<Role> _roles;
         private ICollection<App> _apps;
         private ICollection<Folder> _folders;
-        private ICollection<Role> _roles;
         private ICollection<Desk> _desks;
-
+        private ICollection<Log> _logs;
 
         #endregion
 
@@ -53,8 +43,11 @@ namespace NewCRM.Domain.DomainModel.Account
 
         #region public attirbute
 
-
-
+        public UserConfig Configs
+        {
+            get { return _config; }
+            set { _config = value; }
+        }
 
         [Required, StringLength(50)]
         public String Name
@@ -75,7 +68,7 @@ namespace NewCRM.Domain.DomainModel.Account
         }
 
         [Required]
-        public bool Enabled
+        public Boolean Enabled
         {
             get { return _enabled; }
             set { _enabled = value; }
@@ -85,80 +78,6 @@ namespace NewCRM.Domain.DomainModel.Account
         {
             get { return _lastLoginTime; }
             set { _lastLoginTime = value; }
-        }
-        //新增字段
-        [StringLength(10)]
-        public String AppXy
-        {
-            get { return _appXy; }
-            set { _appXy = value; }
-        }
-
-        [StringLength(10)]
-        public String DockPosition
-        {
-            get { return _dockPosition; }
-            set { _dockPosition = value; }
-        }
-
-        [StringLength(10)]
-        public String Skin
-        {
-            get { return _skin; }
-            set { _skin = value; }
-        }
-
-        [StringLength(500)]
-        public String Dock
-        {
-            get { return _dock; }
-            set { _dock = value; }
-        }
-
-        [StringLength(50)]
-        public String WallpaperShowType
-        {
-            get { return _wallpaperShowType; }
-            set { _wallpaperShowType = value; }
-        }
-
-        public String UserFace
-        {
-            get { return _userFace; }
-            set { _userFace = value; }
-        }
-
-        public Configs Config
-        {
-            get { return _config; }
-            set { _config = value; }
-        }
-
-        public Int32 AppSize
-        {
-            get { return _appSize; }
-            set { _appSize = value; }
-        }
-
-        public Int32 AppVerticalSpacing
-        {
-            get { return _appVerticalSpacing; }
-            set { _appVerticalSpacing = value; }
-        }
-
-        public Int32 AppHorizontalSpacing
-        {
-            get { return _appHorizontalSpacing; }
-            set { _appHorizontalSpacing = value; }
-        }
-
-
-
-
-        public Int32 DefaultDesk
-        {
-            get { return _defaultDesk; }
-            set { _defaultDesk = value; }
         }
 
         public virtual Depts Dept
@@ -171,6 +90,12 @@ namespace NewCRM.Domain.DomainModel.Account
         {
             get { return _wallpaper; }
             set { _wallpaper = value; }
+        }
+
+        public virtual Title Title
+        {
+            get { return _title; }
+            set { _title = value; }
         }
 
         public virtual ICollection<App> Apps
@@ -191,15 +116,17 @@ namespace NewCRM.Domain.DomainModel.Account
             set { _roles = value; }
         }
 
-        public virtual Title Title
-        {
-            get { return _title; }
-            set { _title = value; }
-        }
+
         public virtual ICollection<Desk> Desks
         {
             get { return _desks; }
             set { _desks = value; }
+        }
+
+        public virtual ICollection<Log> Logs
+        {
+            get { return _logs; }
+            set { _logs = value; }
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using NewCRM.Domain.DomainModel.Account;
 
@@ -7,14 +8,12 @@ namespace NewCRM.Domain.DomainModel.System
     public class Desk : EntityBase<Int32>
     {
         #region private field
-       
+
         private String _deskName;
 
-      
-
-        private String _app;
-
         private User _user;
+
+        private ICollection<App> _apps;
         #endregion
 
         public Desk()
@@ -31,11 +30,10 @@ namespace NewCRM.Domain.DomainModel.System
             set { _deskName = value; }
         }
 
-
-        public String App
+        public virtual ICollection<App> Apps
         {
-            get { return _app; }
-            set { _app = value; }
+            get { return _apps; }
+            set { _apps = value; }
         }
 
         public virtual User User

@@ -30,30 +30,28 @@ namespace NewCRM.Domain.DomainModel.System
         private Boolean _isOpenMax;
         private Boolean _isLock;
         private Boolean _isSystem;
+
         private AppType _appType;
+        private Desk _desk;
+
         private ICollection<Power> _powers;
-        private ICollection<Folder> _folders;
+        private Folder _folder;
         private ICollection<User> _users;
         #endregion
 
         #region ctor
 
-  
+
 
         public App()
         {
-          
+
         }
         #endregion
 
         #region public attribute
-        
-       
-        public virtual ICollection<User> Users
-        {
-            get { return _users; }
-            set { _users = value; }
-        }
+
+
 
         [Required, StringLength(50)]
         public String Name
@@ -139,7 +137,7 @@ namespace NewCRM.Domain.DomainModel.System
             set { _isLock = value; }
         }
 
-        public int UserCount
+        public Int32 UserCount
         {
             get { return _userCount; }
             set { _userCount = value; }
@@ -163,16 +161,11 @@ namespace NewCRM.Domain.DomainModel.System
             set { _appInternalClass = value; }
         }
 
-        public virtual ICollection<Power> Powers
-        {
-            get { return _powers; }
-            set { _powers = value; }
-        }
 
-        public virtual ICollection<Folder> Folder
+        public virtual Desk Desk
         {
-            get { return _folders; }
-            set { _folders = value; }
+            get { return _desk; }
+            set { _desk = value; }
         }
 
         public virtual AppType AppType
@@ -180,6 +173,26 @@ namespace NewCRM.Domain.DomainModel.System
             get { return _appType; }
             set { _appType = value; }
         }
+
+        public virtual ICollection<Power> Powers
+        {
+            get { return _powers; }
+            set { _powers = value; }
+        }
+
+        public virtual Folder Folder
+        {
+            get { return _folder; }
+            set { _folder = value; }
+        }
+
+
+        public virtual ICollection<User> Users
+        {
+            get { return _users; }
+            set { _users = value; }
+        }
+
         #endregion
     }
 }

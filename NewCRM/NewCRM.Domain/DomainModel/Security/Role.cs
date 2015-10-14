@@ -7,11 +7,10 @@ using NewCRM.Domain.DomainModel.Account;
 
 namespace NewCRM.Domain.DomainModel.Security
 {
-    [Description("脚色")]
+    [Description("角色")]
     [Serializable]
     public class Role : EntityBase<Int32>, IAggregationRoot
     {
-
         #region private field
         private String _name;
         private String _remark;
@@ -46,13 +45,11 @@ namespace NewCRM.Domain.DomainModel.Security
             set { _remark = value; }
         }
 
-
         public virtual ICollection<User> Users
         {
             get { return _users; }
             set { _users = value; }
         }
-
 
         public virtual ICollection<Power> Powers
         {

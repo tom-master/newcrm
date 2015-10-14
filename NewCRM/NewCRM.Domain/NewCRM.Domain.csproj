@@ -54,11 +54,10 @@
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="DomainModel\Security\Depts.cs" />
     <Compile Include="DomainModel\Security\Power.cs" />
-    <Compile Include="DomainModel\Security\PowerType.cs" />
     <Compile Include="DomainModel\Security\Role.cs" />
     <Compile Include="DomainModel\System\App.cs" />
     <Compile Include="DomainModel\System\AppType.cs" />
-    <Compile Include="DomainModel\System\Configs.cs" />
+    <Compile Include="DomainModel\System\UserConfig.cs" />
     <Compile Include="DomainModel\System\Folder.cs" />
     <Compile Include="DomainModel\System\Log.cs" />
     <Compile Include="DomainModel\System\Online.cs" />

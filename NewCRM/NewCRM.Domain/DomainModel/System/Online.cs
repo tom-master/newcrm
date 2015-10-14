@@ -15,13 +15,10 @@ namespace NewCRM.Domain.DomainModel.System
         #endregion
 
         #region ctor
-
-     
         public Online()
         {
-            // TODO: Complete member initialization
+            
         }
-
         #endregion
 
         #region public attribute

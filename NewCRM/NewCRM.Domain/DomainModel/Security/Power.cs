@@ -15,24 +15,21 @@ namespace NewCRM.Domain.DomainModel.Security
         private String _groupName;
         private String _title;
         private String _remark;
-        private PowerType _powerType;
+        private String _powerType;
         private ICollection<Role> _roles;
         private ICollection<Folder> _folders;
         #endregion
 
         #region ctor
-
-     
-
         private Power()
         {
-            
+
         }
 
         #endregion
 
         #region public attribute
-        public PowerType PowerType
+        public String PowerType
         {
             get
             {

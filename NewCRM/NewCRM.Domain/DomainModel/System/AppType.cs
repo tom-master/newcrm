@@ -19,7 +19,7 @@ namespace NewCRM.Domain.DomainModel.System
 
         public AppType()
         {
-            // TODO: Complete member initialization
+            
         }
         #endregion
 

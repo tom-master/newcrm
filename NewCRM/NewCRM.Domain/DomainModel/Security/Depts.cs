@@ -17,10 +17,10 @@ namespace NewCRM.Domain.DomainModel.Security
         #endregion
 
         #region ctor
-      
+
         public Depts()
         {
-            // TODO: Complete member initialization
+
         }
 
         #endregion

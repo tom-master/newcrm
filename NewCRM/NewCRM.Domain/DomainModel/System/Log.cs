@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using NewCRM.Domain.DomainModel.Account;
+
 namespace NewCRM.Domain.DomainModel.System
 {
     [Description("日志")]
@@ -12,22 +14,18 @@ namespace NewCRM.Domain.DomainModel.System
         private String _logger;
         private String _message;
         private String _exception;
+
+        private User _user;
         #endregion
 
         #region ctor
-
-    
-
         public Log()
         {
-            // TODO: Complete member initialization
         }
 
         #endregion
 
         #region public attribute
-
-
 
         [StringLength(20)]
         public String Levels
@@ -55,6 +53,13 @@ namespace NewCRM.Domain.DomainModel.System
         {
             get { return _exception; }
             set { _exception = value; }
+        }
+
+
+        public virtual User User
+        {
+            get { return _user; }
+            set { _user = value; }
         }
 
         #endregion
