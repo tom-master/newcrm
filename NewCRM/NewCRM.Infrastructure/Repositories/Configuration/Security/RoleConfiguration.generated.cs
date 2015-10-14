@@ -22,12 +22,12 @@ using NewCRM.Domain.DomainModel.System;
 namespace NewCRM.Infrastructure.Repositories.Configurations
 {
     /// <summary>
-    /// 实体类-数据表映射——脚色
+    /// 实体类-数据表映射——角色
     /// </summary>    
     internal partial class RoleConfiguration : EntityTypeConfiguration<Role>, IEntityMapper
     {
         /// <summary>
-        /// 实体类-数据表映射构造函数——脚色
+        /// 实体类-数据表映射构造函数——角色
         /// </summary>
         public RoleConfiguration()
         {

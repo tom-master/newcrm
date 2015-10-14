@@ -7,7 +7,7 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
 {
     public sealed class NewCrmBackSite : DbContext
     {
-        private DbSet<Configs> _configs;
+        private DbSet<UserConfig> _configs;
         private DbSet<Depts> _depts;
         private DbSet<User> _users;
         private DbSet<Role> _roles;
@@ -26,7 +26,7 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
 
         }
 
-        public DbSet<Configs> Configs
+        public DbSet<UserConfig> Configs
         {
             get { return _configs; }
             set { _configs = value; }
@@ -103,78 +103,78 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<User>()
-                .HasRequired(u => u.Config).WithOptional(c => c.User).Map(m => m.MapKey("ConfigId"));
+            //modelBuilder.Entity<User>()
+            //    .HasRequired(u => u.Config).WithOptional(c => c.User).Map(m => m.MapKey("ConfigId"));
 
-            modelBuilder.Entity<Title>().HasMany(t => t.Users).WithOptional(t => t.Title).Map(m => m.MapKey("TitleId"));
+            //modelBuilder.Entity<Title>().HasMany(t => t.Users).WithOptional(t => t.Title).Map(m => m.MapKey("TitleId"));
 
-            modelBuilder.Entity<User>()
-                .HasOptional(u => u.Dept)
-                .WithMany(d => d.Users)
-                .Map(d => d.MapKey("DeptId"));
+            //modelBuilder.Entity<User>()
+            //    .HasOptional(u => u.Dept)
+            //    .WithMany(d => d.Users)
+            //    .Map(d => d.MapKey("DeptId"));
 
-            modelBuilder.Entity<User>()
-                .HasOptional(u => u.Wallpaper)
-                .WithMany(w => w.Users)
-                .Map(w => w.MapKey("WallpaperId"));
+            //modelBuilder.Entity<User>()
+            //    .HasOptional(u => u.Wallpaper)
+            //    .WithMany(w => w.Users)
+            //    .Map(w => w.MapKey("WallpaperId"));
 
-            modelBuilder.Entity<Desk>().HasOptional(d => d.User).WithMany(w => w.Desks).Map(w => w.MapKey("UserId"));
+            //modelBuilder.Entity<Desk>().HasOptional(d => d.User).WithMany(w => w.Desks).Map(w => w.MapKey("UserId"));
 
-            modelBuilder.Entity<User>().HasMany(u => u.Apps).WithMany(a => a.Users).Map(s =>
-            {
-                s.ToTable("UserApp");
-                s.MapLeftKey("UserId");
-                s.MapRightKey("AppId");
-            });
+            //modelBuilder.Entity<User>().HasMany(u => u.Apps).WithMany(a => a.Users).Map(s =>
+            //{
+            //    s.ToTable("UserApp");
+            //    s.MapLeftKey("UserId");
+            //    s.MapRightKey("AppId");
+            //});
 
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.Folders).WithMany(f => f.Users).Map(m =>
-                {
-                    m.MapLeftKey("UserId");
-                    m.MapRightKey("FolderId");
-                    m.ToTable("UserFolders");
-                });
-
-
-            modelBuilder.Entity<User>().HasMany(u => u.Roles).WithMany(r => r.Users).Map(m =>
-            {
-                m.ToTable("UserRole");
-                m.MapLeftKey("UserId");
-                m.MapRightKey("RoleId");
-            });
+            //modelBuilder.Entity<User>()
+            //    .HasMany(u => u.Folders).WithMany(f => f.Users).Map(m =>
+            //    {
+            //        m.MapLeftKey("UserId");
+            //        m.MapRightKey("FolderId");
+            //        m.ToTable("UserFolders");
+            //    });
 
 
-
-            modelBuilder.Entity<Folder>().HasMany(f => f.Apps).WithMany(a => a.Folder).Map(m=>m.ToTable("FolderApps").MapLeftKey("FolderId").MapRightKey("AppId"));
-
-
-            modelBuilder.Entity<AppType>().HasMany(a => a.Apps).WithOptional(a => a.AppType).Map(m => m.MapKey("AppTypeId"));
-
-
-            modelBuilder.Entity<Power>().HasMany(p => p.Roles).WithMany(r => r.Powers).Map(m =>
-            {
-                m.ToTable("RolePowers").MapLeftKey("RoleId").MapRightKey("PowerId");
-            });
-
-
-            modelBuilder.Entity<Folder>()
-                .HasMany(f => f.Powers).WithMany().Map(m =>
-                {
-                    m.ToTable("FolderPowers").MapLeftKey("FolderId").MapRightKey("PowerId");
-                });
+            //modelBuilder.Entity<User>().HasMany(u => u.Roles).WithMany(r => r.Users).Map(m =>
+            //{
+            //    m.ToTable("UserRole");
+            //    m.MapLeftKey("UserId");
+            //    m.MapRightKey("RoleId");
+            //});
 
 
 
-            modelBuilder.Entity<App>()
-                .HasMany(a => a.Powers).WithMany().Map(m =>
-                {
-                    m.ToTable("AppPowers").MapLeftKey("AppId").MapRightKey("PowerId");
-                });
+            //modelBuilder.Entity<Folder>().HasMany(f => f.Apps).WithMany(a => a.Folder).Map(m=>m.ToTable("FolderApps").MapLeftKey("FolderId").MapRightKey("AppId"));
 
-            modelBuilder.Entity<Power>()
-                .HasOptional(p => p.PowerType)
-                .WithMany(pt => pt.Powers)
-                .Map(m => m.MapKey("PowerTypeId"));
+
+            //modelBuilder.Entity<AppType>().HasMany(a => a.Apps).WithOptional(a => a.AppType).Map(m => m.MapKey("AppTypeId"));
+
+
+            //modelBuilder.Entity<Power>().HasMany(p => p.Roles).WithMany(r => r.Powers).Map(m =>
+            //{
+            //    m.ToTable("RolePowers").MapLeftKey("RoleId").MapRightKey("PowerId");
+            //});
+
+
+            //modelBuilder.Entity<Folder>()
+            //    .HasMany(f => f.Powers).WithMany().Map(m =>
+            //    {
+            //        m.ToTable("FolderPowers").MapLeftKey("FolderId").MapRightKey("PowerId");
+            //    });
+
+
+
+            //modelBuilder.Entity<App>()
+            //    .HasMany(a => a.Powers).WithMany().Map(m =>
+            //    {
+            //        m.ToTable("AppPowers").MapLeftKey("AppId").MapRightKey("PowerId");
+            //    });
+
+            //modelBuilder.Entity<Power>()
+            //    .HasOptional(p => p.PowerType)
+            //    .WithMany(pt => pt.Powers)
+            //    .Map(m => m.MapKey("PowerTypeId"));
         }
     }
 }
