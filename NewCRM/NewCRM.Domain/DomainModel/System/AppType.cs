@@ -9,7 +9,7 @@ namespace NewCRM.Domain.DomainModel.System
     public class AppType : EntityBase<Int32>,IAggregationRoot
     {
         #region private field
-        private String _name;
+        private String _name;    
         private String _remake;
         private ICollection<App> _apps;
         #endregion
