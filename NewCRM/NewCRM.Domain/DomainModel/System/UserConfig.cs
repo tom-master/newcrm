@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using NewCRM.Domain.DomainModel.Account;
@@ -24,9 +25,9 @@ namespace NewCRM.Domain.DomainModel.System
         private Int32 _appVerticalSpacing;
         private Int32 _appHorizontalSpacing;
 
-
+        private Wallpaper _wallpaper;
         private User _user;
-
+        private ICollection<Desk> _desks;
         #endregion
 
         #region ctor
@@ -114,10 +115,21 @@ namespace NewCRM.Domain.DomainModel.System
             set { _defaultDesk = value; }
         }
 
+        public virtual Wallpaper Wallpaper
+        {
+            get { return _wallpaper; }
+            set { _wallpaper = value; }
+        }
         public virtual User User
         {
             get { return _user; }
             set { _user = value; }
+        }
+
+        public virtual ICollection<Desk> Desks
+        {
+            get { return _desks; }
+            set { _desks = value; }
         }
         #endregion
     }

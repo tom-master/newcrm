@@ -16,10 +16,11 @@ namespace NewCRM.Domain.DomainModel.System
         private ICollection<App> _apps;
         #endregion
 
+        #region ctor
         public Desk()
         {
         }
-
+        #endregion
 
         #region public attribute
 

@@ -19,16 +19,13 @@ namespace NewCRM.Domain.DomainModel.Account
         private Boolean _enabled;
         private DateTime _lastLoginTime;
 
-
-        private UserConfig _config;
+        private UserConfig _userConfig;
         private Title _title;
         private Depts _dept;
-        private Wallpaper _wallpaper;
 
         private ICollection<Role> _roles;
         private ICollection<App> _apps;
         private ICollection<Folder> _folders;
-        private ICollection<Desk> _desks;
         private ICollection<Log> _logs;
 
         #endregion
@@ -42,12 +39,6 @@ namespace NewCRM.Domain.DomainModel.Account
         #endregion
 
         #region public attirbute
-
-        public UserConfig Configs
-        {
-            get { return _config; }
-            set { _config = value; }
-        }
 
         [Required, StringLength(50)]
         public String Name
@@ -80,16 +71,16 @@ namespace NewCRM.Domain.DomainModel.Account
             set { _lastLoginTime = value; }
         }
 
+        public UserConfig UserConfig
+        {
+            get { return _userConfig; }
+            set { _userConfig = value; }
+        }
+
         public virtual Depts Dept
         {
             get { return _dept; }
             set { _dept = value; }
-        }
-
-        public virtual Wallpaper Wallpaper
-        {
-            get { return _wallpaper; }
-            set { _wallpaper = value; }
         }
 
         public virtual Title Title
@@ -114,13 +105,6 @@ namespace NewCRM.Domain.DomainModel.Account
         {
             get { return _roles; }
             set { _roles = value; }
-        }
-
-
-        public virtual ICollection<Desk> Desks
-        {
-            get { return _desks; }
-            set { _desks = value; }
         }
 
         public virtual ICollection<Log> Logs
