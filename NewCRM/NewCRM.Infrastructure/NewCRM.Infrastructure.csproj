@@ -91,24 +91,22 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Configuration\Account\TitleConfiguration.generated.cs" />
     <Compile Include="Repositories\Configuration\Account\UserConfiguration.generated.cs" />
-    <Compile Include="Repositories\Configuration\Security\DeptsConfiguration.generated.cs" />
+    <Compile Include="Repositories\Configuration\Security\DepartmentConfiguration.generated.cs" />
     <Compile Include="Repositories\Configuration\Security\PowerConfiguration.generated.cs" />
     <Compile Include="Repositories\Configuration\Security\RoleConfiguration.generated.cs" />
     <Compile Include="Repositories\Configuration\System\AppConfiguration.generated.cs" />
     <Compile Include="Repositories\Configuration\System\AppTypeConfiguration.generated.cs" />
     <Compile Include="Repositories\Configuration\System\FolderConfiguration.generated.cs" />
-    <Compile Include="Repositories\Configuration\System\OnlineConfiguration.generated.cs" />
     <Compile Include="Repositories\Configuration\System\WallpaperConfiguration.generated.cs" />
     <Compile Include="Repositories\Migrations\Configuration.cs" />
     <Compile Include="Repositories\Repositories\Account\ITitleRepository.cs" />
     <Compile Include="Repositories\Repositories\Account\IUserRepository.cs" />
-    <Compile Include="Repositories\Repositories\Security\IDeptsRepository.cs" />
+    <Compile Include="Repositories\Repositories\Security\IDepartmentRepository.cs" />
     <Compile Include="Repositories\Repositories\Security\IPowerRepository.cs" />
     <Compile Include="Repositories\Repositories\Security\IRoleRepository.cs" />
     <Compile Include="Repositories\Repositories\System\IAppRepository.cs" />
     <Compile Include="Repositories\Repositories\System\IAppTypeRepository.cs" />
     <Compile Include="Repositories\Repositories\System\IFolderRepository.cs" />
-    <Compile Include="Repositories\Repositories\System\IOnlineRepository.cs" />
     <Compile Include="Repositories\Repositories\System\IWallpaperRepository.cs" />
     <Compile Include="Repositories\RepositoryFactory.cs" />
     <Compile Include="Repositories\RepositoryProvide\DbContextExtensions.cs" />
@@ -116,24 +114,27 @@
     <Compile Include="Repositories\RepositoryProvide\IEntityMappercs.cs" />
     <Compile Include="Repositories\RepositoryProvide\NewCrmBackSite.cs" />
     <Compile Include="Repositories\T4Template\EntityScript.cs" />
-    <Compile Include="Repositories\T4Template\EntityScript1.cs">
-      <DependentUpon>EntityScript.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
+    <Compile Include="Repositories\T4Template\EntityScript1.cs" />
+    <Compile Include="Repositories\T4Template\EntityScript2.cs">
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EntityScript.tt</DependentUpon>
     </Compile>
     <Compile Include="Repositories\T4Template\EntityScript5.cs" />
     <Compile Include="Repositories\T4Template\Template\EntityConfigurationTemplate.cs" />
-    <Compile Include="Repositories\T4Template\Template\EntityConfigurationTemplate1.cs">
-      <DependentUpon>EntityConfigurationTemplate.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
+    <Compile Include="Repositories\T4Template\Template\EntityConfigurationTemplate1.cs" />
+    <Compile Include="Repositories\T4Template\Template\EntityConfigurationTemplate2.cs">
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EntityConfigurationTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="Repositories\T4Template\Template\EntityConfigurationTemplate5.cs" />
     <Compile Include="Repositories\T4Template\Template\IEntityRepositoryTemplate.cs" />
-    <Compile Include="Repositories\T4Template\Template\IEntityRepositoryTemplate1.cs">
-      <DependentUpon>IEntityRepositoryTemplate.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
+    <Compile Include="Repositories\T4Template\Template\IEntityRepositoryTemplate1.cs" />
+    <Compile Include="Repositories\T4Template\Template\IEntityRepositoryTemplate2.cs">
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IEntityRepositoryTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="Repositories\T4Template\Template\IEntityRepositoryTemplate5.cs" />
     <Compile Include="Repositories\UnitOfWorkProvide\EfUnitOfWorkContext.cs" />
@@ -158,38 +159,36 @@
   <ItemGroup>
     <Content Include="Repositories\T4Template\EntityScript.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>EntityScript1.cs</LastGenOutput>
+      <LastGenOutput>EntityScript2.cs</LastGenOutput>
       <LastOutputs>
 ..\Configuration\Account\TitleConfiguration.generated.cs
 ..\Configuration\Account\UserConfiguration.generated.cs
-..\Configuration\Security\DeptsConfiguration.generated.cs
+..\Configuration\Security\DepartmentConfiguration.generated.cs
 ..\Configuration\Security\PowerConfiguration.generated.cs
 ..\Configuration\Security\RoleConfiguration.generated.cs
 ..\Configuration\System\AppConfiguration.generated.cs
 ..\Configuration\System\AppTypeConfiguration.generated.cs
 ..\Configuration\System\FolderConfiguration.generated.cs
-..\Configuration\System\OnlineConfiguration.generated.cs
 ..\Configuration\System\WallpaperConfiguration.generated.cs
 ..\Repositories\Account\ITitleRepository.cs
 ..\Repositories\Account\IUserRepository.cs
-..\Repositories\Security\IDeptsRepository.cs
+..\Repositories\Security\IDepartmentRepository.cs
 ..\Repositories\Security\IPowerRepository.cs
 ..\Repositories\Security\IRoleRepository.cs
 ..\Repositories\System\IAppRepository.cs
 ..\Repositories\System\IAppTypeRepository.cs
 ..\Repositories\System\IFolderRepository.cs
-..\Repositories\System\IOnlineRepository.cs
 ..\Repositories\System\IWallpaperRepository.cs
-.\EntityScript1.cs
+.\EntityScript2.cs
 </LastOutputs>
     </Content>
     <Content Include="Repositories\T4Template\Template\EntityConfigurationTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>EntityConfigurationTemplate1.cs</LastGenOutput>
+      <LastGenOutput>EntityConfigurationTemplate2.cs</LastGenOutput>
     </Content>
     <Content Include="Repositories\T4Template\Template\IEntityRepositoryTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IEntityRepositoryTemplate1.cs</LastGenOutput>
+      <LastGenOutput>IEntityRepositoryTemplate2.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

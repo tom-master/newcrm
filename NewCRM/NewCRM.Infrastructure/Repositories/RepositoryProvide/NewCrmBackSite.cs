@@ -7,8 +7,8 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
 {
     public sealed class NewCrmBackSite : DbContext
     {
-        private DbSet<UserConfig> _configs;
-        private DbSet<Depts> _depts;
+        private DbSet<UserConfigure> _configs;
+        private DbSet<Department> _depts;
         private DbSet<User> _users;
         private DbSet<Role> _roles;
         private DbSet<Title> _titles;
@@ -26,13 +26,13 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
 
         }
 
-        public DbSet<UserConfig> Configs
+        public DbSet<UserConfigure> Configs
         {
             get { return _configs; }
             set { _configs = value; }
         }
 
-        public DbSet<Depts> Depts
+        public DbSet<Department> Depts
         {
             get { return _depts; }
             set { _depts = value; }

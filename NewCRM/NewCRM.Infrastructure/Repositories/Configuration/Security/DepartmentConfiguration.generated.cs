@@ -24,20 +24,20 @@ namespace NewCRM.Infrastructure.Repositories.Configurations
     /// <summary>
     /// 实体类-数据表映射——部门
     /// </summary>    
-    internal partial class DeptsConfiguration : EntityTypeConfiguration<Depts>, IEntityMapper
+    internal partial class DepartmentConfiguration : EntityTypeConfiguration<Department>, IEntityMapper
     {
         /// <summary>
         /// 实体类-数据表映射构造函数——部门
         /// </summary>
-        public DeptsConfiguration()
+        public DepartmentConfiguration()
         {
-            DeptsConfigurationAppend();
+            DepartmentConfigurationAppend();
         }
         
         /// <summary>
         /// 额外的数据映射
         /// </summary>
-        partial void DeptsConfigurationAppend();
+        partial void DepartmentConfigurationAppend();
         
         /// <summary>
         /// 将当前实体映射对象注册到当前数据访问上下文实体映射配置注册器中
