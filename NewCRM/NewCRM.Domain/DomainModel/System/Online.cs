@@ -7,7 +7,7 @@ namespace NewCRM.Domain.DomainModel.System
 {
     [Description("在线人数")]
     [Serializable]
-    public class Online : EntityBase<Int32>, IAggregationRoot
+    public class Online : EntityBase<Int32>
     {
         #region private field
         private String _ipAdddress;
@@ -17,7 +17,7 @@ namespace NewCRM.Domain.DomainModel.System
         #region ctor
         public Online()
         {
-            
+
         }
         #endregion
 

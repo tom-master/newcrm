@@ -49,11 +49,11 @@
     <Compile Include="DomainModel\Account\User.cs" />
     <Compile Include="DomainModel\EntityBase.cs" />
     <Compile Include="DomainModel\IAggregationRoot.cs" />
-    <Compile Include="DomainModel\System\UserConfig.cs" />
+    <Compile Include="DomainModel\System\UserConfigure.cs" />
     <Compile Include="DomainModel\System\Desk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IRepository.cs" />
-    <Compile Include="DomainModel\Security\Depts.cs" />
+    <Compile Include="DomainModel\Security\Department.cs" />
     <Compile Include="DomainModel\Security\Power.cs" />
     <Compile Include="DomainModel\Security\Role.cs" />
     <Compile Include="DomainModel\System\App.cs" />

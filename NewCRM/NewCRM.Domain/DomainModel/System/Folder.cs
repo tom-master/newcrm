@@ -14,15 +14,13 @@ namespace NewCRM.Domain.DomainModel.System
         private String _name;
         private String _icon;
         private String _remake;
-        private ICollection<User> _users;
         private ICollection<App> _apps;
-        private ICollection<Power> _powers;
+
+        private Desk _desk;
+
         #endregion
 
         #region ctor
-
-      
-
         public Folder()
         {
             // TODO: Complete member initialization
@@ -31,11 +29,6 @@ namespace NewCRM.Domain.DomainModel.System
         #endregion
 
         #region public attribute
-        public virtual ICollection<Power> Powers
-        {
-            get { return _powers; }
-            set { _powers = value; }
-        }
 
         [Required, StringLength(50)]
         public String Name
@@ -58,16 +51,22 @@ namespace NewCRM.Domain.DomainModel.System
             set { _remake = value; }
         }
 
-        public virtual ICollection<User> Users
-        {
-            get { return _users; }
-            set { _users = value; }
-        }
-
         public virtual ICollection<App> Apps
         {
             get { return _apps; }
             set { _apps = value; }
+        }
+
+        public virtual Desk Desk
+        {
+            get
+            {
+                return _desk;
+            }
+            set
+            {
+                _desk = value;
+            }
         }
         #endregion
     }

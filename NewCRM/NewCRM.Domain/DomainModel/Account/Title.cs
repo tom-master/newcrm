@@ -11,7 +11,6 @@ namespace NewCRM.Domain.DomainModel.Account
         #region private field
         private String _name;
         private String _remark;
-        private ICollection<User> _users;
         #endregion
 
         #region ctor
@@ -40,11 +39,6 @@ namespace NewCRM.Domain.DomainModel.Account
             set { _remark = value; }
         }
 
-        public virtual ICollection<User> Users
-        {
-            get { return _users; }
-            set { _users = value; }
-        }
         #endregion
     }
 }

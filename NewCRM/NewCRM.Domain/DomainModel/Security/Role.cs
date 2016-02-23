@@ -14,7 +14,6 @@ namespace NewCRM.Domain.DomainModel.Security
         #region private field
         private String _name;
         private String _remark;
-        private ICollection<User> _users;
         private ICollection<Power> _powers;
         #endregion
 
@@ -43,12 +42,6 @@ namespace NewCRM.Domain.DomainModel.Security
         {
             get { return _remark; }
             set { _remark = value; }
-        }
-
-        public virtual ICollection<User> Users
-        {
-            get { return _users; }
-            set { _users = value; }
         }
 
         public virtual ICollection<Power> Powers

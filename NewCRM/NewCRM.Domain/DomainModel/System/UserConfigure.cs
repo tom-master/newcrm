@@ -8,7 +8,7 @@ namespace NewCRM.Domain.DomainModel.System
 {
     [Description("系统配置")]
     [Serializable]
-    public class UserConfig : EntityBase<Int32>
+    public class UserConfigure : EntityBase<Int32>
     {
 
         #region private field
@@ -26,14 +26,12 @@ namespace NewCRM.Domain.DomainModel.System
         private Int32 _appHorizontalSpacing;
 
         private Wallpaper _wallpaper;
-        private User _user;
-        private ICollection<Desk> _desks;
         #endregion
 
         #region ctor
 
 
-        public UserConfig()
+        public UserConfigure()
         {
             // TODO: Complete member initialization
         }
@@ -119,17 +117,6 @@ namespace NewCRM.Domain.DomainModel.System
         {
             get { return _wallpaper; }
             set { _wallpaper = value; }
-        }
-        public virtual User User
-        {
-            get { return _user; }
-            set { _user = value; }
-        }
-
-        public virtual ICollection<Desk> Desks
-        {
-            get { return _desks; }
-            set { _desks = value; }
         }
         #endregion
     }

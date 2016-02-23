@@ -8,7 +8,7 @@ namespace NewCRM.Domain.DomainModel.Security
 {
     [Description("部门")]
     [Serializable]
-    public class Depts : EntityBase<Int32>, IAggregationRoot
+    public class Department : EntityBase<Int32>, IAggregationRoot
     {
         #region private field
         private String _name;
@@ -18,7 +18,7 @@ namespace NewCRM.Domain.DomainModel.Security
 
         #region ctor
 
-        public Depts()
+        public Department()
         {
 
         }

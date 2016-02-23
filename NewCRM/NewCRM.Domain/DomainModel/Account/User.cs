@@ -16,16 +16,17 @@ namespace NewCRM.Domain.DomainModel.Account
         private String _name;
         private String _password;
 
-        private Boolean _enabled;
+        private Boolean _isDisable;
         private DateTime _lastLoginTime;
 
-        private UserConfig _userConfig;
         private Title _title;
-        private Depts _dept;
+        private Department _department;
+        private UserConfigure _userConfigure;
 
         private ICollection<Role> _roles;
-        private ICollection<App> _apps;
-        private ICollection<Folder> _folders;
+
+        private ICollection<Desk> _desks;
+
         private ICollection<Log> _logs;
 
         #endregion
@@ -59,10 +60,10 @@ namespace NewCRM.Domain.DomainModel.Account
         }
 
         [Required]
-        public Boolean Enabled
+        public Boolean IsDisable
         {
-            get { return _enabled; }
-            set { _enabled = value; }
+            get { return _isDisable; }
+            set { _isDisable = value; }
         }
 
         public DateTime LastLoginTime
@@ -71,34 +72,22 @@ namespace NewCRM.Domain.DomainModel.Account
             set { _lastLoginTime = value; }
         }
 
-        public UserConfig UserConfig
+        public virtual UserConfigure UserConfigure
         {
-            get { return _userConfig; }
-            set { _userConfig = value; }
+            get { return _userConfigure; }
+            set { _userConfigure = value; }
         }
 
-        public virtual Depts Dept
+        public virtual Department Department
         {
-            get { return _dept; }
-            set { _dept = value; }
+            get { return _department; }
+            set { _department = value; }
         }
 
         public virtual Title Title
         {
             get { return _title; }
             set { _title = value; }
-        }
-
-        public virtual ICollection<App> Apps
-        {
-            get { return _apps; }
-            set { _apps = value; }
-        }
-
-        public virtual ICollection<Folder> Folders
-        {
-            get { return _folders; }
-            set { _folders = value; }
         }
 
         public virtual ICollection<Role> Roles
@@ -111,6 +100,18 @@ namespace NewCRM.Domain.DomainModel.Account
         {
             get { return _logs; }
             set { _logs = value; }
+        }
+
+        public virtual ICollection<Desk> Desks
+        {
+            get
+            {
+                return _desks;
+            }
+            set
+            {
+                _desks = value;
+            }
         }
 
 

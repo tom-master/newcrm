@@ -11,25 +11,21 @@ namespace NewCRM.Domain.DomainModel.System
     public class Wallpaper : EntityBase<Int32>, IAggregationRoot
     {
         #region private fiele
+
         private String _title;
         private String _url;
-        private String _smallUrl;
-        private String _wallpaperType;
-        private String _wallpaperWebUr;
+        private String _displayType;
         private String _description;
         private Int32 _width;
         private Int32 _heigth;
         private Boolean _isSystem;
         private Int32 _uploaderId;
 
-        private ICollection<User> _users;
-
-
         #endregion
 
         #region ctor
 
-     
+
 
         public Wallpaper()
         {
@@ -52,13 +48,6 @@ namespace NewCRM.Domain.DomainModel.System
         {
             get { return _url; }
             set { _url = value; }
-        }
-
-        [Required, StringLength(100)]
-        public String SmallUrl
-        {
-            get { return _smallUrl; }
-            set { _smallUrl = value; }
         }
 
         public Int32 Width
@@ -87,23 +76,12 @@ namespace NewCRM.Domain.DomainModel.System
         }
 
         [StringLength(10)]
-        public String WallpaperType
+        public String DisplayType
         {
-            get { return _wallpaperType; }
-            set { _wallpaperType = value; }
+            get { return _displayType; }
+            set { _displayType = value; }
         }
 
-        [StringLength(150)]
-        public String WallpaperWebUrl
-        {
-            get { return _wallpaperWebUr; }
-            set { _wallpaperWebUr = value; }
-        }
-        public virtual ICollection<User> Users
-        {
-            get { return _users; }
-            set { _users = value; }
-        }
         public Int32 UploaderId
         {
             get { return _uploaderId; }

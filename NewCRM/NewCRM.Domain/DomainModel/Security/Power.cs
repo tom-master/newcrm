@@ -15,9 +15,6 @@ namespace NewCRM.Domain.DomainModel.Security
         private String _groupName;
         private String _title;
         private String _remark;
-        private String _powerType;
-        private ICollection<Role> _roles;
-        private ICollection<Folder> _folders;
         #endregion
 
         #region ctor
@@ -29,20 +26,6 @@ namespace NewCRM.Domain.DomainModel.Security
         #endregion
 
         #region public attribute
-        public String PowerType
-        {
-            get
-            {
-                return _powerType;
-            }
-            set { _powerType = value; }
-        }
-
-        public ICollection<Folder> Folders
-        {
-            get { return _folders; }
-            set { _folders = value; }
-        }
 
         [Required, StringLength(50)]
         public String Name
@@ -70,11 +53,6 @@ namespace NewCRM.Domain.DomainModel.Security
         {
             get { return _remark; }
             set { _remark = value; }
-        }
-        public virtual ICollection<Role> Roles
-        {
-            get { return _roles; }
-            set { _roles = value; }
         }
         #endregion
     }

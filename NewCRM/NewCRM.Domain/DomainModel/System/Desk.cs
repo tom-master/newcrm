@@ -14,6 +14,8 @@ namespace NewCRM.Domain.DomainModel.System
         private User _user;
 
         private ICollection<App> _apps;
+
+        private ICollection<Folder> _folders;
         #endregion
 
         #region ctor
@@ -31,16 +33,23 @@ namespace NewCRM.Domain.DomainModel.System
             set { _deskName = value; }
         }
 
+        public virtual User User
+        {
+            get { return _user; }
+            set { _user = value; }
+        }
+
         public virtual ICollection<App> Apps
         {
             get { return _apps; }
             set { _apps = value; }
         }
 
-        public virtual User User
+
+        public virtual ICollection<Folder> Folders
         {
-            get { return _user; }
-            set { _user = value; }
+            get { return _folders; }
+            set { _folders = value; }
         }
         #endregion
 

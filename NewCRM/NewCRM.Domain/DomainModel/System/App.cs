@@ -15,10 +15,10 @@ namespace NewCRM.Domain.DomainModel.System
         #region private field
 
         private String _name;
+        private String _owner;
         private String _imageUrl;
         private String _navigateUrl;
         private String _remark;
-        private String _appInternalClass;
         private Int32 _sortIndex;
         private Int32 _width;
         private Int32 _height;
@@ -32,12 +32,10 @@ namespace NewCRM.Domain.DomainModel.System
         private Boolean _isLock;
         private Boolean _isSystem;
 
+
         private AppType _appType;
         private Desk _desk;
 
-        private ICollection<Power> _powers;
-        private Folder _folder;
-        private ICollection<User> _users;
         #endregion
 
         #region ctor
@@ -80,20 +78,20 @@ namespace NewCRM.Domain.DomainModel.System
         }
 
         [Required]
-        public int SortIndex
+        public Int32 SortIndex
         {
             get { return _sortIndex; }
             set { _sortIndex = value; }
         }
 
         [Required]
-        public int Width
+        public Int32 Width
         {
             get { return _width; }
             set { _width = value; }
         }
         [Required]
-        public int Height
+        public Int32 Height
         {
             get { return _height; }
             set { _height = value; }
@@ -152,14 +150,7 @@ namespace NewCRM.Domain.DomainModel.System
             get { return _isSystem; }
             set { _isSystem = value; }
         }
-
-        public String AppInternalClass
-        {
-            get { return _appInternalClass; }
-            set { _appInternalClass = value; }
-        }
-
-
+       
         public virtual Desk Desk
         {
             get { return _desk; }
@@ -172,24 +163,16 @@ namespace NewCRM.Domain.DomainModel.System
             set { _appType = value; }
         }
 
-        public virtual ICollection<Power> Powers
+        public virtual String Owner
         {
-            get { return _powers; }
-            set { _powers = value; }
-        }
-
-        public virtual Folder Folder
-        {
-            get { return _folder; }
-            set { _folder = value; }
+            get { return _owner; }
+            set
+            {
+                _owner = value;
+            }
         }
 
 
-        public virtual ICollection<User> Users
-        {
-            get { return _users; }
-            set { _users = value; }
-        }
 
         #endregion
     }
