@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-
 using NewCRM.Domain.DomainModel.Account;
+
 namespace NewCRM.Domain.DomainModel.Security
 {
     [Description("部门")]

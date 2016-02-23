@@ -13,6 +13,7 @@ namespace NewCRM.Domain.DomainModel.System
     public class App : EntityBase<Int32>, IAggregationRoot
     {
         #region private field
+
         private String _name;
         private String _imageUrl;
         private String _navigateUrl;
@@ -40,9 +41,6 @@ namespace NewCRM.Domain.DomainModel.System
         #endregion
 
         #region ctor
-
-
-
         public App()
         {
 
