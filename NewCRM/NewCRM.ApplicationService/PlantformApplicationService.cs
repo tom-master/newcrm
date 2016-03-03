@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using NewCRM.ApplicationService.IApplicationService;
 using NewCRM.Domain.DomainModel.System;
 using NewCRM.DomainService;
@@ -9,7 +8,6 @@ using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
 using NewCRM.Infrastructure.Repositories;
-using NewCRM.Infrastructure.Repositories.Repositories.System.Impl;
 
 namespace NewCRM.ApplicationService
 {
@@ -19,7 +17,7 @@ namespace NewCRM.ApplicationService
 
         public PlantformApplicationService()
         {
-            _platformDomainService = new PlatformDomainService(RepositoryFactory<Wallpaper, WallPaperRepository>.GetRepository());
+            /*_platformDomainService = new PlatformDomainService(RepositoryFactory<Wallpaper, Wa>.GetRepository());*/
         }
         /// <summary>
         /// 获取所有的壁纸

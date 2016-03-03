@@ -8,10 +8,8 @@ using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
 using NewCRM.Infrastructure.Repositories;
-using NewCRM.Infrastructure.Repositories.Repositories.Account.Impl;
 using System;
 using System.Drawing;
-using System.IO;
 using System.Net;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
@@ -27,7 +25,7 @@ namespace NewCRM.ApplicationService
 
         public UserApplicationService()
         {
-            _userDomainService = new UserDomainService(RepositoryFactory<User, UserRepository>.GetRepository());
+            /*_userDomainService = new UserDomainService(RepositoryFactory<User, UserRepository>.GetRepository());*/
         }
 
         /// <summary>

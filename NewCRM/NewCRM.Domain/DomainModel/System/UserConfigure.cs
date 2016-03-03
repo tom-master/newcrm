@@ -26,6 +26,8 @@ namespace NewCRM.Domain.DomainModel.System
         private Int32 _appHorizontalSpacing;
 
         private Wallpaper _wallpaper;
+
+        private User _user;
         #endregion
 
         #region ctor
@@ -117,6 +119,15 @@ namespace NewCRM.Domain.DomainModel.System
         {
             get { return _wallpaper; }
             set { _wallpaper = value; }
+        }
+
+        public virtual User User
+        {
+            get { return _user; }
+            set
+            {
+                _user = value;
+            }
         }
         #endregion
     }

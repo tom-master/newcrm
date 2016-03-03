@@ -15,11 +15,13 @@ namespace NewCRM.Domain.DomainModel.Security
         private String _name;
         private String _remark;
         private ICollection<Power> _powers;
+
+        private ICollection<User> _users;
         #endregion
 
         #region ctor
 
-      
+
 
         public Role()
         {
@@ -48,6 +50,12 @@ namespace NewCRM.Domain.DomainModel.Security
         {
             get { return _powers; }
             set { _powers = value; }
+        }
+
+        public virtual ICollection<User> Users
+        {
+            get { return _users; }
+            set { _users = value; }
         }
 
         #endregion

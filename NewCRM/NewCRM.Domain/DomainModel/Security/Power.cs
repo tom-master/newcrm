@@ -15,6 +15,8 @@ namespace NewCRM.Domain.DomainModel.Security
         private String _groupName;
         private String _title;
         private String _remark;
+
+        private ICollection<Role> _roles;
         #endregion
 
         #region ctor
@@ -53,6 +55,18 @@ namespace NewCRM.Domain.DomainModel.Security
         {
             get { return _remark; }
             set { _remark = value; }
+        }
+
+        public ICollection<Role> Roles
+        {
+            get
+            {
+                return _roles;
+            }
+            set
+            {
+                _roles = value;
+            }
         }
         #endregion
     }

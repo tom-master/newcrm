@@ -99,14 +99,23 @@
     <Compile Include="Repositories\Configuration\System\FolderConfiguration.generated.cs" />
     <Compile Include="Repositories\Configuration\System\WallpaperConfiguration.generated.cs" />
     <Compile Include="Repositories\Migrations\Configuration.cs" />
+    <Compile Include="Repositories\Repositories\Account\Impl\TitleRepository.cs" />
+    <Compile Include="Repositories\Repositories\Account\Impl\UserRepository.cs" />
     <Compile Include="Repositories\Repositories\Account\ITitleRepository.cs" />
     <Compile Include="Repositories\Repositories\Account\IUserRepository.cs" />
     <Compile Include="Repositories\Repositories\Security\IDepartmentRepository.cs" />
+    <Compile Include="Repositories\Repositories\Security\Impl\DepartmentRepository.cs" />
+    <Compile Include="Repositories\Repositories\Security\Impl\PowerRepository.cs" />
+    <Compile Include="Repositories\Repositories\Security\Impl\RoleRepository.cs" />
     <Compile Include="Repositories\Repositories\Security\IPowerRepository.cs" />
     <Compile Include="Repositories\Repositories\Security\IRoleRepository.cs" />
     <Compile Include="Repositories\Repositories\System\IAppRepository.cs" />
     <Compile Include="Repositories\Repositories\System\IAppTypeRepository.cs" />
     <Compile Include="Repositories\Repositories\System\IFolderRepository.cs" />
+    <Compile Include="Repositories\Repositories\System\Impl\AppRepository.cs" />
+    <Compile Include="Repositories\Repositories\System\Impl\AppTypeRepository.cs" />
+    <Compile Include="Repositories\Repositories\System\Impl\FolderRepository.cs" />
+    <Compile Include="Repositories\Repositories\System\Impl\WallpaperRepository.cs" />
     <Compile Include="Repositories\Repositories\System\IWallpaperRepository.cs" />
     <Compile Include="Repositories\RepositoryFactory.cs" />
     <Compile Include="Repositories\RepositoryProvide\DbContextExtensions.cs" />
@@ -116,11 +125,7 @@
     <Compile Include="Repositories\UnitOfWorkProvide\EfUnitOfWorkContext.cs" />
     <Compile Include="Repositories\UnitOfWorkProvide\UnitOfWorkContextBase.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\Repositories\Account\Impl\" />
-    <Folder Include="Repositories\Repositories\Security\Impl\" />
-    <Folder Include="Repositories\Repositories\System\Impl\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

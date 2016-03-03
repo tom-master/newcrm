@@ -5,13 +5,14 @@ using NewCRM.Domain.DomainModel.Account;
 
 namespace NewCRM.Domain.DomainModel.System
 {
+    [Serializable]
     public class Desk : EntityBase<Int32>
     {
         #region private field
 
         private String _deskName;
 
-        private User _user;
+        private ICollection<User> _users;
 
         private ICollection<App> _apps;
 
@@ -33,10 +34,10 @@ namespace NewCRM.Domain.DomainModel.System
             set { _deskName = value; }
         }
 
-        public virtual User User
+        public virtual ICollection<User> Users
         {
-            get { return _user; }
-            set { _user = value; }
+            get { return _users; }
+            set { _users = value; }
         }
 
         public virtual ICollection<App> Apps

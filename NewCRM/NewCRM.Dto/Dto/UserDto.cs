@@ -28,9 +28,9 @@ namespace NewCRM.Dto.Dto
         public DateTime LastLoginTime { get; set; }
         public Int32 DefaultDesk { get; set; }
 
-        public Configs Config { get; set; }
+        /*public UserConfig Config { get; set; }*/
         public Title Title { get; set; }
-        public Depts Dept { get; set; }
+      /*  public Depts Dept { get; set; }*/
         public Wallpaper Wallpaper { get; set; }
         public ICollection<App> Apps { get; set; }
         public ICollection<Folder> Folders { get; set; }

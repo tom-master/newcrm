@@ -101,80 +101,92 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            //用户配置<---->用户
+            modelBuilder.Entity<UserConfigure>().
+                         HasRequired(a => a.User).
+                         WithMany().
+                         HasForeignKey(a => a.User);
+
+            modelBuilder.Entity<User>().
+                        HasRequired(a => a.UserConfigure).
+                        WithMany().
+                        HasForeignKey(a => a.UserConfigure);
+
+            //用户配置----->壁纸
+            modelBuilder.Entity<UserConfigure>().HasRequired(a => a.Wallpaper).WithMany().HasForeignKey(a => a.Wallpaper);
+
+
+            //用户---->部门
+            modelBuilder.Entity<User>().
+                         HasRequired(a => a.Department).
+                         WithMany().
+                         HasForeignKey(a => a.Department);
+            //用户---->头衔
+            modelBuilder.Entity<User>().HasRequired(a => a.Title).WithMany().HasForeignKey(a => a.Title);
+
+            //用户桌面
+            modelBuilder.Entity<User>().HasMany(b => b.Desks).WithMany(c => c.Users).Map(m =>
+            {
+                m.MapLeftKey("UserId");
+                m.MapRightKey("DeskId");
+                m.ToTable("UserDesks");
+            });
+
+            //文件夹----->桌面
+            modelBuilder.Entity<Folder>().
+                       HasRequired(a => a.Desk).
+                       WithMany().
+                       HasForeignKey(a => a.Desk);
+
+
+
+            //App---->桌面
+            modelBuilder.Entity<App>().
+                      HasRequired(a => a.Desk).
+                      WithMany().
+                      HasForeignKey(a => a.Desk);
+
+
+
+
+
+            //App---->文件夹
+            modelBuilder.Entity<App>().
+                     HasRequired(a => a.Folder).
+                     WithMany().
+                     HasForeignKey(a => a.Folder);
+
+
+            //App类型--->App
+            modelBuilder.Entity<AppType>().HasMany(a => a.Apps).WithRequired(a => a.AppType);
+
+
+            //日志---->用户
+            modelBuilder.Entity<Log>().
+                        HasRequired(a => a.User).
+                        WithMany().
+                        HasForeignKey(a => a.User);
+
+
+
+
+            //用户角色
+            modelBuilder.Entity<User>().HasMany(b => b.Roles).WithMany(c => c.Users).Map(m =>
+            {
+                m.MapLeftKey("UserId");
+                m.MapRightKey("RoleId");
+                m.ToTable("UserRole");
+            });
+
+            modelBuilder.Entity<Role>().HasMany(b => b.Powers).WithMany(c => c.Roles).Map(m =>
+            {
+                m.MapLeftKey("RoleId");
+                m.MapRightKey("PowerId");
+                m.ToTable("RolePower");
+            });
+
+
             base.OnModelCreating(modelBuilder);
-
-            //modelBuilder.Entity<User>()
-            //    .HasRequired(u => u.Config).WithOptional(c => c.User).Map(m => m.MapKey("ConfigId"));
-
-            //modelBuilder.Entity<Title>().HasMany(t => t.Users).WithOptional(t => t.Title).Map(m => m.MapKey("TitleId"));
-
-            //modelBuilder.Entity<User>()
-            //    .HasOptional(u => u.Dept)
-            //    .WithMany(d => d.Users)
-            //    .Map(d => d.MapKey("DeptId"));
-
-            //modelBuilder.Entity<User>()
-            //    .HasOptional(u => u.Wallpaper)
-            //    .WithMany(w => w.Users)
-            //    .Map(w => w.MapKey("WallpaperId"));
-
-            //modelBuilder.Entity<Desk>().HasOptional(d => d.User).WithMany(w => w.Desks).Map(w => w.MapKey("UserId"));
-
-            //modelBuilder.Entity<User>().HasMany(u => u.Apps).WithMany(a => a.Users).Map(s =>
-            //{
-            //    s.ToTable("UserApp");
-            //    s.MapLeftKey("UserId");
-            //    s.MapRightKey("AppId");
-            //});
-
-            //modelBuilder.Entity<User>()
-            //    .HasMany(u => u.Folders).WithMany(f => f.Users).Map(m =>
-            //    {
-            //        m.MapLeftKey("UserId");
-            //        m.MapRightKey("FolderId");
-            //        m.ToTable("UserFolders");
-            //    });
-
-
-            //modelBuilder.Entity<User>().HasMany(u => u.Roles).WithMany(r => r.Users).Map(m =>
-            //{
-            //    m.ToTable("UserRole");
-            //    m.MapLeftKey("UserId");
-            //    m.MapRightKey("RoleId");
-            //});
-
-
-
-            //modelBuilder.Entity<Folder>().HasMany(f => f.Apps).WithMany(a => a.Folder).Map(m=>m.ToTable("FolderApps").MapLeftKey("FolderId").MapRightKey("AppId"));
-
-
-            //modelBuilder.Entity<AppType>().HasMany(a => a.Apps).WithOptional(a => a.AppType).Map(m => m.MapKey("AppTypeId"));
-
-
-            //modelBuilder.Entity<Power>().HasMany(p => p.Roles).WithMany(r => r.Powers).Map(m =>
-            //{
-            //    m.ToTable("RolePowers").MapLeftKey("RoleId").MapRightKey("PowerId");
-            //});
-
-
-            //modelBuilder.Entity<Folder>()
-            //    .HasMany(f => f.Powers).WithMany().Map(m =>
-            //    {
-            //        m.ToTable("FolderPowers").MapLeftKey("FolderId").MapRightKey("PowerId");
-            //    });
-
-
-
-            //modelBuilder.Entity<App>()
-            //    .HasMany(a => a.Powers).WithMany().Map(m =>
-            //    {
-            //        m.ToTable("AppPowers").MapLeftKey("AppId").MapRightKey("PowerId");
-            //    });
-
-            //modelBuilder.Entity<Power>()
-            //    .HasOptional(p => p.PowerType)
-            //    .WithMany(pt => pt.Powers)
-            //    .Map(m => m.MapKey("PowerTypeId"));
         }
     }
 }
