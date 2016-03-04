@@ -210,3 +210,5 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/NewCRM/NewCRM.Infrastructure/Repositories/T4Template
+/NewCRM/NewCRM.Infrastructure/Repositories/T4Template
