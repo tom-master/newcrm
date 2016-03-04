@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 namespace NewCRM.Domain.DomainModel.Account
@@ -11,6 +10,9 @@ namespace NewCRM.Domain.DomainModel.Account
         #region private field
         private String _name;
         private String _remark;
+
+        private User _user;
+
         #endregion
 
         #region ctor
@@ -37,6 +39,19 @@ namespace NewCRM.Domain.DomainModel.Account
         {
             get { return _remark; }
             set { _remark = value; }
+        }
+
+
+        public User User
+        {
+            get
+            {
+                return _user;
+            }
+            set
+            {
+                _user = value;
+            }
         }
 
         #endregion

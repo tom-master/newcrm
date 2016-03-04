@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using NewCRM.Domain.DomainModel.Account;
-using NewCRM.Domain.DomainModel.Security;
 
 namespace NewCRM.Domain.DomainModel.System
 {

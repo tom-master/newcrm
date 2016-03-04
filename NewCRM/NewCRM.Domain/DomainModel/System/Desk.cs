@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using NewCRM.Domain.DomainModel.Account;
 
 namespace NewCRM.Domain.DomainModel.System
 {
+    [Description("桌面")]
     [Serializable]
-    public class Desk : EntityBase<Int32>
+    public class Desk : EntityBase<Int32>, IAggregationRoot
     {
         #region private field
 
         private String _deskName;
 
-        private ICollection<User> _users;
+        private ICollection<UserConfigure> _userConfigures;
 
         private ICollection<App> _apps;
 
@@ -34,10 +36,10 @@ namespace NewCRM.Domain.DomainModel.System
             set { _deskName = value; }
         }
 
-        public virtual ICollection<User> Users
+        public virtual ICollection<UserConfigure> UserConfigures
         {
-            get { return _users; }
-            set { _users = value; }
+            get { return _userConfigures; }
+            set { _userConfigures = value; }
         }
 
         public virtual ICollection<App> Apps

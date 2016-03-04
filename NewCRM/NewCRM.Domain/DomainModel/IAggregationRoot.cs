@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NewCRM.Domain.DomainModel
+﻿namespace NewCRM.Domain.DomainModel
 {
     public interface IAggregationRoot
     {

@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using NewCRM.Domain.DomainModel.System;
-using NewCRM.Infrastructure.CommonTools.CustemException;
-using NewCRM.Infrastructure.Repositories.Repositories.Account;
-using NewCRM.Infrastructure.Repositories.Repositories.System;
-
-namespace NewCRM.DomainService.Impl
+﻿namespace NewCRM.DomainService.Impl
 {
     /// <summary>
     /// 平台服务

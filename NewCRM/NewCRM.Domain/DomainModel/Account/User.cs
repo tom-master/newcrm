@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using NewCRM.Domain.DomainModel.Security;
 using NewCRM.Domain.DomainModel.System;
 namespace NewCRM.Domain.DomainModel.Account
@@ -19,7 +18,7 @@ namespace NewCRM.Domain.DomainModel.Account
         private Boolean _isDisable;
         private DateTime _lastLoginTime;
 
-        private Title _title;
+        private ICollection<Title> _titles;
         private Department _department;
         private UserConfigure _userConfigure;
         private ICollection<Role> _roles;
@@ -80,10 +79,10 @@ namespace NewCRM.Domain.DomainModel.Account
             set { _department = value; }
         }
 
-        public virtual Title Title
+        public virtual ICollection<Title> Titles
         {
-            get { return _title; }
-            set { _title = value; }
+            get { return _titles; }
+            set { _titles = value; }
         }
 
         public virtual ICollection<Role> Roles

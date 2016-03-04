@@ -2,12 +2,10 @@
 using NewCRM.Domain.DomainModel.Account;
 using NewCRM.Domain.DomainModel.System;
 using NewCRM.DomainService;
-using NewCRM.DomainService.Impl;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
-using NewCRM.Infrastructure.Repositories;
 using System;
 using System.Drawing;
 using System.Net;

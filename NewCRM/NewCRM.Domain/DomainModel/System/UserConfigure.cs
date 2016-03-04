@@ -8,7 +8,7 @@ namespace NewCRM.Domain.DomainModel.System
 {
     [Description("用户配置")]
     [Serializable]
-    public class UserConfigure : EntityBase<Int32>
+    public class UserConfigure : EntityBase<Int32>,IAggregationRoot
     {
 
         #region private field
@@ -26,8 +26,9 @@ namespace NewCRM.Domain.DomainModel.System
         private Int32 _appHorizontalSpacing;
 
         private Wallpaper _wallpaper;
-        private User _user;
         private Desk _defaultDesk;
+
+        private User _user;
         private ICollection<Desk> _desks;
         #endregion
 
@@ -116,15 +117,6 @@ namespace NewCRM.Domain.DomainModel.System
             set { _wallpaper = value; }
         }
 
-        public virtual User User
-        {
-            get { return _user; }
-            set
-            {
-                _user = value;
-            }
-        }
-
         public virtual ICollection<Desk> Desks
         {
             get
@@ -137,7 +129,6 @@ namespace NewCRM.Domain.DomainModel.System
             }
         }
 
-
         public virtual Desk DefaultDesk
         {
             get { return _defaultDesk; }
@@ -146,6 +137,20 @@ namespace NewCRM.Domain.DomainModel.System
                 _defaultDesk = value;
             }
         }
+
+
+        public virtual User User
+        {
+            get
+            {
+                return _user;
+            }
+            set
+            {
+                _user = value;
+            }
+        }
+
         #endregion
     }
 }

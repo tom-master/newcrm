@@ -1,6 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NewCRM.ApplicationService;
-using NewCRM.ApplicationService.IApplicationService;
 
 namespace NewCRM.ApplicationServiceTest
 {

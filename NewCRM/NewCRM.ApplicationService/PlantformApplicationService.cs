@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using NewCRM.ApplicationService.IApplicationService;
 using NewCRM.Domain.DomainModel.System;
 using NewCRM.DomainService;
-using NewCRM.DomainService.Impl;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
-using NewCRM.Infrastructure.Repositories;
 
 namespace NewCRM.ApplicationService
 {
