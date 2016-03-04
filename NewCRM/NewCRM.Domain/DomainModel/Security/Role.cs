@@ -17,6 +17,7 @@ namespace NewCRM.Domain.DomainModel.Security
         private ICollection<Power> _powers;
 
         private ICollection<User> _users;
+
         #endregion
 
         #region ctor
@@ -57,7 +58,6 @@ namespace NewCRM.Domain.DomainModel.Security
             get { return _users; }
             set { _users = value; }
         }
-
         #endregion
     }
 }

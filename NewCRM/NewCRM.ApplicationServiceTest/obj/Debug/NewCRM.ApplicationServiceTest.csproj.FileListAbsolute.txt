@@ -21,6 +21,7 @@ F:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\EntityFramework.xml
 F:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.CommonTools.pdb
 F:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\obj\Debug\NewCRM.ApplicationServiceTest.dll
 F:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\obj\Debug\NewCRM.ApplicationServiceTest.pdb
+E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\obj\Debug\NewCRM.ApplicationServiceTest.csprojResolveAssemblyReference.cache
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.ApplicationServiceTest.dll
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.ApplicationServiceTest.pdb
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
@@ -43,6 +44,5 @@ E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.Dto.pdb
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\EntityFramework.xml
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.CommonTools.pdb
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\zh-Hans\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
-E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\obj\Debug\NewCRM.ApplicationServiceTest.csprojResolveAssemblyReference.cache
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\obj\Debug\NewCRM.ApplicationServiceTest.dll
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\obj\Debug\NewCRM.ApplicationServiceTest.pdb

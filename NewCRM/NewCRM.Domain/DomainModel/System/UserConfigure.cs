@@ -6,7 +6,7 @@ using NewCRM.Domain.DomainModel.Account;
 
 namespace NewCRM.Domain.DomainModel.System
 {
-    [Description("系统配置")]
+    [Description("用户配置")]
     [Serializable]
     public class UserConfigure : EntityBase<Int32>
     {
@@ -20,14 +20,15 @@ namespace NewCRM.Domain.DomainModel.System
 
         private String _wallpaperShowType;
         private String _userFace;
-        private Int32 _defaultDesk;
+
         private Int32 _appSize;
         private Int32 _appVerticalSpacing;
         private Int32 _appHorizontalSpacing;
 
         private Wallpaper _wallpaper;
-
         private User _user;
+        private Desk _defaultDesk;
+        private ICollection<Desk> _desks;
         #endregion
 
         #region ctor
@@ -109,12 +110,6 @@ namespace NewCRM.Domain.DomainModel.System
             set { _appHorizontalSpacing = value; }
         }
 
-        public Int32 DefaultDesk
-        {
-            get { return _defaultDesk; }
-            set { _defaultDesk = value; }
-        }
-
         public virtual Wallpaper Wallpaper
         {
             get { return _wallpaper; }
@@ -127,6 +122,28 @@ namespace NewCRM.Domain.DomainModel.System
             set
             {
                 _user = value;
+            }
+        }
+
+        public virtual ICollection<Desk> Desks
+        {
+            get
+            {
+                return _desks;
+            }
+            set
+            {
+                _desks = value;
+            }
+        }
+
+
+        public virtual Desk DefaultDesk
+        {
+            get { return _defaultDesk; }
+            set
+            {
+                _defaultDesk = value;
             }
         }
         #endregion

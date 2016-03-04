@@ -18,6 +18,7 @@ F:\NewCRMTest\NewCRM\NewCRM.ApplicationService\obj\Debug\NewCRM.ApplicationServi
 F:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\System.Web.Mvc.dll
 F:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\System.Web.Mvc.xml
 F:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\zh-Hans\System.Web.Mvc.resources.dll
+E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\obj\Debug\NewCRM.ApplicationService.csprojResolveAssemblyReference.cache
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\NewCRM.ApplicationService.dll
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\NewCRM.ApplicationService.pdb
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\NewCRM.Domain.dll
@@ -35,6 +36,5 @@ E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\NewCRM.Infrastructure.p
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\System.Web.Mvc.xml
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\EntityFramework.xml
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\zh-Hans\System.Web.Mvc.resources.dll
-E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\obj\Debug\NewCRM.ApplicationService.csprojResolveAssemblyReference.cache
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\obj\Debug\NewCRM.ApplicationService.dll
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\obj\Debug\NewCRM.ApplicationService.pdb

@@ -22,11 +22,7 @@ namespace NewCRM.Domain.DomainModel.Account
         private Title _title;
         private Department _department;
         private UserConfigure _userConfigure;
-
         private ICollection<Role> _roles;
-
-        private ICollection<Desk> _desks;
-
         private ICollection<Log> _logs;
 
         #endregion
@@ -101,20 +97,6 @@ namespace NewCRM.Domain.DomainModel.Account
             get { return _logs; }
             set { _logs = value; }
         }
-
-        public virtual ICollection<Desk> Desks
-        {
-            get
-            {
-                return _desks;
-            }
-            set
-            {
-                _desks = value;
-            }
-        }
-
-
         #endregion
     }
 }

@@ -36,7 +36,7 @@ namespace NewCRM.Domain.DomainModel.System
         private AppType _appType;
         private Desk _desk;
         private Folder _folder;
-
+        
         #endregion
 
         #region ctor
@@ -152,6 +152,15 @@ namespace NewCRM.Domain.DomainModel.System
             set { _isSystem = value; }
         }
 
+        public String Owner
+        {
+            get { return _owner; }
+            set
+            {
+                _owner = value;
+            }
+        }
+
         public virtual Desk Desk
         {
             get { return _desk; }
@@ -170,14 +179,7 @@ namespace NewCRM.Domain.DomainModel.System
             set { _folder = value; }
         }
 
-        public String Owner
-        {
-            get { return _owner; }
-            set
-            {
-                _owner = value;
-            }
-        }
+ 
 
 
 

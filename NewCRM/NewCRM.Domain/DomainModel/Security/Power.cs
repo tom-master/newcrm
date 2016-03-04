@@ -57,7 +57,7 @@ namespace NewCRM.Domain.DomainModel.Security
             set { _remark = value; }
         }
 
-        public ICollection<Role> Roles
+        public virtual ICollection<Role> Roles
         {
             get
             {

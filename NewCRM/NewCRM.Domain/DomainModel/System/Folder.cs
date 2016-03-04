@@ -14,9 +14,10 @@ namespace NewCRM.Domain.DomainModel.System
         private String _name;
         private String _icon;
         private String _remake;
+
+        private ICollection<Desk> _desks;
         private ICollection<App> _apps;
 
-        private Desk _desk;
 
         #endregion
 
@@ -57,15 +58,15 @@ namespace NewCRM.Domain.DomainModel.System
             set { _apps = value; }
         }
 
-        public virtual Desk Desk
+        public virtual ICollection<Desk> Desks
         {
             get
             {
-                return _desk;
+                return _desks;
             }
             set
             {
-                _desk = value;
+                _desks = value;
             }
         }
         #endregion
