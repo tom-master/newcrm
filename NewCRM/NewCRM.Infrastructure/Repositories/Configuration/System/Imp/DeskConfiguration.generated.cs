@@ -17,7 +17,12 @@ namespace NewCRM.Infrastructure.Repositories.Configuration.System.Imp
         {
             HasKey(a => a.Id);
 
-            //HasMany(a => a.UserConfigures).WithMany(a=>a.)
+            HasMany(a => a.UserConfigures).WithMany(a => a.Desks).Map(a => a.ToTable("DeskUserConfigures").MapLeftKey("DeskId").MapRightKey("UserConfigtreId"));
+
+            HasMany(a => a.Apps).WithOptional(a => a.Desk);
+
+            HasMany(a => a.Folders).WithMany(a => a.Desks).Map(a => a.ToTable("DeskFolder").MapLeftKey("DeskId").MapRightKey("FolderId"));
+
         }
 
         public void RegistTo(ConfigurationRegistrar configurations)

@@ -105,6 +105,8 @@
     <Compile Include="Repositories\Configuration\System\Imp\AppConfiguration.generated.cs" />
     <Compile Include="Repositories\Configuration\System\Imp\AppTypeConfiguration.generated.cs" />
     <Compile Include="Repositories\Configuration\System\Imp\DeskConfiguration.generated.cs" />
+    <Compile Include="Repositories\Configuration\System\Imp\FolderConfiguration.generated.cs" />
+    <Compile Include="Repositories\Configuration\System\Imp\UserConfigureConfiguration.generated.cs" />
     <Compile Include="Repositories\Configuration\System\UserConfigureConfiguration.generated.cs" />
     <Compile Include="Repositories\Configuration\System\WallpaperConfiguration.generated.cs" />
     <Compile Include="Repositories\Migrations\Configuration.cs" />

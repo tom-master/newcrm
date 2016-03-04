@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -18,6 +19,9 @@ namespace NewCRM.Domain.DomainModel.System
         private Int32 _heigth;
         private Boolean _isSystem;
         private Int32 _uploaderId;
+
+
+        public ICollection <> 
 
         #endregion
 
