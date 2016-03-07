@@ -10,9 +10,8 @@ namespace NewCRM.Infrastructure.Repositories.Configuration.System.Imp
         public UserConfigureConfiguration()
         {
             HasKey(a => a.Id);
-            HasRequired(a => a.Wallpaper).WithMany(a => a.UserConfigures);
-            HasRequired(a => a.User).WithRequiredDependent(a => a.UserConfigure);
-            HasMany(a => a.Desks).WithMany(a => a.UserConfigures).Map(a => a.ToTable("UserConfigureDesk").MapLeftKey("ConfigId").MapRightKey("DeskId").MapRightKey("IsDefault"));
+            HasRequired(a => a.Wallpaper).WithMany(a => a.UserConfigures).Map(a => a.MapKey("WallpaperId"));
+            HasMany(a => a.Desks).WithMany(a => a.UserConfigures).Map(a => a.ToTable("UserConfigureDesk").MapLeftKey("ConfigId").MapRightKey("DeskId"));
         }
 
 

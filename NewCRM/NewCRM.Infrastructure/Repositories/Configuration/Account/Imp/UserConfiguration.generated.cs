@@ -11,9 +11,8 @@ namespace NewCRM.Infrastructure.Repositories.Configuration.Account.Imp
         {
             HasKey(a => a.Id);
 
-            HasMany(a => a.Titles).WithOptional(a => a.User);
 
-            HasRequired(a => a.Department).WithMany(a => a.Users);
+            HasRequired(a => a.Department).WithMany(a => a.Users).Map(a => a.MapKey("DepartmentId"));
 
             HasRequired(a => a.UserConfigure).WithRequiredDependent(a => a.User);
 
@@ -21,7 +20,11 @@ namespace NewCRM.Infrastructure.Repositories.Configuration.Account.Imp
                 WithMany(a => a.Users).
                 Map(a => a.ToTable("UserRole").MapLeftKey("UserId").MapRightKey("RoleId"));
 
-            HasMany(a => a.Logs).WithRequired(a => a.User);
+            HasMany(a => a.Logs).WithRequired(a => a.User).Map(a => a.MapKey("UserId"));
+
+            HasMany(a => a.Titles).
+             WithMany(a => a.Users).
+             Map(a => a.ToTable("UserTitle").MapLeftKey("UserId").MapRightKey("TitleId"));
 
         }
         public void RegistTo(ConfigurationRegistrar configurations) { configurations.Add(this); }

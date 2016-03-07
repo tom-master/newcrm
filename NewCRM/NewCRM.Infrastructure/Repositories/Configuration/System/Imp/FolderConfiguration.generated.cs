@@ -10,19 +10,16 @@ using NewCRM.Infrastructure.Repositories.RepositoryProvide;
 
 namespace NewCRM.Infrastructure.Repositories.Configuration.System.Imp
 {
-    internal partial class AppConfiguration : EntityTypeConfiguration<App>, IEntityMapper
+    internal partial class FolderConfiguration : EntityTypeConfiguration<Folder>, IEntityMapper
     {
 
-        public AppConfiguration()
+        public FolderConfiguration()
         {
             HasKey(a => a.Id);
 
-            HasOptional(a => a.AppType).WithMany(a => a.Apps).Map(a => a.MapKey("AppTypeId"));
-
-            HasOptional(a => a.Desk).WithMany(a => a.Apps).Map(a => a.MapKey("DeskId"));
-
-            HasOptional(a => a.Folder).WithMany(a => a.Apps).Map(a => a.MapKey("FolderId"));
+            HasMany(a => a.Apps).WithOptional(a => a.Folder);
         }
+
 
         public void RegistTo(ConfigurationRegistrar configurations) { configurations.Add(this); }
     }

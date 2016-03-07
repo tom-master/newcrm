@@ -17,7 +17,6 @@ namespace NewCRM.Infrastructure.Repositories.Configuration.System.Imp
         {
             HasKey(a => a.Id);
 
-            HasMany(a => a.UserConfigures).WithMany(a => a.Desks).Map(a => a.ToTable("DeskUserConfigures").MapLeftKey("DeskId").MapRightKey("UserConfigtreId"));
 
             HasMany(a => a.Apps).WithOptional(a => a.Desk);
 

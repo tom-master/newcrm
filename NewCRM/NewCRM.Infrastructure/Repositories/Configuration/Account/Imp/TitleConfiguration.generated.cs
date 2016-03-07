@@ -16,7 +16,7 @@ namespace NewCRM.Infrastructure.Repositories.Configuration.Account.Imp
         {
             HasKey(a => a.Id);
 
-            HasOptional(a => a.User).WithMany(a => a.Titles);
+         
         }
         public void RegistTo(ConfigurationRegistrar configurations) { configurations.Add(this); }
     }

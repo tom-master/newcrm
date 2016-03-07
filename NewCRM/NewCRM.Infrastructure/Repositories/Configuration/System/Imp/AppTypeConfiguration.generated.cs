@@ -16,7 +16,6 @@ namespace NewCRM.Infrastructure.Repositories.Configuration.System.Imp
         {
             HasKey(a => a.Id);
 
-            HasMany(a => a.Apps).WithOptional(a => a.AppType);
         }
 
 

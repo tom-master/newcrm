@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 namespace NewCRM.Domain.DomainModel.Account
@@ -11,7 +12,7 @@ namespace NewCRM.Domain.DomainModel.Account
         private String _name;
         private String _remark;
 
-        private User _user;
+        private ICollection<User> _users;
 
         #endregion
 
@@ -42,15 +43,15 @@ namespace NewCRM.Domain.DomainModel.Account
         }
 
 
-        public User User
+        public ICollection <User> Users
         {
             get
             {
-                return _user;
+                return _users;
             }
             set
             {
-                _user = value;
+                _users = value;
             }
         }
 
