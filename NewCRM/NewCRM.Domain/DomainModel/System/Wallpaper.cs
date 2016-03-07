@@ -21,7 +21,7 @@ namespace NewCRM.Domain.DomainModel.System
         private Int32 _uploaderId;
 
 
-        public ICollection <> 
+        private ICollection<UserConfigure> _userConfigures;
 
         #endregion
 
@@ -89,6 +89,18 @@ namespace NewCRM.Domain.DomainModel.System
             get { return _uploaderId; }
             set { _uploaderId = value; }
         }
+
+
+        public virtual ICollection<UserConfigure> UserConfigures
+        {
+            get { return _userConfigures; }
+            set
+            {
+                _userConfigures = value;
+            }
+        }
         #endregion
+
+
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using NewCRM.Domain.DomainModel.Account;
 
 namespace NewCRM.Domain.DomainModel.System
 {
@@ -13,6 +12,8 @@ namespace NewCRM.Domain.DomainModel.System
         #region private field
 
         private String _deskName;
+
+        private Boolean _isDefault;
 
         private ICollection<UserConfigure> _userConfigures;
 
@@ -34,6 +35,19 @@ namespace NewCRM.Domain.DomainModel.System
         {
             get { return _deskName; }
             set { _deskName = value; }
+        }
+
+
+        public Boolean IsDefault
+        {
+            get
+            {
+                return _isDefault;
+            }
+            set
+            {
+                _isDefault = value;
+            }
         }
 
         public virtual ICollection<UserConfigure> UserConfigures

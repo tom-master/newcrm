@@ -7,17 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System;
-
-using NewCRM.Infrastructure.Repositories.RepositoryProvide;
-using NewCRM.Domain.DomainModel;
 using NewCRM.Domain.DomainModel.Account;
-using NewCRM.Domain.DomainModel.Security;
-using NewCRM.Domain.DomainModel.System;
 using NewCRM.Domain.Repositories;
 
 namespace NewCRM.Infrastructure.Repositories.Repositories.Account
 {
-	/// <summary>
+    /// <summary>
     ///   仓储操作层接口——用户
     /// </summary>
     public partial interface IUserRepository : IRepository<User, Int32>

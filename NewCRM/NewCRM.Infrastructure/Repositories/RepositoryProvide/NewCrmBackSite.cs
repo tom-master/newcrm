@@ -2,6 +2,9 @@
 using NewCRM.Domain.DomainModel.Account;
 using NewCRM.Domain.DomainModel.Security;
 using NewCRM.Domain.DomainModel.System;
+using NewCRM.Infrastructure.Repositories.Configuration.Account.Imp;
+using NewCRM.Infrastructure.Repositories.Configuration.Security.Imp;
+using NewCRM.Infrastructure.Repositories.Configuration.System.Imp;
 
 namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
 {
@@ -39,6 +42,18 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Configurations.Add(new TitleConfiguration());
+            modelBuilder.Configurations.Add(new UserConfiguration());
+            modelBuilder.Configurations.Add(new DepartmentConfiguration());
+            modelBuilder.Configurations.Add(new PowerConfiguration());
+            modelBuilder.Configurations.Add(new RoleConfiguration());
+            modelBuilder.Configurations.Add(new AppConfiguration());
+            modelBuilder.Configurations.Add(new AppTypeConfiguration());
+            modelBuilder.Configurations.Add(new DeskConfiguration());
+            modelBuilder.Configurations.Add(new FolderConfiguration());
+            modelBuilder.Configurations.Add(new UserConfigureConfiguration());
+            modelBuilder.Configurations.Add(new WallpaperConfiguration());
+
             base.OnModelCreating(modelBuilder);
         }
     }

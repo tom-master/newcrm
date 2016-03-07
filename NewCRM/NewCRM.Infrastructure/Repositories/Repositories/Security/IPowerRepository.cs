@@ -7,17 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System;
-
-using NewCRM.Infrastructure.Repositories.RepositoryProvide;
-using NewCRM.Domain.DomainModel;
-using NewCRM.Domain.DomainModel.Account;
 using NewCRM.Domain.DomainModel.Security;
-using NewCRM.Domain.DomainModel.System;
 using NewCRM.Domain.Repositories;
 
 namespace NewCRM.Infrastructure.Repositories.Repositories.Security
 {
-	/// <summary>
+    /// <summary>
     ///   仓储操作层接口——权限
     /// </summary>
     public partial interface IPowerRepository : IRepository<Power, Int32>

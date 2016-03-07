@@ -26,8 +26,6 @@ namespace NewCRM.Domain.DomainModel.System
         private Int32 _appHorizontalSpacing;
 
         private Wallpaper _wallpaper;
-        private Desk _defaultDesk;
-
         private User _user;
         private ICollection<Desk> _desks;
         #endregion
@@ -128,16 +126,6 @@ namespace NewCRM.Domain.DomainModel.System
                 _desks = value;
             }
         }
-
-        public virtual Desk DefaultDesk
-        {
-            get { return _defaultDesk; }
-            set
-            {
-                _defaultDesk = value;
-            }
-        }
-
 
         public virtual User User
         {
