@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -33,7 +34,7 @@ namespace NewCRM.Domain.DomainModel.System
         private AppType _appType;
         private Desk _desk;
         private Folder _folder;
-        
+
         #endregion
 
         #region ctor
@@ -176,7 +177,7 @@ namespace NewCRM.Domain.DomainModel.System
             set { _folder = value; }
         }
 
- 
+
 
 
 

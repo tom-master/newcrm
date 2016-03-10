@@ -14,7 +14,7 @@ namespace NewCRM.Infrastructure.Repositories.Configuration.Account.Imp
 
             HasRequired(a => a.Department).WithMany(a => a.Users).Map(a => a.MapKey("DepartmentId"));
 
-            HasRequired(a => a.UserConfigure).WithRequiredDependent(a => a.User);
+            HasRequired(a => a.UserConfigure).WithRequiredDependent(a => a.User).Map(a => a.MapKey("UserConfigureId"));
 
             HasMany(a => a.Roles).
                 WithMany(a => a.Users).
