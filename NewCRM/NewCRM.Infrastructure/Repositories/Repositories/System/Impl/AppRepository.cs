@@ -22,7 +22,6 @@ namespace NewCRM.Infrastructure.Repositories.Repositories.System.Impl
         {
             base.Update(entity, isSave);
         }
-
-        public override IQueryable<App> Entities { get; }
+        
     }
 }

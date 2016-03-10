@@ -16,7 +16,7 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
     /// </summary>
     /// <typeparam name="TEntity">动态实体类型</typeparam>
     /// <typeparam name="TKey">实体主键类型</typeparam>
-    public abstract class EfRepositoryBase<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : EntityBase<TKey>, IAggregationRoot
+    public abstract class EfRepositoryBase<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : EntityBase<TKey>
     {
         #region 属性
 
