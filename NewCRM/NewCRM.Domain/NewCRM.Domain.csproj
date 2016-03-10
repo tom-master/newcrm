@@ -49,8 +49,10 @@
     <Compile Include="DomainModel\Account\User.cs" />
     <Compile Include="DomainModel\EntityBase.cs" />
     <Compile Include="DomainModel\IAggregationRoot.cs" />
+    <Compile Include="DomainModel\System\AppStyle.cs" />
+    <Compile Include="DomainModel\System\DeskMember.cs" />
+    <Compile Include="DomainModel\System\MemberType.cs" />
     <Compile Include="DomainModel\System\UserConfigure.cs" />
-    <Compile Include="DomainModel\System\Desk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="DomainModel\Security\Department.cs" />
@@ -58,7 +60,6 @@
     <Compile Include="DomainModel\Security\Role.cs" />
     <Compile Include="DomainModel\System\App.cs" />
     <Compile Include="DomainModel\System\AppType.cs" />
-    <Compile Include="DomainModel\System\Folder.cs" />
     <Compile Include="DomainModel\System\Log.cs" />
     <Compile Include="DomainModel\System\Online.cs" />
     <Compile Include="DomainModel\System\Wallpaper.cs" />

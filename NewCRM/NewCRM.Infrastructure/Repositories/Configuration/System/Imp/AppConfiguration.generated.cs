@@ -17,11 +17,10 @@ namespace NewCRM.Infrastructure.Repositories.Configuration.System.Imp
         {
             HasKey(a => a.Id);
 
-            HasOptional(a => a.Desk).WithMany(a => a.Apps).Map(a => a.MapKey("DeskId"));
+           
 
             HasOptional(a => a.AppType).WithMany(a => a.Apps).Map(a => a.MapKey("AppTypeId"));
 
-            HasOptional(a => a.Folder).WithMany(a => a.Apps).Map(a => a.MapKey("FolderId"));
         }
 
         public void RegistTo(ConfigurationRegistrar configurations) { configurations.Add(this); }

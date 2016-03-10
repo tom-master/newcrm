@@ -27,7 +27,7 @@
     Assembly assembly = Assembly.LoadFile(modelFile);
 	
 	
-    IEnumerable<Type> modelTypes = assembly.GetTypes().Where(c =>(typeof(EntityBase<Int32>).IsAssignableFrom(c)&&typeof(IAggregationRoot).IsAssignableFrom(c))&& !c.IsAbstract);
+    IEnumerable<Type> modelTypes = assembly.GetTypes().Where(c =>(typeof(EntityBase<Int32>).IsAssignableFrom(c)&&!c.IsAbstract));
     modelTypes.ToList().ForEach(modelType=>{
         T4ModelInfo model = new T4ModelInfo(modelType,true);
         //实体映射类

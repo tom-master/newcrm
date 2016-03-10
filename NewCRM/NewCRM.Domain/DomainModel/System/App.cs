@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using NewCRM.Domain.DomainModel.Security;
 
 namespace NewCRM.Domain.DomainModel.System
 {
@@ -32,8 +33,8 @@ namespace NewCRM.Domain.DomainModel.System
 
 
         private AppType _appType;
-        private Desk _desk;
-        private Folder _folder;
+
+        private ICollection<Role> _roles;
 
         #endregion
 
@@ -159,26 +160,20 @@ namespace NewCRM.Domain.DomainModel.System
             }
         }
 
-        public virtual Desk Desk
-        {
-            get { return _desk; }
-            set { _desk = value; }
-        }
-
         public virtual AppType AppType
         {
             get { return _appType; }
             set { _appType = value; }
         }
 
-        public virtual Folder Folder
+        public virtual ICollection<Role> Roles
         {
-            get { return _folder; }
-            set { _folder = value; }
+            get { return _roles; }
+            set
+            {
+                _roles = value;
+            }
         }
-
-
-
 
 
         #endregion

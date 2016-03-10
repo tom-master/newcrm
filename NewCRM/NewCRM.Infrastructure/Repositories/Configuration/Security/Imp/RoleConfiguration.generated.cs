@@ -12,10 +12,13 @@ namespace NewCRM.Infrastructure.Repositories.Configuration.Security.Imp
 {
     internal partial class RoleConfiguration : EntityTypeConfiguration<Role>, IEntityMapper
     {
-        public RoleConfiguration ()
+        public RoleConfiguration()
         {
-            HasKey( a => a.Id );
-            
+            HasKey(a => a.Id);
+
+            HasMany(a => a.Apps).
+                WithMany(a => a.Roles).
+                Map(a => a.ToTable("RoleApp").MapLeftKey("RoleId").MapRightKey("AppId"));
         }
         public void RegistTo(ConfigurationRegistrar configurations) { configurations.Add(this); }
     }

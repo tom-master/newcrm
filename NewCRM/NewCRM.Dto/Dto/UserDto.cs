@@ -33,9 +33,9 @@ namespace NewCRM.Dto.Dto
       /*  public Depts Dept { get; set; }*/
         public Wallpaper Wallpaper { get; set; }
         public ICollection<App> Apps { get; set; }
-        public ICollection<Folder> Folders { get; set; }
+
         public ICollection<Role> Roles { get; set; }
 
-        public ICollection<Desk> Desks { get; set; }
+     
     }
 }

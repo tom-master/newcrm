@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 using NewCRM.Domain.DomainModel.Account;
+using NewCRM.Domain.DomainModel.System;
 
 namespace NewCRM.Domain.DomainModel.Security
 {
@@ -15,6 +16,10 @@ namespace NewCRM.Domain.DomainModel.Security
         private String _name;
         private String _remark;
         private ICollection<Power> _powers;
+
+
+        private ICollection<App> _apps;
+
 
         private ICollection<User> _users;
 
@@ -57,6 +62,18 @@ namespace NewCRM.Domain.DomainModel.Security
         {
             get { return _users; }
             set { _users = value; }
+        }
+
+        public virtual ICollection<App> Apps
+        {
+            get
+            {
+                return _apps;
+            }
+            set
+            {
+                _apps = value;
+            }
         }
         #endregion
     }

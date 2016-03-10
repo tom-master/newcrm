@@ -38,7 +38,6 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
 
         public DbSet<AppType> AppTypes { get; set; }
 
-        public DbSet<Folder> Folders { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -49,8 +48,6 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
             modelBuilder.Configurations.Add(new RoleConfiguration());
             modelBuilder.Configurations.Add(new AppConfiguration());
             modelBuilder.Configurations.Add(new AppTypeConfiguration());
-            modelBuilder.Configurations.Add(new DeskConfiguration());
-            modelBuilder.Configurations.Add(new FolderConfiguration());
             modelBuilder.Configurations.Add(new UserConfigureConfiguration());
             modelBuilder.Configurations.Add(new WallpaperConfiguration());
 

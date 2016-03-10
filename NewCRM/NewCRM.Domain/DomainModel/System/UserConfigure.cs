@@ -8,7 +8,7 @@ namespace NewCRM.Domain.DomainModel.System
 {
     [Description("用户配置")]
     [Serializable]
-    public class UserConfigure : EntityBase<Int32>,IAggregationRoot
+    public class UserConfigure : EntityBase<Int32>, IAggregationRoot
     {
 
         #region private field
@@ -25,9 +25,18 @@ namespace NewCRM.Domain.DomainModel.System
         private Int32 _appVerticalSpacing;
         private Int32 _appHorizontalSpacing;
 
+
+        private String _desk1;
+        private String _desk2;
+        private String _desk3;
+        private String _desk4;
+        private String _desk5;
+
+
+
         private Wallpaper _wallpaper;
         private User _user;
-        private ICollection<Desk> _desks;
+
         #endregion
 
         #region ctor
@@ -109,22 +118,59 @@ namespace NewCRM.Domain.DomainModel.System
             set { _appHorizontalSpacing = value; }
         }
 
+        public String Desk1
+        {
+            get { return _desk1; }
+            set
+            {
+                _desk1 = value;
+            }
+        }
+
+
+        public String Desk2
+        {
+            get { return _desk2; }
+            set
+            {
+                _desk2 = value;
+            }
+        }
+
+
+        public String Desk3
+        {
+            get { return _desk3; }
+            set
+            {
+                _desk3 = value;
+            }
+        }
+
+
+        public String Desk4
+        {
+            get { return _desk4; }
+            set
+            {
+                _desk4 = value;
+            }
+        }
+
+
+        public String Desk5
+        {
+            get { return _desk5; }
+            set
+            {
+                _desk5 = value;
+            }
+        }
+
         public virtual Wallpaper Wallpaper
         {
             get { return _wallpaper; }
             set { _wallpaper = value; }
-        }
-
-        public virtual ICollection<Desk> Desks
-        {
-            get
-            {
-                return _desks;
-            }
-            set
-            {
-                _desks = value;
-            }
         }
 
         public virtual User User

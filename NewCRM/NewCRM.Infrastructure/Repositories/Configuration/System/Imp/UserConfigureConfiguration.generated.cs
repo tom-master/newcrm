@@ -11,7 +11,6 @@ namespace NewCRM.Infrastructure.Repositories.Configuration.System.Imp
         {
             HasKey(a => a.Id);
             HasRequired(a => a.Wallpaper).WithMany(a => a.UserConfigures).Map(a => a.MapKey("WallpaperId"));
-            HasMany(a => a.Desks).WithMany(a => a.UserConfigures).Map(a => a.ToTable("UserConfigureDesk").MapLeftKey("ConfigId").MapRightKey("DeskId"));
         }
 
 
