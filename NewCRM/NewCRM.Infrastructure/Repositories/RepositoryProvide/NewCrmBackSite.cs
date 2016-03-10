@@ -2,9 +2,15 @@
 using NewCRM.Domain.DomainModel.Account;
 using NewCRM.Domain.DomainModel.Security;
 using NewCRM.Domain.DomainModel.System;
-using NewCRM.Infrastructure.Repositories.Configuration.Account.Imp;
-using NewCRM.Infrastructure.Repositories.Configuration.Security.Imp;
-using NewCRM.Infrastructure.Repositories.Configuration.System.Imp;
+using NewCRM.Infrastructure.Repositories.Configurations;
+using AppConfiguration = NewCRM.Infrastructure.Repositories.Configuration.System.Imp.AppConfiguration;
+using AppTypeConfiguration = NewCRM.Infrastructure.Repositories.Configuration.System.Imp.AppTypeConfiguration;
+using DepartmentConfiguration = NewCRM.Infrastructure.Repositories.Configuration.Security.Imp.DepartmentConfiguration;
+using PowerConfiguration = NewCRM.Infrastructure.Repositories.Configuration.Security.Imp.PowerConfiguration;
+using RoleConfiguration = NewCRM.Infrastructure.Repositories.Configuration.Security.Imp.RoleConfiguration;
+using TitleConfiguration = NewCRM.Infrastructure.Repositories.Configuration.Account.Imp.TitleConfiguration;
+using UserConfiguration = NewCRM.Infrastructure.Repositories.Configuration.Account.Imp.UserConfiguration;
+using UserConfigureConfiguration = NewCRM.Infrastructure.Repositories.Configuration.System.Imp.UserConfigureConfiguration;
 
 namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
 {
@@ -38,6 +44,8 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
 
         public DbSet<AppType> AppTypes { get; set; }
 
+        public DbSet<DeskMember> DeskMembers { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -49,7 +57,6 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
             modelBuilder.Configurations.Add(new AppConfiguration());
             modelBuilder.Configurations.Add(new AppTypeConfiguration());
             modelBuilder.Configurations.Add(new UserConfigureConfiguration());
-            modelBuilder.Configurations.Add(new WallpaperConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
