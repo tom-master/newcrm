@@ -10,7 +10,7 @@ namespace NewCRM.Domain.Repositories
     /// </summary>
     /// <typeparam name="T">动态实体类型</typeparam>
     /// <typeparam name="TKey"></typeparam>
-    public interface IRepository<T, in TKey> where T : EntityBase<TKey>, IAggregationRoot
+    public interface IRepository<T, in TKey> where T : EntityBase<TKey>
     {
         #region 属性
         /// <summary>
