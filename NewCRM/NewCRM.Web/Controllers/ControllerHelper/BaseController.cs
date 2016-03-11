@@ -12,11 +12,11 @@
         /// <summary>
         /// 当前页面的浏览权限，为空的话 就是不受权限控制
         /// </summary>
-        protected virtual string PagePowers
+        protected virtual String PagePowers
         {
             get
             {
-                return string.Empty;
+                return String.Empty;
             }
         }
 
@@ -165,7 +165,7 @@
         //}
         #endregion
 
-        protected override JsonResult Json(object data, string contentType, Encoding contentEncoding, JsonRequestBehavior behavior)
+        protected override JsonResult Json(object data, String contentType, Encoding contentEncoding, JsonRequestBehavior behavior)
         {
             return new Jsons
             {

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
+using NewCRM.CommonTools;
 
 namespace NewCRM.Infrastructure.CommonTools.CustomExtension
 {
@@ -24,14 +25,14 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         /// <param name="collection"> 要处理的集合 </param>
         /// <param name="separator"> 分隔符 </param>
         /// <returns> 拼接后的字符串 </returns>
-        public static string ExpandAndToString<T>(this IEnumerable<T> collection, string separator)
+        public static String ExpandAndToString<T>(this IEnumerable<T> collection, String separator)
         {
             List<T> source = collection as List<T> ?? collection.ToList();
             if (source.IsEmpty())
             {
                 return null;
             }
-            string result = source.Cast<object>().Aggregate<object, string>(null, (current, o) => current + string.Format("{0}{1}", o, separator));
+            String result = source.Cast<object>().Aggregate<object, String>(null, (current, o) => current + String.Format("{0}{1}", o, separator));
             return result.Substring(0, result.Length - separator.Length);
         }
 
@@ -86,7 +87,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         /// <returns> 查询的结果 </returns>
         public static IQueryable<T> WhereIf<T>(this IQueryable<T> source, Expression<Func<T, bool>> predicate, bool condition)
         {
-            PublicHelper.VaildateArgument(predicate, "predicate");
+            Parameter.Vaildate(predicate);
             return condition ? source.Where(predicate) : source;
         }
 
@@ -98,10 +99,10 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         /// <param name="sortDirection">排序方向</param>
         /// <typeparam name="T">动态类型</typeparam>
         /// <returns>排序后的数据集</returns>
-        public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> source, string propertyName,
+        public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> source, String propertyName,
             ListSortDirection sortDirection = ListSortDirection.Ascending)
         {
-            PublicHelper.VaildateArgument(propertyName, "propertyName");
+            Parameter.Vaildate(propertyName);
             return QueryableHelper<T>.OrderBy(source, propertyName, sortDirection);
         }
 
@@ -114,7 +115,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         /// <returns></returns>
         public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> source, PropertySortCondition sortCondition)
         {
-            PublicHelper.VaildateArgument(sortCondition, "sortCondition");
+            Parameter.Vaildate(sortCondition);
             return source.OrderBy(sortCondition.PropertyName, sortCondition.ListSortDirection);
         }
 
@@ -126,10 +127,10 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         /// <param name="propertyName">排序属性名</param>
         /// <param name="sortDirection">排序方向</param>
         /// <returns></returns>
-        public static IOrderedQueryable<T> ThenBy<T>(this IOrderedQueryable<T> source, string propertyName,
+        public static IOrderedQueryable<T> ThenBy<T>(this IOrderedQueryable<T> source, String propertyName,
             ListSortDirection sortDirection = ListSortDirection.Ascending)
         {
-            PublicHelper.VaildateArgument(propertyName, "propertyName");
+            Parameter.Vaildate(propertyName);
             return QueryableHelper<T>.ThenBy(source, propertyName, sortDirection);
         }
 
@@ -142,7 +143,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         /// <returns></returns>
         public static IOrderedQueryable<T> ThenBy<T>(this IOrderedQueryable<T> source, PropertySortCondition sortCondition)
         {
-            PublicHelper.VaildateArgument(sortCondition, "sortCondition");
+            Parameter.Vaildate(sortCondition);
             return source.ThenBy(sortCondition.PropertyName, sortCondition.ListSortDirection);
         }
 
@@ -161,10 +162,10 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         public static IQueryable<TEntity> Where<TEntity, TKey>(this IQueryable<TEntity> source, Expression<Func<TEntity, bool>> predicate, int pageIndex, int pageSize,
             out int total, PropertySortCondition[] sortConditions = null) where TEntity : EntityBase<Int32>
         {
-            PublicHelper.VaildateArgument(source, "source");
-            PublicHelper.VaildateArgument(predicate, "predicate");
-            PublicHelper.VaildateArgument(pageIndex, "pageIndex");
-            PublicHelper.VaildateArgument(pageSize, "pageSize");
+            Parameter.Vaildate(source);
+            Parameter.Vaildate(predicate);
+            Parameter.Vaildate(pageIndex);
+            Parameter.Vaildate(pageSize);
 
             total = source.Count(predicate);
             if (sortConditions == null || sortConditions.Length == 0)
@@ -198,9 +199,9 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         private static class QueryableHelper<T>
         {
             // ReSharper disable StaticFieldInGenericType
-            private static readonly ConcurrentDictionary<string, LambdaExpression> Cache = new ConcurrentDictionary<string, LambdaExpression>();
+            private static readonly ConcurrentDictionary<String, LambdaExpression> Cache = new ConcurrentDictionary<String, LambdaExpression>();
 
-            internal static IOrderedQueryable<T> OrderBy(IQueryable<T> source, string propertyName, ListSortDirection sortDirection)
+            internal static IOrderedQueryable<T> OrderBy(IQueryable<T> source, String propertyName, ListSortDirection sortDirection)
             {
                 dynamic keySelector = GetLambdaExpression(propertyName);
                 return sortDirection == ListSortDirection.Ascending
@@ -208,7 +209,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
                     : Queryable.OrderByDescending(source, keySelector);
             }
 
-            internal static IOrderedQueryable<T> ThenBy(IOrderedQueryable<T> source, string propertyName, ListSortDirection sortDirection)
+            internal static IOrderedQueryable<T> ThenBy(IOrderedQueryable<T> source, String propertyName, ListSortDirection sortDirection)
             {
                 dynamic keySelector = GetLambdaExpression(propertyName);
                 return sortDirection == ListSortDirection.Ascending
@@ -216,7 +217,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
                     : Queryable.ThenByDescending(source, keySelector);
             }
 
-            private static LambdaExpression GetLambdaExpression(string propertyName)
+            private static LambdaExpression GetLambdaExpression(String propertyName)
             {
                 if (Cache.ContainsKey(propertyName))
                 {

@@ -34,8 +34,7 @@ namespace NewCRM.ApplicationService
         /// <returns></returns>
         public UserDto UserLogin(String userName, String passWord)
         {
-            PublicHelper.VaildateArgument(userName, "userName");
-            PublicHelper.VaildateArgument(passWord, "passWord");
+            
             return _userDomainService.ValidateUser(userName, passWord).ConvertToDto<User, UserDto>();
         }
 
@@ -45,7 +44,7 @@ namespace NewCRM.ApplicationService
         /// <returns></returns>
         public UserDto GetUserWallPaper(Int32 userId)
         {
-            PublicHelper.VaildateArgument(userId, "userId");
+             
             return _userDomainService.Wallpaper(userId).ConvertToDto<User, UserDto>();
         }
 
@@ -56,15 +55,14 @@ namespace NewCRM.ApplicationService
         /// <returns>String</returns>
         public String GetUserApp(UserDto userDto)
         {
-            PublicHelper.VaildateArgument(userDto, "userDto");
+         
             return _userDomainService.App(userDto.ConvertToDomainModel<UserDto, User>());
         }
 
 
-        public string BuilderWindow(Int32 id, String type)
+        public String BuilderWindow(Int32 id, String type)
         {
-            PublicHelper.VaildateArgument(id, "id");
-            PublicHelper.VaildateArgument(type, "type");
+            
             return _userDomainService.BuildWindow(id, type);
         }
 
@@ -76,8 +74,7 @@ namespace NewCRM.ApplicationService
         /// <returns></returns>
         public Boolean DeleteWallPaper(Int32 wallPaperId, Int32 userId)
         {
-            PublicHelper.VaildateArgument(wallPaperId, "wallPaperId");
-            PublicHelper.VaildateArgument(userId, "userId");
+           
             return _userDomainService.DeleteWallPaper(wallPaperId, userId);
         }
 
@@ -89,8 +86,7 @@ namespace NewCRM.ApplicationService
         /// <returns>Boolean</returns>
         public WallpaperDto UploadWallPaper(Int32 userId, FileUpLoadHelper fileUpLoadHelper)
         {
-            PublicHelper.VaildateArgument(userId, "userId");
-            PublicHelper.VaildateArgument(fileUpLoadHelper, "fileUpLoadHelper");
+           
             var wallPaperDto = new WallpaperDto
             {
                 Title = fileUpLoadHelper.NewFileName,
@@ -114,7 +110,7 @@ namespace NewCRM.ApplicationService
         /// <param name="webUrl"></param>
         public Int32 SetWebWallPaper(String webUrl)
         {
-            PublicHelper.VaildateArgument(webUrl, "webUrl");
+         
             using (WebClient webClient = new WebClient())
             {
                 var stream = webClient.OpenRead(new Uri(webUrl));
@@ -146,7 +142,7 @@ namespace NewCRM.ApplicationService
         /// <returns>UserDto</returns>
         public UserDto GetUser(Int32 userId)
         {
-            PublicHelper.VaildateArgument(userId, "userId");
+          
             return _userDomainService.GetUser(userId).ConvertToDto<User, UserDto>();
         }
     }

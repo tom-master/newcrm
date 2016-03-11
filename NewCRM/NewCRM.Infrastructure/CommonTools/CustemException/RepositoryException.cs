@@ -18,7 +18,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustemException
         ///     使用异常消息实例化一个类的新实例
         /// </summary>
         /// <param name="message">异常消息</param>
-        public RepositoryException(string message)
+        public RepositoryException(String message)
             : base(message)
         {
             new ExceptionMessage(this, message, true);
@@ -29,7 +29,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustemException
         /// </summary>
         /// <param name="message">异常消息</param>
         /// <param name="inner">用于封装在DalException内部的异常实例</param>
-        public RepositoryException(string message, Exception inner)
+        public RepositoryException(String message, Exception inner)
             : base(message, inner)
         {
             new ExceptionMessage(inner, message, true);

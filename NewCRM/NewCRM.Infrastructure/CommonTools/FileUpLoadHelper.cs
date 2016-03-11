@@ -11,197 +11,197 @@ namespace NewCRM.Infrastructure.CommonTools
         /// <summary>
         /// 文件路径
         /// </summary>
-        private string _filePath;
+        private String _filePath;
         /// <summary>
         /// 源文件名称
         /// </summary>
-        private string _oldFileName;
+        private String _oldFileName;
         /// <summary>
         /// 新文件名称
         /// </summary>
-        private string _newFileName;
+        private String _newFileName;
         /// <summary>
         /// 缩图文件名称
         /// </summary>
-        private string _thumbnailFileName;
+        private String _thumbnailFileName;
         /// <summary>
         /// 服务器文件路径
         /// </summary>
-        private string _webFilePath;
+        private String _webFilePath;
         /// <summary>
         /// 服务器缩图文件路径
         /// </summary>
-        private string _webThumbnailFilePath;
+        private String _webThumbnailFilePath;
         /// <summary>
         /// 提示信息
         /// </summary>
-        private string _tipMsg;
+        private String _tipMsg;
         /// <summary>
         /// 是否按日期创建目录
         /// </summary>
-        private readonly bool _isDate;
+        private readonly Boolean _isDate;
         /// <summary>
         /// 是否生成缩图
         /// </summary>
-        private readonly bool _isThumbnail;
+        private readonly Boolean _isThumbnail;
         /// <summary>
         /// 缩图宽度
         /// </summary>
-        private readonly int _thumbnailWidth;
+        private readonly Int32 _thumbnailWidth;
         /// <summary>
         /// 缩图高度
         /// </summary>
-        private readonly int _thumbnailHeight;
+        private readonly Int32 _thumbnailHeight;
         /// <summary>
         /// 缩图模式
         /// </summary>
-        private readonly ThumbnailMode _thumbnailMode = ThumbnailMode.AUTO;
+        private readonly ThumbnailMode _thumbnailMode = ThumbnailMode.Auto;
         /// <summary>
         /// 文件大小
         /// </summary>
-        private int _fileSize;
+        private Int32 _fileSize;
         /// <summary>
         /// 图片宽度
         /// </summary>
-        private int _fileWidth;
+        private Int32 _fileWidth;
         /// <summary>
         /// 图片高度
         /// </summary>
-        private int _fileHeight;
+        private Int32 _fileHeight;
         /// <summary>
         /// 文件类型
         /// </summary>
-        private string _fileContentType;
+        private String _fileContentType;
         /// <summary>
         /// 文件扩展名
         /// </summary>
-        private string _fileExtension;
+        private String _fileExtension;
         /// <summary>
         /// 是否是图片
         /// </summary>
-        private bool _isImage;
+        private Boolean _isImage;
         /// <summary>
         /// 是否创建新文件名
         /// </summary>
-        private bool _isCreateNewFileName;
+        private Boolean _isCreateNewFileName;
         /// <summary>
         /// 是否加水印文字
         /// </summary>
-        private bool _isWatermarkText = false;
+        private Boolean _isWatermarkText = false;
         /// <summary>
         /// 水印文字
         /// </summary>
-        private string _watermarkText;
+        private String _watermarkText;
         /// <summary>
         /// 水印图文件名称（文字）
         /// </summary>
-        private string _watermarkFileName;
+        private String _watermarkFileName;
         /// <summary>
         /// 服务器水印图文件路径（文字）
         /// </summary>
-        private string _webWatermarkFilePath;
+        private String _webWatermarkFilePath;
         /// <summary>
         /// 允许上传文件最大 100M
         /// </summary>
-        private int _maxFileSize = 104857600;
+        private Int32 _maxFileSize = 104857600;
         #endregion
 
         #region 属性
         /// <summary>
         /// 文件路径
         /// </summary>
-        public string FilePath
+        public String FilePath
         {
             get { return _filePath; }
         }
         /// <summary>
         /// 源文件名称
         /// </summary>
-        public string OldFileName
+        public String OldFileName
         {
             get { return _oldFileName; }
         }
         /// <summary>
         /// 新文件名称
         /// </summary>
-        public string NewFileName
+        public String NewFileName
         {
             get { return _newFileName; }
         }
         /// <summary>
         /// 缩图文件名称
         /// </summary>
-        public string ThumbnailFileName
+        public String ThumbnailFileName
         {
             get { return _thumbnailFileName; }
         }
         /// <summary>
         /// 服务器文件路径
         /// </summary>
-        public string WebFilePath
+        public String WebFilePath
         {
             get { return _webFilePath; }
         }
         /// <summary>
         /// 服务器缩图文件路径
         /// </summary>
-        public string WebThumbnailFilePath
+        public String WebThumbnailFilePath
         {
             get { return _webThumbnailFilePath; }
         }
         /// <summary>
         /// 提示信息
         /// </summary>
-        public string TipMsg
+        public String TipMsg
         {
             get { return _tipMsg; }
         }
         /// <summary>
         /// 文件大小
         /// </summary>
-        public int FileSize
+        public Int32 FileSize
         {
             get { return _fileSize; }
         }
         /// <summary>
         /// 图片宽度
         /// </summary>
-        public int FileWidth
+        public Int32 FileWidth
         {
             get { return _fileWidth; }
         }
         /// <summary>
         /// 图片高度
         /// </summary>
-        public int FileHeight
+        public Int32 FileHeight
         {
             get { return _fileHeight; }
         }
         /// <summary>
         /// 文件类型
         /// </summary>
-        public string FileContentType
+        public String FileContentType
         {
             get { return _fileContentType; }
         }
         /// <summary>
         /// 文件扩展名
         /// </summary>
-        public string FileExtension
+        public String FileExtension
         {
             get { return _fileExtension; }
         }
         /// <summary>
         /// 水印图文件名称（文字）
         /// </summary>
-        public string WatermarkFileName
+        public String WatermarkFileName
         {
             get { return _watermarkFileName; }
         }
         /// <summary>
         /// 服务器水印图文件路径（文字）
         /// </summary>
-        public string WebWatermarkFilePath
+        public String WebWatermarkFilePath
         {
             get { return _webWatermarkFilePath; }
         }
@@ -220,8 +220,8 @@ namespace NewCRM.Infrastructure.CommonTools
         /// </summary>
         /// <param name="filePath">文件路径</param>
         /// <param name="isDate">是否按日期创建目录</param>
-        public FileUpLoadHelper(string filePath, bool isDate) :
-            this(filePath, isDate, true, true, false, 0, 0, ThumbnailMode.AUTO, false, "")
+        public FileUpLoadHelper(String filePath, Boolean isDate) :
+            this(filePath, isDate, true, true, false, 0, 0, ThumbnailMode.Auto, false, "")
         {
         }
 
@@ -231,8 +231,8 @@ namespace NewCRM.Infrastructure.CommonTools
         /// <param name="filePath">文件路径</param>
         /// <param name="isDate">是否按日期创建目录</param>
         /// <param name="isCreateNewFileName">是否创建新文件名</param>
-        public FileUpLoadHelper(string filePath, bool isDate, bool isCreateNewFileName) :
-            this(filePath, isDate, isCreateNewFileName, false, false, 0, 0, ThumbnailMode.AUTO, false, "")
+        public FileUpLoadHelper(String filePath, Boolean isDate, Boolean isCreateNewFileName) :
+            this(filePath, isDate, isCreateNewFileName, false, false, 0, 0, ThumbnailMode.Auto, false, "")
         {
         }
 
@@ -249,9 +249,9 @@ namespace NewCRM.Infrastructure.CommonTools
         /// <param name="thumbnailMode">缩图模式</param>
         /// <param name="isWatermarkText">是否加水印文字</param>
         /// <param name="watermarkText">水印文字</param>
-        public FileUpLoadHelper(string filePath, bool isDate, bool isCreateNewFileName,
-            bool isImage,bool isThumbnail, int thumbnailWidth, int thumbnailHeight, ThumbnailMode thumbnailMode, 
-            bool isWatermarkText, string watermarkText)
+        public FileUpLoadHelper(String filePath, Boolean isDate, Boolean isCreateNewFileName,
+            Boolean isImage,Boolean isThumbnail, Int32 thumbnailWidth, Int32 thumbnailHeight, ThumbnailMode thumbnailMode, 
+            Boolean isWatermarkText, String watermarkText)
         {
             _isThumbnail = isThumbnail;
             _filePath = filePath;
@@ -265,7 +265,7 @@ namespace NewCRM.Infrastructure.CommonTools
             _watermarkText = watermarkText;
             if (_isDate)
                 _filePath += DateTime.Now.ToString("yyyyMMdd") + "/";
-            string savePath = HttpContext.Current.Server.MapPath(_filePath);
+            String savePath = HttpContext.Current.Server.MapPath(_filePath);
             if (!Directory.Exists(savePath))
                 Directory.CreateDirectory(savePath);
         }
@@ -276,19 +276,19 @@ namespace NewCRM.Infrastructure.CommonTools
         private void MakeThumbnail()
         {
             Image originalImage = Image.FromFile(_webFilePath);
-            int towidth = _thumbnailWidth;
-            int toheight = _thumbnailHeight;
-            int x = 0;
-            int y = 0;
-            int ow = originalImage.Width;
-            int oh = originalImage.Height;
+            Int32 towidth = _thumbnailWidth;
+            Int32 toheight = _thumbnailHeight;
+            Int32 x = 0;
+            Int32 y = 0;
+            Int32 ow = originalImage.Width;
+            Int32 oh = originalImage.Height;
             if (ow < towidth && oh < toheight)
                 originalImage.Save(_webThumbnailFilePath);
             else
             {
                 switch (_thumbnailMode)
                 {
-                    case ThumbnailMode.HW:
+                    case ThumbnailMode.Hw:
                         break;
                     case ThumbnailMode.W:
                         toheight = originalImage.Height * _thumbnailWidth / originalImage.Width;
@@ -296,7 +296,7 @@ namespace NewCRM.Infrastructure.CommonTools
                     case ThumbnailMode.H:
                         towidth = originalImage.Width * _thumbnailHeight / originalImage.Height;
                         break;
-                    case ThumbnailMode.CUT:
+                    case ThumbnailMode.Cut:
                         if ((double)originalImage.Width / (double)originalImage.Height > (double)towidth / (double)toheight)
                         {
                             oh = originalImage.Height;
@@ -312,17 +312,17 @@ namespace NewCRM.Infrastructure.CommonTools
                             y = (originalImage.Height - oh) / 2;
                         }
                         break;
-                    case ThumbnailMode.AUTO:
+                    case ThumbnailMode.Auto:
                         if (ow > oh)
-                            toheight = (int)((double)oh / (double)ow * (double)towidth);
+                            toheight = (Int32)((double)oh / (double)ow * (double)towidth);
                         else
-                            towidth = (int)((double)ow / (double)oh * (double)toheight);
+                            towidth = (Int32)((double)ow / (double)oh * (double)toheight);
                         break;
                     default:
                         if (ow > oh)
-                            toheight = (int)((double)oh / (double)ow * (double)towidth);
+                            toheight = (Int32)((double)oh / (double)ow * (double)towidth);
                         else
-                            towidth = (int)((double)ow / (double)oh * (double)toheight);
+                            towidth = (Int32)((double)ow / (double)oh * (double)toheight);
                         break;
                 }
                 //进行缩图
@@ -349,7 +349,7 @@ namespace NewCRM.Infrastructure.CommonTools
                     else
                         img.Save(_webThumbnailFilePath, System.Drawing.Imaging.ImageFormat.Jpeg);
                 }
-                catch (System.Exception e)
+                catch (Exception e)
                 {
                     throw new Exception(e.Message);
                 }
@@ -371,7 +371,7 @@ namespace NewCRM.Infrastructure.CommonTools
         {
             System.Drawing.Imaging.ImageCodecInfo[] encoders;
             encoders = System.Drawing.Imaging.ImageCodecInfo.GetImageEncoders();
-            for (int index = encoders.Length - 1; index >= 0; index--)
+            for (Int32 index = encoders.Length - 1; index >= 0; index--)
             {
                 if (encoders[index].MimeType == mimeType)
                     return encoders[index];
@@ -383,10 +383,10 @@ namespace NewCRM.Infrastructure.CommonTools
         /// 创建新的文件名
         /// </summary>
         /// <returns></returns>
-        private string CreateFileName()
+        private String CreateFileName()
         {
             return DateTime.Now.ToString("yyyyMMddhhmmss") +
-                System.Guid.NewGuid().ToString().ToLower().Replace("-", "").Substring(0, 4);
+                Guid.NewGuid().ToString().ToLower().Replace("-", "").Substring(0, 4);
         }
 
         /// <summary>
@@ -394,14 +394,14 @@ namespace NewCRM.Infrastructure.CommonTools
         /// </summary>
         private void AddWatermarkText()
         {
-            System.Drawing.Image image = System.Drawing.Image.FromFile(this._webFilePath);
-            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(image);
+            Image image = Image.FromFile(_webFilePath);
+            Graphics g = Graphics.FromImage(image);
             g.DrawImage(image, 0, 0, image.Width, image.Height);
-            System.Drawing.Font f = new System.Drawing.Font("Verdana", 16);
-            System.Drawing.Brush b = new System.Drawing.SolidBrush(System.Drawing.Color.Blue);
-            g.DrawString(this._watermarkText, f, b, 15, 15);
+            Font f = new Font("Verdana", 16);
+            Brush b = new SolidBrush(Color.Blue);
+            g.DrawString(_watermarkText, f, b, 15, 15);
             g.Dispose();
-            image.Save(this._webWatermarkFilePath);
+            image.Save(_webWatermarkFilePath);
             image.Dispose();
         }
 
@@ -410,15 +410,15 @@ namespace NewCRM.Infrastructure.CommonTools
         /// </summary>
         /// <param name="postedFile"></param>
         /// <returns></returns>
-        public bool SaveFile(HttpPostedFileBase postedFile)
+        public Boolean SaveFile(HttpPostedFileBase postedFile)
         {
-            this._fileSize = postedFile.ContentLength;
-            if (this._fileSize > 0)
+            _fileSize = postedFile.ContentLength;
+            if (_fileSize > 0)
             {
                 _oldFileName = postedFile.FileName;
                 _fileContentType = postedFile.ContentType;
                 _fileExtension = new FileInfo(_oldFileName).Extension;
-                bool isfileTypeImages = false;
+                Boolean isfileTypeImages = false;
                 if (_fileContentType == "image/png" || _fileContentType == "image/bmp" || _fileContentType == "image/gif" || _fileContentType == "image/pjpeg" || _fileContentType == "image/jpeg")
                     isfileTypeImages = true;
                 if (_isImage && !isfileTypeImages)
@@ -426,16 +426,16 @@ namespace NewCRM.Infrastructure.CommonTools
                     _tipMsg = "图片格式不对！";
                     return false;
                 }
-                if (this._fileSize > this._maxFileSize)
+                if (_fileSize > _maxFileSize)
                 {
-                    _tipMsg = string.Format("上传文件超过系统允许大小:{0}M",
-                        this._maxFileSize);
+                    _tipMsg = String.Format("上传文件超过系统允许大小:{0}M",
+                        _maxFileSize);
                     return false;
                 }
                 if (_isCreateNewFileName)
-                    this._newFileName = CreateFileName() + _fileExtension;
+                    _newFileName = CreateFileName() + _fileExtension;
                 else
-                    this._newFileName = this._oldFileName;
+                    _newFileName = _oldFileName;
                 _webFilePath = HttpContext.Current.Server.MapPath(_filePath + _newFileName);
                 if (isfileTypeImages)
                 {
@@ -444,21 +444,21 @@ namespace NewCRM.Infrastructure.CommonTools
                         try
                         {
                             postedFile.SaveAs(_webFilePath);
-                            if (this._isThumbnail)
+                            if (_isThumbnail)
                             {
-                                _thumbnailFileName = "s_" + this._newFileName;
+                                _thumbnailFileName = "s_" + _newFileName;
                                 _webThumbnailFilePath = HttpContext.Current.Server.MapPath(_filePath + _thumbnailFileName);
                                 MakeThumbnail();
                             }
-                            if (this._isWatermarkText)
+                            if (_isWatermarkText)
                             {
-                                this._watermarkFileName = "sy_" + this._newFileName;
-                                _webWatermarkFilePath = HttpContext.Current.Server.MapPath(this._filePath + this._watermarkFileName);
-                                this.AddWatermarkText();
+                                _watermarkFileName = "sy_" + _newFileName;
+                                _webWatermarkFilePath = HttpContext.Current.Server.MapPath(_filePath + _watermarkFileName);
+                                AddWatermarkText();
                             }
                             if (File.Exists(_webFilePath))
                             {
-                                System.Drawing.Image originalImage = System.Drawing.Image.FromFile(_webFilePath);
+                                Image originalImage = Image.FromFile(_webFilePath);
                                 try
                                 {
                                     _fileHeight = originalImage.Height;
@@ -469,7 +469,7 @@ namespace NewCRM.Infrastructure.CommonTools
                                     originalImage.Dispose();
                                 }
                             }
-                            _tipMsg = string.Format("提示：文件“{0}”成功上传，文件类型为：{1}，文件大小为：{2}B",
+                            _tipMsg = String.Format("提示：文件“{0}”成功上传，文件类型为：{1}，文件大小为：{2}B",
                                 _newFileName, _fileContentType, _fileSize);
                             return true;
                         }
@@ -488,7 +488,7 @@ namespace NewCRM.Infrastructure.CommonTools
                         try
                         {
                             postedFile.SaveAs(_webFilePath);
-                            _tipMsg = string.Format("提示：文件“{0}”成功上传，文件类型为：{1}，文件大小为：{2}B",
+                            _tipMsg = String.Format("提示：文件“{0}”成功上传，文件类型为：{1}，文件大小为：{2}B",
                                 _newFileName, _fileContentType, _fileSize);
                             return true;
                         }
@@ -520,7 +520,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// <summary>
         /// 指定高宽缩放（可能变形）
         /// </summary>
-        HW,
+        Hw,
         /// <summary>
         /// 指定宽，高按比例 
         /// </summary>
@@ -532,10 +532,10 @@ namespace NewCRM.Infrastructure.CommonTools
         /// <summary>
         /// 指定高宽裁减（不变形）
         /// </summary>
-        CUT,
+        Cut,
         /// <summary>
         /// 自动
         /// </summary>
-        AUTO
+        Auto
     }
 }

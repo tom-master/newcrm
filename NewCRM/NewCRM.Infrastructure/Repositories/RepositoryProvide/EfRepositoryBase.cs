@@ -65,7 +65,7 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
         /// <param name="isSave"> 是否执行保存 </param>
         public virtual void Add(TEntity entity, bool isSave = true)
         {
-            PublicHelper.VaildateArgument(entity, "entity");
+            Parameter.Vaildate(entity);
             EfContext.RegisterNew<TEntity, TKey>(entity);
             if (isSave)
             {
@@ -84,7 +84,7 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
         /// <param name="isSave"> 是否执行保存 </param>
         public virtual void Add(IEnumerable<TEntity> entities, bool isSave = true)
         {
-            PublicHelper.VaildateArgument(entities, "entities");
+            Parameter.Vaildate(entities);
             EfContext.RegisterNew<TEntity, TKey>(entities);
             if (isSave)
             {
@@ -103,7 +103,7 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
         /// <param name="isSave"> 是否执行保存 </param>
         public virtual void Remove(TKey id, bool isSave = true)
         {
-            PublicHelper.VaildateArgument(id, "id");
+            Parameter.Vaildate(id);
             TEntity entity = EfContext.Set<TEntity, TKey>().Find(id);
             if (entity != null)
             {
@@ -122,7 +122,7 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
         /// <param name="isSave"> 是否执行保存 </param>
         public virtual void Remove(TEntity entity, bool isSave = true)
         {
-            PublicHelper.VaildateArgument(entity, "entity");
+            Parameter.Vaildate(entity);
             EfContext.RegisterDeleted<TEntity, TKey>(entity);
             if (isSave)
             {
@@ -141,7 +141,7 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
         /// <param name="isSave"> 是否执行保存 </param>
         public virtual void Remove(IEnumerable<TEntity> entities, bool isSave = true)
         {
-            PublicHelper.VaildateArgument(entities, "entities");
+            Parameter.Vaildate(entities);
             EfContext.RegisterDeleted<TEntity, TKey>(entities);
             if (isSave)
             {
@@ -160,7 +160,7 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
         /// <param name="isSave"> 是否执行保存 </param>
         public virtual void Remove(Expression<Func<TEntity, bool>> predicate, bool isSave = true)
         {
-            PublicHelper.VaildateArgument(predicate, "predicate");
+            Parameter.Vaildate(predicate);
             IList<TEntity> entities = EfContext.Set<TEntity, TKey>().Where(predicate).ToList();
             if (entities.Any())
             {
@@ -179,7 +179,7 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
         /// <param name="isSave"> 是否执行保存 </param>
         public virtual void Update(TEntity entity, bool isSave = true)
         {
-            PublicHelper.VaildateArgument(entity, "entity");
+            Parameter.Vaildate(entity);
             EfContext.RegisterModified<TEntity, TKey>(entity);
             if (isSave)
             {

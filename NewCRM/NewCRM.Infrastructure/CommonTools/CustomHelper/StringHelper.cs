@@ -9,9 +9,9 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
     /// </summary>
     public sealed class StringHelper
     {
-        public static Int32[] GetIntArrayFromString(String commaSeparatedstring)
+        public static Int32[] GetIntArrayFromString(String commaSeparatedString)
         {
-            return string.IsNullOrEmpty(commaSeparatedstring) ? new Int32[0] : commaSeparatedstring.Split(',').Select(s => Convert.ToInt32(s)).ToArray();
+            return String.IsNullOrEmpty(commaSeparatedString) ? new Int32[0] : commaSeparatedString.Split(',').Select(s => Convert.ToInt32(s)).ToArray();
         }
 
         /// <summary>
@@ -19,9 +19,9 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
         /// </summary>
         /// <param name="jsonObject"></param>
         /// <returns></returns>
-        public static string BuildJsonString(object jsonObject)
+        public static String BuildJsonString(object jsonObject)
         {
-            PublicHelper.VaildateArgument(jsonObject, "jsonObject");
+            Parameter.Vaildate(jsonObject);
             return JsonConvert.SerializeObject(jsonObject);
         }
 
@@ -30,7 +30,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
         /// </summary>
         /// <param name="input">要判断的Json字符串</param>
         /// <returns></returns>
-        public static bool IsJsonObjectString(string input)
+        public static bool IsJsonObjectString(String input)
         {
             return input != null && input.StartsWith("{") && input.EndsWith("}");
         }
@@ -40,7 +40,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
         /// </summary>
         /// <param name="input">要判断的Json字符串</param>
         /// <returns></returns>
-        public static bool IsJsonArrayString(string input)
+        public static bool IsJsonArrayString(String input)
         {
             return input != null && input.StartsWith("[") && input.EndsWith("]");
         }

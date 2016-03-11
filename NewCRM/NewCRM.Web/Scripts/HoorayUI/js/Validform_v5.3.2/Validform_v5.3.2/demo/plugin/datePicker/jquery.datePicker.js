@@ -76,7 +76,7 @@ Date.abbrMonthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', '
 Date.firstDayOfWeek = 1;
 
 /**
- * The format that string dates should be represented as (e.g. 'dd/mm/yyyy' for UK, 'mm/dd/yyyy' for US, 'yyyy-mm-dd' for Unicode etc).
+ * The format that String dates should be represented as (e.g. 'dd/mm/yyyy' for UK, 'mm/dd/yyyy' for US, 'yyyy-mm-dd' for Unicode etc).
  *
  * @name format
  * @type String
@@ -395,7 +395,7 @@ Date.fullYearStart = '20';
 	});
 	
 	/**
-	 * Returns a string representation of the date object according to Date.format.
+	 * Returns a String representation of the date object according to Date.format.
 	 * (Date.toString may be used in other places so I purposefully didn't overwrite it)
 	 * 
 	 * @example var dtm = new Date("01/12/2008");
@@ -417,7 +417,7 @@ Date.fullYearStart = '20';
 			r = r.split('m').join(this.getMonth()+1);
 		}
 		r = r.split('yyyy').join(this.getFullYear())
-			.split('yy').join((this.getFullYear() + '').substring(2))
+			.split('yy').join((this.getFullYear() + '').subString(2))
 			.split('dd').join(_zeroPad(this.getDate()))
 			.split('d').join(this.getDate());
 		return r;
@@ -500,8 +500,8 @@ Date.fullYearStart = '20';
 	// utility method
 	var _zeroPad = function(num) {
 		var s = '0'+num;
-		return s.substring(s.length-2)
-		//return ('0'+num).substring(-2); // doesn't work on IE :(
+		return s.subString(s.length-2)
+		//return ('0'+num).subString(-2); // doesn't work on IE :(
 	};
 	
 })();
@@ -820,7 +820,7 @@ Date.fullYearStart = '20';
 /**
  * Updates the first selectable date for any date pickers on any matched elements.
  *
- * @param String d A string representing the first selectable date (formatted according to Date.format).
+ * @param String d A String representing the first selectable date (formatted according to Date.format).
  * @type jQuery
  * @name dpSetStartDate
  * @cat plugins/datePicker
@@ -837,7 +837,7 @@ Date.fullYearStart = '20';
 /**
  * Updates the last selectable date for any date pickers on any matched elements.
  *
- * @param String d A string representing the last selectable date (formatted according to Date.format).
+ * @param String d A String representing the last selectable date (formatted according to Date.format).
  * @type jQuery
  * @name dpSetEndDate
  * @cat plugins/datePicker
@@ -874,7 +874,7 @@ Date.fullYearStart = '20';
 /**
  * Selects or deselects a date on any matched element's date pickers. Deselcting is only useful on date pickers where selectMultiple==true. Selecting will only work if the passed date is within the startDate and endDate boundries for a given date picker.
  *
- * @param String d A string representing the date you want to select (formatted according to Date.format).
+ * @param String d A String representing the date you want to select (formatted according to Date.format).
  * @param Boolean v Whether you want to select (true) or deselect (false) this date. Optional - default = true.
  * @param Boolean m Whether you want the date picker to open up on the month of this date when it is next opened. Optional - default = true.
  * @param Boolean e Whether you want the date picker to dispatch events related to this change of selection. Optional - default = true.

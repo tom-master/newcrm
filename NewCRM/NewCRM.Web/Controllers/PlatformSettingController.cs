@@ -80,7 +80,7 @@ namespace NewCRM.Web.Controllers
             var httpPostedFile = HttpContext.Request.Files[0];
             var savePath = ConfigurationManager.AppSettings["UploadWallPaperPath"];
             FileUpLoadHelper fileUpLoad = new FileUpLoadHelper(savePath, false, true, true, true, 160, 115,
-                ThumbnailMode.AUTO, false, "");
+                ThumbnailMode.Auto, false, "");
 
             if (fileUpLoad.SaveFile(httpPostedFile))
             {

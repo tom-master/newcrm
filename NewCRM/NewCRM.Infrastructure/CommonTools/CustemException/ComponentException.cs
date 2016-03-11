@@ -18,7 +18,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustemException
         ///     使用指定错误消息初始化类的新实例。
         /// </summary>
         /// <param name="message">描述错误的消息</param>
-        public ComponentException(string message)
+        public ComponentException(String message)
             : base(message) { }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustemException
         /// </summary>
         /// <param name="message">异常消息</param>
         /// <param name="inner">用于封装在ComponentException内部的异常实例</param>
-        public ComponentException(string message, Exception inner)
+        public ComponentException(String message, Exception inner)
             : base(message, inner) { }
 
         /// <summary>

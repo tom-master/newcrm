@@ -34,9 +34,9 @@ namespace NewCRM.ApplicationService
         /// <param name="userId">用户Id</param>
         public void SetWallPaper(Int32 wallpaperId, String wallPaperShowType, Int32 userId)
         {
-            PublicHelper.VaildateArgument(wallpaperId, "wallpaperId", true);
-            PublicHelper.VaildateArgument(wallPaperShowType, "wallPaperShowType");
-            PublicHelper.VaildateArgument(userId, "userId");
+            Parameter.Vaildate(wallpaperId, true);
+            Parameter.Vaildate(wallPaperShowType);
+            Parameter.Vaildate(userId);
             _platformDomainService.SetWallPaper(wallpaperId, wallPaperShowType, userId);
         }
 
@@ -47,7 +47,7 @@ namespace NewCRM.ApplicationService
         /// <returns>ICollection<WallpaperDto/></returns>
         public ICollection<WallpaperDto> GetUserUploadWallPaper(Int32 userId)
         {
-            PublicHelper.VaildateArgument(userId, "userId");
+            Parameter.Vaildate(userId);
             return _platformDomainService.GetUserUploadWallPaper(userId).ConvertToDto<Wallpaper, WallpaperDto>();
         }
 
@@ -58,7 +58,7 @@ namespace NewCRM.ApplicationService
         /// <returns>IDictionary<String, dynamic/> </returns>
         public IDictionary<String, dynamic> GetAllSkin(String skinFullPath)
         {
-            PublicHelper.VaildateArgument(skinFullPath, "skinFullPath");
+            Parameter.Vaildate(skinFullPath);
 
             return _platformDomainService.GetAllSkin(skinFullPath);
         }
@@ -71,8 +71,7 @@ namespace NewCRM.ApplicationService
         /// <returns></returns>
         public Boolean UpdateSkin(String skinName, Int32 userId)
         {
-            PublicHelper.VaildateArgument(skinName, "skinName");
-            PublicHelper.VaildateArgument(userId, "userId");
+
             return _platformDomainService.UpdateSkin(skinName, userId);
         }
 
@@ -84,8 +83,7 @@ namespace NewCRM.ApplicationService
         /// <returns>Boolean</returns>
         public Boolean UpdateDefaultDesk(Int32 deskNum, Int32 userId)
         {
-            PublicHelper.VaildateArgument(deskNum, "deskNum");
-            PublicHelper.VaildateArgument(userId, "userId");
+
             return _platformDomainService.UpdateDefaultDesk(deskNum, userId);
         }
         /// <summary>
@@ -96,8 +94,7 @@ namespace NewCRM.ApplicationService
         /// <returns>Boolean</returns>
         public Boolean UpdateAppXy(String direction, Int32 userId)
         {
-            PublicHelper.VaildateArgument(direction, "direction");
-            PublicHelper.VaildateArgument(userId, "userId");
+
             return _platformDomainService.UpdateAppXy(direction, userId);
         }
 
@@ -109,8 +106,7 @@ namespace NewCRM.ApplicationService
         /// <returns>Boolean</returns>
         public Boolean UpdateAppSize(Int32 appSize, Int32 userId)
         {
-            PublicHelper.VaildateArgument(appSize, "appSize");
-            PublicHelper.VaildateArgument(userId, "userId");
+
             return _platformDomainService.UpdateAppSize(appSize, userId);
         }
 
@@ -123,9 +119,7 @@ namespace NewCRM.ApplicationService
         /// <returns>Boolean</returns>
         public Boolean UpdateDockPosition(String pos, Int32 deskNum, Int32 userId)
         {
-            PublicHelper.VaildateArgument(pos, "pos");
-            PublicHelper.VaildateArgument(deskNum, "deskNum");
-            PublicHelper.VaildateArgument(userId, "userId");
+
             return _platformDomainService.UpdateDockPosition(pos, deskNum, userId);
         }
 
@@ -137,8 +131,6 @@ namespace NewCRM.ApplicationService
         /// <returns>Boolean</returns>
         public Boolean UpdateAppVertical(Int32 appVertical, Int32 userId)
         {
-            PublicHelper.VaildateArgument(appVertical, "appVertical", true);
-            PublicHelper.VaildateArgument(userId, "userId");
             return _platformDomainService.UpdateAppVertical(appVertical, userId);
 
         }
@@ -151,8 +143,7 @@ namespace NewCRM.ApplicationService
         /// <returns>Boolean</returns>
         public bool UpdateAppHorizontal(int appHorizontal, int userId)
         {
-            PublicHelper.VaildateArgument(appHorizontal, "appHorizontal", true);
-            PublicHelper.VaildateArgument(userId, "userId");
+
             return _platformDomainService.UpdateAppHorizontal(appHorizontal, userId);
         }
     }

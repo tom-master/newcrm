@@ -20,12 +20,12 @@ namespace NewCRM.Infrastructure.CommonTools.CustemException
         /// <param name="e"> 异常对象 </param>
         /// <param name="userMessage"> 自定义用户信息 </param>
         /// <param name="isHideStackTrace"> 是否隐藏异常堆栈信息 </param>
-        public ExceptionMessage(Exception e, string userMessage = "", bool isHideStackTrace = false)
+        public ExceptionMessage(Exception e, String userMessage = "", bool isHideStackTrace = false)
         {
-            UserMessage = string.IsNullOrEmpty(userMessage) ? e.Message : userMessage;
+            UserMessage = String.IsNullOrEmpty(userMessage) ? e.Message : userMessage;
 
             var sb = new StringBuilder();
-            ExMessage = string.Empty;
+            ExMessage = String.Empty;
             Int32 count = 0;
             String appString = "";
             while (e != null)
@@ -58,17 +58,17 @@ namespace NewCRM.Infrastructure.CommonTools.CustemException
         /// <summary>
         ///     用户信息，用于报告给用户的异常消息
         /// </summary>
-        public string UserMessage { get; set; }
+        public String UserMessage { get; set; }
 
         /// <summary>
         ///     直接的Exception异常信息，即e.Message属性值
         /// </summary>
-        public string ExMessage { get; private set; }
+        public String ExMessage { get; private set; }
 
         /// <summary>
         ///     异常输出的详细描述，包含异常消息，规模信息，异常类型，异常源，引发异常的方法及内部异常信息
         /// </summary>
-        public string ErrorDetails { get; private set; }
+        public String ErrorDetails { get; private set; }
 
         #endregion
 

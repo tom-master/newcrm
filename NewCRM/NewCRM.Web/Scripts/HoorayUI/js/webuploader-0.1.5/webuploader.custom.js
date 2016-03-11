@@ -15,7 +15,7 @@
             var args, len, i;
 
             // 如果deps不是数组，则直接返回指定module
-            if ( typeof deps === 'string' ) {
+            if ( typeof deps === 'String' ) {
                 return getModule( deps );
             } else {
                 args = [];
@@ -195,7 +195,7 @@
                                     if ( type === 'function' ) {
                                         list.push( arg );
                                     } else if ( arg && arg.length &&
-                                            type !== 'string' ) {
+                                            type !== 'String' ) {
     
                                         add( arg );
                                     }
@@ -1153,8 +1153,8 @@
             trigger: function( type/*, args...*/ ) {
                 var args = [].slice.call( arguments, 1 ),
                     opts = this.options,
-                    name = 'on' + type.substring( 0, 1 ).toUpperCase() +
-                        type.substring( 1 );
+                    name = 'on' + type.subString( 0, 1 ).toUpperCase() +
+                        type.subString( 1 );
     
                 if (
                         // 调用通过on方法注册的handler.
@@ -1382,7 +1382,7 @@
     
                 deferred.done( cb );
     
-                if ( typeof opts === 'string' && cache.get( opts ) ) {
+                if ( typeof opts === 'String' && cache.get( opts ) ) {
                     runtime = cache.get( opts );
                 }
     
@@ -1697,7 +1697,7 @@
                 return true;
             }
     
-            return type === 'array' || type !== 'function' && type !== 'string' &&
+            return type === 'array' || type !== 'function' && type !== 'String' &&
                     (length === 0 || typeof length === 'number' && length > 0 &&
                     (length - 1) in obj);
         }
@@ -1880,7 +1880,7 @@
         /**
          * 删除插件，只有在注册时指定了名字的才能被删除。
          * @grammar Uploader.unRegister(name);
-         * @param  {string} name 组件名字
+         * @param  {String} name 组件名字
          * @method Uploader.unRegister
          * @for Uploader
          * @example
@@ -2488,7 +2488,7 @@
             /**
              * 文件名，包括扩展名（后缀）
              * @property name
-             * @type {string}
+             * @type {String}
              */
             this.name = source.name || 'Untitled';
     
@@ -2503,7 +2503,7 @@
             /**
              * 文件MIMETYPE类型，与文件类型的对应关系请参考[http://t.cn/z8ZnFny](http://t.cn/z8ZnFny)
              * @property type
-             * @type {string}
+             * @type {String}
              * @default 'application/octet-stream'
              */
             this.type = source.type || 'application/octet-stream';
@@ -2519,14 +2519,14 @@
             /**
              * 文件ID，每个对象具有唯一ID，与文件名无关
              * @property id
-             * @type {string}
+             * @type {String}
              */
             this.id = gid();
     
             /**
              * 文件扩展名，通过文件名获取，例如test.png的扩展名为png
              * @property ext
-             * @type {string}
+             * @type {String}
              */
             this.ext = rExt.exec( this.name ) ? RegExp.$1 : '';
     
@@ -2534,7 +2534,7 @@
             /**
              * 状态文字说明。在不同的status语境下有不同的用途。
              * @property statusText
-             * @type {string}
+             * @type {String}
              */
             this.statusText = '';
     
@@ -2726,7 +2726,7 @@
              * @return {File}
              */
             getFile: function( fileId ) {
-                if ( typeof fileId !== 'string' ) {
+                if ( typeof fileId !== 'String' ) {
                     return fileId;
                 }
                 return this._map[ fileId ];
@@ -6291,7 +6291,7 @@
                     fragement = decodeURIComponent( parts[ 1 ] );
                 }
     
-                fragement = fragement.substring( 0, 2 );
+                fragement = fragement.subString( 0, 2 );
     
                 supportJpeg = fragement.charCodeAt( 0 ) === 255 &&
                         fragement.charCodeAt( 1 ) === 216;

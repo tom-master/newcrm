@@ -74,7 +74,7 @@
       //      }
       //      StringBuilder builder = new StringBuilder("{");
       //      String currentDesk = String.Empty;
-      //      IList<String> docks = new List<string> { "dock" }, deskApps;
+      //      IList<String> docks = new List<String> { "dock" }, deskApps;
       //      for (int i = 0; i < user.Desks.Count; i++)
       //      {
       //          docks.Add("desk" + (i + 1));
@@ -167,7 +167,7 @@
       //      {
       //          throw new BusinessException(String.Format("未能找到编号为：{0}的文件夹，请重试", id));
       //      }
-      //      result += string.Format(
+      //      result += String.Format(
       //          "\"type\":\"{0}\",\"id\":{1},\"name\":\"{2}\",\"icon\":\"{3}\",\"width\":650,\"height\":400",
       //          "folder", folderEntity.Id, folderEntity.Name, folderEntity.Icon);
       //      return result;
@@ -186,7 +186,7 @@
       //          throw new BusinessException(String.Format("未能找到编号为：{0}的应用，请重试", id));
       //      }
       //      result +=
-      //          string.Format(
+      //          String.Format(
       //              "\"type\":\"{0}\",\"id\":{1},\"name\":\"{2}\",\"icon\":\"{3}\",\"url\":\"{4}\",\"width\":{5},\"height\":{6},\"isresize\":\"{7}\",\"issetbar\":\"{8}\",\"ismin\":\"{9}\",\"isfull\":\"{10}\",\"isopenmax\":\"{11}\",\"islock\":\"{12}\"",
       //              appEntity.AppInternalClass, appEntity.Id, appEntity.Name, appEntity.ImageUrl, appEntity.NavigateUrl,
       //              appEntity.Width, appEntity.Height,

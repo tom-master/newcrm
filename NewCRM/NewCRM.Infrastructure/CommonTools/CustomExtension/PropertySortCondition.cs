@@ -1,6 +1,11 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace NewCRM.Infrastructure.CommonTools
+namespace NewCRM.Infrastructure.CommonTools.CustomExtension
 {
     /// <summary>
     ///     属性排序条件信息类
@@ -11,15 +16,16 @@ namespace NewCRM.Infrastructure.CommonTools
         ///     构造一个指定属性名称的升序排序的排序条件
         /// </summary>
         /// <param name="propertyName">排序属性名称</param>
-        public PropertySortCondition(string propertyName)
-            : this(propertyName, ListSortDirection.Ascending) { }
+        public PropertySortCondition(String propertyName)
+            : this(propertyName, ListSortDirection.Ascending)
+        { }
 
         /// <summary>
         ///     构造一个排序属性名称和排序方式的排序条件
         /// </summary>
         /// <param name="propertyName">排序属性名称</param>
         /// <param name="listSortDirection">排序方式</param>
-        public PropertySortCondition(string propertyName, ListSortDirection listSortDirection)
+        public PropertySortCondition(String propertyName, ListSortDirection listSortDirection)
         {
             PropertyName = propertyName;
             ListSortDirection = listSortDirection;
@@ -28,7 +34,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// <summary>
         ///     获取或设置 排序属性名称
         /// </summary>
-        public string PropertyName { get; set; }
+        public String PropertyName { get; set; }
 
         /// <summary>
         ///     获取或设置 排序方向

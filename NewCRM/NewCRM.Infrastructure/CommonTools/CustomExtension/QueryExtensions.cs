@@ -6,7 +6,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
 {
     public static class QueryExtensions
     {
-        public static IQueryable<T> SortBy<T>(this IQueryable<T> source, string sortExpression)
+        public static IQueryable<T> SortBy<T>(this IQueryable<T> source, String sortExpression)
         {
             if (source == null)
             {
@@ -38,7 +38,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
             MemberExpression property = Expression.Property(parameter, sropertyName);
             LambdaExpression lambda = Expression.Lambda(property, parameter);
 
-            string methodName = (sortDirection == "ASC") ? "OrderBy" : "OrderByDescending";
+            String methodName = (sortDirection == "ASC") ? "OrderBy" : "OrderByDescending";
 
             Expression methodCallExpression = Expression.Call(typeof(Queryable), methodName,
                                                 new[] { source.ElementType, property.Type },

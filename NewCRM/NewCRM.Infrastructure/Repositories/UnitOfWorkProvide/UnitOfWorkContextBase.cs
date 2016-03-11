@@ -56,8 +56,8 @@ namespace NewCRM.Infrastructure.Repositories.UnitOfWorkProvide
                 if (e.InnerException != null && e.InnerException.InnerException is SqlException)
                 {
                     SqlException sqlEx = e.InnerException.InnerException as SqlException;
-                    string msg = DataHelper.GetSqlExceptionMessage(sqlEx.Number);
-                    throw PublicHelper.ThrowDataAccessException("提交数据更新时发生异常：" + msg, sqlEx);
+                    //String msg = DataBaseErrorResponse.ReturnDatabaseErrorMessage(sqlEx.Number);
+                    //throw PublicHelper.ThrowDataAccessException("提交数据更新时发生异常：" + msg, sqlEx);
                 }
                 throw;
             }

@@ -123,7 +123,7 @@ $.fn.fullCalendar = function(options) {
 
 
 	// method calling
-	if (typeof options == 'string') {
+	if (typeof options == 'String') {
 		var args = Array.prototype.slice.call(arguments, 1);
 		var res;
 		this.each(function() {
@@ -1089,7 +1089,7 @@ function EventManager(options, _sources) {
 		if ($.isFunction(source) || $.isArray(source)) {
 			source = { events: source };
 		}
-		else if (typeof source == 'string') {
+		else if (typeof source == 'String') {
 			source = { url: source };
 		}
 		if (typeof source == 'object') {
@@ -1253,7 +1253,7 @@ function EventManager(options, _sources) {
 			event.allDay = firstDefined(source.allDayDefault, options.allDayDefault);
 		}
 		if (event.className) {
-			if (typeof event.className == 'string') {
+			if (typeof event.className == 'String') {
 				event.className = event.className.split(/\s+/);
 			}
 		}else{
@@ -1271,7 +1271,7 @@ function EventManager(options, _sources) {
 	function normalizeSource(source) {
 		if (source.className) {
 			// TODO: repeat code, same code for event classNames
-			if (typeof source.className == 'string') {
+			if (typeof source.className == 'String') {
 				source.className = source.className.split(/\s+/);
 			}
 		}else{
@@ -1435,7 +1435,7 @@ function parseDate(s, ignoreTimezone) { // ignoreTimezone defaults to true
 	if (typeof s == 'number') { // a UNIX timestamp
 		return new Date(s * 1000);
 	}
-	if (typeof s == 'string') {
+	if (typeof s == 'String') {
 		if (s.match(/^\d+(\.\d+)?$/)) { // a UNIX timestamp
 			return new Date(parseFloat(s) * 1000);
 		}
@@ -1444,7 +1444,7 @@ function parseDate(s, ignoreTimezone) { // ignoreTimezone defaults to true
 		}
 		return parseISO8601(s, ignoreTimezone) || (s ? new Date(s) : null);
 	}
-	// TODO: never return invalid dates (like from new Date(<string>)), return null instead
+	// TODO: never return invalid dates (like from new Date(<String>)), return null instead
 	return null;
 }
 
@@ -1551,7 +1551,7 @@ function formatDates(date1, date2, format, options) {
 						if (i2 == i+1) {
 							res += "'";
 						}else{
-							res += format.substring(i+1, i2);
+							res += format.subString(i+1, i2);
 						}
 						i = i2;
 					}
@@ -1562,7 +1562,7 @@ function formatDates(date1, date2, format, options) {
 		else if (c == '(') {
 			for (i2=i+1; i2<len; i2++) {
 				if (format.charAt(i2) == ')') {
-					var subres = formatDate(date, format.substring(i+1, i2), options);
+					var subres = formatDate(date, format.subString(i+1, i2), options);
 					if (parseInt(subres.replace(/\D/, ''), 10)) {
 						res += subres;
 					}
@@ -1574,7 +1574,7 @@ function formatDates(date1, date2, format, options) {
 		else if (c == '[') {
 			for (i2=i+1; i2<len; i2++) {
 				if (format.charAt(i2) == ']') {
-					var subformat = format.substring(i+1, i2);
+					var subformat = format.subString(i+1, i2);
 					var subres = formatDate(date, subformat, options);
 					if (subres != formatDate(otherDate, subformat, options)) {
 						res += subres;
@@ -1594,7 +1594,7 @@ function formatDates(date1, date2, format, options) {
 		}
 		else {
 			for (i2=len; i2>i; i2--) {
-				if (formatter = dateFormatters[format.substring(i, i2)]) {
+				if (formatter = dateFormatters[format.subString(i, i2)]) {
 					if (date) {
 						res += formatter(date, options);
 					}
@@ -1630,7 +1630,7 @@ var dateFormatters = {
 	MM	: function(d)	{ return zeroPad(d.getMonth() + 1) },
 	MMM	: function(d,o)	{ return o.monthNamesShort[d.getMonth()] },
 	MMMM: function(d,o)	{ return o.monthNames[d.getMonth()] },
-	yy	: function(d)	{ return (d.getFullYear()+'').substring(2) },
+	yy	: function(d)	{ return (d.getFullYear()+'').subString(2) },
 	yyyy: function(d)	{ return d.getFullYear() },
 	t	: function(d)	{ return d.getHours() < 12 ? 'a' : 'p' },
 	tt	: function(d)	{ return d.getHours() < 12 ? 'am' : 'pm' },
@@ -5199,7 +5199,7 @@ function DayEventRenderer() {
 		// calculate the desired `left` and `width` properties on each segment object
 		calculateHorizontals(segments);
 
-		// build the HTML string. relies on `left` property
+		// build the HTML String. relies on `left` property
 		html = buildHTML(segments);
 
 		// render the HTML. innerHTML is considerably faster than jQuery's .html()
@@ -5293,7 +5293,7 @@ function DayEventRenderer() {
 	}
 
 
-	// Build a concatenated HTML string for an array of segments
+	// Build a concatenated HTML String for an array of segments
 	function buildHTML(segments) {
 		var html = '';
 		for (var i=0; i<segments.length; i++) {
@@ -5303,7 +5303,7 @@ function DayEventRenderer() {
 	}
 
 
-	// Build an HTML string for a single segment.
+	// Build an HTML String for a single segment.
 	// Relies on the following properties:
 	// - `segment.event` (from `buildSegmentsForEvent`)
 	// - `segment.left` (from `calculateHorizontals`)
@@ -5332,7 +5332,7 @@ function DayEventRenderer() {
 			classNames = classNames.concat(event.source.className || []);
 		}
 
-		// generate a semicolon delimited CSS string for any of the "skin" properties
+		// generate a semicolon delimited CSS String for any of the "skin" properties
 		// of the event object (`backgroundColor`, `borderColor` and such)
 		var skinCss = getSkinCss(event, opt);
 

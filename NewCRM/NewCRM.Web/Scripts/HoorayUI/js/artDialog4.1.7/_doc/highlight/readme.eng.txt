@@ -41,7 +41,7 @@ marked up by logical pieces with defined class names.
 
 If you use different markup for code blocks you can initialize them manually
 with `highlightBlock(code, tabReplace)` function. It takes a DOM element
-containing the code to highlight and optionally a string with which to replace
+containing the code to highlight and optionally a String with which to replace
 TAB characters.
 
 Initialization using for example jQuery might look like this:
@@ -63,7 +63,7 @@ Elements of code marked up with classes can be styled as desired:
       font-weight: bold;
     }
 
-    .python .string {
+    .python .String {
       color: blue;
     }
 
@@ -95,7 +95,7 @@ Python ("python"):
   keyword          keyword
   built_in         built-in objects (None, False, True and Ellipsis)
   number           number
-  string           string (of any type)
+  String           String (of any type)
   comment          comment
   decorator        @-decorator for functions
   function         function header "def some_name(...):"
@@ -106,7 +106,7 @@ Python ("python"):
 Python profiler results ("profile"):
 
   number           number
-  string           string
+  String           String
   builtin          builtin function entry
   filename         filename in an entry
   summary          profiling summary
@@ -118,8 +118,8 @@ Python profiler results ("profile"):
 Ruby ("ruby"):
 
   keyword          keyword
-  string           string
-  subst            in-string substitution (#{...})
+  String           String
+  subst            in-String substitution (#{...})
   comment          comment
   yardoctag        YARD tag
   function         function header "def some_name(...):"
@@ -134,7 +134,7 @@ Perl ("perl"):
   keyword          keyword
   comment          comment
   number           number
-  string           string
+  String           String
   regexp           regular expression
   sub              subroutine header (from "sub" till "{")
   variable         variable starting with "$", "%", "@"
@@ -145,7 +145,7 @@ PHP ("php"):
 
   keyword          keyword
   number           number
-  string           string (of any type)
+  String           String (of any type)
   comment          comment
   phpdoc           phpdoc params in comments
   variable         variable starting with "$"
@@ -155,7 +155,7 @@ Scala ("scala"):
 
   keyword          keyword
   number           number
-  string           string
+  String           String
   comment          comment
   annotaion        annotation
   javadoc          javadoc comment
@@ -196,7 +196,7 @@ CSS ("css"):
   value            property's value inside a rule, from ":" till ";" or
                    till the end of rule block
   number           number within a value
-  string           string within a value
+  String           String within a value
   hexcolor         hex color (#FFFFFF) within a value
   function         CSS function within a value
   params           everything between "(" and ")" within a function
@@ -221,7 +221,7 @@ Javascript ("javascript"):
   comment          comment
   number           number
   literal          special literal: "true", "false" and "null"
-  string           string
+  String           String
   regexp           regular expression
   function         header of a function
   title            name of a function inside a header
@@ -231,7 +231,7 @@ VBScript ("vbscript"):
 
   keyword          keyword
   number           number
-  string           string
+  String           String
   comment          comment
   built_in         built-in function
 
@@ -239,20 +239,20 @@ Lua ("lua"):
 
   keyword          keyword
   number           number
-  string           string
+  String           String
   comment          comment
   built_in         built-in operator
   function         header of a function
   title            name of a function inside a header
   params           everything inside parentheses in a function's header
-  long_brackets    multiline string in [=[ .. ]=]
+  long_brackets    multiline String in [=[ .. ]=]
 
 Delphi ("delphi"):
 
   keyword          keyword
   comment          comment (of any type)
   number           number
-  string           string
+  String           String
   function         header of a function, procedure, constructor and destructor
   title            name of a function, procedure, constructor or destructor
                    inside a header
@@ -263,7 +263,7 @@ Java ("java"):
 
   keyword          keyword
   number           number
-  string           string
+  String           String
   comment          commment
   annotaion        annotation
   javadoc          javadoc comment
@@ -276,7 +276,7 @@ C++ ("cpp"):
 
   keyword          keyword
   number           number
-  string           string and character
+  String           String and character
   comment          comment
   preprocessor     preprocessor directive
   stl_container    instantiation of STL containers ("vector<...>")
@@ -285,7 +285,7 @@ C# ("cs"):
 
   keyword          keyword
   number           number
-  string           string
+  String           String
   comment          commment
   xmlDocTag        xmldoc tag ("///", "<!--", "-->", "<..>")
 
@@ -293,7 +293,7 @@ RenderMan RSL ("rsl"):
 
   keyword          keyword
   number           number
-  string           string (including @"..")
+  String           String (including @"..")
   comment          comment
   preprocessor     preprocessor directive
   shader           sahder keywords
@@ -304,7 +304,7 @@ RenderMan RIB ("rib"):
 
   keyword          keyword
   number           number
-  string           string
+  String           String
   comment          comment
   commands         command
 
@@ -312,7 +312,7 @@ Maya Embedded Language ("mel"):
 
   keyword          keyword
   number           number
-  string           string
+  String           String
   comment          comment
   variable         variable
 
@@ -320,7 +320,7 @@ SQL ("sql"):
 
   keyword          keyword (mostly SQL'92 and SQL'99)
   number           number
-  string           string (of any type: "..", '..', `..`)
+  String           String (of any type: "..", '..', `..`)
   comment          comment
   aggregate        aggregate function
 
@@ -328,7 +328,7 @@ Smalltalk ("smalltalk"):
 
   keyword          keyword
   number           number
-  string           string
+  String           String
   comment          commment
   symbol           symbol
   array            array
@@ -340,7 +340,7 @@ Lisp ("lisp"):
 
   keyword          keyword
   number           number
-  string           string
+  String           String
   comment          commment
   variable         variable
   literal          b, t and nil
@@ -353,7 +353,7 @@ Ini ("ini"):
 
   title            title of a section
   value            value of a setting of any type
-  string           string
+  String           String
   number           number
   keyword          boolean value keyword
 
@@ -370,7 +370,7 @@ Apache ("apache"):
 Nginx ("nginx"):
 
   keyword          keyword
-  string           string
+  String           String
   number           number
   comment          comment
   built_in         built-in constant
@@ -387,7 +387,7 @@ DOS ("dos"):
 Bash ("bash"):
 
   keyword          keyword
-  string           string
+  String           String
   number           number
   comment          comment
   literal          special literal: "true" и "false"
@@ -406,7 +406,7 @@ Axapta ("axapta"):
 
   keyword          keyword
   number           number
-  string           string
+  String           String
   comment          commment
   class            class header from "class" till "{"
   title            class name inside a header
@@ -419,7 +419,7 @@ Axapta ("axapta"):
   keyword          keyword
   number           number
   date             date
-  string           string
+  String           String
   comment          commment
   function         header of function or procudure
   title            function name inside a header
@@ -431,7 +431,7 @@ AVR assembler ("avrasm"):
   keyword          keyword
   built_in         pre-defined register
   number           number
-  string           string
+  String           String
   comment          commment
   label            label
   preprocessor     preprocessor directive

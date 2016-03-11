@@ -18,7 +18,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustemException
         ///     使用异常消息实例化一个类的新实例
         /// </summary>
         /// <param name="message">异常消息</param>
-        public BusinessException(string message)
+        public BusinessException(String message)
             : base(message) { }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustemException
         /// </summary>
         /// <param name="message">异常消息</param>
         /// <param name="inner">用于封装在BllException内部的异常实例</param>
-        public BusinessException(string message, Exception inner)
+        public BusinessException(String message, Exception inner)
             : base(message, inner) { }
 
         /// <summary>

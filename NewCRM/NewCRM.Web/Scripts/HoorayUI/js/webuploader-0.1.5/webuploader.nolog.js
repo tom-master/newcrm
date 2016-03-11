@@ -15,7 +15,7 @@
             var args, len, i;
 
             // 如果deps不是数组，则直接返回指定module
-            if ( typeof deps === 'string' ) {
+            if ( typeof deps === 'String' ) {
                 return getModule( deps );
             } else {
                 args = [];
@@ -850,8 +850,8 @@
             trigger: function( type/*, args...*/ ) {
                 var args = [].slice.call( arguments, 1 ),
                     opts = this.options,
-                    name = 'on' + type.substring( 0, 1 ).toUpperCase() +
-                        type.substring( 1 );
+                    name = 'on' + type.subString( 0, 1 ).toUpperCase() +
+                        type.subString( 1 );
     
                 if (
                         // 调用通过on方法注册的handler.
@@ -1079,7 +1079,7 @@
     
                 deferred.done( cb );
     
-                if ( typeof opts === 'string' && cache.get( opts ) ) {
+                if ( typeof opts === 'String' && cache.get( opts ) ) {
                     runtime = cache.get( opts );
                 }
     
@@ -1225,7 +1225,7 @@
                 return true;
             }
     
-            return type === 'array' || type !== 'function' && type !== 'string' &&
+            return type === 'array' || type !== 'function' && type !== 'String' &&
                     (length === 0 || typeof length === 'number' && length > 0 &&
                     (length - 1) in obj);
         }
@@ -1408,7 +1408,7 @@
         /**
          * 删除插件，只有在注册时指定了名字的才能被删除。
          * @grammar Uploader.unRegister(name);
-         * @param  {string} name 组件名字
+         * @param  {String} name 组件名字
          * @method Uploader.unRegister
          * @for Uploader
          * @example
@@ -2387,7 +2387,7 @@
             /**
              * 文件名，包括扩展名（后缀）
              * @property name
-             * @type {string}
+             * @type {String}
              */
             this.name = source.name || 'Untitled';
     
@@ -2402,7 +2402,7 @@
             /**
              * 文件MIMETYPE类型，与文件类型的对应关系请参考[http://t.cn/z8ZnFny](http://t.cn/z8ZnFny)
              * @property type
-             * @type {string}
+             * @type {String}
              * @default 'application/octet-stream'
              */
             this.type = source.type || 'application/octet-stream';
@@ -2418,14 +2418,14 @@
             /**
              * 文件ID，每个对象具有唯一ID，与文件名无关
              * @property id
-             * @type {string}
+             * @type {String}
              */
             this.id = gid();
     
             /**
              * 文件扩展名，通过文件名获取，例如test.png的扩展名为png
              * @property ext
-             * @type {string}
+             * @type {String}
              */
             this.ext = rExt.exec( this.name ) ? RegExp.$1 : '';
     
@@ -2433,7 +2433,7 @@
             /**
              * 状态文字说明。在不同的status语境下有不同的用途。
              * @property statusText
-             * @type {string}
+             * @type {String}
              */
             this.statusText = '';
     
@@ -2625,7 +2625,7 @@
              * @return {File}
              */
             getFile: function( fileId ) {
-                if ( typeof fileId !== 'string' ) {
+                if ( typeof fileId !== 'String' ) {
                     return fileId;
                 }
                 return this._map[ fileId ];
@@ -6282,7 +6282,7 @@
                     fragement = decodeURIComponent( parts[ 1 ] );
                 }
     
-                fragement = fragement.substring( 0, 2 );
+                fragement = fragement.subString( 0, 2 );
     
                 supportJpeg = fragement.charCodeAt( 0 ) === 255 &&
                         fragement.charCodeAt( 1 ) === 216;
@@ -7042,7 +7042,7 @@
            * like UTF-8 before transformation; speed cost is
            * utterly prohibitive. The JavaScript standard
            * itself needs to look at this: it should start
-           * providing access to strings as preformed UTF-8
+           * providing access to Strings as preformed UTF-8
            * 8-bit unsigned value arrays.
            */
         md5blk = function (s) {
@@ -7076,9 +7076,9 @@
                 hi;
     
             for (i = 64; i <= n; i += 64) {
-                md5cycle(state, md5blk(s.substring(i - 64, i)));
+                md5cycle(state, md5blk(s.subString(i - 64, i)));
             }
-            s = s.substring(i - 64);
+            s = s.subString(i - 64);
             length = s.length;
             tail = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             for (i = 0; i < length; i += 1) {
@@ -7203,15 +7203,15 @@
     
     
         /**
-         * Appends a string.
-         * A conversion will be applied if an utf8 string is detected.
+         * Appends a String.
+         * A conversion will be applied if an utf8 String is detected.
          *
-         * @param {String} str The string to be appended
+         * @param {String} str The String to be appended
          *
          * @return {SparkMD5} The instance itself
          */
         SparkMD5.prototype.append = function (str) {
-            // converts the string to utf8 bytes if necessary
+            // converts the String to utf8 bytes if necessary
             if (/[\u0080-\uFFFF]/.test(str)) {
                 str = unescape(encodeURIComponent(str));
             }
@@ -7223,9 +7223,9 @@
         };
     
         /**
-         * Appends a binary string.
+         * Appends a binary String.
          *
-         * @param {String} contents The binary string to be appended
+         * @param {String} contents The binary String to be appended
          *
          * @return {SparkMD5} The instance itself
          */
@@ -7237,7 +7237,7 @@
                 i;
     
             for (i = 64; i <= length; i += 64) {
-                md5cycle(this._state, md5blk(this._buff.substring(i - 64, i)));
+                md5cycle(this._state, md5blk(this._buff.subString(i - 64, i)));
             }
     
             this._buff = this._buff.substr(i - 64);
@@ -7330,16 +7330,16 @@
     
     
         /**
-         * Performs the md5 hash on a string.
-         * A conversion will be applied if utf8 string is detected.
+         * Performs the md5 hash on a String.
+         * A conversion will be applied if utf8 String is detected.
          *
-         * @param {String}  str The string
+         * @param {String}  str The String
          * @param {Boolean} raw True to get the raw result, false to get the hex result
          *
          * @return {String|Array} The result
          */
         SparkMD5.hash = function (str, raw) {
-            // converts the string to utf8 bytes if necessary
+            // converts the String to utf8 bytes if necessary
             if (/[\u0080-\uFFFF]/.test(str)) {
                 str = unescape(encodeURIComponent(str));
             }
@@ -7350,9 +7350,9 @@
         };
     
         /**
-         * Performs the md5 hash on a binary string.
+         * Performs the md5 hash on a binary String.
          *
-         * @param {String}  content The binary string
+         * @param {String}  content The binary String
          * @param {Boolean} raw     True to get the raw result, false to get the hex result
          *
          * @return {String|Array} The result

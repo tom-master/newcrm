@@ -68,7 +68,7 @@ version 1.5.3 (2/6/12)
 	- bundled with jQuery 1.7.1 and jQuery UI 1.8.17
 
 version 1.5.2 (8/21/11)
-	- correctly process UTC "Z" ISO8601 date strings (issue 750)
+	- correctly process UTC "Z" ISO8601 date Strings (issue 750)
 
 version 1.5.1 (4/9/11)
 	- more flexible ISO8601 date parsing (issue 814)
@@ -115,7 +115,7 @@ version 1.5 (3/19/11)
 		  allows for easily attaching ajax handlers such as `error` (issue 754)
 		  allows for turning caching on (issue 355)
 	- Google Calendar feeds are now specified differently:
-		- specify a simple string of your feed's URL
+		- specify a simple String of your feed's URL
 		- specify an *object* with a `url` property of your feed's URL.
 		  you can include any of the new Event-Source options in this object.
 		- the old `$.fullCalendar.gcalFeed` method still works
@@ -200,7 +200,7 @@ version 1.4.3 (12/22/09)
 		- parseISO8601 and DST caused certain events to display day before
 		- button positioning problem in IE6
 		- ajax event source removed after recently being added, events still displayed
-		- event not displayed when end is an empty string
+		- event not displayed when end is an empty String
 		- dynamically setting calendar height when no events have been fetched, throws error
 
 version 1.4.2 (12/02/09)
@@ -316,7 +316,7 @@ version 1.3 (9/21/09)
 		x removeEvent       -> removeEvents
 		x getEventsByID     -> clientEvents
 	- Utilities:
-		'formatDate' format string completely changed (inspired by jQuery UI datepicker + datejs)
+		'formatDate' format String completely changed (inspired by jQuery UI datepicker + datejs)
 		'formatDates' added to support date-ranges
 	- Google Calendar Options:
 		x draggable -> editable
@@ -341,7 +341,7 @@ version 1.2 (5/31/09)
 			- dynamically add/remove event sources
 	- options for prevYear and nextYear buttons
 	- docs have been reworked (include addition of Google Calendar docs)
-	- changed behavior of parseDate for number strings
+	- changed behavior of parseDate for number Strings
 	  (now interpets as unix timestamp, not MS times)
 	- bugfixes
 		- rightToLeft month start bug

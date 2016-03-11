@@ -39,6 +39,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="NewCRM.CommonTools">
+      <HintPath>..\NewCRM.Repositories\bin\Debug\NewCRM.CommonTools.dll</HintPath>
+    </Reference>
     <Reference Include="NewCRM.Domain">
       <HintPath>..\NewCRM.Domain\bin\Debug\NewCRM.Domain.dll</HintPath>
     </Reference>
@@ -57,10 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommonTools\AjaxFlg.cs" />
     <Compile Include="CommonTools\BasePage.cs" />
-    <Compile Include="CommonTools\CommonAjaxMsg.cs" />
-    <Compile Include="CommonTools\ConstString.cs" />
     <Compile Include="CommonTools\CustemException\BusinessException.cs" />
     <Compile Include="CommonTools\CustemException\ComponentException.cs" />
     <Compile Include="CommonTools\CustemException\DomainModelException.cs" />
@@ -69,23 +69,18 @@
     <Compile Include="CommonTools\CustomExtension\CollectionExtensions.cs" />
     <Compile Include="CommonTools\CustomExtension\EnumExtensions.cs" />
     <Compile Include="CommonTools\CustomExtension\ObjectExtensions.cs" />
+    <Compile Include="CommonTools\CustomExtension\PropertySortCondition.cs" />
     <Compile Include="CommonTools\CustomExtension\QueryExtensions.cs" />
     <Compile Include="CommonTools\CustomExtension\TypeExtensions.cs" />
-    <Compile Include="CommonTools\CustomHelper\CombHelper.cs" />
-    <Compile Include="CommonTools\CustomHelper\ConfigHelper.cs" />
-    <Compile Include="CommonTools\CustomHelper\DataHelper.cs" />
-    <Compile Include="CommonTools\CustomHelper\DeptHelper.cs" />
-    <Compile Include="CommonTools\CustomHelper\DropDownListHelper.cs" />
-    <Compile Include="CommonTools\CustomHelper\MenuHelper.cs" />
-    <Compile Include="CommonTools\CustomHelper\PowerHelper.cs" />
-    <Compile Include="CommonTools\CustomHelper\PublicHelper.cs" />
+    <Compile Include="CommonTools\CustomHelper\DataBaseErrorType.cs" />
+    <Compile Include="CommonTools\CustomHelper\DataBaseErrorResponse.cs" />
+    <Compile Include="CommonTools\CustomHelper\Parameter.cs" />
     <Compile Include="CommonTools\CustomHelper\StringHelper.cs" />
     <Compile Include="CommonTools\FileHelper.cs" />
     <Compile Include="CommonTools\FileUpLoadHelper.cs" />
     <Compile Include="CommonTools\OperationResult.cs" />
-    <Compile Include="CommonTools\OperationResultType.cs" />
+    <Compile Include="CommonTools\ResponseType.cs" />
     <Compile Include="CommonTools\PasswordUtil.cs" />
-    <Compile Include="CommonTools\SortCondition.cs" />
     <Compile Include="CommonTools\T4\T4ModelInfo.cs" />
     <Compile Include="InitializeDataBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

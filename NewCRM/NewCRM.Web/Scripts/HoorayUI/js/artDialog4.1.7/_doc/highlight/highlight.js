@@ -536,15 +536,15 @@ var hljs = new function() {
   this.C_NUMBER_RE = '\\b(0x[A-Za-z0-9]+|\\d+(\\.\\d+)?)';
   this.RE_STARTERS_RE = '!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~';
 
-  this.APOS_STRING_MODE = {
-    className: 'string',
+  this.APOS_String_MODE = {
+    className: 'String',
     begin: '\'', end: '\'',
     illegal: '\\n',
     contains: ['escape'],
     relevance: 0
   };
-  this.QUOTE_STRING_MODE = {
-    className: 'string',
+  this.QUOTE_String_MODE = {
+    className: 'String',
     begin: '"', end: '"',
     illegal: '\\n',
     contains: ['escape'],

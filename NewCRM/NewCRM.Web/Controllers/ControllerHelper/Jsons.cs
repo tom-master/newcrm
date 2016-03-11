@@ -25,13 +25,13 @@ namespace NewCRM.Web.Controllers.ControllerHelper
                 throw new ArgumentNullException("context");
             }
             if (this.JsonRequestBehavior == JsonRequestBehavior.DenyGet &&
-                string.Equals(context.HttpContext.Request.HttpMethod, "GET", StringComparison.OrdinalIgnoreCase))
+                String.Equals(context.HttpContext.Request.HttpMethod, "GET", StringComparison.OrdinalIgnoreCase))
             {
                 throw new InvalidOperationException("JSON GET is not allowed");
             }
 
             HttpResponseBase response = context.HttpContext.Response;
-            response.ContentType = string.IsNullOrEmpty(this.ContentType) ?
+            response.ContentType = String.IsNullOrEmpty(this.ContentType) ?
            "application/json" : this.ContentType;
             if (this.ContentEncoding != null)
                 response.ContentEncoding = this.ContentEncoding;

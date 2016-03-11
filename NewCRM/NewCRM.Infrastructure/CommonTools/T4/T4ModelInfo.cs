@@ -15,17 +15,17 @@ namespace NewCRM.Infrastructure.CommonTools.T4
         /// <summary>
         /// 获取 模型所在模块名称
         /// </summary>
-        public string ModuleName { get; private set; }
+        public String ModuleName { get; private set; }
 
         /// <summary>
         /// 获取 模型名称
         /// </summary>
-        public string Name { get; private set; }
+        public String Name { get; private set; }
 
         /// <summary>
         /// 获取 模型描述
         /// </summary>
-        public string Description { get; private set; }
+        public String Description { get; private set; }
 
         /// <summary>
         /// 主键类型
@@ -35,7 +35,7 @@ namespace NewCRM.Infrastructure.CommonTools.T4
         /// <summary>
         /// 主键类型名称
         /// </summary>
-        public string KeyTypeName { get; set; }
+        public String KeyTypeName { get; set; }
         public IEnumerable<PropertyInfo> Properties { get; private set; }
 
         public T4ModelInfo(Type modelType, Boolean isinherit=false)

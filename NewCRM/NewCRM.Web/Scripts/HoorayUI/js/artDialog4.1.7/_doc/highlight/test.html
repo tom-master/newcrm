@@ -147,7 +147,7 @@ write your own (and contribute it back!)
 <pre>
 <code>@requires_authorization
 def somefunc(param1, param2):
-  r'''A docstring'''
+  r'''A docString'''
   if param1 > param2: # interesting
     print 'Gre\'ater'
     print ''
@@ -210,7 +210,7 @@ sub load
   #$o-&gt;{'SHCUT'} = $flds-&gt;{'SHCUT'};
   my $p = $o-&gt;props;
   my $vt;
-  $string =~ m/^sought_text$/;
+  $String =~ m/^sought_text$/;
   for my $key (keys %$p)
   {
     if(${$vt.'::property'}) {
@@ -237,10 +237,10 @@ abstract class Zend_Uri
 {
 
   /**
-   * Return a string representation of this URI.
+   * Return a String representation of this URI.
    *
    * @see     getUri()
-   * @return  string
+   * @return  String
    */
   public function __toString()
   {
@@ -418,10 +418,10 @@ p[lang=ru] {
 Set cfg = CreateObject("Scripting.Dictionary")
 
 ' reading ini file
-for i = 0 to ubound(ini_strings)
-    s = trim(ini_strings(i))
+for i = 0 to ubound(ini_Strings)
+    s = trim(ini_Strings(i))
 
-    ' skipping empty strings and comments
+    ' skipping empty Strings and comments
     if mid(s, 1, 1) &lt;&gt; "#" and len(s) > 0 then
       ' obtaining key and value
       parts = split(s, "=", -1, 1)
@@ -477,7 +477,7 @@ multi-line ]=]
 comment ]==]
 [==[ Nested
 [=[ multi-line
-[[ string
+[[ String
 ]] ]=] ]==]
 </code></pre>
 
@@ -576,7 +576,7 @@ int main(int argc, char *argv[]) {
     cout &lt;&lt; "Hello, World!" &lt;&lt; endl;
 
   char c = '\n'; // just a test
-  map &lt;string, vector&lt;string&gt; &gt; m;
+  map &lt;String, vector&lt;String&gt; &gt; m;
   m["key"] = "\\\\"; // yeah, I know it's an error
 }
 </code></pre>
@@ -595,11 +595,11 @@ public class Program
     /// This comment should be green on the inside:
     /// &lt;!-- I'm green! --&gt;
     /// &lt;/remarks&gt;
-    public static int Main(string[] args)
+    public static int Main(String[] args)
     {
         Console.WriteLine("Hello, World!");
-        string s = @"This
-""string""
+        String s = @"This
+""String""
 spans
 multiple
 lines!";
@@ -661,18 +661,18 @@ FrameEnd
   <tr>
     <th>MEL (Maya Embedded Language)
     <td>
-<pre><code class="mel">proc string[] getSelectedLights()
+<pre><code class="mel">proc String[] getSelectedLights()
 
 {
-  string $selectedLights[];
+  String $selectedLights[];
 
-  string $select[] = `ls -sl -dag -leaf`;
+  String $select[] = `ls -sl -dag -leaf`;
 
   for ( $shape in $select )
   {
     // Determine if this is a light.
     //
-    string $class[] = getClassification( `nodeType $shape` );
+    String $class[] = getClassification( `nodeType $shape` );
 
 
     if ( ( `size $class` ) > 0 &amp;&amp; ( "light" == $class[0] ) )

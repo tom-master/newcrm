@@ -68,7 +68,7 @@
         //        dataDictionary.Add(fileName, new
         //        {
         //            //皮肤路径
-        //            skinPath = path.Substring(path.LastIndexOf("script", StringComparison.OrdinalIgnoreCase) - 1).Replace(@"\", "/"),
+        //            skinPath = path.SubString(path.LastIndexOf("script", StringComparison.OrdinalIgnoreCase) - 1).Replace(@"\", "/"),
         //            //皮肤的预览图
         //            imgPath = GetImage(fileName, skinFullPath),
         //        });
@@ -82,14 +82,14 @@
         //            SearchOption.AllDirectories).ToList();
         //    foreach (var dicItem in from dicItem in dic let regex = new Regex(fileName) where regex.IsMatch(dicItem) select dicItem)
         //    {
-        //        return dicItem.Substring(dicItem.LastIndexOf("script", StringComparison.OrdinalIgnoreCase) - 1).Replace(@"\", "/");
+        //        return dicItem.SubString(dicItem.LastIndexOf("script", StringComparison.OrdinalIgnoreCase) - 1).Replace(@"\", "/");
         //    }
         //    return "";
         //}
 
         //private String Get(String path, Func<String, Int32> filterFunc)
         //{
-        //    return path.Substring(filterFunc(path));
+        //    return path.SubString(filterFunc(path));
         //}
 
         ///// <summary>

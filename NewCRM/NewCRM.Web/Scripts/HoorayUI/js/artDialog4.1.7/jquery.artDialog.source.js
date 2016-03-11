@@ -31,7 +31,7 @@ var _box, _thisScript, _skin, _path,
 var artDialog = function (config, ok, cancel) {
 	config = config || {};
 	
-	if (typeof config === 'string' || config.nodeType === 1) {
+	if (typeof config === 'String' || config.nodeType === 1) {
 		config = {content: config, fixed: !_isMobile};
 	};
 	
@@ -49,7 +49,7 @@ var artDialog = function (config, ok, cancel) {
 	function(i,o){config[i]=config[i]!==undefined?config[i]:config[o]});
 	
 	// 返回跟随模式或重复定义的ID
-	if (typeof elem === 'string') elem = $(elem)[0];
+	if (typeof elem === 'String') elem = $(elem)[0];
 	config.id = elem && elem[_expando + 'follow'] || config.id || _expando + _count;
 	api = artDialog.list[config.id];
 	if (elem && api) return api.follow(elem).zIndex().focus();
@@ -151,7 +151,7 @@ artDialog.fn = artDialog.prototype = {
 		wrap.style.width = 'auto';
 		
 		if (msg === undefined) return content;
-		if (typeof msg === 'string') {
+		if (typeof msg === 'String') {
 			$content.html(msg);
 		} else if (msg && msg.nodeType === 1) {
 		
@@ -253,7 +253,7 @@ artDialog.fn = artDialog.prototype = {
 			if (typeof left === 'number') {
 				left = ie6Fixed ? (left += docLeft) : left + dl;
 				style.left = Math.max(left, dl) + 'px';
-			} else if (typeof left === 'string') {
+			} else if (typeof left === 'String') {
 				style.left = left;
 			};
 		};
@@ -265,7 +265,7 @@ artDialog.fn = artDialog.prototype = {
 			if (typeof top === 'number') {
 				top = ie6Fixed ? (top += docTop) : top + dt;
 				style.top = Math.max(top, dt) + 'px';
-			} else if (typeof top === 'string') {
+			} else if (typeof top === 'String') {
 				style.top = top;
 			};
 		};
@@ -303,7 +303,7 @@ artDialog.fn = artDialog.prototype = {
 				wrapStyle.width = 'auto';
 				style.width = Math.max(that.config.minWidth, width) + 'px';
 				wrapStyle.width = wrap[0].offsetWidth + 'px'; // 防止未定义宽度的表格遇到浏览器右边边界伸缩
-			} else if (typeof width === 'string') {
+			} else if (typeof width === 'String') {
 				style.width = width;
 				width === 'auto' && wrap.css('width', 'auto');
 			};
@@ -317,7 +317,7 @@ artDialog.fn = artDialog.prototype = {
 			
 			if (typeof height === 'number') {
 				style.height = Math.max(that.config.minHeight, height) + 'px';
-			} else if (typeof height === 'string') {
+			} else if (typeof height === 'String') {
 				style.height = height;
 			};
 		};
@@ -334,7 +334,7 @@ artDialog.fn = artDialog.prototype = {
 	follow: function (elem) {
 		var $elem, that = this, config = that.config;
 		
-		if (typeof elem === 'string' || elem && elem.nodeType === 1) {
+		if (typeof elem === 'String' || elem && elem.nodeType === 1) {
 			$elem = $(elem);
 			elem = $elem[0];
 		};
@@ -926,7 +926,7 @@ _path = window['_artDialog_path'] || (function (script, i, me) {
 	
 	_thisScript = me || script[script.length - 1];
 	me = _thisScript.src.replace(/\\/g, '/');
-	return me.lastIndexOf('/') < 0 ? '.' : me.substring(0, me.lastIndexOf('/'));
+	return me.lastIndexOf('/') < 0 ? '.' : me.subString(0, me.lastIndexOf('/'));
 }(document.getElementsByTagName('script')));
 
 

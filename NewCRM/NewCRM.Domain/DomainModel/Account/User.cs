@@ -18,12 +18,13 @@ namespace NewCRM.Domain.DomainModel.Account
         private Boolean _isDisable;
         private DateTime _lastLoginTime;
 
-        private ICollection<Title> _titles;
         private Department _department;
         private UserConfigure _userConfigure;
+
+        private ICollection<App> _apps;
         private ICollection<Role> _roles;
         private ICollection<Log> _logs;
-
+        private ICollection<Title> _titles;
         #endregion
 
         #region ctor
@@ -75,8 +76,23 @@ namespace NewCRM.Domain.DomainModel.Account
 
         public virtual Department Department
         {
-            get { return _department; }
-            set { _department = value; }
+            get
+            {
+                return _department;
+            }
+            set
+            {
+                _department = value;
+            }
+        }
+
+        public virtual ICollection<App> Apps
+        {
+            get { return _apps; }
+            set
+            {
+                _apps = value;
+            }
         }
 
         public virtual ICollection<Title> Titles

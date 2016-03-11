@@ -454,12 +454,12 @@
 
 		update: function () {
 			var date, fromArgs = false;
-			if (arguments && arguments.length && (typeof arguments[0] === 'string' || arguments[0] instanceof Date)) {
+			if (arguments && arguments.length && (typeof arguments[0] === 'String' || arguments[0] instanceof Date)) {
 				date = arguments[0];
 				fromArgs = true;
 			} else {
 				date = this.element.data('date') || (this.isInput ? this.element.val() : this.element.find('input').val()) || this.initialDate;
-				if (typeof date == 'string' || date instanceof String) {
+				if (typeof date == 'String' || date instanceof String) {
 				  date = date.replace(/^\s+|\s+$/g,'');
 				}
 			}
@@ -1234,7 +1234,7 @@
 			if (!data) {
 				$this.data('datetimepicker', (data = new Datetimepicker(this, $.extend({}, $.fn.datetimepicker.defaults, options))));
 			}
-			if (typeof option == 'string' && typeof data[option] == 'function') {
+			if (typeof option == 'String' && typeof data[option] == 'function') {
 				data[option].apply(data, args);
 			}
 		});
@@ -1316,7 +1316,7 @@
 		},
 		nonpunctuation:   /[^ -\/:-@\[-`{-~\t\n\rTZ]+/g,
 		parseFormat:      function (format, type) {
-			// IE treats \0 as a string end in inputs (truncating the value),
+			// IE treats \0 as a String end in inputs (truncating the value),
 			// so it's a bad format delimiter, anyway
 			var separators = format.replace(this.validParts(type), '\0').split('\0'),
 				parts = format.match(this.validParts(type));
@@ -1467,7 +1467,7 @@
 			if (type == 'standard') {
 				val = {
 					// year
-					yy:   date.getUTCFullYear().toString().substring(2),
+					yy:   date.getUTCFullYear().toString().subString(2),
 					yyyy: date.getUTCFullYear(),
 					// month
 					m:    date.getUTCMonth() + 1,
@@ -1503,7 +1503,7 @@
 				// php format
 				val = {
 					// year
-					y: date.getUTCFullYear().toString().substring(2),
+					y: date.getUTCFullYear().toString().subString(2),
 					Y: date.getUTCFullYear(),
 					// month
 					F: dates[language].months[date.getUTCMonth()],

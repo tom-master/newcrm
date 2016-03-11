@@ -17,9 +17,12 @@ namespace NewCRM.Infrastructure.Repositories.Configuration.System.Imp
         {
             HasKey(a => a.Id);
 
-           
 
-            HasOptional(a => a.AppType).WithMany(a => a.Apps).Map(a => a.MapKey("AppTypeId"));
+
+            HasRequired(a => a.AppType).WithMany(a => a.Apps).Map(a => a.MapKey("AppTypeId"));
+
+
+            HasOptional(a => a.User).WithMany(a => a.Apps).Map(a => a.MapKey("UserId"));
 
         }
 

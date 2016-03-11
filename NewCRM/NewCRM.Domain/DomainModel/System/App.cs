@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using NewCRM.Domain.DomainModel.Account;
 using NewCRM.Domain.DomainModel.Security;
 
 namespace NewCRM.Domain.DomainModel.System
@@ -31,10 +32,12 @@ namespace NewCRM.Domain.DomainModel.System
         private Boolean _isLock;
         private Boolean _isSystem;
 
-
         private AppType _appType;
 
+        private User _user;
+
         private ICollection<Role> _roles;
+
 
         #endregion
 
@@ -164,6 +167,15 @@ namespace NewCRM.Domain.DomainModel.System
         {
             get { return _appType; }
             set { _appType = value; }
+        }
+
+        public virtual User User
+        {
+            get { return _user;}
+            set
+            {
+                _user = value;
+            }
         }
 
         public virtual ICollection<Role> Roles

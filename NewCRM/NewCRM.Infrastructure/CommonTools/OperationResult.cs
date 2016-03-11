@@ -1,92 +1,45 @@
-﻿namespace NewCRM.Infrastructure.CommonTools
+﻿using System;
+
+namespace NewCRM.Infrastructure.CommonTools
 {
-    /// <summary>
-    ///     业务操作结果信息类，对操作结果进行封装
-    /// </summary>
-    public class OperationResult
+    public sealed class ResponseInformation
     {
         #region 构造函数
 
-        /// <summary>
-        ///     初始化一个 业务操作结果信息类 的新实例
-        /// </summary>
-        /// <param name="resultType">业务操作结果类型</param>
-        public OperationResult(OperationResultType resultType)
+        public ResponseInformation(ResponseType responseType)
         {
-            ResultType = resultType;
+            ResultType = responseType;
         }
 
-        /// <summary>
-        ///     初始化一个 定义返回消息的业务操作结果信息类 的新实例
-        /// </summary>
-        /// <param name="resultType">业务操作结果类型</param>
-        /// <param name="message">业务返回消息</param>
-        public OperationResult(OperationResultType resultType, string message)
-            : this(resultType)
+        public ResponseInformation(ResponseType responseType, String message)
+            : this(responseType)
         {
             Message = message;
         }
 
-        /// <summary>
-        ///     初始化一个 定义返回消息与附加数据的业务操作结果信息类 的新实例
-        /// </summary>
-        /// <param name="resultType">业务操作结果类型</param>
-        /// <param name="message">业务返回消息</param>
-        /// <param name="appendData">业务返回数据</param>
-        public OperationResult(OperationResultType resultType, string message, dynamic appendData)
-            : this(resultType, message)
+        public ResponseInformation(ResponseType responseType, String message, dynamic appendData)
+            : this(responseType, message)
         {
-            AppendData = appendData;
+            Data = appendData;
         }
 
-        /// <summary>
-        ///     初始化一个 定义返回消息与日志消息的业务操作结果信息类 的新实例
-        /// </summary>
-        /// <param name="resultType">业务操作结果类型</param>
-        /// <param name="message">业务返回消息</param>
-        /// <param name="logMessage">业务日志记录消息</param>
-        public OperationResult(OperationResultType resultType, string message, string logMessage)
-            : this(resultType, message)
-        {
-            LogMessage = logMessage;
-        }
 
-        /// <summary>
-        ///     初始化一个 定义返回消息、日志消息与附加数据的业务操作结果信息类 的新实例
-        /// </summary>
-        /// <param name="resultType">业务操作结果类型</param>
-        /// <param name="message">业务返回消息</param>
-        /// <param name="logMessage">业务日志记录消息</param>
-        /// <param name="appendData">业务返回数据</param>
-        public OperationResult(OperationResultType resultType, string message, string logMessage, dynamic appendData)
-            : this(resultType, message, logMessage)
+
+        public ResponseInformation(ResponseType responseType, String message, String logMessage, dynamic appendData)
+            : this(responseType, message, logMessage)
         {
-            AppendData = appendData;
+            Data = appendData;
         }
 
         #endregion
 
         #region 属性
 
-        /// <summary>
-        ///     获取或设置 操作结果类型
-        /// </summary>
-        public OperationResultType ResultType { get; set; }
+        public ResponseType ResultType { get; set; }
 
-        /// <summary>
-        ///     获取或设置 操作返回信息
-        /// </summary>
-        public string Message { get; set; }
+        public String Message { get; set; }
 
-        /// <summary>
-        ///     获取或设置 操作返回的日志消息，用于记录日志
-        /// </summary>
-        public string LogMessage { get; set; }
-
-        /// <summary>
-        ///     获取或设置 操作结果附加信息
-        /// </summary>
-        public dynamic AppendData { get; set; }
+        public dynamic Data { get; set; }
 
         #endregion
     }

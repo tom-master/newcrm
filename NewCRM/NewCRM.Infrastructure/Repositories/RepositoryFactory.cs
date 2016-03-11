@@ -27,7 +27,7 @@ namespace NewCRM.Infrastructure.Repositories
                 return (TRepository)_repositoryCache[typeof(TRepository).Name];//返回缓存中的仓储
             }
             var tRepositoryInstance = Activator.CreateInstance<TRepository>();//创建一个仓储实例
-            _repositoryCache.Add(new KeyValuePair<string, IRepository<TEntity, int>>(typeof(TRepository).Name,
+            _repositoryCache.Add(new KeyValuePair<String, IRepository<TEntity, int>>(typeof(TRepository).Name,
                 tRepositoryInstance));//将新建的仓储实例添加到缓存中
             return tRepositoryInstance;//返回新创建的仓储实例
         }

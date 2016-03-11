@@ -22,3 +22,5 @@ E:\NewCRMTest\NewCRM\NewCRM.Infrastructure\bin\Debug\NewCRM.Domain.pdb
 E:\NewCRMTest\NewCRM\NewCRM.Infrastructure\obj\Debug\NewCRM.Infrastructure.csprojResolveAssemblyReference.cache
 E:\NewCRMTest\NewCRM\NewCRM.Infrastructure\obj\Debug\NewCRM.Infrastructure.dll
 E:\NewCRMTest\NewCRM\NewCRM.Infrastructure\obj\Debug\NewCRM.Infrastructure.pdb
+E:\NewCRMTest\NewCRM\NewCRM.Infrastructure\bin\Debug\NewCRM.CommonTools.dll
+E:\NewCRMTest\NewCRM\NewCRM.Infrastructure\bin\Debug\NewCRM.CommonTools.pdb

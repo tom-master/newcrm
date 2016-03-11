@@ -82,7 +82,7 @@ $(function(){
 					atmax=6;
 				var getAnsiLength = function(b,ansi) {
 					//该方法由网友 雨中的双子座 提供;
-					if (!(typeof b == 'string') || !ansi) {
+					if (!(typeof b == 'String') || !ansi) {
 						return b.length;
 					}
 					var a=b.match(/[^\x00-\x80]/g);

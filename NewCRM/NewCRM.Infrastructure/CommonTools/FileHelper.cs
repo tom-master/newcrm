@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace NewCRM.Infrastructure.CommonTools
 {
@@ -12,7 +13,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// 检测指定目录是否存在
         /// </summary>
         /// <param name="directoryPath">目录的绝对路径</param>        
-        public static bool IsExistDirectory(string directoryPath)
+        public static bool IsExistDirectory(String directoryPath)
         {
             return Directory.Exists(directoryPath);
         }
@@ -23,7 +24,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// 检测指定文件是否存在,如果存在则返回true。
         /// </summary>
         /// <param name="filePath">文件的绝对路径</param>        
-        public static bool IsExistFile(string filePath)
+        public static bool IsExistFile(String filePath)
         {
             return File.Exists(filePath);
         }
@@ -34,7 +35,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// 创建一个目录
         /// </summary>
         /// <param name="directoryPath">目录的绝对路径</param>
-        public static void CreateDirectory(string directoryPath)
+        public static void CreateDirectory(String directoryPath)
         {
             //如果目录不存在则创建该目录
             if (!IsExistDirectory(directoryPath))
@@ -49,10 +50,10 @@ namespace NewCRM.Infrastructure.CommonTools
         /// 获取文本文件的行数
         /// </summary>
         /// <param name="filePath">文件的绝对路径</param>        
-        public static int GetLineCount(string filePath)
+        public static int GetLineCount(String filePath)
         {
             //将文本文件的各行读到一个字符串数组中
-            string[] rows = File.ReadAllLines(filePath);
+            String[] rows = File.ReadAllLines(filePath);
 
             //返回行数
             return rows.Length;
@@ -64,7 +65,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// 获取指定目录中所有文件列表
         /// </summary>
         /// <param name="directoryPath">指定目录的绝对路径</param>        
-        public static string[] GetFileNames(string directoryPath)
+        public static String[] GetFileNames(String directoryPath)
         {
             //如果目录不存在，则抛出异常
             if (!IsExistDirectory(directoryPath))
@@ -83,7 +84,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// <param name="searchPattern">模式字符串，"*"代表0或N个字符，"?"代表1个字符。
         /// 范例："Log*.xml"表示搜索所有以Log开头的Xml文件。</param>
         /// <param name="isSearchChild">是否搜索子目录</param>
-        public static string[] GetFileNames(string directoryPath, string searchPattern, bool isSearchChild)
+        public static String[] GetFileNames(String directoryPath, String searchPattern, bool isSearchChild)
         {
             //如果目录不存在，则抛出异常
             if (!IsExistDirectory(directoryPath))
@@ -114,7 +115,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// 获取指定目录中所有子目录列表,若要搜索嵌套的子目录列表,请使用重载方法.
         /// </summary>
         /// <param name="directoryPath">指定目录的绝对路径</param>        
-        public static string[] GetDirectories(string directoryPath)
+        public static String[] GetDirectories(String directoryPath)
         {
             try
             {
@@ -133,7 +134,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// <param name="searchPattern">模式字符串，"*"代表0或N个字符，"?"代表1个字符。
         /// 范例："Log*.xml"表示搜索所有以Log开头的Xml文件。</param>
         /// <param name="isSearchChild">是否搜索子目录</param>
-        public static string[] GetDirectories(string directoryPath, string searchPattern, bool isSearchChild)
+        public static String[] GetDirectories(String directoryPath, String searchPattern, bool isSearchChild)
         {
             try
             {
@@ -159,7 +160,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// </summary>
         /// <param name="filePath">文件的绝对路径</param>
         /// <param name="content">写入的内容</param>        
-        public static void WriteText(string filePath, string content)
+        public static void WriteText(String filePath, String content)
         {
             //向文件写入内容
             File.WriteAllText(filePath, content);
@@ -172,7 +173,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// </summary>
         /// <param name="filePath">文件的绝对路径</param>
         /// <param name="content">写入的内容</param>
-        public static void AppendText(string filePath, string content)
+        public static void AppendText(String filePath, String content)
         {
             File.AppendAllText(filePath, content);
         }
@@ -184,7 +185,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// </summary>
         /// <param name="sourceFilePath">源文件的绝对路径</param>
         /// <param name="destFilePath">目标文件的绝对路径</param>
-        public static void Copy(string sourceFilePath, string destFilePath)
+        public static void Copy(String sourceFilePath, String destFilePath)
         {
             File.Copy(sourceFilePath, destFilePath, true);
         }
@@ -196,10 +197,10 @@ namespace NewCRM.Infrastructure.CommonTools
         /// </summary>
         /// <param name="sourceFilePath">需要移动的源文件的绝对路径</param>
         /// <param name="descDirectoryPath">移动到的目录的绝对路径</param>
-        public static void Move(string sourceFilePath, string descDirectoryPath)
+        public static void Move(String sourceFilePath, String descDirectoryPath)
         {
             //获取源文件的名称
-            string sourceFileName = GetFileName(sourceFilePath);
+            String sourceFileName = GetFileName(sourceFilePath);
 
             if (IsExistDirectory(descDirectoryPath))
             {
@@ -219,7 +220,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// 从文件的绝对路径中获取文件名( 包含扩展名 )
         /// </summary>
         /// <param name="filePath">文件的绝对路径</param>        
-        public static string GetFileName(string filePath)
+        public static String GetFileName(String filePath)
         {
             //获取文件的名称
             FileInfo fi = new FileInfo(filePath);
@@ -232,7 +233,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// 从文件的绝对路径中获取文件名( 不包含扩展名 )
         /// </summary>
         /// <param name="filePath">文件的绝对路径</param>        
-        public static string GetFileNameNoExtension(string filePath)
+        public static String GetFileNameNoExtension(String filePath)
         {
             //获取文件的名称
             FileInfo fi = new FileInfo(filePath);
@@ -245,7 +246,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// 从文件的绝对路径中获取扩展名
         /// </summary>
         /// <param name="filePath">文件的绝对路径</param>        
-        public static string GetExtension(string filePath)
+        public static String GetExtension(String filePath)
         {
             //获取文件的名称
             FileInfo fi = new FileInfo(filePath);
@@ -258,19 +259,19 @@ namespace NewCRM.Infrastructure.CommonTools
         /// 清空指定目录下所有文件及子目录,但该目录依然保存.
         /// </summary>
         /// <param name="directoryPath">指定目录的绝对路径</param>
-        public static void ClearDirectory(string directoryPath)
+        public static void ClearDirectory(String directoryPath)
         {
             if (IsExistDirectory(directoryPath))
             {
                 //删除目录中所有的文件
-                string[] fileNames = GetFileNames(directoryPath);
+                String[] fileNames = GetFileNames(directoryPath);
                 for (int i = 0; i < fileNames.Length; i++)
                 {
                     DeleteFile(fileNames[i]);
                 }
 
                 //删除目录中所有的子目录
-                string[] directoryNames = GetDirectories(directoryPath);
+                String[] directoryNames = GetDirectories(directoryPath);
                 for (int i = 0; i < directoryNames.Length; i++)
                 {
                     DeleteDirectory(directoryNames[i]);
@@ -284,7 +285,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// 删除指定文件
         /// </summary>
         /// <param name="filePath">文件的绝对路径</param>
-        public static void DeleteFile(string filePath)
+        public static void DeleteFile(String filePath)
         {
             if (IsExistFile(filePath))
             {
@@ -298,7 +299,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// 删除指定目录及其所有子目录
         /// </summary>
         /// <param name="directoryPath">指定目录的绝对路径</param>
-        public static void DeleteDirectory(string directoryPath)
+        public static void DeleteDirectory(String directoryPath)
         {
             if (IsExistDirectory(directoryPath))
             {

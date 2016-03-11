@@ -94,7 +94,7 @@ SWFUpload.WINDOW_MODE = {
 // Private: takes a URL, determines if it is relative and converts to an absolute URL
 // using the current site. Only processes the URL if it can, otherwise returns the URL untouched
 SWFUpload.completeURL = function(url) {
-	if (typeof(url) !== "string" || url.match(/^https?:\/\//i) || url.match(/^\//)) {
+	if (typeof(url) !== "String" || url.match(/^https?:\/\//i) || url.match(/^\//)) {
 		return url;
 	}
 	
@@ -128,7 +128,7 @@ SWFUpload.prototype.initSettings = function () {
 	this.ensureDefault("preserve_relative_urls", false);
 	this.ensureDefault("file_post_name", "Filedata");
 	this.ensureDefault("post_params", {});
-	this.ensureDefault("use_query_string", false);
+	this.ensureDefault("use_query_String", false);
 	this.ensureDefault("requeue_on_error", false);
 	this.ensureDefault("http_success", []);
 	this.ensureDefault("assume_success_timeout", 0);
@@ -239,17 +239,17 @@ SWFUpload.prototype.getFlashHTML = function () {
 				'</object>'].join("");
 };
 
-// Private: getFlashVars builds the parameter string that will be passed
+// Private: getFlashVars builds the parameter String that will be passed
 // to flash in the flashvars param.
 SWFUpload.prototype.getFlashVars = function () {
-	// Build a string from the post param object
+	// Build a String from the post param object
 	var paramString = this.buildParamString();
 	var httpSuccessString = this.settings.http_success.join(",");
 	
-	// Build the parameter string
+	// Build the parameter String
 	return ["movieName=", encodeURIComponent(this.movieName),
 			"&amp;uploadURL=", encodeURIComponent(this.settings.upload_url),
-			"&amp;useQueryString=", encodeURIComponent(this.settings.use_query_string),
+			"&amp;useQueryString=", encodeURIComponent(this.settings.use_query_String),
 			"&amp;requeueOnError=", encodeURIComponent(this.settings.requeue_on_error),
 			"&amp;httpSuccess=", encodeURIComponent(httpSuccessString),
 			"&amp;assumeSuccessTimeout=", encodeURIComponent(this.settings.assume_success_timeout),
@@ -289,7 +289,7 @@ SWFUpload.prototype.getMovieElement = function () {
 };
 
 // Private: buildParamString takes the name/value pairs in the post_params setting object
-// and joins them up in to a string formatted "name=value&amp;name=value"
+// and joins them up in to a String formatted "name=value&amp;name=value"
 SWFUpload.prototype.buildParamString = function () {
 	var postParams = this.settings.post_params; 
 	var paramStringPairs = [];
@@ -369,7 +369,7 @@ SWFUpload.prototype.displayDebugInfo = function () {
 			"Settings:\n",
 			"\t", "upload_url:               ", this.settings.upload_url, "\n",
 			"\t", "flash_url:                ", this.settings.flash_url, "\n",
-			"\t", "use_query_string:         ", this.settings.use_query_string.toString(), "\n",
+			"\t", "use_query_String:         ", this.settings.use_query_String.toString(), "\n",
 			"\t", "requeue_on_error:         ", this.settings.requeue_on_error.toString(), "\n",
 			"\t", "http_success:             ", this.settings.http_success.join(", "), "\n",
 			"\t", "assume_success_timeout:   ", this.settings.assume_success_timeout, "\n",
@@ -424,7 +424,7 @@ SWFUpload.prototype.addSetting = function (name, value, default_value) {
 	}
 };
 
-// Public: (Deprecated) getSetting gets a setting. Returns an empty string if the setting was not found.
+// Public: (Deprecated) getSetting gets a setting. Returns an empty String if the setting was not found.
 SWFUpload.prototype.getSetting = function (name) {
     if (this.settings[name] != undefined) {
         return this.settings[name];
@@ -605,9 +605,9 @@ SWFUpload.prototype.setFilePostName = function (filePostName) {
 	this.callFlash("SetFilePostName", [filePostName]);
 };
 
-// Public: setUseQueryString changes the use_query_string setting
+// Public: setUseQueryString changes the use_query_String setting
 SWFUpload.prototype.setUseQueryString = function (useQueryString) {
-	this.settings.use_query_string = useQueryString;
+	this.settings.use_query_String = useQueryString;
 	this.callFlash("SetUseQueryString", [useQueryString]);
 };
 
@@ -619,7 +619,7 @@ SWFUpload.prototype.setRequeueOnError = function (requeueOnError) {
 
 // Public: setHTTPSuccess changes the http_success setting
 SWFUpload.prototype.setHTTPSuccess = function (http_status_codes) {
-	if (typeof http_status_codes === "string") {
+	if (typeof http_status_codes === "String") {
 		http_status_codes = http_status_codes.replace(" ", "").split(",");
 	}
 	
@@ -932,7 +932,7 @@ SWFUpload.prototype.debugMessage = function (message) {
 		var exceptionMessage, exceptionValues = [];
 
 		// Check for an exception object and print it nicely
-		if (typeof message === "object" && typeof message.name === "string" && typeof message.message === "string") {
+		if (typeof message === "object" && typeof message.name === "String" && typeof message.message === "String") {
 			for (var key in message) {
 				if (message.hasOwnProperty(key)) {
 					exceptionValues.push(key + ": " + message[key]);
