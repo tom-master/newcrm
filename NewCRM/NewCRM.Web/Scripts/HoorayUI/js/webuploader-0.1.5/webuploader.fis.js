@@ -825,8 +825,8 @@ return (function( root, factory ) {
             trigger: function( type/*, args...*/ ) {
                 var args = [].slice.call( arguments, 1 ),
                     opts = this.options,
-                    name = 'on' + type.subString( 0, 1 ).toUpperCase() +
-                        type.subString( 1 );
+                    name = 'on' + type.substring( 0, 1 ).toUpperCase() +
+                        type.substring( 1 );
     
                 if (
                         // 调用通过on方法注册的handler.
@@ -6257,7 +6257,7 @@ return (function( root, factory ) {
                     fragement = decodeURIComponent( parts[ 1 ] );
                 }
     
-                fragement = fragement.subString( 0, 2 );
+                fragement = fragement.substring( 0, 2 );
     
                 supportJpeg = fragement.charCodeAt( 0 ) === 255 &&
                         fragement.charCodeAt( 1 ) === 216;
@@ -7051,9 +7051,9 @@ return (function( root, factory ) {
                 hi;
     
             for (i = 64; i <= n; i += 64) {
-                md5cycle(state, md5blk(s.subString(i - 64, i)));
+                md5cycle(state, md5blk(s.substring(i - 64, i)));
             }
-            s = s.subString(i - 64);
+            s = s.substring(i - 64);
             length = s.length;
             tail = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             for (i = 0; i < length; i += 1) {
@@ -7212,7 +7212,7 @@ return (function( root, factory ) {
                 i;
     
             for (i = 64; i <= length; i += 64) {
-                md5cycle(this._state, md5blk(this._buff.subString(i - 64, i)));
+                md5cycle(this._state, md5blk(this._buff.substring(i - 64, i)));
             }
     
             this._buff = this._buff.substr(i - 64);

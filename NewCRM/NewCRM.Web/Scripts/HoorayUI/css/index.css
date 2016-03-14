@@ -33,7 +33,7 @@ a {
     display: none;
 }
 
-/*webkit滚动条样式*/
+/*webkit滚动条样式
 ::-webkit-scrollbar-track-piece {
     background-color: #f5f5f5;
     border-left: 1px solid #d2d2d2;
@@ -99,7 +99,7 @@ input {
     height: 100%;
 }
 
-/*浏览器缩放提示*/
+浏览器缩放提示
 #zoom-tip {
     display: none;
     width: 100%;
@@ -138,12 +138,12 @@ input {
         text-decoration: none;
     }
 
-/**
+*
  * 浏览器升级提示
  * 5个浏览器图片为MorchaDesign版权所有，本项目使用已得到官方授权
  * 9 Browsers Icons Designed by Morcha Design
  * http://www.morcha.net/post/46.html
- */
+ 
 #update_browser_box {
     display: none;
     background: url(../../HoorayUI/img/ui/update_browser_bg.png) repeat;
@@ -220,8 +220,8 @@ input {
                 color: #999;
             }
 
-/*登录*/
-/*登入*/
+登录
+登入
 .loading {
     background: url(../img/ui/logincheck.gif) no-repeat center center #fff;
     position: absolute;
@@ -244,7 +244,7 @@ input {
 }
 
     .login .logo {
-        /*background: url(../../img/ui/hoorayos.png) no-repeat;*/
+        background: url(../../img/ui/hoorayos.png) no-repeat;
         color: #fff;
         text-align: center;
         font-size: 40pt;
@@ -342,402 +342,8 @@ input {
             text-shadow: 1px 1px 2px #000;
             display: none;
         }
-/*#lrbox {
-    background: url(../../HoorayUI/img/ui/loginbg.jpg) no-repeat center;
-    position: absolute;
-    z-index: 9997;
-    top: -200%;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
 
-    #lrbox .title {
-        position: absolute;
-        top: 50%;
-        margin-top: -250px;
-        width: 100%;
-        height: 100px;
-        line-height: 100px;
-        text-align: center;
-        font-size: 68px;
-        color: #fff;
-        text-shadow: 2px 2px 2px #000;
-    }
-
-    #lrbox .back {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        margin-left: -50px;
-        margin-top: 140px;
-        display: block;
-        width: 100px;
-        height: 20px;
-        line-height: 20px;
-        text-align: center;
-        color: #fff;
-        text-shadow: 1px 1px 1px #000;
-    }
-
-.lrbox {
-    display: none;
-    width: 420px;
-    overflow: hidden;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-left: -211px;
-    border: 1px solid #0FF;
-    border-radius: 10px;
-}
-
-    .lrbox .bg {
-        position: absolute;
-        z-index: -1;
-        width: 100%;
-        height: 100%;
-        background: url(../../HoorayUI/img/ui/loginbg.jpg) no-repeat center;
-        background-color: rgba(255, 255, 255, .5);
-        -webkit-filter: blur(5px);
-        filter: blur(5px);
-    }
-
-    .lrbox .loginbox,
-    .lrbox .registerbox {
-        float: left;
-        padding: 0 10px 10px 10px;
-    }
-
-    .lrbox .middle {
-        margin-top: 10px;
-        height: 130px;
-    }
-
-    .lrbox .left {
-        width: 100px;
-        height: 100px;
-        float: left;
-    }
-
-        .lrbox .left img {
-            width: 100px;
-            height: 100px;
-            border: none;
-        }
-
-    .lrbox .right {
-        width: 300px;
-        float: left;
-    }
-
-        .lrbox .right .input_box {
-            width: 100%;
-            height: 50px;
-            position: relative;
-        }
-
-.loginbox .right .password {
-    height: 49px;
-    border-top: 1px solid #0f82f5;
-}
-
-.registerbox .right .password {
-    height: 49px;
-    border-top: 1px solid #FF8000;
-}
-
-.lrbox .right .input_box input {
-    font-family: 'Segoe UI','微软雅黑',sans-serif;
-    border: none;
-    outline: none;
-    width: 280px;
-    height: 50px;
-    line-height: 50px;
-    padding: 0 10px;
-    font-size: 24px;
-    color: #333;
-    float: left;
-}
-
-.lrbox .right .password input {
-    height: 49px;
-}
-
-.lrbox .right .input_box .tip {
-    display: none;
-    height: 36px;
-    position: absolute;
-    right: -1px;
-    top: 50px;
-    z-index: 1;
-}
-
-.lrbox .right .password .tip {
-    top: 49px;
-}
-
-.lrbox .right .input_box .tip .text {
-    position: relative;
-    height: 16px;
-    line-height: 16px;
-    padding: 10px;
-    border: 1px solid red;
-    background: #fff;
-}
-
-    .lrbox .right .input_box .tip .text .arrow {
-        position: absolute;
-        top: -8px;
-        right: 10px;
-        font-size: 12px;
-        color: red;
-    }
-
-    .lrbox .right .input_box .tip .text .arrow1 {
-        top: -7px;
-        color: #fff;
-    }
-
-    .lrbox .right .input_box .tip .text p {
-        font-size: 12px;
-    }
-
-.lrbox .right .input_box button {
-    position: absolute;
-    right: -70px;
-    width: 60px;
-    height: 60px;
-    border: none;
-    float: left;
-    color: #999;
-    background: none;
-    font-size: 12px;
-    cursor: pointer;
-    text-shadow: 0 0 5px #ccc;
-    -webkit-transition: all 300ms;
-}
-
-.lrbox .right .password button {
-    height: 55px;
-}
-
-.lrbox .right .input_box button:hover {
-    color: #333;
-}
-
-.lrbox .right .label-box {
-    height: 30px;
-    padding-left: 10px;
-}
-
-    .lrbox .right .label-box label {
-        float: left;
-        height: 30px;
-        line-height: 30px;
-        color: #eee;
-        text-shadow: 1px 1px 1px #000;
-    }
-
-    .lrbox .right .label-box input[type='checkbox'] {
-        width: auto;
-        height: 30px;
-        margin-right: 5px;
-        float: left;
-    }
-
-.lrbox .all {
-    width: 400px;
-}
-
-    .lrbox .all .input_box input {
-        width: 380px;
-    }
-
-    .lrbox .all .username input {
-        width: 380px;
-        padding-right: 10px;
-    }
-
-.lrbox .bottom {
-    height: 50px;
-}
-
-    .lrbox .bottom button {
-        border: none;
-        height: 50px;
-        line-height: 50px;
-        float: left;
-        text-align: center;
-        font-size: 16px;
-        color: #eee;
-        cursor: pointer;
-        -webkit-transition: all 500ms;
-    }
-
-.loginbox .bottom .login_btn {
-    width: 300px;
-    background: #0f82f5;
-}
-
-    .loginbox .bottom .login_btn:hover {
-        background: #0072e6;
-        color: #fff;
-    }
-
-    .loginbox .bottom .login_btn.disabled {
-        background: #C6C6C6;
-    }
-
-.loginbox .bottom .register_btn {
-    width: 100px;
-    background: #FF8000;
-    font-size: 12px;
-}
-
-    .loginbox .bottom .register_btn:hover {
-        background: #E74002;
-        color: #fff;
-    }
-
-.registerbox .bottom .register_btn {
-    width: 300px;
-    background: #FF8000;
-}
-
-    .registerbox .bottom .register_btn:hover {
-        background: #E74002;
-        color: #fff;
-    }
-
-    .registerbox .bottom .register_btn.disabled {
-        background: #C6C6C6;
-    }
-
-.registerbox .bottom .login_btn {
-    width: 100px;
-    background: #0f82f5;
-    font-size: 12px;
-}
-
-    .registerbox .bottom .login_btn:hover {
-        background: #0072e6;
-        color: #fff;
-    }
-
-.lrbox .disanfangdenglu {
-    float: left;
-    margin: 0 50px 10px 50px;
-    width: 320px;
-    height: 30px;
-}
-
-.disanfangdenglu label {
-    color: #eee;
-    text-shadow: 1px 1px 1px #000;
-    width: 50px;
-    line-height: 15px;
-    margin-right: 15px;
-    float: left;
-}
-
-.disanfangdenglu div {
-    float: left;
-    margin-top: 3px;
-}
-
-    .disanfangdenglu div a {
-        float: left;
-        width: 24px;
-        height: 24px;
-        margin-right: 12px;
-        font-size: 0;
-        background: url(../../HoorayUI/img/ui/login_icon.png) no-repeat;
-        border-radius: 5px;
-    }
-
-        .disanfangdenglu div a.sinaweibo {
-            background-position: 0 0;
-        }
-
-        .disanfangdenglu div a.tweibo {
-            background-position: 0 -24px;
-        }
-
-        .disanfangdenglu div a.t163weibo {
-            background-position: 0 -48px;
-        }
-
-        .disanfangdenglu div a.sohuweibo {
-            background-position: 0 -72px;
-        }
-
-        .disanfangdenglu div a.qq {
-            background-position: 0 -96px;
-        }
-
-        .disanfangdenglu div a.qzone {
-            background-position: 0 -120px;
-        }
-
-        .disanfangdenglu div a.renren {
-            background-position: 0 -144px;
-        }
-
-        .disanfangdenglu div a.douban {
-            background-position: 0 -168px;
-        }
-
-        .disanfangdenglu div a.baidu {
-            background-position: 0 -192px;
-        }
-
-.lrbox .disanfangdenglutip {
-    float: left;
-    margin: 0 10px 10px 10px;
-    border: 1px solid #000;
-    width: 398px;
-    height: 28px;
-    line-height: 30px;
-    background: #FF0;
-    display: none;
-}
-
-.disanfangdenglutip span {
-    font-weight: bold;
-    padding: 0 5px 0 10px;
-}
-
-.disanfangdenglutip .cancel {
-    float: right;
-    margin-right: 10px;
-    color: #999;
-}
-
-    .disanfangdenglutip .cancel:hover {
-        color: #333;
-    }
-
-@-webkit-keyframes radi {
-    0% {
-        -webkit-mask-size: 0%;
-        -webkit-animation-timing-function: ease-in-out;
-    }
-
-    100% {
-        -webkit-mask-size: 300%;
-    }
-}
-
-.radi {
-    -webkit-mask-image: url('../../HoorayUI/img/ui/circle_mask.png');
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: 50% 50%;
-    -webkit-mask-size: 300%;
-    -webkit-animation: radi 1.5s;
-}*/
-
-/*遮罩层*/
+遮罩层
 #maskbox,
 #maskbox-copyright,
 #maskbox-dockdrap {
@@ -757,7 +363,7 @@ input {
     background: none rgba(0, 0, 0, 0.7);
 }
 
-/*锁定*/
+锁定
 #lock {
     z-index: 9000000;
     cursor: default;
@@ -882,7 +488,7 @@ input {
         text-align: center;
     }
 
-/*关于我们*/
+关于我们
 #copyright {
     z-index: 9999999;
     display: none;
@@ -937,7 +543,7 @@ input {
                 text-decoration: underline;
             }
 
-/*图标*/
+图标
 .appbtn,
 #shortcut_shadow {
     width: 86px;
@@ -1054,7 +660,7 @@ input {
         padding: 0 4px;
     }
 
-/*桌面*/
+桌面
 #desk {
     position: absolute;
     z-index: 1;
@@ -1100,7 +706,7 @@ input {
             width: 10px;
         }
 
-/*文件夹窗口*/
+文件夹窗口
 .folder_body {
     width: 100%;
     height: 100%;
@@ -1114,21 +720,21 @@ input {
         margin: 5px;
     }
 
-/*窗口*/
+窗口
 .window-container {
     position: absolute;
     background: #ccc;
     border: 1px solid #000;
 }
-/*当前窗口*/
+当前窗口
 .window-current {
     background: #fff;
 }
-/*最大化窗口*/
+最大化窗口
 .window-maximize {
     border: none !important;
 }
-/*标题*/
+标题
 .title-bar {
     position: relative;
     z-index: 1;
@@ -1138,11 +744,11 @@ input {
     cursor: default;
     background: #ccc;
 }
-/*当前窗口标题*/
+当前窗口标题
 .window-current .title-bar {
     background: #fff;
 }
-/*标题图标*/
+标题图标
 .title-bar .icon {
     position: absolute;
     top: 7px;
@@ -1150,7 +756,7 @@ input {
     width: 16px;
     height: 16px;
 }
-/*标题文字*/
+标题文字
 .title-bar .title {
     display: inline-block;
     width: 100%;
@@ -1158,7 +764,7 @@ input {
     color: #000;
     font-size: 14px;
 }
-/*窗口右上角操作按钮*/
+窗口右上角操作按钮
 .title-handle {
     position: absolute;
     z-index: 1;
@@ -1254,7 +860,7 @@ input {
     .title-handle .ha-hide:hover .hide-b {
         border-color: #03F;
     }
-/*窗口内部iframe*/
+窗口内部iframe
 .window-frame {
     position: absolute;
     top: 30px;
@@ -1282,7 +888,7 @@ input {
         left: 0;
         right: 0;
     }
-/*遮罩层*/
+遮罩层
 .window-mask {
     position: absolute;
     z-index: 9998;
@@ -1398,7 +1004,7 @@ input {
     z-index: 2;
     cursor: sw-resize;
 }
-/*底部*/
+底部
 .set-bar .btn .icon {
     position: absolute;
     width: 18px;
@@ -1449,7 +1055,7 @@ input {
     padding: 0 6px 0 30px;
 }
 
-/*小挂件*/
+小挂件
 .widget {
     position: absolute;
 }
@@ -1514,7 +1120,7 @@ input {
             height: 100%;
         }
 
-/*文件夹预览*/
+文件夹预览
 .quick_view_container {
     position: absolute;
     z-index: 9000;
@@ -1742,7 +1348,7 @@ input {
     display: none;
 }
 
-/*应用码头*/
+应用码头
 #dock-bar{position:absolute;display:none}
 .top-bar{width:100%;height:80px;left:0;top:0}
 .left-bar{width:80px;height:100%;left:0;top:0}
@@ -1858,7 +1464,7 @@ input {
 #startmenu-container .startmenu-feedback:hover{background-position:-480px -390px}
 #startmenu-container .startmenu-lock{display:block;float:right;margin-top:5px;height:24px;width:24px;background:url(../img/ui/desk_sprite.png) no-repeat -450px -420px}
 #startmenu-container .startmenu-lock:hover{background-position:-480px -420px}
-/*搜索*/
+搜索
 #search-bar {
     height: 33px;
     width: 212px;
@@ -1966,7 +1572,7 @@ input {
         background: url(../../HoorayUI/img/ui/desk_sprite.png) no-repeat -550px -700px;
     }
 
-/*任务栏*/
+任务栏
 #task-bar-bg1 {
     width: 100%;
     height: 130px;
@@ -2116,7 +1722,7 @@ input {
     overflow: hidden;
 }
 
-/*全局视图*/
+全局视图
 #appmanage {
     display: none;
     height: 100%;
@@ -2319,7 +1925,7 @@ input {
             background: none;
         }
 
-/*评分*/
+评分
 .grade-box {
     width: 200px;
     height: 20px;
@@ -2436,7 +2042,7 @@ input {
     color: #F60;
 }
 
-/*分享*/
+分享
 #share a {
     display: block;
     float: left;
@@ -2486,7 +2092,7 @@ input {
         background-position: 0 -112px;
     }
 
-/*新建文件夹*/
+新建文件夹
 #addfolder {
     width: 380px;
     height: 100px;
@@ -2571,7 +2177,7 @@ input {
     margin: 6px;
 }
 
-/*新建私人应用*/
+新建私人应用
 #addpapp {
     width: 320px;
 }
@@ -2584,7 +2190,7 @@ input {
         height: 22px;
     }
 
-/*右键提示*/
+右键提示
 .popup-menu {
     position: absolute;
     z-index: 9990;
@@ -2691,7 +2297,7 @@ input {
         background-position: 0 -144px;
     }
 
-/*iconButton for window*/
+iconButton for window
 .btn .icon1 {
     background-position: -0px -180px;
 }
@@ -4290,85 +3896,404 @@ input {
 
 .btn:hover .icon200 {
     background-position: -342px -162px;
+}*/
+
+
+body {
+    line-height: 1;
 }
 
-/*新手帮助*/
-#help {
+ol, ul {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+    blockquote:after, blockquote:before, q:after, q:before {
+        content: '';
+        content: none;
+    }
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+body {
+    background: #f8f8f8;
+    font-family: "Microsoft YaHei","Microsoft JhengHei",STHeiti,MingLiu;
+    text-align: center;
+    color: #fff;
+}
+
+.login-container {
+    margin: 10% auto 0 auto;
+}
+
+.register-container {
+    margin: 6% auto 0 auto;
+}
+
+@media (min-width:670px) {
+    .login-container {
+        margin: 8% auto 0 auto;
+    }
+}
+
+h1 {
+    font-size: 40px;
+    -webkit-transition-duration: 1s;
+    transition-duration: 1s;
+    -webkit-transition-timing-function: ease-in-put;
+    transition-timing-function: ease-in-put;
+    font-weight: 200;
+}
+
+form {
+    position: relative;
+    width: 305px;
+    margin: 0 auto 0 auto;
+    text-align: center;
+    top: 25%;
+}
+
+.logo {
+    /*background: url(../../img/ui/hoorayos.png) no-repeat;*/
+    color: #fff;
+    text-align: center;
+    font-size: 40pt;
+    text-shadow: 0 0 2px #f7e2e2, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff;
     position: absolute;
-    z-index: 5555;
+    left: 50%;
+    top: 25%;
+    width: 330px;
+    height: 70px;
+    margin-left: -165px;
+    margin-top: -100px;
+}
+
+input {
+    width: 300px;
+    height: 42px;
+    line-height: 42px;
+    margin-top: 25px;
+    padding: 0 15px;
+    background: #2d2d2d;
+    background: rgba(45,45,45,.15);
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    border: 1px solid #3d3d3d;
+    border: 1px solid rgba(255,255,255,.15);
+    -moz-box-shadow: 0 2px 3px 0 rgba(0,0,0,.1) inset;
+    -webkit-box-shadow: 0 2px 3px 0 rgba(0,0,0,.1) inset;
+    box-shadow: 0 2px 3px 0 rgba(0,0,0,.1) inset;
+    font-family: "Microsoft YaHei",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,.1);
+    -o-transition: all .2s;
+    -moz-transition: all .2s;
+    -webkit-transition: all .2s;
+    -ms-transition: all .2s;
+}
+
+    input:-moz-placeholder {
+        color: #fff;
+    }
+
+    input:-ms-input-placeholder {
+        color: #fff;
+    }
+
+    input::-webkit-input-placeholder {
+        color: #fff;
+    }
+
+    input:focus {
+        outline: 0;
+        -moz-box-shadow: 0 2px 3px 0 rgba(0,0,0,.1) inset,0 2px 7px 0 rgba(0,0,0,.2);
+        -webkit-box-shadow: 0 2px 3px 0 rgba(0,0,0,.1) inset,0 2px 7px 0 rgba(0,0,0,.2);
+        box-shadow: 0 2px 3px 0 rgba(0,0,0,.1) inset,0 2px 7px 0 rgba(0,0,0,.2);
+    }
+
+button {
+    cursor: pointer;
+    width: 300px;
+    height: 44px;
+    margin-top: 25px;
+    padding: 0;
+    background: rgba(6, 127, 228, 0.71);
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    border: 0;
+    -moz-box-shadow: 0 15px 30px 0 rgba(255,255,255,.25) inset,0 2px 7px 0 rgba(0,0,0,.2);
+    font-family: "Microsoft YaHei",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,.1);
+    -o-transition: all .2s;
+    -moz-transition: all .2s;
+    -webkit-transition: all .2s;
+    -ms-transition: all .2s;
+}
+
+    button:hover {
+        -moz-box-shadow: 0 15px 30px 0 rgba(255,255,255,.15) inset,0 2px 7px 0 rgba(0,0,0,.2);
+        -webkit-box-shadow: 0 15px 30px 0 rgba(255,255,255,.15) inset,0 2px 7px 0 rgba(0,0,0,.2);
+        box-shadow: 0 15px 30px 0 rgba(255,255,255,.15) inset,0 2px 7px 0 rgba(0,0,0,.2);
+    }
+
+    button:active {
+        -moz-box-shadow: 0 15px 30px 0 rgba(255,255,255,.15) inset,0 2px 7px 0 rgba(0,0,0,.2);
+        -webkit-box-shadow: 0 15px 30px 0 rgba(255,255,255,.15) inset,0 2px 7px 0 rgba(0,0,0,.2);
+        box-shadow: 0 5px 8px 0 rgba(0,0,0,.1) inset,0 1px 4px 0 rgba(0,0,0,.1);
+        border: 0 solid #016FCB;
+    }
+
+.connect {
+    margin-top: 18px;
+    width: 100%;
+    font-size: 14px;
+    text-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+
+    .connect p {
+        position: relative;
+        left: -140%;
+        top: 0;
+        margin-top: 20px;
+    }
+
+    .connect a {
+        display: inline-block;
+        width: 32px;
+        height: 35px;
+        margin-top: 15px;
+        -o-transition: all .2s;
+        -moz-transition: all .2s;
+        -webkit-transition: all .2s;
+        -ms-transition: all .2s;
+    }
+
+.alert {
+    width: 310px;
+    height: 200px;
+    background: #000;
+    position: absolute;
+    top: -40%;
+    left: 50%;
+    margin: -101px 0 0 -151px;
+}
+
+    .alert h2 {
+        height: 40px;
+        padding-left: 8px;
+        font-size: 14px;
+        background: #FF0543;
+        text-align: left;
+        line-height: 40px;
+    }
+
+    .alert .alert_con {
+        background: #fff;
+        height: 160px;
+    }
+
+        .alert .alert_con p {
+            color: #000;
+            line-height: 90px;
+        }
+
+        .alert .alert_con .btn {
+            padding: 3px 10px;
+            color: #fff;
+            cursor: pointer;
+            background: #72D1FF;
+            border: 1px solid #72D1FF;
+            border-radius: 4px;
+        }
+
+            .alert .alert_con .btn:hover {
+                background: #4FB2EF;
+                border: 1px solid #4FB2EF;
+                border-radius: 4px;
+            }
+/* Supersized - Fullscreen Slideshow jQuery Plugin  Version : 3.2.7 */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+img {
+    border: none;
+}
+
+#supersized-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 0;
+    width: 60px;
+    height: 60px;
+    margin: -30px 0 0 -30px;
+    text-indent: -999em;
+}
+
+#supersized {
+    display: block;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    z-index: -999;
+    height: 100%;
+    width: 100%;
+}
+
+    #supersized img {
+        width: auto;
+        height: auto;
+        position: relative;
+        display: none;
+        outline: 0;
+        border: none;
+    }
+
+    #supersized.speed img {
+        -ms-interpolation-mode: nearest-neighbor;
+        image-rendering: -moz-crisp-edges;
+    }
+
+    #supersized.quality img {
+        -ms-interpolation-mode: bicubic;
+        image-rendering: optimizeQuality;
+    }
+
+    #supersized li {
+        display: block;
+        list-style: none;
+        z-index: -30;
+        position: fixed;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #111;
+    }
+
+    #supersized a {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    #supersized li.prevslide {
+        z-index: -20;
+    }
+
+    #supersized li.activeslide {
+        z-index: -10;
+    }
+
+        #supersized li.activeslide img, #supersized li.prevslide img {
+            display: inline;
+        }
+
+    #supersized img {
+        max-width: none !important;
+    }
+
+.box-line {
+    height: 0;
+    overflow: hidden;
+    border-top: 1px #c2c2c2 solid;
+    margin-top: 20px;
+}
+
+.register-tis {
+    line-height: 42px;
+    margin: 15px auto 0px;
+    padding: 0 15px;
+    border: 1px solid rgba(255, 255, 255, 0.38);
+    background: rgba(45, 45, 45, 0.33);
+    border-radius: 6px;
+}
+
+label.error {
+    display: block;
+    -webkit-transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    border-radius: 0px 0px 5px 5px;
+    width: 300px;
+    height: 34px;
+    border: 1px solid rgba(255,255,255,.15);
+    line-height: 31px;
+    box-shadow: 0 2px 3px 0 rgba(0,0,0,.1) inset;
+    text-shadow: 0 1px 2px rgba(0,0,0,.1);
+    background: rgba(245, 26, 26, 0.81);
+    -moz-border-radius: 6px;
+    margin: 0 auto;
+}
+
+
+html, body {
     width: 100%;
     height: 100%;
-    background: none rgba(0, 0, 0, 0.7);
+    padding: 0px;
+    margin: 0px;
 }
 
-    #help .close {
-        float: right;
+
+#bubbles {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.background-filter {
+    -webkit-backface-visibility: hidden;
+    -webkit-filter: blur(3px);
+    -moz-filter: blur(3px);
+    -o-filter: blur(3px);
+    -ms-filter: blur(3px);
+    filter: blur(3px);
+}
+
+
+.wrapper.form-success .container h1 {
+    -webkit-transform: translateY(85px);
+    -ms-transform: translateY(85px);
+    transform: translateY(85px);
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 100px 0;
+    text-align: center;
+}
+
+    .container h1 {
         font-size: 40px;
-        color: #fff;
-        width: 40px;
-        height: 40px;
-        line-height: 36px;
-        text-align: center;
-        background: none;
+        -webkit-transition-duration: 1s;
+        transition-duration: 1s;
+        -webkit-transition-timing-function: ease-in-put;
+        transition-timing-function: ease-in-put;
+        font-weight: 200;
     }
 
-        #help .close:hover {
-            background: none rgba(0, 0, 0, 0.7);
-        }
-
-    #help .step {
-        position: absolute;
-        color: #eee;
-        padding: 0 20px 15px;
-        background: none rgba(0, 0, 0, 0.7);
-        border-radius: 5px;
-        display: none;
-    }
-
-        #help .step .jt {
-            font-size: 0;
-            height: 0;
-            border: 20px solid rgba(0, 0, 0, 0);
-            position: absolute;
-        }
-
-        #help .step .jt_left {
-            border-right: 20px solid rgba(0, 0, 0, 0.7);
-        }
-
-        #help .step .jt_right {
-            border-left: 20px solid rgba(0, 0, 0, 0.7);
-        }
-
-        #help .step .jt_top {
-            border-bottom: 20px solid rgba(0, 0, 0, 0.7);
-        }
-
-        #help .step .jt_bottom {
-            border-top: 20px solid rgba(0, 0, 0, 0.7);
-        }
-
-        #help .step .h1 {
-            font-size: 40px;
-            font-weight: bold;
-        }
-
-        #help .step .h2 {
-            font-size: 28px;
-            font-weight: bold;
-            padding-left: 10px;
-        }
-
-        #help .step .next,
-        #help .step .over {
-            border: 1px solid #fff;
-            color: #fff;
-            padding: 0 5px;
-            float: right;
-            margin-top: 10px;
-        }
-
-            #help .step .next:hover,
-            #help .step .over:hover {
-                background: none rgba(50, 50, 50, 0.7);
-            }
+.wrapper {
+    opacity: 0.8;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    left: 0;
+    top: 25%;
+    overflow: hidden;
+}

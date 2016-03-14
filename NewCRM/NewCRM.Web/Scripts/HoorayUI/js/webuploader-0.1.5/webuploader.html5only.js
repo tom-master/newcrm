@@ -850,8 +850,8 @@
             trigger: function( type/*, args...*/ ) {
                 var args = [].slice.call( arguments, 1 ),
                     opts = this.options,
-                    name = 'on' + type.subString( 0, 1 ).toUpperCase() +
-                        type.subString( 1 );
+                    name = 'on' + type.substring( 0, 1 ).toUpperCase() +
+                        type.substring( 1 );
     
                 if (
                         // 调用通过on方法注册的handler.

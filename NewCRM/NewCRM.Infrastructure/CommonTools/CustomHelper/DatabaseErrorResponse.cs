@@ -39,6 +39,8 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
                 case DataBaseErrorType.UnknowError:
                     msg = "未知错误。";
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(dataBaseErrorType), dataBaseErrorType, null);
             }
             return msg;
         }

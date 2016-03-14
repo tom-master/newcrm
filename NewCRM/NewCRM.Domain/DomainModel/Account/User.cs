@@ -10,7 +10,7 @@ namespace NewCRM.Domain.DomainModel.Account
     [Serializable]
     public class User : EntityBase<Int32>, IAggregationRoot
     {
-
+    
         #region private field
         private String _name;
         private String _password;

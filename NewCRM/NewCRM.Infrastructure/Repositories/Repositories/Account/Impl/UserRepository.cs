@@ -6,7 +6,7 @@ using NewCRM.Infrastructure.Repositories.RepositoryProvide;
 
 namespace NewCRM.Infrastructure.Repositories.Repositories.Account.Impl
 {
-    internal class UserRepository : EfRepositoryBase<User, Int32>
+    public class UserRepository : EfRepositoryBase<User, Int32>, IUserRepository
     {
         public override void Add(User entity, bool isSave = true)
         {
@@ -22,6 +22,6 @@ namespace NewCRM.Infrastructure.Repositories.Repositories.Account.Impl
         {
             base.Update(entity, isSave);
         }
-        
+
     }
 }

@@ -1153,8 +1153,8 @@
             trigger: function( type/*, args...*/ ) {
                 var args = [].slice.call( arguments, 1 ),
                     opts = this.options,
-                    name = 'on' + type.subString( 0, 1 ).toUpperCase() +
-                        type.subString( 1 );
+                    name = 'on' + type.substring(0, 1).toUpperCase() +
+                        type.substring(1);
     
                 if (
                         // 调用通过on方法注册的handler.
@@ -6291,7 +6291,7 @@
                     fragement = decodeURIComponent( parts[ 1 ] );
                 }
     
-                fragement = fragement.subString( 0, 2 );
+                fragement = fragement.substring(0, 2);
     
                 supportJpeg = fragement.charCodeAt( 0 ) === 255 &&
                         fragement.charCodeAt( 1 ) === 216;

@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="@Url.Content("~/Scripts/HoorayUI/js/HoorayJs/jquery-2.1.4.js")"></script>
+
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/HoorayUI/css/sys.css")"/>
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/HoorayUI/css/globle.css")"/>
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/HoorayUI/js/bootstrap/css/bootstrap.min.css")"/>
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/HoorayUI/js/HoorayLibs/hooraylibs.css")"/>
+</head>
+<body>
+<div>
+    @RenderBody()
+</div>
+</body>
+</html>
+<script src="@Url.Content("~/Scripts/HoorayUI/js/HoorayJs/jquery-browser.js")"></script>
+<script src="@Url.Content("~/Scripts/HoorayUI/js/HoorayLibs//hooraylibs.js")"></script>
+<script src="@Url.Content("~/Scripts/HoorayUI/js/artDialog4.1.7/jquery.artDialog.js?skin=default")"></script>
+<script src="@Url.Content( "~/Scripts/HoorayUI/js/artDialog4.1.7/plugins/iframeTools.js"  )"></script>
+<script src="@Url.Content("~/Scripts/HoorayUI/js/bootstrap/js/bootstrap.min.js")"></script>
+<script src="@Url.Content("~/Scripts/HoorayUI/js/HoorayJs/hros.min.js")"></script>
+
+<script>
+    $(function () {
+        //配置artDialog全局默认参数
+        (function (config) {
+            config['lock'] = true;
+            config['fixed'] = true;
+            config['resize'] = false;
+            config['background'] = '#000';
+            config['opacity'] = 0.5;
+        })($.dialog.defaults);
+        //toolTip
+        $('[rel="tooltip"]').tooltip();
+        //表单提示
+        $("[datatype]").focusin(function () {
+            $(this).parent().addClass('info').children('.infomsg').show().siblings('.help-inline').hide();
+        }).focusout(function () {
+            $(this).parent().removeClass('info').children('.infomsg').hide().siblings('.help-inline').show();
+        });
+        //detailIframe
+        var openDetailIframe = function (url) {
+            ZENG.msgbox.show('正在载入中，请稍后...', 6, 100000);
+            $('#detailIframe iframe').attr('src', url).load(function () {
+                $('body').css('overflow', 'hidden');
+                ZENG.msgbox._hide();
+                $('#detailIframe').animate({
+                    'top': 0,
+                    'opacity': 'show'
+                }, 500);
+            });
+        };
+        var closeDetailIframe = function (callback) {
+            $('body').css('overflow', 'auto');
+            $('#detailIframe').animate({
+                'top': '-100px',
+                'opacity': 'hide'
+            }, 500, function () {
+                callback && callback();
+            });
+        };
+    });
+</script>

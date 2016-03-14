@@ -15,12 +15,6 @@ namespace NewCRM.Dto
             Mapper.CreateMap<User, UserDto>();
             Mapper.CreateMap<UserDto, User>();
             #endregion
-
-            #region wallpaper
-            Mapper.CreateMap<Wallpaper, WallpaperDto>();
-            Mapper.CreateMap<WallpaperDto, Wallpaper>();
-            #endregion
-
         }
 
 

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace NewCRM.Infrastructure.CommonTools.CustomExtension
 {
@@ -10,9 +12,15 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
     {
         public static String GetDescription(this Enum enumeration)
         {
+            var returnValue = new StringBuilder();
             var type = enumeration.GetType();
-            var members = type.GetMember(enumeration.CastTo<String>());
-            return members.Length > 0 ? members[0].ToDescription() : enumeration.CastTo<String>();
+            var enumArray = enumeration.ToString().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var members in enumArray.Select(enumItem => type.GetMember(enumItem.Trim())).Where(members => members.Length > 0))
+            {
+                returnValue.Append(members[0].ToDescription() + " 或 ");
+            }
+            char[] replaceChar = { ' ', '或', ' ' };
+            return returnValue.ToString().TrimEnd(replaceChar);
         }
     }
 }

@@ -3,15 +3,22 @@ using NewCRM.ApplicationService.IApplicationService;
 using NewCRM.Web.Controllers.ControllerHelper;
 using System;
 using System.Globalization;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using NewCRM.Infrastructure.CommonTools;
 
 namespace NewCRM.Web.Controllers
 {
     public class IndexController : BaseController
     {
 
-        private IUserApplicationService _userApplicationService;
+        private static IPlantformApplicationService _plantformApplicationService;
+
+        static IndexController()
+        {
+            _plantformApplicationService = new PlantformApplicationService();
+        }
 
         // GET: Index
         /// <summary>
@@ -21,11 +28,9 @@ namespace NewCRM.Web.Controllers
         [HttpGet]
         public ActionResult Desktop()
         {
-            _userApplicationService = new UserApplicationService();
-            ViewData["userEntity"] = _userApplicationService.GetUser(UserEntity.Id);
             return View();
         }
-        [HttpGet] 
+        [HttpGet]
         public ActionResult Login()
         {
             return View();
@@ -39,18 +44,23 @@ namespace NewCRM.Web.Controllers
         /// <param name="passWord"></param>
         /// <param name="isRememberPasswrod"></param>
         /// <returns></returns>
-        public ActionResult Landing(String userName = "", String passWord = "", Boolean isRememberPasswrod = false)
+        public ActionResult Login(String userName, String passWord, Boolean isRememberPasswrod = false)
         {
-            _userApplicationService = new UserApplicationService();
+            Thread.Sleep(1500);
+            var userData = _plantformApplicationService.Login(userName, passWord);
+            if (userData.ResultType != ResponseType.Success)
+            {
+                return Json(new { status = 0, msg = userData.Message });
+            }
 
-            var userData = _userApplicationService.UserLogin(userName, passWord);
-
-            var cookie = new HttpCookie("UserInfo");
-            cookie["UserId"] = userData.Id.ToString(CultureInfo.InvariantCulture);
-            cookie.Expires = isRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddHours(1);
+            var cookie = new HttpCookie("UserInfo")
+            {
+                ["UserId"] = userData.Data.Id.ToString(CultureInfo.InvariantCulture),
+                Expires = isRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddHours(1)
+            };
             HttpContext.Response.Cookies.Add(cookie);
 
-            UserEntity = userData;
+            UserEntity = userData.Data;
 
             return Json(new { status = 1, data = userData });
         }
@@ -63,8 +73,9 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult GetSkin()
         {
-            var skinName = UserEntity.Skin;
-            return Json(new { data = skinName }, JsonRequestBehavior.AllowGet);
+            //var skinName = UserEntity.Skin;
+            //return Json(new { data = skinName }, JsonRequestBehavior.AllowGet);
+            return null;
         }
         ///// <summary>
         ///// 初始化壁纸
@@ -72,9 +83,10 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult GetWallpaper()
         {
-            _userApplicationService = new UserApplicationService();
-            var userWallpaper = _userApplicationService.GetUserWallPaper(UserEntity.Id);
-            return Json(new { data = userWallpaper }, JsonRequestBehavior.AllowGet);
+            //_userApplicationService = new UserApplicationService();
+            //var userWallpaper = _userApplicationService.GetUserWallPaper(UserEntity.Id);
+            //return Json(new { data = userWallpaper }, JsonRequestBehavior.AllowGet);
+            return null;
         }
         ///// <summary>
         ///// 初始化应用码头
@@ -82,8 +94,9 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult GetDockPos()
         {
-            var dockPos = UserEntity.DockPosition;
-            return Json(new { data = dockPos }, JsonRequestBehavior.AllowGet);
+            //var dockPos = UserEntity.DockPosition;
+            //return Json(new { data = dockPos }, JsonRequestBehavior.AllowGet);
+            return null;
         }
         ///// <summary>
         ///// 获取我的应用
@@ -91,8 +104,9 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult GetMyApp()
         {
-            _userApplicationService = new UserApplicationService();
-            return Json(new { data = _userApplicationService.GetUserApp(UserEntity) }, JsonRequestBehavior.AllowGet);
+            //_userApplicationService = new UserApplicationService();
+            //return Json(new { data = _userApplicationService.GetUserApp(UserEntity) }, JsonRequestBehavior.AllowGet);
+            return null;
         }
         ///// <summary>
         ///// 获取用户头像
@@ -100,7 +114,8 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult GetUserFace()
         {
-            return Json(new { data = UserEntity.UserFace }, JsonRequestBehavior.AllowGet);
+            //return Json(new { data = UserEntity.UserFace }, JsonRequestBehavior.AllowGet);
+            return null;
         }
         ///// <summary>
         ///// 创建一个窗口
@@ -110,9 +125,10 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult CreateWindow(Int32 id = 0, String type = "")
         {
-            _userApplicationService = new UserApplicationService();
-            var value = _userApplicationService.BuilderWindow(id, type);
-            return Json(new { data = value }, JsonRequestBehavior.AllowGet);
+            //_userApplicationService = new UserApplicationService();
+            //var value = _userApplicationService.BuilderWindow(id, type);
+            //return Json(new { data = value }, JsonRequestBehavior.AllowGet);
+            return null;
         }
         #endregion
     }

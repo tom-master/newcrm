@@ -1743,7 +1743,7 @@ _path = window['_artDialog_path'] || (function (script, i, me) {
 	
 	_thisScript = me || script[script.length - 1];
 	me = _thisScript.src.replace(/\\/g, '/');
-	return me.lastIndexOf('/') < 0 ? '.' : me.subString(0, me.lastIndexOf('/'));
+	return me.lastIndexOf('/') < 0 ? '.' : me.substring(0, me.lastIndexOf('/'));
 }(document.getElementsByTagName('script')));
 
 

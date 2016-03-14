@@ -1467,7 +1467,7 @@
 			if (type == 'standard') {
 				val = {
 					// year
-					yy:   date.getUTCFullYear().toString().subString(2),
+					yy:   date.getUTCFullYear().toString().substring(2),
 					yyyy: date.getUTCFullYear(),
 					// month
 					m:    date.getUTCMonth() + 1,
@@ -1503,7 +1503,7 @@
 				// php format
 				val = {
 					// year
-					y: date.getUTCFullYear().toString().subString(2),
+					y: date.getUTCFullYear().toString().substring(2),
 					Y: date.getUTCFullYear(),
 					// month
 					F: dates[language].months[date.getUTCMonth()],

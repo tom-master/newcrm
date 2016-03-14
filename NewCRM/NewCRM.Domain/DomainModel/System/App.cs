@@ -38,7 +38,6 @@ namespace NewCRM.Domain.DomainModel.System
 
         private ICollection<Role> _roles;
 
-
         #endregion
 
         #region ctor
@@ -171,7 +170,7 @@ namespace NewCRM.Domain.DomainModel.System
 
         public virtual User User
         {
-            get { return _user;}
+            get { return _user; }
             set
             {
                 _user = value;
@@ -186,7 +185,6 @@ namespace NewCRM.Domain.DomainModel.System
                 _roles = value;
             }
         }
-
 
         #endregion
     }
