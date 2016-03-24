@@ -16,7 +16,7 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
     /// </summary>
     /// <typeparam name="TEntity">动态实体类型</typeparam>
     /// <typeparam name="TKey">实体主键类型</typeparam>
-    public abstract class EfRepositoryBase<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : EntityBase<TKey>
+    public class EfRepositoryBase<TEntity> : IRepository<TEntity> where TEntity : EntityBase<Int32>
     {
         #region 属性
 
@@ -50,7 +50,10 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
         /// </summary>
         public virtual IQueryable<TEntity> Entities
         {
-            get { return EfContext.Set<TEntity, TKey>(); }
+            get
+            {
+                return EfContext.Set<TEntity, Int32>();
+            }
         }
 
 
@@ -66,7 +69,7 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
         public virtual void Add(TEntity entity, bool isSave = true)
         {
             Parameter.Vaildate(entity);
-            EfContext.RegisterNew<TEntity, TKey>(entity);
+            EfContext.RegisterNew<TEntity, Int32>(entity);
             if (isSave)
             {
                 EfContext.Commit();
@@ -85,7 +88,7 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
         public virtual void Add(IEnumerable<TEntity> entities, bool isSave = true)
         {
             Parameter.Vaildate(entities);
-            EfContext.RegisterNew<TEntity, TKey>(entities);
+            EfContext.RegisterNew<TEntity, Int32>(entities);
             if (isSave)
             {
                 EfContext.Commit();
@@ -101,10 +104,10 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
         /// </summary>
         /// <param name="id"> 实体记录编号 </param>
         /// <param name="isSave"> 是否执行保存 </param>
-        public virtual void Remove(TKey id, bool isSave = true)
+        public virtual void Remove(Int32 id, bool isSave = true)
         {
             Parameter.Vaildate(id);
-            TEntity entity = EfContext.Set<TEntity, TKey>().Find(id);
+            TEntity entity = EfContext.Set<TEntity, Int32>().Find(id);
             if (entity != null)
             {
                 Remove(entity, isSave);
@@ -123,7 +126,7 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
         public virtual void Remove(TEntity entity, bool isSave = true)
         {
             Parameter.Vaildate(entity);
-            EfContext.RegisterDeleted<TEntity, TKey>(entity);
+            EfContext.RegisterDeleted<TEntity, Int32>(entity);
             if (isSave)
             {
                 EfContext.Commit();
@@ -142,7 +145,7 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
         public virtual void Remove(IEnumerable<TEntity> entities, bool isSave = true)
         {
             Parameter.Vaildate(entities);
-            EfContext.RegisterDeleted<TEntity, TKey>(entities);
+            EfContext.RegisterDeleted<TEntity, Int32>(entities);
             if (isSave)
             {
                 EfContext.Commit();
@@ -161,7 +164,7 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
         public virtual void Remove(Expression<Func<TEntity, bool>> predicate, bool isSave = true)
         {
             Parameter.Vaildate(predicate);
-            IList<TEntity> entities = EfContext.Set<TEntity, TKey>().Where(predicate).ToList();
+            IList<TEntity> entities = EfContext.Set<TEntity, Int32>().Where(predicate).ToList();
             if (entities.Any())
             {
                 Remove(entities, isSave);
@@ -180,7 +183,7 @@ namespace NewCRM.Infrastructure.Repositories.RepositoryProvide
         public virtual void Update(TEntity entity, bool isSave = true)
         {
             Parameter.Vaildate(entity);
-            EfContext.RegisterModified<TEntity, TKey>(entity);
+            EfContext.RegisterModified<TEntity, Int32>(entity);
             if (isSave)
             {
                 EfContext.Commit();

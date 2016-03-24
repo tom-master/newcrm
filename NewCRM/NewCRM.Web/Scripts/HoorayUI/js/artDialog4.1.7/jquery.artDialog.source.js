@@ -31,7 +31,7 @@ var _box, _thisScript, _skin, _path,
 var artDialog = function (config, ok, cancel) {
 	config = config || {};
 	
-	if (typeof config === 'String' || config.nodeType === 1) {
+	if (typeof config === 'string' || config.nodeType === 1) {
 		config = {content: config, fixed: !_isMobile};
 	};
 	
@@ -49,7 +49,7 @@ var artDialog = function (config, ok, cancel) {
 	function(i,o){config[i]=config[i]!==undefined?config[i]:config[o]});
 	
 	// 返回跟随模式或重复定义的ID
-	if (typeof elem === 'String') elem = $(elem)[0];
+	if (typeof elem === 'string') elem = $(elem)[0];
 	config.id = elem && elem[_expando + 'follow'] || config.id || _expando + _count;
 	api = artDialog.list[config.id];
 	if (elem && api) return api.follow(elem).zIndex().focus();
@@ -90,6 +90,7 @@ artDialog.fn = artDialog.prototype = {
 	closed: true,
 	
 	_init: function (config) {
+	    
 		var that = this, DOM,
 			icon = config.icon,
 			iconBg = icon && (_isIE6 ? {png: 'icons/' + icon + '.png'}
@@ -114,9 +115,14 @@ artDialog.fn = artDialog.prototype = {
 		.size(config.width, config.height)
 		.time(config.time);
 		
-		config.follow
-		? that.follow(config.follow)
-		: that.position(config.left, config.top);
+		if (config.follow) {
+		    that.follow(config.follow);
+		} else {
+		   
+		    that.position(config.left, config.top);
+		}
+		
+		
 		
 		that.zIndex().focus();
 		config.lock && that.lock();
@@ -151,7 +157,7 @@ artDialog.fn = artDialog.prototype = {
 		wrap.style.width = 'auto';
 		
 		if (msg === undefined) return content;
-		if (typeof msg === 'String') {
+		if (typeof msg === 'string') {
 			$content.html(msg);
 		} else if (msg && msg.nodeType === 1) {
 		
@@ -253,7 +259,7 @@ artDialog.fn = artDialog.prototype = {
 			if (typeof left === 'number') {
 				left = ie6Fixed ? (left += docLeft) : left + dl;
 				style.left = Math.max(left, dl) + 'px';
-			} else if (typeof left === 'String') {
+			} else if (typeof left === 'string') {
 				style.left = left;
 			};
 		};
@@ -265,7 +271,7 @@ artDialog.fn = artDialog.prototype = {
 			if (typeof top === 'number') {
 				top = ie6Fixed ? (top += docTop) : top + dt;
 				style.top = Math.max(top, dt) + 'px';
-			} else if (typeof top === 'String') {
+			} else if (typeof top === 'string') {
 				style.top = top;
 			};
 		};
@@ -303,7 +309,7 @@ artDialog.fn = artDialog.prototype = {
 				wrapStyle.width = 'auto';
 				style.width = Math.max(that.config.minWidth, width) + 'px';
 				wrapStyle.width = wrap[0].offsetWidth + 'px'; // 防止未定义宽度的表格遇到浏览器右边边界伸缩
-			} else if (typeof width === 'String') {
+			} else if (typeof width === 'string') {
 				style.width = width;
 				width === 'auto' && wrap.css('width', 'auto');
 			};
@@ -317,7 +323,7 @@ artDialog.fn = artDialog.prototype = {
 			
 			if (typeof height === 'number') {
 				style.height = Math.max(that.config.minHeight, height) + 'px';
-			} else if (typeof height === 'String') {
+			} else if (typeof height === 'string') {
 				style.height = height;
 			};
 		};
@@ -334,7 +340,7 @@ artDialog.fn = artDialog.prototype = {
 	follow: function (elem) {
 		var $elem, that = this, config = that.config;
 		
-		if (typeof elem === 'String' || elem && elem.nodeType === 1) {
+		if (typeof elem === 'string' || elem && elem.nodeType === 1) {
 			$elem = $(elem);
 			elem = $elem[0];
 		};
@@ -636,7 +642,8 @@ artDialog.fn = artDialog.prototype = {
 	},
 	
 	// 获取元素
-	_getDOM: function () {	
+	_getDOM: function () {
+         
 		var wrap = document.createElement('div'),
 			body = document.body;
 		wrap.style.cssText = 'position:absolute;left:0;top:0';
@@ -877,6 +884,7 @@ artDialog.fn = artDialog.prototype = {
 
 artDialog.fn._init.prototype = artDialog.fn;
 $.fn.dialog = $.fn.artDialog = function () {
+     
 	var config = arguments;
 	this[this.live ? 'live' : 'bind']('click', function () {
 		artDialog.apply(this, config);
@@ -944,7 +952,8 @@ if (_skin) {
 
 // 触发浏览器预先缓存背景图片
 _$window.bind('load', function () {
-	setTimeout(function () {
+    
+    setTimeout(function () {
 		if (_count) return;
 		artDialog({left: '-9999em',time: 9,fixed: false,lock: false,focus: false});
 	}, 150);

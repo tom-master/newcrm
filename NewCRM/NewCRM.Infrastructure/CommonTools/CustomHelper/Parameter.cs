@@ -11,36 +11,41 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
     public class Parameter
     {
         #region 公共方法
-
-        public static void Vaildate(params dynamic[] vaildateParameters)
+        /// <summary>
+        /// 验证引用类型是否合法
+        /// </summary>
+        /// <param name="vaildateParameters"></param>
+        public static void Vaildate(params Object[] vaildateParameters)
         {
             vaildateParameters.ToList().ForEach(parameter =>
             {
-                var parameterString = nameof(parameter);
+                var parameterString = parameter.GetType().Name;
                 if (parameter == null)
                 {
                     ArgumentNullException e = new ArgumentNullException(parameterString);
-                    throw ThrowComponentException(String.Format("参数 {0} 为空引发异常。", parameterString), e);
+                    throw ThrowComponentException($"参数 {parameterString} 为空引发异常。", e);
                 }
             });
         }
-
-        public static void Vaildate(ValueType parameter, bool canZero = false)
+        /// <summary>
+        /// 验证值类型是否合法
+        /// </summary>
+        /// <param name="canZero"></param>
+        /// <param name="parameters"></param>
+        public static void Vaildate(bool canZero = false, params ValueType[] parameters)
         {
-            var parameterString = nameof(parameter);
-            if (parameter == null)
+            parameters.ToList().ForEach(parameter =>
             {
-                ArgumentNullException e = new ArgumentNullException(parameterString);
-                throw ThrowComponentException(String.Format("参数 {0} 为空引发异常。", parameterString), e);
-            }
-            Type type = parameter.GetType();
-            if (type.IsValueType && type.IsNumeric())
-            {
-                if (!canZero)
+                Type type = parameter.GetType();
+                if (type.IsValueType && type.IsNumeric())
                 {
-                    throw ThrowComponentException(String.Format("参数 {0} 不在有效范围内引发异常。具体信息请查看系统日志。", parameterString), new ArgumentOutOfRangeException(parameterString));
+                    bool flag = !canZero ? parameter.CastTo(0.0) <= 0.0 : parameter.CastTo(0.0) < 0.0;
+                    if (flag)
+                    {
+                        throw ThrowComponentException($"参数 {parameter.GetType().Name} 不在有效范围内引发异常。具体信息请查看系统日志。", new ArgumentOutOfRangeException(parameter.GetType().Name));
+                    }
                 }
-            }
+            });
         }
 
         /// <summary>
@@ -58,7 +63,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
             {
                 msg = "未知组件异常，详情请查看日志信息。";
             }
-            return e == null ? new ComponentException(String.Format("组件异常：{0}", msg)) : new ComponentException(String.Format("组件异常：{0}", msg), e);
+            return e == null ? new ComponentException($"组件异常：{msg}") : new ComponentException($"组件异常：{msg}", e);
         }
 
         #endregion

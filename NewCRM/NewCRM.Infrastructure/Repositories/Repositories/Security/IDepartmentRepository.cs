@@ -20,6 +20,6 @@ namespace NewCRM.Infrastructure.Repositories.Repositories.Security
 	/// <summary>
     ///   仓储操作层接口——部门
     /// </summary>
-    public partial interface IDepartmentRepository : IRepository<Department, Int32>
+    public partial interface IDepartmentRepository : IRepository<Department>
     { }
 }

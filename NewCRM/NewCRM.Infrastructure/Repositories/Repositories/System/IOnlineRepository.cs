@@ -20,6 +20,6 @@ namespace NewCRM.Infrastructure.Repositories.Repositories.System
 	/// <summary>
     ///   仓储操作层接口——在线人数
     /// </summary>
-    public partial interface IOnlineRepository : IRepository<Online, Int32>
+    public partial interface IOnlineRepository : IRepository<Online>
     { }
 }

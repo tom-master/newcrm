@@ -8,7 +8,7 @@ namespace NewCRM.Web.Controllers.ControllerHelper
     public class BaseController : Controller
     {
 
-        public static UserDto UserEntity { get; set; }
+        public static UserDto CurrentUser { get; set; }
 
 
         protected override JsonResult Json(object data, String contentType, Encoding contentEncoding, JsonRequestBehavior behavior)

@@ -13,7 +13,7 @@
             a.options = f.extend({},
             f.bubbler.defaultOptions, t);
             h.css({
-                'background-image': 'url(http://www.17sucai.com/preview/120111/2014-07-10/1402393818279_zcool.com_.cn_/assets/img/3.jpg)',
+                'background-image': 'url(../Scripts/HoorayUI/img/login/1.png)',
                 overflow: "hidden",
                 position: "absolute",
             });

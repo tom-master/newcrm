@@ -20,6 +20,6 @@ namespace NewCRM.Infrastructure.Repositories.Repositories.Account
 	/// <summary>
     ///   仓储操作层接口——头衔
     /// </summary>
-    public partial interface ITitleRepository : IRepository<Title, Int32>
+    public partial interface ITitleRepository : IRepository<Title>
     { }
 }

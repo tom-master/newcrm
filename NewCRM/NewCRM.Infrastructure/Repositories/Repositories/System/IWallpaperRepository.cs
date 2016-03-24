@@ -20,6 +20,6 @@ namespace NewCRM.Infrastructure.Repositories.Repositories.System
 	/// <summary>
     ///   仓储操作层接口——壁纸
     /// </summary>
-    public partial interface IWallpaperRepository : IRepository<Wallpaper, Int32>
+    public partial interface IWallpaperRepository : IRepository<Wallpaper>
     { }
 }

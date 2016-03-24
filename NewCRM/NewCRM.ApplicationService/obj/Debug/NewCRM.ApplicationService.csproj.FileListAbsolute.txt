@@ -22,7 +22,6 @@ E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\obj\Debug\NewCRM.ApplicationServi
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\NewCRM.ApplicationService.dll
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\NewCRM.ApplicationService.pdb
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\NewCRM.Domain.dll
-E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\NewCRM.DomainService.dll
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\NewCRM.Dto.dll
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\NewCRM.Infrastructure.dll
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\System.Web.Mvc.dll
@@ -38,3 +37,4 @@ E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\EntityFramework.xml
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\zh-Hans\System.Web.Mvc.resources.dll
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\obj\Debug\NewCRM.ApplicationService.dll
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\obj\Debug\NewCRM.ApplicationService.pdb
+E:\NewCRMTest\NewCRM\NewCRM.ApplicationService\bin\Debug\NewCRM.DomainService.dll

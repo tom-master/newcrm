@@ -140,10 +140,6 @@ F:\NewCRMTest\NewCRM\NewCRM.Web\bin\zh-Hans\System.Web.WebPages.Deployment.resou
 F:\NewCRMTest\NewCRM\NewCRM.Web\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
 F:\NewCRMTest\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.dll
 F:\NewCRMTest\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.pdb
-E:\NewCRMTest\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.csprojResolveAssemblyReference.cache
-E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Web.dll.config
-E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Web.dll
-E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Web.pdb
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\Antlr3.Runtime.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\EntityFramework.SqlServer.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\Microsoft.Web.Infrastructure.dll
@@ -189,3 +185,7 @@ E:\NewCRMTest\NewCRM\NewCRM.Web\bin\zh-Hans\System.Web.WebPages.Deployment.resou
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.pdb
+E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Web.dll.config
+E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Web.dll
+E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Web.pdb
+E:\NewCRMTest\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.csprojResolveAssemblyReference.cache

@@ -1,5 +1,12 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/CodeInspection/WebPathMapping/IgnoredPaths/=SCRIPTS_005CHOORAYUI_005CCSS_005CDESK_005FSPRITE_002EPNG/@EntryIndexedValue">Scripts\HoorayUI\css\desk_sprite.png</s:String>
 	
+	<s:String x:Key="/Default/CodeInspection/WebPathMapping/IgnoredPaths/=SCRIPTS_005CHOORAYUI_005CCSS_005CPOPUP_005FMENU_002EGIF/@EntryIndexedValue">Scripts\HoorayUI\css\popup_menu.gif</s:String>
+	<s:String x:Key="/Default/CodeInspection/WebPathMapping/MappedPaths/=SCRIPTS_005CHOORAYUI_005CCSS_005CAPP_005FSPR_005FIMG_002EGIF/@EntryIndexedValue"></s:String>
+	<s:String x:Key="/Default/CodeInspection/WebPathMapping/MappedPaths/=SCRIPTS_005CHOORAYUI_005CCSS_005CICON_005FMAIN_002EPNG/@EntryIndexedValue"></s:String>
+	<s:String x:Key="/Default/CodeInspection/WebPathMapping/PathsInCorrectCasing/=SCRIPTS_005CHOORAYUI_005CCSS_005CAPP_005FSPR_005FIMG_002EGIF/@EntryIndexedValue">Scripts\HoorayUI\css\app_spr_img.gif</s:String>
 	
-	<s:String x:Key="/Default/CodeInspection/WebPathMapping/PathsInCorrectCasing/=SCRIPTS_005CHOORAYUI_005CCSS_005CDESK_005FSPRITE_002EPNG/@EntryIndexedValue">Scripts\HoorayUI\css\desk_sprite.png</s:String></wpf:ResourceDictionary>
+	
+	<s:String x:Key="/Default/CodeInspection/WebPathMapping/PathsInCorrectCasing/=SCRIPTS_005CHOORAYUI_005CCSS_005CDESK_005FSPRITE_002EPNG/@EntryIndexedValue">Scripts\HoorayUI\css\desk_sprite.png</s:String>
+	<s:String x:Key="/Default/CodeInspection/WebPathMapping/PathsInCorrectCasing/=SCRIPTS_005CHOORAYUI_005CCSS_005CICON_005FMAIN_002EPNG/@EntryIndexedValue">Scripts\HoorayUI\css\icon_main.png</s:String>
+	<s:String x:Key="/Default/CodeInspection/WebPathMapping/PathsInCorrectCasing/=SCRIPTS_005CHOORAYUI_005CCSS_005CPOPUP_005FMENU_002EGIF/@EntryIndexedValue">Scripts\HoorayUI\css\popup_menu.gif</s:String></wpf:ResourceDictionary>

@@ -3,19 +3,17 @@ using NewCRM.ApplicationService.IApplicationService;
 using NewCRM.Web.Controllers.ControllerHelper;
 using System;
 using System.Globalization;
-using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using NewCRM.Infrastructure.CommonTools;
-
 namespace NewCRM.Web.Controllers
 {
     public class IndexController : BaseController
     {
 
-        private static IPlantformApplicationService _plantformApplicationService;
+        private readonly IPlantformApplicationService _plantformApplicationService;
 
-        static IndexController()
+        public IndexController()
         {
             _plantformApplicationService = new PlantformApplicationService();
         }
@@ -25,16 +23,21 @@ namespace NewCRM.Web.Controllers
         /// 桌面
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
         public ActionResult Desktop()
         {
+            ViewData["CurrentUser"] = CurrentUser;
             return View();
         }
-        [HttpGet]
+
+        /// <summary>
+        /// 登陆页
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Login()
         {
             return View();
         }
+
         #region 登陆
 
         /// <summary>
@@ -44,9 +47,8 @@ namespace NewCRM.Web.Controllers
         /// <param name="passWord"></param>
         /// <param name="isRememberPasswrod"></param>
         /// <returns></returns>
-        public ActionResult Login(String userName, String passWord, Boolean isRememberPasswrod = false)
+        public ActionResult Landing(String userName, String passWord, Boolean isRememberPasswrod = false)
         {
-            Thread.Sleep(1500);
             var userData = _plantformApplicationService.Login(userName, passWord);
             if (userData.ResultType != ResponseType.Success)
             {
@@ -60,9 +62,9 @@ namespace NewCRM.Web.Controllers
             };
             HttpContext.Response.Cookies.Add(cookie);
 
-            UserEntity = userData.Data;
+            CurrentUser = userData.Data;
 
-            return Json(new { status = 1, data = userData });
+            return Json(new { status = 1 });
         }
         #endregion
 
@@ -73,9 +75,8 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult GetSkin()
         {
-            //var skinName = UserEntity.Skin;
-            //return Json(new { data = skinName }, JsonRequestBehavior.AllowGet);
-            return null;
+            var skinName = CurrentUser.UserConfigure.Skin;
+            return Json(new { data = skinName }, JsonRequestBehavior.AllowGet);
         }
         ///// <summary>
         ///// 初始化壁纸
@@ -83,10 +84,8 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult GetWallpaper()
         {
-            //_userApplicationService = new UserApplicationService();
-            //var userWallpaper = _userApplicationService.GetUserWallPaper(UserEntity.Id);
-            //return Json(new { data = userWallpaper }, JsonRequestBehavior.AllowGet);
-            return null;
+            var userWallpaper = CurrentUser.UserConfigure;
+            return Json(new { data = userWallpaper }, JsonRequestBehavior.AllowGet);
         }
         ///// <summary>
         ///// 初始化应用码头
@@ -94,9 +93,8 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult GetDockPos()
         {
-            //var dockPos = UserEntity.DockPosition;
-            //return Json(new { data = dockPos }, JsonRequestBehavior.AllowGet);
-            return null;
+            var dockPos = CurrentUser.UserConfigure.DockPosition;
+            return Json(new { data = dockPos }, JsonRequestBehavior.AllowGet);
         }
         ///// <summary>
         ///// 获取我的应用
@@ -104,9 +102,7 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult GetMyApp()
         {
-            //_userApplicationService = new UserApplicationService();
-            //return Json(new { data = _userApplicationService.GetUserApp(UserEntity) }, JsonRequestBehavior.AllowGet);
-            return null;
+            return Json(new { app = _plantformApplicationService.UserApp(CurrentUser.Id) }, JsonRequestBehavior.AllowGet);
         }
         ///// <summary>
         ///// 获取用户头像
@@ -114,8 +110,7 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult GetUserFace()
         {
-            //return Json(new { data = UserEntity.UserFace }, JsonRequestBehavior.AllowGet);
-            return null;
+            return Json(new { data = CurrentUser.UserConfigure.UserFace }, JsonRequestBehavior.AllowGet);
         }
         ///// <summary>
         ///// 创建一个窗口

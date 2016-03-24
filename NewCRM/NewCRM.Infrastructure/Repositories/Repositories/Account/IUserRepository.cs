@@ -20,6 +20,6 @@ namespace NewCRM.Infrastructure.Repositories.Repositories.Account
 	/// <summary>
     ///   仓储操作层接口——用户
     /// </summary>
-    public partial interface IUserRepository : IRepository<User, Int32>
+    public partial interface IUserRepository : IRepository<User>
     { }
 }

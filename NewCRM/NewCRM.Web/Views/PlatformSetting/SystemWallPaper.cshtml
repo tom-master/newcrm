@@ -23,25 +23,25 @@
         </select>
     </div>
 </div>
-<ul class="wallpaper">
-</ul>
+<ul class="wallpaper"></ul>
 <script type="text/javascript">
-    $(function() {
-        GetAllWallpaper(function() {
-                $("#wallpapertype").val(window.parent.HROS.CONFIG.wallpaperType);
-                $("#wallpapertype").on('change', function () {
-                    window.parent.HROS.wallpaper.update($('#wallpapertype').val(), '');
-                });
-                $('.wallpaper li').on('click', function () {
-                    window.parent.HROS.wallpaper.update($('#wallpapertype').val(), $(this).attr('wpid'));
-                });
+    $(function () {
+        GetAllWallpaper(function () {
+            $("#wallpapertype").val(window.parent.HROS.CONFIG.wallpaperType);
+            $("#wallpapertype").on('change', function () {
+                window.parent.HROS.wallpaper.update($('#wallpapertype').val(), '');
+            });
+            $('.wallpaper li').on('click', function () {
+                window.parent.HROS.wallpaper.update($('#wallpapertype').val(), $(this).attr('wpid'));
+            });
         });
     });
     function GetAllWallpaper(callback) {
-        $.get("@Url.Action("GetAllWallpaper", "PlatformSetting")", { __: Date.now() }, function (result) {
+        $.get("@Url.Action("GetAllWallpaper", "PlatformSetting")", function (result) {
+            debugger
             var html = '';
-            $.each(result.data, function(k,v) {
-                html += '<li  wpid="'+v.Id+'"><img src="'+v.SmallUrl+'" /><div>'+v.Title+'</div></li>';
+            $.each(result.data, function (k, v) {
+                html += '<li  wpid="' + v.Id + '"><img src="' + v.SmallUrl + '" /><div>' + v.Title + '</div></li>';
             });
             $('.wallpaper').append(html);
             if (typeof (callback) === 'function') {

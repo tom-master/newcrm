@@ -18,7 +18,14 @@ namespace NewCRM.Domain.DomainModel.System
 
         private Int32 _folderId;
 
+        private String _name;
+
+        private String _icon;
+
         private MemberType _memberType;
+
+
+
 
         public Int32 UserId
         {
@@ -53,6 +60,24 @@ namespace NewCRM.Domain.DomainModel.System
             set
             {
                 _memberType = value;
+            }
+        }
+
+        public String Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+            }
+        }
+
+        public String Icon
+        {
+            get { return _icon; }
+            set
+            {
+                _icon = value;
             }
         }
     }

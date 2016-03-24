@@ -25,6 +25,10 @@ namespace NewCRM.Domain.DomainModel.System
         private Int32 _appVerticalSpacing;
         private Int32 _appHorizontalSpacing;
 
+        private Int32 _deskCount;
+
+        private Int32 _defaultDesk;
+
 
         private String _desk1;
         private String _desk2;
@@ -164,6 +168,29 @@ namespace NewCRM.Domain.DomainModel.System
             set
             {
                 _desk5 = value;
+            }
+        }
+
+
+        public Int32 DeskCount
+        {
+            get { return _deskCount; }
+            set
+            {
+                _deskCount = value;
+            }
+        }
+
+        public Int32 DefaultDesk
+        {
+            get
+            {
+                return _defaultDesk;
+            }
+
+            set
+            {
+                _defaultDesk = value;
             }
         }
 

@@ -10,7 +10,7 @@ namespace NewCRM.Domain.DomainModel.System
     public enum MemberType
     {
         [Description("应用")]
-        App = 1,
+        Window = 1,
         [Description("文件夹")]
         Folder = 2
     }

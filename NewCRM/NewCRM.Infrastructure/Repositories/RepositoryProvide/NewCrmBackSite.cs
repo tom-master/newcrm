@@ -2,7 +2,6 @@
 using NewCRM.Domain.DomainModel.Account;
 using NewCRM.Domain.DomainModel.Security;
 using NewCRM.Domain.DomainModel.System;
-using NewCRM.Infrastructure.Repositories.Configurations;
 using AppConfiguration = NewCRM.Infrastructure.Repositories.Configuration.System.Imp.AppConfiguration;
 using AppTypeConfiguration = NewCRM.Infrastructure.Repositories.Configuration.System.Imp.AppTypeConfiguration;
 using DepartmentConfiguration = NewCRM.Infrastructure.Repositories.Configuration.Security.Imp.DepartmentConfiguration;

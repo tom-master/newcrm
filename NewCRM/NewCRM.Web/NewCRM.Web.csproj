@@ -405,6 +405,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\HoorayUI\css\index.css" />
+    <Content Include="Scripts\HoorayUI\css\login.css" />
     <Content Include="Scripts\HoorayUI\img\box.psd" />
     <Content Include="Scripts\HoorayUI\js\artDialog4.1.7\_doc\ajaxContent\content.json" />
     <Content Include="Scripts\HoorayUI\js\artDialog4.1.7\_doc\commercial_license.doc" />
@@ -779,27 +780,6 @@
     <Content Include="Scripts\HoorayUI\js\HoorayLibs\hooraylibs.js" />
     <Content Include="Scripts\HoorayUI\js\HoorayLibs\scrolltotop.gif" />
     <Content Include="Scripts\HoorayUI\js\HoorayLibs\ZeroClipboard.swf" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.app.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.appmanage.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.base.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.copyright.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.core.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.desktop.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.dock.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.folderView.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.grid.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.hotkey.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.lock.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.maskBox.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.popupMenu.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.searchbar.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.startmenu.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.taskbar.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.templates.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.wallpaper.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.widget.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.window.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.zoom.js" />
     <Content Include="Scripts\HoorayUI\js\HoorayJs\zoom.swf" />
     <Content Include="Scripts\HoorayUI\js\validate\jquery.validate.min.js" />
     <Content Include="Scripts\HoorayUI\js\webuploader-0.1.5\Uploader.swf" />
@@ -857,15 +837,22 @@
     <None Include="Project_Readme.html" />
     <Content Include="Views\Index\Login.cshtml" />
     <Content Include="Views\AuthorityManage\RoleManage.cshtml" />
-    <Content Include="Views\Shared\_layout.cshtml" />
     <Content Include="Views\PlatformSetting\SystemWallPaper.cshtml" />
     <Content Include="Views\PlatformSetting\CustomWallPaper.cshtml" />
     <Content Include="Views\PlatformSetting\SettingSkin.cshtml" />
     <Content Include="Views\PlatformSetting\DeskTopSetting.cshtml" />
     <Content Include="Scripts\HoorayUI\js\processBar\jquery.processbar.js" />
+    <Content Include="Views\Shared\_LayoutApps.cshtml" />
+    <Content Include="Views\Shared\_LayoutDesk.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NewCRM.Domain\NewCRM.Domain.csproj">
+      <Project>{173C1046-4529-4D70-B6F5-501C61514E86}</Project>
+      <Name>NewCRM.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -885,7 +872,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>2829</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:4860/</IISUrl>
+          <IISUrl>http://localhost:4861/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

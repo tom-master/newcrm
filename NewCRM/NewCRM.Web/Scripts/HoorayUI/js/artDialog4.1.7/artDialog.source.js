@@ -93,7 +93,7 @@ $.fn = $.prototype = {
     css: function (name, value) {
         var i, elem = this[0], obj = arguments[0];
 
-        if (typeof name === 'String') {
+        if (typeof name === 'string') {
             if (value === undefined) {
                 return $.css(elem, name);
             } else {
@@ -213,7 +213,7 @@ $.fn.init = function (selector, context) {
 		return this;
 	};
 		
-	if (typeof selector === 'String') {
+	if (typeof selector === 'string') {
 		match = quickExpr.exec(selector);
 
 		if (match && match[2]) {
@@ -847,8 +847,8 @@ var _box, _thisScript, _skin, _path,
 
 var artDialog = function (config, ok, cancel) {
 	config = config || {};
-	
-	if (typeof config === 'String' || config.nodeType === 1) {
+	 
+	 if (typeof config === 'string' || config.nodeType === 1) {
 		config = {content: config, fixed: !_isMobile};
 	};
 	
@@ -866,7 +866,7 @@ var artDialog = function (config, ok, cancel) {
 	function(i,o){config[i]=config[i]!==undefined?config[i]:config[o]});
 	
 	// 返回跟随模式或重复定义的ID
-	if (typeof elem === 'String') elem = $(elem)[0];
+	if (typeof elem === 'string') elem = $(elem)[0];
 	config.id = elem && elem[_expando + 'follow'] || config.id || _expando + _count;
 	api = artDialog.list[config.id];
 	if (elem && api) return api.follow(elem).zIndex().focus();
@@ -907,6 +907,7 @@ artDialog.fn = artDialog.prototype = {
 	closed: true,
 	
 	_init: function (config) {
+        debugger
 		var that = this, DOM,
 			icon = config.icon,
 			iconBg = icon && (_isIE6 ? {png: 'icons/' + icon + '.png'}
@@ -968,7 +969,7 @@ artDialog.fn = artDialog.prototype = {
 		wrap.style.width = 'auto';
 		
 		if (msg === undefined) return content;
-		if (typeof msg === 'String') {
+		if (typeof msg === 'string') {
 			$content.html(msg);
 		} else if (msg && msg.nodeType === 1) {
 		
@@ -1070,7 +1071,7 @@ artDialog.fn = artDialog.prototype = {
 			if (typeof left === 'number') {
 				left = ie6Fixed ? (left += docLeft) : left + dl;
 				style.left = Math.max(left, dl) + 'px';
-			} else if (typeof left === 'String') {
+			} else if (typeof left === 'string') {
 				style.left = left;
 			};
 		};
@@ -1082,7 +1083,7 @@ artDialog.fn = artDialog.prototype = {
 			if (typeof top === 'number') {
 				top = ie6Fixed ? (top += docTop) : top + dt;
 				style.top = Math.max(top, dt) + 'px';
-			} else if (typeof top === 'String') {
+			} else if (typeof top === 'string') {
 				style.top = top;
 			};
 		};
@@ -1120,7 +1121,7 @@ artDialog.fn = artDialog.prototype = {
 				wrapStyle.width = 'auto';
 				style.width = Math.max(that.config.minWidth, width) + 'px';
 				wrapStyle.width = wrap[0].offsetWidth + 'px'; // 防止未定义宽度的表格遇到浏览器右边边界伸缩
-			} else if (typeof width === 'String') {
+			} else if (typeof width === 'string') {
 				style.width = width;
 				width === 'auto' && wrap.css('width', 'auto');
 			};
@@ -1134,7 +1135,7 @@ artDialog.fn = artDialog.prototype = {
 			
 			if (typeof height === 'number') {
 				style.height = Math.max(that.config.minHeight, height) + 'px';
-			} else if (typeof height === 'String') {
+			} else if (typeof height === 'string') {
 				style.height = height;
 			};
 		};
@@ -1151,7 +1152,7 @@ artDialog.fn = artDialog.prototype = {
 	follow: function (elem) {
 		var $elem, that = this, config = that.config;
 		
-		if (typeof elem === 'String' || elem && elem.nodeType === 1) {
+		if (typeof elem === 'string' || elem && elem.nodeType === 1) {
 			$elem = $(elem);
 			elem = $elem[0];
 		};
@@ -1348,6 +1349,7 @@ artDialog.fn = artDialog.prototype = {
 	
 	/** 置顶对话框 */
 	zIndex: function () {
+        debugger
 		var that = this,
 			DOM = that.DOM,
 			wrap = DOM.wrap,

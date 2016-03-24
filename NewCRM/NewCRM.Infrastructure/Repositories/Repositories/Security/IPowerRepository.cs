@@ -20,6 +20,6 @@ namespace NewCRM.Infrastructure.Repositories.Repositories.Security
 	/// <summary>
     ///   仓储操作层接口——权限
     /// </summary>
-    public partial interface IPowerRepository : IRepository<Power, Int32>
+    public partial interface IPowerRepository : IRepository<Power>
     { }
 }

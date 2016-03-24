@@ -20,6 +20,6 @@ namespace NewCRM.Infrastructure.Repositories.Repositories.Security
 	/// <summary>
     ///   仓储操作层接口——角色
     /// </summary>
-    public partial interface IRoleRepository : IRepository<Role, Int32>
+    public partial interface IRoleRepository : IRepository<Role>
     { }
 }

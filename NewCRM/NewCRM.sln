@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZNewCRM.Web(Old)", "NewCRM.Web(Old)\ZNewCRM.Web(Old).csproj", "{EC02F6BD-E93F-4D1F-BEFA-ADDDFBCB5A95}"
 EndProject
@@ -35,6 +35,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCRM.ApplicationServiceTest", "NewCRM.ApplicationServiceTest\NewCRM.ApplicationServiceTest.csproj", "{781FC8B5-3395-4B18-A11C-4760473D9CE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCRM.DomainServiceTest", "NewCRM.DomainServiceTest\NewCRM.DomainServiceTest.csproj", "{037BA35F-8D98-4CEA-9BEA-9E3E77050DB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCrm.InfrastructureTest", "NewCrm.InfrastructureTest\NewCrm.InfrastructureTest.csproj", "{DD8FB0BE-F3D2-4449-BC76-BCAB230E17F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,6 +78,14 @@ Global
 		{781FC8B5-3395-4B18-A11C-4760473D9CE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{781FC8B5-3395-4B18-A11C-4760473D9CE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{781FC8B5-3395-4B18-A11C-4760473D9CE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{037BA35F-8D98-4CEA-9BEA-9E3E77050DB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{037BA35F-8D98-4CEA-9BEA-9E3E77050DB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{037BA35F-8D98-4CEA-9BEA-9E3E77050DB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{037BA35F-8D98-4CEA-9BEA-9E3E77050DB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD8FB0BE-F3D2-4449-BC76-BCAB230E17F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD8FB0BE-F3D2-4449-BC76-BCAB230E17F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD8FB0BE-F3D2-4449-BC76-BCAB230E17F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD8FB0BE-F3D2-4449-BC76-BCAB230E17F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,5 +98,7 @@ Global
 		{457EE31D-B485-4D98-A0A2-1FF2F58123D9} = {F7EAFE75-1B68-437E-B305-25865886AA24}
 		{0C635AA2-3953-4AA0-A07F-CF8B1B7BBC6E} = {D45F56E7-8F22-4CBD-9118-A955A9BC4E0B}
 		{781FC8B5-3395-4B18-A11C-4760473D9CE8} = {D6EC715D-F363-47CC-B40E-5DFD0A737E89}
+		{037BA35F-8D98-4CEA-9BEA-9E3E77050DB4} = {EEF9FAD6-E483-4459-996E-09AE2DF3F4BA}
+		{DD8FB0BE-F3D2-4449-BC76-BCAB230E17F9} = {F7EAFE75-1B68-437E-B305-25865886AA24}
 	EndGlobalSection
 EndGlobal

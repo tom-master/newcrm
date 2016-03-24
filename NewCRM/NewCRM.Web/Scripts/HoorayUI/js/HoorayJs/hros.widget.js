@@ -150,7 +150,7 @@ HROS.widget = (function(){
 		//还原上次退出系统时widget的状态
 		reduction : function(){
 			//var widgetState = $.parseJSON($.cookie(cookie_prefix + 'widgetState' + HROS.CONFIG.memberID));
-			var widgetState = $.parseJSON($.cookie( 'widgetState' + HROS.CONFIG.memberID));
+			var widgetState = $.parseJSON($.cookie('widgetState'+HROS.CONFIG.memberID));
 			$(widgetState).each(function(){
 				HROS.widget.create(this.realappid, this.type);
 			});

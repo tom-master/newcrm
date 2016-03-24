@@ -9,8 +9,7 @@ namespace NewCRM.Domain.Repositories
     ///     定义仓储模型中的数据标准操作
     /// </summary>
     /// <typeparam name="T">动态实体类型</typeparam>
-    /// <typeparam name="TKey"></typeparam>
-    public interface IRepository<T, in TKey> where T : EntityBase<TKey>
+    public interface IRepository<T> where T : EntityBase<Int32>
     {
         #region 属性
         /// <summary>
@@ -43,7 +42,7 @@ namespace NewCRM.Domain.Repositories
         /// <param name="id"> 实体记录编号 </param>
         /// <param name="isSave"> 是否执行保存 </param>
 
-        void Remove(TKey id, Boolean isSave = true);
+        void Remove(Int32 id, Boolean isSave = true);
 
         /// <summary>
         ///     删除实体记录

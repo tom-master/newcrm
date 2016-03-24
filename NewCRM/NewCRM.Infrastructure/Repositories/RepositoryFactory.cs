@@ -1,29 +1,41 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
 using NewCRM.Domain.DomainModel;
 using NewCRM.Domain.Repositories;
-using NewCRM.Infrastructure.Repositories.RepositoryProvide;
 
 namespace NewCRM.Infrastructure.Repositories
 {
-    public class RepositoryFactory<TEntity, TRepository>
-        where TEntity : EntityBase<Int32>
-        where TRepository : EfRepositoryBase<TEntity, Int32>
+    public class RepositoryFactory<TEntity> where TEntity : EntityBase<Int32>
     {
-        private static IDictionary<String, IRepository<TEntity, Int32>> _repositoryCache = new ConcurrentDictionary<String, IRepository<TEntity, Int32>>();
+        private static readonly IDictionary<String, IRepository<TEntity>> _repositoryCache = new Dictionary<String, IRepository<TEntity>>();
 
 
-        public static TRepository GetRepository()
+        public static IRepository<TEntity> CreateRepository()
         {
-            var tRepositoryName = typeof(TRepository).Name;
-            if (_repositoryCache.ContainsKey(tRepositoryName))
+            var currentExcuteAssembly = Assembly.GetExecutingAssembly();
+            var repositoryType =
+                currentExcuteAssembly.GetTypes().FirstOrDefault(assembly => !assembly.Name.StartsWith("I", true, CultureInfo.InvariantCulture) && assembly.Name.EndsWith("Repository", true, CultureInfo.InvariantCulture) && assembly.Name == typeof(TEntity).Name + "Repository");
+            if (repositoryType == null)
             {
-                return (TRepository)_repositoryCache[typeof(TRepository).Name];
+                return null;
             }
-            var tRepositoryInstance = Activator.CreateInstance<TRepository>();
-            _repositoryCache.Add(new KeyValuePair<String, IRepository<TEntity, int>>(typeof(TRepository).Name,tRepositoryInstance));
-            return tRepositoryInstance;
+
+            if (_repositoryCache.ContainsKey(repositoryType.Name))
+            {
+                return _repositoryCache[repositoryType.Name];
+            }
+
+            var newRepositoryInstance = currentExcuteAssembly.CreateInstance(repositoryType.FullName);
+            if (!(newRepositoryInstance is IRepository<TEntity>))
+            {
+                return null;
+            }
+
+            _repositoryCache.Add(repositoryType.Name, (IRepository<TEntity>)newRepositoryInstance);
+            return (IRepository<TEntity>)newRepositoryInstance;
         }
     }
 }

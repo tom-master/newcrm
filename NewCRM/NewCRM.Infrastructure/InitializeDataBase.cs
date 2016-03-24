@@ -7,7 +7,7 @@ namespace NewCRM.Infrastructure
     {
         public static void Initialize()
         {
-            Database.SetInitializer(new CreateDatabaseIfNotExists<NewCrmBackSite>());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<NewCrmBackSite>());
             using (var db = new NewCrmBackSite())
             {
                 db.Database.Initialize(false);

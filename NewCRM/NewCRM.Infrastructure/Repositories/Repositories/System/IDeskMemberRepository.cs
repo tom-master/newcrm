@@ -20,6 +20,6 @@ namespace NewCRM.Infrastructure.Repositories.Repositories.System
 	/// <summary>
     ///   仓储操作层接口——桌面成员
     /// </summary>
-    public partial interface IDeskMemberRepository : IRepository<DeskMember, Int32>
+    public partial interface IDeskMemberRepository : IRepository<DeskMember>
     { }
 }

@@ -3,25 +3,24 @@
 <head>
     <title></title>
     <script src="@Url.Content("~/Scripts/HoorayUI/js/HoorayJs/jquery-2.1.4.js")"></script>
-
-    <link rel="stylesheet" href="@Url.Content("~/Scripts/HoorayUI/css/sys.css")"/>
-    <link rel="stylesheet" href="@Url.Content("~/Scripts/HoorayUI/css/globle.css")"/>
-    <link rel="stylesheet" href="@Url.Content("~/Scripts/HoorayUI/js/bootstrap/css/bootstrap.min.css")"/>
-    <link rel="stylesheet" href="@Url.Content("~/Scripts/HoorayUI/js/HoorayLibs/hooraylibs.css")"/>
 </head>
 <body>
-<div>
-    @RenderBody()
-</div>
+    <div>
+        @RenderBody()
+    </div>
 </body>
 </html>
-<script src="@Url.Content("~/Scripts/HoorayUI/js/HoorayJs/jquery-browser.js")"></script>
-<script src="@Url.Content("~/Scripts/HoorayUI/js/HoorayLibs//hooraylibs.js")"></script>
-<script src="@Url.Content("~/Scripts/HoorayUI/js/artDialog4.1.7/jquery.artDialog.js?skin=default")"></script>
-<script src="@Url.Content( "~/Scripts/HoorayUI/js/artDialog4.1.7/plugins/iframeTools.js"  )"></script>
-<script src="@Url.Content("~/Scripts/HoorayUI/js/bootstrap/js/bootstrap.min.js")"></script>
-<script src="@Url.Content("~/Scripts/HoorayUI/js/HoorayJs/hros.min.js")"></script>
+<link href="@Url.Content("~/Scripts/HoorayUI/css/sys.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Scripts/HoorayUI/css/globle.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Scripts/HoorayUI/js/bootstrap/css/bootstrap.min.css")" rel="stylesheet" />
+<link href="@Url.Content( "~/Scripts/HoorayUI/js/HoorayLibs/hooraylibs.css" )" rel="stylesheet"/>
 
+<script src="@Url.Content( "~/Scripts/HoorayUI/js/HoorayJs/jquery-browser.js" )"></script>
+<script src="@Url.Content("~/Scripts/HoorayUI/js/bootstrap/js/bootstrap.min.js")"></script>
+<script src="@Url.Content("~/Scripts/HoorayUI/js/HoorayLibs/hooraylibs.js")"></script>
+<script src="@Url.Content("~/Scripts/HoorayUI/js/artDialog4.1.7/jquery.artDialog.js?skin=simple")"></script>
+<script src="@Url.Content("~/Scripts/HoorayUI/js/artDialog4.1.7/plugins/iframeTools.js")"></script>
+<script src="@Url.Content("~/Scripts/HoorayUI/js/validate/jquery.validate.min.js")"></script>
 <script>
     $(function () {
         //配置artDialog全局默认参数
@@ -41,7 +40,7 @@
             $(this).parent().removeClass('info').children('.infomsg').hide().siblings('.help-inline').show();
         });
         //detailIframe
-        var openDetailIframe = function (url) {
+        openDetailIframe = function (url) {
             ZENG.msgbox.show('正在载入中，请稍后...', 6, 100000);
             $('#detailIframe iframe').attr('src', url).load(function () {
                 $('body').css('overflow', 'hidden');
@@ -52,7 +51,7 @@
                 }, 500);
             });
         };
-        var closeDetailIframe = function (callback) {
+        closeDetailIframe = function (callback) {
             $('body').css('overflow', 'auto');
             $('#detailIframe').animate({
                 'top': '-100px',

@@ -1,37 +1,18 @@
 ﻿@{
     Layout = null;
 }
-
-<link href="@Url.Content("~/Scripts/HoorayUI/css/index.css")" rel="stylesheet" />
-<script src="@Url.Content("~/Scripts/HoorayUI/js/HoorayJs/jquery-2.1.4.js")"></script>
-<script src="@Url.Content("~/Scripts/HoorayUI/js/bubbler/bubbler.jquery.js")"></script>
-<script src="@Url.Content( "~/Scripts/HoorayUI/js/validate/jquery.validate.min.js" )"></script>
-<script src="@Url.Content("~/Scripts/HoorayUI/js/processBar/jquery.processbar.js")"></script>
-<style type="text/css">
-    .progress {
-        margin-top: 30px;
-    }
-
-    .yoda {
-        border-radius: 2px;
-        display: block;
-        width: 0%;
-        box-shadow: 0px 0px 10px 1px #68B37A, 0 0 1px #68B37A, 0 0 1px #68B37A, 0 0 1px #68B37A, 0 0 1px #68B37A, 0 0 1px #68B37A, 0 0 1px #68B37A;
-        background-color: #FFFFFF;
-    }
-</style>
-
+<link href="@Url.Content("~/Scripts/HoorayUI/css/login.css")" rel="stylesheet" />
 
 <div id="bubbles" class="background-filter">
 </div>
 <div class="wrapper">
     <div class="container">
-        <h1>
+        <h1 class="logo">
             欢迎登陆
             <div class="progress" id="yoda" style="display: none"></div>
         </h1>
 
-        <form action="" method="post" id="loginForm">
+        <form id="loginForm">
             <div>
                 <input type="text" name="username" value="admin123" class="username" placeholder="用户名" autocomplete="off" />
             </div>
@@ -41,14 +22,17 @@
             <button id="login">登 陆</button>
         </form>
     </div>
-
+ 
 </div>
 
+<script src="@Url.Content("~/Scripts/HoorayUI/js/HoorayJs/jquery-2.1.4.js")"></script>
+<script src="@Url.Content("~/Scripts/HoorayUI/js/bubbler/bubbler.jquery.js")"></script>
+<script src="@Url.Content( "~/Scripts/HoorayUI/js/validate/jquery.validate.min.js" )"></script>
+<script src="@Url.Content("~/Scripts/HoorayUI/js/processBar/jquery.processbar.js")"></script>
 <script>
     var processIndex = 0;
     $(function () {
         $("#bubbles").bubbler();
-        setTimeout(function () { $('#username').val('').focus(); }, 500);
 
         $("#login").click(function (event) {
             event.preventDefault();
@@ -59,16 +43,20 @@
 
             var setIntervalIndex = 0;
             var progressBar = $("#yoda").ProgressBarWars({ porcentaje: 0, estilo: "yoda" });
-
-            $.post('@Url.Action("Login", "Index")', { userName: $('.username').val(), passWord: $('.password').val() }, function (responseText) {
-                if (responseText.status === 1) {
-                    progressBar.mover(100);
-                    clearInterval(setIntervalIndex);
-                    location.href = '@Url.Action("Desktop", "Index")';
-                } else {
-                    $('.log .tip').text(responseText.msg).show();
-                }
-            });
+            
+            $.post('@Url.Action("Landing", "Index")',
+                {
+                    userName: $('.username').val(),
+                    passWord: $('.password').val()
+                }, function (responseText) {
+                    if (responseText.status === 1) {
+                        progressBar.mover(100);
+                        clearInterval(setIntervalIndex);
+                        location.href = '@Url.Action("Desktop", "Index")';
+                    } else {
+                        $('.log .tip').text(responseText.msg).show();
+                    }
+                });
 
             setIntervalIndex = setInterval(function () {
                 progressBar.mover(processIndex);
@@ -109,14 +97,5 @@
                 }
             }
         });
-
-
-        document.onkeydown = function (event) {
-            var ev = event || window.event || arguments.callee.caller.arguments[0];
-            if (ev && ev.keyCode === 13) {
-                $('#Login').trigger('click');
-            }
-        };
-
     });
 </script>

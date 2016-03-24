@@ -6,7 +6,6 @@ using System.Data.SqlClient;
 using System.Linq.Expressions;
 using NewCRM.Domain.DomainModel;
 using NewCRM.Domain.UnitWork;
-using NewCRM.Infrastructure.CommonTools.CustomHelper;
 using NewCRM.Infrastructure.Repositories.RepositoryProvide;
 
 namespace NewCRM.Infrastructure.Repositories.UnitOfWorkProvide

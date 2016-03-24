@@ -263,7 +263,7 @@
         , data = $this.data('modal')
         , options = $.extend({}, $.fn.modal.defaults, $this.data(), typeof option == 'object' && option)
       if (!data) $this.data('modal', (data = new Modal(this, options)))
-      if (typeof option == 'String') data[option]()
+      if (typeof option == 'string') data[option]()
       else if (options.show) data.show()
     })
   }
@@ -449,7 +449,7 @@
       var $this = $(this)
         , data = $this.data('dropdown')
       if (!data) $this.data('dropdown', (data = new Dropdown(this)))
-      if (typeof option == 'String') data[option].call($this)
+      if (typeof option == 'string') data[option].call($this)
     })
   }
 
@@ -607,7 +607,7 @@
         , data = $this.data('scrollspy')
         , options = typeof option == 'object' && option
       if (!data) $this.data('scrollspy', (data = new ScrollSpy(this, options)))
-      if (typeof option == 'String') data[option]()
+      if (typeof option == 'string') data[option]()
     })
   }
 
@@ -757,7 +757,7 @@
       var $this = $(this)
         , data = $this.data('tab')
       if (!data) $this.data('tab', (data = new Tab(this)))
-      if (typeof option == 'String') data[option]()
+      if (typeof option == 'string') data[option]()
     })
   }
 
@@ -1036,7 +1036,7 @@
 
   , fixTitle: function () {
       var $e = this.$element
-      if ($e.attr('title') || typeof($e.attr('data-original-title')) != 'String') {
+      if ($e.attr('title') || typeof($e.attr('data-original-title')) != 'string') {
         $e.attr('data-original-title', $e.attr('title') || '').attr('title', '')
       }
     }
@@ -1115,7 +1115,7 @@
         , data = $this.data('tooltip')
         , options = typeof option == 'object' && option
       if (!data) $this.data('tooltip', (data = new Tooltip(this, options)))
-      if (typeof option == 'String') data[option]()
+      if (typeof option == 'string') data[option]()
     })
   }
 
@@ -1235,7 +1235,7 @@
         , data = $this.data('popover')
         , options = typeof option == 'object' && option
       if (!data) $this.data('popover', (data = new Popover(this, options)))
-      if (typeof option == 'String') data[option]()
+      if (typeof option == 'string') data[option]()
     })
   }
 
@@ -1337,7 +1337,7 @@
         , data = $this.data('affix')
         , options = typeof option == 'object' && option
       if (!data) $this.data('affix', (data = new Affix(this, options)))
-      if (typeof option == 'String') data[option]()
+      if (typeof option == 'string') data[option]()
     })
   }
 
@@ -1453,7 +1453,7 @@
       var $this = $(this)
         , data = $this.data('alert')
       if (!data) $this.data('alert', (data = new Alert(this)))
-      if (typeof option == 'String') data[option].call($this)
+      if (typeof option == 'string') data[option].call($this)
     })
   }
 
@@ -1713,7 +1713,7 @@
         , data = $this.data('collapse')
         , options = $.extend({}, $.fn.collapse.defaults, $this.data(), typeof option == 'object' && option)
       if (!data) $this.data('collapse', (data = new Collapse(this, options)))
-      if (typeof option == 'String') data[option]()
+      if (typeof option == 'string') data[option]()
     })
   }
 
@@ -1911,7 +1911,7 @@
       var $this = $(this)
         , data = $this.data('carousel')
         , options = $.extend({}, $.fn.carousel.defaults, typeof option == 'object' && option)
-        , action = typeof option == 'String' ? option : options.slide
+        , action = typeof option == 'string' ? option : options.slide
       if (!data) $this.data('carousel', (data = new Carousel(this, options)))
       if (typeof option == 'number') data.to(option)
       else if (action) data[action]()
@@ -2255,7 +2255,7 @@
         , data = $this.data('typeahead')
         , options = typeof option == 'object' && option
       if (!data) $this.data('typeahead', (data = new Typeahead(this, options)))
-      if (typeof option == 'String') data[option]()
+      if (typeof option == 'string') data[option]()
     })
   }
 

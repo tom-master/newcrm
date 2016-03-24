@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.IO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace NewCRM.ApplicationServiceTest
 {
@@ -10,6 +11,13 @@ namespace NewCRM.ApplicationServiceTest
         {
             //IPlantformApplicationService _plantformApplicationService = new PlantformApplicationService();
             //_plantformApplicationService.GetAllSkin(@"F:\NewCRMTest\NewCRM\NewCRM.Web\Scripts\HoorayUI\img\skins", "ext");
+
+
+
+
+
+
+            var a = Path.GetFileNameWithoutExtension("www.baidu.com/a.txt");
         }
     }
 }

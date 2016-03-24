@@ -20,6 +20,6 @@ namespace NewCRM.Infrastructure.Repositories.Repositories.System
 	/// <summary>
     ///   仓储操作层接口——应用
     /// </summary>
-    public partial interface IAppRepository : IRepository<App, Int32>
+    public partial interface IAppRepository : IRepository<App>
     { }
 }

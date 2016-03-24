@@ -64,7 +64,16 @@ namespace NewCRM.Infrastructure.CommonTools
         [Description("参数验证失败")]
         ArgumentVaildateFail = 9,
 
+        /// <summary>
+        /// 密码无效
+        /// </summary>
         [Description("密码无效")]
-        PasswordInvalid = 10
+        PasswordInvalid = 10,
+
+        /// <summary>
+        /// 操作失败
+        /// </summary>
+        [Description("操作失败")]
+        Fail = 11
     }
 }

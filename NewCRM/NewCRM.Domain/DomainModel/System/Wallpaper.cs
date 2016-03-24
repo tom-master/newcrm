@@ -13,7 +13,7 @@ namespace NewCRM.Domain.DomainModel.System
 
         private String _title;
         private String _url;
-        private String _displayType;
+        private String _source;
         private String _description;
         private Int32 _width;
         private Int32 _heigth;
@@ -78,10 +78,10 @@ namespace NewCRM.Domain.DomainModel.System
         }
 
         [StringLength(10)]
-        public String DisplayType
+        public String Source
         {
-            get { return _displayType; }
-            set { _displayType = value; }
+            get { return _source; }
+            set { _source = value; }
         }
 
         public Int32 UploaderId

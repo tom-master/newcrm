@@ -26,7 +26,7 @@ HROS.base = (function () {
                 HROS.base.setSkin(arg, null);
             });
             //版权信息初始化并显示
-
+            
             HROS.copyright.init();
             //用于判断网页是否缩放
             HROS.zoom.init();
@@ -56,6 +56,7 @@ HROS.base = (function () {
             HROS.dock.init();
             //初始化桌面应用
             HROS.app.init();
+           
             //初始化widget模块
             HROS.widget.init();
             //初始化窗口模块
