@@ -1,67 +1,63 @@
 ﻿using System;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using NewCRM.Domain.DomainModel.Account;
+using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Domain.DomainModel.System
 {
-    [Description("日志")]
-    [Serializable]
-    public class Log : EntityBase<Int32>
+    [Description("日志"),Serializable]
+    public  class Log : DomainModelBase, IAggregationRoot
     {
-        #region private field
-        private String _level;
-        private String _logger;
-        private String _message;
-        private String _exception;
+        #region public property
 
-        private User _user;
+        /// <summary>
+        /// 日志等级
+        /// </summary>
+        public LogLevel LogLevelEnum { get; private set; }
+
+        /// <summary>
+        /// 类名
+        /// </summary>
+        public String Controller { get; private set; }
+
+        /// <summary>
+        /// 方法名
+        /// </summary>
+        public String Action { get; private set; }
+
+        /// <summary>
+        /// 异常信息
+        /// </summary>
+        public String ExceptionMessage { get; private set; }
+
+        /// <summary>
+        /// 异常堆栈
+        /// </summary>
+        public String Track { get; private set; }
+
+        /// <summary>
+        /// 用户id
+        /// </summary>
+        public Int32 UserId { get; private set; }
         #endregion
 
         #region ctor
+        public Log(Int32 userId, String controller, String action, LogLevel logLevel, String track, String exceptionMessage)
+        {
+            UserId = userId;
+            Controller = controller;
+            Action = action;
+            LogLevelEnum = logLevel;
+            Track = track;
+            ExceptionMessage = exceptionMessage;
+        }
+
         public Log()
         {
+
         }
 
         #endregion
 
-        #region public attribute
 
-        [StringLength(20)]
-        public String Levels
-        {
-            get { return _level; }
-            set { _level = value; }
-        }
-
-        [StringLength(200)]
-        public String Logger
-        {
-            get { return _logger; }
-            set { _logger = value; }
-        }
-
-        [StringLength(4000)]
-        public String Message
-        {
-            get { return _message; }
-            set { _message = value; }
-        }
-
-        [StringLength(4000)]
-        public String Exception
-        {
-            get { return _exception; }
-            set { _exception = value; }
-        }
-
-
-        public virtual User User
-        {
-            get { return _user; }
-            set { _user = value; }
-        }
-
-        #endregion
     }
 }

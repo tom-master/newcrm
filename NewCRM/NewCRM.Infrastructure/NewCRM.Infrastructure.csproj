@@ -31,22 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
-    <Reference Include="NewCRM.CommonTools">
-      <HintPath>..\NewCRM.Repositories\bin\Debug\NewCRM.CommonTools.dll</HintPath>
-    </Reference>
-    <Reference Include="NewCRM.Domain">
-      <HintPath>..\NewCRM.Domain\bin\Debug\NewCRM.Domain.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\NewCRM.Infrastructure\bin\Debug\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -82,73 +69,21 @@
     <Compile Include="CommonTools\ResponseType.cs" />
     <Compile Include="CommonTools\PasswordUtil.cs" />
     <Compile Include="CommonTools\T4\T4ModelInfo.cs" />
-    <Compile Include="InitializeDataBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\Configuration\Account\Imp\UserConfiguration.generated.cs" />
-    <Compile Include="Repositories\Configuration\Account\TitleConfiguration.generated.cs" />
-    <Compile Include="Repositories\Configuration\Account\UserConfiguration.generated.cs" />
-    <Compile Include="Repositories\Configuration\Security\DepartmentConfiguration.generated.cs" />
-    <Compile Include="Repositories\Configuration\Security\Imp\DepartmentConfiguration.generated.cs" />
-    <Compile Include="Repositories\Configuration\Security\Imp\PowerConfiguration.generated.cs" />
-    <Compile Include="Repositories\Configuration\Security\Imp\RoleConfiguration.generated.cs" />
-    <Compile Include="Repositories\Configuration\Security\PowerConfiguration.generated.cs" />
-    <Compile Include="Repositories\Configuration\Security\RoleConfiguration.generated.cs" />
-    <Compile Include="Repositories\Configuration\System\AppConfiguration.generated.cs" />
-    <Compile Include="Repositories\Configuration\System\AppTypeConfiguration.generated.cs" />
-    <Compile Include="Repositories\Configuration\System\DeskMemberConfiguration.generated.cs" />
-    <Compile Include="Repositories\Configuration\System\Imp\AppConfiguration.generated.cs" />
-    <Compile Include="Repositories\Configuration\System\Imp\AppTypeConfiguration.generated.cs" />
-    <Compile Include="Repositories\Configuration\System\Imp\UserConfigureConfiguration.generated.cs" />
-    <Compile Include="Repositories\Configuration\System\LogConfiguration.generated.cs" />
-    <Compile Include="Repositories\Configuration\System\OnlineConfiguration.generated.cs" />
-    <Compile Include="Repositories\Configuration\System\UserConfigureConfiguration.generated.cs" />
-    <Compile Include="Repositories\Configuration\System\WallpaperConfiguration.generated.cs" />
-    <Compile Include="Repositories\Migrations\Configuration.cs" />
-    <Compile Include="Repositories\Repositories\Account\Impl\TitleRepository.cs" />
-    <Compile Include="Repositories\Repositories\Account\Impl\UserRepository.cs" />
-    <Compile Include="Repositories\Repositories\Account\ITitleRepository.cs" />
-    <Compile Include="Repositories\Repositories\Account\IUserRepository.cs" />
-    <Compile Include="Repositories\Repositories\Security\IDepartmentRepository.cs" />
-    <Compile Include="Repositories\Repositories\Security\Impl\DepartmentRepository.cs" />
-    <Compile Include="Repositories\Repositories\Security\Impl\PowerRepository.cs" />
-    <Compile Include="Repositories\Repositories\Security\Impl\RoleRepository.cs" />
-    <Compile Include="Repositories\Repositories\Security\IPowerRepository.cs" />
-    <Compile Include="Repositories\Repositories\Security\IRoleRepository.cs" />
-    <Compile Include="Repositories\Repositories\System\IAppRepository.cs" />
-    <Compile Include="Repositories\Repositories\System\IAppTypeRepository.cs" />
-    <Compile Include="Repositories\Repositories\System\IDeskMemberRepository.cs" />
-    <Compile Include="Repositories\Repositories\System\ILogRepository.cs" />
-    <Compile Include="Repositories\Repositories\System\Impl\AppRepository.cs" />
-    <Compile Include="Repositories\Repositories\System\Impl\AppTypeRepository.cs" />
-    <Compile Include="Repositories\Repositories\System\Impl\DeskMemberRepository.cs" />
-    <Compile Include="Repositories\Repositories\System\Impl\LogRepository.cs" />
-    <Compile Include="Repositories\Repositories\System\Impl\OnlineRepository.cs" />
-    <Compile Include="Repositories\Repositories\System\Impl\UserConfigureRepository.cs" />
-    <Compile Include="Repositories\Repositories\System\Impl\WallpaperRepository.cs" />
-    <Compile Include="Repositories\Repositories\System\IOnlineRepository.cs" />
-    <Compile Include="Repositories\Repositories\System\IUserConfigureRepository.cs" />
-    <Compile Include="Repositories\Repositories\System\IWallpaperRepository.cs" />
-    <Compile Include="Repositories\RepositoryFactory.cs" />
-    <Compile Include="Repositories\RepositoryProvide\DbContextExtensions.cs" />
-    <Compile Include="Repositories\RepositoryProvide\EfRepositoryBase.cs" />
-    <Compile Include="Repositories\RepositoryProvide\IEntityMappercs.cs" />
-    <Compile Include="Repositories\RepositoryProvide\NewCrmBackSite.cs" />
-    <Compile Include="Repositories\UnitOfWorkProvide\EfUnitOfWorkContext.cs" />
-    <Compile Include="Repositories\UnitOfWorkProvide\UnitOfWorkContextBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="Repositories\App.config">
-      <SubType>Designer</SubType>
-    </None>
-    <Compile Include="Repositories\Configuration\Account\Imp\TitleConfiguration.generated.cs" />
-    <None Include="Repositories\packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\NewCRM.Domain\NewCRM.Domain.csproj">
+      <Project>{173c1046-4529-4d70-b6f5-501c61514e86}</Project>
+      <Name>NewCRM.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

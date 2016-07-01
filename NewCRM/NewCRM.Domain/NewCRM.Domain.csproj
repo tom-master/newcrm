@@ -45,24 +45,52 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainModel\Account\AccountExtension\TitleExtension.cs" />
     <Compile Include="DomainModel\Account\Title.cs" />
     <Compile Include="DomainModel\Account\User.cs" />
-    <Compile Include="DomainModel\EntityBase.cs" />
+    <Compile Include="DomainModel\Account\AccountExtension\UserExtension.cs" />
+    <Compile Include="DomainModel\Account\UserRole.cs" />
+    <Compile Include="DomainModel\DomainModelBase.cs" />
     <Compile Include="DomainModel\IAggregationRoot.cs" />
-    <Compile Include="DomainModel\System\AppStyle.cs" />
-    <Compile Include="DomainModel\System\DeskMember.cs" />
-    <Compile Include="DomainModel\System\MemberType.cs" />
-    <Compile Include="DomainModel\System\UserConfigure.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\IRepository.cs" />
-    <Compile Include="DomainModel\Security\Department.cs" />
-    <Compile Include="DomainModel\Security\Power.cs" />
-    <Compile Include="DomainModel\Security\Role.cs" />
+    <Compile Include="DomainModel\Security\RolePower.cs" />
+    <Compile Include="DomainModel\Security\SecurityExtension\PowerExtension.cs" />
+    <Compile Include="DomainModel\Security\SecurityExtension\RoleExtension.cs" />
     <Compile Include="DomainModel\System\App.cs" />
+    <Compile Include="DomainModel\System\SystemExtension\AppExtension.cs" />
+    <Compile Include="DomainModel\System\SystemExtension\AppTypeExtension.cs" />
+    <Compile Include="DomainModel\System\SystemExtension\ConfigExtension.cs" />
+    <Compile Include="DomainModel\System\Desk.cs" />
+    <Compile Include="DomainModel\System\SystemExtension\DeskExtension.cs" />
+    <Compile Include="DomainModel\System\SystemExtension\MemberExtension.cs" />
+    <Compile Include="Repositories\IRepository\Account\ITitleRepository.cs" />
+    <Compile Include="Repositories\IRepository\Account\IUserRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\IRepository\Security\IPowerRepository.cs" />
+    <Compile Include="Repositories\IRepository\Security\IRoleRepository.cs" />
+    <Compile Include="Repositories\IRepository\System\IAppRepository.cs" />
+    <Compile Include="Repositories\IRepository\System\IAppTypeRepository.cs" />
+    <Compile Include="Repositories\IRepository\System\IDeskRepository.cs" />
+    <Compile Include="Repositories\IRepository\System\ILogRepository.cs" />
+    <Compile Include="Repositories\IRepository\System\IOnlineRepository.cs" />
+    <Compile Include="Repositories\IRepository\System\IWallpaperRepository.cs" />
+    <Compile Include="ValueObject\AppAuditState.cs" />
+    <Compile Include="ValueObject\AppStyle.cs" />
     <Compile Include="DomainModel\System\AppType.cs" />
+    <Compile Include="DomainModel\System\Member.cs" />
     <Compile Include="DomainModel\System\Log.cs" />
     <Compile Include="DomainModel\System\Online.cs" />
+    <Compile Include="DomainModel\System\Config.cs" />
     <Compile Include="DomainModel\System\Wallpaper.cs" />
+    <Compile Include="ValueObject\AppAlignMode.cs" />
+    <Compile Include="ValueObject\AppTag.cs" />
+    <Compile Include="ValueObject\DockPostion.cs" />
+    <Compile Include="ValueObject\LogLevel.cs" />
+    <Compile Include="ValueObject\MemberType.cs" />
+    <Compile Include="ValueObject\WallpaperMode.cs" />
+    <Compile Include="ValueObject\WallpaperSource.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DomainModel\Security\Power.cs" />
+    <Compile Include="DomainModel\Security\Role.cs" />
     <Compile Include="UnitWork\IUnitOfWork.cs" />
     <Compile Include="UnitWork\IUnitOfWorkContext.cs" />
   </ItemGroup>
@@ -73,7 +101,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Repositories\IRepository\" />
+    <Folder Include="Repositories\IRepository\Account\Impl\" />
+    <Folder Include="Repositories\IRepository\Security\Impl\" />
+    <Folder Include="Repositories\IRepository\System\Impl\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

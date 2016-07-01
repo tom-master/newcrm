@@ -1,116 +1,79 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using NewCRM.Domain.DomainModel.Security;
 using NewCRM.Domain.DomainModel.System;
+
 namespace NewCRM.Domain.DomainModel.Account
 {
-    [Description("用户")]
-    [Serializable]
-    public class User : EntityBase<Int32>, IAggregationRoot
+    [Description("用户"), Serializable]
+    public partial class User : DomainModelBase, IAggregationRoot
     {
-    
-        #region private field
-        private String _name;
-        private String _password;
+        #region public property
 
-        private Boolean _isDisable;
-        private DateTime _lastLoginTime;
+        /// <summary>
+        /// 用户名
+        /// </summary>
+        public String Name { get; private set; }
 
-        private Department _department;
-        private UserConfigure _userConfigure;
+        /// <summary>
+        /// 登陆密码
+        /// </summary>
+        public String LoginPassword { get; private set; }
 
-        private ICollection<App> _apps;
-        private ICollection<Role> _roles;
-        private ICollection<Log> _logs;
-        private ICollection<Title> _titles;
+        /// <summary>
+        /// 锁屏密码
+        /// </summary>
+        public String LockScreenPassword { get; private set; }
+
+        /// <summary>
+        /// 是否禁用
+        /// </summary>
+        public Boolean IsDisable { get; private set; }
+
+        /// <summary>
+        /// 最后一次登录的时间
+        /// </summary>
+        public DateTime LastLoginTime { get; private set; }
+
+        /// <summary>
+        /// 是否在线
+        /// </summary>
+        public Boolean IsOnline { get; private set; }
+
+        /// <summary>
+        /// 职称
+        /// </summary>
+        public virtual Title Title { get; private set; }
+
+        /// <summary>
+        /// 用户配置
+        /// </summary>
+        public virtual Config Config { get; private set; }
+
+        public virtual ICollection<UserRole> Roles { get; private set; }
+
         #endregion
 
         #region ctor
-
+        /// <summary>
+        /// 实例化一个用户对象
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="password"></param>
+        public User(String name, String password)
+        {
+            Name = name;
+            LoginPassword = password;
+            IsDisable = false;
+            LastLoginTime = DateTime.Now;
+            LockScreenPassword = password;
+            Roles = new List<UserRole>();
+            Config = new Config();
+            IsOnline = false;
+        }
         public User()
         {
-        }
 
-        #endregion
-
-        #region public attirbute
-
-        [Required, StringLength(50)]
-        public String Name
-        {
-            get { return _name; }
-            set
-            {
-                _name = value;
-            }
-        }
-
-
-        [Required, StringLength(50)]
-        public String Password
-        {
-            get { return _password; }
-            set { _password = value; }
-        }
-
-        [Required]
-        public Boolean IsDisable
-        {
-            get { return _isDisable; }
-            set { _isDisable = value; }
-        }
-
-        public DateTime LastLoginTime
-        {
-            get { return _lastLoginTime; }
-            set { _lastLoginTime = value; }
-        }
-
-        public virtual UserConfigure UserConfigure
-        {
-            get { return _userConfigure; }
-            set { _userConfigure = value; }
-        }
-
-        public virtual Department Department
-        {
-            get
-            {
-                return _department;
-            }
-            set
-            {
-                _department = value;
-            }
-        }
-
-        public virtual ICollection<App> Apps
-        {
-            get { return _apps; }
-            set
-            {
-                _apps = value;
-            }
-        }
-
-        public virtual ICollection<Title> Titles
-        {
-            get { return _titles; }
-            set { _titles = value; }
-        }
-
-        public virtual ICollection<Role> Roles
-        {
-            get { return _roles; }
-            set { _roles = value; }
-        }
-
-        public virtual ICollection<Log> Logs
-        {
-            get { return _logs; }
-            set { _logs = value; }
         }
         #endregion
     }

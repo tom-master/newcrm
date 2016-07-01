@@ -1,5 +1,4 @@
-﻿@using System.Security.Policy
-@{
+﻿@{
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
 }
 <div class="title">
@@ -38,10 +37,9 @@
     });
     function GetAllWallpaper(callback) {
         $.get("@Url.Action("GetAllWallpaper", "PlatformSetting")", function (result) {
-            debugger
             var html = '';
-            $.each(result.data, function (k, v) {
-                html += '<li  wpid="' + v.Id + '"><img src="' + v.SmallUrl + '" /><div>' + v.Title + '</div></li>';
+            $.each(result.data.Data, function (k, v) {
+                html += '<li  wpid="' + k + '"><img src="' + v.Item1 + '" /><div>' + v.Item2 + '</div></li>';
             });
             $('.wallpaper').append(html);
             if (typeof (callback) === 'function') {

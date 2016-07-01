@@ -20,17 +20,18 @@ namespace NewCRM.ApplicationService
     public class PlantformApplicationService : IPlantformApplicationService
     {
         private readonly IPlatformDomainService _platformDomainService = new PlatformDomainService();
+        private static Parameter _parameter = new Parameter();
 
         public ResponseInformation<UserDto> Login(String userName, String passWord)
         {
-            Parameter.Vaildate(userName, passWord);
+            _parameter.Vaildate(userName).Vaildate(passWord);
             var userResult = _platformDomainService.VaildateUser(userName, passWord);
             return userResult != null ? new ResponseInformation<UserDto>(ResponseType.Success, userResult.ConvertToDto<User, UserDto>()) : new ResponseInformation<UserDto>(ResponseType.PasswordInvalid | ResponseType.QueryNull);
         }
 
         public ResponseInformation<dynamic> UserApp(Int32 userId)
         {
-            Parameter.Vaildate(false, userId);
+            _parameter.Vaildate(userId);
             var appResult = _platformDomainService.UserApp(userId);
 
             return appResult != null ? new ResponseInformation<dynamic>(ResponseType.Success, appResult) : new ResponseInformation<dynamic>(ResponseType.Warning);
@@ -38,17 +39,14 @@ namespace NewCRM.ApplicationService
 
         public ResponseInformation<Boolean> DefaultDesk(Int32 userId, Int32 deskId)
         {
-            Parameter.Vaildate(false, userId, deskId);
-
+            _parameter.Vaildate(userId).Vaildate(deskId);
             var isSuccessSetDefaultDesk = _platformDomainService.SetDefaultDesk(userId, deskId);
             return new ResponseInformation<Boolean>(isSuccessSetDefaultDesk ? ResponseType.Success : ResponseType.QueryNull | ResponseType.Error);
         }
 
         public ResponseInformation<Boolean> AppDirection(Int32 userId, String direction)
         {
-            Parameter.Vaildate(false, userId);
-
-            Parameter.Vaildate(direction);
+            _parameter.Vaildate(userId).Vaildate(direction);
             var isSuccessSetAppDirection = _platformDomainService.SetAppDirection(userId, direction);
             return new ResponseInformation<Boolean>(isSuccessSetAppDirection ? ResponseType.Success : ResponseType.QueryNull | ResponseType.Error);
 
@@ -56,7 +54,7 @@ namespace NewCRM.ApplicationService
 
         public ResponseInformation<Boolean> AppSize(Int32 userId, Int32 appSize)
         {
-            Parameter.Vaildate(false, userId, appSize);
+            _parameter.Vaildate(userId).Vaildate(appSize);
 
             var isSuccessSetAppSize = _platformDomainService.SetAppSize(userId, appSize);
             return new ResponseInformation<Boolean>(isSuccessSetAppSize ? ResponseType.Success : ResponseType.QueryNull | ResponseType.Error);
@@ -64,7 +62,7 @@ namespace NewCRM.ApplicationService
 
         public ResponseInformation<Boolean> AppVertical(Int32 userId, Int32 appVertical)
         {
-            Parameter.Vaildate(false, userId, appVertical);
+            _parameter.Vaildate(userId).Vaildate(appVertical);
 
             var isSuccessSetAppVertical = _platformDomainService.SetAppVertical(userId, appVertical);
             return new ResponseInformation<Boolean>(isSuccessSetAppVertical ? ResponseType.Success : ResponseType.QueryNull | ResponseType.Error);
@@ -72,7 +70,7 @@ namespace NewCRM.ApplicationService
 
         public ResponseInformation<Boolean> AppHorizontal(Int32 userId, Int32 appHorizontal)
         {
-            Parameter.Vaildate(false, userId, appHorizontal);
+            _parameter.Vaildate(userId).Vaildate(appHorizontal);
 
             var isSuccessSetAppVertical = _platformDomainService.SetAppHorizontal(userId, appHorizontal);
             return new ResponseInformation<Boolean>(isSuccessSetAppVertical ? ResponseType.Success : ResponseType.QueryNull | ResponseType.Error);
@@ -80,17 +78,14 @@ namespace NewCRM.ApplicationService
 
         public ResponseInformation<Boolean> DockPosition(Int32 userId, String pos, Int32 deskNum)
         {
-            Parameter.Vaildate(false, userId, deskNum);
-            Parameter.Vaildate(pos);
+            _parameter.Vaildate(userId).Vaildate(pos).Vaildate(deskNum);
             var isSuccessSetAppVertical = _platformDomainService.SetDockPosition(userId, pos, deskNum);
             return new ResponseInformation<Boolean>(isSuccessSetAppVertical ? ResponseType.Success : ResponseType.QueryNull | ResponseType.Error);
         }
 
         public ResponseInformation<Boolean> Skin(Int32 userId, String skin)
         {
-            Parameter.Vaildate(false, userId);
-            Parameter.Vaildate(skin);
-
+            _parameter.Vaildate(userId).Vaildate(skin);
             var isSuccessSetSkin = _platformDomainService.SetSkin(userId, skin);
 
             return new ResponseInformation<Boolean>(isSuccessSetSkin ? ResponseType.Success : ResponseType.QueryNull | ResponseType.Error);
@@ -98,6 +93,7 @@ namespace NewCRM.ApplicationService
 
         public ResponseInformation<IDictionary<String, dynamic>> AllSkin(String skinPath)
         {
+            _parameter.Vaildate(skinPath);
             IDictionary<String, dynamic> dataDictionary = new Dictionary<String, dynamic>();
             Directory.GetFiles(skinPath, "*.css").ToList().ForEach(path =>
             {
@@ -113,6 +109,7 @@ namespace NewCRM.ApplicationService
 
         public async Task<ResponseInformation<Boolean>> WebImgAsync(Int32 userId, String webImg)
         {
+            _parameter.Vaildate(userId).Vaildate(webImg);
             var imageResult = await GetWebImgInfoAsync(webImg);
 
             var isSuccessSetWebWallpaper = _platformDomainService.SetWebWallpaper(userId, imageResult);
@@ -125,11 +122,25 @@ namespace NewCRM.ApplicationService
         public ResponseInformation<IDictionary<Int32, Tuple<String, String>>> Wallpapers()
         {
             var result = _platformDomainService.GetWallpapers();
-            if (result.Any())
-            {
-                return new ResponseInformation<IDictionary<Int32, Tuple<String, String>>>(ResponseType.Success, result);
-            }
-            return new ResponseInformation<IDictionary<Int32, Tuple<String, String>>>(ResponseType.Warning);
+            return result.Any() ? new ResponseInformation<IDictionary<Int32, Tuple<String, String>>>(ResponseType.Success, result) : new ResponseInformation<IDictionary<Int32, Tuple<String, String>>>(ResponseType.Warning);
+        }
+
+        public ResponseInformation<Boolean> Wallpaper(Int32 userId, Int32 wallpaperId, String wallPaperShowType)
+        {
+
+            _parameter.Vaildate(userId).Vaildate(wallpaperId).Vaildate(wallPaperShowType);
+
+            var isSuccessSetWallpaper = _platformDomainService.SetWallpaper(userId, wallpaperId, wallPaperShowType);
+            return new ResponseInformation<Boolean>(isSuccessSetWallpaper ? ResponseType.Success : ResponseType.QueryNull | ResponseType.Error);
+        }
+
+        public ResponseInformation<IList<Tuple<Int32, String>>> UploadWallPaper(Int32 userId)
+        {
+            _parameter.Vaildate(userId);
+            var uploadWallpaperResult = _platformDomainService.GetUploadWallPaper(userId);
+            return uploadWallpaperResult.Any()
+                ? new ResponseInformation<IList<Tuple<Int32, String>>>(ResponseType.Success, uploadWallpaperResult)
+                : new ResponseInformation<IList<Tuple<Int32, String>>>(ResponseType.Fail);
         }
 
         #region 内部使用
@@ -153,7 +164,7 @@ namespace NewCRM.ApplicationService
         private async Task<dynamic> GetWebImgInfoAsync(String webImgUrl)
         {
             var imageTitle = Path.GetFileNameWithoutExtension(webImgUrl);
-            Image image = null;
+            Image image;
             using (HttpClient httpClient = new HttpClient())
             {
                 using (var imageStream = await httpClient.GetStreamAsync(new Uri(webImgUrl)))

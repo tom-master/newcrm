@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
@@ -14,38 +13,34 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
         /// <summary>
         /// 验证引用类型是否合法
         /// </summary>
-        /// <param name="vaildateParameters"></param>
-        public static void Vaildate(params Object[] vaildateParameters)
+        /// <param name="vaildateParameter"></param>
+        public Parameter Vaildate(Object vaildateParameter)
         {
-            vaildateParameters.ToList().ForEach(parameter =>
+            var parameterString = vaildateParameter.GetType().Name;
+            if (vaildateParameter == null)
             {
-                var parameterString = parameter.GetType().Name;
-                if (parameter == null)
-                {
-                    ArgumentNullException e = new ArgumentNullException(parameterString);
-                    throw ThrowComponentException($"参数 {parameterString} 为空引发异常。", e);
-                }
-            });
+                ArgumentNullException e = new ArgumentNullException(parameterString);
+                throw ThrowComponentException($"参数 {parameterString} 为空引发异常。", e);
+            }
+            return this;
         }
         /// <summary>
         /// 验证值类型是否合法
         /// </summary>
+        /// <param name="parameter"></param>
         /// <param name="canZero"></param>
-        /// <param name="parameters"></param>
-        public static void Vaildate(bool canZero = false, params ValueType[] parameters)
+        public Parameter Vaildate(ValueType parameter, bool canZero = false)
         {
-            parameters.ToList().ForEach(parameter =>
+            Type type = parameter.GetType();
+            if (type.IsValueType && type.IsNumeric())
             {
-                Type type = parameter.GetType();
-                if (type.IsValueType && type.IsNumeric())
+                bool flag = !canZero ? parameter.CastTo(0.0) <= 0.0 : parameter.CastTo(0.0) < 0.0;
+                if (flag)
                 {
-                    bool flag = !canZero ? parameter.CastTo(0.0) <= 0.0 : parameter.CastTo(0.0) < 0.0;
-                    if (flag)
-                    {
-                        throw ThrowComponentException($"参数 {parameter.GetType().Name} 不在有效范围内引发异常。具体信息请查看系统日志。", new ArgumentOutOfRangeException(parameter.GetType().Name));
-                    }
+                    throw ThrowComponentException($"参数 {parameter.GetType().Name} 不在有效范围内引发异常。具体信息请查看系统日志。", new ArgumentOutOfRangeException(parameter.GetType().Name));
                 }
-            });
+            }
+            return this;
         }
 
         /// <summary>

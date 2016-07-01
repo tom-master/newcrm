@@ -15,8 +15,8 @@ namespace NewCRM.Dto.Dto
         public Boolean IsDisable { get; set; }
         public DateTime LastLoginTime { get; set; }
 
-        public Department Department { get; set; }
-        public UserConfigure UserConfigure { get; set; }
+        //public Department Department { get; set; }
+        //public UserConfigure UserConfigure { get; set; }
 
         public ICollection<App> Apps { get; set; }
         public ICollection<Role> Roles { get; set; }

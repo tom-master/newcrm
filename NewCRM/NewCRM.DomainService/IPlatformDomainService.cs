@@ -26,5 +26,9 @@ namespace NewCRM.DomainService
         Boolean SetWebWallpaper(Int32 userId, dynamic imageValue);
 
         IDictionary<Int32, Tuple<String, String>> GetWallpapers();
+
+        Boolean SetWallpaper(Int32 userId, Int32 wallpaperId, String wallPaperShowType);
+
+        IList<Tuple<Int32, String>> GetUploadWallPaper(Int32 userId);
     }
 }

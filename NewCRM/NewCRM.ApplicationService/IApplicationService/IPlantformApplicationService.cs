@@ -34,5 +34,9 @@ namespace NewCRM.ApplicationService.IApplicationService
 
         ResponseInformation<IDictionary<Int32, Tuple<String, String>>> Wallpapers();
 
+        ResponseInformation<Boolean> Wallpaper(Int32 userId, Int32 wallpaperId, String wallPaperShowType);
+
+        ResponseInformation<IList<Tuple<Int32, String>>> UploadWallPaper(Int32 userId);
+
     }
 }

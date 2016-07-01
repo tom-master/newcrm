@@ -1,106 +1,72 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Domain.DomainModel.System
 {
-    [Serializable]
-    [Description("壁纸")]
-    public class Wallpaper : EntityBase<Int32>, IAggregationRoot
+    [Serializable,Description("壁纸")]
+    public class Wallpaper : DomainModelBase, IAggregationRoot
     {
-        #region private fiele
+        #region public property
 
-        private String _title;
-        private String _url;
-        private String _source;
-        private String _description;
-        private Int32 _width;
-        private Int32 _heigth;
-        private Boolean _isSystem;
-        private Int32 _uploaderId;
+        /// <summary>
+        /// 标题
+        /// </summary>
+        public String Title { get; private set; }
 
+        /// <summary>
+        /// 图片地址
+        /// </summary>
+        public String Url { get; private set; }
 
-        private ICollection<UserConfigure> _userConfigures;
+        /// <summary>
+        /// 来源
+        /// </summary>
+        public WallpaperSource Source { get; private set; }
+
+        /// <summary>
+        /// 描述
+        /// </summary>
+        public String Description { get; private set; }
+
+        /// <summary>
+        /// 图片的宽
+        /// </summary>
+        public Int32 Width { get; private set; }
+
+        /// <summary>
+        /// 图片的高
+        /// </summary>
+        public Int32 Heigth { get; private set; }
 
         #endregion
 
         #region ctor
-
-
-
-        public Wallpaper()
+        /// <summary>
+        /// 实例化一个壁纸对象
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="url"></param>
+        /// <param name="description"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="wallpaperSource"></param>
+        public Wallpaper(String title, String url, String description, Int32 width, Int32 height, WallpaperSource wallpaperSource = default(WallpaperSource))
         {
-            // TODO: Complete member initialization
+            Title = title;
+            Url = url;
+            Description = description;
+            Width = width;
+            Heigth = height;
+            Source = wallpaperSource;
         }
+
+        public Wallpaper() { }
+
+
+
 
         #endregion
-
-        #region public attribute
-
-        [Required, StringLength(50)]
-        public String Title
-        {
-            get { return _title; }
-            set { _title = value; }
-        }
-
-        [Required, StringLength(100)]
-        public String Url
-        {
-            get { return _url; }
-            set { _url = value; }
-        }
-
-        public Int32 Width
-        {
-            get { return _width; }
-            set { _width = value; }
-        }
-
-        public Int32 Heigth
-        {
-            get { return _heigth; }
-            set { _heigth = value; }
-        }
-
-        [StringLength(250)]
-        public String Description
-        {
-            get { return _description; }
-            set { _description = value; }
-        }
-
-        public Boolean IsSystem
-        {
-            get { return _isSystem; }
-            set { _isSystem = value; }
-        }
-
-        [StringLength(10)]
-        public String Source
-        {
-            get { return _source; }
-            set { _source = value; }
-        }
-
-        public Int32 UploaderId
-        {
-            get { return _uploaderId; }
-            set { _uploaderId = value; }
-        }
-
-
-        public virtual ICollection<UserConfigure> UserConfigures
-        {
-            get { return _userConfigures; }
-            set
-            {
-                _userConfigures = value;
-            }
-        }
-        #endregion
-
 
     }
 }

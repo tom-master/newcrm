@@ -1,80 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-
-using NewCRM.Domain.DomainModel.Account;
-using NewCRM.Domain.DomainModel.System;
 
 namespace NewCRM.Domain.DomainModel.Security
 {
-    [Description("角色")]
-    [Serializable]
-    public class Role : EntityBase<Int32>, IAggregationRoot
+    [Description("角色"),Serializable]
+    public partial class Role : DomainModelBase, IAggregationRoot
     {
-        #region private field
-        private String _name;
-        private String _remark;
-        private ICollection<Power> _powers;
+        #region public property
+
+        /// <summary>
+        /// 名称
+        /// </summary>
+        public String Name { get; private set; }
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public String Remark { get; private set; }
 
 
-        private ICollection<App> _apps;
+        /// <summary>
+        /// 角色对应的权限
+        /// </summary>
+        public virtual ICollection<RolePower> Powers { get; private set; }
 
-
-        private ICollection<User> _users;
 
         #endregion
 
         #region ctor
-
-
-
-        public Role()
+        /// <summary>
+        /// 实例化一个角色对象
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="remark"></param>
+        public Role(String name, String remark = default(String))
         {
-            // TODO: Complete member initialization
+            Name = name;
+            Remark = remark;
+            Powers = new List<RolePower>();
         }
 
-        #endregion
+        public Role() { }
 
-        #region public attribute
-
-        [Required, StringLength(50)]
-        public String Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
-
-        [StringLength(500)]
-        public String Remark
-        {
-            get { return _remark; }
-            set { _remark = value; }
-        }
-
-        public virtual ICollection<Power> Powers
-        {
-            get { return _powers; }
-            set { _powers = value; }
-        }
-
-        public virtual ICollection<User> Users
-        {
-            get { return _users; }
-            set { _users = value; }
-        }
-
-        public virtual ICollection<App> Apps
-        {
-            get
-            {
-                return _apps;
-            }
-            set
-            {
-                _apps = value;
-            }
-        }
         #endregion
     }
 }

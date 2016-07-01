@@ -9,8 +9,11 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
     /// </summary>
     public sealed class StringHelper
     {
+        private static Parameter _parameter = new Parameter();
+
         public static Int32[] GetIntArrayFromString(String commaSeparatedString)
         {
+            _parameter.Vaildate(commaSeparatedString);
             return String.IsNullOrEmpty(commaSeparatedString) ? new Int32[0] : commaSeparatedString.Split(',').Select(s => Convert.ToInt32(s)).ToArray();
         }
 
@@ -21,7 +24,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
         /// <returns></returns>
         public static String BuildJsonString(object jsonObject)
         {
-            Parameter.Vaildate(jsonObject);
+            _parameter.Vaildate(jsonObject);
             return JsonConvert.SerializeObject(jsonObject);
         }
 
@@ -32,6 +35,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
         /// <returns></returns>
         public static bool IsJsonObjectString(String input)
         {
+            _parameter.Vaildate(input);
             return input != null && input.StartsWith("{") && input.EndsWith("}");
         }
 
@@ -42,6 +46,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
         /// <returns></returns>
         public static bool IsJsonArrayString(String input)
         {
+            _parameter.Vaildate(input);
             return input != null && input.StartsWith("[") && input.EndsWith("]");
         }
     }

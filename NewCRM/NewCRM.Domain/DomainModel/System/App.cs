@@ -1,191 +1,223 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using NewCRM.Domain.DomainModel.Account;
-using NewCRM.Domain.DomainModel.Security;
+using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Domain.DomainModel.System
 {
 
-    [Serializable]
-    [Description("应用")]
-    public class App : EntityBase<Int32>, IAggregationRoot
+    [Serializable,Description("应用")]
+    public partial class App : DomainModelBase, IAggregationRoot
     {
-        #region private field
+        #region public property
 
-        private String _name;
-        private String _owner;
-        private String _imageUrl;
-        private String _navigateUrl;
-        private String _remark;
-        private Int32 _sortIndex;
-        private Int32 _width;
-        private Int32 _height;
-        private Int32 _userCount;
-        private Int32 _startNumber;
-        private Boolean _isMax;
-        private Boolean _isMin;
-        private Boolean _isFull;
-        private Boolean _isSetbar;
-        private Boolean _isOpenMax;
-        private Boolean _isLock;
-        private Boolean _isSystem;
+        /// <summary>
+        /// 名称
+        /// </summary>
+        public String Name { get; private set; }
 
-        private AppType _appType;
+        /// <summary>
+        /// 图标地址
+        /// </summary>
+        public String IconUrl { get; private set; }
 
-        private User _user;
+        /// <summary>
+        /// app地址
+        /// </summary>
+        public String AppUrl { get; private set; }
 
-        private ICollection<Role> _roles;
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public String Remark { get; private set; }
+
+        /// <summary>
+        /// 宽度
+        /// </summary>
+        public Int32 Width { get; private set; }
+
+        /// <summary>
+        /// 高度
+        /// </summary>
+        public Int32 Height { get; private set; }
+
+        /// <summary>
+        /// 使用人数
+        /// </summary>
+        public Int32 UserCount { get; private set; }
+
+        /// <summary>
+        /// 评价星级
+        /// </summary>
+        public Int32 StartCount { get; private set; }
+
+        /// <summary>
+        /// 是否能最大化
+        /// </summary>
+        public Boolean IsMax { get; private set; }
+
+        /// <summary>
+        /// 是否打开后铺满全屏
+        /// </summary>
+        public Boolean IsFull { get; private set; }
+
+        /// <summary>
+        /// 是否显示app底部的按钮
+        /// </summary>
+        public Boolean IsSetbar { get; private set; }
+
+        /// <summary>
+        /// 是否打开最大化
+        /// </summary>
+        public Boolean IsOpenMax { get; private set; }
+
+        /// <summary>
+        /// 是否锁定
+        /// </summary>
+        public Boolean IsLock { get; private set; }
+
+        /// <summary>
+        /// 是否为系统应用
+        /// </summary>
+        public Boolean IsSystem { get; private set; }
+
+        /// <summary>
+        /// 是否为福莱希
+        /// </summary>
+        public Boolean IsFlash { get; private set; }
+
+        /// <summary>
+        /// 是否可以拖动
+        /// </summary>
+        public Boolean IsDraw { get; private set; }
+
+        public Int32 UserId { get; private set; }
+
+        /// <summary>
+        /// 审核状态
+        /// </summary>
+        public AppAuditState AppAuditState { get; private set; }
+
+        /// <summary>
+        /// app类型
+        /// </summary>
+        public virtual AppType AppType { get; private set; }
+
+
+
+
 
         #endregion
 
         #region ctor
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name">app名称</param>
+        /// <param name="iconUrl">app图标路径</param>
+        /// <param name="appUrl">app地址</param>
+        /// <param name="width">宽</param>
+        /// <param name="height">高</param>
+        /// <param name="appType"></param>
+        /// <param name="userId"></param>
+        /// <param name="remark">备注</param>
+        /// <param name="isMax">是否最大化</param>
+        /// <param name="isFull">是否全屏</param>
+        /// <param name="isSetbar">是否显示app底部的按钮</param>
+        /// <param name="isOpenMax">是否打开默认最大化</param>
+        /// <param name="isFlash">是否为flash</param>
+        /// <param name="isDraw">是否可以任意修改app窗体的大小</param>
+        public App(String name,
+            String iconUrl,
+            String appUrl,
+            Int32 width,
+            Int32 height,
+            AppType appType,
+            Int32 userId = default(Int32),
+            String remark = default(String),
+            Boolean isMax = default(Boolean),
+            Boolean isFull = default(Boolean),
+            Boolean isSetbar = default(Boolean),
+            Boolean isOpenMax = default(Boolean),
+            Boolean isFlash = default(Boolean),
+            Boolean isDraw = default(Boolean))
+        {
+            Name = name;
+            IconUrl = iconUrl;
+            AppUrl = appUrl;
+            Width = width > 800 ? 800 : width;
+            Height = height > 600 ? 600 : height;
+            IsMax = isMax;
+            IsFull = isFull;
+            IsSetbar = isSetbar;
+            IsOpenMax = isOpenMax;
+            IsFlash = isFlash;
+            IsDraw = isDraw;
+            AppType = appType;
+
+            if (userId == 0)
+            {
+                IsSystem = true;
+            }
+            else
+            {
+                IsSystem = false;
+                UserId = userId;
+            }
+
+            IsLock = false;
+            Remark = remark;
+            AppAuditState = default(AppAuditState);
+            UserCount = 0;
+            StartCount = 0;
+        }
+
+
+        public App(String name, String iconUrl, String appUrl, AppType appType, Int32 userId = default(Int32))
+        {
+            Name = name;
+            IconUrl = iconUrl;
+            AppUrl = appUrl;
+            Width = 800;
+            Height = 600;
+            IsMax = false;
+            IsFull = false;
+            IsSetbar = false;
+            IsOpenMax = false;
+            IsFlash = false;
+            IsDraw = true;
+            AppType = appType;
+
+            if (userId == 0)
+            {
+                IsSystem = true;
+            }
+            else
+            {
+                IsSystem = false;
+                UserId = userId;
+            }
+
+
+            IsLock = false;
+            Remark = "";
+            AppAuditState = default(AppAuditState);
+            UserCount = 0;
+            StartCount = 0;
+        }
+
+
+        public App(String name, String iconUrl, String appUrl) : this(name, iconUrl, appUrl, new AppType("系统"))
+        {
+
+        }
+
         public App()
         {
 
         }
         #endregion
 
-        #region public attribute
 
 
-
-        [Required, StringLength(50)]
-        public String Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
-
-        [StringLength(200)]
-        public String ImageUrl
-        {
-            get { return _imageUrl; }
-            set { _imageUrl = value; }
-        }
-
-        [StringLength(200)]
-        public String NavigateUrl
-        {
-            get { return _navigateUrl; }
-            set { _navigateUrl = value; }
-        }
-
-        [StringLength(500)]
-        public String Remark
-        {
-            get { return _remark; }
-            set { _remark = value; }
-        }
-
-        [Required]
-        public Int32 SortIndex
-        {
-            get { return _sortIndex; }
-            set { _sortIndex = value; }
-        }
-
-        [Required]
-        public Int32 Width
-        {
-            get { return _width; }
-            set { _width = value; }
-        }
-        [Required]
-        public Int32 Height
-        {
-            get { return _height; }
-            set { _height = value; }
-        }
-
-        public Boolean IsMax
-        {
-            get { return _isMax; }
-            set { _isMax = value; }
-        }
-
-        public Boolean IsMin
-        {
-            get { return _isMin; }
-            set { _isMin = value; }
-        }
-
-        public Boolean IsFull
-        {
-            get { return _isFull; }
-            set { _isFull = value; }
-        }
-
-        public Boolean IsSetbar
-        {
-            get { return _isSetbar; }
-            set { _isSetbar = value; }
-        }
-
-        public Boolean IsOpenMax
-        {
-            get { return _isOpenMax; }
-            set { _isOpenMax = value; }
-        }
-
-        public Boolean IsLock
-        {
-            get { return _isLock; }
-            set { _isLock = value; }
-        }
-
-        public Int32 UserCount
-        {
-            get { return _userCount; }
-            set { _userCount = value; }
-        }
-
-        public Int32 StartNumber
-        {
-            get { return _startNumber; }
-            set { _startNumber = value; }
-        }
-
-        public Boolean IsSystem
-        {
-            get { return _isSystem; }
-            set { _isSystem = value; }
-        }
-
-        public String Owner
-        {
-            get { return _owner; }
-            set
-            {
-                _owner = value;
-            }
-        }
-
-        public virtual AppType AppType
-        {
-            get { return _appType; }
-            set { _appType = value; }
-        }
-
-        public virtual User User
-        {
-            get { return _user; }
-            set
-            {
-                _user = value;
-            }
-        }
-
-        public virtual ICollection<Role> Roles
-        {
-            get { return _roles; }
-            set
-            {
-                _roles = value;
-            }
-        }
-
-        #endregion
     }
 }

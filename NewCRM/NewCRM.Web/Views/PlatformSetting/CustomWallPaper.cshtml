@@ -1,8 +1,7 @@
-﻿@using System.Security.Policy
-@{
+﻿@{
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
 }
-<script src="~/Scripts/HoorayUI/js/webuploader-0.1.5/webuploader.js"></script>
+
 <div class="title">
     <ul>
         <li class="focus">壁纸设置</li>
@@ -33,12 +32,13 @@
         <ul></ul>
     </div>
 </div>
-<div class="wapppaperwebsite form-inline">
+<div class = "wapppaperwebsite form-inline">
     <label>网络壁纸：</label>
-    <div class="input-append">
-        <input type="text" id="wallpaperurl" style="width:350px" placeholder="请输入一个URL地址（建议以 jpg, jpeg, png, gif, html, htm 结尾）" value=""><button type="button" class="btn" onclick="javascript: SetWebWallPaper();">应用</button>
+    <div class = "input-append">
+        <input type = "text" id = "wallpaperurl" style = "width: 350px" placeholder = "请输入一个URL地址（建议以 jpg, jpeg, png, gif, html, htm 结尾）" value = ""><button type = "button" class = "btn" onclick = "javascript: SetWebWallPaper();">应用</button>
     </div>
 </div>
+<script src="@Url.Content("~/Scripts/HoorayUI/js/webuploader-0.1.5/webuploader.js")"></script>
 <script>
     $(function () {
         var uploader = WebUploader.create({
@@ -105,7 +105,8 @@
     });
 
     function GetAllUploadWallPaper() {
-        $.get("@Url.Action("GetAllUploadWallPaper", "PlatformSetting")", { __: Date.now() }, function (result) {
+        $.get("@Url.Action("GetAllUploadWallPaper", "PlatformSetting")", function (result) {
+            debugger;
             var liElement = '';
             $.each(result.data, function (k, v) {
                 liElement += '<li id="' + v.Id + '" style="background:url(' + v.SmallUrl + ')"><a href="javascript:;">删 除</a></li>';
@@ -117,7 +118,7 @@
     function SetWebWallPaper() {
         var webUrl = $('#wallpaperurl').val();
         $.post("@Url.Action("SetWebWallPaper", "PlatformSetting")", { webUrl: webUrl }, function (result) {
-            debugger;
+          
             if (parseInt(result.Id) === 0) {
                 ZENG.msgbox.show('未能获取到所指定的网络图片', 5, 2000);
             } else {

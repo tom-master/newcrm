@@ -1,6 +1,9 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.ComponentModel.Composition.Hosting;
+using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+
 namespace NewCRM.Web
 {
     public class MvcApplication : System.Web.HttpApplication
@@ -13,8 +16,8 @@ namespace NewCRM.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-      
-            Infrastructure.InitializeDataBase.Initialize();
+
+            DependencyResolver.SetResolver(new MefDependencySolver(new DirectoryCatalog(AppDomain.CurrentDomain.SetupInformation.PrivateBinPath)));
         }
     }
 }

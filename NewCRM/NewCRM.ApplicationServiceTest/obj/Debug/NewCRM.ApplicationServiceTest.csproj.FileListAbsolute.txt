@@ -28,7 +28,6 @@ E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\Microsoft.VisualStu
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.ApplicationService.dll
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.Domain.dll
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.Infrastructure.dll
-E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.Repositories.dll
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\EntityFramework.dll
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\Newtonsoft.Json.dll
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.CommonTools.dll
@@ -46,3 +45,6 @@ E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.DomainServic
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.Dto.dll
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\AutoMapper.dll
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.Dto.pdb
+E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\zh-Hans\EntityFramework.resources.dll
+E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.Repository.dll
+E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.Repository.pdb
