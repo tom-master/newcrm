@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using NewCRM.Domain.DomainModel.Account;
-using NewCRM.Domain.DomainModel.System;
-using NewCRM.Domain.Repositories;
-using NewCRM.Infrastructure.CommonTools;
-using NewCRM.Repository;
+using NewCRM.Domain.Entities.DomainModel.Account;
+using NewCRM.Domain.Entities.DomainModel.System;
+using NewCRM.Domain.Entities.Repositories;
 
-namespace NewCRM.DomainService.Impl
+namespace NewCRM.Domain.Services.Impl
 {
     public sealed class PlatformDomainService : IPlatformDomainService
     {

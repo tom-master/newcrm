@@ -1,19 +1,16 @@
 ﻿using NewCRM.Web.Controllers.ControllerHelper;
 using System;
 using System.ComponentModel.Composition;
-using System.Globalization;
-using System.Web;
 using System.Web.Mvc;
-using NewCRM.ApplicationService.IApplicationService;
+using NewCRM.Application.Services.IApplicationService;
 
 namespace NewCRM.Web.Controllers
 {
-
     [Export]
     public class IndexController : BaseController
     {
         [Import]
-        private readonly IAccountApplicationServices _accountApplicationServices;
+        private IAccountApplicationServices _accountApplicationServices;
 
         // GET: Index
         /// <summary>
@@ -46,7 +43,8 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult Landing(String userName, String passWord, Boolean isRememberPasswrod = false)
         {
-            /*var userData = */_accountApplicationServices.Login(userName, passWord);
+            /*var userData = */
+            _accountApplicationServices.Login(userName, passWord);
             //if (userData.ResultType != ResponseType.Success)
             //{
             //    return Json(new { status = 0, msg = userData.Message });

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace NewCRM.Domain.DomainModel.System
+namespace NewCRM.Domain.Entities.DomainModel.System
 {
     public partial class Desk
     {
@@ -22,7 +22,7 @@ namespace NewCRM.Domain.DomainModel.System
             {
                 throw new ArgumentNullException($"{nameof(memberId)}不能为0");
             }
-            Members.Where(member => member.Id == memberId).ToList().ForEach(m => { m.RemoveMember(); });
+            Enumerable.Where<Member>(Members, member => member.Id == memberId).ToList().ForEach(m => { m.RemoveMember(); });
         }
 
 

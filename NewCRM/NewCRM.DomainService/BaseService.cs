@@ -1,6 +1,6 @@
-﻿using NewCRM.Domain.UnitWork;
+﻿using NewCRM.Domain.Entities.UnitWork;
 
-namespace NewCRM.DomainService
+namespace NewCRM.Domain.Services
 {
     /// <summary>
     /// 基础服务实现

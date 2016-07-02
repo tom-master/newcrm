@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -42,7 +41,9 @@ namespace NewCRM.Web
         public Object GetService(Type serviceType)
         {
             var contractName = AttributedModelServices.GetContractName(serviceType);
+
             return Container.GetExportedValueOrDefault<Object>(contractName);
+
         }
 
         public IEnumerable<Object> GetServices(Type serviceType)

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace NewCRM.Domain.DomainModel.System
+namespace NewCRM.Domain.Entities.DomainModel.System
 {
     [Description("桌面"), Serializable]
     public partial class Desk : DomainModelBase, IAggregationRoot

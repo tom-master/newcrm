@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using NewCRM.Domain.DomainModel.System;
+using NewCRM.Domain.Entities.DomainModel.System;
 
-namespace NewCRM.Domain.DomainModel.Account
+namespace NewCRM.Domain.Entities.DomainModel.Account
 {
     [Description("用户"), Serializable]
     public partial class User : DomainModelBase, IAggregationRoot

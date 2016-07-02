@@ -6,7 +6,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using NewCRM.Domain.DomainModel;
+using NewCRM.Domain.Entities.DomainModel;
 
 
 namespace NewCRM.Repository.UnitOfWorkProvide

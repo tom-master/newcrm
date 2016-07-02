@@ -7,17 +7,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System;
 using System.Data.Entity.ModelConfiguration;
 using System.Data.Entity.ModelConfiguration.Configuration;
-
-using NewCRM.Repository;
-using NewCRM.Domain;
-using NewCRM.Repository.RepositoryProvide;
-using NewCRM.Domain.DomainModel.Account;
-using NewCRM.Domain.DomainModel.Security;
-using NewCRM.Domain.DomainModel.System;
-using NewCRM.Domain.Repositories;
+using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Repository.Configuration.IMappers;
 
 namespace NewCRM.Assembly.Data.Configurations

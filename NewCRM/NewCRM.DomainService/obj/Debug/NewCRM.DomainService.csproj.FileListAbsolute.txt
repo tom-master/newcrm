@@ -12,12 +12,12 @@ F:\NewCRMTest\NewCRM\NewCRM.DomainService\obj\Debug\NewCRM.DomainService.dll
 F:\NewCRMTest\NewCRM\NewCRM.DomainService\obj\Debug\NewCRM.DomainService.pdb
 E:\NewCRMTest\NewCRM\NewCRM.DomainService\bin\Debug\NewCRM.DomainService.dll
 E:\NewCRMTest\NewCRM\NewCRM.DomainService\bin\Debug\NewCRM.DomainService.pdb
-E:\NewCRMTest\NewCRM\NewCRM.DomainService\bin\Debug\NewCRM.Domain.dll
+E:\NewCRMTest\NewCRM\NewCRM.DomainService\bin\Debug\NewCRM.Domain.Entities.dll
 E:\NewCRMTest\NewCRM\NewCRM.DomainService\bin\Debug\NewCRM.Infrastructure.dll
 E:\NewCRMTest\NewCRM\NewCRM.DomainService\bin\Debug\NewCRM.Repository.dll
 E:\NewCRMTest\NewCRM\NewCRM.DomainService\bin\Debug\Newtonsoft.Json.dll
 E:\NewCRMTest\NewCRM\NewCRM.DomainService\bin\Debug\EntityFramework.dll
-E:\NewCRMTest\NewCRM\NewCRM.DomainService\bin\Debug\NewCRM.Domain.pdb
+E:\NewCRMTest\NewCRM\NewCRM.DomainService\bin\Debug\NewCRM.Domain.Entities.pdb
 E:\NewCRMTest\NewCRM\NewCRM.DomainService\bin\Debug\NewCRM.Infrastructure.pdb
 E:\NewCRMTest\NewCRM\NewCRM.DomainService\bin\Debug\NewCRM.Repository.pdb
 E:\NewCRMTest\NewCRM\NewCRM.DomainService\bin\Debug\Newtonsoft.Json.xml

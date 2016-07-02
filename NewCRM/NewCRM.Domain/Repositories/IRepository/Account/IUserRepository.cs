@@ -7,14 +7,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using NewCRM.Domain.DomainModel.Account;
- 
+using System.ComponentModel.Composition;
+using NewCRM.Domain.Entities.DomainModel.Account;
 
-namespace NewCRM.Domain.Repositories.IRepository.Account
+namespace NewCRM.Domain.Entities.Repositories.IRepository.Account
 {
     /// <summary>
     ///   仓储操作层接口——用户
     /// </summary>
+    [InheritedExport(typeof(IUserRepository))]
     public partial interface IUserRepository : IRepository<User>
     { }
 }

@@ -1,19 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NewCRM.ApplicationService.IApplicationService;
+using NewCRM.Application.Services.IApplicationService;
+using NewCRM.DomainService;
 
-namespace NewCRM.ApplicationService
+namespace NewCRM.Application.Services
 {
     [Export(typeof(IAccountApplicationServices))]
     internal class AccountApplicationServices : IAccountApplicationServices
     {
+        [Import]
+        private IAccountServices _accountServices;
+
         public void Login(String userName, String password)
         {
-
+            _accountServices.Validate(userName, password);
         }
 
         public void Logout(Int32 userId)

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NewCRM.Domain.DomainModel.Security;
-using NewCRM.Domain.Repositories.IRepository.Security;
-
+﻿
+using NewCRM.Domain.Entities.DomainModel.Security;
+using NewCRM.Domain.Entities.Repositories.IRepository.Security;
 using NewCRM.Repository.RepositoryProvide;
 
 namespace NewCRM.Repository.RepositoryImpl.Security

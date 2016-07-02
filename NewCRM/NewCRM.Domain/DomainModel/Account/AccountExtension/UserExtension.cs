@@ -1,7 +1,8 @@
 ﻿using System;
-using NewCRM.Domain.DomainModel.Security;
+using NewCRM.Domain.Entities.DomainModel.Security;
 
-namespace NewCRM.Domain.DomainModel.Account
+
+namespace NewCRM.Domain.Entities.DomainModel.Account
 {
     public partial class User
     {

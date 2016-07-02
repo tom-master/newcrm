@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using NewCRM.Domain.ValueObject;
+using NewCRM.Domain.Entities.ValueObject;
 
-namespace NewCRM.Domain.DomainModel.System
+namespace NewCRM.Domain.Entities.DomainModel.System
 {
     [Description("用户配置"), Serializable]
     public partial class Config : DomainModelBase

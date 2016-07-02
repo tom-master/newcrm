@@ -7,10 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using NewCRM.Domain.DomainModel.Account;
 
+using NewCRM.Domain.Entities.DomainModel.Account;
 
-namespace NewCRM.Domain.Repositories.IRepository.Account
+namespace NewCRM.Domain.Entities.Repositories.IRepository.Account
 {
     /// <summary>
     ///   仓储操作层接口——职称

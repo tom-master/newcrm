@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace NewCRM.Domain.DomainModel.Security
+namespace NewCRM.Domain.Entities.DomainModel.Security
 {
     [Description("权限"),Serializable]
     public partial class Power : DomainModelBase, IAggregationRoot

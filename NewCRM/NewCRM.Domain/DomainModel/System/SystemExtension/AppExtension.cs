@@ -1,6 +1,7 @@
 ﻿using System;
-using NewCRM.Domain.ValueObject;
-namespace NewCRM.Domain.DomainModel.System
+using NewCRM.Domain.Entities.ValueObject;
+
+namespace NewCRM.Domain.Entities.DomainModel.System
 {
     public partial class App
     {

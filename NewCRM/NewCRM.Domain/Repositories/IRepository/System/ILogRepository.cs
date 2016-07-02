@@ -7,10 +7,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using NewCRM.Domain.DomainModel.System;
-using NewCRM.Domain.Repositories;
+using NewCRM.Domain.Entities.DomainModel.System;
 
-namespace NewCRM.Domain.Repositories.IRepository.System
+namespace NewCRM.Domain.Entities.Repositories.IRepository.System
 {
     /// <summary>
     ///   仓储操作层接口——日志

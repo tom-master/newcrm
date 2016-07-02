@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace NewCRM.Domain.ValueObject
+namespace NewCRM.Domain.Entities.ValueObject
 {
     /// <summary>
     /// 显示方式

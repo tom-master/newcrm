@@ -1,7 +1,8 @@
 ﻿using System.Data.Entity;
-using NewCRM.Domain.DomainModel.Account;
-using NewCRM.Domain.DomainModel.Security;
-using NewCRM.Domain.DomainModel.System;
+using NewCRM.Domain.Entities.DomainModel.Account;
+using NewCRM.Domain.Entities.DomainModel.Security;
+using NewCRM.Domain.Entities.DomainModel.System;
+
 
 namespace NewCRM.Repository
 {

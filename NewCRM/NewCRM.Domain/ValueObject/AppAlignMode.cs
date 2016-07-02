@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace NewCRM.Domain.ValueObject
+namespace NewCRM.Domain.Entities.ValueObject
 {
     /// <summary>
     /// 应用排列方向

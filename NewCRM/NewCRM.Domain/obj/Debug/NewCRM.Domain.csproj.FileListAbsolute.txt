@@ -7,6 +7,6 @@ F:\NewCRMTest\NewCRM\NewCRM.Domain\obj\Debug\NewCRM.Domain.pdb
 E:\NewCRMTest\NewCRM\NewCRM.Domain\bin\Debug\NewCRM.Domain.dll.config
 E:\NewCRMTest\NewCRM\NewCRM.Domain\bin\Debug\NewCRM.Domain.dll
 E:\NewCRMTest\NewCRM\NewCRM.Domain\bin\Debug\NewCRM.Domain.pdb
-E:\NewCRMTest\NewCRM\NewCRM.Domain\obj\Debug\NewCRM.Domain.csprojResolveAssemblyReference.cache
 E:\NewCRMTest\NewCRM\NewCRM.Domain\obj\Debug\NewCRM.Domain.dll
 E:\NewCRMTest\NewCRM\NewCRM.Domain\obj\Debug\NewCRM.Domain.pdb
+E:\NewCRMTest\NewCRM\NewCRM.Domain\obj\Debug\NewCRM.Domain.csprojResolveAssemblyReference.cache

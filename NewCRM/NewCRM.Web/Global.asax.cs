@@ -10,6 +10,7 @@ namespace NewCRM.Web
     {
         protected void Application_Start()
         {
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 
@@ -18,6 +19,8 @@ namespace NewCRM.Web
 
 
             DependencyResolver.SetResolver(new MefDependencySolver(new DirectoryCatalog(AppDomain.CurrentDomain.SetupInformation.PrivateBinPath)));
+
+
         }
     }
 }

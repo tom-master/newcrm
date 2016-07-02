@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NewCRM.Domain.DomainModel.Security
+namespace NewCRM.Domain.Entities.DomainModel.Security
 {
     public class RolePower : DomainModelBase
     {

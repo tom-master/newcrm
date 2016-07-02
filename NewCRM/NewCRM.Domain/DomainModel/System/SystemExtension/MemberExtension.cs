@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NewCRM.Domain.DomainModel.System
+namespace NewCRM.Domain.Entities.DomainModel.System
 {
     public partial class Member
     {

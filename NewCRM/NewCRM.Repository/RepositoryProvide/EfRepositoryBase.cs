@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using NewCRM.Domain.DomainModel;
-using NewCRM.Domain.Repositories;
+using NewCRM.Domain.Entities.DomainModel;
+using NewCRM.Domain.Entities.Repositories;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
 using NewCRM.Repository.UnitOfWorkProvide;

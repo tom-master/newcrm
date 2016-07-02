@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace NewCRM.Domain.DomainModel.Security
+namespace NewCRM.Domain.Entities.DomainModel.Security
 {
     [Description("角色"),Serializable]
     public partial class Role : DomainModelBase, IAggregationRoot

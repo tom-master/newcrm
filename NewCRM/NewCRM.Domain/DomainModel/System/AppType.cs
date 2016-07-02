@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace NewCRM.Domain.DomainModel.System
+namespace NewCRM.Domain.Entities.DomainModel.System
 {
     [Description("应用类型"),Serializable]
     public partial class AppType : DomainModelBase, IAggregationRoot

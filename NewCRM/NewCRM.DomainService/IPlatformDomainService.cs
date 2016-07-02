@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using NewCRM.Domain.DomainModel.Account;
+using NewCRM.Domain.Entities.DomainModel.Account;
 
-namespace NewCRM.DomainService
+namespace NewCRM.Domain.Services
 {
     public interface IPlatformDomainService
     {

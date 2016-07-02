@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
-using NewCRM.Domain.ValueObject;
+using NewCRM.Domain.Entities.ValueObject;
 
-namespace NewCRM.Domain.DomainModel.System
+namespace NewCRM.Domain.Entities.DomainModel.System
 {
     [Description("日志"),Serializable]
     public  class Log : DomainModelBase, IAggregationRoot

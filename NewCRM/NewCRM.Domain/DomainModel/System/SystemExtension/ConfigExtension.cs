@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using NewCRM.Domain.ValueObject;
+using NewCRM.Domain.Entities.ValueObject;
 
-namespace NewCRM.Domain.DomainModel.System
+namespace NewCRM.Domain.Entities.DomainModel.System
 {
     public partial class Config
     {

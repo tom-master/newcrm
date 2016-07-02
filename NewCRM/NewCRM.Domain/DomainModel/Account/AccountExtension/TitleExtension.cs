@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NewCRM.Domain.DomainModel.Account
+namespace NewCRM.Domain.Entities.DomainModel.Account
 {
     public partial class Title
     {

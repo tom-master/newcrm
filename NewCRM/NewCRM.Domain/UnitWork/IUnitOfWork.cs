@@ -1,4 +1,4 @@
-﻿namespace NewCRM.Domain.UnitWork
+﻿namespace NewCRM.Domain.Entities.UnitWork
 {
     /// <summary>
     ///     业务单元操作接口

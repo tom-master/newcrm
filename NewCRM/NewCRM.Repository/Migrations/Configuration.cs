@@ -1,5 +1,4 @@
 using System.Data.Entity.Migrations;
-using NewCRM.Repository.RepositoryProvide;
 
 namespace NewCRM.Repository.Migrations
 {

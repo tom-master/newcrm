@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace NewCRM.Domain.DomainModel.System
+namespace NewCRM.Domain.Entities.DomainModel.System
 {
     [Description("在线人数"),Serializable]
     public  class Online : DomainModelBase, IAggregationRoot

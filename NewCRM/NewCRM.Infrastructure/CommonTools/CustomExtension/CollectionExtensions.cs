@@ -1,11 +1,11 @@
-﻿using NewCRM.Domain.DomainModel;
-using NewCRM.Infrastructure.CommonTools.CustomHelper;
+﻿using NewCRM.Infrastructure.CommonTools.CustomHelper;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
+using NewCRM.Domain.Entities.DomainModel;
 
 namespace NewCRM.Infrastructure.CommonTools.CustomExtension
 {

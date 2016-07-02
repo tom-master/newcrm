@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
 using NewCRM.Domain.DomainModel.Account;
-using NewCRM.Domain.DomainModel.System;
 using NewCRM.Dto.Dto;
 
 namespace NewCRM.Dto

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace NewCRM.Domain.DomainModel
+namespace NewCRM.Domain.Entities.DomainModel
 {
     [Serializable]
     public abstract class DomainModelBase 

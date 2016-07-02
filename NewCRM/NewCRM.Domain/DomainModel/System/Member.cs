@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
-using NewCRM.Domain.ValueObject;
+using NewCRM.Domain.Entities.ValueObject;
 
-namespace NewCRM.Domain.DomainModel.System
+namespace NewCRM.Domain.Entities.DomainModel.System
 {
     /// <summary>
     /// 成员会有两种类型 1：app，2：文件夹

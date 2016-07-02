@@ -2,39 +2,48 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Net;
-using NewCRM.Domain.DomainModel.Account;
-using NewCRM.Domain.DomainModel.System;
-using NewCRM.Domain.Repositories;
+using NewCRM.Domain.Entities.DomainModel.System;
+using NewCRM.Domain.Entities.Repositories.IRepository.Account;
+using NewCRM.Domain.Entities.Repositories.IRepository.System;
 using NewCRM.Infrastructure.CommonTools;
-using NewCRM.Repository.RepositoryImpl.System;
 
-
-namespace NewCRM.DomainService.Impl
+namespace NewCRM.Domain.Services.Impl
 {
+    [Export(typeof(IAccountServices))]
     public class AccountServices : IAccountServices
     {
-        [Import]
-        private readonly IRepository<User> _useRepository;
 
         [Import]
-        private readonly IRepository<Online> _onlineRepository;
+        private IUserRepository _useRepository;
+
+
+        private readonly IOnlineRepository _onlineRepository;
 
         public Boolean Validate(String userName, String password)
         {
-            var userResult = _useRepository.Entities.FirstOrDefault(user => user.Name == userName);
-            if (userResult == null)
+            try
             {
-                return false;
+                var userResult = _useRepository.Entities.FirstOrDefault(user => user.Name == userName);
+                if (userResult == null)
+                {
+                    return false;
+                }
+                if (!PasswordUtil.ComparePasswords(userResult.LoginPassword, password))
+                {
+                    return false;
+                }
+                userResult.Online();
+
+                _onlineRepository.Add(new Online(GetCurrentIpAddress(), userResult.Id));
+
+                return true;
             }
-            if (!PasswordUtil.ComparePasswords(userResult.LoginPassword, password))
+            catch (Exception ex)
             {
-                return false;
+
+                throw;
             }
-            userResult.Online();
 
-            _onlineRepository.Add(new Online(GetCurrentIpAddress(), userResult.Id));
-
-            return true;
         }
 
         public void Logout(Int32 userId)

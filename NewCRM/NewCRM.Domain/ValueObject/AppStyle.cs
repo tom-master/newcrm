@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace NewCRM.Domain.ValueObject
+namespace NewCRM.Domain.Entities.ValueObject
 {
     /// <summary>
     /// app的样式

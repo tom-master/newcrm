@@ -7,10 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using NewCRM.Domain.DomainModel.Security;
-using NewCRM.Domain.Repositories;
 
-namespace NewCRM.Domain.Repositories.IRepository.Security
+using NewCRM.Domain.Entities.DomainModel.Security;
+
+namespace NewCRM.Domain.Entities.Repositories.IRepository.Security
 {
     /// <summary>
     ///   仓储操作层接口——权限
