@@ -31,8 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NewCRM.DomainService">
-      <HintPath>..\NewCRM.DomainService\bin\Debug\NewCRM.DomainService.dll</HintPath>
+    <Reference Include="NewCRM.Domain.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NewCRM.Domain\bin\Debug\NewCRM.Domain.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="NewCRM.Domain.Services">
+      <HintPath>..\NewCRM.DomainService\bin\Debug\NewCRM.Domain.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="NewCRM.Dto">
+      <HintPath>..\NewCRM.Dto\bin\Debug\NewCRM.Dto.dll</HintPath>
     </Reference>
     <Reference Include="NewCRM.Infrastructure">
       <HintPath>..\NewCRM.Infrastructure\bin\Debug\NewCRM.Infrastructure.dll</HintPath>
@@ -49,8 +56,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountApplicationServices.cs" />
+    <Compile Include="AppApplicationServices.cs" />
     <Compile Include="IApplicationService\IAccountApplicationServices.cs" />
+    <Compile Include="IApplicationService\IAppApplicationServices.cs" />
     <Compile Include="IApplicationService\IPlantformApplicationService.cs" />
+    <Compile Include="IApplicationService\IUserSettingApplicationServices.cs" />
+    <Compile Include="UserSettingApplicationServices.cs" />
     <Compile Include="PlantformApplicationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

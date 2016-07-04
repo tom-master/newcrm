@@ -46,9 +46,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -57,6 +54,10 @@
     <Reference Include="NewCRM.Domain.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\NewCRM.Domain\bin\Debug\NewCRM.Domain.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="NewCRM.Repository, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NewCRM.Repository\bin\Debug\NewCRM.Repository.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -137,271 +138,6 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Metro\css\about-us.css" />
-    <Content Include="Content\Metro\css\animate.css" />
-    <Content Include="Content\Metro\css\blog.css" />
-    <Content Include="Content\Metro\css\blue.css" />
-    <Content Include="Content\Metro\css\bootstrap-fileupload.css" />
-    <Content Include="Content\Metro\css\bootstrap-modal.css" />
-    <Content Include="Content\Metro\css\bootstrap-responsive.min.css" />
-    <Content Include="Content\Metro\css\bootstrap-responsive1.min.css" />
-    <Content Include="Content\Metro\css\bootstrap-tag.css" />
-    <Content Include="Content\Metro\css\bootstrap-toggle-buttons.css" />
-    <Content Include="Content\Metro\css\bootstrap-tree.css" />
-    <Content Include="Content\Metro\css\bootstrap-wysihtml5.css" />
-    <Content Include="Content\Metro\css\bootstrap.min.css" />
-    <Content Include="Content\Metro\css\brown.css" />
-    <Content Include="Content\Metro\css\chosen.css" />
-    <Content Include="Content\Metro\css\clockface.css" />
-    <Content Include="Content\Metro\css\colorpicker.css" />
-    <Content Include="Content\Metro\css\coming-soon.css" />
-    <Content Include="Content\Metro\css\datepicker.css" />
-    <Content Include="Content\Metro\css\daterangepicker.css" />
-    <Content Include="Content\Metro\css\datetimepicker.css" />
-    <Content Include="Content\Metro\css\default.css" />
-    <Content Include="Content\Metro\css\dropzone.css" />
-    <Content Include="Content\Metro\css\DT_bootstrap.css" />
-    <Content Include="Content\Metro\css\email.css" />
-    <Content Include="Content\Metro\css\error.css" />
-    <Content Include="Content\Metro\css\font-awesome.css" />
-    <Content Include="Content\Metro\css\font-awesome.min.css" />
-    <Content Include="Content\Metro\css\fullcalendar.css" />
-    <Content Include="Content\Metro\css\glyphicons.css" />
-    <Content Include="Content\Metro\css\grey.css" />
-    <Content Include="Content\Metro\css\halflings.css" />
-    <Content Include="Content\Metro\css\inbox.css" />
-    <Content Include="Content\Metro\css\invoice.css" />
-    <Content Include="Content\Metro\css\jquery-ui-1.10.1.custom.min.css" />
-    <Content Include="Content\Metro\css\jquery.easy-pie-chart.css" />
-    <Content Include="Content\Metro\css\jquery.fancybox.css" />
-    <Content Include="Content\Metro\css\jquery.fileupload-ui.css" />
-    <Content Include="Content\Metro\css\jquery.gritter.css" />
-    <Content Include="Content\Metro\css\jquery.nestable.css" />
-    <Content Include="Content\Metro\css\jquery.tagsinput.css" />
-    <Content Include="Content\Metro\css\jquery.ui.slider.css" />
-    <Content Include="Content\Metro\css\jqvmap.css" />
-    <Content Include="Content\Metro\css\light.css" />
-    <Content Include="Content\Metro\css\lock.css" />
-    <Content Include="Content\Metro\css\login-soft.css" />
-    <Content Include="Content\Metro\css\login.css" />
-    <Content Include="Content\Metro\css\multi-select-metro.css" />
-    <Content Include="Content\Metro\css\news.css" />
-    <Content Include="Content\Metro\css\pricing-tables.css" />
-    <Content Include="Content\Metro\css\print.css" />
-    <Content Include="Content\Metro\css\profile.css" />
-    <Content Include="Content\Metro\css\promo.css" />
-    <Content Include="Content\Metro\css\purple.css" />
-    <Content Include="Content\Metro\css\search.css" />
-    <Content Include="Content\Metro\css\select2_metro.css" />
-    <Content Include="Content\Metro\css\style-metro.css" />
-    <Content Include="Content\Metro\css\style-non-responsive.css" />
-    <Content Include="Content\Metro\css\style-responsive.css" />
-    <Content Include="Content\Metro\css\style.css" />
-    <Content Include="Content\Metro\css\timeline.css" />
-    <Content Include="Content\Metro\css\timepicker.css" />
-    <Content Include="Content\Metro\css\uniform.default.css" />
-    <Content Include="Content\Metro\img\1.jpg" />
-    <Content Include="Content\Metro\img\10.jpg" />
-    <Content Include="Content\Metro\img\11.jpg" />
-    <Content Include="Content\Metro\img\2.jpg" />
-    <Content Include="Content\Metro\img\3.jpg" />
-    <Content Include="Content\Metro\img\4.jpg" />
-    <Content Include="Content\Metro\img\5.jpg" />
-    <Content Include="Content\Metro\img\6.jpg" />
-    <Content Include="Content\Metro\img\7.jpg" />
-    <Content Include="Content\Metro\img\8.jpg" />
-    <Content Include="Content\Metro\img\9.jpg" />
-    <Content Include="Content\Metro\img\ajax-loading.gif" />
-    <Content Include="Content\Metro\img\alpha.png" />
-    <Content Include="Content\Metro\img\amazon.png" />
-    <Content Include="Content\Metro\img\animated-overlay.gif" />
-    <Content Include="Content\Metro\img\avatar.png" />
-    <Content Include="Content\Metro\img\avatar1.jpg" />
-    <Content Include="Content\Metro\img\avatar1_small.jpg" />
-    <Content Include="Content\Metro\img\avatar2.jpg" />
-    <Content Include="Content\Metro\img\avatar3.jpg" />
-    <Content Include="Content\Metro\img\behance.png" />
-    <Content Include="Content\Metro\img\bg-input-focus.png" />
-    <Content Include="Content\Metro\img\bg-input.png" />
-    <Content Include="Content\Metro\img\bg-opacity.png" />
-    <Content Include="Content\Metro\img\bg-white-lock.png" />
-    <Content Include="Content\Metro\img\bg\1.jpg" />
-    <Content Include="Content\Metro\img\bg\2.jpg" />
-    <Content Include="Content\Metro\img\bg\3.jpg" />
-    <Content Include="Content\Metro\img\bg\4.jpg" />
-    <Content Include="Content\Metro\img\blank.gif" />
-    <Content Include="Content\Metro\img\blogger.png" />
-    <Content Include="Content\Metro\img\bstree-halflings.png" />
-    <Content Include="Content\Metro\img\chosen-sprite.png" />
-    <Content Include="Content\Metro\img\datatable-row-openclose.png" />
-    <Content Include="Content\Metro\img\deviantart.png" />
-    <Content Include="Content\Metro\img\dribbble.png" />
-    <Content Include="Content\Metro\img\dropbox.png" />
-    <Content Include="Content\Metro\img\earth.jpg" />
-    <Content Include="Content\Metro\img\evernote.png" />
-    <Content Include="Content\Metro\img\facebook.png" />
-    <Content Include="Content\Metro\img\fancybox_loading.gif" />
-    <Content Include="Content\Metro\img\fancybox_overlay.png" />
-    <Content Include="Content\Metro\img\fancybox_sprite.png" />
-    <Content Include="Content\Metro\img\favicon.ico" />
-    <Content Include="Content\Metro\img\fontawesome-webfont.svg" />
-    <Content Include="Content\Metro\img\forrst.png" />
-    <Content Include="Content\Metro\img\github.png" />
-    <Content Include="Content\Metro\img\glyphicons-halflings-white.png" />
-    <Content Include="Content\Metro\img\glyphicons-halflings.png" />
-    <Content Include="Content\Metro\img\glyphicons-regular.svg" />
-    <Content Include="Content\Metro\img\glyphicons-white.png" />
-    <Content Include="Content\Metro\img\glyphicons-white.svg" />
-    <Content Include="Content\Metro\img\glyphicons.png" />
-    <Content Include="Content\Metro\img\glyphiconshalflings-regular.svg" />
-    <Content Include="Content\Metro\img\glyphicons_halflings-white.png" />
-    <Content Include="Content\Metro\img\glyphicons_halflings-white.svg" />
-    <Content Include="Content\Metro\img\glyphicons_halflings.png" />
-    <Content Include="Content\Metro\img\glyphicons_halflings.svg" />
-    <Content Include="Content\Metro\img\googleplus.png" />
-    <Content Include="Content\Metro\img\gritter-brown.png" />
-    <Content Include="Content\Metro\img\gritter-light.png" />
-    <Content Include="Content\Metro\img\gritter-purple.png" />
-    <Content Include="Content\Metro\img\gritter.png" />
-    <Content Include="Content\Metro\img\hor-menu-search-close-white.png" />
-    <Content Include="Content\Metro\img\hor-menu-search-close.png" />
-    <Content Include="Content\Metro\img\hor-menu-search.png" />
-    <Content Include="Content\Metro\img\hue.png" />
-    <Content Include="Content\Metro\img\icon-color-close.png" />
-    <Content Include="Content\Metro\img\icon-color.png" />
-    <Content Include="Content\Metro\img\icon-img-down.png" />
-    <Content Include="Content\Metro\img\icon-img-up.png" />
-    <Content Include="Content\Metro\img\ie-spacer.gif" />
-    <Content Include="Content\Metro\img\image1.jpg" />
-    <Content Include="Content\Metro\img\image2.jpg" />
-    <Content Include="Content\Metro\img\image3.jpg" />
-    <Content Include="Content\Metro\img\image4.jpg" />
-    <Content Include="Content\Metro\img\image5.jpg" />
-    <Content Include="Content\Metro\img\img1.png" />
-    <Content Include="Content\Metro\img\img1_2.png" />
-    <Content Include="Content\Metro\img\img2.png" />
-    <Content Include="Content\Metro\img\img3.png" />
-    <Content Include="Content\Metro\img\img4.png" />
-    <Content Include="Content\Metro\img\inbox-nav-arrow-blue.png" />
-    <Content Include="Content\Metro\img\instagram.png" />
-    <Content Include="Content\Metro\img\iphone.png" />
-    <Content Include="Content\Metro\img\item_img.jpg" />
-    <Content Include="Content\Metro\img\item_img1.jpg" />
-    <Content Include="Content\Metro\img\jolicloud.png" />
-    <Content Include="Content\Metro\img\KwPYo.jpg" />
-    <Content Include="Content\Metro\img\last-fm.png" />
-    <Content Include="Content\Metro\img\linkedin.png" />
-    <Content Include="Content\Metro\img\loading.gif" />
-    <Content Include="Content\Metro\img\logo-big.png" />
-    <Content Include="Content\Metro\img\logo.png" />
-    <Content Include="Content\Metro\img\logo_azteca.jpg" />
-    <Content Include="Content\Metro\img\logo_conquer.jpg" />
-    <Content Include="Content\Metro\img\logo_metronic.jpg" />
-    <Content Include="Content\Metro\img\menu-toggler.png" />
-    <Content Include="Content\Metro\img\overlay-icon.png" />
-    <Content Include="Content\Metro\img\photo1.jpg" />
-    <Content Include="Content\Metro\img\photo2.jpg" />
-    <Content Include="Content\Metro\img\photo3.jpg" />
-    <Content Include="Content\Metro\img\photo4.jpg" />
-    <Content Include="Content\Metro\img\photo5.jpg" />
-    <Content Include="Content\Metro\img\photo6.jpg" />
-    <Content Include="Content\Metro\img\picasa.png" />
-    <Content Include="Content\Metro\img\pintrest.png" />
-    <Content Include="Content\Metro\img\portlet-collapse-icon-white.png" />
-    <Content Include="Content\Metro\img\portlet-collapse-icon.png" />
-    <Content Include="Content\Metro\img\portlet-config-icon-white.png" />
-    <Content Include="Content\Metro\img\portlet-config-icon.png" />
-    <Content Include="Content\Metro\img\portlet-expand-icon-white.png" />
-    <Content Include="Content\Metro\img\portlet-expand-icon.png" />
-    <Content Include="Content\Metro\img\portlet-reload-icon-white.png" />
-    <Content Include="Content\Metro\img\portlet-reload-icon.png" />
-    <Content Include="Content\Metro\img\portlet-remove-icon-white.png" />
-    <Content Include="Content\Metro\img\portlet-remove-icon.png" />
-    <Content Include="Content\Metro\img\preview_02.png" />
-    <Content Include="Content\Metro\img\preview_03.png" />
-    <Content Include="Content\Metro\img\preview_04.png" />
-    <Content Include="Content\Metro\img\preview_05.png" />
-    <Content Include="Content\Metro\img\preview_06.png" />
-    <Content Include="Content\Metro\img\preview_07.png" />
-    <Content Include="Content\Metro\img\preview_08.png" />
-    <Content Include="Content\Metro\img\preview_09.png" />
-    <Content Include="Content\Metro\img\preview_10.png" />
-    <Content Include="Content\Metro\img\preview_11.png" />
-    <Content Include="Content\Metro\img\preview_12.png" />
-    <Content Include="Content\Metro\img\preview_13.png" />
-    <Content Include="Content\Metro\img\preview_14.png" />
-    <Content Include="Content\Metro\img\preview_15.png" />
-    <Content Include="Content\Metro\img\preview_16.png" />
-    <Content Include="Content\Metro\img\preview_17.png" />
-    <Content Include="Content\Metro\img\profile-img.png" />
-    <Content Include="Content\Metro\img\profile.jpg" />
-    <Content Include="Content\Metro\img\progressbar.gif" />
-    <Content Include="Content\Metro\img\remove-icon-small.png" />
-    <Content Include="Content\Metro\img\rss.png" />
-    <Content Include="Content\Metro\img\saturation.png" />
-    <Content Include="Content\Metro\img\search-icon-blue.png" />
-    <Content Include="Content\Metro\img\search-icon-brown.png" />
-    <Content Include="Content\Metro\img\search-icon-purple.png" />
-    <Content Include="Content\Metro\img\search-icon-white.png" />
-    <Content Include="Content\Metro\img\search-icon.png" />
-    <Content Include="Content\Metro\img\select2-spinner.gif" />
-    <Content Include="Content\Metro\img\select2.png" />
-    <Content Include="Content\Metro\img\select2x2.png" />
-    <Content Include="Content\Metro\img\sidebar-menu-arrow-green.png" />
-    <Content Include="Content\Metro\img\sidebar-menu-arrow.png" />
-    <Content Include="Content\Metro\img\sidebar-search-close-blue.png" />
-    <Content Include="Content\Metro\img\sidebar-search-close-brown.png" />
-    <Content Include="Content\Metro\img\sidebar-search-close-light.png" />
-    <Content Include="Content\Metro\img\sidebar-search-close-purple.png" />
-    <Content Include="Content\Metro\img\sidebar-search-close.png" />
-    <Content Include="Content\Metro\img\sidebar-toggler-blue.jpg" />
-    <Content Include="Content\Metro\img\sidebar-toggler-brown.jpg" />
-    <Content Include="Content\Metro\img\sidebar-toggler-light.jpg" />
-    <Content Include="Content\Metro\img\sidebar-toggler-purple.jpg" />
-    <Content Include="Content\Metro\img\sidebar-toggler.jpg" />
-    <Content Include="Content\Metro\img\skype.png" />
-    <Content Include="Content\Metro\img\social_facebook.png" />
-    <Content Include="Content\Metro\img\social_googleplus.png" />
-    <Content Include="Content\Metro\img\social_linkedin.png" />
-    <Content Include="Content\Metro\img\social_rss.png" />
-    <Content Include="Content\Metro\img\social_twitter.png" />
-    <Content Include="Content\Metro\img\sort_asc.png" />
-    <Content Include="Content\Metro\img\sort_asc_disabled.png" />
-    <Content Include="Content\Metro\img\sort_both.png" />
-    <Content Include="Content\Metro\img\sort_desc.png" />
-    <Content Include="Content\Metro\img\sort_desc_disabled.png" />
-    <Content Include="Content\Metro\img\spotify.png" />
-    <Content Include="Content\Metro\img\sprite.png" />
-    <Content Include="Content\Metro\img\spritemap%402x.png" />
-    <Content Include="Content\Metro\img\spritemap.png" />
-    <Content Include="Content\Metro\img\stumbleupon.png" />
-    <Content Include="Content\Metro\img\switch.png" />
-    <Content Include="Content\Metro\img\syncfusion-icons-white.png" />
-    <Content Include="Content\Metro\img\syncfusion-icons.png" />
-    <Content Include="Content\Metro\img\tumblr.png" />
-    <Content Include="Content\Metro\img\twitter.png" />
-    <Content Include="Content\Metro\img\ui-bg_diagonals-thick_18_b81900_40x40.png" />
-    <Content Include="Content\Metro\img\ui-bg_diagonals-thick_20_666666_40x40.png" />
-    <Content Include="Content\Metro\img\ui-bg_flat_10_000000_40x100.png" />
-    <Content Include="Content\Metro\img\ui-bg_glass_100_f6f6f6_1x400.png" />
-    <Content Include="Content\Metro\img\ui-bg_glass_100_fdf5ce_1x400.png" />
-    <Content Include="Content\Metro\img\ui-bg_glass_65_ffffff_1x400.png" />
-    <Content Include="Content\Metro\img\ui-bg_gloss-wave_35_f6a828_500x100.png" />
-    <Content Include="Content\Metro\img\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
-    <Content Include="Content\Metro\img\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
-    <Content Include="Content\Metro\img\ui-icons_222222_256x240.png" />
-    <Content Include="Content\Metro\img\ui-icons_228ef1_256x240.png" />
-    <Content Include="Content\Metro\img\ui-icons_888888_256x240.png" />
-    <Content Include="Content\Metro\img\ui-icons_ef8c08_256x240.png" />
-    <Content Include="Content\Metro\img\ui-icons_ffd27a_256x240.png" />
-    <Content Include="Content\Metro\img\ui-icons_ffffff_256x240.png" />
-    <Content Include="Content\Metro\img\vimeo.png" />
-    <Content Include="Content\Metro\img\vk.png" />
-    <Content Include="Content\Metro\img\walmart.png" />
-    <Content Include="Content\Metro\img\wordpress.png" />
-    <Content Include="Content\Metro\img\xing.png" />
-    <Content Include="Content\Metro\img\yahoo.png" />
-    <Content Include="Content\Metro\img\youtube.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -806,10 +542,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <None Include="Properties\PublishProfiles\Test.pubxml" />
     <None Include="Scripts\jquery-2.2.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.4.js" />
     <Content Include="Scripts\jquery-2.2.4.min.js" />
@@ -841,21 +578,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Metro\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="Content\Metro\img\css" />
-    <Content Include="Content\Metro\img\fontawesome-webfont.eot" />
-    <Content Include="Content\Metro\img\fontawesome-webfont.ttf" />
-    <Content Include="Content\Metro\img\fontawesome-webfont.woff" />
-    <Content Include="Content\Metro\img\glyphicons-regular.eot" />
-    <Content Include="Content\Metro\img\glyphicons-regular.ttf" />
-    <Content Include="Content\Metro\img\glyphicons-regular.woff" />
-    <Content Include="Content\Metro\img\glyphiconshalflings-regular.eot" />
-    <Content Include="Content\Metro\img\glyphiconshalflings-regular.ttf" />
-    <Content Include="Content\Metro\img\glyphiconshalflings-regular.woff" />
-    <Content Include="Content\Metro\img\js" />
     <None Include="Project_Readme.html" />
     <Content Include="Views\Index\Login.cshtml" />
     <Content Include="Views\AuthorityManage\RoleManage.cshtml" />
@@ -875,6 +602,10 @@
     <ProjectReference Include="..\NewCRM.ApplicationService\NewCRM.Application.Services.csproj">
       <Project>{053A2AA0-4738-4CF3-AA99-D805411BFC40}</Project>
       <Name>NewCRM.Application.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NewCRM.Dto\NewCRM.Dto.csproj">
+      <Project>{0C635AA2-3953-4AA0-A07F-CF8B1B7BBC6E}</Project>
+      <Name>NewCRM.Dto</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

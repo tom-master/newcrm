@@ -50,9 +50,13 @@
   <ItemGroup>
     <Compile Include="BaseService.cs" />
     <Compile Include="IAccountServices.cs" />
+    <Compile Include="IAppServices.cs" />
     <Compile Include="Impl\AccountServices.cs" />
+    <Compile Include="Impl\AppServices.cs" />
     <Compile Include="Impl\PlatformDomainService.cs" />
+    <Compile Include="Impl\UserSettingServices.cs" />
     <Compile Include="IPlatformDomainService.cs" />
+    <Compile Include="IUserSettingServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

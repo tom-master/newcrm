@@ -2,10 +2,12 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Net;
+using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.Repositories.IRepository.Account;
 using NewCRM.Domain.Entities.Repositories.IRepository.System;
 using NewCRM.Infrastructure.CommonTools;
+using NewCRM.Infrastructure.CommonTools.CustemException;
 
 namespace NewCRM.Domain.Services.Impl
 {
@@ -13,36 +15,37 @@ namespace NewCRM.Domain.Services.Impl
     public class AccountServices : IAccountServices
     {
 
+        #region private field
+
         [Import]
         private IUserRepository _useRepository;
 
+        [Import]
+        private IOnlineRepository _onlineRepository;
+        #endregion
 
-        private readonly IOnlineRepository _onlineRepository;
+        #region public method
 
-        public Boolean Validate(String userName, String password)
+
+
+        public Int32 Validate(String userName, String password)
         {
-            try
+            var userResult = _useRepository.Entities.FirstOrDefault(user => user.Name == userName);
+            if (userResult == null)
             {
-                var userResult = _useRepository.Entities.FirstOrDefault(user => user.Name == userName);
-                if (userResult == null)
-                {
-                    return false;
-                }
-                if (!PasswordUtil.ComparePasswords(userResult.LoginPassword, password))
-                {
-                    return false;
-                }
-                userResult.Online();
-
-                _onlineRepository.Add(new Online(GetCurrentIpAddress(), userResult.Id));
-
-                return true;
+                throw new BusinessException($"该用户不存在或被禁用{userName}");
             }
-            catch (Exception ex)
+            if (!PasswordUtil.ComparePasswords(userResult.LoginPassword, password))
             {
-
-                throw;
+                throw new BusinessException("密码错误");
             }
+            userResult.Online();
+
+            _useRepository.Update(userResult);
+
+            _onlineRepository.Add(new Online(GetCurrentIpAddress(), userResult.Id));
+
+            return userResult.Id;
 
         }
 
@@ -52,7 +55,7 @@ namespace NewCRM.Domain.Services.Impl
 
             if (!userResult.IsOnline)
             {
-                return;
+                throw new BusinessException("该用户可能已在其他地方下线");
             }
             userResult.Offline();
             _useRepository.Update(userResult);
@@ -60,12 +63,14 @@ namespace NewCRM.Domain.Services.Impl
             ModifyOnlineState(userId);
         }
 
-
-
         public void Disable(Int32 userId)
         {
             var userResult = _useRepository.Entities.FirstOrDefault(user => user.Id == userId);
 
+            if (userResult.IsDisable)
+            {
+                throw new BusinessException("该用户可能已在其他地方被禁用");
+            }
 
             userResult.Disable();
             userResult.Offline();
@@ -82,6 +87,16 @@ namespace NewCRM.Domain.Services.Impl
 
             _useRepository.Update(userResult);
         }
+
+        public User GetUserConfig(Int32 userId)
+        {
+            var userResult = _useRepository.Entities.FirstOrDefault(user => user.Id == userId);
+
+            return userResult;
+        }
+
+        #endregion
+
 
 
 

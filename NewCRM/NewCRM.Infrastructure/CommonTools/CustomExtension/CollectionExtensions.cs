@@ -90,7 +90,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         /// <returns> 查询的结果 </returns>
         public static IQueryable<T> WhereIf<T>(this IQueryable<T> source, Expression<Func<T, bool>> predicate, bool condition)
         {
-            _parameter.Vaildate(predicate);
+            _parameter.Validate(predicate);
             return condition ? source.Where(predicate) : source;
         }
 
@@ -105,7 +105,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> source, String propertyName,
             ListSortDirection sortDirection = ListSortDirection.Ascending)
         {
-            _parameter.Vaildate(propertyName);
+            _parameter.Validate(propertyName);
             return QueryableHelper<T>.OrderBy(source, propertyName, sortDirection);
         }
 
@@ -118,7 +118,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         /// <returns></returns>
         public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> source, PropertySortCondition sortCondition)
         {
-            _parameter.Vaildate(sortCondition);
+            _parameter.Validate(sortCondition);
             return source.OrderBy(sortCondition.PropertyName, sortCondition.ListSortDirection);
         }
 
@@ -133,7 +133,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         public static IOrderedQueryable<T> ThenBy<T>(this IOrderedQueryable<T> source, String propertyName,
             ListSortDirection sortDirection = ListSortDirection.Ascending)
         {
-            _parameter.Vaildate(propertyName);
+            _parameter.Validate(propertyName);
             return QueryableHelper<T>.ThenBy(source, propertyName, sortDirection);
         }
 
@@ -146,7 +146,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         /// <returns></returns>
         public static IOrderedQueryable<T> ThenBy<T>(this IOrderedQueryable<T> source, PropertySortCondition sortCondition)
         {
-            _parameter.Vaildate(sortCondition);
+            _parameter.Validate(sortCondition);
             return source.ThenBy(sortCondition.PropertyName, sortCondition.ListSortDirection);
         }
 
@@ -164,7 +164,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         public static IQueryable<TEntity> Where<TEntity>(this IQueryable<TEntity> source, Expression<Func<TEntity, bool>> predicate, int pageIndex, int pageSize,
             out int total, PropertySortCondition[] sortConditions = null) where TEntity : DomainModelBase
         {
-            _parameter.Vaildate(source).Vaildate(predicate).Vaildate(pageIndex).Vaildate(pageSize);
+            _parameter.Validate(source).Validate(predicate).Validate(pageIndex).Validate(pageSize);
 
             total = source.Count(predicate);
             if (sortConditions == null || sortConditions.Length == 0)

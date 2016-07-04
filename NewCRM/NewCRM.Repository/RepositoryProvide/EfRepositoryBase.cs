@@ -63,7 +63,7 @@ namespace NewCRM.Repository.RepositoryProvide
         /// <param name="isSave"> 是否执行保存 </param>
         public virtual void Add(TEntity entity, bool isSave = true)
         {
-            VaildateParameter.Vaildate(entity);
+            VaildateParameter.Validate(entity);
             EfContext.RegisterNew<TEntity, Int32>(entity);
             if (isSave)
             {
@@ -82,7 +82,7 @@ namespace NewCRM.Repository.RepositoryProvide
         /// <param name="isSave"> 是否执行保存 </param>
         public virtual void Add(IEnumerable<TEntity> entities, bool isSave = true)
         {
-            VaildateParameter.Vaildate(entities);
+            VaildateParameter.Validate(entities);
             EfContext.RegisterNew<TEntity, Int32>(entities);
             if (isSave)
             {
@@ -101,7 +101,7 @@ namespace NewCRM.Repository.RepositoryProvide
         /// <param name="isSave"> 是否执行保存 </param>
         public virtual void Remove(Int32 id, bool isSave = true)
         {
-            VaildateParameter.Vaildate(id);
+            VaildateParameter.Validate(id);
             TEntity entity = EfContext.Set<TEntity, Int32>().Find(id);
             if (entity != null)
             {
@@ -120,7 +120,7 @@ namespace NewCRM.Repository.RepositoryProvide
         /// <param name="isSave"> 是否执行保存 </param>
         public virtual void Remove(TEntity entity, bool isSave = true)
         {
-            VaildateParameter.Vaildate(entity);
+            VaildateParameter.Validate(entity);
             EfContext.RegisterDeleted<TEntity, Int32>(entity);
             if (isSave)
             {
@@ -139,7 +139,7 @@ namespace NewCRM.Repository.RepositoryProvide
         /// <param name="isSave"> 是否执行保存 </param>
         public virtual void Remove(IEnumerable<TEntity> entities, bool isSave = true)
         {
-            VaildateParameter.Vaildate(entities);
+            VaildateParameter.Validate(entities);
             EfContext.RegisterDeleted<TEntity, Int32>(entities);
             if (isSave)
             {
@@ -158,7 +158,7 @@ namespace NewCRM.Repository.RepositoryProvide
         /// <param name="isSave"> 是否执行保存 </param>
         public virtual void Remove(Expression<Func<TEntity, bool>> predicate, bool isSave = true)
         {
-            VaildateParameter.Vaildate(predicate);
+            VaildateParameter.Validate(predicate);
             IList<TEntity> entities = EfContext.Set<TEntity, Int32>().Where(predicate).ToList();
             if (entities.Any())
             {
@@ -177,7 +177,7 @@ namespace NewCRM.Repository.RepositoryProvide
         /// <param name="isSave"> 是否执行保存 </param>
         public virtual void Update(TEntity entity, bool isSave = true)
         {
-            VaildateParameter.Vaildate(entity);
+            VaildateParameter.Validate(entity);
             EfContext.RegisterModified<TEntity, Int32>(entity);
             if (isSave)
             {

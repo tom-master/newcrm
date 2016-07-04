@@ -34,8 +34,11 @@
     <Reference Include="AutoMapper">
       <HintPath>..\..\..\AutoMapper\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="NewCRM.Domain">
-      <HintPath>..\NewCRM.Domain\bin\Debug\NewCRM.Domain.dll</HintPath>
+    <Reference Include="NewCRM.Domain.Entities">
+      <HintPath>..\NewCRM.Domain\bin\Debug\NewCRM.Domain.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="NewCRM.Infrastructure">
+      <HintPath>..\NewCRM.Infrastructure\bin\Debug\NewCRM.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

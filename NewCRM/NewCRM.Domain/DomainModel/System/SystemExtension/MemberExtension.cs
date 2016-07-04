@@ -97,6 +97,18 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             IsDeleted = true;
         }
 
+        public Member MoveInDock()
+        {
+            IsOnDock = true;
+            return this;
+        }
+
+        public Member MoveOutDock()
+        {
+            IsOnDock = false;
+            return this;
+        }
+
         #endregion
 
     }

@@ -14,7 +14,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
         /// 验证引用类型是否合法
         /// </summary>
         /// <param name="vaildateParameter"></param>
-        public Parameter Vaildate(Object vaildateParameter)
+        public Parameter Validate(Object vaildateParameter)
         {
             var parameterString = vaildateParameter.GetType().Name;
             if (vaildateParameter == null)
@@ -29,7 +29,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
         /// </summary>
         /// <param name="parameter"></param>
         /// <param name="canZero"></param>
-        public Parameter Vaildate(ValueType parameter, bool canZero = false)
+        public Parameter Validate(ValueType parameter, bool canZero = false)
         {
             Type type = parameter.GetType();
             if (type.IsValueType && type.IsNumeric())

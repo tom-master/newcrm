@@ -42,9 +42,15 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// 修改应用的排列方向
         /// </summary>
         /// <param name="appAlignModeEnum"></param>
-        public Config ModifyAppDirection(AppAlignMode appAlignModeEnum)
+        public Config ModifyAppDirectionToY()
         {
-            AppXy = appAlignModeEnum;
+            AppXy = AppAlignMode.Y;
+            return this;
+        }
+
+        public Config ModifyAppDirectionToX()
+        {
+            AppXy = AppAlignMode.X;
             return this;
         }
 

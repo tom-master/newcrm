@@ -11,10 +11,10 @@
     </div>
     <div id="desk">
         @{
-            for (int i = 1; i <= userResult.UserConfigure.DeskCount; i++)
+            foreach (var desk in userResult.Desks)
             {
                 <text>
-                    <div id="desk-@i" class="desktop-container">
+                    <div id="desk-@desk.DeskNumber" class="desktop-container">
                         <div class="desktop-apps-container"></div>
                         <div class="scrollbar scrollbar-x"></div>
                         <div class="scrollbar scrollbar-y"></div>
@@ -41,16 +41,18 @@
                     </div>
                     <div class="dock-pagination">
                         @{
-                            for (int i = 1; i <= userResult.UserConfigure.DeskCount; i++)
+
+
+                            foreach (var desk in userResult.Desks)
                             {
-                                var deskIndex = i;
+                                var deskIndex = desk.DeskNumber;
                                 <text>
                                     <a class="pagination pagination-@deskIndex" href="javascript:void(0);" index="@deskIndex" title="切换至桌面@{@deskIndex}，快捷键：Ctrl + @deskIndex">
                                         <span class="pagination-icon-bg"></span>
                                         <span class="pagination-icon pagination-icon-@deskIndex">@deskIndex</span>
                                     </a>
                                 </text>
-    }
+                             }
                         }
                     </div>
                 </div>
@@ -100,7 +102,7 @@
 
         @{
 
-            for (var i = 1; i <= userResult.UserConfigure.DeskCount; i++)
+            for (var i = 1; i <= userResult.Desks.Count; i++)
             {
                 if (i == 1)
                 {
@@ -111,26 +113,25 @@
                             <div class="scrollBar"></div>
                         </div>
                     </div>
-    }
-    else
-    {
-        <div class="folderItem" data-deskname="桌面@{@i}">
-            <div class="folder_bg"></div>
-            <div class="folderOuter">
-                <div class="folderInner" desk="@i">@i</div>
-                <div class="scrollBar"></div>
-            </div>
-            <div class="amg_line_y"></div>
-        </div>
-        }
-
-    }
+                }
+                else
+                {
+                    <div class="folderItem" data-deskname="桌面@{@i}">
+                        <div class="folder_bg"></div>
+                        <div class="folderOuter">
+                            <div class="folderInner" desk="@i">@i</div>
+                            <div class="scrollBar"></div>
+                        </div>
+                        <div class="amg_line_y"></div>
+                    </div>
+                }
+            }
         }
     </div>
 </div>
 <script>
     $(function () {
-        $.cookie('memberID', '@userResult.Id');
+        $.cookie('memberID', '@userResult.UserId');
 
         document.body.onselectstart = document.body.ondrag = function () {
             return false;
@@ -138,13 +139,13 @@
         $(".loading").hide();
         $("#desktop").show();
 
-        HROS.CONFIG.dockPos = '@userResult.UserConfigure.DockPosition';
-        HROS.CONFIG.appXY = '@userResult.UserConfigure.AppXy';
-        HROS.CONFIG.appSize = '@userResult.UserConfigure.AppSize';
+        HROS.CONFIG.dockPos = '@userResult.DockPosition';
+        HROS.CONFIG.appXY = '@userResult.AppXy';
+        HROS.CONFIG.appSize = '@userResult.AppSize';
         HROS.CONFIG.desk = '1';
-        HROS.CONFIG.appHorizontalSpacing = '@userResult.UserConfigure.AppHorizontalSpacing';
-        HROS.CONFIG.appVerticalSpacing = '@userResult.UserConfigure.AppVerticalSpacing';
-        HROS.CONFIG.deskCount = parseInt('@userResult.UserConfigure.DeskCount');
+        HROS.CONFIG.appHorizontalSpacing = '@userResult.AppHorizontalSpacing';
+        HROS.CONFIG.appVerticalSpacing = '@userResult.AppVerticalSpacing';
+        HROS.CONFIG.deskCount = parseInt('@userResult.Desks.Count');
         HROS.base.init();
     })
 </script>

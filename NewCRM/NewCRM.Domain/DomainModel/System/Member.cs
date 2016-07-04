@@ -53,6 +53,12 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// </summary>
         public String IconUrl { get; private set; }
 
+        /// <summary>
+        /// 成员是否在应用码头上
+        /// </summary>
+
+        public Boolean IsOnDock { get; private set; }
+
 
         /// <summary>
         /// 成员类型

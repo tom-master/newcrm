@@ -27,8 +27,9 @@ namespace NewCRM.Infrastructure.CommonTools
 
             Byte[] saltedPassword = CreateSaltedPassword(saltValue, hashedPwd);
 
-       
-            return CompareByteArray(dbPwd, saltedPassword);
+            var result = CompareByteArray(dbPwd, saltedPassword);
+
+            return result;
 
 
         }

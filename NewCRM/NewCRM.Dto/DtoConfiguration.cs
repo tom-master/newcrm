@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
-using NewCRM.Domain.DomainModel.Account;
+using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Dto.Dto;
+using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Dto
 {
@@ -10,9 +11,31 @@ namespace NewCRM.Dto
 
         static DtoConfiguration()
         {
-            #region user
-            Mapper.CreateMap<User, UserDto>();
-            Mapper.CreateMap<UserDto, User>();
+            #region Domain To Dto
+
+            Mapper.CreateMap<User, UserDto>()
+                .ForMember(dto => dto.Name, user => user.MapFrom(u => u.Name))
+                .ForMember(dto => dto.Title, user => user.MapFrom(u => u.Title.Name))
+                .ForMember(dto => dto.IsOnline, user => user.MapFrom(u => u.IsOnline))
+                .ForMember(dto => dto.Skin, user => user.MapFrom(u => u.Config.Skin))
+                .ForMember(dto => dto.UserFace, user => user.MapFrom(u => u.Config.UserFace))
+                .ForMember(dto => dto.AppSize, user => user.MapFrom(u => u.Config.AppSize))
+                .ForMember(dto => dto.AppVerticalSpacing, user => user.MapFrom(u => u.Config.AppVerticalSpacing))
+                .ForMember(dto => dto.AppHorizontalSpacing, user => user.MapFrom(u => u.Config.AppHorizontalSpacing))
+                .ForMember(dto => dto.DefaultDeskNumber, user => user.MapFrom(u => u.Config.DefaultDeskNumber))
+                .ForMember(dto => dto.WallpaperMode, user => user.MapFrom(u => u.Config.WallpaperMode.ToString()))
+                .ForMember(dto => dto.AppXy, user => user.MapFrom(u => u.Config.AppXy.ToString()))
+                .ForMember(dto => dto.DockPosition, user => user.MapFrom(u => u.Config.DockPosition.ToString()))
+                .ForMember(dto => dto.WallpaperUrl, user => user.MapFrom(u => u.Config.Wallpaper.Url))
+                .ForMember(dto => dto.WallpaperWidth, user => user.MapFrom(u => u.Config.Wallpaper.Width))
+                .ForMember(dto => dto.WallpaperHeigth, user => user.MapFrom(u => u.Config.Wallpaper.Heigth))
+                .ForMember(dto => dto.WallpaperSource, user => user.MapFrom(u => u.Config.Wallpaper.Source))
+                .ForMember(dto => dto.Desks, user => user.MapFrom(u => u.Config.Desks))
+                .ForMember(dto => dto.UserId, user => user.MapFrom(u => u.Id))
+                .ForMember(dto=>dto.ConfigId,user=>user.MapFrom(u=>u.Config.Id));
+
+
+
             #endregion
         }
 

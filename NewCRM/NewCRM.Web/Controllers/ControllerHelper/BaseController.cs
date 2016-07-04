@@ -2,15 +2,14 @@
 using System.Web.Mvc;
 using System.Text;
 using System.ComponentModel.Composition;
+using NewCRM.Dto.Dto;
 
 namespace NewCRM.Web.Controllers.ControllerHelper
 {
-
-
     public class BaseController : Controller
     {
 
-        //public static UserDto CurrentUser { get; set; }
+        public static UserDto CurrentUser { get; set; }
 
 
         //public IPlantformApplicationService PlantformApplicationService => new PlantformApplicationService();

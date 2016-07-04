@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 
 
+using System.ComponentModel.Composition;
 using NewCRM.Domain.Entities.DomainModel.System;
 
 namespace NewCRM.Domain.Entities.Repositories.IRepository.System
@@ -15,6 +16,7 @@ namespace NewCRM.Domain.Entities.Repositories.IRepository.System
     /// <summary>
     ///   仓储操作层接口——应用
     /// </summary>
+    [InheritedExport(typeof(IAppRepository))]
     public partial interface IAppRepository : IRepository<App>
     { }
 }
