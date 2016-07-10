@@ -1,58 +1,24 @@
 ﻿@{
     Layout = "~/Views/Shared/_LayoutRoot.cshtml";
 }
-<!DOCTYPE html>
+
+
 <html>
 <head>
-    <title></title>
+    <link href="@Url.Content("~/Scripts/HoorayUI/js/bootstrap/css/bootstrap.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/HoorayUI/css/globle.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/HoorayUI/css/sys.css")" rel="stylesheet" />
+  
+
+
 </head>
 <body>
     @RenderBody()
 </body>
 </html>
-<link href="@Url.Content("~/Scripts/HoorayUI/js/bootstrap/css/bootstrap.min.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Scripts/HoorayUI/css/globle.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Scripts/HoorayUI/css/sys.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Scripts/HoorayUI/js/webuploader-0.1.5/webuploader.css")" rel="stylesheet" />
-<script src="@Url.Content("~/Scripts/HoorayUI/js/bootstrap/js/bootstrap.min.js")"></script>
-<script>
-    $(function () {
-        //配置artDialog全局默认参数
-        (function (config) {
-            config['lock'] = true;
-            config['fixed'] = true;
-            config['resize'] = false;
-            config['background'] = '#000';
-            config['opacity'] = 0.5;
-        })($.dialog.defaults);
-        //toolTip
-        $('[rel="tooltip"]').tooltip();
-        //表单提示
-        $("[datatype]").focusin(function () {
-            $(this).parent().addClass('info').children('.infomsg').show().siblings('.help-inline').hide();
-        }).focusout(function () {
-            $(this).parent().removeClass('info').children('.infomsg').hide().siblings('.help-inline').show();
-        });
+ 
+@section script
+{}
 
-        openDetailIframe = function (url) {
-            ZENG.msgbox.show('正在载入中，请稍后...', 6, 100000);
-            $('#detailIframe iframe').attr('src', url).load(function () {
-                $('body').css('overflow', 'hidden');
-                ZENG.msgbox._hide();
-                $('#detailIframe').animate({
-                    'top': 0,
-                    'opacity': 'show'
-                }, 500);
-            });
-        };
-        closeDetailIframe = function (callback) {
-            $('body').css('overflow', 'auto');
-            $('#detailIframe').animate({
-                'top': '-100px',
-                'opacity': 'hide'
-            }, 500, function () {
-                callback && callback();
-            });
-        };
-    });
-</script>
+
+

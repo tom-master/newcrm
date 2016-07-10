@@ -47,6 +47,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -87,7 +88,8 @@
     <Compile Include="RepositoryProvide\EfRepositoryBase.cs" />
     <Compile Include="Configuration\IMappers\IEntityMappercs.cs" />
     <Compile Include="NewCrmBackSite.cs" />
-    <Compile Include="UnitOfWorkProvide\EfUnitOfWorkContext.cs" />
+    <Compile Include="UnitOfWorkProvide\EFUnitOfWorkContext.cs" />
+    <Compile Include="UnitOfWorkProvide\UnitOfWorkContextExtensions.cs" />
     <Compile Include="UnitOfWorkProvide\UnitOfWorkContextBase.cs" />
   </ItemGroup>
   <ItemGroup>

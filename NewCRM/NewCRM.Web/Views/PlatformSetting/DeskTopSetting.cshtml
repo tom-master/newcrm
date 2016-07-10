@@ -68,7 +68,7 @@
             <td colspan="3">
                 <div class="set_top form-inline">
                     <label class="radio">
-                        <input type="radio" name="dockpos" value="top" @{ if (userData.DockPosition.ToLower() == "top") { <text> checked="checked" </text>                      } }>顶部
+                        <input type="radio" name="dockpos" value="Top" @{ if (userData.DockPosition.ToLower() == "top") { <text> checked="checked" </text>                      } }>顶部
                     </label>
                 </div>
             </td>
@@ -77,18 +77,18 @@
             <td width="75">
                 <div class="set_left form-inline">
                     <label class="radio">
-                        <input type="radio" name="dockpos" value="left" @{ if (userData.DockPosition.ToLower() == "left") { <text> checked="checked" </text>                     } }>左侧
+                        <input type="radio" name="dockpos" value="Left" @{ if (userData.DockPosition.ToLower() == "left") { <text> checked="checked" </text>                     } }>左侧
                     </label>
                 </div>
             </td>
             <td class="set_view set_view_@{var position = userData.DockPosition; <text>@position</text>}"></td>
             <td width="75">
-                <div class="set_right form-inline"><label class="radio"><input type="radio" name="dockpos" value="right" @{ if (userData.DockPosition.ToLower() == "right") { <text> checked="checked" </text>                     } }>右侧</label></div>
+                <div class="set_right form-inline"><label class="radio"><input type="radio" name="dockpos" value="Right" @{ if (userData.DockPosition.ToLower() == "right") { <text> checked="checked" </text>                     } }>右侧</label></div>
             </td>
         </tr>
         <tr>
             <td colspan="3">
-                <div class="set_none form-inline"><label class="radio"><input type="radio" name="dockpos" value="none" @{ if (userData.DockPosition.ToLower() == "none") { <text> checked="checked" </text>                    } }>停用并隐藏（如果应用码头存在应用，则会将应用转移到当前桌面）</label></div>
+                <div class="set_none form-inline"><label class="radio"><input type="radio" name="dockpos" value="None" @{ if (userData.DockPosition.ToLower() == "none") { <text> checked="checked" </text>                    } }>停用并隐藏（如果应用码头存在应用，则会将应用转移到当前桌面）</label></div>
             </td>
         </tr>
     </table>
@@ -125,8 +125,8 @@
         var updateSize = function (size) {
             if (size < 32) {
                 size = 32;
-            } else if (size > 50) {
-                size = 50;
+            } else if (size > 64) {
+                size = 64;
             }
             $('input[name="appsize"]').val(size);
             window.parent.HROS.app.updateSize(size);
@@ -151,7 +151,7 @@
                 vertical = 0;
             } else if (vertical > 100) {
                 vertical = 100;
-            }
+            } 
             $('input[name="appverticalspacing"]').val(vertical);
             window.parent.HROS.app.updateVertical(vertical);
         };
@@ -181,6 +181,7 @@
 
         //更新应用码头位置
         $('input[name="dockpos"]').change(function () {
+            
             var pos = $('input[name="dockpos"]:checked').val();
             $('.set_view').removeClass('set_view_top set_view_left set_view_right set_view_none');
             $('.set_view').addClass('set_view_' + pos);

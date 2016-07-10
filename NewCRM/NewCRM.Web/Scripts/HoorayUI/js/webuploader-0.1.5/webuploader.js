@@ -11,11 +11,11 @@
 
         // 内部require, 简单不完全实现。
         // https://github.com/amdjs/amdjs-api/wiki/require
-        _require = function( deps, callback ) {
+        _require = function (deps, callback) {
             var args, len, i;
 
             // 如果deps不是数组，则直接返回指定module
-            if ( typeof deps === 'String' ) {
+            if ( typeof deps === 'string' ) {
                 return getModule( deps );
             } else {
                 args = [];
@@ -28,7 +28,8 @@
         },
 
         // 内部define，暂时不支持不指定id.
-        _define = function( id, deps, factory ) {
+        _define = function (id, deps, factory) {
+              
             if ( arguments.length === 2 ) {
                 factory = deps;
                 deps = null;
@@ -40,7 +41,9 @@
         },
 
         // 设置module, 兼容CommonJs写法。
-        setModule = function( id, factory, args ) {
+        setModule = function (id, factory, args) {
+                
+              
             var module = {
                     exports: factory
                 },
@@ -56,10 +59,11 @@
         },
 
         // 根据id获取module
-        getModule = function( id ) {
+        getModule = function (id) {
+             
             var module = modules[ id ] || root[ id ];
 
-            if ( !module ) {
+            if (!module) {
                 throw new Error( '`' + id + '` is undefined' );
             }
 
@@ -98,7 +102,7 @@
 
         makeExport = function( dollar ) {
             root.__dollar = dollar;
-
+              
             // exports every module.
             return exportsTo( factory( root, _define, _require ) );
         },
@@ -234,7 +238,7 @@
         return {
     
             /**
-             * @property {String} version 当前版本号。
+             * @property {string} version 当前版本号。
              */
             version: '0.1.5',
     
@@ -441,8 +445,8 @@
             /**
              * 生成唯一的ID
              * @method guid
-             * @grammar Base.guid() => String
-             * @grammar Base.guid( prefx ) => String
+             * @grammar Base.guid() => string
+             * @grammar Base.guid( prefx ) => string
              */
             guid: (function() {
                 var counter = 0;
@@ -462,9 +466,9 @@
             /**
              * 格式化文件大小, 输出成带单位的字符串
              * @method formatSize
-             * @grammar Base.formatSize( size ) => String
-             * @grammar Base.formatSize( size, pointLength ) => String
-             * @grammar Base.formatSize( size, pointLength, units ) => String
+             * @grammar Base.formatSize( size ) => string
+             * @grammar Base.formatSize( size, pointLength ) => string
+             * @grammar Base.formatSize( size, pointLength, units ) => string
              * @param {Number} size 文件大小
              * @param {Number} [pointLength=2] 精确到的小数点数。
              * @param {Array} [units=[ 'B', 'K', 'M', 'G', 'TB' ]] 单位数组。从字节，到千字节，一直往上指定。如果单位数组里面只指定了到了K(千字节)，同时文件大小大于M, 此方法的输出将还是显示成多少K.
@@ -570,7 +574,7 @@
              *
              * @method on
              * @grammar on( name, callback[, context] ) => self
-             * @param  {String}   name     事件名，支持多个事件用空格隔开
+             * @param  {string}   name     事件名，支持多个事件用空格隔开
              * @param  {Function} callback 事件处理器
              * @param  {Object}   [context]  事件处理器的上下文。
              * @return {self} 返回自身，方便链式
@@ -605,7 +609,7 @@
              * 绑定事件，且当handler执行完后，自动解除绑定。
              * @method once
              * @grammar once( name, callback[, context] ) => self
-             * @param  {String}   name     事件名
+             * @param  {string}   name     事件名
              * @param  {Function} callback 事件处理器
              * @param  {Object}   [context]  事件处理器的上下文。
              * @return {self} 返回自身，方便链式
@@ -635,7 +639,7 @@
              * 解除事件绑定
              * @method off
              * @grammar off( [name[, callback[, context] ] ] ) => self
-             * @param  {String}   [name]     事件名
+             * @param  {string}   [name]     事件名
              * @param  {Function} [callback] 事件处理器
              * @param  {Object}   [context]  事件处理器的上下文。
              * @return {self} 返回自身，方便链式
@@ -666,7 +670,7 @@
              * 触发事件
              * @method trigger
              * @grammar trigger( name[, args...] ) => self
-             * @param  {String}   type     事件名
+             * @param  {string}   type     事件名
              * @param  {*} [...] 任意参数
              * @return {Boolean} 如果handler中return false了，则返回false, 否则返回true
              */
@@ -979,7 +983,7 @@
     
         /**
          * 添加Runtime实现。
-         * @param {String} type    类型
+         * @param {string} type    类型
          * @param {Runtime} factory 具体Runtime实现。
          */
         Runtime.addRuntime = function( type, factory ) {
@@ -1079,7 +1083,7 @@
     
                 deferred.done( cb );
     
-                if ( typeof opts === 'String' && cache.get( opts ) ) {
+                if ( typeof opts === 'string' && cache.get( opts ) ) {
                     runtime = cache.get( opts );
                 }
     
@@ -1225,7 +1229,7 @@
                 return true;
             }
     
-            return type === 'array' || type !== 'function' && type !== 'String' &&
+            return type === 'array' || type !== 'function' && type !== 'string' &&
                     (length === 0 || typeof length === 'number' && length > 0 &&
                     (length - 1) in obj);
         }
@@ -1277,7 +1281,7 @@
         $.extend( Uploader.prototype, {
     
             /**
-             * @property {String | Array} [disableWidgets=undefined]
+             * @property {string | Array} [disableWidgets=undefined]
              * @namespace options
              * @for Uploader
              * @description 默认所有 Uploader.register 了的 widget 都会被加载，如果禁用某一部分，请通过此 option 指定黑名单。
@@ -1408,7 +1412,7 @@
         /**
          * 删除插件，只有在注册时指定了名字的才能被删除。
          * @grammar Uploader.unRegister(name);
-         * @param  {String} name 组件名字
+         * @param  {string} name 组件名字
          * @method Uploader.unRegister
          * @for Uploader
          * @example
@@ -1829,8 +1833,8 @@
              * @description 指定选择文件的按钮容器，不指定则不创建按钮。
              *
              * * `id` {Seletor|dom} 指定选择文件的按钮容器，不指定则不创建按钮。**注意** 这里虽然写的是 id, 但是不是只支持 id, 还支持 class, 或者 dom 节点。
-             * * `label` {String} 请采用 `innerHTML` 代替
-             * * `innerHTML` {String} 指定按钮文字。不指定时优先从指定的容器中看是否自带文字。
+             * * `label` {string} 请采用 `innerHTML` 代替
+             * * `innerHTML` {string} 指定按钮文字。不指定时优先从指定的容器中看是否自带文字。
              * * `multiple` {Boolean} 是否开起同时选择多个文件能力。
              */
             pick: null,
@@ -1841,9 +1845,9 @@
              * @for Uploader
              * @description 指定接受哪些类型的文件。 由于目前还有ext转mimeType表，所以这里需要分开指定。
              *
-             * * `title` {String} 文字描述
-             * * `extensions` {String} 允许的文件后缀，不带点，多个用逗号分割。
-             * * `mimeTypes` {String} 多个用逗号分割。
+             * * `title` {string} 文字描述
+             * * `extensions` {string} 允许的文件后缀，不带点，多个用逗号分割。
+             * * `mimeTypes` {string} 多个用逗号分割。
              *
              * 如：
              *
@@ -2387,7 +2391,7 @@
             /**
              * 文件名，包括扩展名（后缀）
              * @property name
-             * @type {String}
+             * @type {string}
              */
             this.name = source.name || 'Untitled';
     
@@ -2402,7 +2406,7 @@
             /**
              * 文件MIMETYPE类型，与文件类型的对应关系请参考[http://t.cn/z8ZnFny](http://t.cn/z8ZnFny)
              * @property type
-             * @type {String}
+             * @type {string}
              * @default 'application/octet-stream'
              */
             this.type = source.type || 'application/octet-stream';
@@ -2418,14 +2422,14 @@
             /**
              * 文件ID，每个对象具有唯一ID，与文件名无关
              * @property id
-             * @type {String}
+             * @type {string}
              */
             this.id = gid();
     
             /**
              * 文件扩展名，通过文件名获取，例如test.png的扩展名为png
              * @property ext
-             * @type {String}
+             * @type {string}
              */
             this.ext = rExt.exec( this.name ) ? RegExp.$1 : '';
     
@@ -2433,7 +2437,7 @@
             /**
              * 状态文字说明。在不同的status语境下有不同的用途。
              * @property statusText
-             * @type {String}
+             * @type {string}
              */
             this.statusText = '';
     
@@ -2454,8 +2458,8 @@
              * 设置状态，状态变化时会触发`change`事件。
              * @method setStatus
              * @grammar setStatus( status[, statusText] );
-             * @param {File.Status|String} status [文件状态值](#WebUploader:File:File.Status)
-             * @param {String} [statusText=''] 状态说明，常在error时使用，用http, abort,server等来标记是由于什么原因导致文件错误。
+             * @param {File.Status|string} status [文件状态值](#WebUploader:File:File.Status)
+             * @param {string} [statusText=''] 状态说明，常在error时使用，用http, abort,server等来标记是由于什么原因导致文件错误。
              */
             setStatus: function( status, text ) {
     
@@ -2621,11 +2625,11 @@
              * 获取文件对象
              *
              * @method getFile
-             * @param  {String} fileId   文件ID
+             * @param  {string} fileId   文件ID
              * @return {File}
              */
             getFile: function( fileId ) {
-                if ( typeof fileId !== 'String' ) {
+                if ( typeof fileId !== 'string' ) {
                     return fileId;
                 }
                 return this._map[ fileId ];
@@ -2635,7 +2639,7 @@
              * 从队列中取出一个指定状态的文件。
              * @grammar fetch( status ) => File
              * @method fetch
-             * @param {String} status [文件状态值](#WebUploader:File:File.Status)
+             * @param {string} status [文件状态值](#WebUploader:File:File.Status)
              * @return {File} [File](#WebUploader:File)
              */
             fetch: function( status ) {
@@ -2671,7 +2675,7 @@
              * 获取指定类型的文件列表, 列表中每一个成员为[File](#WebUploader:File)对象。
              * @grammar getFiles( [status1[, status2 ...]] ) => Array
              * @method getFiles
-             * @param {String} [status] [文件状态值](#WebUploader:File:File.Status)
+             * @param {string} [status] [文件状态值](#WebUploader:File:File.Status)
              */
             getFiles: function() {
                 var sts = [].slice.call( arguments, 0 ),
@@ -3125,7 +3129,7 @@
     
             /**
              * 预测Uploader将采用哪个`Runtime`
-             * @grammar predictRuntimeType() => String
+             * @grammar predictRuntimeType() => string
              * @method predictRuntimeType
              * @for  Uploader
              */
@@ -3958,7 +3962,7 @@
             /**
              * @event uploadError
              * @param {File} file File对象
-             * @param {String} reason 出错的code
+             * @param {string} reason 出错的code
              * @description 当文件上传出错时触发。
              * @for  Uploader
              */
@@ -4146,7 +4150,7 @@
     
         /**
          * @event error
-         * @param {String} type 错误类型。
+         * @param {string} type 错误类型。
          * @description 当validate不通过时，会以派送错误事件的形式通知调用者。通过`upload.on('error', handler)`可以捕获到此类错误，目前有以下错误会在特定的情况下派送错来。
          *
          * * `Q_EXCEED_NUM_LIMIT` 在设置了`fileNumLimit`且尝试给`uploader`添加的文件数量超出这个值时派送。
@@ -6083,7 +6087,7 @@
                 }
     
                 function initCharLookupTable(){
-                    var sfcc = String.fromCharCode;
+                    var sfcc = string.fromCharCode;
                     for(var i=0; i < 256; i++){ ///// ACHTUNG // 255
                         clt[i] = sfcc(i);
                     }
@@ -7203,15 +7207,15 @@
     
     
         /**
-         * Appends a String.
-         * A conversion will be applied if an utf8 String is detected.
+         * Appends a string.
+         * A conversion will be applied if an utf8 string is detected.
          *
-         * @param {String} str The String to be appended
+         * @param {string} str The string to be appended
          *
          * @return {SparkMD5} The instance itself
          */
         SparkMD5.prototype.append = function (str) {
-            // converts the String to utf8 bytes if necessary
+            // converts the string to utf8 bytes if necessary
             if (/[\u0080-\uFFFF]/.test(str)) {
                 str = unescape(encodeURIComponent(str));
             }
@@ -7223,9 +7227,9 @@
         };
     
         /**
-         * Appends a binary String.
+         * Appends a binary string.
          *
-         * @param {String} contents The binary String to be appended
+         * @param {string} contents The binary string to be appended
          *
          * @return {SparkMD5} The instance itself
          */
@@ -7252,7 +7256,7 @@
          *
          * @param {Boolean} raw True to get the raw result, false to get the hex result
          *
-         * @return {String|Array} The result
+         * @return {string|Array} The result
          */
         SparkMD5.prototype.end = function (raw) {
             var buff = this._buff,
@@ -7330,16 +7334,16 @@
     
     
         /**
-         * Performs the md5 hash on a String.
-         * A conversion will be applied if utf8 String is detected.
+         * Performs the md5 hash on a string.
+         * A conversion will be applied if utf8 string is detected.
          *
-         * @param {String}  str The String
+         * @param {string}  str The string
          * @param {Boolean} raw True to get the raw result, false to get the hex result
          *
-         * @return {String|Array} The result
+         * @return {string|Array} The result
          */
         SparkMD5.hash = function (str, raw) {
-            // converts the String to utf8 bytes if necessary
+            // converts the string to utf8 bytes if necessary
             if (/[\u0080-\uFFFF]/.test(str)) {
                 str = unescape(encodeURIComponent(str));
             }
@@ -7350,12 +7354,12 @@
         };
     
         /**
-         * Performs the md5 hash on a binary String.
+         * Performs the md5 hash on a binary string.
          *
-         * @param {String}  content The binary String
+         * @param {string}  content The binary string
          * @param {Boolean} raw     True to get the raw result, false to get the hex result
          *
-         * @return {String|Array} The result
+         * @return {string|Array} The result
          */
         SparkMD5.hashBinary = function (content, raw) {
             var hash = md51(content);
@@ -7408,7 +7412,7 @@
          *
          * @param {Boolean} raw True to get the raw result, false to get the hex result
          *
-         * @return {String|Array} The result
+         * @return {string|Array} The result
          */
         SparkMD5.ArrayBuffer.prototype.end = function (raw) {
             var buff = this._buff,
@@ -7474,7 +7478,7 @@
          * @param {ArrayBuffer} arr The array buffer
          * @param {Boolean}     raw True to get the raw result, false to get the hex result
          *
-         * @return {String|Array} The result
+         * @return {string|Array} The result
          */
         SparkMD5.ArrayBuffer.hash = function (arr, raw) {
             var hash = md51_array(new Uint8Array(arr));
@@ -7770,7 +7774,7 @@
     
             //     this.flashExec( 'Image', 'init', options );
             //     owner.on( 'load', function() {
-            //         debugger;
+            //          ;
             //     });
             // },
     

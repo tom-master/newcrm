@@ -57,31 +57,28 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// <summary>
         /// 更新显示的图标大小
         /// </summary>
-        /// <param name="displayLength"></param>
-        public Config ModifyDisplayIconLength(Int32 displayLength)
+        public Config ModifyDisplayIconLength(Int32 newSize)
         {
-            AppSize = displayLength <= 64 ? displayLength : 64;
+            AppSize = newSize <= 50 ? newSize : 50;
             return this;
         }
 
         /// <summary>
         /// 更新应用的垂直间距
         /// </summary>
-        /// <param name="verticalSpacingLength"></param>
-        public Config ModifyAppVerticalSpacingLength(Int32 verticalSpacingLength)
+        public Config ModifyAppVerticalSpacingLength(Int32 newLength)
         {
-            AppVerticalSpacing = verticalSpacingLength <= 100 ? verticalSpacingLength : 100;
-
+            AppVerticalSpacing = newLength < 100 ? newLength : 100;
             return this;
         }
 
         /// <summary>
         /// 更新应用的水平间距
         /// </summary>
-        /// <param name="horizontalSpacingLength"></param>
-        public Config ModifyAppHorizontalSpacingLength(Int32 horizontalSpacingLength)
+
+        public Config ModifyAppHorizontalSpacingLength(Int32 newLength)
         {
-            AppHorizontalSpacing = horizontalSpacingLength <= 100 ? horizontalSpacingLength : 100;
+            AppHorizontalSpacing = newLength < 100 ? newLength : 100;
 
             return this;
         }
@@ -118,11 +115,11 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         }
 
         /// <summary>
-        /// 添加显示的壁纸
+        /// 修改显示的壁纸
         /// </summary>
         /// <param name="newWallpaper"></param>
         /// <returns></returns>
-        public Config AddWallpaper(Wallpaper newWallpaper)
+        public Config ModifyWallpaper(Wallpaper newWallpaper)
         {
             if (newWallpaper == null)
             {

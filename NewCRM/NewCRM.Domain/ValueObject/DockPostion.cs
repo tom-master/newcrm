@@ -13,7 +13,7 @@ namespace NewCRM.Domain.Entities.ValueObject
         Left = 2,
         [Description("右")]
         Right = 3,
-        [Description("下")]
-        Buttom = 4
+        [Description("停用")]
+        None = 4
     }
 }

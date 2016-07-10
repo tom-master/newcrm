@@ -374,6 +374,7 @@ html, body {
         -webkit-transition-timing-function: ease-in-put;
         transition-timing-function: ease-in-put;
         font-weight: 200;
+        color:rgba(6, 127, 228, 0.71)
     }
 
 .wrapper {

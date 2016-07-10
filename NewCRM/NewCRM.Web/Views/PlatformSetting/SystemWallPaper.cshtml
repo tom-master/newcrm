@@ -1,5 +1,9 @@
-﻿@{
+﻿@using NewCRM.Dto.Dto
+@{
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
+    var wallpapers = ViewData["Wallpapers"] as IList<WallpaperDto>;
+
+    var currentUser = ViewData["CurrentUser"] as UserDto;
 }
 <div class="title">
     <ul>
@@ -13,38 +17,33 @@
     </div>
     <div class="fr">
         <label>显示方式：</label>
-        <select name="wallpapertype" id="wallpapertype" style="width:100px">
-            <option value="tianchong">填充</option>
-            <option value="shiying">适应</option>
-            <option value="pingpu">平铺</option>
-            <option value="lashen">拉伸</option>
-            <option value="juzhong">居中</option>
+        <select name="wallpapertype" id="wallpapertype" style="width: 100px">
+            <option name="fill" value="fill" @{ if (currentUser.WallpaperMode == "Fill") { <text> selected="selected" </text>        } }>填充</option>
+            <option name="adapted" value="adapted" @{if (currentUser.WallpaperMode == "Adapted") { <text> selected="selected" </text>       }}>适应</option>
+            <option name="tile" value="tile" @{ if (currentUser.WallpaperMode == "Tile") { <text> selected="selected" </text>       } }>平铺</option>
+            <option name="draw" value="draw" @{ if (currentUser.WallpaperMode == "Draw") { <text> selected="selected" </text>       } }>拉伸</option>
+            <option name="center" value="center" @{ if (currentUser.WallpaperMode == "Center") { <text> selected="selected" </text>       } }>居中</option>
         </select>
     </div>
 </div>
-<ul class="wallpaper"></ul>
+<ul class="wallpaper">
+    @for (Int32 i = 0; i < wallpapers.Count; i++)
+    {
+        <li wpid="@wallpapers[i].Id" @if (i % 3 == 2) { <text> class="three" </text> }>
+            <img src="@wallpapers[i].Url" />
+            <div>@wallpapers[i].Title</div>
+        </li>
+    }
+</ul>
 <script type="text/javascript">
     $(function () {
-        GetAllWallpaper(function () {
-            $("#wallpapertype").val(window.parent.HROS.CONFIG.wallpaperType);
-            $("#wallpapertype").on('change', function () {
-                window.parent.HROS.wallpaper.update($('#wallpapertype').val(), '');
-            });
-            $('.wallpaper li').on('click', function () {
-                window.parent.HROS.wallpaper.update($('#wallpapertype').val(), $(this).attr('wpid'));
-            });
+        $("#wallpapertype").val(window.parent.HROS.CONFIG.wallpaperType.toLowerCase());
+        $("#wallpapertype").on('change', function () {
+            window.parent.HROS.wallpaper.update($('#wallpapertype').val(), '');
+        });
+
+        $('.wallpaper li').on('click', function () {
+            window.parent.HROS.wallpaper.update($('#wallpapertype').val(), $(this).attr('wpid'));
         });
     });
-    function GetAllWallpaper(callback) {
-        $.get("@Url.Action("GetAllWallpaper", "PlatformSetting")", function (result) {
-            var html = '';
-            $.each(result.data.Data, function (k, v) {
-                html += '<li  wpid="' + k + '"><img src="' + v.Item1 + '" /><div>' + v.Item2 + '</div></li>';
-            });
-            $('.wallpaper').append(html);
-            if (typeof (callback) === 'function') {
-                callback && callback();
-            }
-        });
-    }
 </script>

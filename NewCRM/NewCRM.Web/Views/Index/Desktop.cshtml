@@ -1,9 +1,9 @@
 ﻿@using NewCRM.Dto.Dto
 @{
-    Layout = "~/Views/Shared/_LayoutDesk.cshtml";
+    Layout = "~/Views/Shared/_LayoutRoot.cshtml";
     var userResult = (UserDto)ViewData["CurrentUser"];
 }
-
+<link href="@Url.Content("~/Scripts/HoorayUI/css/index.css")" rel="stylesheet" />
 <div class="loading"></div>
 <div id="desktop">
     <div id="zoom-tip">
@@ -52,7 +52,7 @@
                                         <span class="pagination-icon pagination-icon-@deskIndex">@deskIndex</span>
                                     </a>
                                 </text>
-                             }
+    }
                         }
                     </div>
                 </div>
@@ -99,7 +99,6 @@
     <div id="amg_dock_container"></div>
     <div class="amg_line_x"></div>
     <div id="amg_folder_container">
-
         @{
 
             for (var i = 1; i <= userResult.Desks.Count; i++)
@@ -113,42 +112,44 @@
                             <div class="scrollBar"></div>
                         </div>
                     </div>
-                }
-                else
-                {
-                    <div class="folderItem" data-deskname="桌面@{@i}">
-                        <div class="folder_bg"></div>
-                        <div class="folderOuter">
-                            <div class="folderInner" desk="@i">@i</div>
-                            <div class="scrollBar"></div>
-                        </div>
-                        <div class="amg_line_y"></div>
-                    </div>
-                }
-            }
+    }
+    else
+    {
+        <div class="folderItem" data-deskname="桌面@{@i}">
+            <div class="folder_bg"></div>
+            <div class="folderOuter">
+                <div class="folderInner" desk="@i">@i</div>
+                <div class="scrollBar"></div>
+            </div>
+            <div class="amg_line_y"></div>
+        </div>
+        }
+    }
         }
     </div>
 </div>
-<script>
-    $(function () {
-        $.cookie('memberID', '@userResult.UserId');
 
-        document.body.onselectstart = document.body.ondrag = function () {
-            return false;
-        };
-        $(".loading").hide();
-        $("#desktop").show();
 
-        HROS.CONFIG.dockPos = '@userResult.DockPosition';
-        HROS.CONFIG.appXY = '@userResult.AppXy';
-        HROS.CONFIG.appSize = '@userResult.AppSize';
-        HROS.CONFIG.desk = '1';
-        HROS.CONFIG.appHorizontalSpacing = '@userResult.AppHorizontalSpacing';
-        HROS.CONFIG.appVerticalSpacing = '@userResult.AppVerticalSpacing';
-        HROS.CONFIG.deskCount = parseInt('@userResult.Desks.Count');
-        HROS.base.init();
-    })
-</script>
+
+@section script{
+    $.cookie('memberID', '@userResult.UserId');
+
+    document.body.onselectstart = document.body.ondrag = function () {
+    return false;
+    };
+    $(".loading").hide();
+    $("#desktop").show();
+
+    HROS.CONFIG.dockPos = '@userResult.DockPosition';
+    HROS.CONFIG.appXY = '@userResult.AppXy';
+    HROS.CONFIG.appSize = parseInt('@userResult.AppSize');
+    HROS.CONFIG.desk = parseInt(@userResult.DefaultDeskNumber);
+    HROS.CONFIG.appHorizontalSpacing = '@userResult.AppHorizontalSpacing';
+    HROS.CONFIG.appVerticalSpacing = '@userResult.AppVerticalSpacing';
+    HROS.CONFIG.deskCount = parseInt('@userResult.Desks.Count');
+    HROS.base.init();
+}
+
 
 
 

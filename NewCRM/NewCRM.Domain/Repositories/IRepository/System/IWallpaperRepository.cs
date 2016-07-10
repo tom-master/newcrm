@@ -7,6 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.Composition;
 using NewCRM.Domain.Entities.DomainModel.System;
 
 namespace NewCRM.Domain.Entities.Repositories.IRepository.System
@@ -14,6 +15,7 @@ namespace NewCRM.Domain.Entities.Repositories.IRepository.System
     /// <summary>
     ///   仓储操作层接口——壁纸
     /// </summary>
+    [InheritedExport(typeof(IWallpaperRepository))]
     public partial interface IWallpaperRepository : IRepository<Wallpaper>
     { }
 }

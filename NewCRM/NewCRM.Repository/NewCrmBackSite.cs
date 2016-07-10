@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.ComponentModel.Composition;
+using System.Data.Entity;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.Security;
 using NewCRM.Domain.Entities.DomainModel.System;
@@ -6,6 +7,7 @@ using NewCRM.Domain.Entities.DomainModel.System;
 
 namespace NewCRM.Repository
 {
+    [Export("EF", typeof(DbContext))]
     public sealed class NewCrmBackSite : DbContext
     {
         public NewCrmBackSite()

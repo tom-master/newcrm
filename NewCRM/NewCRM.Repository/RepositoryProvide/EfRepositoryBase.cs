@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
 using NewCRM.Domain.Entities.DomainModel;
 using NewCRM.Domain.Entities.Repositories;
+using NewCRM.Domain.Entities.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
 using NewCRM.Repository.UnitOfWorkProvide;
@@ -18,7 +20,11 @@ namespace NewCRM.Repository.RepositoryProvide
     {
 
         public virtual Parameter VaildateParameter => new Parameter();
-
+        /// <summary>
+        ///     获取 仓储上下文的实例
+        /// </summary>
+        [Import]
+        public IUnitOfWork UnitOfWork { get; set; }
 
         #region 属性
 
@@ -29,12 +35,11 @@ namespace NewCRM.Repository.RepositoryProvide
         {
             get
             {
-                var unitOfWork = EfUnitOfWorkContext.GetUnitOfWorkContext;
-                if (unitOfWork == null)
+                if (UnitOfWork is UnitOfWorkContextBase)
                 {
-                    throw new RepositoryException("无法获取当前工作单元的实例");
+                    return UnitOfWork as UnitOfWorkContextBase;
                 }
-                return unitOfWork;
+                throw new RepositoryException($"无法获取当前工作单元的实例:{UnitOfWork}");
             }
         }
 

@@ -4,7 +4,7 @@ using NewCRM.Domain.Entities.ValueObject;
 
 namespace NewCRM.Domain.Entities.DomainModel.System
 {
-    [Serializable,Description("壁纸")]
+    [Serializable, Description("壁纸")]
     public class Wallpaper : DomainModelBase, IAggregationRoot
     {
         #region public property
@@ -18,6 +18,9 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// 图片地址
         /// </summary>
         public String Url { get; private set; }
+
+
+        public String ShortUrl { get; set; }
 
         /// <summary>
         /// 来源
@@ -39,9 +42,12 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// </summary>
         public Int32 Heigth { get; private set; }
 
+        public Int32 UserId { get; private set; }
+
         #endregion
 
         #region ctor
+
         /// <summary>
         /// 实例化一个壁纸对象
         /// </summary>
@@ -50,8 +56,9 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// <param name="description"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
+        /// <param name="userId"></param>
         /// <param name="wallpaperSource"></param>
-        public Wallpaper(String title, String url, String description, Int32 width, Int32 height, WallpaperSource wallpaperSource = default(WallpaperSource))
+        public Wallpaper(String title, String url, String description, Int32 width, Int32 height, Int32 userId = default(Int32), WallpaperSource wallpaperSource = default(WallpaperSource))
         {
             Title = title;
             Url = url;
@@ -59,6 +66,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             Width = width;
             Heigth = height;
             Source = wallpaperSource;
+            UserId = userId;
         }
 
         public Wallpaper() { }

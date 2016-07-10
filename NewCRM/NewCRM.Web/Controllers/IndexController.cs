@@ -24,6 +24,12 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult Desktop()
         {
+            var cookie = Request.Cookies.Get("AccountIdentity");
+            if (cookie != null)
+            {
+                CurrentUser = _accountApplicationServices.GetUserConfig(Int32.Parse(cookie["AccountId"]));
+            }
+
             ViewData["CurrentUser"] = CurrentUser;
             return View();
         }
@@ -54,9 +60,9 @@ namespace NewCRM.Web.Controllers
 
             var config = _accountApplicationServices.GetUserConfig(userId);
 
-            var cookie = new HttpCookie("UserInfo")
+            var cookie = new HttpCookie("AccountIdentity")
             {
-                ["UserId"] = userId.ToString(),
+                ["AccountId"] = userId.ToString(),
                 Expires = isRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddHours(1)
             };
             HttpContext.Response.Cookies.Add(cookie);
@@ -83,15 +89,16 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult GetWallpaper()
         {
+            var config = _accountApplicationServices.GetUserConfig(CurrentUser.UserId);
             return Json(new
             {
                 data = new
                 {
-                    CurrentUser.WallpaperSource,
-                    CurrentUser.WallpaperUrl,
-                    CurrentUser.WallpaperHeigth,
-                    CurrentUser.WallpaperMode,
-                    CurrentUser.WallpaperWidth
+                    config.WallpaperSource,
+                    config.WallpaperUrl,
+                    config.WallpaperHeigth,
+                    config.WallpaperMode,
+                    config.WallpaperWidth
                 }
             }, JsonRequestBehavior.AllowGet);
         }
@@ -110,7 +117,8 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult GetMyApp()
         {
-            return Json(new { app = _appApplicationServices.GetUserApp(CurrentUser.UserId) }, JsonRequestBehavior.AllowGet);
+            var app = _appApplicationServices.GetUserApp(CurrentUser.UserId);
+            return Json(new { app = app }, JsonRequestBehavior.AllowGet);
         }
         ///// <summary>
         ///// 获取用户头像

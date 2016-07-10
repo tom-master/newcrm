@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
 using NewCRM.Domain.Entities.DomainModel.Account;
+using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
@@ -12,6 +13,8 @@ namespace NewCRM.Dto
         static DtoConfiguration()
         {
             #region Domain To Dto
+            #region Account
+
 
             Mapper.CreateMap<User, UserDto>()
                 .ForMember(dto => dto.Name, user => user.MapFrom(u => u.Name))
@@ -32,8 +35,33 @@ namespace NewCRM.Dto
                 .ForMember(dto => dto.WallpaperSource, user => user.MapFrom(u => u.Config.Wallpaper.Source))
                 .ForMember(dto => dto.Desks, user => user.MapFrom(u => u.Config.Desks))
                 .ForMember(dto => dto.UserId, user => user.MapFrom(u => u.Id))
-                .ForMember(dto=>dto.ConfigId,user=>user.MapFrom(u=>u.Config.Id));
+                .ForMember(dto => dto.ConfigId, user => user.MapFrom(u => u.Config.Id));
+            #endregion
 
+
+            #region Wallpaper
+
+            Mapper.CreateMap<Wallpaper, WallpaperDto>()
+                .ForMember(dto => dto.Id, wallpaper => wallpaper.MapFrom(w => w.Id))
+                .ForMember(dto => dto.Heigth, wallpaper => wallpaper.MapFrom(w => w.Heigth))
+                .ForMember(dto => dto.Source, wallpaper => wallpaper.MapFrom(w => w.Source.ToString()))
+                .ForMember(dto => dto.Title, wallpaper => wallpaper.MapFrom(w => w.Title))
+                .ForMember(dto => dto.Url, wallpaper => wallpaper.MapFrom(w => w.Url))
+                .ForMember(dto => dto.Width, wallpaper => wallpaper.MapFrom(w => w.Width))
+                .ForMember(dto => dto.ShortUrl, wallpaper => wallpaper.MapFrom(w => w.ShortUrl));
+
+            Mapper.CreateMap<WallpaperDto, Wallpaper>()
+                  .ForMember(wallpaper => wallpaper.Id, dto => dto.MapFrom(d => d.Id))
+                .ForMember(wallpaper => wallpaper.Heigth, dto => dto.MapFrom(d => d.Heigth))
+                .ForMember(wallpaper => wallpaper.Source, dto => dto.MapFrom(d => d.Source))
+                .ForMember(wallpaper => wallpaper.Title, dto => dto.MapFrom(d => d.Title))
+                .ForMember(wallpaper => wallpaper.Url, dto => dto.MapFrom(d => d.Url))
+                .ForMember(wallpaper => wallpaper.Width, dto => dto.MapFrom(d => d.Width))
+                .ForMember(wallpaper => wallpaper.ShortUrl, dto => dto.MapFrom(d => d.ShortUrl));
+
+
+
+            #endregion
 
 
             #endregion
