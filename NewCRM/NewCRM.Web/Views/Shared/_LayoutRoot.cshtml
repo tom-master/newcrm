@@ -3,6 +3,7 @@
 <head>
     <script src="@Url.Content("~/Scripts/HoorayUI/js/HoorayJs/jquery-2.1.4.js")"></script>
     <link href="@Url.Content("~/Scripts/HoorayUI/js/HoorayLibs/hooraylibs.css")" rel="stylesheet" />
+    @RenderSection("css", true)
 
     <title></title>
 </head>
@@ -21,10 +22,14 @@
 <script src="@Url.Content("~/Scripts/HoorayUI/js/sugar/sugar-1.4.1.min.js")"></script>
 <script src="@Url.Content("~/Scripts/HoorayUI/js/HoorayJs/hros.min.js")"></script>
 
+
 <script>
-    $(function() {
+    $(function () {
+        @RenderSection("script", true)
+
+
         //配置artDialog全局默认参数
-        (function(config) {
+        (function (config) {
             config['lock'] = true;
             config['fixed'] = true;
             config['resize'] = false;
@@ -35,43 +40,35 @@
         $('[rel="tooltip"]').tooltip();
         //表单提示
         $("[datatype]")
-            .focusin(function() {
+            .focusin(function () {
                 $(this).parent().addClass('info').children('.infomsg').show().siblings('.help-inline').hide();
             })
-            .focusout(function() {
+            .focusout(function () {
                 $(this).parent().removeClass('info').children('.infomsg').hide().siblings('.help-inline').show();
             });
 
-        openDetailIframe = function(url) {
+        openDetailIframe = function (url) {
             ZENG.msgbox.show('正在载入中，请稍后...', 6, 100000);
             $('#detailIframe iframe')
                 .attr('src', url)
-                .load(function() {
+                .load(function () {
                     $('body').css('overflow', 'hidden');
                     ZENG.msgbox._hide();
                     $('#detailIframe')
                         .animate({
-                                'top': 0,
-                                'opacity': 'show'
-                            },
+                            'top': 0,
+                            'opacity': 'show'
+                        },
                             500);
                 });
         };
-        closeDetailIframe = function(callback) {
+        closeDetailIframe = function (callback) {
             $('body').css('overflow', 'auto');
-            $('#detailIframe')
-                .animate({
-                        'top': '-100px',
-                        'opacity': 'hide'
-                    },
-                    500,
-                    function() {
-                        callback && callback();
-                    });
+            $('#detailIframe').animate({ 'top': '-100px', 'opacity': 'hide' }, 500, function () {
+                callback && callback();
+            });
         };
-
-        @RenderSection("script", true);
-    })
+    });
 
 </script>
 

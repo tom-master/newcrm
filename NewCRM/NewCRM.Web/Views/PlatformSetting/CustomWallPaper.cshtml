@@ -40,7 +40,9 @@
         <input type="text" id="wallpaperurl" style="width: 350px" placeholder="请输入一个URL地址（建议以 jpg, jpeg, png, gif, html, htm 结尾）" value=""><button type="button" class="btn" onclick="javascript: SetWebWallPaper();">应用</button>
     </div>
 </div>
-<script src="@Url.Content("~/Scripts/HoorayUI/js/webuploader-0.1.5/webuploader.js")"></script>
+@section script2
+{
+    <script src="@Url.Content("~/Scripts/HoorayUI/js/webuploader-0.1.5/webuploader.js")"></script>
 <script>
     $(function () {
         var upload = WebUploader.create({
@@ -141,3 +143,5 @@
 
     }
 </script>
+}
+

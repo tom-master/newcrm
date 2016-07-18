@@ -1,7 +1,7 @@
 ﻿@using NewCRM.Dto.Dto
 @{
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
-    var userData = (UserDto)ViewData [ "CurrentUser" ] ;
+    var userData = (UserDto)ViewData["CurrentUser"];
 }
 
 <div class="title">默认桌面(登录后默认显示)</div>
@@ -12,7 +12,7 @@
             for (int i = 1; i <= userData.Desks.Count; i++)
             {<text>
             <label class="radio" style="margin-right: 10px">
-                <input type="radio" name="desk" value="@i" @{ if (i == 1) { <text> checked="checked" </text>   } }>第@{@i}桌面
+                <input type="radio" name="desk" value="@i" @{ if (i == 1) { <text> checked="checked" </text>     } }>第@{@i}桌面
             </label>
             </text>
     }
@@ -24,10 +24,10 @@
     <label class="label-text">排列方式：</label>
     <div class="label-box form-inline control-group">
         <label class="radio" style="margin-right: 10px">
-            <input type="radio" name="appxy" value="x" @{ if (userData.AppXy.ToLower() == "x") { <text> checked="checked" </text>                          } } />横向排列
+            <input type="radio" name="appxy" value="x" @{ if (userData.AppXy.ToLower() == "x") { <text> checked="checked" </text>                            } } />横向排列
         </label>
         <label class="radio">
-            <input type="radio" name="appxy" value="y" @{ if (userData.AppXy.ToLower() == "y") { <text> checked="checked" </text>                          } } />纵向排列
+            <input type="radio" name="appxy" value="y" @{ if (userData.AppXy.ToLower() == "y") { <text> checked="checked" </text>                            } } />纵向排列
         </label>
     </div>
 </div>
@@ -68,7 +68,7 @@
             <td colspan="3">
                 <div class="set_top form-inline">
                     <label class="radio">
-                        <input type="radio" name="dockpos" value="Top" @{ if (userData.DockPosition.ToLower() == "top") { <text> checked="checked" </text>                      } }>顶部
+                        <input type="radio" name="dockpos" value="Top" @{ if (userData.DockPosition.ToLower() == "top") { <text> checked="checked" </text>                        } }>顶部
                     </label>
                 </div>
             </td>
@@ -77,115 +77,118 @@
             <td width="75">
                 <div class="set_left form-inline">
                     <label class="radio">
-                        <input type="radio" name="dockpos" value="Left" @{ if (userData.DockPosition.ToLower() == "left") { <text> checked="checked" </text>                     } }>左侧
+                        <input type="radio" name="dockpos" value="Left" @{ if (userData.DockPosition.ToLower() == "left") { <text> checked="checked" </text>                       } }>左侧
                     </label>
                 </div>
             </td>
             <td class="set_view set_view_@{var position = userData.DockPosition; <text>@position</text>}"></td>
             <td width="75">
-                <div class="set_right form-inline"><label class="radio"><input type="radio" name="dockpos" value="Right" @{ if (userData.DockPosition.ToLower() == "right") { <text> checked="checked" </text>                     } }>右侧</label></div>
+                <div class="set_right form-inline"><label class="radio"><input type="radio" name="dockpos" value="Right" @{ if (userData.DockPosition.ToLower() == "right") { <text> checked="checked" </text>                       } }>右侧</label></div>
             </td>
         </tr>
         <tr>
             <td colspan="3">
-                <div class="set_none form-inline"><label class="radio"><input type="radio" name="dockpos" value="None" @{ if (userData.DockPosition.ToLower() == "none") { <text> checked="checked" </text>                    } }>停用并隐藏（如果应用码头存在应用，则会将应用转移到当前桌面）</label></div>
+                <div class="set_none form-inline"><label class="radio"><input type="radio" name="dockpos" value="None" @{ if (userData.DockPosition.ToLower() == "none") { <text> checked="checked" </text>                      } }>停用并隐藏（如果应用码头存在应用，则会将应用转移到当前桌面）</label></div>
             </td>
         </tr>
     </table>
 </div>
-<script>
-    $(function () {
-        $('input[name="desk"]').change(function () {
-            var desk = $('input[name="desk"]:checked').val();
-            window.parent.HROS.deskTop.updateDefaultDesk(desk);
-        });
-        $('input[name="appxy"]').change(function () {
-            var xy = $('input[name="appxy"]:checked').val();
-            window.parent.HROS.app.updateXY(xy);
-        });
-        //$('input[name="appsize"]').change(function () {
-        //    var size = $('input[name="appsize"]:checked').val();
-        //    window.parent.HROS.app.updateSize(size);
-        //});
+@section script2
+{
+    <script>
+        $(function () {
+            $('input[name="desk"]').change(function () {
+                var desk = $('input[name="desk"]:checked').val();
+                window.parent.HROS.deskTop.updateDefaultDesk(desk);
+            });
+            $('input[name="appxy"]').change(function () {
+                var xy = $('input[name="appxy"]:checked').val();
+                window.parent.HROS.app.updateXY(xy);
+            });
+            //$('input[name="appsize"]').change(function () {
+            //    var size = $('input[name="appsize"]:checked').val();
+            //    window.parent.HROS.app.updateSize(size);
+            //});
 
-        //更新应用图标大小
-        $('.appsize-minus, .appsize-plus').click(function () {
-            var size = parseInt($('input[name="appsize"]').val());
-            if ($(this).hasClass('appsize-minus')) {
-                size = size - 1;
-            } else {
-                size = size + 1;
-            }
-            updateSize(size);
-        });
-        $('input[name="appsize"]').keyup(function () {
-            var size = parseInt($('input[name="appsize"]').val());
-            updateSize(size);
-        });
-        var updateSize = function (size) {
-            if (size < 32) {
-                size = 32;
-            } else if (size > 64) {
-                size = 64;
-            }
-            $('input[name="appsize"]').val(size);
-            window.parent.HROS.app.updateSize(size);
-        };
+            //更新应用图标大小
+            $('.appsize-minus, .appsize-plus').click(function () {
+                var size = parseInt($('input[name="appsize"]').val());
+                if ($(this).hasClass('appsize-minus')) {
+                    size = size - 1;
+                } else {
+                    size = size + 1;
+                }
+                updateSize(size);
+            });
+            $('input[name="appsize"]').keyup(function () {
+                var size = parseInt($('input[name="appsize"]').val());
+                updateSize(size);
+            });
+            var updateSize = function (size) {
+                if (size < 32) {
+                    size = 32;
+                } else if (size > 64) {
+                    size = 64;
+                }
+                $('input[name="appsize"]').val(size);
+                window.parent.HROS.app.updateSize(size);
+            };
 
-        //更新图标垂直间距
-        $('.appverticalspacing-minus, .appverticalspacing-plus').click(function () {
-            var vertical = parseInt($('input[name="appverticalspacing"]').val());
-            if ($(this).hasClass('appverticalspacing-minus')) {
-                vertical = vertical - 1;
-            } else {
-                vertical = vertical + 1;
-            }
-            updateVertical(vertical);
-        });
-        $('input[name="appverticalspacing"]').keyup(function () {
-            var vertical = parseInt($('input[name="appverticalspacing"]').val());
-            updateVertical(vertical);
-        });
-        var updateVertical = function (vertical) {
-            if (vertical < 0) {
-                vertical = 0;
-            } else if (vertical > 100) {
-                vertical = 100;
-            } 
-            $('input[name="appverticalspacing"]').val(vertical);
-            window.parent.HROS.app.updateVertical(vertical);
-        };
-        //更新图标水平间距
-        var updateHorizontal = function (horizontal) {
-            if (horizontal < 0) {
-                horizontal = 0;
-            } else if (horizontal > 100) {
-                horizontal = 100;
-            }
-            $('input[name="apphorizontalspacing"]').val(horizontal);
-            window.parent.HROS.app.updateHorizontal(horizontal);
-        };
-        $('.apphorizontalspacing-minus, .apphorizontalspacing-plus').click(function () {
-            var horizontal = parseInt($('input[name="apphorizontalspacing"]').val());
-            if ($(this).hasClass('apphorizontalspacing-minus')) {
-                horizontal = horizontal - 1;
-            } else {
-                horizontal = horizontal + 1;
-            }
-            updateHorizontal(horizontal);
-        });
-        $('input[name="apphorizontalspacing"]').keyup(function () {
-            var horizontal = parseInt($('input[name="apphorizontalspacing"]').val());
-            updateHorizontal(horizontal);
-        });
+            //更新图标垂直间距
+            $('.appverticalspacing-minus, .appverticalspacing-plus').click(function () {
+                var vertical = parseInt($('input[name="appverticalspacing"]').val());
+                if ($(this).hasClass('appverticalspacing-minus')) {
+                    vertical = vertical - 1;
+                } else {
+                    vertical = vertical + 1;
+                }
+                updateVertical(vertical);
+            });
+            $('input[name="appverticalspacing"]').keyup(function () {
+                var vertical = parseInt($('input[name="appverticalspacing"]').val());
+                updateVertical(vertical);
+            });
+            var updateVertical = function (vertical) {
+                if (vertical < 0) {
+                    vertical = 0;
+                } else if (vertical > 100) {
+                    vertical = 100;
+                }
+                $('input[name="appverticalspacing"]').val(vertical);
+                window.parent.HROS.app.updateVertical(vertical);
+            };
+            //更新图标水平间距
+            var updateHorizontal = function (horizontal) {
+                if (horizontal < 0) {
+                    horizontal = 0;
+                } else if (horizontal > 100) {
+                    horizontal = 100;
+                }
+                $('input[name="apphorizontalspacing"]').val(horizontal);
+                window.parent.HROS.app.updateHorizontal(horizontal);
+            };
+            $('.apphorizontalspacing-minus, .apphorizontalspacing-plus').click(function () {
+                var horizontal = parseInt($('input[name="apphorizontalspacing"]').val());
+                if ($(this).hasClass('apphorizontalspacing-minus')) {
+                    horizontal = horizontal - 1;
+                } else {
+                    horizontal = horizontal + 1;
+                }
+                updateHorizontal(horizontal);
+            });
+            $('input[name="apphorizontalspacing"]').keyup(function () {
+                var horizontal = parseInt($('input[name="apphorizontalspacing"]').val());
+                updateHorizontal(horizontal);
+            });
 
-        //更新应用码头位置
-        $('input[name="dockpos"]').change(function () {
-            
-            var pos = $('input[name="dockpos"]:checked').val();
-            $('.set_view').removeClass('set_view_top set_view_left set_view_right set_view_none');
-            $('.set_view').addClass('set_view_' + pos);
-            window.parent.HROS.dock.updatePos(pos);
+            //更新应用码头位置
+            $('input[name="dockpos"]').change(function () {
+
+                var pos = $('input[name="dockpos"]:checked').val();
+                $('.set_view').removeClass('set_view_top set_view_left set_view_right set_view_none');
+                $('.set_view').addClass('set_view_' + pos);
+                window.parent.HROS.dock.updatePos(pos);
+            });
         });
-    });
-</script>
+    </script>
+}

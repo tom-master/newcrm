@@ -3,7 +3,9 @@
     Layout = "~/Views/Shared/_LayoutRoot.cshtml";
     var userResult = (UserDto)ViewData["CurrentUser"];
 }
-<link href="@Url.Content("~/Scripts/HoorayUI/css/index.css")" rel="stylesheet" />
+@section css{
+    <link href="@Url.Content("~/Scripts/HoorayUI/css/index.css")" rel="stylesheet" />
+}
 <div class="loading"></div>
 <div id="desktop">
     <div id="zoom-tip">

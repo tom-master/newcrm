@@ -27,9 +27,6 @@ namespace NewCRM.Web.Controllers
         private IAppApplicationServices _appApplicationServices;
 
 
-
-
-
         // //// GET: PlatformSetting
         public ActionResult SystemWallPaper()
         {

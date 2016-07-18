@@ -8,38 +8,45 @@
     </ul>
 </div>
 <ul class="skin" id="skinList"></ul>
-<script>
-    $(function () {
-        loadAllSkin(function () {
-            changeSkin();
-        });
-    });
-
-    function loadAllSkin(callback) {
-        $.get('@Url.Action("GetAllSkin", "PlatformSetting")', { __: Date.now }, function (result) {
-            var html = '';
-            $.each(result.data, function (k, v) {
-                html += '<li skin="' + k + '"><img src="' + v.imgPath + '"  data-css="' + v.skinPath + '"><div></div></li>';
+@section script2
+{
+    <script>
+        $(function () {
+            loadAllSkin(function () {
+                changeSkin();
             });
-            $('#skinList').append(html);
-            $('li[skin="' + result.currentSkin + '"]').addClass('selected');
-            if (typeof (callback) === 'function') {
-                callback && callback();
-            }
         });
-    }
-
-    function changeSkin() {
-        $('.skin li').on('click', function () {
-            var skin = $(this).attr('skin');
-            $('.skin li').removeClass('selected');
-            $(this).addClass('selected');
-            $.get('@Url.Action("ChangeSkin", "PlatformSetting")', { __: Date.now(), skin: skin }, function (result) {
-                if (parseInt(result.data) === 1) {
-                    window.parent.ZENG.msgbox.show("设置成功，如果没有更新请刷新页面", 4, 2000);
-                    window.parent.HROS.base.getSkin(skin);
+     
+      
+        function loadAllSkin(callback) {
+            $.get('@Url.Action("GetAllSkin", "PlatformSetting")', { __: Date.now }, function (result) {
+                var html = '';
+                $.each(result.data, function (k, v) {
+                    html += '<li skin="' + k + '"><img src="' + v.imgPath + '"  data-css="' + v.skinPath + '"><div></div></li>';
+                });
+                $('#skinList').append(html);
+                $('li[skin="' + result.currentSkin + '"]').addClass('selected');
+                if (typeof (callback) === 'function') {
+                    callback && callback();
                 }
             });
-        });
-    }
-</script>
+        }
+
+        function changeSkin() {
+            $('.skin li').on('click', function () {
+                var skin = $(this).attr('skin');
+                $('.skin li').removeClass('selected');
+                $(this).addClass('selected');
+                $.get('@Url.Action("ChangeSkin", "PlatformSetting")', { __: Date.now(), skin: skin }, function (result) {
+                    if (parseInt(result.data) === 1) {
+                        window.parent.ZENG.msgbox.show("设置成功，如果没有更新请刷新页面", 4, 2000);
+                         
+                        window.parent.HROS.base.getSkin(skin, function () {
+                            window.parent.ZENG.msgbox._hide();
+                        });
+                    }
+                });
+            });
+        }
+    </script>
+}

@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "~/Views/Shared/_LayoutRoot.cshtml";
+    Layout =null;
 }
 
 
@@ -8,17 +8,17 @@
     <link href="@Url.Content("~/Scripts/HoorayUI/js/bootstrap/css/bootstrap.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Scripts/HoorayUI/css/globle.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Scripts/HoorayUI/css/sys.css")" rel="stylesheet" />
-  
-
 
 </head>
 <body>
     @RenderBody()
 </body>
 </html>
- 
-@section script
-{}
+
+@*@section script
+{}*@
+<script src="@Url.Content("~/Scripts/HoorayUI/js/HoorayJs/jquery-2.1.4.js")"></script>
+@RenderSection("script2", true);
 
 
 

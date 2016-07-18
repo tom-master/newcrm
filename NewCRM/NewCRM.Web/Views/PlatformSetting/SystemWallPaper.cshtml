@@ -29,13 +29,19 @@
 <ul class="wallpaper">
     @for (Int32 i = 0; i < wallpapers.Count; i++)
     {
-        <li wpid="@wallpapers[i].Id" @if (i % 3 == 2) { <text> class="three" </text> }>
-            <img src="@wallpapers[i].Url" />
+        <li wpid="@wallpapers[i].Id" @if (i%3 == 2)
+                                     {
+                                         <text> class="three" </text>
+                                     }>
+            <img src="@wallpapers[i].Url"/>
             <div>@wallpapers[i].Title</div>
         </li>
     }
 </ul>
-<script type="text/javascript">
+
+@section script2
+{
+    <script type="text/javascript">
     $(function () {
         $("#wallpapertype").val(window.parent.HROS.CONFIG.wallpaperType.toLowerCase());
         $("#wallpapertype").on('change', function () {
@@ -47,3 +53,4 @@
         });
     });
 </script>
+}
