@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonTools\BasePage.cs" />
+    <Compile Include="CommonTools\CalculateFile.cs" />
     <Compile Include="CommonTools\CustemException\BusinessException.cs" />
     <Compile Include="CommonTools\CustemException\ComponentException.cs" />
     <Compile Include="CommonTools\CustemException\DomainModelException.cs" />

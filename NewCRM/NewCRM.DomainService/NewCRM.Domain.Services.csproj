@@ -51,12 +51,14 @@
     <Compile Include="BaseService.cs" />
     <Compile Include="IAccountServices.cs" />
     <Compile Include="IAppServices.cs" />
+    <Compile Include="IDeskServices.cs" />
     <Compile Include="Impl\AccountServices.cs" />
     <Compile Include="Impl\AppServices.cs" />
-    <Compile Include="Impl\PlatformDomainService.cs" />
-    <Compile Include="Impl\UserSettingServices.cs" />
-    <Compile Include="IPlatformDomainService.cs" />
-    <Compile Include="IUserSettingServices.cs" />
+    <Compile Include="Impl\DeskServices.cs" />
+    <Compile Include="Impl\SkinServices.cs" />
+    <Compile Include="Impl\WallpaperServices.cs" />
+    <Compile Include="ISkinServices.cs" />
+    <Compile Include="IWallpaperServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

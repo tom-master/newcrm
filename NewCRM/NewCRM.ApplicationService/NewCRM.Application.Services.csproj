@@ -46,6 +46,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
@@ -58,13 +59,15 @@
   <ItemGroup>
     <Compile Include="AccountApplicationServices.cs" />
     <Compile Include="AppApplicationServices.cs" />
+    <Compile Include="DeskApplicationServices.cs" />
     <Compile Include="IApplicationService\IAccountApplicationServices.cs" />
     <Compile Include="IApplicationService\IAppApplicationServices.cs" />
-    <Compile Include="IApplicationService\IPlantformApplicationService.cs" />
-    <Compile Include="IApplicationService\IUserSettingApplicationServices.cs" />
-    <Compile Include="UserSettingApplicationServices.cs" />
-    <Compile Include="PlantformApplicationService.cs" />
+    <Compile Include="IApplicationService\IDeskApplicationServices.cs" />
+    <Compile Include="IApplicationService\ISkinApplicationServices.cs" />
+    <Compile Include="IApplicationService\IWallpaperApplicationServices.cs" />
+    <Compile Include="SkinApplicationServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WallpaperApplicationServices.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NewCRM.Application.Services.IApplicationService;
 using NewCRM.Domain.Services;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
@@ -23,6 +20,31 @@ namespace NewCRM.Application.Services
         {
             _validateParameter.Validate(userId);
             return _appServices.GetApp(userId);
+        }
+
+
+        public void ModifyAppDirection(Int32 userId, String direction)
+        {
+            _validateParameter.Validate(userId).Validate(direction);
+            _appServices.ModifyAppDirection(userId, direction);
+        }
+
+        public void ModifyAppIconSize(Int32 userId, Int32 newSize)
+        {
+            _validateParameter.Validate(userId).Validate(newSize);
+            _appServices.ModifyAppIconSize(userId, newSize);
+        }
+
+        public void ModifyAppVerticalSpacing(Int32 userId, Int32 newSize)
+        {
+            _validateParameter.Validate(userId).Validate(newSize);
+            _appServices.ModifyAppVerticalSpacing(userId, newSize);
+        }
+
+        public void ModifyAppHorizontalSpacing(Int32 userId, Int32 newSize)
+        {
+            _validateParameter.Validate(userId).Validate(newSize);
+            _appServices.ModifyAppHorizontalSpacing(userId, newSize);
         }
     }
 }

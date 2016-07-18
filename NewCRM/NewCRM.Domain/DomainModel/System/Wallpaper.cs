@@ -44,6 +44,9 @@ namespace NewCRM.Domain.Entities.DomainModel.System
 
         public Int32 UserId { get; private set; }
 
+
+        public String Md5 { get; private set; }
+
         #endregion
 
         #region ctor
@@ -56,9 +59,10 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// <param name="description"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
+        /// <param name="md5"></param>
         /// <param name="userId"></param>
         /// <param name="wallpaperSource"></param>
-        public Wallpaper(String title, String url, String description, Int32 width, Int32 height, Int32 userId = default(Int32), WallpaperSource wallpaperSource = default(WallpaperSource))
+        public Wallpaper(String title, String url, String description, Int32 width, Int32 height, String md5, Int32 userId = default(Int32), WallpaperSource wallpaperSource = default(WallpaperSource))
         {
             Title = title;
             Url = url;
@@ -67,6 +71,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             Heigth = height;
             Source = wallpaperSource;
             UserId = userId;
+            Md5 = md5;
         }
 
         public Wallpaper() { }

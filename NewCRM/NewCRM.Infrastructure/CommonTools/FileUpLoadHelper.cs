@@ -250,7 +250,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// <param name="isWatermarkText">是否加水印文字</param>
         /// <param name="watermarkText">水印文字</param>
         public FileUpLoadHelper(String filePath, Boolean isDate, Boolean isCreateNewFileName,
-            Boolean isImage,Boolean isThumbnail, Int32 thumbnailWidth, Int32 thumbnailHeight, ThumbnailMode thumbnailMode, 
+            Boolean isImage, Boolean isThumbnail, Int32 thumbnailWidth, Int32 thumbnailHeight, ThumbnailMode thumbnailMode,
             Boolean isWatermarkText, String watermarkText)
         {
             _isThumbnail = isThumbnail;
@@ -439,47 +439,44 @@ namespace NewCRM.Infrastructure.CommonTools
                 _webFilePath = HttpContext.Current.Server.MapPath(_filePath + _newFileName);
                 if (isfileTypeImages)
                 {
-                    if (!File.Exists(_webFilePath))
+
+                    try
                     {
-                        try
+                        postedFile.SaveAs(_webFilePath);
+                        if (_isThumbnail)
                         {
-                            postedFile.SaveAs(_webFilePath);
-                            if (_isThumbnail)
-                            {
-                                _thumbnailFileName = "s_" + _newFileName;
-                                _webThumbnailFilePath = HttpContext.Current.Server.MapPath(_filePath + _thumbnailFileName);
-                                MakeThumbnail();
-                            }
-                            if (_isWatermarkText)
-                            {
-                                _watermarkFileName = "sy_" + _newFileName;
-                                _webWatermarkFilePath = HttpContext.Current.Server.MapPath(_filePath + _watermarkFileName);
-                                AddWatermarkText();
-                            }
-                            if (File.Exists(_webFilePath))
-                            {
-                                Image originalImage = Image.FromFile(_webFilePath);
-                                try
-                                {
-                                    _fileHeight = originalImage.Height;
-                                    _fileWidth = originalImage.Width;
-                                }
-                                finally
-                                {
-                                    originalImage.Dispose();
-                                }
-                            }
-                            _tipMsg = String.Format("提示：文件“{0}”成功上传，文件类型为：{1}，文件大小为：{2}B",
-                                _newFileName, _fileContentType, _fileSize);
-                            return true;
+                            _thumbnailFileName = "s_" + _newFileName;
+                            _webThumbnailFilePath = HttpContext.Current.Server.MapPath(_filePath + _thumbnailFileName);
+                            MakeThumbnail();
                         }
-                        catch (Exception ex)
+                        if (_isWatermarkText)
                         {
-                            _tipMsg = "提示：文件上传失败，失败原因：" + ex.Message;
+                            _watermarkFileName = "sy_" + _newFileName;
+                            _webWatermarkFilePath = HttpContext.Current.Server.MapPath(_filePath + _watermarkFileName);
+                            AddWatermarkText();
                         }
+                        if (File.Exists(_webFilePath))
+                        {
+                            Image originalImage = Image.FromFile(_webFilePath);
+                            try
+                            {
+                                _fileHeight = originalImage.Height;
+                                _fileWidth = originalImage.Width;
+                            }
+                            finally
+                            {
+                                originalImage.Dispose();
+                            }
+                        }
+                        _tipMsg = String.Format("提示：文件“{0}”成功上传，文件类型为：{1}，文件大小为：{2}B",
+                            _newFileName, _fileContentType, _fileSize);
+                        return true;
                     }
-                    else
-                        _tipMsg = "提示：文件已经存在，请重命名后上传";
+                    catch (Exception ex)
+                    {
+                        _tipMsg = "提示：文件上传失败，失败原因：" + ex.Message;
+                    }
+
                 }
                 else
                 {
@@ -524,11 +521,11 @@ namespace NewCRM.Infrastructure.CommonTools
         /// <summary>
         /// 指定宽，高按比例 
         /// </summary>
-        W, 
+        W,
         /// <summary>
         /// 指定高，宽按比例
         /// </summary>
-        H, 
+        H,
         /// <summary>
         /// 指定高宽裁减（不变形）
         /// </summary>

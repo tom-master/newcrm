@@ -17,11 +17,11 @@
     <div class="fr">
         <label>显示方式：</label>
         <select name="wallpapertype" id="wallpapertype" style="width: 100px">
-            <option name="fill" value="fill" @{ if (currentUser.WallpaperMode == "Fill") { <text> selected="selected" </text>         } }>填充</option>
-            <option name="adapted" value="adapted" @{if (currentUser.WallpaperMode == "Adapted") { <text> selected="selected" </text>        }}>适应</option>
-            <option name="tile" value="tile" @{ if (currentUser.WallpaperMode == "Tile") { <text> selected="selected" </text>        } }>平铺</option>
-            <option name="draw" value="draw" @{ if (currentUser.WallpaperMode == "Draw") { <text> selected="selected" </text>        } }>拉伸</option>
-            <option name="center" value="center" @{ if (currentUser.WallpaperMode == "Center") { <text> selected="selected" </text>        } }>居中</option>
+            <option name="fill" value="fill" @{ if (currentUser.WallpaperMode == "Fill") { <text> selected="selected" </text>            } }>填充</option>
+            <option name="adapted" value="adapted" @{if (currentUser.WallpaperMode == "Adapted") { <text> selected="selected" </text>           }}>适应</option>
+            <option name="tile" value="tile" @{ if (currentUser.WallpaperMode == "Tile") { <text> selected="selected" </text>           } }>平铺</option>
+            <option name="draw" value="draw" @{ if (currentUser.WallpaperMode == "Draw") { <text> selected="selected" </text>           } }>拉伸</option>
+            <option name="center" value="center" @{ if (currentUser.WallpaperMode == "Center") { <text> selected="selected" </text>           } }>居中</option>
         </select>
     </div>
 </div>
@@ -70,12 +70,22 @@
             }
         });
         upload.on('uploadSuccess', function (file, cb) {
-            if (typeof (cb.value) !== 'undefined' && cb.value === 0) {
-                ZENG.msgbox.show("最多只能上传6张壁纸", 5, 2000);
+            if (typeof cb.value !== 'undefined') {
+                if (cb.value === 0) {
+                    ZENG.msgbox.show(cb.msg, 5, 2000);
+                } else if (cb.value === 1) {
+                    ZENG.msgbox.show(cb.msg, 5, 2000);
+                } else {
+                    ZENG.msgbox.show('未知错误', 5, 2000);
+                }
+            } else {
+                $('.wapppapercustom .view ul').append('<li id="' + cb.Id + '" style="background-image:url(' + cb.Url + ')"><a href="javascript:;">删 除</a></li>');
+                window.parent.HROS.wallpaper.update($('#wallpapertype').val(), cb.Id);
+                upload.removeFile(file);
             }
-            $('.wapppapercustom .view ul').append('<li id="' + cb.Id + '" style="background-image:url(' + cb.Url + ')"><a href="javascript:;">删 除</a></li>');
-            window.parent.HROS.wallpaper.update($('#wallpapertype').val(), cb.Id);
-            upload.removeFile(file);
+
+
+
         });
         $('#wallpapertype').on('change', function () {
             window.parent.HROS.wallpaper.update($('#wallpapertype').val(), '');
@@ -89,16 +99,13 @@
             var id = $(this).parent().attr('id');
             $.post("@Url.Action("DeleteWallPaper", "PlatformSetting")", { wallPaperId: id }, function (result) {
                 if (parseInt(result.data) === 1) {
+                    ZENG.msgbox.show('壁纸移除成功', 5, 2000);
                     $('#' + id).remove();
                 } else {
                     ZENG.msgbox.show('当前壁纸正在使用或已被删除', 5, 2000);
                 }
             });
         });
-        $('.wapppaperwebsite button').on('click', function () {
-            window.parent.HROS.wallpaper.update(3, $('#wallpapertype').val(), $('#wallpaperurl').val());
-        });
-
 
         GetAllUploadWallPaper();
 
@@ -112,7 +119,7 @@
         $.get("@Url.Action("GetAllUploadWallPaper", "PlatformSetting")", function (result) {
             var liElement = '';
             $.each(result.wallPapers, function (k, v) {
-                liElement += '<li id="' + v.Id + '" style="background:url(' + v.Url + ')"><a href="javascript:;">删 除</a></li>';
+                liElement += '<li id="' + v.Id + '" style="background:url(' + v.ShortUrl + ')"><a href="javascript:;">删 除</a></li>';
             });
             $('.view').children('ul').append(liElement);
         });
@@ -120,13 +127,17 @@
 
     function SetWebWallPaper() {
         var webUrl = $('#wallpaperurl').val();
-        $.post("@Url.Action("WebWallPaper", "PlatformSetting")", { webUrl: webUrl }, function (result) {
+        if (typeof webUrl === 'undefined' || webUrl === '' || webUrl === null) {
+            ZENG.msgbox.show('请输入一个合法的url地址', 5, 2000);
+        } else {
+            $.post("@Url.Action("WebWallPaper", "PlatformSetting")", { webUrl: webUrl }, function (result) {
+                if (parseInt(result.data.Item1) === 0) {
+                    ZENG.msgbox.show('未能获取到所指定的网络图片', 5, 2000);
+                } else {
+                    window.parent.HROS.wallpaper.update($('#wallpapertype').val(), parseInt(result.data.Item1));
+                }
+            });
+        }
 
-            if (parseInt(result.Id) === 0) {
-                ZENG.msgbox.show('未能获取到所指定的网络图片', 5, 2000);
-            } else {
-                window.parent.HROS.wallpaper.update($('#wallpapertype').val(), parseInt(result.Id));
-            }
-        });
     }
 </script>

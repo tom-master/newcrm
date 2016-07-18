@@ -1,13 +1,13 @@
-﻿using System;
-using System.ComponentModel.Composition;
-using System.Configuration;
-using System.Web.Mvc;
-using NewCRM.Application.Services;
-using NewCRM.Application.Services.IApplicationService;
+﻿using NewCRM.Application.Services.IApplicationService;
 using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Web.Controllers.ControllerHelper;
+using System;
+using System.ComponentModel.Composition;
+using System.Configuration;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace NewCRM.Web.Controllers
 {
@@ -15,13 +15,26 @@ namespace NewCRM.Web.Controllers
     public class PlatformSettingController : BaseController
     {
         [Import]
-        private IUserSettingApplicationServices _userSettingApplicationServices;
+        private IWallpaperApplicationServices _wallpaperApplicationServices;
+
+        [Import]
+        private ISkinApplicationServices _skinApplicationServices;
+
+        [Import]
+        private IDeskApplicationServices _deskApplicationServices;
+
+        [Import]
+        private IAppApplicationServices _appApplicationServices;
+
+
+
+
 
         // //// GET: PlatformSetting
         public ActionResult SystemWallPaper()
         {
             ViewData["CurrentUser"] = CurrentUser;
-            ViewData["Wallpapers"] = _userSettingApplicationServices.GetWallpaper();
+            ViewData["Wallpapers"] = _wallpaperApplicationServices.GetWallpaper();
             return View();
         }
 
@@ -31,10 +44,11 @@ namespace NewCRM.Web.Controllers
             return View();
         }
 
-        // public ActionResult SettingSkin()
-        // {
-        //     return View();
-        // }
+        public ActionResult SettingSkin()
+        {
+            ViewData["CurrentUser"] = CurrentUser;
+            return View();
+        }
 
         public ActionResult DeskTopSetting()
         {
@@ -45,20 +59,20 @@ namespace NewCRM.Web.Controllers
         //设置壁纸显示模式
         public ActionResult ModifyWallpaperDisplayModel(String wallPaperShowType = "")
         {
-            _userSettingApplicationServices.ModifyWallpaperMode(CurrentUser.UserId, wallPaperShowType);
+            _wallpaperApplicationServices.ModifyWallpaperMode(CurrentUser.UserId, wallPaperShowType);
             return null;
         }
         //设置壁纸
         public ActionResult ModifyWallpaper(Int32 wallpaperId)
         {
-            _userSettingApplicationServices.ModifyWallpaper(CurrentUser.UserId, wallpaperId);
+            _wallpaperApplicationServices.ModifyWallpaper(CurrentUser.UserId, wallpaperId);
             return null;
         }
 
         //载入用户之前上传的壁纸
         public ActionResult GetAllUploadWallPaper()
         {
-            var wallPapers = _userSettingApplicationServices.GetUploadWallpaper(CurrentUser.UserId);
+            var wallPapers = _wallpaperApplicationServices.GetUploadWallpaper(CurrentUser.UserId);
             return Json(new { wallPapers }, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -68,7 +82,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult DeleteWallPaper(Int32 wallPaperId = 0)
         {
-            _userSettingApplicationServices.RemoveWallpaper(CurrentUser.UserId, wallPaperId);
+            _wallpaperApplicationServices.RemoveWallpaper(CurrentUser.UserId, wallPaperId);
             return Json(new { data = 1 });
         }
         /// <summary>
@@ -80,53 +94,68 @@ namespace NewCRM.Web.Controllers
             if (Request.Files.Count > 0)
             {
                 var httpPostedFile = HttpContext.Request.Files[0];
-                FileUpLoadHelper fileUpLoad = new FileUpLoadHelper(ConfigurationManager.AppSettings["UploadWallPaperPath"], false, false, true, true, 160, 115, ThumbnailMode.Auto, false, "");
+
+
+                var wallpaperDtoResult = _wallpaperApplicationServices.GetUploadWallpaper(CalculateFile.Calculate(httpPostedFile.InputStream));
+                if (wallpaperDtoResult != null)
+                {
+                    return Json(new { value = 1, msg = "这张壁纸已经存在" }, JsonRequestBehavior.AllowGet);
+                }
+
+                var fileUpLoad = new FileUpLoadHelper(ConfigurationManager.AppSettings["UploadWallPaperPath"], false, false, true, true, 160, 115, ThumbnailMode.Auto, false, "");
+
+                var imgNd5 = CalculateFile.Calculate(httpPostedFile.InputStream);
 
                 if (fileUpLoad.SaveFile(httpPostedFile))
                 {
-                    var wallpaperResult = _userSettingApplicationServices.AddWallpaper(new WallpaperDto
+                    var shortUrl =
+                        fileUpLoad.WebThumbnailFilePath.Substring(fileUpLoad.WebThumbnailFilePath.LastIndexOf("Script", StringComparison.OrdinalIgnoreCase)).Replace(@"\", "/").Insert(0, "/");
+
+                    var wallpaperResult = _wallpaperApplicationServices.AddWallpaper(new WallpaperDto
                     {
                         Heigth = fileUpLoad.FileHeight,
                         Source = WallpaperSource.Upload,
                         Title = fileUpLoad.OldFileName,
                         Url = fileUpLoad.FilePath + fileUpLoad.OldFileName,
                         UserId = CurrentUser.UserId,
-                        Width = fileUpLoad.FileWidth
+                        Width = fileUpLoad.FileWidth,
+                        Md5 = imgNd5,
+                        ShortUrl = shortUrl
                     });
 
                     return Json(new { Id = wallpaperResult.Item1, Url = wallpaperResult.Item2 }, JsonRequestBehavior.AllowGet);
                 }
             }
-            return Json(new { value = 0 }, JsonRequestBehavior.AllowGet);
+            return Json(new { value = 0, msg = "请先选择一张壁纸。" }, JsonRequestBehavior.AllowGet);
 
         }
-        public ActionResult WebWallPaper(String webUrl = "")
+        public async Task<ActionResult> WebWallPaper(String webUrl = "")
         {
-            //var result = await PlantformApplicationService.WebImgAsync(CurrentUser.Id, webUrl);
-            //return Json(result.ResultType == ResponseType.Success ? new { Id = 1 } : new { Id = 0 });
-            return null;
+            var webWallpaperResult = _wallpaperApplicationServices.AddWebWallpaper(CurrentUser.UserId, webUrl);
+            return Json(new { data = await webWallpaperResult });
         }
 
-        // /// <summary>
-        // /// 获取全部的皮肤
-        // /// </summary>
-        // /// <returns></returns>
-        // public ActionResult GetAllSkin()
-        // {
-        //     var skinPath = Server.MapPath(ConfigurationManager.AppSettings["PlantFormSkinPath"]);
-        //     var data = PlantformApplicationService.AllSkin(skinPath);
-        //     return Json(data.Data.Any() ? new { data, currentSkin = CurrentUser.UserConfigure.Skin } : new { data, currentSkin = "" }, JsonRequestBehavior.AllowGet);
-        // }
-        // /// <summary>
-        // /// 更换皮肤
-        // /// </summary>
-        // /// <param name="skin"></param>
-        // /// <returns></returns>
-        // public ActionResult ChangeSkin(String skin = "")
-        // {
-        //     var data = PlantformApplicationService.Skin(CurrentUser.Id, skin);
-        //     return Json(data.ResultType == ResponseType.Success ? new { data = 1 } : new { data = 0 }, JsonRequestBehavior.AllowGet);
-        // }
+        /// <summary>
+        /// 获取全部的皮肤
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetAllSkin()
+        {
+            var skinPath = Server.MapPath(ConfigurationManager.AppSettings["PlantFormSkinPath"]);
+            var data = _skinApplicationServices.GetAllSkin(skinPath);
+            return Json(new { data, currentSkin = CurrentUser.Skin }, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// 更换皮肤
+        /// </summary>
+        /// <param name="skin"></param>
+        /// <returns></returns>
+        public ActionResult ChangeSkin(String skin = "")
+        {
+            _skinApplicationServices.ModifySkin(CurrentUser.UserId, skin);
+            return Json(new { data = 1 }, JsonRequestBehavior.AllowGet);
+
+        }
 
         /// <summary>
         /// 更换默认显示的桌面
@@ -135,7 +164,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ChangeDefaultDesk(Int32 deskNum = 1)
         {
-            _userSettingApplicationServices.ModifyDefaultDeskNumber(CurrentUser.UserId, deskNum);
+            _deskApplicationServices.ModifyDefaultDeskNumber(CurrentUser.UserId, deskNum);
             return Json(new { data = 1 }, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -145,7 +174,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ChangeAppXy(String appXy)
         {
-            _userSettingApplicationServices.ModifyAppDirection(CurrentUser.UserId, appXy);
+            _appApplicationServices.ModifyAppDirection(CurrentUser.UserId, appXy);
             return Json(new { data = 1 }, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -155,7 +184,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ChangeAppSize(Int32 appSize)
         {
-            _userSettingApplicationServices.ModifyAppIconSize(CurrentUser.UserId, appSize);
+            _appApplicationServices.ModifyAppIconSize(CurrentUser.UserId, appSize);
             return Json(new { data = 1 });
         }
         /// <summary>
@@ -165,7 +194,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ChangeAppVertical(Int32 appVertical)
         {
-            _userSettingApplicationServices.ModifyAppVerticalSpacing(CurrentUser.UserId, appVertical);
+            _appApplicationServices.ModifyAppVerticalSpacing(CurrentUser.UserId, appVertical);
 
             return Json(new { data = 1 });
         }
@@ -177,7 +206,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ChangeAppHorizontal(Int32 appHorizontal)
         {
-            _userSettingApplicationServices.ModifyAppHorizontalSpacing(CurrentUser.UserId, appHorizontal);
+            _appApplicationServices.ModifyAppHorizontalSpacing(CurrentUser.UserId, appHorizontal);
 
             return Json(new { data = 1 });
         }
@@ -190,7 +219,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ChangeDockPosition(String pos = "", Int32 deskNum = 0)
         {
-            _userSettingApplicationServices.ModifyDockPosition(CurrentUser.UserId, deskNum, pos);
+            _deskApplicationServices.ModifyDockPosition(CurrentUser.UserId, deskNum, pos);
 
             return Json(new { data = 1 });
         }

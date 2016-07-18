@@ -57,7 +57,8 @@ namespace NewCRM.Dto
                 .ForMember(wallpaper => wallpaper.Title, dto => dto.MapFrom(d => d.Title))
                 .ForMember(wallpaper => wallpaper.Url, dto => dto.MapFrom(d => d.Url))
                 .ForMember(wallpaper => wallpaper.Width, dto => dto.MapFrom(d => d.Width))
-                .ForMember(wallpaper => wallpaper.ShortUrl, dto => dto.MapFrom(d => d.ShortUrl));
+                .ForMember(wallpaper => wallpaper.ShortUrl, dto => dto.MapFrom(d => d.ShortUrl))
+                .ForMember(wallpaper=>wallpaper.Md5,dto=>dto.MapFrom(d=>d.Md5));
 
 
 

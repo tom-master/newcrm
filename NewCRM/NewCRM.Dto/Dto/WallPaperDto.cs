@@ -37,5 +37,7 @@ namespace NewCRM.Dto.Dto
         /// </summary>
         public Int32 Heigth { get; set; }
 
+        public String Md5 { get; set; }
+
     }
 }
