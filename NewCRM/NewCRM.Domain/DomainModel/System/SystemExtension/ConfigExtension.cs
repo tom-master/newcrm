@@ -28,6 +28,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// 更新默认第几个桌面
         /// </summary>
         /// <param name="deskNumber"></param>
+        /// <param name="realDeskId"></param>
         public Config ModifyDefaultDesk(Int32 deskNumber)
         {
             if (deskNumber > _maxDeskNumber)
@@ -35,6 +36,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
                 throw new ArgumentException("设置的默认显示桌面号不能超出当前所有可用的桌面总数");
             }
             DefaultDeskNumber = deskNumber;
+
             return this;
         }
 

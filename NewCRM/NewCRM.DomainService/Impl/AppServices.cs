@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NewCRM.Domain.Entities.Repositories.IRepository.Account;
 using NewCRM.Domain.Entities.Repositories.IRepository.System;
+using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
 namespace NewCRM.Domain.Services.Impl
@@ -20,6 +21,9 @@ namespace NewCRM.Domain.Services.Impl
 
         [Import]
         private IDeskRepository _deskRepository;
+
+        [Import]
+        private IAppRepository _appRepository;
 
 
         public IDictionary<Int32, IList<dynamic>> GetApp(Int32 userId)
@@ -35,15 +39,57 @@ namespace NewCRM.Domain.Services.Impl
                 IList<dynamic> deskMembers = new List<dynamic>();
                 foreach (var member in desk.Members)
                 {
-                    deskMembers.Add(new
+                    if (member.MemberType == MemberType.Folder)
                     {
-                        type = member.MemberType.ToString(),
-                        memberId = member.Id,
-                        appId = member.AppId,
-                        name = member.Name,
-                        icon = member.IconUrl,
-                        isOnDock = member.IsOnDock
-                    });
+                        deskMembers.Add(new
+                        {
+                            type = member.MemberType.ToString().ToLower(),
+                            memberId = member.Id,
+                            appId = member.AppId,
+                            name = member.Name,
+                            icon = member.IconUrl,
+                            width= member.Width,
+                            height = member.Height,
+                            isOnDock = member.IsOnDock,
+                            isDraw = member.IsDraw,
+                            isOpenMax = member.IsOpenMax,
+                            isSetbar = member.IsSetbar,
+                            apps = desk.Members.Where(m => m.FolderId == member.Id).Select(app => new
+                            {
+                                memberType = app.MemberType.ToString().ToLower(),
+                                id = app.Id,
+                                appId = app.AppId,
+                                name = app.Name,
+                                icon = app.IconUrl,
+                                width = app.Width,
+                                height = app.Height,
+                                isOnDock = app.IsOnDock,
+                                isDraw = app.IsDraw,
+                                isOpenMax = app.IsOpenMax,
+                                isSetbar = app.IsSetbar,
+                            })
+                        });
+                    }
+                    else
+                    {
+                        if (member.FolderId == 0)
+                        {
+                            deskMembers.Add(new
+                            {
+                                type = member.MemberType.ToString(),
+                                memberId = member.Id,
+                                appId = member.AppId,
+                                name = member.Name,
+                                icon = member.IconUrl,
+                                width = member.Width,
+                                height = member.Height,
+                                isOnDock = member.IsOnDock,
+                                isDraw = member.IsDraw,
+                                isOpenMax = member.IsOpenMax,
+                                isSetbar = member.IsSetbar
+                            });
+                        }
+                    }
                 }
                 desks.Add(new KeyValuePair<Int32, IList<dynamic>>(desk.DeskNumber, deskMembers));
             }

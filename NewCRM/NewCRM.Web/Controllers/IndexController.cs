@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Web;
 using System.Web.Mvc;
 using NewCRM.Application.Services.IApplicationService;
+using NewCRM.Dto.Dto;
 
 namespace NewCRM.Web.Controllers
 {
@@ -16,6 +17,9 @@ namespace NewCRM.Web.Controllers
 
         [Import]
         private IAppApplicationServices _appApplicationServices;
+
+        [Import]
+        private IDeskApplicationServices _deskApplicationServices;
 
         // GET: Index
         /// <summary>
@@ -128,19 +132,43 @@ namespace NewCRM.Web.Controllers
         {
             return Json(new { data = CurrentUser.UserFace }, JsonRequestBehavior.AllowGet);
         }
-        /////// <summary>
-        /////// 创建一个窗口
-        /////// </summary>
-        /////// <param name="id"></param>
-        /////// <param name="type"></param>
-        /////// <returns></returns>
-        //public ActionResult CreateWindow(Int32 id = 0, String type = "")
-        //{
-        //    //_userApplicationService = new UserApplicationService();
-        //    //var value = _userApplicationService.BuilderWindow(id, type);
-        //    //return Json(new { data = value }, JsonRequestBehavior.AllowGet);
-        //    return null;
-        //}
-        //#endregion
+        ///// <summary>
+        ///// 创建一个窗口
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <param name="type"></param>
+        ///// <returns></returns>
+        public ActionResult CreateWindow(Int32 id = 0, String type = "")
+        {
+            var internalMemberResult = new MemberDto();
+            if (type == "app")
+            {
+                internalMemberResult = _deskApplicationServices.GetMember(CurrentUser.UserId, id);
+            }
+            if (type == "folder")
+            {
+                internalMemberResult = _deskApplicationServices.GetMember(CurrentUser.UserId, id, true);
+            }
+
+            return Json(new
+            {
+                data = new
+                {
+                    type = internalMemberResult.MemberType.ToLower(),
+                    memberId = internalMemberResult.Id,
+                    appId = internalMemberResult.AppId,
+                    name = internalMemberResult.Name,
+                    icon = internalMemberResult.IconUrl,
+                    width = internalMemberResult.Width,
+                    height = internalMemberResult.Height,
+                    isOnDock = internalMemberResult.IsOnDock,
+                    isDraw = internalMemberResult.IsDraw,
+                    isOpenMax = internalMemberResult.IsOpenMax,
+                    isSetbar = internalMemberResult.IsSetbar,
+                    url = internalMemberResult.AppUrl
+
+                }
+            }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

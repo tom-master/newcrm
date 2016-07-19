@@ -220,18 +220,25 @@ namespace NewCRM.Web.Controllers
 
             return Json(new { data = 1 });
         }
-        // ///// <summary>
-        // ///// 桌面元素移动
-        // ///// </summary>
-        // ///// <returns></returns>
-        // //public ActionResult ElementMove(String moveType = "", Int32 id = 0, Int32 from = 0, Int32 to = 0)
-        // //{
-        // //    switch (moveType)
-        // //    {
-        // //        case "dock-folder":
-        // //            break;
-        // //    }
-        // //    return null;
-        // //}
+        /// <summary>
+        /// 桌面元素移动
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MemberMove(String moveType, Int32 memberId = 0, Int32 from = 0, Int32 to = 0)
+        {
+            switch (moveType)
+            {
+                case "desk-dock": //成员从桌面移动到码头
+                    _deskApplicationServices.MemberInDock(CurrentUser.UserId, memberId);
+                    break;
+                case "dock-desk": //成员从码头移动到桌面
+                    _deskApplicationServices.MemberOutDock(CurrentUser.UserId, memberId);
+                    break;
+                case "dock-folder": //成员从码头移动到桌面文件夹中
+                    _deskApplicationServices.DockToFolder(CurrentUser.UserId, memberId, to);
+                    break;
+            }
+            return new EmptyResult();
+        }
     }
 }

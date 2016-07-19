@@ -53,11 +53,23 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// </summary>
         public String IconUrl { get; private set; }
 
+
+        /// <summary>
+        /// app地址
+        /// </summary>
+        public String AppUrl { get; private set; }
+
         /// <summary>
         /// 成员是否在应用码头上
         /// </summary>
 
         public Boolean IsOnDock { get; private set; }
+
+
+        /// <summary>
+        /// 是否显示app底部的按钮
+        /// </summary>
+        public Boolean IsSetbar { get; private set; }
 
 
         /// <summary>
@@ -68,28 +80,39 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         #endregion
 
         #region public ctor
+
         /// <summary>
         /// 实例化一个成员对象
         /// </summary>
         /// <param name="name"></param>
         /// <param name="iconUrl"></param>
+        /// <param name="appUrl"></param>
         /// <param name="appId"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
+        /// <param name="isDraw"></param>
+        /// <param name="isOpenMax"></param>
+        /// <param name="isSetbar"></param>
         public Member(
             String name,
             String iconUrl,
+            String appUrl,
             Int32 appId,
             Int32 width,
-            Int32 height)
+            Int32 height,
+            Boolean isDraw=false,
+            Boolean isOpenMax=false,
+            Boolean isSetbar=false)
         {
             AppId = appId;
             Width = width > 800 ? 800 : width;
             Height = height > 600 ? 600 : height;
-            IsDraw = false;
-            IsOpenMax = false;
+            IsDraw = isDraw;
+            IsOpenMax = isOpenMax;
+            IsSetbar = isSetbar;
             Name = name;
             IconUrl = iconUrl;
+            AppUrl = appUrl;
             MemberType = appId == 0 ? MemberType.Folder : MemberType.App;
         }
 

@@ -65,6 +65,25 @@ namespace NewCRM.Dto
             #endregion
 
 
+            #region member
+
+            Mapper.CreateMap<Member, MemberDto>()
+                .ForMember(dto => dto.Id, wallpaper => wallpaper.MapFrom(w => w.Id))
+                .ForMember(dto => dto.AppId, wallpaper => wallpaper.MapFrom(w => w.AppId))
+                .ForMember(dto => dto.Width, wallpaper => wallpaper.MapFrom(w => w.Width))
+                .ForMember(dto => dto.Height, wallpaper => wallpaper.MapFrom(w => w.Height))
+                .ForMember(dto => dto.FolderId, wallpaper => wallpaper.MapFrom(w => w.FolderId))
+                .ForMember(dto => dto.IsDraw, wallpaper => wallpaper.MapFrom(w => w.IsDraw))
+                .ForMember(dto => dto.Name, wallpaper => wallpaper.MapFrom(w => w.Name))
+                .ForMember(dto => dto.IconUrl, wallpaper => wallpaper.MapFrom(w => w.IconUrl))
+                .ForMember(dto => dto.IsOnDock, wallpaper => wallpaper.MapFrom(w => w.IsOnDock))
+                .ForMember(dto => dto.MemberType, wallpaper => wallpaper.MapFrom(w => w.MemberType.ToString()))
+                .ForMember(dto=>dto.IsSetbar,wallpaper=>wallpaper.MapFrom(w=>w.IsSetbar))
+                .ForMember(dto=>dto.AppUrl,wallpaper=>wallpaper.MapFrom(w=>w.AppUrl));
+
+            #endregion
+
+
             #endregion
         }
 

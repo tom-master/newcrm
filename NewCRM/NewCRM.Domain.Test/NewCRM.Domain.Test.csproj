@@ -66,22 +66,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="TestExpression.cs" />
-    <Compile Include="TestRepository\AppRepository.cs" />
-    <Compile Include="TestRepository\AppTypeRepository.cs" />
-    <Compile Include="TestRepository\BaseRepository.cs" />
-    <Compile Include="TestRepository\DeskRepository.cs" />
-    <Compile Include="TestRepository\OnlineRepository.cs" />
-    <Compile Include="TestRepository\PowerRepository.cs" />
-    <Compile Include="TestRepository\RoleRepository.cs" />
-    <Compile Include="TestRepository\TitleRepository.cs" />
-    <Compile Include="TestRepository\WallpaperRepository.cs" />
-    <Compile Include="UnitTestRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTestUser.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="TestRepository\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Fakes Include="Fakes\NewCRM.Infrastructure.fakes" />

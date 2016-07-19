@@ -67,10 +67,10 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         }
 
         /// <summary>
-        /// app移入文件夹
+        /// 桌面成员移入文件夹
         /// </summary>
         /// <param name="folderId"></param>
-        public Member AppInFolder(Int32 folderId)
+        public Member MemberInFolder(Int32 folderId)
         {
             if (folderId <= 0)
             {
@@ -81,9 +81,9 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         }
 
         /// <summary>
-        /// app移出文件夹
+        /// 桌面成员移出文件夹
         /// </summary>
-        public Member AppOutFolder()
+        public Member MemberOutFolder()
         {
             FolderId = 0;
             return this;

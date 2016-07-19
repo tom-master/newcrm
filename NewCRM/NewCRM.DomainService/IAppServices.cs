@@ -15,7 +15,7 @@ namespace NewCRM.Domain.Services
         /// <returns></returns>
         IDictionary<Int32, IList<dynamic>> GetApp(Int32 userId);
 
-        #region app
+
         /// <summary>
         /// 修改app的排列方向
         /// </summary>
@@ -43,7 +43,5 @@ namespace NewCRM.Domain.Services
         /// <param name="userId"></param>
         /// <param name="newSize"></param>
         void ModifyAppHorizontalSpacing(Int32 userId, Int32 newSize);
-
-        #endregion
     }
 }
