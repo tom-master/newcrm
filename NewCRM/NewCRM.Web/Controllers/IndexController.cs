@@ -120,7 +120,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult GetMyApp()
         {
             var app = _appApplicationServices.GetUserApp(CurrentUser.Id);
-            return Json(new { app = app }, JsonRequestBehavior.AllowGet);
+            return Json(new { app }, JsonRequestBehavior.AllowGet);
         }
         ///// <summary>
         ///// 获取用户头像

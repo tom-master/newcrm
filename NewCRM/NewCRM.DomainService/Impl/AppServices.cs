@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NewCRM.Domain.Entities.Repositories.IRepository.Account;
-using NewCRM.Domain.Entities.Repositories.IRepository.System;
 using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
@@ -19,22 +15,13 @@ namespace NewCRM.Domain.Services.Impl
         [Import]
         private IUserRepository _userRepository;
 
-        [Import]
-        private IDeskRepository _deskRepository;
-
-        [Import]
-        private IAppRepository _appRepository;
-
-
         public IDictionary<Int32, IList<dynamic>> GetApp(Int32 userId)
         {
-            var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+            var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId);
 
             IDictionary<Int32, IList<dynamic>> desks = new Dictionary<Int32, IList<dynamic>>();
 
-
-
-            foreach (var desk in userConfig.Desks)
+            foreach (var desk in userConfig.Config.Desks)
             {
                 IList<dynamic> deskMembers = new List<dynamic>();
                 foreach (var member in desk.Members)
