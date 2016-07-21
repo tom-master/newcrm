@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZNewCRM.Web(Old)", "NewCRM.Web(Old)\ZNewCRM.Web(Old).csproj", "{EC02F6BD-E93F-4D1F-BEFA-ADDDFBCB5A95}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCRM.Web", "NewCRM.Web\NewCRM.Web.csproj", "{F34C371A-E2E5-499B-A0FD-36EF9CCA486A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewCRM.App.Infrastructure", "NewCRM.App.Infrastructure", "{F7EAFE75-1B68-437E-B305-25865886AA24}"
@@ -52,10 +50,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EC02F6BD-E93F-4D1F-BEFA-ADDDFBCB5A95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EC02F6BD-E93F-4D1F-BEFA-ADDDFBCB5A95}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EC02F6BD-E93F-4D1F-BEFA-ADDDFBCB5A95}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EC02F6BD-E93F-4D1F-BEFA-ADDDFBCB5A95}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F34C371A-E2E5-499B-A0FD-36EF9CCA486A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F34C371A-E2E5-499B-A0FD-36EF9CCA486A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F34C371A-E2E5-499B-A0FD-36EF9CCA486A}.Release|Any CPU.ActiveCfg = Release|Any CPU
