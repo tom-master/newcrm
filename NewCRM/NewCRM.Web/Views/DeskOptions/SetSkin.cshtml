@@ -3,7 +3,7 @@
 }
 <div class="title">
     <ul>
-        <li><a href="@Url.Action("SystemWallPaper", "PlatformSetting")">壁纸设置</a></li>
+        <li><a href="@Url.Action("SystemWallPaper", "DeskOptions")">壁纸设置</a></li>
         <li class="focus">皮肤设置</li>
     </ul>
 </div>
@@ -19,7 +19,7 @@
      
       
         function loadAllSkin(callback) {
-            $.get('@Url.Action("GetAllSkin", "PlatformSetting")', { __: Date.now }, function (result) {
+            $.get('@Url.Action("GetAllSkin", "DeskOptions")', { __: Date.now }, function (result) {
                 var html = '';
                 $.each(result.data, function (k, v) {
                     html += '<li skin="' + k + '"><img src="' + v.imgPath + '"  data-css="' + v.skinPath + '"><div></div></li>';
@@ -37,7 +37,7 @@
                 var skin = $(this).attr('skin');
                 $('.skin li').removeClass('selected');
                 $(this).addClass('selected');
-                $.get('@Url.Action("ChangeSkin", "PlatformSetting")', { __: Date.now(), skin: skin }, function (result) {
+                $.get('@Url.Action("ChangeSkin", "DeskOptions")', { __: Date.now(), skin: skin }, function (result) {
                     if (parseInt(result.data) === 1) {
                         window.parent.ZENG.msgbox.show("设置成功，如果没有更新请刷新页面", 4, 2000);
                          

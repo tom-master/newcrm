@@ -166,7 +166,7 @@ namespace NewCRM.Domain.Services.Impl
 
         public void FolderToDesk(Int32 userId, Int32 memberId)
         {
-           var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+            var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
             foreach (var desk in userConfig.Desks)
             {
                 var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId);
@@ -202,6 +202,62 @@ namespace NewCRM.Domain.Services.Impl
                 if (memberResult != null)
                 {
                     memberResult.ToOtherDesk(realDeskId);
+                    _deskRepository.Update(desk);
+                    break;
+                }
+            }
+        }
+
+        public void ModifyFolderInfo(String memberName, String memberIcon, Int32 memberId, Int32 userId)
+        {
+            var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+
+            foreach (var desk in userConfig.Desks)
+            {
+                var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId);
+                if (memberResult != null)
+                {
+                    memberResult.ModifyMemberName(memberName).ModifyMemberIcon(memberIcon);
+                    _deskRepository.Update(desk);
+                    break;
+                }
+            }
+        }
+
+        public void RemoveMemberOfFolder(Int32 userId, Int32 memberId)
+        {
+            var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+
+            foreach (var desk in userConfig.Desks)
+            {
+                var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId && member.MemberType == MemberType.Folder);
+
+                if (memberResult != null)
+                {
+                    //移除文件夹中的内容
+                    foreach (var desk1 in userConfig.Desks)
+                    {
+                        desk1.Members.Where(d => d.FolderId == memberId).ToList().ForEach(m => m.RemoveMember());
+                    }
+
+                    memberResult.RemoveMember();
+                    _deskRepository.Update(desk);
+                    break;
+                }
+            }
+        }
+
+        public void RemoveMemberOfApp(Int32 userId, Int32 memberId)
+        {
+            var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+
+            foreach (var desk in userConfig.Desks)
+            {
+                var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId && member.MemberType == MemberType.App);
+
+                if (memberResult != null)
+                {
+                    memberResult.RemoveMember();
                     _deskRepository.Update(desk);
                     break;
                 }

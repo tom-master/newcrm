@@ -47,7 +47,7 @@ namespace NewCRM.Application.Services
             _deskServices.MemberInDock(userId, memberId);
         }
 
-        public void MemberOutDock(Int32 userId, Int32 memberId,Int32 deskId)
+        public void MemberOutDock(Int32 userId, Int32 memberId, Int32 deskId)
         {
             _validateParameter.Validate(userId).Validate(memberId);
             _deskServices.MemberOutDock(userId, memberId, deskId);
@@ -88,6 +88,24 @@ namespace NewCRM.Application.Services
         {
             _validateParameter.Validate(userId).Validate(memberId).Validate(deskId);
             _deskServices.DeskToOtherDesk(userId, memberId, deskId);
+        }
+
+        public void ModifyFolderInfo(String memberName, String memberIcon, Int32 memberId, Int32 userId)
+        {
+            _validateParameter.Validate(memberName).Validate(memberIcon).Validate(memberId).Validate(userId);
+            _deskServices.ModifyFolderInfo(memberName, memberIcon, memberId, userId);
+        }
+
+        public void RemoveMemberOfFolder(Int32 userId, Int32 memberId)
+        {
+            _validateParameter.Validate(userId).Validate(memberId);
+            _deskServices.RemoveMemberOfFolder(userId, memberId);
+        }
+
+        public void RemoveMemberOfApp(Int32 userId, Int32 memberId)
+        {
+            _validateParameter.Validate(userId).Validate(memberId);
+            _deskServices.RemoveMemberOfApp(userId,memberId);
         }
     }
 }

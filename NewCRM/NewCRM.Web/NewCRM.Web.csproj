@@ -124,9 +124,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ControllerHelper\BaseController.cs" />
     <Compile Include="Controllers\ControllerHelper\Jsons.cs" />
+    <Compile Include="Controllers\DeskController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\AuthorityManageController.cs" />
-    <Compile Include="Controllers\PlatformSettingController.cs" />
+    <Compile Include="Controllers\DeskOptionsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -583,16 +584,18 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\Metro\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Desk\" />
+    <Folder Include="Views\UserMember\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Views\Index\Login.cshtml" />
     <Content Include="Views\AuthorityManage\RoleManage.cshtml" />
-    <Content Include="Views\PlatformSetting\SystemWallPaper.cshtml" />
-    <Content Include="Views\PlatformSetting\CustomWallPaper.cshtml" />
-    <Content Include="Views\PlatformSetting\SettingSkin.cshtml" />
-    <Content Include="Views\PlatformSetting\DeskTopSetting.cshtml" />
+    <Content Include="Views\DeskOptions\SystemWallPaper.cshtml" />
+    <Content Include="Views\DeskOptions\CustomWallPaper.cshtml" />
+    <Content Include="Views\DeskOptions\SetSkin.cshtml" />
+    <Content Include="Views\DeskOptions\DeskSet.cshtml" />
     <Content Include="Scripts\HoorayUI\js\processBar\jquery.processbar.js" />
     <Content Include="Views\Shared\_LayoutApps.cshtml" />
     <Content Include="Views\Shared\_LayoutRoot.cshtml" />

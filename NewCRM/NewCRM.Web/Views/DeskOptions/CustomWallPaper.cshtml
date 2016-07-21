@@ -7,12 +7,12 @@
 <div class="title">
     <ul>
         <li class="focus">壁纸设置</li>
-        <li><a href="@Url.Action("SettingSkin", "PlatformSetting")">皮肤设置</a></li>
+        <li><a href="@Url.Action("SetSkin", "DeskOptions")">皮肤设置</a></li>
     </ul>
 </div>
 <div class="wallpapertype form-inline">
     <div class="btn-group fl">
-        <a class="btn" href="@Url.Action("SystemWallPaper", "PlatformSetting")">系统壁纸</a><a class="btn disabled">自定义</a>
+        <a class="btn" href="@Url.Action("SystemWallPaper", "DeskOptions")">系统壁纸</a><a class="btn disabled">自定义</a>
     </div>
     <div class="fr">
         <label>显示方式：</label>
@@ -51,7 +51,7 @@
             // swf文件路径
             swf: '~/Scripts/HoorayUI/js/webuploader-0.1.5/Uploader.swf',
             // 文件接收服务端。
-            server: '@Url.Action("UploadWallPaper", "PlatformSetting")',
+            server: '@Url.Action("UploadWallPaper", "DeskOptions")',
             // 选择文件的按钮。可选。
             // 内部根据当前运行是创建，可能是input元素，也可能是flash.
             pick: {
@@ -99,7 +99,7 @@
         $('.wapppapercustom .view').on('click', 'li a', function (event) {
             event.stopPropagation();
             var id = $(this).parent().attr('id');
-            $.post("@Url.Action("DeleteWallPaper", "PlatformSetting")", { wallPaperId: id }, function (result) {
+            $.post("@Url.Action("DeleteWallPaper", "DeskOptions")", { wallPaperId: id }, function (result) {
                 if (parseInt(result.data) === 1) {
                     ZENG.msgbox.show('壁纸移除成功', 5, 2000);
                     $('#' + id).remove();
@@ -118,7 +118,7 @@
     });
 
     function GetAllUploadWallPaper() {
-        $.get("@Url.Action("GetAllUploadWallPaper", "PlatformSetting")", function (result) {
+        $.get("@Url.Action("GetAllUploadWallPaper", "DeskOptions")", function (result) {
             var liElement = '';
             $.each(result.wallPapers, function (k, v) {
                 liElement += '<li id="' + v.Id + '" style="background:url(' + v.ShortUrl + ')"><a href="javascript:;">删 除</a></li>';
@@ -132,7 +132,7 @@
         if (typeof webUrl === 'undefined' || webUrl === '' || webUrl === null) {
             ZENG.msgbox.show('请输入一个合法的url地址', 5, 2000);
         } else {
-            $.post("@Url.Action("WebWallPaper", "PlatformSetting")", { webUrl: webUrl }, function (result) {
+            $.post("@Url.Action("WebWallPaper", "DeskOptions")", { webUrl: webUrl }, function (result) {
                 if (parseInt(result.data.Item1) === 0) {
                     ZENG.msgbox.show('未能获取到所指定的网络图片', 5, 2000);
                 } else {
