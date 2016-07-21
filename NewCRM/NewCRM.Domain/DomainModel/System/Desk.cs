@@ -12,6 +12,8 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         public Int32 DeskNumber { get; private set; }
 
         public virtual ICollection<Member> Members { get; private set; }
+
+        public  Int32 ConfigId { get; set; }
         #endregion
 
 

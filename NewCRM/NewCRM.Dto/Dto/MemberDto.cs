@@ -7,11 +7,9 @@ using NewCRM.Domain.Entities.ValueObject;
 
 namespace NewCRM.Dto.Dto
 {
-    public class MemberDto
+    public sealed class MemberDto: BaseDto
     {
         #region public property
-
-        public Int32 Id { get; set; }
 
         /// <summary>
         /// 应用Id

@@ -56,8 +56,8 @@ namespace NewCRM.Domain.Services.Impl
                             isSetbar = member.IsSetbar,
                             apps = desk.Members.Where(m => m.FolderId == member.Id).Select(app => new
                             {
-                                memberType = app.MemberType.ToString().ToLower(),
-                                id = app.Id,
+                                type = app.MemberType.ToString().ToLower(),
+                                memberId = app.Id,
                                 appId = app.AppId,
                                 name = app.Name,
                                 icon = app.IconUrl,
@@ -74,9 +74,10 @@ namespace NewCRM.Domain.Services.Impl
                     {
                         if (member.FolderId == 0)
                         {
+                            var internalType = member.MemberType.ToString().ToLower();
                             deskMembers.Add(new
                             {
-                                type = member.MemberType.ToString(),
+                                type = internalType,
                                 memberId = member.Id,
                                 appId = member.AppId,
                                 name = member.Name,

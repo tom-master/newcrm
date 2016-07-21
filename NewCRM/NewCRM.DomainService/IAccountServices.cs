@@ -6,7 +6,7 @@ namespace NewCRM.Domain.Services
 {
     public interface IAccountServices
     {
-        Int32 Validate(String userName, String password);
+        User Validate(String userName, String password);
 
         void Logout(Int32 userId);
 

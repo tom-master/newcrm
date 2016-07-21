@@ -47,16 +47,47 @@ namespace NewCRM.Application.Services
             _deskServices.MemberInDock(userId, memberId);
         }
 
-        public void MemberOutDock(Int32 userId, Int32 memberId)
+        public void MemberOutDock(Int32 userId, Int32 memberId,Int32 deskId)
         {
             _validateParameter.Validate(userId).Validate(memberId);
-            _deskServices.MemberOutDock(userId, memberId);
+            _deskServices.MemberOutDock(userId, memberId, deskId);
         }
 
         public void DockToFolder(Int32 userId, Int32 memberId, Int32 folderId)
         {
             _validateParameter.Validate(userId).Validate(memberId).Validate(folderId);
             _deskServices.DockToFolder(userId, memberId, folderId);
+        }
+
+        public void FolderToDock(Int32 userId, Int32 memberId)
+        {
+            _validateParameter.Validate(userId).Validate(memberId);
+
+            _deskServices.FolderToDock(userId, memberId);
+        }
+
+        public void DeskToFolder(Int32 userId, Int32 memberId, Int32 folderId)
+        {
+            _validateParameter.Validate(userId).Validate(memberId).Validate(folderId);
+            _deskServices.DeskToFolder(userId, memberId, folderId);
+        }
+
+        public void FolderToDesk(Int32 userId, Int32 memberId)
+        {
+            _validateParameter.Validate(userId).Validate(memberId);
+            _deskServices.FolderToDesk(userId, memberId);
+        }
+
+        public void FolderToOtherFolder(Int32 userId, Int32 memberId, Int32 folderId)
+        {
+            _validateParameter.Validate(userId).Validate(memberId).Validate(folderId);
+            _deskServices.FolderToOtherFolder(userId, memberId, folderId);
+        }
+
+        public void DeskToOtherDesk(Int32 userId, Int32 memberId, Int32 deskId)
+        {
+            _validateParameter.Validate(userId).Validate(memberId).Validate(deskId);
+            _deskServices.DeskToOtherDesk(userId, memberId, deskId);
         }
     }
 }

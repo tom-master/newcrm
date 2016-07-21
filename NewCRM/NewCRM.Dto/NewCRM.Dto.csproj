@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DtoConfiguration.cs" />
+    <Compile Include="Dto\BaseDto.cs" />
     <Compile Include="Dto\MemberDto.cs" />
     <Compile Include="Dto\UserDto.cs" />
     <Compile Include="Dto\WallpaperDto.cs" />

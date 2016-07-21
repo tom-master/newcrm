@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <script src="@Url.Content("~/Scripts/HoorayUI/js/HoorayJs/jquery-2.1.4.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-2.2.4.js")"></script>
     <link href="@Url.Content("~/Scripts/HoorayUI/js/HoorayLibs/hooraylibs.css")" rel="stylesheet" />
     @RenderSection("css", true)
 
@@ -26,8 +26,6 @@
 <script>
     $(function () {
         @RenderSection("script", true)
-
-
         //配置artDialog全局默认参数
         (function (config) {
             config['lock'] = true;

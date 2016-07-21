@@ -28,7 +28,7 @@ namespace NewCRM.Domain.Services.Impl
 
 
 
-        public Int32 Validate(String userName, String password)
+        public User Validate(String userName, String password)
         {
             var userResult = _useRepository.Entities.FirstOrDefault(user => user.Name == userName);
             if (userResult == null)
@@ -45,7 +45,7 @@ namespace NewCRM.Domain.Services.Impl
 
             _onlineRepository.Add(new Online(GetCurrentIpAddress(), userResult.Id));
 
-            return userResult.Id;
+            return userResult;
 
         }
 

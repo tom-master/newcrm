@@ -18,10 +18,10 @@ namespace NewCRM.Application.Services
         private readonly Parameter _validateParameter = new Parameter();
 
 
-        public Int32 Login(String userName, String password)
+        public UserDto Login(String userName, String password)
         {
             _validateParameter.Validate(userName).Validate(password);
-            return _accountServices.Validate(userName, password);
+            return _accountServices.Validate(userName, password).ConvertToDto<User, UserDto>();
 
         }
 

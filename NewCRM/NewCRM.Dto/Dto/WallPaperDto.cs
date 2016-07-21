@@ -3,11 +3,8 @@ using NewCRM.Domain.Entities.ValueObject;
 
 namespace NewCRM.Dto.Dto
 {
-    public sealed class WallpaperDto
+    public sealed class WallpaperDto : BaseDto
     {
-        public Int32 Id { get; set; }
-
-
         public Int32 UserId { get; set; }
 
         /// <summary>
@@ -25,7 +22,7 @@ namespace NewCRM.Dto.Dto
         /// <summary>
         /// 来源
         /// </summary>
-        public WallpaperSource Source { get; set; }
+        public String Source { get; set; }
 
         /// <summary>
         /// 图片的宽

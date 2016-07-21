@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entities.DomainModel.System;
@@ -46,7 +47,7 @@ namespace NewCRM.Domain.Services.Impl
                         dockMembers.ToList().ForEach(
                         f =>
                         {
-                            f.MoveOutDock();
+                            f.OutDock();
                         });
                         _deskRepository.Update(deskResult);
                     }
@@ -69,33 +70,61 @@ namespace NewCRM.Domain.Services.Impl
 
         public Member GetMember(Int32 userId, Int32 memberId, Boolean isFolder = default(Boolean))
         {
-            var configResult = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+            var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
 
-            var members = configResult.Desks.FirstOrDefault(c => c.DeskNumber == configResult.DefaultDeskNumber).Members;
+            foreach (var desk in userConfig.Desks)
+            {
+                if (isFolder)
+                {
+                    var folderMember = desk.Members.FirstOrDefault(member => member.Id == memberId && member.MemberType == MemberType.Folder);
+                    if (folderMember != null)
+                    {
+                        return folderMember;
+                    }
+                }
+                else
+                {
+                    var appMember = desk.Members.FirstOrDefault(member => member.AppId == memberId && member.MemberType == MemberType.App);
+                    if (appMember != null)
+                    {
+                        return appMember;
+                    }
+                }
+            }
+            throw new BusinessException($"未找到app");
 
-            return isFolder ? members.FirstOrDefault(member => member.Id == memberId && member.MemberType == MemberType.Folder) : members.FirstOrDefault(member => member.AppId == memberId && member.MemberType == MemberType.App);
         }
 
         public void MemberInDock(Int32 userId, Int32 memberId)
         {
-            var configResult = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+            var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
 
-            var desk = configResult.Desks.FirstOrDefault(c => c.DeskNumber == configResult.DefaultDeskNumber);
-
-            desk.Members.FirstOrDefault(member => member.Id == memberId).MoveInDock();
-
-            _deskRepository.Update(desk);
+            foreach (var desk in userConfig.Desks)
+            {
+                var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId);
+                if (memberResult != null)
+                {
+                    memberResult.InDock();
+                    _deskRepository.Update(desk);
+                    break;
+                }
+            }
         }
 
-        public void MemberOutDock(Int32 userId, Int32 memberId)
+        public void MemberOutDock(Int32 userId, Int32 memberId, Int32 deskId)
         {
-            var configResult = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
-
-            var desk = configResult.Desks.FirstOrDefault(c => c.DeskNumber == configResult.DefaultDeskNumber);
-
-            desk.Members.FirstOrDefault(member => member.Id == memberId).MoveOutDock();
-
-            _deskRepository.Update(desk);
+            var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+            var realDeskId = userConfig.Desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
+            foreach (var desk in userConfig.Desks)
+            {
+                var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId);
+                if (memberResult != null)
+                {
+                    memberResult.OutDock().ToOtherDesk(realDeskId);
+                    _deskRepository.Update(desk);
+                    break;
+                }
+            }
         }
 
         public void DockToFolder(Int32 userId, Int32 memberId, Int32 folderId)
@@ -104,9 +133,79 @@ namespace NewCRM.Domain.Services.Impl
 
             var desk = configResult.Desks.FirstOrDefault(c => c.DeskNumber == configResult.DefaultDeskNumber);
 
-            desk.Members.FirstOrDefault(member => member.Id == memberId).MoveOutDock().MemberInFolder(folderId);
+            desk.Members.FirstOrDefault(member => member.Id == memberId).OutDock().InFolder(folderId);
 
             _deskRepository.Update(desk);
+        }
+
+        public void FolderToDock(Int32 userId, Int32 memberId)
+        {
+            var configResult = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+
+            var desk = configResult.Desks.FirstOrDefault(c => c.DeskNumber == configResult.DefaultDeskNumber);
+
+            desk.Members.FirstOrDefault(member => member.Id == memberId).InDock().OutFolder();
+
+            _deskRepository.Update(desk);
+        }
+
+        public void DeskToFolder(Int32 userId, Int32 memberId, Int32 folderId)
+        {
+            var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+            foreach (var desk in userConfig.Desks)
+            {
+                var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId);
+                if (memberResult != null)
+                {
+                    memberResult.InFolder(folderId);
+                    _deskRepository.Update(desk);
+                    break;
+                }
+            }
+        }
+
+        public void FolderToDesk(Int32 userId, Int32 memberId)
+        {
+           var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+            foreach (var desk in userConfig.Desks)
+            {
+                var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId);
+                if (memberResult != null)
+                {
+                    memberResult.OutFolder();
+                    _deskRepository.Update(desk);
+                    break;
+                }
+            }
+        }
+
+        public void FolderToOtherFolder(Int32 userId, Int32 memberId, Int32 folderId)
+        {
+            var configResult = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+
+            var desk = configResult.Desks.FirstOrDefault(c => c.DeskNumber == configResult.DefaultDeskNumber);
+
+            desk.Members.FirstOrDefault(member => member.Id == memberId).OutFolder().InFolder(folderId);
+
+            _deskRepository.Update(desk);
+        }
+
+        public void DeskToOtherDesk(Int32 userId, Int32 memberId, Int32 deskId)
+        {
+            var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+
+            var realDeskId = userConfig.Desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
+
+            foreach (var desk in userConfig.Desks)
+            {
+                var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId);
+                if (memberResult != null)
+                {
+                    memberResult.ToOtherDesk(realDeskId);
+                    _deskRepository.Update(desk);
+                    break;
+                }
+            }
         }
     }
 }

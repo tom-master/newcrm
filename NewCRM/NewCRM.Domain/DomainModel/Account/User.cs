@@ -40,6 +40,11 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         /// </summary>
         public Boolean IsOnline { get; private set; }
 
+        public Int32 TitleId { get; set; }
+
+        public Int32 ConfigId { get; set; }
+
+
         /// <summary>
         /// 职称
         /// </summary>
@@ -49,6 +54,8 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         /// 用户配置
         /// </summary>
         public virtual Config Config { get; private set; }
+
+
 
         public virtual ICollection<UserRole> Roles { get; private set; }
 

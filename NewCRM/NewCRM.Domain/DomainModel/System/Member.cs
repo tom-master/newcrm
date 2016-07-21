@@ -28,6 +28,8 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// </summary>
         public Int32 Height { get; private set; }
 
+ 
+
         /// <summary>
         /// 文件夹Id
         /// </summary>
@@ -76,6 +78,8 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// 成员类型
         /// </summary>
         public MemberType MemberType { get; private set; }
+
+        public  Int32 DeskId { get; set; }
 
         #endregion
 

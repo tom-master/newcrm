@@ -65,6 +65,8 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// </summary>
         public virtual ICollection<Desk> Desks { get; private set; }
 
+        public  Int32 WallpaperId { get; set; }
+
 
         #endregion
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
+using NewCRM.Domain.Entities.DomainModel;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Dto.Dto;
@@ -26,15 +27,15 @@ namespace NewCRM.Dto
                 .ForMember(dto => dto.AppVerticalSpacing, user => user.MapFrom(u => u.Config.AppVerticalSpacing))
                 .ForMember(dto => dto.AppHorizontalSpacing, user => user.MapFrom(u => u.Config.AppHorizontalSpacing))
                 .ForMember(dto => dto.DefaultDeskNumber, user => user.MapFrom(u => u.Config.DefaultDeskNumber))
-                .ForMember(dto => dto.WallpaperMode, user => user.MapFrom(u => u.Config.WallpaperMode.ToString()))
-                .ForMember(dto => dto.AppXy, user => user.MapFrom(u => u.Config.AppXy.ToString()))
-                .ForMember(dto => dto.DockPosition, user => user.MapFrom(u => u.Config.DockPosition.ToString()))
+                .ForMember(dto => dto.WallpaperMode, user => user.MapFrom(u => u.Config.WallpaperMode.ToString().ToLower()))
+                .ForMember(dto => dto.AppXy, user => user.MapFrom(u => u.Config.AppXy.ToString().ToLower()))
+                .ForMember(dto => dto.DockPosition, user => user.MapFrom(u => u.Config.DockPosition.ToString().ToLower()))
                 .ForMember(dto => dto.WallpaperUrl, user => user.MapFrom(u => u.Config.Wallpaper.Url))
                 .ForMember(dto => dto.WallpaperWidth, user => user.MapFrom(u => u.Config.Wallpaper.Width))
                 .ForMember(dto => dto.WallpaperHeigth, user => user.MapFrom(u => u.Config.Wallpaper.Heigth))
-                .ForMember(dto => dto.WallpaperSource, user => user.MapFrom(u => u.Config.Wallpaper.Source))
+                .ForMember(dto => dto.WallpaperSource, user => user.MapFrom(u => u.Config.Wallpaper.Source.ToString().ToLower()))
                 .ForMember(dto => dto.Desks, user => user.MapFrom(u => u.Config.Desks))
-                .ForMember(dto => dto.UserId, user => user.MapFrom(u => u.Id))
+                .ForMember(dto => dto.Id, user => user.MapFrom(u => u.Id))
                 .ForMember(dto => dto.ConfigId, user => user.MapFrom(u => u.Config.Id));
             #endregion
 
@@ -44,7 +45,7 @@ namespace NewCRM.Dto
             Mapper.CreateMap<Wallpaper, WallpaperDto>()
                 .ForMember(dto => dto.Id, wallpaper => wallpaper.MapFrom(w => w.Id))
                 .ForMember(dto => dto.Heigth, wallpaper => wallpaper.MapFrom(w => w.Heigth))
-                .ForMember(dto => dto.Source, wallpaper => wallpaper.MapFrom(w => w.Source.ToString()))
+                .ForMember(dto => dto.Source, wallpaper => wallpaper.MapFrom(w => w.Source.ToString().ToLower()))
                 .ForMember(dto => dto.Title, wallpaper => wallpaper.MapFrom(w => w.Title))
                 .ForMember(dto => dto.Url, wallpaper => wallpaper.MapFrom(w => w.Url))
                 .ForMember(dto => dto.Width, wallpaper => wallpaper.MapFrom(w => w.Width))
@@ -58,7 +59,7 @@ namespace NewCRM.Dto
                 .ForMember(wallpaper => wallpaper.Url, dto => dto.MapFrom(d => d.Url))
                 .ForMember(wallpaper => wallpaper.Width, dto => dto.MapFrom(d => d.Width))
                 .ForMember(wallpaper => wallpaper.ShortUrl, dto => dto.MapFrom(d => d.ShortUrl))
-                .ForMember(wallpaper=>wallpaper.Md5,dto=>dto.MapFrom(d=>d.Md5));
+                .ForMember(wallpaper => wallpaper.Md5, dto => dto.MapFrom(d => d.Md5));
 
 
 
@@ -77,9 +78,9 @@ namespace NewCRM.Dto
                 .ForMember(dto => dto.Name, wallpaper => wallpaper.MapFrom(w => w.Name))
                 .ForMember(dto => dto.IconUrl, wallpaper => wallpaper.MapFrom(w => w.IconUrl))
                 .ForMember(dto => dto.IsOnDock, wallpaper => wallpaper.MapFrom(w => w.IsOnDock))
-                .ForMember(dto => dto.MemberType, wallpaper => wallpaper.MapFrom(w => w.MemberType.ToString()))
-                .ForMember(dto=>dto.IsSetbar,wallpaper=>wallpaper.MapFrom(w=>w.IsSetbar))
-                .ForMember(dto=>dto.AppUrl,wallpaper=>wallpaper.MapFrom(w=>w.AppUrl));
+                .ForMember(dto => dto.MemberType, wallpaper => wallpaper.MapFrom(w => w.MemberType.ToString().ToLower()))
+                .ForMember(dto => dto.IsSetbar, wallpaper => wallpaper.MapFrom(w => w.IsSetbar))
+                .ForMember(dto => dto.AppUrl, wallpaper => wallpaper.MapFrom(w => w.AppUrl));
 
             #endregion
 
@@ -97,12 +98,12 @@ namespace NewCRM.Dto
         /// <typeparam name="T2">DTO模型</typeparam>
         /// <param name="source">领域模型</param>
         /// <returns></returns>
-        public static T2 ConvertToDto<T1, T2>(this T1 source)
+        public static T2 ConvertToDto<T1, T2>(this T1 source) where T1 : DomainModelBase
         {
             return Mapper.Map<T1, T2>(source);
         }
 
-        public static IList<T2> ConvertToDto<T1, T2>(this IEnumerable<T1> source)
+        public static IList<T2> ConvertToDto<T1, T2>(this IEnumerable<T1> source) where T1 : DomainModelBase
         {
             return Mapper.Map<IEnumerable<T1>, IList<T2>>(source);
         }

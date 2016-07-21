@@ -6,12 +6,9 @@ using NewCRM.Domain.Entities.DomainModel.System;
 
 namespace NewCRM.Dto.Dto
 {
-    public sealed class UserDto
+    public sealed class UserDto : BaseDto
     {
-        /// <summary>
-        /// 用户Id
-        /// </summary>
-        public Int32 UserId { get; set; }
+      
 
         /// <summary>
         /// 用户配置Id
@@ -98,7 +95,7 @@ namespace NewCRM.Dto.Dto
         /// <summary>
         /// 壁纸来源
         /// </summary>
-        public Int32 WallpaperSource { get; set; }
+        public String WallpaperSource { get; set; }
         /// <summary>
         /// 壁纸的展示模式
         /// </summary>

@@ -5,7 +5,7 @@ namespace NewCRM.Application.Services.IApplicationService
 {
     public interface IAccountApplicationServices
     {
-        Int32 Login(String userName, String password);
+        UserDto Login(String userName, String password);
 
         void Logout(Int32 userId);
 

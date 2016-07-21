@@ -18,11 +18,11 @@
     <div class="fr">
         <label>显示方式：</label>
         <select name="wallpapertype" id="wallpapertype" style="width: 100px">
-            <option name="fill" value="fill" @{ if (currentUser.WallpaperMode == "Fill") { <text> selected="selected" </text>        } }>填充</option>
-            <option name="adapted" value="adapted" @{if (currentUser.WallpaperMode == "Adapted") { <text> selected="selected" </text>       }}>适应</option>
-            <option name="tile" value="tile" @{ if (currentUser.WallpaperMode == "Tile") { <text> selected="selected" </text>       } }>平铺</option>
-            <option name="draw" value="draw" @{ if (currentUser.WallpaperMode == "Draw") { <text> selected="selected" </text>       } }>拉伸</option>
-            <option name="center" value="center" @{ if (currentUser.WallpaperMode == "Center") { <text> selected="selected" </text>       } }>居中</option>
+            <option name="fill" value="fill" @{ if (currentUser.WallpaperMode == "fill") { <text> selected="selected" </text>        } }>填充</option>
+            <option name="adapted" value="adapted" @{if (currentUser.WallpaperMode == "adapted") { <text> selected="selected" </text>       }}>适应</option>
+            <option name="tile" value="tile" @{ if (currentUser.WallpaperMode == "tile") { <text> selected="selected" </text>       } }>平铺</option>
+            <option name="draw" value="draw" @{ if (currentUser.WallpaperMode == "draw") { <text> selected="selected" </text>       } }>拉伸</option>
+            <option name="center" value="center" @{ if (currentUser.WallpaperMode == "center") { <text> selected="selected" </text>       } }>居中</option>
         </select>
     </div>
 </div>
@@ -44,13 +44,13 @@
     <script type="text/javascript">
     $(function () {
         $("#wallpapertype").val(window.parent.HROS.CONFIG.wallpaperType.toLowerCase());
-        $("#wallpapertype").on('change', function () {
+        $("#wallpapertype").on('change', function() {
             window.parent.HROS.wallpaper.update($('#wallpapertype').val(), '');
         });
 
-        $('.wallpaper li').on('click', function () {
+        $('.wallpaper li').on('click', function() {
             window.parent.HROS.wallpaper.update($('#wallpapertype').val(), $(this).attr('wpid'));
         });
-    });
+    })
 </script>
 }

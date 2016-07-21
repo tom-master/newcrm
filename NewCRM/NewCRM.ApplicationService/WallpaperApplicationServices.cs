@@ -86,7 +86,7 @@ namespace NewCRM.Application.Services
                 {
                     Width = image.Width,
                     Heigth = image.Height,
-                    Source = WallpaperSource.Web,
+                    Source = WallpaperSource.Web.ToString(),
                     Title = imageTitle,
                     Url = url,
                     UserId = userId,

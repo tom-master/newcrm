@@ -70,7 +70,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// 桌面成员移入文件夹
         /// </summary>
         /// <param name="folderId"></param>
-        public Member MemberInFolder(Int32 folderId)
+        public Member InFolder(Int32 folderId)
         {
             if (folderId <= 0)
             {
@@ -83,7 +83,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// <summary>
         /// 桌面成员移出文件夹
         /// </summary>
-        public Member MemberOutFolder()
+        public Member OutFolder()
         {
             FolderId = 0;
             return this;
@@ -97,19 +97,43 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             IsDeleted = true;
         }
 
-        public Member MoveInDock()
+        /// <summary>
+        /// 成员移动到码头
+        /// </summary>
+        /// <returns></returns>
+        public Member InDock()
         {
             IsOnDock = true;
             return this;
         }
 
-        public Member MoveOutDock()
+        /// <summary>
+        /// 成员移出码头
+        /// </summary>
+        /// <returns></returns>
+        public Member OutDock()
         {
             IsOnDock = false;
             return this;
         }
 
-        #endregion
+        /// <summary>
+        /// 成员移动到其他桌面
+        /// </summary>
+        /// <param name="deskId"></param>
+        /// <returns></returns>
+        public Member ToOtherDesk(Int32 deskId)
+        {
+            if (deskId <= 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(deskId)}:不能为0");
+            }
 
+            DeskId = deskId;
+
+            return this;
+        }
+
+        #endregion
     }
 }

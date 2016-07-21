@@ -28,14 +28,13 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult Desktop()
         {
-            var cookie = Request.Cookies.Get("AccountIdentity");
-            if (cookie != null)
+            if (Request.Cookies["Account"] != null)
             {
-                CurrentUser = _accountApplicationServices.GetUserConfig(Int32.Parse(cookie["AccountId"]));
+                CurrentUser = _accountApplicationServices.GetUserConfig(Int32.Parse(Request.Cookies["Account"].Value));
+                ViewData["CurrentUser"] = CurrentUser;
+                return View();
             }
-
-            ViewData["CurrentUser"] = CurrentUser;
-            return View();
+            return RedirectToAction("Login", "Index");
         }
 
         /// <summary>
@@ -59,19 +58,18 @@ namespace NewCRM.Web.Controllers
         public ActionResult Landing(String userName, String passWord, Boolean isRememberPasswrod = false)
         {
             /*var userData = */
-            var userId = _accountApplicationServices.Login(userName, passWord);
+            var userResult = _accountApplicationServices.Login(userName, passWord);
 
-
-            var config = _accountApplicationServices.GetUserConfig(userId);
-
-            var cookie = new HttpCookie("AccountIdentity")
+            Response.SetCookie(new HttpCookie("Account")
             {
-                ["AccountId"] = userId.ToString(),
-                Expires = isRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddHours(1)
-            };
-            HttpContext.Response.Cookies.Add(cookie);
+                Value = userResult.Id.ToString(),
+                Expires = isRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddMinutes(30)
+            });
 
-            CurrentUser = config;
+
+
+
+            CurrentUser = userResult;
 
             return Json(new { status = 1 });
         }
@@ -93,7 +91,7 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult GetWallpaper()
         {
-            var config = _accountApplicationServices.GetUserConfig(CurrentUser.UserId);
+            var config = _accountApplicationServices.GetUserConfig(CurrentUser.Id);
             return Json(new
             {
                 data = new
@@ -121,7 +119,7 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult GetMyApp()
         {
-            var app = _appApplicationServices.GetUserApp(CurrentUser.UserId);
+            var app = _appApplicationServices.GetUserApp(CurrentUser.Id);
             return Json(new { app = app }, JsonRequestBehavior.AllowGet);
         }
         ///// <summary>
@@ -143,11 +141,11 @@ namespace NewCRM.Web.Controllers
             var internalMemberResult = new MemberDto();
             if (type == "app")
             {
-                internalMemberResult = _deskApplicationServices.GetMember(CurrentUser.UserId, id);
+                internalMemberResult = _deskApplicationServices.GetMember(CurrentUser.Id, id);
             }
             if (type == "folder")
             {
-                internalMemberResult = _deskApplicationServices.GetMember(CurrentUser.UserId, id, true);
+                internalMemberResult = _deskApplicationServices.GetMember(CurrentUser.Id, id, true);
             }
 
             return Json(new
