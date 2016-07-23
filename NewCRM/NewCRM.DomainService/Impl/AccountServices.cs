@@ -12,13 +12,11 @@ using NewCRM.Infrastructure.CommonTools.CustemException;
 namespace NewCRM.Domain.Services.Impl
 {
     [Export(typeof(IAccountServices))]
-    public class AccountServices : IAccountServices
+    public class AccountServices : BaseService,IAccountServices
     {
-
         #region private field
 
-        [Import]
-        private IUserRepository _useRepository;
+      
 
         [Import]
         private IOnlineRepository _onlineRepository;
@@ -26,11 +24,9 @@ namespace NewCRM.Domain.Services.Impl
 
         #region public method
 
-
-
         public User Validate(String userName, String password)
         {
-            var userResult = _useRepository.Entities.FirstOrDefault(user => user.Name == userName);
+            var userResult = UserRepository.Entities.FirstOrDefault(user => user.Name == userName && user.IsDisable == false && user.IsDeleted == false);
             if (userResult == null)
             {
                 throw new BusinessException($"该用户不存在或被禁用{userName}");
@@ -41,7 +37,7 @@ namespace NewCRM.Domain.Services.Impl
             }
             userResult.Online();
 
-            _useRepository.Update(userResult);
+            UserRepository.Update(userResult);
 
             _onlineRepository.Add(new Online(GetCurrentIpAddress(), userResult.Id));
 
@@ -51,21 +47,22 @@ namespace NewCRM.Domain.Services.Impl
 
         public void Logout(Int32 userId)
         {
-            var userResult = _useRepository.Entities.FirstOrDefault(user => user.Id == userId);
+            var userResult = GetUser(userId);
 
             if (!userResult.IsOnline)
             {
                 throw new BusinessException("该用户可能已在其他地方下线");
             }
             userResult.Offline();
-            _useRepository.Update(userResult);
+
+            UserRepository.Update(userResult);
 
             ModifyOnlineState(userId);
         }
 
         public void Disable(Int32 userId)
         {
-            var userResult = _useRepository.Entities.FirstOrDefault(user => user.Id == userId);
+            var userResult = GetUser(userId);
 
             if (userResult.IsDisable)
             {
@@ -75,44 +72,50 @@ namespace NewCRM.Domain.Services.Impl
             userResult.Disable();
             userResult.Offline();
 
-            _useRepository.Update(userResult);
+            UserRepository.Update(userResult);
 
             ModifyOnlineState(userId);
         }
 
         public void Enable(Int32 userId)
         {
-            var userResult = _useRepository.Entities.FirstOrDefault(user => user.Id == userId);
+            var userResult = GetUser(userId);
             userResult.Enable();
 
-            _useRepository.Update(userResult);
+            UserRepository.Update(userResult);
         }
 
         public User GetUserConfig(Int32 userId)
         {
-            var userResult = _useRepository.Entities.FirstOrDefault(user => user.Id == userId);
+            var userResult = GetUser(userId);
 
             return userResult;
         }
 
         #endregion
 
-
-
-
         #region private method
 
+        /// <summary>
+        /// 获取当前登陆的ip
+        /// </summary>
+        /// <returns></returns>
         private String GetCurrentIpAddress()
         {
             IPHostEntry localhost = Dns.GetHostEntry(Dns.GetHostName());
             return (localhost.AddressList[0]).ToString();
         }
 
+        /// <summary>
+        /// 修改在线状态
+        /// </summary>
+        /// <param name="userId"></param>
         private void ModifyOnlineState(Int32 userId)
         {
             var onlineResult = _onlineRepository.Entities.FirstOrDefault(online => online.UserId == userId);
             _onlineRepository.Remove(onlineResult);
         }
+
         #endregion
     }
 }

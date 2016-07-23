@@ -9,22 +9,22 @@ using NewCRM.Infrastructure.CommonTools.CustemException;
 namespace NewCRM.Domain.Services.Impl
 {
     [Export(typeof(IAppServices))]
-    public class AppServices : IAppServices
+    public class AppServices : BaseService, IAppServices
     {
-
-        [Import]
-        private IUserRepository _userRepository;
 
         public IDictionary<Int32, IList<dynamic>> GetApp(Int32 userId)
         {
-            var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId);
+            var userConfig = GetUser(userId);
 
             IDictionary<Int32, IList<dynamic>> desks = new Dictionary<Int32, IList<dynamic>>();
 
             foreach (var desk in userConfig.Config.Desks)
             {
                 IList<dynamic> deskMembers = new List<dynamic>();
-                foreach (var member in desk.Members)
+
+                var members = desk.Members.Where(member => member.IsDeleted == false).ToList();
+
+                foreach (var member in members)
                 {
                     if (member.MemberType == MemberType.Folder)
                     {
@@ -35,13 +35,13 @@ namespace NewCRM.Domain.Services.Impl
                             appId = member.AppId,
                             name = member.Name,
                             icon = member.IconUrl,
-                            width= member.Width,
+                            width = member.Width,
                             height = member.Height,
                             isOnDock = member.IsOnDock,
                             isDraw = member.IsDraw,
                             isOpenMax = member.IsOpenMax,
                             isSetbar = member.IsSetbar,
-                            apps = desk.Members.Where(m => m.FolderId == member.Id).Select(app => new
+                            apps = members.Where(m => m.FolderId == member.Id).Select(app => new
                             {
                                 type = app.MemberType.ToString().ToLower(),
                                 memberId = app.Id,
@@ -87,7 +87,7 @@ namespace NewCRM.Domain.Services.Impl
 
         public void ModifyAppDirection(Int32 userId, String direction)
         {
-            var userResult = _userRepository.Entities.FirstOrDefault(user => user.Id == userId);
+            var userResult = GetUser(userId);
 
             if (direction.ToLower() == "x")
             {
@@ -103,28 +103,28 @@ namespace NewCRM.Domain.Services.Impl
             }
 
 
-            _userRepository.Update(userResult);
+            UserRepository.Update(userResult);
         }
 
         public void ModifyAppIconSize(Int32 userId, Int32 newSize)
         {
-            var userResult = _userRepository.Entities.FirstOrDefault(user => user.Id == userId);
+            var userResult = GetUser(userId);
             userResult.Config.ModifyDisplayIconLength(newSize);
-            _userRepository.Update(userResult);
+            UserRepository.Update(userResult);
         }
 
         public void ModifyAppVerticalSpacing(Int32 userId, Int32 newSize)
         {
-            var userResult = _userRepository.Entities.FirstOrDefault(user => user.Id == userId);
+            var userResult = GetUser(userId);
             userResult.Config.ModifyAppVerticalSpacingLength(newSize);
-            _userRepository.Update(userResult);
+            UserRepository.Update(userResult);
         }
 
         public void ModifyAppHorizontalSpacing(Int32 userId, Int32 newSize)
         {
-            var userResult = _userRepository.Entities.FirstOrDefault(user => user.Id == userId);
+            var userResult = GetUser(userId);
             userResult.Config.ModifyAppHorizontalSpacingLength(newSize);
-            _userRepository.Update(userResult);
+            UserRepository.Update(userResult);
         }
     }
 }

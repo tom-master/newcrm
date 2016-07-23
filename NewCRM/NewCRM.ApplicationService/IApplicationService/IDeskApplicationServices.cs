@@ -105,19 +105,13 @@ namespace NewCRM.Application.Services.IApplicationService
         /// <param name="userId"></param>
         void ModifyFolderInfo(String memberName, String memberIcon, Int32 memberId, Int32 userId);
 
-        /// <summary>
-        /// 移除用户的桌面文件夹成员
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="memberId"></param>
-        void RemoveMemberOfFolder(Int32 userId, Int32 memberId);
 
         /// <summary>
         /// 移除用户的桌面app成员
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="memberId"></param>
-        void RemoveMemberOfApp(Int32 userId, Int32 memberId);
+        void RemoveMember(Int32 userId, Int32 memberId);
 
         #endregion
     }

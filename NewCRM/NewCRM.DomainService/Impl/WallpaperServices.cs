@@ -13,11 +13,8 @@ using NewCRM.Infrastructure.CommonTools.CustemException;
 namespace NewCRM.Domain.Services.Impl
 {
     [Export(typeof(IWallpaperServices))]
-    public class WallpaperServices : IWallpaperServices
+    public class WallpaperServices : BaseService, IWallpaperServices
     {
-        [Import]
-        private IUserRepository _userRepository;
-
         [Import]
         private IWallpaperRepository _wallpaperRepository;
 
@@ -33,9 +30,9 @@ namespace NewCRM.Domain.Services.Impl
 
             if (Enum.TryParse(newMode, true, out wallpaperMode))
             {
-                var userResult = _userRepository.Entities.FirstOrDefault(user => user.Id == userId);
+                var userResult = GetUser(userId);
                 userResult.Config.ModifyDisplayMode(wallpaperMode);
-                _userRepository.Update(userResult);
+                UserRepository.Update(userResult);
             }
             else
             {
@@ -46,19 +43,18 @@ namespace NewCRM.Domain.Services.Impl
 
         public void ModifyWallpaper(Int32 userId, Int32 newWallpaperId)
         {
-            var userResult = _userRepository.Entities.FirstOrDefault(user => user.Id == userId);
+            var userResult = GetUser(userId);
 
             var wallpaperResult =
                 _wallpaperRepository.Entities.FirstOrDefault(wallpaper => wallpaper.Id == newWallpaperId);
 
             userResult.Config.ModifyWallpaper(wallpaperResult);
 
-            _userRepository.Update(userResult);
+            UserRepository.Update(userResult);
         }
 
         public Tuple<Int32, String> AddWallpaper(Wallpaper wallpaper)
         {
-
             if (_wallpaperRepository.Entities.Count(w => w.UserId == wallpaper.UserId) == 6)
             {
                 throw new BusinessException($"最多只能上传6张壁纸");
@@ -79,7 +75,7 @@ namespace NewCRM.Domain.Services.Impl
         public void RemoveWallpaper(Int32 userId, Int32 wallpaperId)
         {
 
-            var userResult = _userRepository.Entities.FirstOrDefault(user => user.Id == userId);
+            var userResult = GetUser(userId);
 
             if (userResult.Config.Wallpaper.Id == wallpaperId)
             {

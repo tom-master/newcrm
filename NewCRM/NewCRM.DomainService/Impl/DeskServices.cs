@@ -11,27 +11,23 @@ using NewCRM.Infrastructure.CommonTools.CustemException;
 namespace NewCRM.Domain.Services.Impl
 {
     [Export(typeof(IDeskServices))]
-    public class DeskServices : IDeskServices
+    public class DeskServices : BaseService, IDeskServices
     {
-        [Import]
-        private IUserRepository _userRepository;
-
         [Import]
         private IDeskRepository _deskRepository;
 
-
         public void ModifyDefaultShowDesk(Int32 userId, Int32 newDefaultDeskNumber)
         {
-            var userResult = _userRepository.Entities.FirstOrDefault(user => user.Id == userId);
+            var userResult = GetUser(userId);
 
             userResult.Config.ModifyDefaultDesk(newDefaultDeskNumber);
 
-            _userRepository.Update(userResult);
+            UserRepository.Update(userResult);
         }
 
         public void ModifyDockPosition(Int32 userId, Int32 defaultDeskNumber, String newPosition)
         {
-            var userResult = _userRepository.Entities.FirstOrDefault(user => user.Id == userId);
+            var userResult = GetUser(userId);
 
             DockPostion dockPostion;
             if (Enum.TryParse(newPosition, true, out dockPostion))
@@ -40,7 +36,7 @@ namespace NewCRM.Domain.Services.Impl
                 {
                     var deskResult = _deskRepository.Entities.FirstOrDefault(desk => desk.DeskNumber == userResult.Config.DefaultDeskNumber);
 
-                    var dockMembers = deskResult.Members.Where(member => member.IsOnDock == true);
+                    var dockMembers = deskResult.Members.Where(member => member.IsOnDock && member.IsDeleted == false).ToList();
 
                     if (dockMembers.Any())
                     {
@@ -52,7 +48,6 @@ namespace NewCRM.Domain.Services.Impl
                         _deskRepository.Update(deskResult);
                     }
                     userResult.Config.ModifyDockPostion(dockPostion);
-
                 }
                 else
                 {
@@ -65,18 +60,20 @@ namespace NewCRM.Domain.Services.Impl
             }
             userResult.Config.ModifyDefaultDesk(defaultDeskNumber);
 
-            _userRepository.Update(userResult);
+            UserRepository.Update(userResult);
         }
 
         public Member GetMember(Int32 userId, Int32 memberId, Boolean isFolder = default(Boolean))
         {
-            var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+            var userConfig = GetUser(userId).Config;
+
 
             foreach (var desk in userConfig.Desks)
             {
+                var members = desk.Members.Where(member => member.IsDeleted == false);
                 if (isFolder)
                 {
-                    var folderMember = desk.Members.FirstOrDefault(member => member.Id == memberId && member.MemberType == MemberType.Folder);
+                    var folderMember = members.FirstOrDefault(member => member.Id == memberId && member.MemberType == MemberType.Folder);
                     if (folderMember != null)
                     {
                         return folderMember;
@@ -84,7 +81,7 @@ namespace NewCRM.Domain.Services.Impl
                 }
                 else
                 {
-                    var appMember = desk.Members.FirstOrDefault(member => member.AppId == memberId && member.MemberType == MemberType.App);
+                    var appMember = members.FirstOrDefault(member => member.AppId == memberId && member.MemberType == MemberType.App);
                     if (appMember != null)
                     {
                         return appMember;
@@ -97,11 +94,11 @@ namespace NewCRM.Domain.Services.Impl
 
         public void MemberInDock(Int32 userId, Int32 memberId)
         {
-            var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+            var userConfig = GetUser(userId).Config;
 
             foreach (var desk in userConfig.Desks)
             {
-                var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId);
+                var memberResult = InternalDeskMember(memberId, desk);
                 if (memberResult != null)
                 {
                     memberResult.InDock();
@@ -113,11 +110,11 @@ namespace NewCRM.Domain.Services.Impl
 
         public void MemberOutDock(Int32 userId, Int32 memberId, Int32 deskId)
         {
-            var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+            var userConfig = GetUser(userId).Config;
             var realDeskId = userConfig.Desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
             foreach (var desk in userConfig.Desks)
             {
-                var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId);
+                var memberResult = InternalDeskMember(memberId, desk);
                 if (memberResult != null)
                 {
                     memberResult.OutDock().ToOtherDesk(realDeskId);
@@ -129,32 +126,32 @@ namespace NewCRM.Domain.Services.Impl
 
         public void DockToFolder(Int32 userId, Int32 memberId, Int32 folderId)
         {
-            var configResult = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+            var configResult = GetUser(userId).Config;
 
             var desk = configResult.Desks.FirstOrDefault(c => c.DeskNumber == configResult.DefaultDeskNumber);
 
-            desk.Members.FirstOrDefault(member => member.Id == memberId).OutDock().InFolder(folderId);
+            InternalDeskMember(memberId, desk).OutDock().InFolder(folderId);
 
             _deskRepository.Update(desk);
         }
 
         public void FolderToDock(Int32 userId, Int32 memberId)
         {
-            var configResult = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+            var configResult = GetUser(userId).Config;
 
             var desk = configResult.Desks.FirstOrDefault(c => c.DeskNumber == configResult.DefaultDeskNumber);
 
-            desk.Members.FirstOrDefault(member => member.Id == memberId).InDock().OutFolder();
+            InternalDeskMember(memberId, desk).InDock().OutFolder();
 
             _deskRepository.Update(desk);
         }
 
         public void DeskToFolder(Int32 userId, Int32 memberId, Int32 folderId)
         {
-            var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+            var userConfig = GetUser(userId).Config;
             foreach (var desk in userConfig.Desks)
             {
-                var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId);
+                var memberResult = InternalDeskMember(memberId, desk);
                 if (memberResult != null)
                 {
                     memberResult.InFolder(folderId);
@@ -166,10 +163,10 @@ namespace NewCRM.Domain.Services.Impl
 
         public void FolderToDesk(Int32 userId, Int32 memberId)
         {
-            var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+            var userConfig = GetUser(userId).Config;
             foreach (var desk in userConfig.Desks)
             {
-                var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId);
+                var memberResult = InternalDeskMember(memberId, desk);
                 if (memberResult != null)
                 {
                     memberResult.OutFolder();
@@ -181,24 +178,24 @@ namespace NewCRM.Domain.Services.Impl
 
         public void FolderToOtherFolder(Int32 userId, Int32 memberId, Int32 folderId)
         {
-            var configResult = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+            var configResult = GetUser(userId).Config;
 
             var desk = configResult.Desks.FirstOrDefault(c => c.DeskNumber == configResult.DefaultDeskNumber);
 
-            desk.Members.FirstOrDefault(member => member.Id == memberId).OutFolder().InFolder(folderId);
+            InternalDeskMember(memberId, desk).OutFolder().InFolder(folderId);
 
             _deskRepository.Update(desk);
         }
 
         public void DeskToOtherDesk(Int32 userId, Int32 memberId, Int32 deskId)
         {
-            var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+            var userConfig = GetUser(userId).Config;
 
             var realDeskId = userConfig.Desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
 
             foreach (var desk in userConfig.Desks)
             {
-                var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId);
+                var memberResult = InternalDeskMember(memberId, desk);
                 if (memberResult != null)
                 {
                     memberResult.ToOtherDesk(realDeskId);
@@ -210,11 +207,11 @@ namespace NewCRM.Domain.Services.Impl
 
         public void ModifyFolderInfo(String memberName, String memberIcon, Int32 memberId, Int32 userId)
         {
-            var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+            var userConfig = GetUser(userId).Config;
 
             foreach (var desk in userConfig.Desks)
             {
-                var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId);
+                var memberResult = InternalDeskMember(memberId, desk);
                 if (memberResult != null)
                 {
                     memberResult.ModifyMemberName(memberName).ModifyMemberIcon(memberIcon);
@@ -224,20 +221,24 @@ namespace NewCRM.Domain.Services.Impl
             }
         }
 
-        public void RemoveMemberOfFolder(Int32 userId, Int32 memberId)
+
+        public void RemoveMember(Int32 userId, Int32 memberId)
         {
-            var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
+            var userConfig = GetUser(userId).Config;
 
             foreach (var desk in userConfig.Desks)
             {
-                var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId && member.MemberType == MemberType.Folder);
+                var memberResult = InternalDeskMember(memberId, desk);
 
                 if (memberResult != null)
                 {
-                    //移除文件夹中的内容
-                    foreach (var desk1 in userConfig.Desks)
+                    if (memberResult.MemberType == MemberType.Folder)
                     {
-                        desk1.Members.Where(d => d.FolderId == memberId).ToList().ForEach(m => m.RemoveMember());
+                        //移除文件夹中的内容
+                        foreach (var desk1 in userConfig.Desks)
+                        {
+                            desk1.Members.Where(d => d.FolderId == memberId && d.IsDeleted == false).ToList().ForEach(m => m.RemoveMember());
+                        }
                     }
 
                     memberResult.RemoveMember();
@@ -247,21 +248,10 @@ namespace NewCRM.Domain.Services.Impl
             }
         }
 
-        public void RemoveMemberOfApp(Int32 userId, Int32 memberId)
+        private Member InternalDeskMember(Int32 memberId, Desk desk)
         {
-            var userConfig = _userRepository.Entities.FirstOrDefault(user => user.Id == userId).Config;
-
-            foreach (var desk in userConfig.Desks)
-            {
-                var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId && member.MemberType == MemberType.App);
-
-                if (memberResult != null)
-                {
-                    memberResult.RemoveMember();
-                    _deskRepository.Update(desk);
-                    break;
-                }
-            }
+            var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId && member.IsDeleted == false);
+            return memberResult;
         }
     }
 }

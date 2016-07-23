@@ -96,16 +96,10 @@ namespace NewCRM.Application.Services
             _deskServices.ModifyFolderInfo(memberName, memberIcon, memberId, userId);
         }
 
-        public void RemoveMemberOfFolder(Int32 userId, Int32 memberId)
+        public void RemoveMember(Int32 userId, Int32 memberId)
         {
             _validateParameter.Validate(userId).Validate(memberId);
-            _deskServices.RemoveMemberOfFolder(userId, memberId);
-        }
-
-        public void RemoveMemberOfApp(Int32 userId, Int32 memberId)
-        {
-            _validateParameter.Validate(userId).Validate(memberId);
-            _deskServices.RemoveMemberOfApp(userId,memberId);
+            _deskServices.RemoveMember(userId,memberId);
         }
     }
 }

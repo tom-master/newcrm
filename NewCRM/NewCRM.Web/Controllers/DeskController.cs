@@ -65,15 +65,10 @@ namespace NewCRM.Web.Controllers
             return new EmptyResult();
         }
 
-        public ActionResult UnInstallMemberOfFolder(Int32 memberId)
-        {
-            _deskApplicationServices.RemoveMemberOfFolder(CurrentUser.Id, memberId);
-            return new EmptyResult();
-        }
 
-        public ActionResult UnInstallMemberOfApp(Int32 memberId)
+        public ActionResult UnInstallMember(Int32 memberId)
         {
-            _deskApplicationServices.RemoveMemberOfApp(CurrentUser.Id, memberId);
+            _deskApplicationServices.RemoveMember(CurrentUser.Id, memberId);
             return new EmptyResult();
         }
     }

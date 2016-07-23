@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using NewCRM.Domain.Entities.DomainModel.System;
 
 namespace NewCRM.Domain.Entities.DomainModel.Account
@@ -54,7 +55,6 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         /// 用户配置
         /// </summary>
         public virtual Config Config { get; private set; }
-
 
 
         public virtual ICollection<UserRole> Roles { get; private set; }

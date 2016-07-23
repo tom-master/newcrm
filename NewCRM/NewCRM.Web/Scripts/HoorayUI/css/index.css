@@ -1799,7 +1799,7 @@ input {
 }
 
     #amg_folder_container .folderItem {
-        width: 20%;
+        /*width: 20%;*/
         height: 100%;
         overflow: hidden;
         float: left;

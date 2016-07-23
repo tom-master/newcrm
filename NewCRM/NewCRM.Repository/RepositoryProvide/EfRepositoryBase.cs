@@ -52,7 +52,7 @@ namespace NewCRM.Repository.RepositoryProvide
         {
             get
             {
-                return EfContext.Set<TEntity, Int32>();
+                return EfContext.Set<TEntity, Int32>().Where(w => w.IsDeleted == false);
             }
         }
 
@@ -66,7 +66,7 @@ namespace NewCRM.Repository.RepositoryProvide
         /// </summary>
         /// <param name="entity"> 实体对象 </param>
         /// <param name="isSave"> 是否执行保存 </param>
-        public virtual void Add(TEntity entity, bool isSave = true)
+        public virtual void Add(TEntity entity, Boolean isSave = true)
         {
             VaildateParameter.Validate(entity);
             EfContext.RegisterNew<TEntity, Int32>(entity);
@@ -85,7 +85,7 @@ namespace NewCRM.Repository.RepositoryProvide
         /// </summary>
         /// <param name="entities"> 实体记录集合 </param>
         /// <param name="isSave"> 是否执行保存 </param>
-        public virtual void Add(IEnumerable<TEntity> entities, bool isSave = true)
+        public virtual void Add(IEnumerable<TEntity> entities, Boolean isSave = true)
         {
             VaildateParameter.Validate(entities);
             EfContext.RegisterNew<TEntity, Int32>(entities);
@@ -104,7 +104,7 @@ namespace NewCRM.Repository.RepositoryProvide
         /// </summary>
         /// <param name="id"> 实体记录编号 </param>
         /// <param name="isSave"> 是否执行保存 </param>
-        public virtual void Remove(Int32 id, bool isSave = true)
+        public virtual void Remove(Int32 id, Boolean isSave = true)
         {
             VaildateParameter.Validate(id);
             TEntity entity = EfContext.Set<TEntity, Int32>().Find(id);
@@ -123,7 +123,7 @@ namespace NewCRM.Repository.RepositoryProvide
         /// </summary>
         /// <param name="entity"> 实体对象 </param>
         /// <param name="isSave"> 是否执行保存 </param>
-        public virtual void Remove(TEntity entity, bool isSave = true)
+        public virtual void Remove(TEntity entity, Boolean isSave = true)
         {
             VaildateParameter.Validate(entity);
             EfContext.RegisterDeleted<TEntity, Int32>(entity);
@@ -142,7 +142,7 @@ namespace NewCRM.Repository.RepositoryProvide
         /// </summary>
         /// <param name="entities"> 实体记录集合 </param>
         /// <param name="isSave"> 是否执行保存 </param>
-        public virtual void Remove(IEnumerable<TEntity> entities, bool isSave = true)
+        public virtual void Remove(IEnumerable<TEntity> entities, Boolean isSave = true)
         {
             VaildateParameter.Validate(entities);
             EfContext.RegisterDeleted<TEntity, Int32>(entities);
@@ -161,7 +161,7 @@ namespace NewCRM.Repository.RepositoryProvide
         /// </summary>
         /// <param name="predicate"> 查询条件谓语表达式 </param>
         /// <param name="isSave"> 是否执行保存 </param>
-        public virtual void Remove(Expression<Func<TEntity, bool>> predicate, bool isSave = true)
+        public virtual void Remove(Expression<Func<TEntity, Boolean>> predicate, Boolean isSave = true)
         {
             VaildateParameter.Validate(predicate);
             IList<TEntity> entities = EfContext.Set<TEntity, Int32>().Where(predicate).ToList();
@@ -180,7 +180,7 @@ namespace NewCRM.Repository.RepositoryProvide
         /// </summary>
         /// <param name="entity"> 实体对象 </param>
         /// <param name="isSave"> 是否执行保存 </param>
-        public virtual void Update(TEntity entity, bool isSave = true)
+        public virtual void Update(TEntity entity, Boolean isSave = true)
         {
             VaildateParameter.Validate(entity);
             EfContext.RegisterModified<TEntity, Int32>(entity);
@@ -200,7 +200,7 @@ namespace NewCRM.Repository.RepositoryProvide
         /// <param name="propertyExpression">属性表达式</param>
         /// <param name="isSave">是否执行保存</param>
         /// <param name="entity">附带新值的实体信息，必须包含主键</param>
-        public virtual void Update(Expression<Func<TEntity, bool>> propertyExpression, TEntity entity, bool isSave = true)
+        public virtual void Update(Expression<Func<TEntity, Boolean>> propertyExpression, TEntity entity, Boolean isSave = true)
         {
             throw new NotSupportedException("上下文公用，不支持按需更新功能。");
         }

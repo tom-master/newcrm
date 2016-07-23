@@ -102,31 +102,33 @@
     <div class="amg_line_x"></div>
     <div id="amg_folder_container">
         @{
-
+            var width = 100 / userResult.Desks.Count;
             for (var i = 1; i <= userResult.Desks.Count; i++)
             {
                 if (i == 1)
                 {
-                    <div class="folderItem" data-deskname="桌面@{@i}">
+                    <div class="folderItem" style="width:@{
+<text>@width%</text>}" data-deskname="桌面@{@i}">
                         <div class="folder_bg"></div>
                         <div class="folderOuter">
                             <div class="folderInner" desk="@i">@i</div>
                             <div class="scrollBar"></div>
                         </div>
                     </div>
-    }
-    else
-    {
-        <div class="folderItem" data-deskname="桌面@{@i}">
-            <div class="folder_bg"></div>
-            <div class="folderOuter">
-                <div class="folderInner" desk="@i">@i</div>
-                <div class="scrollBar"></div>
-            </div>
-            <div class="amg_line_y"></div>
-        </div>
-        }
-    }
+                }
+                else
+                {
+                    <div class="folderItem" style="width:@{
+<text>@width%</text>}" data-deskname="桌面@{@i}">
+                                <div class="folder_bg"></div>
+                                <div class="folderOuter">
+                                    <div class="folderInner" desk="@i">@i</div>
+                                    <div class="scrollBar"></div>
+                                </div>
+                                <div class="amg_line_y"></div>
+                            </div>
+                 }
+             }
         }
     </div>
 </div>
