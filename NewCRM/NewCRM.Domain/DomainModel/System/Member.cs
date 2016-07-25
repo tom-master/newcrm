@@ -28,22 +28,10 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// </summary>
         public Int32 Height { get; private set; }
 
- 
-
         /// <summary>
         /// 文件夹Id
         /// </summary>
         public Int32 FolderId { get; private set; }
-
-        /// <summary>
-        /// 是否拖动
-        /// </summary>
-        public Boolean IsDraw { get; private set; }
-
-        /// <summary>
-        /// 是否打开最大化
-        /// </summary>
-        public Boolean IsOpenMax { get; private set; }
 
         /// <summary>
         /// 名称
@@ -67,19 +55,54 @@ namespace NewCRM.Domain.Entities.DomainModel.System
 
         public Boolean IsOnDock { get; private set; }
 
+        /// <summary>
+        /// 是否能最大化
+        /// </summary>
+        public Boolean IsMax { get; private set; }
+
+        /// <summary>
+        /// 是否打开后铺满全屏
+        /// </summary>
+        public Boolean IsFull { get; private set; }
 
         /// <summary>
         /// 是否显示app底部的按钮
         /// </summary>
         public Boolean IsSetbar { get; private set; }
 
+        /// <summary>
+        /// 是否打开最大化
+        /// </summary>
+        public Boolean IsOpenMax { get; private set; }
+
+        /// <summary>
+        /// 是否锁定
+        /// </summary>
+        public Boolean IsLock { get; private set; }
+
+        /// <summary>
+        /// 是否为福莱希
+        /// </summary>
+        public Boolean IsFlash { get; private set; }
+
+        /// <summary>
+        /// 是否可以拖动
+        /// </summary>
+        public Boolean IsDraw { get; private set; }
+
+        /// <summary>
+        /// 是否可以拉伸
+        /// </summary>
+        public Boolean IsResize { get; private set; }
+
+
+        public Int32 DeskId { get; set; }
 
         /// <summary>
         /// 成员类型
         /// </summary>
         public MemberType MemberType { get; private set; }
 
-        public  Int32 DeskId { get; set; }
 
         #endregion
 
@@ -94,9 +117,14 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// <param name="appId"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
+        /// <param name="isFlash"></param>
         /// <param name="isDraw"></param>
         /// <param name="isOpenMax"></param>
+        /// <param name="isFull"></param>
         /// <param name="isSetbar"></param>
+        /// <param name="isLock"></param>
+        /// <param name="isMax"></param>
+        /// <param name="isResize"></param>
         public Member(
             String name,
             String iconUrl,
@@ -104,9 +132,14 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             Int32 appId,
             Int32 width,
             Int32 height,
-            Boolean isDraw=false,
-            Boolean isOpenMax=false,
-            Boolean isSetbar=false)
+            Boolean isLock = default(Boolean),
+            Boolean isMax = default(Boolean),
+            Boolean isFull = default(Boolean),
+            Boolean isSetbar = default(Boolean),
+            Boolean isOpenMax = default(Boolean),
+            Boolean isFlash = default(Boolean),
+            Boolean isDraw = default(Boolean),
+            Boolean isResize = default(Boolean))
         {
             AppId = appId;
             Width = width > 800 ? 800 : width;
@@ -114,6 +147,11 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             IsDraw = isDraw;
             IsOpenMax = isOpenMax;
             IsSetbar = isSetbar;
+            IsMax = isMax;
+            IsFull = isFull;
+            IsFlash = isFlash;
+            IsResize = isResize;
+            IsLock = isLock;
             Name = name;
             IconUrl = iconUrl;
             AppUrl = appUrl;
@@ -136,7 +174,6 @@ namespace NewCRM.Domain.Entities.DomainModel.System
 
         }
         #endregion
-
 
     }
 }

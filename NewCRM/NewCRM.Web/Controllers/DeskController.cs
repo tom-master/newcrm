@@ -12,14 +12,15 @@ namespace NewCRM.Web.Controllers
     [Export]
     public class DeskController : BaseController
     {
-        // GET: Desk
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         [Import]
         private IDeskApplicationServices _deskApplicationServices;
+
+        // GET: Desk
+        public ActionResult EditMember(Int32 memberId)
+        {
+            var memberResult = _deskApplicationServices.GetMember(CurrentUser.Id, memberId);
+            return View(memberResult);
+        }
 
         /// <summary>
         /// 桌面元素移动

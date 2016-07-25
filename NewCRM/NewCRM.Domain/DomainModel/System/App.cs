@@ -5,7 +5,7 @@ using NewCRM.Domain.Entities.ValueObject;
 namespace NewCRM.Domain.Entities.DomainModel.System
 {
 
-    [Serializable,Description("应用")]
+    [Serializable, Description("应用")]
     public partial class App : DomainModelBase, IAggregationRoot
     {
         #region public property
@@ -90,6 +90,12 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// </summary>
         public Boolean IsDraw { get; private set; }
 
+        /// <summary>
+        /// 是否可以拉伸
+        /// </summary>
+        public Boolean IsResize { get; private set; }
+
+
         public Int32 UserId { get; private set; }
 
         /// <summary>
@@ -109,6 +115,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         #endregion
 
         #region ctor
+
         /// <summary>
         /// 
         /// </summary>
@@ -126,6 +133,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// <param name="isOpenMax">是否打开默认最大化</param>
         /// <param name="isFlash">是否为flash</param>
         /// <param name="isDraw">是否可以任意修改app窗体的大小</param>
+        /// <param name="isResize"></param>
         public App(String name,
             String iconUrl,
             String appUrl,
@@ -139,7 +147,8 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             Boolean isSetbar = default(Boolean),
             Boolean isOpenMax = default(Boolean),
             Boolean isFlash = default(Boolean),
-            Boolean isDraw = default(Boolean))
+            Boolean isDraw = default(Boolean),
+            Boolean isResize = default(Boolean))
         {
             Name = name;
             IconUrl = iconUrl;
@@ -152,6 +161,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             IsOpenMax = isOpenMax;
             IsFlash = isFlash;
             IsDraw = isDraw;
+            IsResize = isResize;
             AppType = appType;
 
             if (userId == 0)
@@ -216,8 +226,5 @@ namespace NewCRM.Domain.Entities.DomainModel.System
 
         }
         #endregion
-
-
-
     }
 }

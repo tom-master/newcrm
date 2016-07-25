@@ -14,6 +14,7 @@ namespace NewCRM.Dto
         static DtoConfiguration()
         {
             #region Domain To Dto
+
             #region Account
 
 
@@ -74,16 +75,23 @@ namespace NewCRM.Dto
                 .ForMember(dto => dto.Width, wallpaper => wallpaper.MapFrom(w => w.Width))
                 .ForMember(dto => dto.Height, wallpaper => wallpaper.MapFrom(w => w.Height))
                 .ForMember(dto => dto.FolderId, wallpaper => wallpaper.MapFrom(w => w.FolderId))
-                .ForMember(dto => dto.IsDraw, wallpaper => wallpaper.MapFrom(w => w.IsDraw))
                 .ForMember(dto => dto.Name, wallpaper => wallpaper.MapFrom(w => w.Name))
                 .ForMember(dto => dto.IconUrl, wallpaper => wallpaper.MapFrom(w => w.IconUrl))
-                .ForMember(dto => dto.IsOnDock, wallpaper => wallpaper.MapFrom(w => w.IsOnDock))
                 .ForMember(dto => dto.MemberType, wallpaper => wallpaper.MapFrom(w => w.MemberType.ToString().ToLower()))
+
+                .ForMember(dto => dto.IsOnDock, wallpaper => wallpaper.MapFrom(w => w.IsOnDock))
+                .ForMember(dto => dto.IsMax, wallpaper => wallpaper.MapFrom(w => w.IsMax))
+                .ForMember(dto => dto.IsFull, wallpaper => wallpaper.MapFrom(w => w.IsFull))
                 .ForMember(dto => dto.IsSetbar, wallpaper => wallpaper.MapFrom(w => w.IsSetbar))
+                .ForMember(dto => dto.IsOpenMax, wallpaper => wallpaper.MapFrom(w => w.IsOpenMax))
+                .ForMember(dto => dto.IsLock, wallpaper => wallpaper.MapFrom(w => w.IsLock))
+                .ForMember(dto => dto.IsFlash, wallpaper => wallpaper.MapFrom(w => w.IsFlash))
+                .ForMember(dto => dto.IsDraw, wallpaper => wallpaper.MapFrom(w => w.IsDraw))
+                .ForMember(dto => dto.IsResize, wallpaper => wallpaper.MapFrom(w => w.IsResize))
+
                 .ForMember(dto => dto.AppUrl, wallpaper => wallpaper.MapFrom(w => w.AppUrl));
 
             #endregion
-
 
             #endregion
         }

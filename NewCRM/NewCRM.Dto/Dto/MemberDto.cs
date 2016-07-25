@@ -7,7 +7,7 @@ using NewCRM.Domain.Entities.ValueObject;
 
 namespace NewCRM.Dto.Dto
 {
-    public sealed class MemberDto: BaseDto
+    public sealed class MemberDto : BaseDto
     {
         #region public property
 
@@ -32,16 +32,6 @@ namespace NewCRM.Dto.Dto
         public Int32 FolderId { get; set; }
 
         /// <summary>
-        /// 是否拖动
-        /// </summary>
-        public Boolean IsDraw { get; set; }
-
-        /// <summary>
-        /// 是否打开最大化
-        /// </summary>
-        public Boolean IsOpenMax { get; set; }
-
-        /// <summary>
         /// 名称
         /// </summary>
         public String Name { get; set; }
@@ -50,7 +40,6 @@ namespace NewCRM.Dto.Dto
         /// 图标地址
         /// </summary>
         public String IconUrl { get; set; }
-
 
         /// <summary>
         /// app地址
@@ -63,12 +52,45 @@ namespace NewCRM.Dto.Dto
 
         public Boolean IsOnDock { get; set; }
 
+        /// <summary>
+        /// 是否能最大化
+        /// </summary>
+        public Boolean IsMax { get; set; }
+
+        /// <summary>
+        /// 是否打开后铺满全屏
+        /// </summary>
+        public Boolean IsFull { get; set; }
 
         /// <summary>
         /// 是否显示app底部的按钮
         /// </summary>
         public Boolean IsSetbar { get; set; }
 
+        /// <summary>
+        /// 是否打开最大化
+        /// </summary>
+        public Boolean IsOpenMax { get; set; }
+
+        /// <summary>
+        /// 是否锁定
+        /// </summary>
+        public Boolean IsLock { get; set; }
+
+        /// <summary>
+        /// 是否为福莱希
+        /// </summary>
+        public Boolean IsFlash { get; set; }
+
+        /// <summary>
+        /// 是否可以拖动
+        /// </summary>
+        public Boolean IsDraw { get; set; }
+
+        /// <summary>
+        /// 是否可以拉伸
+        /// </summary>
+        public Boolean IsResize { get; set; }
 
         /// <summary>
         /// 成员类型

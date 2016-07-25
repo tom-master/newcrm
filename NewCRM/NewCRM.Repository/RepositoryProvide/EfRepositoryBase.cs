@@ -18,13 +18,15 @@ namespace NewCRM.Repository.RepositoryProvide
     /// <typeparam name="TEntity">动态实体类型</typeparam>
     public class EfRepositoryBase<TEntity> : IRepository<TEntity> where TEntity : DomainModelBase, IAggregationRoot
     {
-
         public virtual Parameter VaildateParameter => new Parameter();
+
+        #region 仓储上下文的实例
         /// <summary>
         ///     获取 仓储上下文的实例
         /// </summary>
         [Import]
         public IUnitOfWork UnitOfWork { get; set; }
+        #endregion
 
         #region 属性
 
