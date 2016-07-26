@@ -1,6 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
 }
+ 
 <div class="title">
     <ul>
         <li><a href="@Url.Action("SystemWallPaper", "DeskOptions")">壁纸设置</a></li>
@@ -8,7 +9,7 @@
     </ul>
 </div>
 <ul class="skin" id="skinList"></ul>
-@section script2
+@section ChildrenScript
 {
     <script>
         $(function () {

@@ -3,9 +3,7 @@
     Layout = "~/Views/Shared/_LayoutRoot.cshtml";
     var userResult = (UserDto)ViewData["CurrentUser"];
 }
-@section css{
-    <link href="@Url.Content("~/Scripts/HoorayUI/css/index.css")" rel="stylesheet" />
-}
+ 
 <div class="loading"></div>
 <div id="desktop">
     <div id="zoom-tip">
@@ -115,10 +113,10 @@
                             <div class="scrollBar"></div>
                         </div>
                     </div>
-                }
-                else
-                {
-                    <div class="folderItem" style="width:@{
+    }
+    else
+    {
+        <div class="folderItem" style="width:@{
 <text>@width%</text>}" data-deskname="桌面@{@i}">
                                 <div class="folder_bg"></div>
                                 <div class="folderOuter">
@@ -127,31 +125,76 @@
                                 </div>
                                 <div class="amg_line_y"></div>
                             </div>
-                 }
-             }
+        }
+    }
         }
     </div>
 </div>
 
+@section ParentScript{
+    <script>
+        $(function() {
+            $(function() {
+                //配置artDialog全局默认参数
+                (function(config) {
+                    config['lock'] = true;
+                    config['fixed'] = true;
+                    config['resize'] = false;
+                    config['background'] = '#000';
+                    config['opacity'] = 0.5;
+                })($.dialog.defaults);
+                //toolTip
+                $('[rel="tooltip"]').tooltip();
+                //表单提示
+                $("[datatype]")
+                    .focusin(function() {
+                        $(this).parent().addClass('info').children('.infomsg').show().siblings('.help-inline').hide();
+                    })
+                    .focusout(function() {
+                        $(this).parent().removeClass('info').children('.infomsg').hide().siblings('.help-inline')
+                            .show();
+                    });
 
+                openDetailIframe = function(url) {
+                    ZENG.msgbox.show('正在载入中，请稍后...', 6, 100000);
+                    $('#detailIframe iframe')
+                        .attr('src', url)
+                        .load(function() {
+                            $('body').css('overflow', 'hidden');
+                            ZENG.msgbox._hide();
+                            $('#detailIframe')
+                                .animate({
+                                        'top': 0,
+                                        'opacity': 'show'
+                                    },
+                                    500);
+                        });
+                };
+                closeDetailIframe = function(callback) {
+                    $('body').css('overflow', 'auto');
+                    $('#detailIframe').animate({ 'top': '-100px', 'opacity': 'hide' }, 500, function() {
+                        callback && callback();
+                    });
+                };
+            });
+        });
+        $.cookie('memberID', '@userResult.Id');
 
-@section script{
-    $.cookie('memberID', '@userResult.Id');
+        document.body.onselectstart = document.body.ondrag = function () {
+            return false;
+        };
+        $(".loading").hide();
+        $("#desktop").show();
 
-    document.body.onselectstart = document.body.ondrag = function () {
-    return false;
-    };
-    $(".loading").hide();
-    $("#desktop").show();
-
-    HROS.CONFIG.dockPos = '@userResult.DockPosition';
-    HROS.CONFIG.appXY = '@userResult.AppXy';
-    HROS.CONFIG.appSize = parseInt('@userResult.AppSize');
-    HROS.CONFIG.desk = parseInt(@userResult.DefaultDeskNumber);
-    HROS.CONFIG.appHorizontalSpacing = '@userResult.AppHorizontalSpacing';
-    HROS.CONFIG.appVerticalSpacing = '@userResult.AppVerticalSpacing';
-    HROS.CONFIG.deskCount = parseInt('@userResult.Desks.Count');
-    HROS.base.init();
+        HROS.CONFIG.dockPos = '@userResult.DockPosition';
+        HROS.CONFIG.appXY = '@userResult.AppXy';
+        HROS.CONFIG.appSize = parseInt('@userResult.AppSize');
+        HROS.CONFIG.desk = parseInt(@userResult.DefaultDeskNumber);
+        HROS.CONFIG.appHorizontalSpacing = '@userResult.AppHorizontalSpacing';
+        HROS.CONFIG.appVerticalSpacing = '@userResult.AppVerticalSpacing';
+        HROS.CONFIG.deskCount = parseInt('@userResult.Desks.Count');
+        HROS.base.init();
+    </script>
 }
 
 

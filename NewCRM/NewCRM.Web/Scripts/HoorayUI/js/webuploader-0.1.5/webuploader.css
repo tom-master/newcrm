@@ -7,7 +7,7 @@
     clip: rect(1px,1px,1px,1px);
 }
 .webuploader-pick {
-	position: relative;
+	/*position: relative;
 	display: inline-block;
 	cursor: pointer;
 	background: #00b7ee;
@@ -15,10 +15,10 @@
 	color: #fff;
 	text-align: center;
 	border-radius: 3px;
-	overflow: hidden;
+	overflow: hidden;*/
 }
 .webuploader-pick-hover {
-	background: #00a2d4;
+	/*background: #00a2d4;*/
 }
 
 .webuploader-pick-disable {

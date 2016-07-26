@@ -121,7 +121,7 @@ input {
         #zoom-tip div i {
             width: 27px;
             height: 27px;
-            background: url(../../HoorayUI/img/ui/warning.png) no-repeat;
+            background: url(warning.png) no-repeat;
             position: absolute;
             top: 12px;
         }
@@ -138,12 +138,12 @@ input {
         text-decoration: none;
     }
 
-/*
+/**
  * 浏览器升级提示
  * 5个浏览器图片为MorchaDesign版权所有，本项目使用已得到官方授权
- * 9 Browsers Icons Designed by Morcha Design       http://www.morcha.net/post/46.html
- **/
- 
+ * 9 Browsers Icons Designed by Morcha Design
+ * http://www.morcha.net/post/46.html
+ */
 #update_browser_box {
     display: none;
     background: url(../../HoorayUI/img/ui/update_browser_bg.png) repeat;
@@ -220,128 +220,401 @@ input {
                 color: #999;
             }
 
-登录
-登入
-.loading {
-    background: url(../img/ui/logincheck.gif) no-repeat center center #fff;
+/*登录*/
+#lrbox {
+    background: url(../../HoorayUI/img/ui/loginbg.jpg) no-repeat center;
     position: absolute;
-    z-index: 9999;
-    top: 0;
+    z-index: 9997;
+    top: -200%;
     left: 0;
     width: 100%;
     height: 100%;
 }
 
-.login {
-    background: url(../img/ui/loginbg.png) repeat;
+    #lrbox .title {
+        position: absolute;
+        top: 50%;
+        margin-top: -250px;
+        width: 100%;
+        height: 100px;
+        line-height: 100px;
+        text-align: center;
+        font-size: 68px;
+        color: #fff;
+        text-shadow: 2px 2px 2px #000;
+    }
+
+    #lrbox .back {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -50px;
+        margin-top: 140px;
+        display: block;
+        width: 100px;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+        color: #fff;
+        text-shadow: 1px 1px 1px #000;
+    }
+
+.lrbox {
+    display: none;
+    width: 420px;
+    overflow: hidden;
     position: absolute;
-    z-index: 9998;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 50%;
+    left: 50%;
+    margin-left: -211px;
+    border: 1px solid #0FF;
+    border-radius: 10px;
+}
+
+    .lrbox .bg {
+        position: absolute;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+        background: url(../../HoorayUI/img/ui/loginbg.jpg) no-repeat center;
+        background-color: rgba(255, 255, 255, .5);
+        -webkit-filter: blur(5px);
+        filter: blur(5px);
+    }
+
+    .lrbox .loginbox,
+    .lrbox .registerbox {
+        float: left;
+        padding: 0 10px 10px 10px;
+    }
+
+    .lrbox .middle {
+        margin-top: 10px;
+        height: 130px;
+    }
+
+    .lrbox .left {
+        width: 100px;
+        height: 100px;
+        float: left;
+    }
+
+        .lrbox .left img {
+            width: 100px;
+            height: 100px;
+            border: none;
+        }
+
+    .lrbox .right {
+        width: 300px;
+        float: left;
+    }
+
+        .lrbox .right .input_box {
+            width: 100%;
+            height: 50px;
+            position: relative;
+        }
+
+.loginbox .right .password {
+    height: 49px;
+    border-top: 1px solid #0f82f5;
+}
+
+.registerbox .right .password {
+    height: 49px;
+    border-top: 1px solid #FF8000;
+}
+
+.lrbox .right .input_box input {
+    font-family: 'Segoe UI','微软雅黑',sans-serif;
+    border: none;
+    outline: none;
+    width: 280px;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 10px;
+    font-size: 24px;
+    color: #333;
+    float: left;
+}
+
+.lrbox .right .password input {
+    height: 49px;
+}
+
+.lrbox .right .input_box .tip {
+    display: none;
+    height: 36px;
+    position: absolute;
+    right: -1px;
+    top: 50px;
+    z-index: 1;
+}
+
+.lrbox .right .password .tip {
+    top: 49px;
+}
+
+.lrbox .right .input_box .tip .text {
+    position: relative;
+    height: 16px;
+    line-height: 16px;
+    padding: 10px;
+    border: 1px solid red;
+    background: #fff;
+}
+
+    .lrbox .right .input_box .tip .text .arrow {
+        position: absolute;
+        top: -8px;
+        right: 10px;
+        font-size: 12px;
+        color: red;
+    }
+
+    .lrbox .right .input_box .tip .text .arrow1 {
+        top: -7px;
+        color: #fff;
+    }
+
+    .lrbox .right .input_box .tip .text p {
+        font-size: 12px;
+    }
+
+.lrbox .right .input_box button {
+    position: absolute;
+    right: -70px;
+    width: 60px;
+    height: 60px;
+    border: none;
+    float: left;
+    color: #999;
+    background: none;
+    font-size: 12px;
+    cursor: pointer;
+    text-shadow: 0 0 5px #ccc;
+    -webkit-transition: all 300ms;
+}
+
+.lrbox .right .password button {
+    height: 55px;
+}
+
+.lrbox .right .input_box button:hover {
+    color: #333;
+}
+
+.lrbox .right .label-box {
+    height: 30px;
+    padding-left: 10px;
+}
+
+    .lrbox .right .label-box label {
+        float: left;
+        height: 30px;
+        line-height: 30px;
+        color: #eee;
+        text-shadow: 1px 1px 1px #000;
+    }
+
+    .lrbox .right .label-box input[type='checkbox'] {
+        width: auto;
+        height: 30px;
+        margin-right: 5px;
+        float: left;
+    }
+
+.lrbox .all {
+    width: 400px;
+}
+
+    .lrbox .all .input_box input {
+        width: 380px;
+    }
+
+    .lrbox .all .username input {
+        width: 380px;
+        padding-right: 10px;
+    }
+
+.lrbox .bottom {
+    height: 50px;
+}
+
+    .lrbox .bottom button {
+        border: none;
+        height: 50px;
+        line-height: 50px;
+        float: left;
+        text-align: center;
+        font-size: 16px;
+        color: #eee;
+        cursor: pointer;
+        -webkit-transition: all 500ms;
+    }
+
+.loginbox .bottom .login_btn {
+    width: 300px;
+    background: #0f82f5;
+}
+
+    .loginbox .bottom .login_btn:hover {
+        background: #0072e6;
+        color: #fff;
+    }
+
+    .loginbox .bottom .login_btn.disabled {
+        background: #C6C6C6;
+    }
+
+.loginbox .bottom .register_btn {
+    width: 100px;
+    background: #FF8000;
+    font-size: 12px;
+}
+
+    .loginbox .bottom .register_btn:hover {
+        background: #E74002;
+        color: #fff;
+    }
+
+.registerbox .bottom .register_btn {
+    width: 300px;
+    background: #FF8000;
+}
+
+    .registerbox .bottom .register_btn:hover {
+        background: #E74002;
+        color: #fff;
+    }
+
+    .registerbox .bottom .register_btn.disabled {
+        background: #C6C6C6;
+    }
+
+.registerbox .bottom .login_btn {
+    width: 100px;
+    background: #0f82f5;
+    font-size: 12px;
+}
+
+    .registerbox .bottom .login_btn:hover {
+        background: #0072e6;
+        color: #fff;
+    }
+
+.lrbox .disanfangdenglu {
+    float: left;
+    margin: 0 50px 10px 50px;
+    width: 320px;
+    height: 30px;
+}
+
+.disanfangdenglu label {
+    color: #eee;
+    text-shadow: 1px 1px 1px #000;
+    width: 50px;
+    line-height: 15px;
+    margin-right: 15px;
+    float: left;
+}
+
+.disanfangdenglu div {
+    float: left;
+    margin-top: 3px;
+}
+
+    .disanfangdenglu div a {
+        float: left;
+        width: 24px;
+        height: 24px;
+        margin-right: 12px;
+        font-size: 0;
+        background: url(../../HoorayUI/img/ui/login_icon.png) no-repeat;
+        border-radius: 5px;
+    }
+
+        .disanfangdenglu div a.sinaweibo {
+            background-position: 0 0;
+        }
+
+        .disanfangdenglu div a.tweibo {
+            background-position: 0 -24px;
+        }
+
+        .disanfangdenglu div a.t163weibo {
+            background-position: 0 -48px;
+        }
+
+        .disanfangdenglu div a.sohuweibo {
+            background-position: 0 -72px;
+        }
+
+        .disanfangdenglu div a.qq {
+            background-position: 0 -96px;
+        }
+
+        .disanfangdenglu div a.qzone {
+            background-position: 0 -120px;
+        }
+
+        .disanfangdenglu div a.renren {
+            background-position: 0 -144px;
+        }
+
+        .disanfangdenglu div a.douban {
+            background-position: 0 -168px;
+        }
+
+        .disanfangdenglu div a.baidu {
+            background-position: 0 -192px;
+        }
+
+.lrbox .disanfangdenglutip {
+    float: left;
+    margin: 0 10px 10px 10px;
+    border: 1px solid #000;
+    width: 398px;
+    height: 28px;
+    line-height: 30px;
+    background: #FF0;
     display: none;
 }
 
-    .login .logo {
-        background: url(../../img/ui/hoorayos.png) no-repeat;
-        color: #fff;
-        text-align: center;
-        font-size: 40pt;
-        text-shadow: 0 0 10px #f7e2e2, 0 0 5px #fff, 0 0 5px #fff, 0 0 40px #fff, 0 0 10px #fff;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 330px;
-        height: 70px;
-        margin-left: -165px;
-        margin-top: -100px;
+.disanfangdenglutip span {
+    font-weight: bold;
+    padding: 0 5px 0 10px;
+}
+
+.disanfangdenglutip .cancel {
+    float: right;
+    margin-right: 10px;
+    color: #999;
+}
+
+    .disanfangdenglutip .cancel:hover {
+        color: #333;
     }
 
-    .login .input {
-        position: absolute;
-        z-index: 1;
-        left: 50%;
-        top: 50%;
-        width: 200px;
-        height: 200px;
-        margin-left: -96px;
-        _margin-left: -192px;
-        margin-top: -30px;
-        text-align: center;
+@-webkit-keyframes radi {
+    0% {
+        -webkit-mask-size: 0%;
+        -webkit-animation-timing-function: ease-in-out;
     }
 
-        .login .input .log,
-        .login .input .reg {
-            position: absolute;
-        }
+    100% {
+        -webkit-mask-size: 300%;
+    }
+}
 
-        .login .input .pwd,
-        .login .input .name {
-            position: relative;
-            margin-top: 20px;
-        }
-
-            .login .input .pwd .submit {
-                position: absolute;
-                top: 3px;
-                right: 4px;
-                background: url(../img/ui/loginsubmit.png) no-repeat;
-                width: 24px;
-                height: 24px;
-                text-indent: -9999px;
-                border: none;
-                padding: 0;
-            }
-
-                .login .input .pwd .submit:active {
-                    background-position: 0 -24px;
-                }
-
-            .login .input .pwd .check {
-                background: url(../img/ui/logincheck.gif) no-repeat;
-                position: absolute;
-                top: 3px;
-                right: 8px;
-                width: 24px;
-                height: 24px;
-                text-indent: -9999px;
-                border: 0 none;
-                padding: 0;
-                -webkit-animation: charge 1.2s linear forwards;
-                -moz-animation: charge 1.2s linear forwards;
-                display: none;
-            }
-
-        .login .input #username,
-        .login .input #password,
-        .login .input #reg_1,
-        .login .input #reg_2,
-        .login .input #reg_3 {
-            width: 154px;
-            height: 24px;
-            box-shadow: 0 0 2px 3px #4189c3;
-            border-radius: 3px;
-            border: 1px solid rgba(0,0,0,0);
-            padding: 2px 26px 2px 5px;
-            font-family: \5FAE\8F6F\96C5\9ED1,\5B8B\4F53;
-            color: #333;
-        }
-
-        .login .input .tip {
-            position: absolute;
-            left: 50%;
-            width: 200px;
-            height: 20px;
-            margin-left: -100px;
-            margin-top: 10px;
-            text-align: center;
-            font-size: 12px;
-            color: #fff;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 2px #000;
-            display: none;
-        }
+.radi {
+    -webkit-mask-image: url('../../HoorayUI/img/ui/circle_mask.png');
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: 50% 50%;
+    -webkit-mask-size: 300%;
+    -webkit-animation: radi 1.5s;
+}
 
 /*遮罩层*/
 #maskbox,
@@ -500,7 +773,7 @@ input {
     left: 50%;
     margin-top: -100px;
     margin-left: -165px;
-    box-shadow: 0 0 300px #fff;
+    box-shadow: 0 0 100px #fff;
 }
 
     #copyright .close {
@@ -546,51 +819,37 @@ input {
 /*图标*/
 .appbtn,
 #shortcut_shadow {
-    width: 86px;
-    height: 88px;
+    padding: 10px;
     text-align: center;
     position: absolute;
-    z-index: 0;
+    z-index: 1;
     cursor: pointer;
+    border-radius: 5px;
+    -webkit-transition: background 0.2s;
+    -moz-transition: background 0.2s;
+    -o-transition: background 0.2s;
+    -ms-transition: background 0.2s;
+    transition: background 0.2s;
 }
 
     .appbtn:hover {
-        background: url(../../HoorayUI/img/ui/desk_sprite.png) no-repeat -250px -100px;
-    }
-
-    .appbtn i.addicon {
-        display: block;
-        margin: auto;
-        width: 50px;
-        height: 50px;
-        margin-top: 5px;
-        background: url(../../HoorayUI/img/ui/desk_sprite.png) no-repeat -420px -100px;
-        cursor: pointer;
-    }
-
-    .appbtn div {
-        cursor: pointer;
-        height: 48px;
-        width: 48px;
-        overflow: hidden;
-        position: relative;
-        margin: 0 auto;
-        margin-top: 8px;
+        background: rgba(0,0,0,0.3);
+        filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#3F000000,endcolorstr=#3F000000);
     }
 
 #shortcut_shadow,
 #shortcut_shadow2 {
+    position: absolute;
     z-index: 9999999;
     display: none;
 }
 
     .appbtn img,
-    #shortcut_shadow img {
-        border-radius: 3px 3px 3px 3px;
+    #shortcut_shadow img,
+    #shortcut_shadow2 img {
+        border-radius: 3px;
         display: block;
-        height: 48px;
-        width: 48px;
-        margin: auto;
+        margin: 0 auto;
     }
 
     #shortcut_shadow img,
@@ -603,61 +862,21 @@ input {
 
     .appbtn span,
     #shortcut_shadow span {
-        background: none repeat scroll 0 0 rgba(0, 0, 0, 0.3);
         border-radius: 10px;
-        filter: none;
         color: #fff;
-        display: inline-block;
-        max-width: 60px;
+        display: block;
         height: 20px;
         line-height: 20px;
-        margin-top: 6px;
+        margin-top: 8px;
         overflow: hidden;
-        padding: 0 8px;
+        padding: 0 5px;
         position: relative;
         text-align: center;
         text-overflow: ellipsis;
         white-space: nowrap;
         z-index: 1;
-        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/ui/shortcut_text.png', sizingMethod='scale');
-    }
-
-.smallIcon .desktop-container .appbtn,
-.smallIcon #shortcut_shadow {
-    width: 58px;
-    height: 58px;
-}
-
-    .smallIcon .desktop-container .appbtn:hover {
-        background: url(../../HoorayUI/img/ui/desk_sprite.png) no-repeat -350px -100px;
-    }
-
-    .smallIcon .desktop-container .appbtn i.addicon {
-        width: 32px;
-        height: 32px;
-        margin-top: 3px;
-        background: url(../../HoorayUI/img/ui/desk_sprite.png) no-repeat -420px -160px;
-    }
-
-    .smallIcon .desktop-container .appbtn div {
-        height: 32px;
-        width: 32px;
-        margin-top: 2px;
-    }
-
-    .smallIcon .desktop-container .appbtn img,
-    .smallIcon #shortcut_shadow img {
-        height: 32px;
-        width: 32px;
-    }
-
-    .smallIcon .desktop-container .appbtn span,
-    .smallIcon #shortcut_shadow span {
-        max-width: 50px;
-        height: 20px;
-        line-height: 20px;
-        margin-top: 3px;
-        padding: 0 4px;
+        background: rgba(0,0,0,0.3);
+        filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#3F000000,endcolorstr=#3F000000);
     }
 
 /*桌面*/
@@ -872,11 +1091,11 @@ input {
     border-bottom: 1px solid #000;
 }
 
-/** html .window-frame {
+*html .window-frame {
     height: expression((function(el){
 		el.style.height=el.parentNode.clientHeight-60+"px";
 	})(this));
-}*/
+}
 
     .window-frame iframe {
         position: absolute;
@@ -910,14 +1129,6 @@ input {
         height: 75px;
         background: url(../../HoorayUI/img/ui/window_mask_icon.png) no-repeat center;
     }
-
-.window-loading {
-    position: absolute;
-    z-index: 9999;
-    width: 100%;
-    height: 100%;
-    background: #fff url(../../HoorayUI/img/ui/loading_48.gif) center center no-repeat;
-}
 
 .window-mask-noflash {
     background: none;
@@ -1349,121 +1560,601 @@ input {
 }
 
 /*应用码头*/
-#dock-bar{position:absolute;display:none}
-.top-bar{width:100%;height:80px;left:0;top:0}
-.left-bar{width:80px;height:100%;left:0;top:0}
-.right-bar{width:80px;height:100%;right:0;top:0}
-#dock-container{position:absolute;z-index:0}
-#dock-container.showtop{z-index:100000}
-.dock-middle{background:url(../img/ui/desk_sprite.png) no-repeat 0 0}
-.dock-top{width:620px;height:80px;top:0;left:50%;margin:0 0 0 -310px}
-.dock-left{width:80px;height:620px;top:50%;left:0;margin:-310px 0 0 0}
-.dock-right{width:80px;height:620px;top:50%;left:0;margin:-310px 0 0 0}
-.dock-top .dock-middle{width:620px;height:80px;background-position:0 0}
-.dock-left .dock-middle{width:80px;height:620px;background-position:0 -100px}
-.dock-right .dock-middle{width:80px;height:620px;background-position:-90px -100px}
-#dock-container .appbtn{width:58px;height:58px}
-#dock-container .appbtn:hover{background:url(../img/ui/desk_sprite.png) no-repeat -350px -100px}
-#dock-container .appbtn div{margin-top:5px}
-#dock-container .appbtn span{display:none}
-.dock-applist{position:relative}
-.dock-top .dock-applist{width:476px;height:58px;margin:11px 14px;float:left}
-.dock-left .dock-applist{width:58px;height:476px;margin:14px 11px;float:left}
-.dock-right .dock-applist{width:58px;height:476px;margin:14px 11px;float:right}
-.dock-top .dock-tools-container{height:56px;float:left}
-.dock-left .dock-tools-container{width:56px;float:left}
-.dock-right .dock-tools-container{width:56px;float:right}
-.dock-top .dock-tools{width:20px;height:46px;padding:5px;float:left;overflow:hidden}
-.dock-left .dock-tools{width:46px;height:20px;padding:5px;float:left;overflow:hidden}
-.dock-right .dock-tools{width:46px;height:20px;padding:5px;float:right;overflow:hidden}
-.dock-tools a{float:left;display:block;width:20px;height:20px;cursor:pointer;background:url(../img/ui/desk_sprite.png) no-repeat}
-.dock-tools .dock-tool-setting{background-position:-200px -100px}
-.dock-tools .dock-tool-setting:hover{background-position:-220px -100px}
-.dock-tools .dock-tool-style{background-position:-200px -120px}
-.dock-tools .dock-tool-style:hover{background-position:-220px -120px}
-.dock-tools .dock-tool-appmanage{background-position:-200px -140px}
-.dock-tools .dock-tool-appmanage:hover{background-position:-220px -140px}
-.dock-tools .dock-tool-search{background-position:-200px -160px}
-.dock-tools .dock-tool-search:hover{background-position:-220px -160px}
+#dock-bar {
+    position: absolute;
+    display: none;
+}
+
+.top-bar {
+    width: 100%;
+    height: 80px;
+    left: 0;
+    top: 0;
+}
+
+.left-bar {
+    width: 80px;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+
+.right-bar {
+    width: 80px;
+    height: 100%;
+    right: 0;
+    top: 0;
+}
+
+#dock-container {
+    position: absolute;
+    z-index: 0;
+}
+
+    #dock-container.showtop {
+        z-index: 100000;
+    }
+
+.dock-middle {
+    background: url(../../HoorayUI/img/ui/desk_sprite.png) no-repeat 0 0;
+}
+
+.dock-top {
+    width: 620px;
+    height: 80px;
+    top: 0;
+    left: 50%;
+    margin: 0 0 0 -310px;
+}
+
+.dock-left {
+    width: 80px;
+    height: 620px;
+    top: 50%;
+    left: 0;
+    margin: -310px 0 0 0;
+}
+
+.dock-right {
+    width: 80px;
+    height: 620px;
+    top: 50%;
+    left: 0;
+    margin: -310px 0 0 0;
+}
+
+.dock-top .dock-middle {
+    width: 620px;
+    height: 80px;
+    background-position: 0 0;
+}
+
+.dock-left .dock-middle {
+    width: 80px;
+    height: 620px;
+    background-position: 0 -100px;
+}
+
+.dock-right .dock-middle {
+    width: 80px;
+    height: 620px;
+    background-position: -90px -100px;
+}
+
+#dock-container .appbtn {
+    width: 58px;
+    height: 58px;
+    padding: 0;
+}
+
+    #dock-container .appbtn img {
+        margin-top: 5px;
+    }
+
+    #dock-container .appbtn span {
+        display: none;
+    }
+
+.dock-applist {
+    position: relative;
+}
+
+.dock-top .dock-applist {
+    width: 476px;
+    height: 58px;
+    margin: 11px 14px;
+    float: left;
+}
+
+.dock-left .dock-applist {
+    width: 58px;
+    height: 476px;
+    margin: 14px 11px;
+    float: left;
+}
+
+.dock-right .dock-applist {
+    width: 58px;
+    height: 476px;
+    margin: 14px 11px;
+    float: right;
+}
+
+.dock-top .dock-tools-container {
+    height: 56px;
+    float: left;
+}
+
+.dock-left .dock-tools-container {
+    width: 56px;
+    float: left;
+}
+
+.dock-right .dock-tools-container {
+    width: 56px;
+    float: right;
+}
+
+.dock-top .dock-tools {
+    width: 20px;
+    height: 46px;
+    padding: 5px;
+    float: left;
+    overflow: hidden;
+}
+
+.dock-left .dock-tools {
+    width: 46px;
+    height: 20px;
+    padding: 5px;
+    float: left;
+    overflow: hidden;
+}
+
+.dock-right .dock-tools {
+    width: 46px;
+    height: 20px;
+    padding: 5px;
+    float: right;
+    overflow: hidden;
+}
+
+.dock-tools a {
+    float: left;
+    display: block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background: url(../../HoorayUI/img/ui/desk_sprite.png) no-repeat;
+}
+
+.dock-tools .dock-tool-setting {
+    background-position: -200px -100px;
+}
+
+    .dock-tools .dock-tool-setting:hover {
+        background-position: -220px -100px;
+    }
+
+.dock-tools .dock-tool-style {
+    background-position: -200px -120px;
+}
+
+    .dock-tools .dock-tool-style:hover {
+        background-position: -220px -120px;
+    }
+
+.dock-tools .dock-tool-appmanage {
+    background-position: -200px -140px;
+}
+
+    .dock-tools .dock-tool-appmanage:hover {
+        background-position: -220px -140px;
+    }
+
+.dock-tools .dock-tool-search {
+    background-position: -200px -160px;
+}
+
+    .dock-tools .dock-tool-search:hover {
+        background-position: -220px -160px;
+    }
+
 .dock-top .dock-tool-setting,
-.dock-top .dock-tool-appmanage{margin-bottom:3px}
+.dock-top .dock-tool-appmanage {
+    margin-bottom: 3px;
+}
+
 .dock-top .dock-tool-style,
-.dock-top .dock-tool-search{margin-top:3px}
+.dock-top .dock-tool-search {
+    margin-top: 3px;
+}
+
 .dock-left .dock-tool-setting,
 .dock-left .dock-tool-appmanage,
 .dock-right .dock-tool-setting,
-.dock-right .dock-tool-appmanage{margin-right:3px}
+.dock-right .dock-tool-appmanage {
+    margin-right: 3px;
+}
+
 .dock-left .dock-tool-style,
 .dock-left .dock-tool-search,
 .dock-right .dock-tool-style,
-.dock-right .dock-tool-search{margin-left:3px}
-.dock-top .dock-startbtn{height:40px;width:40px;padding:8px;float:left}
-.dock-left .dock-startbtn{height:40px;width:40px;padding:8px;float:left}
-.dock-right .dock-startbtn{height:40px;width:40px;padding:8px;float:right}
-.dock-tool-start{display:block;width:40px;height:40px;cursor:pointer;margin:0 auto;background:url(../img/ui/logo.png) -40px 0}
-.dock-tool-start:hover{background-position:0 0}
-.dock-top .dock-pagination{width:110px;height:22px;padding:1px 3px;float:left}
-.dock-left .dock-pagination{width:22px;height:110px;padding:3px 1px;float:left}
-.dock-right .dock-pagination{width:22px;height:110px;padding:3px 1px;float:right}
+.dock-right .dock-tool-search {
+    margin-left: 3px;
+}
+
+.dock-top .dock-startbtn {
+    height: 40px;
+    width: 40px;
+    padding: 8px;
+    float: left;
+}
+
+.dock-left .dock-startbtn {
+    height: 40px;
+    width: 40px;
+    padding: 8px;
+    float: left;
+}
+
+.dock-right .dock-startbtn {
+    height: 40px;
+    width: 40px;
+    padding: 8px;
+    float: right;
+}
+
+.dock-tool-start {
+    display: block;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    margin: 0 auto;
+    background: url(../../HoorayUI/img/ui/logo.png) no-repeat -40px 0;
+}
+
+    .dock-tool-start:hover {
+        background-position: 0 0;
+    }
+
+.dock-top .dock-pagination {
+    width: 110px;
+    height: 22px;
+    padding: 1px 3px;
+    float: left;
+}
+
+.dock-left .dock-pagination {
+    width: 22px;
+    height: 110px;
+    padding: 3px 1px;
+    float: left;
+}
+
+.dock-right .dock-pagination {
+    width: 22px;
+    height: 110px;
+    padding: 3px 1px;
+    float: right;
+}
+
 .dock-pagination .pagination-icon,
-.dock-pagination .pagination-icon-bg{background-image:url(../img/ui/desk_sprite.png)}
-.dock-pagination .pagination-icon-bg{display:none;width:22px;height:22px;position:absolute;right:2px;bottom:1px;z-index:1}
-.dock-pagination .pagination{width:20px;height:20px;line-height:1.5;color:#0DBBF1;cursor:pointer;display:inline-block;float:left;font-size:18px;font-weight:bold;margin:1px;outline:0 none;position:relative;text-indent:-999em}
-.dock-pagination .pagination-icon{float:left;height:100%;overflow:hidden;position:relative;width:100%;z-index:1}
-.dock-pagination .pagination-icon-1{background-position:-30px -750px}
-.dock-pagination .pagination-icon-2{background-position:-50px -750px}
-.dock-pagination .pagination-icon-3{background-position:-70px -750px}
-.dock-pagination .pagination-icon-4{background-position:-90px -750px}
-.dock-pagination .pagination-icon-5{background-position:-110px -750px}
-.dock-pagination .pagination-icon-1:hover{background-position:-30px -770px}
-.dock-pagination .pagination-icon-2:hover{background-position:-50px -770px}
-.dock-pagination .pagination-icon-3:hover{background-position:-70px -770px}
-.dock-pagination .pagination-icon-4:hover{background-position:-90px -770px}
-.dock-pagination .pagination-icon-5:hover{background-position:-110px -770px}
+.dock-pagination .pagination-icon-bg {
+    background-image: url(../../HoorayUI/img/ui/desk_sprite.png);
+}
+
+.dock-pagination .pagination-icon-bg {
+    display: none;
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    right: 2px;
+    bottom: 1px;
+    z-index: 1;
+}
+
+.dock-pagination .pagination {
+    width: 20px;
+    height: 20px;
+    line-height: 1.5;
+    color: #0DBBF1;
+    cursor: pointer;
+    display: inline-block;
+    float: left;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 1px;
+    outline: 0 none;
+    position: relative;
+    text-indent: -999em;
+}
+
+.dock-pagination .pagination-icon {
+    float: left;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+
+.dock-pagination .pagination-icon-1 {
+    background-position: -30px -750px;
+}
+
+.dock-pagination .pagination-icon-2 {
+    background-position: -50px -750px;
+}
+
+.dock-pagination .pagination-icon-3 {
+    background-position: -70px -750px;
+}
+
+.dock-pagination .pagination-icon-4 {
+    background-position: -90px -750px;
+}
+
+.dock-pagination .pagination-icon-5 {
+    background-position: -110px -750px;
+}
+
+.dock-pagination .pagination-icon-1:hover {
+    background-position: -30px -770px;
+}
+
+.dock-pagination .pagination-icon-2:hover {
+    background-position: -50px -770px;
+}
+
+.dock-pagination .pagination-icon-3:hover {
+    background-position: -70px -770px;
+}
+
+.dock-pagination .pagination-icon-4:hover {
+    background-position: -90px -770px;
+}
+
+.dock-pagination .pagination-icon-5:hover {
+    background-position: -110px -770px;
+}
+
 .current-pagination-1 .pagination-1 .pagination-icon-bg,
 .current-pagination-2 .pagination-2 .pagination-icon-bg,
 .current-pagination-3 .pagination-3 .pagination-icon-bg,
 .current-pagination-4 .pagination-4 .pagination-icon-bg,
-.current-pagination-5 .pagination-5 .pagination-icon-bg{background-position:0 -750px;display:block}
-.current-pagination-1 .pagination-icon-1{background-position:-30px -770px}
-.current-pagination-2 .pagination-icon-2{background-position:-50px -770px}
-.current-pagination-3 .pagination-icon-3{background-position:-70px -770px}
-.current-pagination-4 .pagination-icon-4{background-position:-90px -770px}
-.current-pagination-5 .pagination-icon-5{background-position:-110px -770px}
+.current-pagination-5 .pagination-5 .pagination-icon-bg {
+    background-position: 0 -750px;
+    display: block;
+}
 
-.dock_drap_effect{border:3px solid #3C9DFF;z-index:4000000}
-.dock_drap_effect_top{width:620px;height:80px;margin:0 0 0 -313px;position:absolute;top:-3px;left:50%}
-.dock_drap_effect_left{height:620px;width:80px;margin:-313px 0 0;position:absolute;left:-3px;top:50%}
-.dock_drap_effect_right{height:620px;width:80px;margin:-313px 0 0;position:absolute;right:-3px;top:50%}
-.dock_drap_effect_top.hover,
-.dock_drap_effect_left.hover,
-.dock_drap_effect_right.hover{border-color:#E1F0FD}
-.dock_drap_mask{width:100%;height:100%;top:0;left:0;position:absolute;z-index:300000}
-.dock_drop_region_top{border-bottom:1px dashed #eee;width:100%;height:20%;top:0;left:0;position:absolute}
-.dock_drop_region_left{border-right:1px dashed #eee;width:50%;height:80%;bottom:0;left:0;position:absolute}
-.dock_drop_region_right{width:50%;height:80%;bottom:0;right:0;position:absolute}
-.dock_drop_region_top .text,
-.dock_drop_region_left .text,
-.dock_drop_region_right .text{position:relative;top:40%;text-align:center;color:#fff;font-size:32px}
-.dock_drop_region_top .text{top:10px}
+.current-pagination-1 .pagination-icon-1 {
+    background-position: -30px -770px;
+}
 
-#startmenu-container{position:absolute;z-index:21;color:#fff;width:182px;display:none}
-#startmenu-container .startmenu-selfinfo{float:left;width:177px;height:30px;padding:5px 0 5px 5px;background:url(../img/ui/desk_sprite.png) no-repeat -410px -200px}
-#startmenu-container .startmenu-selfinfo .startmenu-avatar{width:24px;height:24px;background:#fff;float:left;margin:3px 0 0 8px;border-radius:12px}
-#startmenu-container .startmenu-selfinfo .startmenu-avatar img{float:left;width:20px;height:20px;margin:2px 0 0 2px;background-color:#FFF;cursor:pointer;border-radius:10px}
-#startmenu-container .startmenu-selfinfo .startmenu-nick{float:left;margin-left:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:80px;height:30px;line-height:30px;display:inline;color:#4CE4FF}
-#startmenu-container .startmenu-selfinfo .startmenu-nick a{color:#4CE4FF}
-#startmenu-container .startmenu{float:left;width:182px}
-#startmenu-container .startmenu li{list-style:none;background:url(../img/ui/desk_sprite.png) no-repeat -410px -300px}
-#startmenu-container .startmenu li a{display:block;color:#fff;padding:4px 10px 6px 15px;line-height:22px}
-#startmenu-container .startmenu li a:hover{background:url(../img/ui/desk_sprite.png) no-repeat -410px -465px}
-#startmenu-container .startmenu-exit{float:left;width:182px;height:44px;background:url(../img/ui/desk_sprite.png) no-repeat -410px -250px;margin-top:-1px}
-#startmenu-container .startmenu-exit a{display:block;width:36px;height:30px;margin:7px auto 0;background:url(../img/ui/desk_sprite.png) no-repeat -500px -350px}
-#startmenu-container .startmenu-exit a:hover{background-position:-450px -350px}
-#startmenu-container .startmenu-feedback{display:block;float:right;margin-right:5px;margin-top:5px;height:24px;width:24px;background:url(../img/ui/desk_sprite.png) no-repeat -450px -390px}
-#startmenu-container .startmenu-feedback:hover{background-position:-480px -390px}
-#startmenu-container .startmenu-lock{display:block;float:right;margin-top:5px;height:24px;width:24px;background:url(../img/ui/desk_sprite.png) no-repeat -450px -420px}
-#startmenu-container .startmenu-lock:hover{background-position:-480px -420px}
+.current-pagination-2 .pagination-icon-2 {
+    background-position: -50px -770px;
+}
+
+.current-pagination-3 .pagination-icon-3 {
+    background-position: -70px -770px;
+}
+
+.current-pagination-4 .pagination-icon-4 {
+    background-position: -90px -770px;
+}
+
+.current-pagination-5 .pagination-icon-5 {
+    background-position: -110px -770px;
+}
+
+.dock_drap_effect {
+    border: 3px solid #3C9DFF;
+    z-index: 4000000;
+}
+
+.dock_drap_effect_top {
+    width: 620px;
+    height: 80px;
+    margin: 0 0 0 -313px;
+    position: absolute;
+    top: -3px;
+    left: 50%;
+}
+
+.dock_drap_effect_left {
+    height: 620px;
+    width: 80px;
+    margin: -313px 0 0;
+    position: absolute;
+    left: -3px;
+    top: 50%;
+}
+
+.dock_drap_effect_right {
+    height: 620px;
+    width: 80px;
+    margin: -313px 0 0;
+    position: absolute;
+    right: -3px;
+    top: 50%;
+}
+
+    .dock_drap_effect_top.hover,
+    .dock_drap_effect_left.hover,
+    .dock_drap_effect_right.hover {
+        border-color: #E1F0FD;
+    }
+
+.dock_drap_mask {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: 300000;
+}
+
+.dock_drop_region_top {
+    border-bottom: 1px dashed #eee;
+    width: 100%;
+    height: 20%;
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+
+.dock_drop_region_left {
+    border-right: 1px dashed #eee;
+    width: 50%;
+    height: 80%;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+}
+
+.dock_drop_region_right {
+    width: 50%;
+    height: 80%;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+}
+
+    .dock_drop_region_top .text,
+    .dock_drop_region_left .text,
+    .dock_drop_region_right .text {
+        position: relative;
+        top: 40%;
+        text-align: center;
+        color: #fff;
+        font-size: 32px;
+    }
+
+.dock_drop_region_top .text {
+    top: 10px;
+}
+
+#startmenu-container {
+    position: absolute;
+    z-index: 21;
+    color: #fff;
+    width: 182px;
+    display: none;
+}
+
+    #startmenu-container .startmenu-selfinfo {
+        float: left;
+        width: 177px;
+        height: 30px;
+        padding: 5px 0 5px 5px;
+        background: url(../../HoorayUI/img/ui/desk_sprite.png) no-repeat -410px -200px;
+    }
+
+        #startmenu-container .startmenu-selfinfo .startmenu-avatar {
+            width: 24px;
+            height: 24px;
+            background: #fff;
+            float: left;
+            margin: 3px 0 0 8px;
+            border-radius: 12px;
+        }
+
+            #startmenu-container .startmenu-selfinfo .startmenu-avatar img {
+                float: left;
+                width: 20px;
+                height: 20px;
+                margin: 2px 0 0 2px;
+                background-color: #FFF;
+                cursor: pointer;
+                border-radius: 10px;
+            }
+
+        #startmenu-container .startmenu-selfinfo .startmenu-nick {
+            float: left;
+            margin-left: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 80px;
+            height: 30px;
+            line-height: 30px;
+            display: inline;
+            color: #4CE4FF;
+        }
+
+            #startmenu-container .startmenu-selfinfo .startmenu-nick a {
+                color: #4CE4FF;
+            }
+
+    #startmenu-container .startmenu {
+        float: left;
+        width: 182px;
+    }
+
+        #startmenu-container .startmenu li {
+            list-style: none;
+            background: url(../../HoorayUI/img/ui/desk_sprite.png) no-repeat -410px -300px;
+        }
+
+            #startmenu-container .startmenu li a {
+                display: block;
+                color: #fff;
+                padding: 4px 10px 6px 15px;
+                line-height: 22px;
+            }
+
+                #startmenu-container .startmenu li a:hover {
+                    background: url(../../HoorayUI/img/ui/desk_sprite.png) no-repeat -410px -465px;
+                }
+
+    #startmenu-container .startmenu-exit {
+        float: left;
+        width: 182px;
+        height: 44px;
+        background: url(../../HoorayUI/img/ui/desk_sprite.png) no-repeat -410px -250px;
+        margin-top: -1px;
+    }
+
+        #startmenu-container .startmenu-exit a {
+            display: block;
+            width: 36px;
+            height: 30px;
+            margin: 7px auto 0;
+            background: url(../../HoorayUI/img/ui/desk_sprite.png) no-repeat -500px -350px;
+        }
+
+            #startmenu-container .startmenu-exit a:hover {
+                background-position: -450px -350px;
+            }
+
+    #startmenu-container .startmenu-feedback {
+        display: block;
+        float: right;
+        margin-right: 5px;
+        margin-top: 5px;
+        height: 24px;
+        width: 24px;
+        background: url(../../HoorayUI/img/ui/desk_sprite.png) no-repeat -450px -390px;
+    }
+
+        #startmenu-container .startmenu-feedback:hover {
+            background-position: -480px -390px;
+        }
+
+    #startmenu-container .startmenu-lock {
+        display: block;
+        float: right;
+        margin-top: 5px;
+        height: 24px;
+        width: 24px;
+        background: url(../../HoorayUI/img/ui/desk_sprite.png) no-repeat -450px -420px;
+    }
+
+        #startmenu-container .startmenu-lock:hover {
+            background-position: -480px -420px;
+        }
+
 /*搜索*/
 #search-bar {
     height: 33px;
@@ -1496,11 +2187,22 @@ input {
     user-select: text;
 }
 
-    #pageletSearchInput::-webkit-input-placeholder,
+    #pageletSearchInput::-webkit-input-placeholder {
+        color: #ccc;
+    }
+    /* WebKit browsers */
+    #pageletSearchInput:-moz-placeholder {
+        color: #ccc;
+    }
+    /* Mozilla Firefox 4 to 18 */
     #pageletSearchInput::-moz-placeholder {
         color: #ccc;
     }
-
+    /* Mozilla Firefox 19+ */
+    #pageletSearchInput:-ms-input-placeholder {
+        color: #ccc;
+    }
+/* Internet Explorer 10+ */
 #pageletSearchButton {
     border: 0;
     float: right;
@@ -1606,7 +2308,7 @@ input {
 #task-pre {
     width: 54px;
     height: 100%;
-    float: right;
+    float: left;
     margin: 0 1px;
     overflow: hidden;
     display: none;
@@ -1615,7 +2317,7 @@ input {
 #task-next {
     position: relative;
     z-index: 9990;
-    background: url(../../HoorayUI/img/ui/desk_sprite.png) no-repeat -200px -264px;
+    background: url(../../HoorayUI/img/ui/desk_sprite.png) no-repeat -350px -259px;
 }
 
     #task-next a {
@@ -1664,27 +2366,24 @@ input {
 
 #task-content {
     height: 64px;
-    float: right;
+    float: left;
     overflow: hidden;
+    position: relative;
 }
 
 #task-content-inner {
-    height: 100%;
-    float: right;
+    width: 10000px;
+    height: 64px;
+    float: left;
 }
-
-    #task-content-inner.fl {
-        float: left;
-    }
 
 .task-item {
     position: relative;
     z-index: 9990;
     display: block;
+    float: left;
     width: 112px;
-    height: 100%;
-    float: right;
-    margin: 0 1px;
+    height: 64px;
     vertical-align: middle;
     overflow: hidden;
     cursor: pointer;
@@ -1722,6 +2421,11 @@ input {
     overflow: hidden;
 }
 
+.task-dragging {
+    position: absolute;
+    bottom: 0;
+}
+
 /*全局视图*/
 #appmanage {
     display: none;
@@ -1740,8 +2444,8 @@ input {
         width: 90px;
         height: 37px;
         position: absolute;
-        top: 25px;
-        right: 10px;
+        top: 20px;
+        right: 20px;
     }
 
         #appmanage .amg_close:hover {
@@ -1760,17 +2464,8 @@ input {
 }
 
     #amg_dock_container .appbtn {
-        width: 58px;
-        height: 58px;
+        padding: 6px;
     }
-
-        #amg_dock_container .appbtn:hover {
-            background: url(../../HoorayUI/img/ui/desk_sprite.png) no-repeat -350px -100px;
-        }
-
-        #amg_dock_container .appbtn div {
-            margin-top: 5px;
-        }
 
         #amg_dock_container .appbtn span {
             display: none;
@@ -1799,7 +2494,7 @@ input {
 }
 
     #amg_folder_container .folderItem {
-        /*width: 20%;*/
+        width: 20%;
         height: 100%;
         overflow: hidden;
         float: left;
@@ -1885,40 +2580,30 @@ input {
 
     #amg_folder_container .appbtn,
     #shortcut_shadow2 {
-        height: 30px;
+        height: 26px;
         width: 100%;
-        position: absolute;
+        padding: 2px 0;
+        overflow: hidden;
     }
 
         #amg_folder_container .appbtn:hover {
-            background: url(../../HoorayUI/img/ui/amg_shortcut_hover.png) repeat-x;
-        }
-
-        #amg_folder_container .appbtn div,
-        #shortcut_shadow2 div {
-            cursor: pointer;
-            height: 26px;
-            padding: 2px 0;
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-            margin: 0 auto;
+            border-radius: 0;
+            background: rgba(255,255,255,0.3);
+            filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#3F000000,endcolorstr=#3F000000);
         }
 
         #amg_folder_container .appbtn img,
         #shortcut_shadow2 img {
-            width: 26px;
-            height: 26px;
             margin-left: 20px;
         }
 
         #amg_folder_container .appbtn span,
         #shortcut_shadow2 span {
             color: #fff;
-            max-width: none;
-            height: 30px;
-            line-height: 30px;
-            margin-top: -30px;
+            width: 100% !important;
+            height: 26px;
+            line-height: 26px;
+            margin-top: -26px;
             margin-left: 50px;
             float: left;
             text-align: left;

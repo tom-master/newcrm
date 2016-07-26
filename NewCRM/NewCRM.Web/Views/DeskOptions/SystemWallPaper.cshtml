@@ -5,6 +5,7 @@
 
     var currentUser = ViewData["CurrentUser"] as UserDto;
 }
+
 <div class="title">
     <ul>
         <li class="focus">壁纸设置</li>
@@ -18,39 +19,36 @@
     <div class="fr">
         <label>显示方式：</label>
         <select name="wallpapertype" id="wallpapertype" style="width: 100px">
-            <option name="fill" value="fill" @{ if (currentUser.WallpaperMode == "fill") { <text> selected="selected" </text>        } }>填充</option>
-            <option name="adapted" value="adapted" @{if (currentUser.WallpaperMode == "adapted") { <text> selected="selected" </text>       }}>适应</option>
-            <option name="tile" value="tile" @{ if (currentUser.WallpaperMode == "tile") { <text> selected="selected" </text>       } }>平铺</option>
-            <option name="draw" value="draw" @{ if (currentUser.WallpaperMode == "draw") { <text> selected="selected" </text>       } }>拉伸</option>
-            <option name="center" value="center" @{ if (currentUser.WallpaperMode == "center") { <text> selected="selected" </text>       } }>居中</option>
+            <option name="fill" value="fill" @{ if (currentUser.WallpaperMode == "fill") { <text> selected="selected" </text>          } }>填充</option>
+            <option name="adapted" value="adapted" @{if (currentUser.WallpaperMode == "adapted") { <text> selected="selected" </text>         }}>适应</option>
+            <option name="tile" value="tile" @{ if (currentUser.WallpaperMode == "tile") { <text> selected="selected" </text>         } }>平铺</option>
+            <option name="draw" value="draw" @{ if (currentUser.WallpaperMode == "draw") { <text> selected="selected" </text>         } }>拉伸</option>
+            <option name="center" value="center" @{ if (currentUser.WallpaperMode == "center") { <text> selected="selected" </text>         } }>居中</option>
         </select>
     </div>
 </div>
 <ul class="wallpaper">
     @for (Int32 i = 0; i < wallpapers.Count; i++)
     {
-        <li wpid="@wallpapers[i].Id" @if (i%3 == 2)
-                                     {
-                                         <text> class="three" </text>
-                                     }>
-            <img src="@wallpapers[i].Url"/>
+        <li wpid="@wallpapers[i].Id" @if (i % 3 == 2) { <text> class="three" </text>   }>
+            <img src="@wallpapers[i].Url" />
             <div>@wallpapers[i].Title</div>
         </li>
     }
 </ul>
 
-@section script2
+@section ChildrenScript
 {
-    <script type="text/javascript">
-    $(function () {
-        $("#wallpapertype").val(window.parent.HROS.CONFIG.wallpaperType.toLowerCase());
-        $("#wallpapertype").on('change', function() {
-            window.parent.HROS.wallpaper.update($('#wallpapertype').val(), '');
-        });
+    <script>
+        $(function () {
+            $("#wallpapertype").val(window.parent.HROS.CONFIG.wallpaperType.toLowerCase());
+            $("#wallpapertype").on('change', function () {
+                window.parent.HROS.wallpaper.update($('#wallpapertype').val(), '');
+            });
 
-        $('.wallpaper li').on('click', function() {
-            window.parent.HROS.wallpaper.update($('#wallpapertype').val(), $(this).attr('wpid'));
-        });
-    })
-</script>
+            $('.wallpaper li').on('click', function () {
+                window.parent.HROS.wallpaper.update($('#wallpapertype').val(), $(this).attr('wpid'));
+            });
+        })
+    </script>
 }

@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
     var currentUser = ViewData["CurrentUser"] as UserDto;
 }
-@*<link href="@Url.Content("~/Scripts/HoorayUI/js/webuploader-0.1.5/webuploader.css")" rel="stylesheet" />*@
+ 
 <div class="title">
     <ul>
         <li class="focus">壁纸设置</li>
@@ -17,11 +17,11 @@
     <div class="fr">
         <label>显示方式：</label>
         <select name="wallpapertype" id="wallpapertype" style="width: 100px">
-            <option name="fill" value="fill" @{ if (currentUser.WallpaperMode == "Fill") { <text> selected="selected" </text>            } }>填充</option>
-            <option name="adapted" value="adapted" @{if (currentUser.WallpaperMode == "Adapted") { <text> selected="selected" </text>           }}>适应</option>
-            <option name="tile" value="tile" @{ if (currentUser.WallpaperMode == "Tile") { <text> selected="selected" </text>           } }>平铺</option>
-            <option name="draw" value="draw" @{ if (currentUser.WallpaperMode == "Draw") { <text> selected="selected" </text>           } }>拉伸</option>
-            <option name="center" value="center" @{ if (currentUser.WallpaperMode == "Center") { <text> selected="selected" </text>           } }>居中</option>
+            <option name="fill" value="fill" @{ if (currentUser.WallpaperMode == "Fill") { <text> selected="selected" </text>             } }>填充</option>
+            <option name="adapted" value="adapted" @{if (currentUser.WallpaperMode == "Adapted") { <text> selected="selected" </text>            }}>适应</option>
+            <option name="tile" value="tile" @{ if (currentUser.WallpaperMode == "Tile") { <text> selected="selected" </text>            } }>平铺</option>
+            <option name="draw" value="draw" @{ if (currentUser.WallpaperMode == "Draw") { <text> selected="selected" </text>            } }>拉伸</option>
+            <option name="center" value="center" @{ if (currentUser.WallpaperMode == "Center") { <text> selected="selected" </text>            } }>居中</option>
         </select>
     </div>
 </div>
@@ -40,108 +40,106 @@
         <input type="text" id="wallpaperurl" style="width: 350px" placeholder="请输入一个URL地址（建议以 jpg, jpeg, png, gif, html, htm 结尾）" value=""><button type="button" class="btn" onclick="javascript: SetWebWallPaper();">应用</button>
     </div>
 </div>
-@section script2
+@section ChildrenScript
 {
-    <script src="@Url.Content("~/Scripts/HoorayUI/js/webuploader-0.1.5/webuploader.js")"></script>
-<script>
-    $(function () {
-        var upload = WebUploader.create({
-            // 选完文件后，是否自动上传。
-            auto: true,
-            // swf文件路径
-            swf: '~/Scripts/HoorayUI/js/webuploader-0.1.5/Uploader.swf',
-            // 文件接收服务端。
-            server: '@Url.Action("UploadWallPaper", "DeskOptions")',
-            // 选择文件的按钮。可选。
-            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
-            pick: {
-                id: '#upload',
-                multiple: false
-            },
-            // 只允许选择图片文件。
-            accept: {
-                title: 'Images',
-                extensions: 'gif,jpg,jpeg,bmp,png',
-                mimeTypes: 'image/*'
-            }
-        });
-        upload.on('beforeFileQueued', function (file) {
-            if (file.size > 1000 * 1024) {
-                ZENG.msgbox.show('文件大于1000Kb', 5, 2000);
-                return false;
-            }
-        });
-        upload.on('uploadSuccess', function (file, cb) {
-            if (typeof cb.value !== 'undefined') {
-                if (cb.value === 0) {
-                    ZENG.msgbox.show(cb.msg, 5, 2000);
-                } else if (cb.value === 1) {
-                    ZENG.msgbox.show(cb.msg, 5, 2000);
-                } else {
-                    ZENG.msgbox.show('未知错误', 5, 2000);
-                }
-            } else {
-                $('.wapppapercustom .view ul').append('<li id="' + cb.Id + '" style="background-image:url(' + cb.Url + ')"><a href="javascript:;">删 除</a></li>');
-                window.parent.HROS.wallpaper.update($('#wallpapertype').val(), cb.Id);
-                upload.removeFile(file);
-            }
-
-
-
-        });
-        $('#wallpapertype').on('change', function () {
-            window.parent.HROS.wallpaper.update($('#wallpapertype').val(), '');
-
-        });
-        $('.wapppapercustom .view').on('click', 'li', function () {
-            window.parent.HROS.wallpaper.update($('#wallpapertype').val(), $(this).attr('id'));
-        });
-        $('.wapppapercustom .view').on('click', 'li a', function (event) {
-            event.stopPropagation();
-            var id = $(this).parent().attr('id');
-            $.post("@Url.Action("DeleteWallPaper", "DeskOptions")", { wallPaperId: id }, function (result) {
-                if (parseInt(result.data) === 1) {
-                    ZENG.msgbox.show('壁纸移除成功', 5, 2000);
-                    $('#' + id).remove();
-                } else {
-                    ZENG.msgbox.show('当前壁纸正在使用或已被删除', 5, 2000);
+    <script>
+        $(function () {
+            var upload = WebUploader.create({
+                // 选完文件后，是否自动上传。
+                auto: true,
+                // swf文件路径
+                swf: '~/Scripts/HoorayUI/js/webuploader-0.1.5/Uploader.swf',
+                // 文件接收服务端。
+                server: '@Url.Action("UploadWallPaper", "DeskOptions")',
+                // 选择文件的按钮。可选。
+                // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+                pick: {
+                    id: '#upload',
+                    multiple: false
+                },
+                // 只允许选择图片文件。
+                accept: {
+                    title: 'Images',
+                    extensions: 'gif,jpg,jpeg,bmp,png',
+                    mimeTypes: 'image/*'
                 }
             });
-        });
-
-        GetAllUploadWallPaper();
-
-        setTimeout(function () {
-            $('input[type="file"]').hide();
-        }, 1);
-
-    });
-
-    function GetAllUploadWallPaper() {
-        $.get("@Url.Action("GetAllUploadWallPaper", "DeskOptions")", function (result) {
-            var liElement = '';
-            $.each(result.wallPapers, function (k, v) {
-                liElement += '<li id="' + v.Id + '" style="background:url(' + v.ShortUrl + ')"><a href="javascript:;">删 除</a></li>';
-            });
-            $('.view').children('ul').append(liElement);
-        });
-    }
-
-    function SetWebWallPaper() {
-        var webUrl = $('#wallpaperurl').val();
-        if (typeof webUrl === 'undefined' || webUrl === '' || webUrl === null) {
-            ZENG.msgbox.show('请输入一个合法的url地址', 5, 2000);
-        } else {
-            $.post("@Url.Action("WebWallPaper", "DeskOptions")", { webUrl: webUrl }, function (result) {
-                if (parseInt(result.data.Item1) === 0) {
-                    ZENG.msgbox.show('未能获取到所指定的网络图片', 5, 2000);
-                } else {
-                    window.parent.HROS.wallpaper.update($('#wallpapertype').val(), parseInt(result.data.Item1));
+            upload.on('beforeFileQueued', function (file) {
+                if (file.size > 1000 * 1024) {
+                    ZENG.msgbox.show('文件大于1000Kb', 5, 2000);
+                    return false;
                 }
+            });
+            upload.on('uploadSuccess', function (file, cb) {
+                if (typeof cb.value !== 'undefined') {
+                    if (cb.value === 0) {
+                        ZENG.msgbox.show(cb.msg, 5, 2000);
+                    } else if (cb.value === 1) {
+                        ZENG.msgbox.show(cb.msg, 5, 2000);
+                    } else {
+                        ZENG.msgbox.show('未知错误', 5, 2000);
+                    }
+                } else {
+                    $('.wapppapercustom .view ul').append('<li id="' + cb.Id + '" style="background-image:url(' + cb.Url + ')"><a href="javascript:;">删 除</a></li>');
+                    window.parent.HROS.wallpaper.update($('#wallpapertype').val(), cb.Id);
+                    upload.removeFile(file);
+                }
+
+
+
+            });
+            $('#wallpapertype').on('change', function () {
+                window.parent.HROS.wallpaper.update($('#wallpapertype').val(), '');
+
+            });
+            $('.wapppapercustom .view').on('click', 'li', function () {
+                window.parent.HROS.wallpaper.update($('#wallpapertype').val(), $(this).attr('id'));
+            });
+            $('.wapppapercustom .view').on('click', 'li a', function (event) {
+                event.stopPropagation();
+                var id = $(this).parent().attr('id');
+                $.post("@Url.Action("DeleteWallPaper", "DeskOptions")", { wallPaperId: id }, function (result) {
+                    if (parseInt(result.data) === 1) {
+                        ZENG.msgbox.show('壁纸移除成功', 5, 2000);
+                        $('#' + id).remove();
+                    } else {
+                        ZENG.msgbox.show('当前壁纸正在使用或已被删除', 5, 2000);
+                    }
+                });
+            });
+
+            GetAllUploadWallPaper();
+
+            setTimeout(function () {
+                $('input[type="file"]').hide();
+            }, 1);
+
+        });
+
+        function GetAllUploadWallPaper() {
+            $.get("@Url.Action("GetAllUploadWallPaper", "DeskOptions")", function (result) {
+                var liElement = '';
+                $.each(result.wallPapers, function (k, v) {
+                    liElement += '<li id="' + v.Id + '" style="background:url(' + v.ShortUrl + ')"><a href="javascript:;">删 除</a></li>';
+                });
+                $('.view').children('ul').append(liElement);
             });
         }
 
-    }
-</script>
+        function SetWebWallPaper() {
+            var webUrl = $('#wallpaperurl').val();
+            if (typeof webUrl === 'undefined' || webUrl === '' || webUrl === null) {
+                ZENG.msgbox.show('请输入一个合法的url地址', 5, 2000);
+            } else {
+                $.post("@Url.Action("WebWallPaper", "DeskOptions")", { webUrl: webUrl }, function (result) {
+                    if (parseInt(result.data.Item1) === 0) {
+                        ZENG.msgbox.show('未能获取到所指定的网络图片', 5, 2000);
+                    } else {
+                        window.parent.HROS.wallpaper.update($('#wallpapertype').val(), parseInt(result.data.Item1));
+                    }
+                });
+            }
+        }
+    </script>
 }
 
