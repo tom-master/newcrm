@@ -111,7 +111,7 @@ namespace NewCRM.Domain.Services.Impl
         public void MemberOutDock(Int32 userId, Int32 memberId, Int32 deskId)
         {
             var userConfig = GetUser(userId).Config;
-            var realDeskId = userConfig.Desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
+            var realDeskId = GetRealDeskId(deskId, userConfig);
             foreach (var desk in userConfig.Desks)
             {
                 var memberResult = InternalDeskMember(memberId, desk);
@@ -123,6 +123,8 @@ namespace NewCRM.Domain.Services.Impl
                 }
             }
         }
+
+       
 
         public void DockToFolder(Int32 userId, Int32 memberId, Int32 folderId)
         {
@@ -161,15 +163,23 @@ namespace NewCRM.Domain.Services.Impl
             }
         }
 
-        public void FolderToDesk(Int32 userId, Int32 memberId)
+        public void FolderToDesk(Int32 userId, Int32 memberId, Int32 deskId)
         {
             var userConfig = GetUser(userId).Config;
+            var realDeskId = GetRealDeskId(deskId, userConfig);
             foreach (var desk in userConfig.Desks)
             {
                 var memberResult = InternalDeskMember(memberId, desk);
                 if (memberResult != null)
                 {
-                    memberResult.OutFolder();
+                    if (memberResult.DeskId == realDeskId)
+                    {
+                        memberResult.OutFolder();
+                    }
+                    else
+                    {
+                        memberResult.OutFolder().ToOtherDesk(realDeskId);
+                    }
                     _deskRepository.Update(desk);
                     break;
                 }
@@ -191,7 +201,7 @@ namespace NewCRM.Domain.Services.Impl
         {
             var userConfig = GetUser(userId).Config;
 
-            var realDeskId = userConfig.Desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
+            var realDeskId = GetRealDeskId(deskId, userConfig);
 
             foreach (var desk in userConfig.Desks)
             {
@@ -265,6 +275,7 @@ namespace NewCRM.Domain.Services.Impl
                     .ModifyIsOpenMax(member.IsOpenMax)
                     .ModifyIsFlash(member.IsFlash);
                     _deskRepository.Update(desk);
+                    break;
                 }
             }
         }
@@ -273,6 +284,11 @@ namespace NewCRM.Domain.Services.Impl
         {
             var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId && member.IsDeleted == false);
             return memberResult;
+        }
+
+        private static Int32 GetRealDeskId(Int32 deskId, Config userConfig)
+        {
+            return userConfig.Desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
         }
     }
 }

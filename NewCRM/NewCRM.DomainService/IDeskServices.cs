@@ -77,7 +77,8 @@ namespace NewCRM.Domain.Services
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="memberId"></param>
-        void FolderToDesk(Int32 userId, Int32 memberId);
+        /// <param name="deskId"></param>
+        void FolderToDesk(Int32 userId, Int32 memberId,Int32 deskId);
 
         /// <summary>
         /// 成员从文件夹移动到另一个文件夹

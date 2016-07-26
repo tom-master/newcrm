@@ -15,7 +15,9 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
             Name = newPowerName;
         }
 
-
+        /// <summary>
+        /// 移除权限
+        /// </summary>
         public void Remove()
         {
             IsDeleted = true;

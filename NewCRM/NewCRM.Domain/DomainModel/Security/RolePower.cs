@@ -24,6 +24,9 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
 
         public RolePower() { }
 
+        /// <summary>
+        /// 移除角色权限
+        /// </summary>
         public void Remove()
         {
             IsDeleted = true;

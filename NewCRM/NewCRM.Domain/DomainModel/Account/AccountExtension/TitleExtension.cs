@@ -15,7 +15,9 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
             Name = newTitleName;
         }
 
-
+        /// <summary>
+        /// 移除职称
+        /// </summary>
         public void Remove()
         {
             IsDeleted = true;

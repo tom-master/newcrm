@@ -72,10 +72,10 @@ namespace NewCRM.Application.Services
             _deskServices.DeskToFolder(userId, memberId, folderId);
         }
 
-        public void FolderToDesk(Int32 userId, Int32 memberId)
+        public void FolderToDesk(Int32 userId, Int32 memberId, Int32 deskId)
         {
-            _validateParameter.Validate(userId).Validate(memberId);
-            _deskServices.FolderToDesk(userId, memberId);
+            _validateParameter.Validate(userId).Validate(memberId).Validate(deskId);
+            _deskServices.FolderToDesk(userId, memberId, deskId);
         }
 
         public void FolderToOtherFolder(Int32 userId, Int32 memberId, Int32 folderId)

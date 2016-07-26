@@ -46,7 +46,7 @@ namespace NewCRM.Web.Controllers
                     _deskApplicationServices.DeskToFolder(CurrentUser.Id, memberId, to);
                     break;
                 case "folder-desk": //成员从文件夹移动到桌面
-                    _deskApplicationServices.FolderToDesk(CurrentUser.Id, memberId);
+                    _deskApplicationServices.FolderToDesk(CurrentUser.Id, memberId, to);
                     break;
                 case "folder-folder": //成员从文件夹移动到另一个文件夹中
                     _deskApplicationServices.FolderToOtherFolder(CurrentUser.Id, memberId, to);

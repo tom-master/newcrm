@@ -74,10 +74,18 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
             return this;
         }
 
-
-
+        /// <summary>
+        /// 移除角色
+        /// </summary>
         public void Remove()
         {
+            if (Powers.Any())
+            {
+                Powers.ToList().ForEach(p =>
+                {
+                    p.Remove();
+                });
+            }
             IsDeleted = true;
         }
 

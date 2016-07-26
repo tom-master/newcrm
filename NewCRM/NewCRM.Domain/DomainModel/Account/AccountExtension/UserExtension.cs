@@ -126,11 +126,18 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
             return this;
         }
 
+        /// <summary>
+        /// 移除职称
+        /// </summary>
         public void RemoveTitle()
         {
             Title.Remove();
         }
 
+
+        /// <summary>
+        /// 移除用户
+        /// </summary>
         public void Remove()
         {
             IsDeleted = true;
