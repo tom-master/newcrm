@@ -63,7 +63,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult ModifyMemberInfoOfFolder(String name, String icon, Int32 memberId)
         {
             _deskApplicationServices.ModifyFolderInfo(name, icon, memberId, CurrentUser.Id);
-            return new EmptyResult();
+            return new EmptyResult(); 
         }
 
 
