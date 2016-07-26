@@ -39,8 +39,5 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
         }
         #endregion
 
-
-
-
     }
 }

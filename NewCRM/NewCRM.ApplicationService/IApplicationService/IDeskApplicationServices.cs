@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NewCRM.Dto.Dto;
 
 namespace NewCRM.Application.Services.IApplicationService
@@ -105,13 +101,19 @@ namespace NewCRM.Application.Services.IApplicationService
         /// <param name="userId"></param>
         void ModifyFolderInfo(String memberName, String memberIcon, Int32 memberId, Int32 userId);
 
-
         /// <summary>
         /// 移除用户的桌面app成员
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="memberId"></param>
         void RemoveMember(Int32 userId, Int32 memberId);
+
+        /// <summary>
+        /// 修改成员信息
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="member"></param>
+        void ModifyMemberInfo(Int32 userId, MemberDto member);
 
         #endregion
     }

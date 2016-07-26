@@ -99,7 +99,14 @@ namespace NewCRM.Application.Services
         public void RemoveMember(Int32 userId, Int32 memberId)
         {
             _validateParameter.Validate(userId).Validate(memberId);
-            _deskServices.RemoveMember(userId,memberId);
+            _deskServices.RemoveMember(userId, memberId);
+        }
+
+        public void ModifyMemberInfo(Int32 userId, MemberDto member)
+        {
+            _validateParameter.Validate(userId).Validate(member);
+
+            _deskServices.ModifyMemberInfo(userId, member.ConvertToDomainModel<MemberDto, Member>());
         }
     }
 }

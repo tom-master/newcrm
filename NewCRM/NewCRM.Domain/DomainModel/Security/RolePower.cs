@@ -24,6 +24,11 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
 
         public RolePower() { }
 
+        public void Remove()
+        {
+            IsDeleted = true;
+        }
+
         #endregion
     }
 }

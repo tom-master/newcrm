@@ -18,6 +18,11 @@ namespace NewCRM.Domain.Services
         [Import]
         protected IUserRepository UserRepository { get; set; }
 
+        /// <summary>
+        /// 获取一个用户
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         protected User GetUser(Int32 userId)
         {
             var userResult = UserRepository.Entities.FirstOrDefault(user => user.Id == userId);

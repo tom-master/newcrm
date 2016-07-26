@@ -31,7 +31,6 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             return this;
         }
 
-
         /// <summary>
         /// app审核通过
         /// </summary>
@@ -48,6 +47,71 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         {
             AppAuditState = AppAuditState.Deny;
             return this;
+        }
+
+        /// <summary>
+        /// 修改app的宽
+        /// </summary>
+        /// <param name="width"></param>
+        /// <returns></returns>
+        public App ModifyWidth(Int32 width)
+        {
+            if (width <= 0)
+            {
+                throw new ArgumentOutOfRangeException($"app宽不能小于或等于0");
+            }
+            Width = width;
+            return this;
+        }
+
+        /// <summary>
+        /// 修改app的高
+        /// </summary>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        public App ModifyHeight(Int32 height)
+        {
+            if (height <= 0)
+            {
+                throw new ArgumentOutOfRangeException($"app的高不能小于或等于0");
+            }
+
+            Height = height;
+
+            return this;
+        }
+
+        /// <summary>
+        /// 修改app的指向地址
+        /// </summary>
+        /// <param name="newUrl"></param>
+        /// <returns></returns>
+        public App ModifyUrl(String newUrl)
+        {
+            if ((newUrl + "").Length <= 0)
+            {
+                throw new ArgumentOutOfRangeException($"app的url：{newUrl}不能为空");
+            }
+
+            AppUrl = newUrl;
+            return this;
+        }
+
+        /// <summary>
+        /// 修改app的图标
+        /// </summary>
+        /// <param name="newIconUrl"></param>
+        /// <returns></returns>
+        public App ModifyIconUrl(String newIconUrl)
+        {
+            if ((newIconUrl + "").Length <= 0)
+            {
+                throw new ArgumentOutOfRangeException($"app的图标路径:{newIconUrl}不能为空");
+            }
+
+            IconUrl = newIconUrl;
+            return this;
+
         }
 
         /// <summary>

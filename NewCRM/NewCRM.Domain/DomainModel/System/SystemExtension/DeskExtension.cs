@@ -7,7 +7,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
     {
         #region public method
 
-        public void AddDeskMember(Member member)
+        public void AddMember(Member member)
         {
             if (member == null)
             {
@@ -16,13 +16,13 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             Members.Add(member);
         }
 
-        public void RemoveDeskMember(Int32 memberId)
+        public void RemoveMember(Int32 memberId)
         {
             if (memberId <= 0)
             {
                 throw new ArgumentNullException($"{nameof(memberId)}不能为0");
             }
-            Enumerable.Where<Member>(Members, member => member.Id == memberId).ToList().ForEach(m => { m.RemoveMember(); });
+            Enumerable.Where<Member>(Members, member => member.Id == memberId).ToList().ForEach(m => { m.Remove(); });
         }
 
 

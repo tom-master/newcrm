@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace NewCRM.Domain.Entities.DomainModel.Security
 {
@@ -23,24 +24,64 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
         /// <returns></returns>
         public Role AddPower(params Power[] powers)
         {
-            if (powers == null)
+            return AddPower(Powers.Select(p => p.PowerId).ToArray());
+        }
+
+        public Role AddPower(params Int32[] powerIds)
+        {
+            if (powerIds == null)
             {
-                throw new ArgumentNullException($"{nameof(powers)}不能为空");
+                throw new ArgumentNullException($"{nameof(powerIds)}不能为空");
             }
-            if (powers.Length <= 0)
+            if (powerIds.Length <= 0)
             {
-                throw new ArgumentNullException($"{nameof(powers)}不能为0");
+                throw new ArgumentNullException($"{nameof(powerIds)}不能为0");
             }
-            foreach (var power in powers)
+            foreach (var powerid in powerIds)
             {
-                Powers.Add(new RolePower(Id, power.Id));
+                Powers.Add(new RolePower(Id, powerid));
             }
 
             return this;
         }
 
 
-        
+        /// <summary>
+        /// 移除角色权限
+        /// </summary>
+        /// <param name="powers"></param>
+        /// <returns></returns>
+        public Role RemovePower(params Power[] powers)
+        {
+            return RemovePower(Powers.Select(p => p.PowerId).ToArray());
+        }
+
+        public Role RemovePower(params Int32[] powerIds)
+        {
+            if (powerIds == null)
+            {
+                throw new ArgumentNullException($"{nameof(powerIds)}不能为空");
+            }
+            if (powerIds.Length <= 0)
+            {
+                throw new ArgumentNullException($"{nameof(powerIds)}不能为0");
+            }
+
+            foreach (var powerId in powerIds)
+            {
+                Powers.FirstOrDefault(p => p.PowerId == powerId).Remove();
+            }
+            return this;
+        }
+
+
+
+        public void Remove()
+        {
+            IsDeleted = true;
+        }
+
+
         #endregion
     }
 }

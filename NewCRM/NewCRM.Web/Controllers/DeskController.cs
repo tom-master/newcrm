@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Web;
+using System.Configuration;
 using System.Web.Mvc;
 using NewCRM.Application.Services.IApplicationService;
+using NewCRM.Dto.Dto;
 using NewCRM.Web.Controllers.ControllerHelper;
+using NewCRM.Infrastructure.CommonTools;
 
 namespace NewCRM.Web.Controllers
 {
@@ -59,14 +59,68 @@ namespace NewCRM.Web.Controllers
         }
 
 
-
-        public ActionResult ModifyMemberInfoOfFolder(String name, String icon, Int32 memberId)
+        /// <summary>
+        /// 修改文件夹的信息
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="icon"></param>
+        /// <param name="memberId"></param>
+        /// <returns></returns>
+        public ActionResult ModifyFolderInfo(String name, String icon, Int32 memberId)
         {
             _deskApplicationServices.ModifyFolderInfo(name, icon, memberId, CurrentUser.Id);
-            return new EmptyResult(); 
+            return new EmptyResult();
+        }
+
+        /// <summary>
+        /// 修改app信息
+        /// </summary>
+        /// <param name="forms"></param>
+        /// <returns></returns>
+        public ActionResult ModifyAppInfo(FormCollection forms)
+        {
+            var memberDto = new MemberDto
+            {
+                Id = Int32.Parse(forms["id"]),
+                IconUrl = forms["val_icon"],
+                Name = forms["val_name"],
+                Width = Int32.Parse(forms["val_width"]),
+                Height = Int32.Parse(forms["val_height"]),
+                IsResize = Int32.Parse(forms["val_isresize"]) == 1,
+                IsOpenMax = Int32.Parse(forms["val_isopenmax"]) == 1,
+                IsFlash = Int32.Parse(forms["val_isflash"]) == 1
+            };
+
+            _deskApplicationServices.ModifyMemberInfo(CurrentUser.Id, memberDto);
+
+            return Json(new
+            {
+                status = "y"
+            });
         }
 
 
+        public ActionResult UploadIcon()
+        {
+            if (Request.Files.Count != 0)
+            {
+                var icon = Request.Files[0];
+
+                var fileUpLoadHelper = new FileUpLoadHelper(ConfigurationManager.AppSettings["UploadIconPath"], false, false);
+                if (fileUpLoadHelper.SaveFile(icon))
+                {
+                    return Json(new { iconPath = fileUpLoadHelper.FilePath + fileUpLoadHelper.OldFileName });
+                }
+                return Json(new { msg = "上传失败" });
+            }
+            return Json(new { msg = "请上传一个图片" });
+        }
+
+        /// <summary>
+        /// 卸载桌面的成员
+        /// </summary>
+        /// <param name="memberId"></param>
+        /// <returns></returns>
         public ActionResult UnInstallMember(Int32 memberId)
         {
             _deskApplicationServices.RemoveMember(CurrentUser.Id, memberId);

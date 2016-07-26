@@ -15,6 +15,12 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
             Name = newTitleName;
         }
 
+
+        public void Remove()
+        {
+            IsDeleted = true;
+        }
+
         #endregion
 
      

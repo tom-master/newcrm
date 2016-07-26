@@ -214,7 +214,7 @@ namespace NewCRM.Domain.Services.Impl
                 var memberResult = InternalDeskMember(memberId, desk);
                 if (memberResult != null)
                 {
-                    memberResult.ModifyMemberName(memberName).ModifyMemberIcon(memberIcon);
+                    memberResult.ModifyName(memberName).ModifyIcon(memberIcon);
                     _deskRepository.Update(desk);
                     break;
                 }
@@ -237,13 +237,34 @@ namespace NewCRM.Domain.Services.Impl
                         //移除文件夹中的内容
                         foreach (var desk1 in userConfig.Desks)
                         {
-                            desk1.Members.Where(d => d.FolderId == memberId && d.IsDeleted == false).ToList().ForEach(m => m.RemoveMember());
+                            desk1.Members.Where(d => d.FolderId == memberId && d.IsDeleted == false).ToList().ForEach(m => m.Remove());
                         }
                     }
 
-                    memberResult.RemoveMember();
+                    memberResult.Remove();
                     _deskRepository.Update(desk);
                     break;
+                }
+            }
+        }
+
+        public void ModifyMemberInfo(Int32 userId, Member member)
+        {
+            var userResult = GetUser(userId);
+
+            foreach (var desk in userResult.Config.Desks)
+            {
+                var memberResult = InternalDeskMember(member.Id, desk);
+                if (memberResult != null)
+                {
+                    memberResult.ModifyIcon(member.IconUrl)
+                    .ModifyName(member.Name)
+                    .ModifyWidth(member.Width)
+                    .ModifyHeight(member.Height)
+                    .ModifyIsResize(member.IsResize)
+                    .ModifyIsOpenMax(member.IsOpenMax)
+                    .ModifyIsFlash(member.IsFlash);
+                    _deskRepository.Update(desk);
                 }
             }
         }

@@ -16,6 +16,12 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
         }
 
 
+        public void Remove()
+        {
+            IsDeleted = true;
+        }
+
+
         #endregion
     }
 }

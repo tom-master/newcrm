@@ -43,6 +43,7 @@ namespace NewCRM.Dto
 
             #region Wallpaper
 
+            #region domain -> dto
             Mapper.CreateMap<Wallpaper, WallpaperDto>()
                 .ForMember(dto => dto.Id, wallpaper => wallpaper.MapFrom(w => w.Id))
                 .ForMember(dto => dto.Heigth, wallpaper => wallpaper.MapFrom(w => w.Heigth))
@@ -51,7 +52,9 @@ namespace NewCRM.Dto
                 .ForMember(dto => dto.Url, wallpaper => wallpaper.MapFrom(w => w.Url))
                 .ForMember(dto => dto.Width, wallpaper => wallpaper.MapFrom(w => w.Width))
                 .ForMember(dto => dto.ShortUrl, wallpaper => wallpaper.MapFrom(w => w.ShortUrl));
+            #endregion
 
+            #region dto -> domain
             Mapper.CreateMap<WallpaperDto, Wallpaper>()
                   .ForMember(wallpaper => wallpaper.Id, dto => dto.MapFrom(d => d.Id))
                 .ForMember(wallpaper => wallpaper.Heigth, dto => dto.MapFrom(d => d.Heigth))
@@ -61,35 +64,62 @@ namespace NewCRM.Dto
                 .ForMember(wallpaper => wallpaper.Width, dto => dto.MapFrom(d => d.Width))
                 .ForMember(wallpaper => wallpaper.ShortUrl, dto => dto.MapFrom(d => d.ShortUrl))
                 .ForMember(wallpaper => wallpaper.Md5, dto => dto.MapFrom(d => d.Md5));
-
-
+            #endregion
 
             #endregion
 
 
             #region member
 
+            #region domain -> dto
             Mapper.CreateMap<Member, MemberDto>()
-                .ForMember(dto => dto.Id, wallpaper => wallpaper.MapFrom(w => w.Id))
-                .ForMember(dto => dto.AppId, wallpaper => wallpaper.MapFrom(w => w.AppId))
-                .ForMember(dto => dto.Width, wallpaper => wallpaper.MapFrom(w => w.Width))
-                .ForMember(dto => dto.Height, wallpaper => wallpaper.MapFrom(w => w.Height))
-                .ForMember(dto => dto.FolderId, wallpaper => wallpaper.MapFrom(w => w.FolderId))
-                .ForMember(dto => dto.Name, wallpaper => wallpaper.MapFrom(w => w.Name))
-                .ForMember(dto => dto.IconUrl, wallpaper => wallpaper.MapFrom(w => w.IconUrl))
-                .ForMember(dto => dto.MemberType, wallpaper => wallpaper.MapFrom(w => w.MemberType.ToString().ToLower()))
+                .ForMember(dto => dto.Id, member => member.MapFrom(w => w.Id))
+                .ForMember(dto => dto.AppId, member => member.MapFrom(w => w.AppId))
+                .ForMember(dto => dto.Width, member => member.MapFrom(w => w.Width))
+                .ForMember(dto => dto.Height, member => member.MapFrom(w => w.Height))
+                .ForMember(dto => dto.FolderId, member => member.MapFrom(w => w.FolderId))
+                .ForMember(dto => dto.Name, member => member.MapFrom(w => w.Name))
+                .ForMember(dto => dto.IconUrl, member => member.MapFrom(w => w.IconUrl))
+                .ForMember(dto => dto.MemberType, member => member.MapFrom(w => w.MemberType.ToString().ToLower()))
 
-                .ForMember(dto => dto.IsOnDock, wallpaper => wallpaper.MapFrom(w => w.IsOnDock))
-                .ForMember(dto => dto.IsMax, wallpaper => wallpaper.MapFrom(w => w.IsMax))
-                .ForMember(dto => dto.IsFull, wallpaper => wallpaper.MapFrom(w => w.IsFull))
-                .ForMember(dto => dto.IsSetbar, wallpaper => wallpaper.MapFrom(w => w.IsSetbar))
-                .ForMember(dto => dto.IsOpenMax, wallpaper => wallpaper.MapFrom(w => w.IsOpenMax))
-                .ForMember(dto => dto.IsLock, wallpaper => wallpaper.MapFrom(w => w.IsLock))
-                .ForMember(dto => dto.IsFlash, wallpaper => wallpaper.MapFrom(w => w.IsFlash))
-                .ForMember(dto => dto.IsDraw, wallpaper => wallpaper.MapFrom(w => w.IsDraw))
-                .ForMember(dto => dto.IsResize, wallpaper => wallpaper.MapFrom(w => w.IsResize))
+                .ForMember(dto => dto.IsOnDock, member => member.MapFrom(w => w.IsOnDock))
+                .ForMember(dto => dto.IsMax, member => member.MapFrom(w => w.IsMax))
+                .ForMember(dto => dto.IsFull, member => member.MapFrom(w => w.IsFull))
+                .ForMember(dto => dto.IsSetbar, member => member.MapFrom(w => w.IsSetbar))
+                .ForMember(dto => dto.IsOpenMax, member => member.MapFrom(w => w.IsOpenMax))
+                .ForMember(dto => dto.IsLock, member => member.MapFrom(w => w.IsLock))
+                .ForMember(dto => dto.IsFlash, member => member.MapFrom(w => w.IsFlash))
+                .ForMember(dto => dto.IsDraw, member => member.MapFrom(w => w.IsDraw))
+                .ForMember(dto => dto.IsResize, member => member.MapFrom(w => w.IsResize))
 
-                .ForMember(dto => dto.AppUrl, wallpaper => wallpaper.MapFrom(w => w.AppUrl));
+                .ForMember(dto => dto.AppUrl, member => member.MapFrom(w => w.AppUrl));
+
+            #endregion
+
+            #region dto ->domain
+            Mapper.CreateMap<MemberDto, Member>()
+            .ForMember(member => member.Id, dto => dto.MapFrom(w => w.Id))
+            .ForMember(member => member.AppId, dto => dto.MapFrom(w => w.AppId))
+            .ForMember(member => member.Width, dto => dto.MapFrom(w => w.Width))
+            .ForMember(member => member.Height, dto => dto.MapFrom(w => w.Height))
+            .ForMember(member => member.FolderId, dto => dto.MapFrom(w => w.FolderId))
+            .ForMember(member => member.Name, dto => dto.MapFrom(w => w.Name))
+            .ForMember(member => member.IconUrl, dto => dto.MapFrom(w => w.IconUrl))
+            .ForMember(member => member.MemberType, dto => dto.MapFrom(w => w.MemberType.ToString().ToLower()))
+
+            .ForMember(member => member.IsOnDock, dto => dto.MapFrom(w => w.IsOnDock))
+            .ForMember(member => member.IsMax, dto => dto.MapFrom(w => w.IsMax))
+            .ForMember(member => member.IsFull, dto => dto.MapFrom(w => w.IsFull))
+            .ForMember(member => member.IsSetbar, dto => dto.MapFrom(w => w.IsSetbar))
+            .ForMember(member => member.IsOpenMax, dto => dto.MapFrom(w => w.IsOpenMax))
+            .ForMember(member => member.IsLock, dto => dto.MapFrom(w => w.IsLock))
+            .ForMember(member => member.IsFlash, dto => dto.MapFrom(w => w.IsFlash))
+            .ForMember(member => member.IsDraw, dto => dto.MapFrom(w => w.IsDraw))
+            .ForMember(member => member.IsResize, dto => dto.MapFrom(w => w.IsResize))
+
+            .ForMember(member => member.AppUrl, dto => dto.MapFrom(w => w.AppUrl));
+            #endregion
+
 
             #endregion
 

@@ -47,7 +47,7 @@ namespace NewCRM.Domain.Services
         /// <param name="userId"></param>
         /// <param name="memberId"></param>
         /// <param name="deskId"></param>
-        void MemberOutDock(Int32 userId, Int32 memberId,Int32 deskId);
+        void MemberOutDock(Int32 userId, Int32 memberId, Int32 deskId);
 
         /// <summary>
         /// 成员从码头移动到文件夹中
@@ -102,7 +102,7 @@ namespace NewCRM.Domain.Services
         /// <param name="memberIcon"></param>
         /// <param name="memberId"></param>
         /// <param name="userId"></param>
-        void ModifyFolderInfo(String memberName, String memberIcon, Int32 memberId,Int32 userId);
+        void ModifyFolderInfo(String memberName, String memberIcon, Int32 memberId, Int32 userId);
 
         /// <summary>
         /// 移除用户的桌面app成员
@@ -110,6 +110,13 @@ namespace NewCRM.Domain.Services
         /// <param name="userId"></param>
         /// <param name="memberId"></param>
         void RemoveMember(Int32 userId, Int32 memberId);
+
+        /// <summary>
+        /// 修改成员信息
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="member"></param>
+        void ModifyMemberInfo(Int32 userId, Member member);
 
         #endregion
 

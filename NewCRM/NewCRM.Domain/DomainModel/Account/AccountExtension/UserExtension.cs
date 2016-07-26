@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using NewCRM.Domain.Entities.DomainModel.Security;
 
 
@@ -41,26 +43,68 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         }
 
         /// <summary>
-        /// 添加角色
+        /// 添加用户角色
         /// </summary>
         /// <param name="roles"></param>
-        public User AddRole(params Role[] roles)
+        public User AddUserRole(params Role[] roles)
         {
-            if (roles == null)
+            return AddUserRole(roles.Select(r => r.Id).ToArray());
+        }
+
+        /// <summary>
+        /// 添加用户角色
+        /// </summary>
+        /// <param name="roleIds"></param>
+        public User AddUserRole(params Int32[] roleIds)
+        {
+            if (roleIds == null)
             {
-                throw new ArgumentNullException($"{nameof(roles)}:不能为空");
+                throw new ArgumentNullException($"{nameof(roleIds)}:不能为空");
             }
-            if (roles.Length <= 0)
+            if (roleIds.Length <= 0)
             {
-                throw new ArgumentOutOfRangeException($"{nameof(roles)}:不能为0");
+                throw new ArgumentOutOfRangeException($"{nameof(roleIds)}:不能为0");
             }
 
-            foreach (var role in roles)
+            foreach (var roleId in roleIds)
             {
-                Roles.Add(new UserRole(Id, role.Id));
+                Roles.Add(new UserRole(Id, roleId));
             }
             return this;
         }
+
+        /// <summary>
+        /// 删除用户角色
+        /// </summary>
+        /// <param name="roles"></param>
+        /// <returns></returns>
+        public User RemoveUserRole(params Role[] roles)
+        {
+            return RemoveUserRole(roles.Select(role => role.Id).ToArray());
+        }
+
+        /// <summary>
+        /// 删除用户角色
+        /// </summary>
+        /// <param name="roleIds"></param>
+        /// <returns></returns>
+        public User RemoveUserRole(params Int32[] roleIds)
+        {
+            if (roleIds == null)
+            {
+                throw new ArgumentNullException($"{nameof(roleIds)}:不能为空");
+            }
+            if (roleIds.Length <= 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(roleIds)}:不能为0");
+            }
+            foreach (var roleId in roleIds)
+            {
+                Roles.FirstOrDefault(r => r.Id == roleId).Remove();
+            }
+            return this;
+        }
+
 
         /// <summary>
         /// 在线
@@ -82,8 +126,15 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
             return this;
         }
 
+        public void RemoveTitle()
+        {
+            Title.Remove();
+        }
 
-
+        public void Remove()
+        {
+            IsDeleted = true;
+        }
 
         #endregion
     }

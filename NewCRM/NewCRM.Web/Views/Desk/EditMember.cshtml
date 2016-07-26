@@ -7,8 +7,7 @@
     <link href="@Url.Content("~/Scripts/HoorayUI/js/webuploader-0.1.5/webuploader.css")" rel="stylesheet" />
 }
 
-<form action="" method="post" name="form" id="form">
-    <input type="hidden" name="ac" value="edit">
+<form action="@Url.Action("ModifyAppInfo","Desk")" method="post" name="form" id="form">
     <input type="hidden" name="id" value="@Model.Id">
     <div class="creatbox">
         <div class="middle">
@@ -59,25 +58,35 @@
                 <label class="label-text">窗口是否拉伸：</label>
                 <div class="label-box form-inline control-group">
                     <label class="radio" style="margin-right: 10px">
-                        <input type="radio" name="val_isresize" value="1" @{if (Model.IsResize) { <text> checked="checked" </text>                 }}>是
+                        <input type="radio" name="val_isresize" value="1" @{if (Model.IsResize) { <text> checked="checked" </text>                   }}>是
                     </label>
                     <label class="radio">
-                        <input type="radio" name="val_isresize" value="0" @{ if (!Model.IsResize) { <text> checked="checked" </text>                 } }>否
+                        <input type="radio" name="val_isresize" value="0" @{ if (!Model.IsResize) { <text> checked="checked" </text>                   } }>否
                     </label>
                 </div>
             </div>
-            <div class="input-label input-label-isopenmax" @{ if (!Model.IsResize) { <text> style="display: none" </text>                } }>
+            <div class="input-label input-label-isopenmax" @{ if (!Model.IsResize) { <text> style="display: none" </text>                  } }>
                 <label class="label-text">打开默认最大化：</label>
                 <div class="label-box form-inline control-group">
-                    <label class="radio" style="margin-right:10px"><input type="radio" name="val_isopenmax" value="1" @{if (Model.IsOpenMax) { <text> checked="checked" </text>                 }}>是</label>
-                    <label class="radio"><input type="radio" name="val_isopenmax" value="0" @{if (!Model.IsOpenMax) { <text> checked="checked" </text>                 }}>否</label>
+                    <label class="radio" style="margin-right:10px"><input type="radio" name="val_isopenmax" value="1" @{if (Model.IsOpenMax) { <text> checked="checked" </text>                   }}>是</label>
+                    <label class="radio"><input type="radio" name="val_isopenmax" value="0" @{if (!Model.IsOpenMax) { <text> checked="checked" </text>                   }}>否</label>
                 </div>
             </div>
-            <div class="input-label input-label-isflash" @{ if (!Model.IsFlash) { <text> style="display: none" </text>                } }>
+            <div class="input-label input-label-isflash" @{ if (!Model.IsFlash) { <text> style="display: none" </text>  } }>
                 <label class="label-text">是否为Flash：</label>
                 <div class="label-box form-inline control-group">
-                    <label class="radio" style="margin-right:10px"><input type="radio" name="val_isflash" value="1" @{if (Model.IsFlash) { <text> checked="checked" </text>                 }}>是</label>
-                    <label class="radio" style="margin-right:10px"><input type="radio" name="val_isflash" value="0" @{if (!Model.IsFlash) { <text> checked="checked" </text>                 }}>否</label>
+                    <label class="radio" style="margin-right: 10px">
+                        <input type="radio" name="val_isflash" value="1" @{if (Model.IsFlash)
+                                                                         {
+                                                                             <text> checked="checked" </text>
+                                                                         }}>是
+                    </label>
+                    <label class="radio" style="margin-right: 10px">
+                        <input type="radio" name="val_isflash" value="0" @{if (!Model.IsFlash)
+                                                                         {
+                                                                             <text> checked="checked" </text>
+                                                                         }}>否
+                    </label>
                     <span class="txt">[<a href="javascript:;" rel="tooltip" title="如何设置为Flash应用，当窗口非当前窗口时，会显示遮罩层">?</a>]</span>
                 </div>
             </div>
@@ -92,17 +101,16 @@
 </form>
 
 @section ChildrenScript
-    {
-
+{
     <script>
-        $(function () {
+        $(function() {
             var uploader = WebUploader.create({
                 // 选完文件后，是否自动上传。
                 auto: true,
                 // swf文件路径
                 swf: '~/Scripts/HoorayUI/js/webuploader-0.1.5/Uploader.swf',
                 // 文件接收服务端。
-                server: 'app.ajax.php?ac=uploadImg',
+                server: '@Url.Action("UploadIcon", "Desk")',
                 // 选择文件的按钮。可选。
                 // 内部根据当前运行是创建，可能是input元素，也可能是flash.
                 pick: {
@@ -116,20 +124,20 @@
                     mimeTypes: 'image/*'
                 }
             });
-            uploader.on('beforeFileQueued', function (file) {
+            uploader.on('beforeFileQueued', function(file) {
                 if (file.size > 300 * 1024) {
-                    alert('文件大于300Kb，请压缩后再上传');
+                    ZENG.msgbox.show('文件大于300Kb，请压缩后再上传', 4, 2000);
                     return false;
                 } else {
                     $('.shortcutview img').remove();
                     $('#val_icon').val('');
                 }
             });
-            uploader.on('fileQueued', function (file) {
+            uploader.on('fileQueued', function(file) {
                 var $img = $('<img>');
                 $('.shortcutview').append($img);
                 // 创建缩略图
-                uploader.makeThumb(file, function (error, src) {
+                uploader.makeThumb(file, function(error, src) {
                     if (error) {
                         $img.replaceWith('');
                         return;
@@ -137,10 +145,14 @@
                     $img.attr('src', src);
                 }, 48, 48);
             });
-            uploader.on('uploadSuccess', function (file, cb) {
-                $('.shortcutview img').attr('src', '../../' + cb.url);
-                $('#val_icon').val(cb.url);
-                uploader.removeFile(file);
+            uploader.on('uploadSuccess', function(file, cb) {
+                if (typeof cb.iconPath === 'undefined') {
+                    ZENG.msgbox.show(cb.msg, 4, 2000);
+                } else {
+                    $('.shortcutview img').attr('src', cb.iconPath);
+                    $('#val_icon').val(cb.iconPath);
+                    uploader.removeFile(file);
+                }
             });
             $('#form').Validform({
                 btnSubmit: '#btn-submit',
@@ -149,7 +161,7 @@
                 //msg：提示信息;
                 //o:{obj:*,type:*,curform:*}, obj指向的是当前验证的表单元素（或表单对象），type指示提示的状态，值为1、2、3、4， 1：正在检测/提交数据，2：通过验证，3：验证失败，4：提示ignore状态, curform为当前form对象;
                 //cssctl:内置的提示信息样式控制函数，该函数需传入两个参数：显示提示信息的对象 和 当前提示的状态（既形参o中的type）;
-                tiptype: function (msg, o) {
+                tiptype: function(msg, o) {
                     if (!o.obj.is('form')) { //验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
                         var B = o.obj.parents('.control-group');
                         var T = B.children('.help-inline');
@@ -163,14 +175,15 @@
                     }
                 },
                 ajaxPost: true,
-                callback: function (data) {
+                callback: function(data) {
                     if (data.status === 'y') {
+                        ZENG.msgbox.show('修改成功', 4, 2000);
                         window.parent.HROS.app.get();
                         window.parent.$.dialog.list['editdialog'].close();
                     }
                 }
             });
-            $('input[name="val_isresize"]').change(function () {
+            $('input[name="val_isresize"]').change(function() {
                 if ($(this).val() === '1') {
                     $('.input-label-isopenmax').slideDown();
                 } else {
@@ -178,7 +191,7 @@
                 }
             });
             //选择应用图片
-            $('.shortcut-selicon a').click(function () {
+            $('.shortcut-selicon a').click(function() {
                 $('.shortcutview img').remove();
                 $('.shortcutview').append($(this).html());
                 $('#val_icon').val($(this).children('img').attr('valsrc')).focusout();
