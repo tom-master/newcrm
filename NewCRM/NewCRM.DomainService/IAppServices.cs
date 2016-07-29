@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NewCRM.Domain.Entities.DomainModel.System;
+using NewCRM.Domain.Services.Impl;
 
 namespace NewCRM.Domain.Services
 {
@@ -14,7 +17,6 @@ namespace NewCRM.Domain.Services
         /// <param name="userId"></param>
         /// <returns></returns>
         IDictionary<Int32, IList<dynamic>> GetApp(Int32 userId);
-
 
         /// <summary>
         /// 修改app的排列方向
@@ -43,5 +45,30 @@ namespace NewCRM.Domain.Services
         /// <param name="userId"></param>
         /// <param name="newSize"></param>
         void ModifyAppHorizontalSpacing(Int32 userId, Int32 newSize);
+
+        /// <summary>
+        /// 获取应用的类型
+        /// </summary>
+        /// <returns></returns>
+        List<AppType> GetAppTypes();
+
+        /// <summary>
+        /// 获取今日推荐
+        /// </summary>
+        /// <returns></returns>
+        TodayRecommendAppModel GetTodayRecommend(Int32 userId);
+
+        /// <summary>
+        /// 获取用户开发的app和未发布的app
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        dynamic GetUserDevAppAndUnReleaseApp(Int32 userId);
+
+        /// <summary>
+        /// 获取所有的app
+        /// </summary>
+        /// <returns></returns>
+        List<App> GetAllApps(Int32 userId, Int32 appTypeId,Int32 orderId,Int32 pageIndex,Int32 pageSize);
     }
 }

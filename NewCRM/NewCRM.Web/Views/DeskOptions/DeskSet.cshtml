@@ -12,7 +12,7 @@
             for (int i = 1; i <= userData.Desks.Count; i++)
             {<text>
             <label class="radio" style="margin-right: 10px">
-                <input type="radio" name="desk" value="@i" @{ if (i == 1) { <text> checked="checked" </text>     } }>第@{@i}桌面
+                <input type="radio" name="desk" value="@i" @{ if (i == userData.DefaultDeskNumber) { <text> checked="checked" </text>     } }>第@{@i}桌面
             </label>
             </text>
     }

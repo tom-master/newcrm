@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.Repositories.IRepository.Account;
+using NewCRM.Domain.Entities.Repositories.IRepository.System;
 using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
@@ -11,6 +13,13 @@ namespace NewCRM.Domain.Services.Impl
     [Export(typeof(IAppServices))]
     public class AppServices : BaseService, IAppServices
     {
+        [Import]
+        private IAppTypeRepository _appTypeRepository;
+
+
+        [Import]
+        private IAppRepository _appRepository;
+
 
         public IDictionary<Int32, IList<dynamic>> GetApp(Int32 userId)
         {
@@ -126,5 +135,94 @@ namespace NewCRM.Domain.Services.Impl
             userResult.Config.ModifyAppHorizontalSpacingLength(newSize);
             UserRepository.Update(userResult);
         }
+
+        public List<AppType> GetAppTypes()
+        {
+            return _appTypeRepository.Entities.ToList();
+        }
+
+        public TodayRecommendAppModel GetTodayRecommend(Int32 userId)
+        {
+            var topApp = _appRepository.Entities.OrderByDescending(app => app.UserCount).FirstOrDefault();
+
+            var userDesks = GetUser(userId).Config.Desks;
+
+            Boolean isInstall = userDesks.Any(userDesk => userDesk.Members.Any(member => member.AppId == topApp.Id));
+
+            return new TodayRecommendAppModel
+            {
+                AppId = topApp.Id,
+                Name = topApp.Name,
+                UserCount = topApp.UserCount,
+                AppIcon = topApp.IconUrl,
+                StartCount = topApp.StartCount,
+                IsInstall = isInstall,
+                Remark = topApp.Remark
+            };
+        }
+
+        public dynamic GetUserDevAppAndUnReleaseApp(Int32 userId)
+        {
+            var userApps = _appRepository.Entities.Where(app => app.UserId == userId);
+
+            var userDevAppCount = userApps.Count();
+
+            var userUnReleaseAppCount = userApps.Count(app => app.AppReleaseState == AppReleaseState.UnRelease);
+
+            return new
+            {
+                UserDevAppCount = userDevAppCount,
+                UserUnReleaseAppCount = userUnReleaseAppCount
+            };
+        }
+
+        public List<App> GetAllApps(Int32 userId, Int32 appTypeId, Int32 orderId, Int32 pageIndex, Int32 pageSize)
+        {
+            var apps = _appRepository.Entities;
+
+            if (appTypeId != 0 && appTypeId != -1)//全部app
+            {
+                apps = apps.Where(app => app.AppTypeId == appTypeId);
+            }
+            else
+            {
+                if (appTypeId == -1)//用户制作的app
+                {
+                    apps = apps.Where(app => app.UserId == userId);
+                }
+            }
+
+            if (orderId == 1)
+            {
+                apps = apps.OrderByDescending(app => app.AddTime);
+            }
+            else if (orderId == 2)
+            {
+                apps = apps.OrderByDescending(app => app.UserCount);
+            }
+            else if (orderId == 3)
+            {
+                apps = apps.OrderByDescending(app => app.StartCount);
+            }
+
+            return apps.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+
+        }
+    }
+    public class TodayRecommendAppModel
+    {
+        public Int32 AppId { get; set; }
+
+        public String Name { get; set; }
+
+        public Int32 UserCount { get; set; }
+
+        public String AppIcon { get; set; }
+
+        public Int32 StartCount { get; set; }
+
+        public Boolean IsInstall { get; set; }
+
+        public String Remark { get; set; }
     }
 }

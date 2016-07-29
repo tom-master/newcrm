@@ -3,7 +3,10 @@
     Layout = "~/Views/Shared/_LayoutRoot.cshtml";
     var userResult = (UserDto)ViewData["CurrentUser"];
 }
- 
+@section ParentCss{
+    <link href="@Url.Content("~/Scripts/HoorayUI/js/HoorayLibs/hooraylibs.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/HoorayUI/css/index.css")" rel="stylesheet" />
+}
 <div class="loading"></div>
 <div id="desktop">
     <div id="zoom-tip">
@@ -118,13 +121,13 @@
     {
         <div class="folderItem" style="width:@{
 <text>@width%</text>}" data-deskname="桌面@{@i}">
-                                <div class="folder_bg"></div>
-                                <div class="folderOuter">
-                                    <div class="folderInner" desk="@i">@i</div>
-                                    <div class="scrollBar"></div>
-                                </div>
-                                <div class="amg_line_y"></div>
-                            </div>
+            <div class="folder_bg"></div>
+            <div class="folderOuter">
+                <div class="folderInner" desk="@i">@i</div>
+                <div class="scrollBar"></div>
+            </div>
+            <div class="amg_line_y"></div>
+        </div>
         }
     }
         }
@@ -133,10 +136,10 @@
 
 @section ParentScript{
     <script>
-        $(function() {
-            $(function() {
+        $(function () {
+            $(function () {
                 //配置artDialog全局默认参数
-                (function(config) {
+                (function (config) {
                     config['lock'] = true;
                     config['fixed'] = true;
                     config['resize'] = false;
@@ -147,10 +150,10 @@
                 $('[rel="tooltip"]').tooltip();
                 //表单提示
                 $("[datatype]")
-                    .focusin(function() {
+                    .focusin(function () {
                         $(this).parent().addClass('info').children('.infomsg').show().siblings('.help-inline').hide();
                     })
-                    .focusout(function() {
+                    .focusout(function () {
                         $(this).parent().removeClass('info').children('.infomsg').hide().siblings('.help-inline')
                             .show();
                     });
@@ -170,9 +173,9 @@
                                     500);
                         });
                 };
-                closeDetailIframe = function(callback) {
+                closeDetailIframe = function (callback) {
                     $('body').css('overflow', 'auto');
-                    $('#detailIframe').animate({ 'top': '-100px', 'opacity': 'hide' }, 500, function() {
+                    $('#detailIframe').animate({ 'top': '-100px', 'opacity': 'hide' }, 500, function () {
                         callback && callback();
                     });
                 };

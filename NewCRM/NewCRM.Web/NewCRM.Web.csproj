@@ -709,6 +709,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Index\Desktop.cshtml" />
     <Content Include="Views\Desk\EditMember.cshtml" />
+    <None Include="Views\Desk\AppMarket.cshtml" />
     <None Include="Views\Test\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

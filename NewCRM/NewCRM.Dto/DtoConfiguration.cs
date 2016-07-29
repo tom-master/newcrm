@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using NewCRM.Domain.Entities.DomainModel;
 using NewCRM.Domain.Entities.DomainModel.Account;
@@ -10,10 +11,8 @@ namespace NewCRM.Dto
 {
     public static class DtoConfiguration
     {
-
         static DtoConfiguration()
         {
-            #region Domain To Dto
 
             #region Account
 
@@ -39,7 +38,6 @@ namespace NewCRM.Dto
                 .ForMember(dto => dto.Id, user => user.MapFrom(u => u.Id))
                 .ForMember(dto => dto.ConfigId, user => user.MapFrom(u => u.Config.Id));
             #endregion
-
 
             #region Wallpaper
 
@@ -68,8 +66,7 @@ namespace NewCRM.Dto
 
             #endregion
 
-
-            #region member
+            #region Member
 
             #region domain -> dto
             Mapper.CreateMap<Member, MemberDto>()
@@ -123,27 +120,35 @@ namespace NewCRM.Dto
 
             #endregion
 
-            #endregion
-        }
+            #region AppType
 
+            Mapper.CreateMap<AppType, AppTypeDto>()
+                .ForMember(dto => dto.Id, member => member.MapFrom(w => w.Id))
+                .ForMember(dto => dto.Name, member => member.MapFrom(w => w.Name));
+
+
+            #endregion
+
+
+        }
 
         #region DomainModelToDto
 
         /// <summary>
         /// 领域模型转换成DTO
         /// </summary>
-        /// <typeparam name="T1">领域模型</typeparam>
-        /// <typeparam name="T2">DTO模型</typeparam>
+        /// <typeparam name="TModel">领域模型</typeparam>
+        /// <typeparam name="TDto">DTO模型</typeparam>
         /// <param name="source">领域模型</param>
         /// <returns></returns>
-        public static T2 ConvertToDto<T1, T2>(this T1 source) where T1 : DomainModelBase
+        public static TDto ConvertToDto<TModel, TDto>(this TModel source) where TModel : DomainModelBase where TDto : BaseDto
         {
-            return Mapper.Map<T1, T2>(source);
+            return Mapper.Map<TModel, TDto>(source);
         }
 
-        public static IList<T2> ConvertToDto<T1, T2>(this IEnumerable<T1> source) where T1 : DomainModelBase
+        public static List<TDto> ConvertToDto<TModel, TDto>(this IEnumerable<TModel> source) where TModel : DomainModelBase where TDto : BaseDto
         {
-            return Mapper.Map<IEnumerable<T1>, IList<T2>>(source);
+            return Mapper.Map<IEnumerable<TModel>, IList<TDto>>(source).ToList();
         }
 
         #endregion
@@ -152,18 +157,22 @@ namespace NewCRM.Dto
         /// <summary>
         /// DTO转换成领域模型
         /// </summary>
-        /// <typeparam name="T1">DTO</typeparam>
-        /// <typeparam name="T2">领域模型</typeparam>
+        /// <typeparam name="TDto">DTO</typeparam>
+        /// <typeparam name="TModel">领域模型</typeparam>
         /// <param name="source">DTO</param>
         /// <returns></returns>
-        public static T2 ConvertToDomainModel<T1, T2>(this T1 source)
+        public static TModel ConvertToModel<TDto, TModel>(this TDto source)
+            where TDto : BaseDto 
+            where TModel : DomainModelBase
         {
-            return Mapper.Map<T1, T2>(source);
+            return Mapper.Map<TDto, TModel>(source);
         }
 
-        public static IEnumerable<T2> ConvertToDomainModel<T1, T2>(this IList<T1> source)
+        public static IEnumerable<TModel> ConvertToModel<TDto, TModel>(this IList<TDto> source)
+            where TDto : BaseDto
+            where TModel : DomainModelBase
         {
-            return Mapper.Map<IList<T1>, IEnumerable<T2>>(source);
+            return Mapper.Map<IList<TDto>, IEnumerable<TModel>>(source);
         }
 
         #endregion

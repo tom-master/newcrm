@@ -197,7 +197,7 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <param name="deskNum"></param>
         /// <returns></returns>
-        public ActionResult ChangeDefaultDesk(Int32 deskNum = 1)
+        public ActionResult ChangeDefaultDesk(Int32 deskNum)
         {
             _deskApplicationServices.ModifyDefaultDeskNumber(CurrentUser.Id, deskNum);
             return Json(new { data = 1 }, JsonRequestBehavior.AllowGet);

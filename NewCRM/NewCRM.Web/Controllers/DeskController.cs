@@ -6,6 +6,7 @@ using NewCRM.Application.Services.IApplicationService;
 using NewCRM.Dto.Dto;
 using NewCRM.Web.Controllers.ControllerHelper;
 using NewCRM.Infrastructure.CommonTools;
+using Newtonsoft.Json;
 
 namespace NewCRM.Web.Controllers
 {
@@ -15,11 +16,31 @@ namespace NewCRM.Web.Controllers
         [Import]
         private IDeskApplicationServices _deskApplicationServices;
 
+        [Import]
+        private IAppApplicationServices _appApplicationServices;
+
         // GET: Desk
         public ActionResult EditMember(Int32 memberId)
         {
             var memberResult = _deskApplicationServices.GetMember(CurrentUser.Id, memberId);
             return View(memberResult);
+        }
+
+        public ActionResult AppMarket()
+        {
+            ViewData["AppTypes"] = _appApplicationServices.GetAppTypes();
+
+            ViewData["TodayRecommendApp"] = _appApplicationServices.GetTodayRecommend(CurrentUser.Id);
+
+            ViewData["UserName"] = CurrentUser.Name;
+
+            var userDevAppAndUnReleaseApp = _appApplicationServices.GetUserDevAppAndUnReleaseApp(CurrentUser.Id);
+
+            ViewData["UserDevAppCount"] = userDevAppAndUnReleaseApp.GetType().GetProperty("UserDevAppCount").GetValue(userDevAppAndUnReleaseApp);
+
+            ViewData["UserUnReleaseAppCount"] = userDevAppAndUnReleaseApp.GetType().GetProperty("UserUnReleaseAppCount").GetValue(userDevAppAndUnReleaseApp);
+
+            return View();
         }
 
         /// <summary>
@@ -57,7 +78,6 @@ namespace NewCRM.Web.Controllers
             }
             return new EmptyResult();
         }
-
 
         /// <summary>
         /// 修改文件夹的信息
@@ -99,7 +119,10 @@ namespace NewCRM.Web.Controllers
             });
         }
 
-
+        /// <summary>
+        /// 更新图标
+        /// </summary>
+        /// <returns></returns>
         public ActionResult UploadIcon()
         {
             if (Request.Files.Count != 0)
@@ -126,5 +149,8 @@ namespace NewCRM.Web.Controllers
             _deskApplicationServices.RemoveMember(CurrentUser.Id, memberId);
             return new EmptyResult();
         }
+
+
+
     }
 }

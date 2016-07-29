@@ -46,8 +46,6 @@ namespace NewCRM.Web.Controllers
             return View();
         }
 
-        //#region 登陆
-
         /// <summary>
         /// 登陆
         /// </summary>
@@ -73,9 +71,8 @@ namespace NewCRM.Web.Controllers
 
             return Json(new { status = 1 });
         }
-        //#endregion
 
-        //#region 桌面相关的
+
         /// <summary>
         /// 初始化皮肤
         /// </summary>
@@ -85,6 +82,7 @@ namespace NewCRM.Web.Controllers
             var skinName = CurrentUser.Skin;
             return Json(new { data = skinName }, JsonRequestBehavior.AllowGet);
         }
+
         ///// <summary>
         ///// 初始化壁纸
         ///// </summary>
@@ -104,6 +102,7 @@ namespace NewCRM.Web.Controllers
                 }
             }, JsonRequestBehavior.AllowGet);
         }
+
         ///// <summary>
         ///// 初始化应用码头
         ///// </summary>
@@ -113,6 +112,7 @@ namespace NewCRM.Web.Controllers
             var dockPos = CurrentUser.DockPosition;
             return Json(new { data = dockPos }, JsonRequestBehavior.AllowGet);
         }
+
         ///// <summary>
         ///// 获取我的应用
         ///// </summary>
@@ -122,6 +122,7 @@ namespace NewCRM.Web.Controllers
             var app = _appApplicationServices.GetUserApp(CurrentUser.Id);
             return Json(new { app }, JsonRequestBehavior.AllowGet);
         }
+
         ///// <summary>
         ///// 获取用户头像
         ///// </summary>
@@ -130,6 +131,7 @@ namespace NewCRM.Web.Controllers
         {
             return Json(new { data = CurrentUser.UserFace }, JsonRequestBehavior.AllowGet);
         }
+
         ///// <summary>
         ///// 创建一个窗口
         ///// </summary>

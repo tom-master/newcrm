@@ -50,7 +50,7 @@ namespace NewCRM.Application.Services
         {
             _validateParameter.Validate(wallpaperDto);
 
-            var wallpaper = wallpaperDto.ConvertToDomainModel<WallpaperDto, Wallpaper>();
+            var wallpaper = wallpaperDto.ConvertToModel<WallpaperDto, Wallpaper>();
 
             return _wallpaperServices.AddWallpaper(wallpaper);
         }

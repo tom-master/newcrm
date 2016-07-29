@@ -11,8 +11,7 @@ namespace NewCRM.Web
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Index", action = "Login", id = UrlParameter.Optional }
-            );
+                defaults: new { controller = "Index", action = "Login", id = UrlParameter.Optional });
         }
     }
 }

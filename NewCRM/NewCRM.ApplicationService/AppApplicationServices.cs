@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using NewCRM.Application.Services.IApplicationService;
+using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Services;
+using NewCRM.Dto;
+using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
 
 namespace NewCRM.Application.Services
@@ -45,6 +49,35 @@ namespace NewCRM.Application.Services
         {
             _validateParameter.Validate(userId).Validate(newSize);
             _appServices.ModifyAppHorizontalSpacing(userId, newSize);
+        }
+
+        public List<AppTypeDto> GetAppTypes()
+        {
+            return _appServices.GetAppTypes().ConvertToDto<AppType, AppTypeDto>();
+        }
+
+        public TodayRecommendAppDto GetTodayRecommend(Int32 userId)
+        {
+            _validateParameter.Validate(userId);
+
+            var todayRecommendAppResult = _appServices.GetTodayRecommend(userId);
+
+            return new TodayRecommendAppDto
+            {
+               AppIcon = todayRecommendAppResult.AppIcon,
+               Id = todayRecommendAppResult.AppId,
+               IsInstall = todayRecommendAppResult.IsInstall,
+               Name = todayRecommendAppResult.Name,
+               Remark = todayRecommendAppResult.Remark,
+               StartCount = todayRecommendAppResult.StartCount,
+               UserCount = todayRecommendAppResult.UserCount
+            };
+        }
+
+        public dynamic GetUserDevAppAndUnReleaseApp(Int32 userId)
+        {
+            _validateParameter.Validate(userId);
+            return _appServices.GetUserDevAppAndUnReleaseApp(userId);
         }
     }
 }

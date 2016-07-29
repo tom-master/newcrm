@@ -32,7 +32,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         }
 
         /// <summary>
-        /// app审核通过
+        /// 审核通过
         /// </summary>
         public App Pass()
         {
@@ -41,11 +41,21 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         }
 
         /// <summary>
-        /// app审核未通过
+        /// 审核未通过
         /// </summary>
         public App Deny()
         {
             AppAuditState = AppAuditState.Deny;
+            return this;
+        }
+
+        /// <summary>
+        /// 发布
+        /// </summary>
+        /// <returns></returns>
+        public App Release()
+        {
+            AppReleaseState = AppReleaseState.Release;
             return this;
         }
 

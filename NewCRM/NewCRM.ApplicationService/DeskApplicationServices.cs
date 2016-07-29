@@ -106,7 +106,7 @@ namespace NewCRM.Application.Services
         {
             _validateParameter.Validate(userId).Validate(member);
 
-            _deskServices.ModifyMemberInfo(userId, member.ConvertToDomainModel<MemberDto, Member>());
+            _deskServices.ModifyMemberInfo(userId, member.ConvertToModel<MemberDto, Member>());
         }
     }
 }

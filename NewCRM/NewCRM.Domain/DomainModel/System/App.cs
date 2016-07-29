@@ -104,13 +104,16 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         public AppAuditState AppAuditState { get; private set; }
 
         /// <summary>
+        /// 发布状态
+        /// </summary>
+        public AppReleaseState AppReleaseState { get; private set; }
+
+        /// <summary>
         /// app类型
         /// </summary>
         public virtual AppType AppType { get; private set; }
 
-
-
-
+        public Int32 AppTypeId { get; set; }
 
         #endregion
 
@@ -177,6 +180,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             IsLock = false;
             Remark = remark;
             AppAuditState = default(AppAuditState);
+            AppReleaseState = default(AppReleaseState);
             UserCount = 0;
             StartCount = 0;
         }
