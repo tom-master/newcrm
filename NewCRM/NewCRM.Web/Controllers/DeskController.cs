@@ -19,7 +19,7 @@ namespace NewCRM.Web.Controllers
         [Import]
         private IAppApplicationServices _appApplicationServices;
 
-        // GET: Desk
+        // GET: Desks
         public ActionResult EditMember(Int32 memberId)
         {
             var memberResult = _deskApplicationServices.GetMember(CurrentUser.Id, memberId);
