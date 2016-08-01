@@ -27,7 +27,7 @@ namespace NewCRM.Web.Controllers
         }
 
         public ActionResult AppMarket()
-        {
+        { 
             ViewData["AppTypes"] = _appApplicationServices.GetAppTypes();
 
             ViewData["TodayRecommendApp"] = _appApplicationServices.GetTodayRecommend(CurrentUser.Id);
