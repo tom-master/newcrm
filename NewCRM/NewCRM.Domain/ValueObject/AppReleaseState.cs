@@ -15,6 +15,6 @@ namespace NewCRM.Domain.Entities.ValueObject
         [Description("已发布")]
         Release = 1,
         [Description("未发布")]
-        UnRelease = 0
+        UnRelease = 2
     }
 }

@@ -16,11 +16,9 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
         /// <param name="vaildateParameter"></param>
         public Parameter Validate(Object vaildateParameter)
         {
-            var parameterString = vaildateParameter.GetType().Name;
             if (vaildateParameter == null)
             {
-                ArgumentNullException e = new ArgumentNullException(parameterString);
-                throw ThrowComponentException($"参数 {parameterString} 为空引发异常。", e);
+                throw ThrowComponentException($"参数 {vaildateParameter} 为空引发异常。");
             }
             return this;
         }

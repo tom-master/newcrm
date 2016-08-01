@@ -146,6 +146,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\dynamicBackground.js" />
+    <Content Include="Scripts\handlebars-v4.0.5.js" />
     <Content Include="Scripts\HoorayUI\css\index.css" />
     <Content Include="Scripts\HoorayUI\css\login.css" />
     <Content Include="Scripts\HoorayUI\img\box.psd" />

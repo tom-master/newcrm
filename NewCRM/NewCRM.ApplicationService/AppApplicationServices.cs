@@ -26,7 +26,6 @@ namespace NewCRM.Application.Services
             return _appServices.GetApp(userId);
         }
 
-
         public void ModifyAppDirection(Int32 userId, String direction)
         {
             _validateParameter.Validate(userId).Validate(direction);
@@ -53,7 +52,7 @@ namespace NewCRM.Application.Services
 
         public List<AppTypeDto> GetAppTypes()
         {
-            return _appServices.GetAppTypes().ConvertToDto<AppType, AppTypeDto>();
+            return _appServices.GetAppTypes().ConvertToDto<AppType, AppTypeDto>().ToList();
         }
 
         public TodayRecommendAppDto GetTodayRecommend(Int32 userId)
@@ -64,20 +63,30 @@ namespace NewCRM.Application.Services
 
             return new TodayRecommendAppDto
             {
-               AppIcon = todayRecommendAppResult.AppIcon,
-               Id = todayRecommendAppResult.AppId,
-               IsInstall = todayRecommendAppResult.IsInstall,
-               Name = todayRecommendAppResult.Name,
-               Remark = todayRecommendAppResult.Remark,
-               StartCount = todayRecommendAppResult.StartCount,
-               UserCount = todayRecommendAppResult.UserCount
+                AppIcon = todayRecommendAppResult.AppIcon,
+                Id = todayRecommendAppResult.AppId,
+                IsInstall = todayRecommendAppResult.IsInstall,
+                Name = todayRecommendAppResult.Name,
+                Remark = todayRecommendAppResult.Remark,
+                StartCount = todayRecommendAppResult.StartCount,
+                UserCount = todayRecommendAppResult.UserCount,
+                Style = todayRecommendAppResult.Style
             };
         }
 
-        public dynamic GetUserDevAppAndUnReleaseApp(Int32 userId)
+        public Tuple<Int32, Int32> GetUserDevAppAndUnReleaseApp(Int32 userId)
         {
             _validateParameter.Validate(userId);
             return _appServices.GetUserDevAppAndUnReleaseApp(userId);
         }
+
+        public List<AppDto> GetAllApps(
+            Int32 userId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+        {
+            _validateParameter.Validate(userId, true).Validate(appTypeId, true).Validate(orderId).Validate(searchText).Validate(pageIndex,true).Validate(pageSize);
+            return _appServices.GetAllApps(userId, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount).ConvertToDto<App, AppDto>().ToList();
+        }
+
+
     }
 }

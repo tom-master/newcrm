@@ -63,12 +63,19 @@ namespace NewCRM.Domain.Services
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        dynamic GetUserDevAppAndUnReleaseApp(Int32 userId);
+        Tuple<Int32,Int32> GetUserDevAppAndUnReleaseApp(Int32 userId);
 
         /// <summary>
         /// 获取所有的app
         /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="appTypeId"></param>
+        /// <param name="orderId"></param>
+        /// <param name="searchText"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="totalCount"></param>
         /// <returns></returns>
-        List<App> GetAllApps(Int32 userId, Int32 appTypeId,Int32 orderId,Int32 pageIndex,Int32 pageSize);
+        List<App> GetAllApps(Int32 userId, Int32 appTypeId, Int32 orderId,String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
     }
 }

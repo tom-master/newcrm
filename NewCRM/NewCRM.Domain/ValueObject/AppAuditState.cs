@@ -12,6 +12,8 @@ namespace NewCRM.Domain.Entities.ValueObject
         [Description("通过")]
         Pass = 2,
         [Description("未通过")]
-        Deny = 3
+        Deny = 3,
+        [Description("未审核")]
+        UnAuditState = 4
     }
 }

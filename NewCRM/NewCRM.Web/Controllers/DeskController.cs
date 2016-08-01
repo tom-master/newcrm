@@ -34,11 +34,11 @@ namespace NewCRM.Web.Controllers
 
             ViewData["UserName"] = CurrentUser.Name;
 
-            var userDevAppAndUnReleaseApp = _appApplicationServices.GetUserDevAppAndUnReleaseApp(CurrentUser.Id);
+        
 
-            ViewData["UserDevAppCount"] = userDevAppAndUnReleaseApp.GetType().GetProperty("UserDevAppCount").GetValue(userDevAppAndUnReleaseApp);
+            ViewData["UserApp"] = _appApplicationServices.GetUserDevAppAndUnReleaseApp(CurrentUser.Id);
 
-            ViewData["UserUnReleaseAppCount"] = userDevAppAndUnReleaseApp.GetType().GetProperty("UserUnReleaseAppCount").GetValue(userDevAppAndUnReleaseApp);
+
 
             return View();
         }
@@ -151,6 +151,17 @@ namespace NewCRM.Web.Controllers
         }
 
 
+        public ActionResult GetAllApps(Int32 appTypeId, Int32 orderId,String searchText, Int32 pageIndex, Int32 pageSize)
+        {
+            Int32 totalCount = 0;
 
+            var appResults = _appApplicationServices.GetAllApps(CurrentUser.Id, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
+
+            return Json(new
+            {
+                apps = appResults,
+                totalCount
+            }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

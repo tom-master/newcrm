@@ -32,7 +32,7 @@ namespace NewCRM.Dto.Dto
         /// <summary>
         /// 图片的高
         /// </summary>
-        public Int32 Heigth { get; set; }
+        public Int32 Height { get; set; }
 
         public String Md5 { get; set; }
 

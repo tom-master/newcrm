@@ -19,5 +19,7 @@ namespace NewCRM.Dto.Dto
         public Boolean IsInstall { get; set; }
 
         public String Remark { get; set; }
+
+        public String Style { get; set; }
     }
 }

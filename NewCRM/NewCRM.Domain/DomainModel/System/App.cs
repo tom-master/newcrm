@@ -108,6 +108,8 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// </summary>
         public AppReleaseState AppReleaseState { get; private set; }
 
+        public AppStyle AppStyle { get; private set; }
+
         /// <summary>
         /// app类型
         /// </summary>
@@ -128,6 +130,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// <param name="width">宽</param>
         /// <param name="height">高</param>
         /// <param name="appType"></param>
+        /// <param name="appStyle"></param>
         /// <param name="userId"></param>
         /// <param name="remark">备注</param>
         /// <param name="isMax">是否最大化</param>
@@ -143,6 +146,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             Int32 width,
             Int32 height,
             AppType appType,
+            AppStyle appStyle = AppStyle.Window,
             Int32 userId = default(Int32),
             String remark = default(String),
             Boolean isMax = default(Boolean),
@@ -166,7 +170,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             IsDraw = isDraw;
             IsResize = isResize;
             AppType = appType;
-
+            AppStyle = appStyle;
             if (userId == 0)
             {
                 IsSystem = true;
@@ -179,50 +183,10 @@ namespace NewCRM.Domain.Entities.DomainModel.System
 
             IsLock = false;
             Remark = remark;
-            AppAuditState = default(AppAuditState);
-            AppReleaseState = default(AppReleaseState);
+            AppAuditState = AppAuditState.UnAuditState;
+            AppReleaseState = AppReleaseState.UnRelease;
             UserCount = 0;
             StartCount = 0;
-        }
-
-
-        public App(String name, String iconUrl, String appUrl, AppType appType, Int32 userId = default(Int32))
-        {
-            Name = name;
-            IconUrl = iconUrl;
-            AppUrl = appUrl;
-            Width = 800;
-            Height = 600;
-            IsMax = false;
-            IsFull = false;
-            IsSetbar = false;
-            IsOpenMax = false;
-            IsFlash = false;
-            IsDraw = true;
-            AppType = appType;
-
-            if (userId == 0)
-            {
-                IsSystem = true;
-            }
-            else
-            {
-                IsSystem = false;
-                UserId = userId;
-            }
-
-
-            IsLock = false;
-            Remark = "";
-            AppAuditState = default(AppAuditState);
-            UserCount = 0;
-            StartCount = 0;
-        }
-
-
-        public App(String name, String iconUrl, String appUrl) : this(name, iconUrl, appUrl, new AppType("系统"))
-        {
-
         }
 
         public App()

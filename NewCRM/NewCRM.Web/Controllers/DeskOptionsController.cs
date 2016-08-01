@@ -141,7 +141,7 @@ namespace NewCRM.Web.Controllers
 
                     var wallpaperResult = _wallpaperApplicationServices.AddWallpaper(new WallpaperDto
                     {
-                        Heigth = fileUpLoad.FileHeight,
+                        Height = fileUpLoad.FileHeight,
                         Source = WallpaperSource.Upload.ToString(),
                         Title = fileUpLoad.OldFileName,
                         Url = fileUpLoad.FilePath + fileUpLoad.OldFileName,

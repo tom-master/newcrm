@@ -157,11 +157,12 @@ namespace NewCRM.Domain.Services.Impl
                 AppIcon = topApp.IconUrl,
                 StartCount = topApp.StartCount,
                 IsInstall = isInstall,
-                Remark = topApp.Remark
+                Remark = topApp.Remark,
+                Style = topApp.AppStyle.ToString().ToLower()
             };
         }
 
-        public dynamic GetUserDevAppAndUnReleaseApp(Int32 userId)
+        public Tuple<Int32, Int32> GetUserDevAppAndUnReleaseApp(Int32 userId)
         {
             var userApps = _appRepository.Entities.Where(app => app.UserId == userId);
 
@@ -169,14 +170,10 @@ namespace NewCRM.Domain.Services.Impl
 
             var userUnReleaseAppCount = userApps.Count(app => app.AppReleaseState == AppReleaseState.UnRelease);
 
-            return new
-            {
-                UserDevAppCount = userDevAppCount,
-                UserUnReleaseAppCount = userUnReleaseAppCount
-            };
+            return new Tuple<Int32, Int32>(userDevAppCount, userUnReleaseAppCount);
         }
 
-        public List<App> GetAllApps(Int32 userId, Int32 appTypeId, Int32 orderId, Int32 pageIndex, Int32 pageSize)
+        public List<App> GetAllApps(Int32 userId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
             var apps = _appRepository.Entities;
 
@@ -192,18 +189,25 @@ namespace NewCRM.Domain.Services.Impl
                 }
             }
 
-            if (orderId == 1)
+            if (orderId == 1)//最新应用
             {
                 apps = apps.OrderByDescending(app => app.AddTime);
             }
-            else if (orderId == 2)
+            else if (orderId == 2)//使用最多
             {
                 apps = apps.OrderByDescending(app => app.UserCount);
             }
-            else if (orderId == 3)
+            else if (orderId == 3)//评价最高
             {
                 apps = apps.OrderByDescending(app => app.StartCount);
             }
+
+            if ((searchText + "").Length > 0)//关键字搜索
+            {
+                apps = apps.Where(app => app.Name.Contains(searchText));
+            }
+
+            totalCount = apps.Count();
 
             return apps.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
 
@@ -224,5 +228,7 @@ namespace NewCRM.Domain.Services.Impl
         public Boolean IsInstall { get; set; }
 
         public String Remark { get; set; }
+
+        public String Style { get; set; }
     }
 }

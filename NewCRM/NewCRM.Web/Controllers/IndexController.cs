@@ -140,15 +140,7 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult CreateWindow(Int32 id = 0, String type = "")
         {
-            var internalMemberResult = new MemberDto();
-            if (type == "app")
-            {
-                internalMemberResult = _deskApplicationServices.GetMember(CurrentUser.Id, id);
-            }
-            if (type == "folder")
-            {
-                internalMemberResult = _deskApplicationServices.GetMember(CurrentUser.Id, id, true);
-            }
+            var internalMemberResult = type == "folder" ? _deskApplicationServices.GetMember(CurrentUser.Id, id, true) : _deskApplicationServices.GetMember(CurrentUser.Id, id);
 
             return Json(new
             {

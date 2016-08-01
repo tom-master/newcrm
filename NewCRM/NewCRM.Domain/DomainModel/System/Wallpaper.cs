@@ -40,7 +40,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// <summary>
         /// 图片的高
         /// </summary>
-        public Int32 Heigth { get; private set; }
+        public Int32 Height { get; private set; }
 
         public Int32 UserId { get; private set; }
 
@@ -68,7 +68,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             Url = url;
             Description = description;
             Width = width;
-            Heigth = height;
+            Height = height;
             Source = wallpaperSource;
             UserId = userId;
             Md5 = md5;

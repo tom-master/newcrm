@@ -85,7 +85,7 @@ namespace NewCRM.Application.Services
                 var wallpaperResult = AddWallpaper(new WallpaperDto
                 {
                     Width = image.Width,
-                    Heigth = image.Height,
+                    Height = image.Height,
                     Source = WallpaperSource.Web.ToString(),
                     Title = imageTitle,
                     Url = url,
