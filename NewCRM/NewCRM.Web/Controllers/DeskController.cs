@@ -26,7 +26,7 @@ namespace NewCRM.Web.Controllers
             return View(memberResult);
         }
 
-        public ActionResult AppMarket()
+        public ActionResult AppMarket() 
         { 
             ViewData["AppTypes"] = _appApplicationServices.GetAppTypes();
 
@@ -34,10 +34,8 @@ namespace NewCRM.Web.Controllers
 
             ViewData["UserName"] = CurrentUser.Name;
 
-        
-
             ViewData["UserApp"] = _appApplicationServices.GetUserDevAppAndUnReleaseApp(CurrentUser.Id);
-
+            String s = "";
 
 
             return View();
