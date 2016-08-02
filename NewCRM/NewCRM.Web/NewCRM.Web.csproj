@@ -122,6 +122,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\ControllerHelper\BaseController.cs" />
     <Compile Include="Controllers\ControllerHelper\Jsons.cs" />
     <Compile Include="Controllers\DeskController.cs" />
@@ -717,6 +718,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\Metro\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\App\" />
     <Folder Include="Views\UserMember\" />
   </ItemGroup>
   <ItemGroup>

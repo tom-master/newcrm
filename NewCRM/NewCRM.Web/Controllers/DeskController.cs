@@ -16,28 +16,13 @@ namespace NewCRM.Web.Controllers
         [Import]
         private IDeskApplicationServices _deskApplicationServices;
 
-        [Import]
-        private IAppApplicationServices _appApplicationServices;
+     
 
         // GET: Desks
         public ActionResult EditMember(Int32 memberId)
         {
             var memberResult = _deskApplicationServices.GetMember(CurrentUser.Id, memberId);
             return View(memberResult);
-        }
-
-        public ActionResult AppMarket() 
-        { 
-            ViewData["AppTypes"] = _appApplicationServices.GetAppTypes();
-
-            ViewData["TodayRecommendApp"] = _appApplicationServices.GetTodayRecommend(CurrentUser.Id);
-
-            ViewData["UserName"] = CurrentUser.Name;
-
-            ViewData["UserApp"] = _appApplicationServices.GetUserDevAppAndUnReleaseApp(CurrentUser.Id);
-           
-
-            return View();
         }
 
         /// <summary>

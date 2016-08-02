@@ -80,13 +80,10 @@ namespace NewCRM.Application.Services
             return _appServices.GetUserDevAppAndUnReleaseApp(userId);
         }
 
-        public List<AppDto> GetAllApps(
-            Int32 userId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+        public List<AppDto> GetAllApps(Int32 userId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
-            _validateParameter.Validate(userId, true).Validate(appTypeId, true).Validate(orderId).Validate(searchText).Validate(pageIndex,true).Validate(pageSize);
+            _validateParameter.Validate(userId, true).Validate(orderId).Validate(searchText).Validate(pageIndex,true).Validate(pageSize);
             return _appServices.GetAllApps(userId, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount).ConvertToDto<App, AppDto>().ToList();
         }
-
-
     }
 }
