@@ -27,7 +27,7 @@
                 }
 
                 <div class="grade-box">
-                    <div class="star-num">@Math.Round(Model.StartCount,1)</div>
+                    <div class="star-num">@Model.StartCount.ToString("0.0")</div>
                     <div class="star-box">
                         <i style="width:@{var c = Model.StartCount*20; <text>@c%</text>}"></i>
                         <ul>

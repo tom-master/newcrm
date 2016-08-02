@@ -25,5 +25,11 @@ namespace NewCRM.Web.Controllers.ControllerHelper
                 JsonRequestBehavior = behavior
             };
         }
+
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            Response.Write("<script>alert('ww')</script>");
+            //base.OnException(filterContext);
+        }
     }
 }

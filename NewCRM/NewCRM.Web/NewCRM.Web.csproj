@@ -130,6 +130,7 @@
     <Compile Include="Controllers\AuthorityManageController.cs" />
     <Compile Include="Controllers\DeskOptionsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Filter\ErrorFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

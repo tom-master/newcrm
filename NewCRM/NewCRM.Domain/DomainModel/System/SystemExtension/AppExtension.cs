@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using NewCRM.Domain.Entities.ValueObject;
 
 namespace NewCRM.Domain.Entities.DomainModel.System
@@ -28,12 +29,13 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             {
                 throw new ArgumentOutOfRangeException($"{nameof(startCount)}:不能为0");
             }
-            if (UserId == userId)
+
+            if (AppStars.Any(app => app.UserId == userId))
             {
                 throw new ArgumentException($"您已对这个应用打过分");
             }
-
-            AppStars.Add(new AppStar(userId, startCount * 1.0));
+            var score = startCount*1.0;
+            AppStars.Add(new AppStar(userId, score));
             return this;
         }
 
