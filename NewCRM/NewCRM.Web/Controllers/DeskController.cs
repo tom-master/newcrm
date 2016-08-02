@@ -34,7 +34,7 @@ namespace NewCRM.Web.Controllers
 
             ViewData["UserName"] = CurrentUser.Name;
 
-            ViewData["UserApp"] = _appApplicationServices.GetUserDevAppAndUnReleaseApp(CurrentUser.Id);
+            ViewData["UsewwwrApp"] = _appApplicationServices.GetUserDevAppAndUnReleaseApp(CurrentUser.Id);
            
 
             return View();
