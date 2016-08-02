@@ -15,6 +15,10 @@ namespace NewCRM.Web.Controllers
         [Import]
         private IAppApplicationServices _appApplicationServices;
 
+        /// <summary>
+        /// 应用市场
+        /// </summary>
+        /// <returns></returns>
         public ActionResult AppMarket()
         {
             ViewData["AppTypes"] = _appApplicationServices.GetAppTypes();
@@ -26,6 +30,56 @@ namespace NewCRM.Web.Controllers
             ViewData["UserApp"] = _appApplicationServices.GetUserDevAppAndUnReleaseApp(CurrentUser.Id);
 
             return View();
+        }
+
+        /// <summary>
+        /// app详情
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <returns></returns>
+        public ActionResult AppDetail(Int32 appId)
+        {
+            ViewData["UserId"] = CurrentUser.Id;
+
+            ViewData["UserName"] = CurrentUser.Name;
+
+            var singleAppResult = _appApplicationServices.GetApp(appId);
+            return View(singleAppResult);
+        }
+
+        /// <summary>
+        /// 获取所有的app
+        /// </summary>
+        /// <param name="appTypeId"></param>
+        /// <param name="orderId"></param>
+        /// <param name="searchText"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public ActionResult GetAllApps(Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize)
+        {
+            Int32 totalCount = 0;
+
+            var appResults = _appApplicationServices.GetAllApps(CurrentUser.Id, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
+
+            return Json(new
+            {
+                apps = appResults,
+                totalCount
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        /// <summary>
+        /// 给app打分
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <param name="starCount"></param>
+        /// <returns></returns>
+        public ActionResult ModifyAppStart(Int32 appId, Int32 starCount)
+        {
+            _appApplicationServices.ModifyAppStar(CurrentUser.Id, appId, starCount);
+            return new EmptyResult();
         }
     }
 }

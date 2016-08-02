@@ -23,7 +23,7 @@ namespace NewCRM.Application.Services
         public IDictionary<Int32, IList<dynamic>> GetUserApp(Int32 userId)
         {
             _validateParameter.Validate(userId);
-            return _appServices.GetApp(userId);
+            return _appServices.GetUserApp(userId);
         }
 
         public void ModifyAppDirection(Int32 userId, String direction)
@@ -82,8 +82,22 @@ namespace NewCRM.Application.Services
 
         public List<AppDto> GetAllApps(Int32 userId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
-            _validateParameter.Validate(userId, true).Validate(orderId).Validate(searchText).Validate(pageIndex,true).Validate(pageSize);
+            _validateParameter.Validate(userId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
             return _appServices.GetAllApps(userId, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount).ConvertToDto<App, AppDto>().ToList();
+        }
+
+        public AppDto GetApp(Int32 appId)
+        {
+            _validateParameter.Validate(appId);
+
+            return _appServices.GetApp(appId).ConvertToDto<App, AppDto>();
+        }
+
+        public void ModifyAppStar(Int32 userId, Int32 appId, Int32 starCount)
+        {
+            _validateParameter.Validate(userId).Validate(appId).Validate(starCount, true);
+
+            _appServices.ModifyAppStar(userId, appId, starCount);
         }
     }
 }

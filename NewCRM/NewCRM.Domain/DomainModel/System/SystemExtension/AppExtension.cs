@@ -18,16 +18,22 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         }
 
         /// <summary>
-        /// 更新评价等级
+        /// 添加app的评价分数
         /// </summary>
+        /// <param name="userId"></param>
         /// <param name="startCount"></param>
-        public App ModifyStartCount(Int32 startCount)
+        public App ModifyStarCount(Int32 userId, Int32 startCount)
         {
             if (startCount <= 0)
             {
                 throw new ArgumentOutOfRangeException($"{nameof(startCount)}:不能为0");
             }
-            StartCount += startCount;
+            if (UserId == userId)
+            {
+                throw new ArgumentException($"您已对这个应用打过分");
+            }
+
+            AppStars.Add(new AppStar(userId, startCount * 1.0));
             return this;
         }
 

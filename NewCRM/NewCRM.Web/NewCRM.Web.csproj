@@ -711,14 +711,14 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Index\Desktop.cshtml" />
     <Content Include="Views\Desk\EditMember.cshtml" />
-    <None Include="Views\Desk\AppMarket.cshtml" />
+    <Content Include="Views\App\AppDetail.cshtml" />
+    <None Include="Views\App\AppMarket.cshtml" />
     <None Include="Views\Test\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Metro\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\App\" />
     <Folder Include="Views\UserMember\" />
   </ItemGroup>
   <ItemGroup>

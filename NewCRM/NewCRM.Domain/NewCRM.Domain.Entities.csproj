@@ -58,6 +58,7 @@
     <Compile Include="DomainModel\Security\SecurityExtension\RoleExtension.cs" />
     <Compile Include="DomainModel\System\App.cs" />
     <Compile Include="DomainModel\System\SystemExtension\AppExtension.cs" />
+    <Compile Include="DomainModel\System\AppStar.cs" />
     <Compile Include="DomainModel\System\SystemExtension\AppTypeExtension.cs" />
     <Compile Include="DomainModel\System\SystemExtension\ConfigExtension.cs" />
     <Compile Include="DomainModel\System\Desk.cs" />

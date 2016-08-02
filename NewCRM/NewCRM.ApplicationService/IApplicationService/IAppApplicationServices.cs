@@ -9,9 +9,14 @@ namespace NewCRM.Application.Services.IApplicationService
 {
     public interface IAppApplicationServices
     {
+        #region app
+        /// <summary>
+        /// 获取用户已安装的app
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         IDictionary<Int32, IList<dynamic>> GetUserApp(Int32 userId);
 
-        #region app
         /// <summary>
         /// 修改app排列方向
         /// </summary>
@@ -71,6 +76,21 @@ namespace NewCRM.Application.Services.IApplicationService
         /// <param name="totalCount"></param>
         /// <returns></returns>
         List<AppDto> GetAllApps(Int32 userId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize,out Int32 totalCount);
+
+        /// <summary>
+        /// 根据appId获取App
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <returns></returns>
+        AppDto GetApp(Int32 appId);
+
+        /// <summary>
+        /// app打分
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="appId"></param>
+        /// <param name="starCount"></param>
+        void ModifyAppStar(Int32 userId, Int32 appId, Int32 starCount);
 
         #endregion
 

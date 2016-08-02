@@ -56,7 +56,9 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         /// </summary>
         public virtual Config Config { get; private set; }
 
-
+        /// <summary>
+        /// 用户角色
+        /// </summary>
         public virtual ICollection<UserRole> Roles { get; private set; }
 
         #endregion

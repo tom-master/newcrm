@@ -14,7 +14,7 @@ namespace NewCRM.Dto.Dto
 
         public String AppIcon { get; set; }
 
-        public Int32 StartCount { get; set; }
+        public Double StartCount { get; set; }
 
         public Boolean IsInstall { get; set; }
 

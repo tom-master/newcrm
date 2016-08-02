@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using NewCRM.Domain.Entities.DomainModel;
@@ -139,7 +140,7 @@ namespace NewCRM.Dto
                 .ForMember(app => app.Width, dto => dto.MapFrom(w => w.Width))
                 .ForMember(app => app.Height, dto => dto.MapFrom(w => w.Height))
                 .ForMember(app => app.UserCount, dto => dto.MapFrom(w => w.UserCount))
-                .ForMember(app => app.StartCount, dto => dto.MapFrom(w => w.StartCount))
+                .ForMember(app => app.StartCount, dto => dto.MapFrom(w =>w.AppStars.Any() ? (w.AppStars.Sum(s => s.StartNum) * 1.0) / (w.AppStars.Count * 1.0) : 0.0))
                 .ForMember(app => app.IsMax, dto => dto.MapFrom(w => w.IsMax))
                 .ForMember(app => app.IsFull, dto => dto.MapFrom(w => w.IsFull))
                 .ForMember(app => app.IsOpenMax, dto => dto.MapFrom(w => w.IsOpenMax))
@@ -151,12 +152,15 @@ namespace NewCRM.Dto
                 .ForMember(app => app.UserId, dto => dto.MapFrom(w => w.UserId))
                 .ForMember(app => app.AppAuditState, dto => dto.MapFrom(w => w.AppAuditState))
                 .ForMember(app => app.AppReleaseState, dto => dto.MapFrom(w => w.AppReleaseState))
-                .ForMember(app => app.AppTypeId, dto => dto.MapFrom(w => w.AppTypeId));
+                .ForMember(app => app.AppTypeId, dto => dto.MapFrom(w => w.AppTypeId))
+                .ForMember(app => app.AppStyle, dto => dto.MapFrom(w => w.AppStyle))
+                .ForMember(app => app.AppType, dto => dto.MapFrom(w => w.AppType))
+                .ForMember(app => app.AddTime, dto => dto.MapFrom(w => w.AddTime.ToString("yyyy-MM-dd")));
             #endregion
 
             #region dto -> domain
             Mapper.CreateMap<AppDto, App>()
-                  .ForMember(dto => dto.Id, app => app.MapFrom(w => w.Id))
+                .ForMember(dto => dto.Id, app => app.MapFrom(w => w.Id))
                 .ForMember(dto => dto.Name, app => app.MapFrom(w => w.Name))
                 .ForMember(dto => dto.IconUrl, app => app.MapFrom(w => w.IconUrl))
                 .ForMember(dto => dto.AppUrl, app => app.MapFrom(w => w.AppUrl))
@@ -164,7 +168,6 @@ namespace NewCRM.Dto
                 .ForMember(dto => dto.Width, app => app.MapFrom(w => w.Width))
                 .ForMember(dto => dto.Height, app => app.MapFrom(w => w.Height))
                 .ForMember(dto => dto.UserCount, app => app.MapFrom(w => w.UserCount))
-                .ForMember(dto => dto.StartCount, app => app.MapFrom(w => w.StartCount))
                 .ForMember(dto => dto.IsMax, app => app.MapFrom(w => w.IsMax))
                 .ForMember(dto => dto.IsFull, app => app.MapFrom(w => w.IsFull))
                 .ForMember(dto => dto.IsOpenMax, app => app.MapFrom(w => w.IsOpenMax))
@@ -176,7 +179,9 @@ namespace NewCRM.Dto
                 .ForMember(dto => dto.UserId, app => app.MapFrom(w => w.UserId))
                 .ForMember(dto => dto.AppAuditState, app => app.MapFrom(w => w.AppAuditState))
                 .ForMember(dto => dto.AppReleaseState, app => app.MapFrom(w => w.AppReleaseState))
-                .ForMember(dto => dto.AppTypeId, app => app.MapFrom(w => w.AppTypeId));
+                .ForMember(dto => dto.AppTypeId, app => app.MapFrom(w => w.AppTypeId))
+                .ForMember(dto => dto.AppStyle, app => app.MapFrom(w => w.AppStyle))
+                .ForMember(dto => dto.AppType, app => app.MapFrom(w => w.AppType)) ;
             #endregion
             #endregion
         }

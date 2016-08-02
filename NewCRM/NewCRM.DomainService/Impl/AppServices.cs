@@ -16,12 +16,10 @@ namespace NewCRM.Domain.Services.Impl
         [Import]
         private IAppTypeRepository _appTypeRepository;
 
-
         [Import]
         private IAppRepository _appRepository;
 
-
-        public IDictionary<Int32, IList<dynamic>> GetApp(Int32 userId)
+        public IDictionary<Int32, IList<dynamic>> GetUserApp(Int32 userId)
         {
             var userConfig = GetUser(userId);
 
@@ -149,13 +147,15 @@ namespace NewCRM.Domain.Services.Impl
 
             Boolean isInstall = userDesks.Any(userDesk => userDesk.Members.Any(member => member.AppId == topApp.Id));
 
+            Double star = topApp.AppStars.Any() ? (topApp.AppStars.Sum(s => s.StartNum) * 1.0) / (topApp.AppStars.Count * 1.0) : 0.0;
+
             return new TodayRecommendAppModel
             {
                 AppId = topApp.Id,
                 Name = topApp.Name,
                 UserCount = topApp.UserCount,
                 AppIcon = topApp.IconUrl,
-                StartCount = topApp.StartCount,
+                StartCount = star,
                 IsInstall = isInstall,
                 Remark = topApp.Remark,
                 Style = topApp.AppStyle.ToString().ToLower()
@@ -199,7 +199,7 @@ namespace NewCRM.Domain.Services.Impl
             }
             else if (orderId == 3)//评价最高
             {
-                apps = apps.OrderByDescending(app => app.StartCount);
+                apps = apps.OrderByDescending(app => app.AppStars.Any() ? (app.AppStars.Sum(s => s.StartNum) / app.AppStars.Count) : 0);
             }
 
             if ((searchText + "").Length > 0)//关键字搜索
@@ -212,6 +212,20 @@ namespace NewCRM.Domain.Services.Impl
             return apps.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
 
         }
+
+        public App GetApp(Int32 appId)
+        {
+            return _appRepository.Entities.FirstOrDefault(app => app.Id == appId);
+        }
+
+        public void ModifyAppStar(Int32 userId, Int32 appId, Int32 starCount)
+        {
+            var appResult = _appRepository.Entities.FirstOrDefault(app => app.Id == appId);
+
+            appResult.ModifyStarCount(userId, starCount);
+
+            _appRepository.Update(appResult);
+        }
     }
     public class TodayRecommendAppModel
     {
@@ -223,7 +237,7 @@ namespace NewCRM.Domain.Services.Impl
 
         public String AppIcon { get; set; }
 
-        public Int32 StartCount { get; set; }
+        public Double StartCount { get; set; }
 
         public Boolean IsInstall { get; set; }
 

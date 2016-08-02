@@ -45,7 +45,7 @@ namespace NewCRM.Dto.Dto
         /// <summary>
         /// 评价星级
         /// </summary>
-        public Int32 StartCount { get; set; }
+        public Double StartCount { get; set; }
 
         /// <summary>
         /// 是否能最大化
@@ -111,6 +111,18 @@ namespace NewCRM.Dto.Dto
         /// app类型Id
         /// </summary>
         public Int32 AppTypeId { get; set; }
+
+        /// <summary>
+        /// app样式
+        /// </summary>
+        public AppStyle AppStyle { get; set; }
+
+        /// <summary>
+        /// app分类
+        /// </summary>
+        public AppTypeDto AppType { get; set; }
+
+        public String AddTime { get; set; }
 
         #endregion
     }

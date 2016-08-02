@@ -8,7 +8,7 @@ namespace NewCRM.Domain.Entities.ValueObject
     public enum AppStyle
     {
         [Description("窗体")]
-        Window=1,
+        App = 1,
         [Description("挂件")]
         Widget =2
     }

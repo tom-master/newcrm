@@ -16,7 +16,7 @@ namespace NewCRM.Domain.Services
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        IDictionary<Int32, IList<dynamic>> GetApp(Int32 userId);
+        IDictionary<Int32, IList<dynamic>> GetUserApp(Int32 userId);
 
         /// <summary>
         /// 修改app的排列方向
@@ -63,7 +63,7 @@ namespace NewCRM.Domain.Services
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Tuple<Int32,Int32> GetUserDevAppAndUnReleaseApp(Int32 userId);
+        Tuple<Int32, Int32> GetUserDevAppAndUnReleaseApp(Int32 userId);
 
         /// <summary>
         /// 获取所有的app
@@ -76,6 +76,21 @@ namespace NewCRM.Domain.Services
         /// <param name="pageSize"></param>
         /// <param name="totalCount"></param>
         /// <returns></returns>
-        List<App> GetAllApps(Int32 userId, Int32 appTypeId, Int32 orderId,String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
+        List<App> GetAllApps(Int32 userId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
+
+        /// <summary>
+        /// 获取app
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <returns></returns>
+        App GetApp(Int32 appId);
+
+        /// <summary>
+        /// app打分
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="appId"></param>
+        /// <param name="starCount"></param>
+        void ModifyAppStar(Int32 userId, Int32 appId, Int32 starCount);
     }
 }

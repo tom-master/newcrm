@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using NewCRM.Domain.Entities.ValueObject;
 
@@ -46,11 +47,6 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         public Int32 UserCount { get; private set; }
 
         /// <summary>
-        /// 评价星级
-        /// </summary>
-        public Int32 StartCount { get; private set; }
-
-        /// <summary>
         /// 是否能最大化
         /// </summary>
         public Boolean IsMax { get; private set; }
@@ -95,8 +91,15 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// </summary>
         public Boolean IsResize { get; private set; }
 
-
+        /// <summary>
+        /// 开发者(用户)Id
+        /// </summary>
         public Int32 UserId { get; private set; }
+
+        /// <summary>
+        /// app类型Id
+        /// </summary>
+        public Int32 AppTypeId { get; set; }
 
         /// <summary>
         /// 审核状态
@@ -108,14 +111,20 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// </summary>
         public AppReleaseState AppReleaseState { get; private set; }
 
+        /// <summary>
+        /// app样式
+        /// </summary>
         public AppStyle AppStyle { get; private set; }
+
+
+        public virtual ICollection<AppStar> AppStars { get; private set; }
 
         /// <summary>
         /// app类型
         /// </summary>
         public virtual AppType AppType { get; private set; }
 
-        public Int32 AppTypeId { get; set; }
+
 
         #endregion
 
@@ -146,7 +155,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             Int32 width,
             Int32 height,
             AppType appType,
-            AppStyle appStyle = AppStyle.Window,
+            AppStyle appStyle = AppStyle.App,
             Int32 userId = default(Int32),
             String remark = default(String),
             Boolean isMax = default(Boolean),
@@ -186,7 +195,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             AppAuditState = AppAuditState.UnAuditState;
             AppReleaseState = AppReleaseState.UnRelease;
             UserCount = 0;
-            StartCount = 0;
+            AppStars = new List<AppStar>();
         }
 
         public App()

@@ -133,17 +133,5 @@ namespace NewCRM.Web.Controllers
         }
 
 
-        public ActionResult GetAllApps(Int32 appTypeId, Int32 orderId,String searchText, Int32 pageIndex, Int32 pageSize)
-        {
-            Int32 totalCount = 0;
-
-            var appResults = _appApplicationServices.GetAllApps(CurrentUser.Id, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
-
-            return Json(new
-            {
-                apps = appResults,
-                totalCount
-            }, JsonRequestBehavior.AllowGet);
-        }
     }
 }

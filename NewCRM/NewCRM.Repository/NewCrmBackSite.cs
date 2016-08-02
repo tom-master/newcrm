@@ -42,6 +42,8 @@ namespace NewCRM.Repository
 
         public DbSet<RolePower> RolePowers { get; set; }
 
+        public DbSet<AppStar> AppStars { get; set; }
+
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
