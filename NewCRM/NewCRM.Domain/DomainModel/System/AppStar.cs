@@ -2,7 +2,7 @@
 
 namespace NewCRM.Domain.Entities.DomainModel.System
 {
-    public class AppStar : DomainModelBase
+    public partial class AppStar : DomainModelBase
     {
         public Int32 UserId { get; private set; }
 

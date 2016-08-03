@@ -41,6 +41,7 @@
 {
     <script>
         $(function () {
+            ZENG.msgbox.hideParent();
             $("#wallpapertype").val(window.parent.HROS.CONFIG.wallpaperType.toLowerCase());
             $("#wallpapertype").on('change', function () {
                 window.parent.HROS.wallpaper.update($('#wallpapertype').val(), '');

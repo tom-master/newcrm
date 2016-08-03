@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Application.Services.IApplicationService;
 using NewCRM.Domain.Entities.DomainModel.System;
+using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Domain.Services;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
@@ -20,10 +21,11 @@ namespace NewCRM.Application.Services
         private IAppServices _appServices;
 
 
-        public IDictionary<Int32, IList<dynamic>> GetUserApp(Int32 userId)
+        public IDictionary<Int32, IList<dynamic>> GetUserDeskMembers(Int32 userId)
         {
             _validateParameter.Validate(userId);
-            return _appServices.GetUserApp(userId);
+
+            return _appServices.GetUserDeskMembers(userId);
         }
 
         public void ModifyAppDirection(Int32 userId, String direction)
@@ -83,7 +85,11 @@ namespace NewCRM.Application.Services
         public List<AppDto> GetAllApps(Int32 userId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
             _validateParameter.Validate(userId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
-            return _appServices.GetAllApps(userId, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount).ConvertToDto<App, AppDto>().ToList();
+            var appDtoResult = _appServices.GetAllApps(userId, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount).ConvertToDto<App, AppDto>().ToList();
+
+            appDtoResult.ForEach(appDto => appDto.IsInstall = IsInstallApp(userId, appDto.Id));
+
+            return appDtoResult;
         }
 
         public AppDto GetApp(Int32 appId)
@@ -98,6 +104,18 @@ namespace NewCRM.Application.Services
             _validateParameter.Validate(userId).Validate(appId).Validate(starCount, true);
 
             _appServices.ModifyAppStar(userId, appId, starCount);
+        }
+
+        public void InstallApp(Int32 userId, Int32 appId, Int32 deskNum)
+        {
+            _validateParameter.Validate(userId).Validate(appId).Validate(deskNum);
+            _appServices.InstallApp(userId, appId, deskNum);
+        }
+
+        public Boolean IsInstallApp(Int32 userId, Int32 appId)
+        {
+            _validateParameter.Validate(userId).Validate(appId);
+            return _appServices.IsInstallApp(userId, appId);
         }
     }
 }

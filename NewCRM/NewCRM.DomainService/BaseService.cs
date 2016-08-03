@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entities.DomainModel.Account;
+using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.Repositories.IRepository.Account;
 using NewCRM.Domain.Entities.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustemException;
@@ -31,6 +32,11 @@ namespace NewCRM.Domain.Services
                 throw new BusinessException("该用户可能不存在");
             }
             return userResult;
+        }
+
+        protected Int32 GetRealDeskId(Int32 deskId, Config userConfig)
+        {
+            return userConfig.Desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
         }
     }
 }

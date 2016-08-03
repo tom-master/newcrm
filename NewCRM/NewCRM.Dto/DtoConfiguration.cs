@@ -140,7 +140,7 @@ namespace NewCRM.Dto
                 .ForMember(app => app.Width, dto => dto.MapFrom(w => w.Width))
                 .ForMember(app => app.Height, dto => dto.MapFrom(w => w.Height))
                 .ForMember(app => app.UserCount, dto => dto.MapFrom(w => w.UserCount))
-                .ForMember(app => app.StartCount, dto => dto.MapFrom(w =>w.AppStars.Any() ? (w.AppStars.Sum(s => s.StartNum) * 1.0) / (w.AppStars.Count * 1.0) : 0.0))
+                .ForMember(app => app.StartCount, dto => dto.MapFrom(w =>w.AppStars.Any(appStar => appStar.IsDeleted == false) ? (w.AppStars.Sum(s => s.StartNum) * 1.0) / (w.AppStars.Count * 1.0) : 0.0))
                 .ForMember(app => app.IsMax, dto => dto.MapFrom(w => w.IsMax))
                 .ForMember(app => app.IsFull, dto => dto.MapFrom(w => w.IsFull))
                 .ForMember(app => app.IsOpenMax, dto => dto.MapFrom(w => w.IsOpenMax))
@@ -184,6 +184,8 @@ namespace NewCRM.Dto
                 .ForMember(dto => dto.AppType, app => app.MapFrom(w => w.AppType)) ;
             #endregion
             #endregion
+
+            
         }
 
         #region DomainModelToDto

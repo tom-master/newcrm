@@ -112,9 +112,9 @@ namespace NewCRM.Web.Controllers
         ///// 获取我的应用
         ///// </summary>
         ///// <returns></returns>
-        public ActionResult GetMyApp()
+        public ActionResult GetUserDeskMembers()
         {
-            var app = _appApplicationServices.GetUserApp(CurrentUser.Id);
+            var app = _appApplicationServices.GetUserDeskMembers(CurrentUser.Id);
             return Json(new { app }, JsonRequestBehavior.AllowGet);
         }
 

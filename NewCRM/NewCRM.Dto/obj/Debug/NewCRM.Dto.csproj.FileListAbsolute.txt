@@ -14,7 +14,5 @@ E:\NewCRMTest\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.dll
 E:\NewCRMTest\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.pdb
 E:\NewCRMTest\NewCRM\NewCRM.Dto\bin\Debug\NewCRM.Domain.Entities.dll
 E:\NewCRMTest\NewCRM\NewCRM.Dto\bin\Debug\NewCRM.Infrastructure.dll
-E:\NewCRMTest\NewCRM\NewCRM.Dto\bin\Debug\Newtonsoft.Json.dll
 E:\NewCRMTest\NewCRM\NewCRM.Dto\bin\Debug\NewCRM.Domain.Entities.pdb
 E:\NewCRMTest\NewCRM\NewCRM.Dto\bin\Debug\NewCRM.Infrastructure.pdb
-E:\NewCRMTest\NewCRM\NewCRM.Dto\bin\Debug\Newtonsoft.Json.xml

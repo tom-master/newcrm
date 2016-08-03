@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using NewCRM.Application.Services.IApplicationService;
 using NewCRM.Web.Controllers.ControllerHelper;
@@ -39,7 +36,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult AppDetail(Int32 appId)
         {
-            ViewData["UserId"] = CurrentUser.Id;
+            ViewData["IsInstallApp"] = _appApplicationServices.IsInstallApp(CurrentUser.Id, appId);
 
             ViewData["UserName"] = CurrentUser.Name;
 
@@ -69,7 +66,6 @@ namespace NewCRM.Web.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-
         /// <summary>
         /// 给app打分
         /// </summary>
@@ -79,6 +75,18 @@ namespace NewCRM.Web.Controllers
         public ActionResult ModifyAppStart(Int32 appId, Int32 starCount)
         {
             _appApplicationServices.ModifyAppStar(CurrentUser.Id, appId, starCount);
+            return Json(new { success = 1 });
+        }
+
+        /// <summary>
+        /// 安装app
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <param name="deskNum"></param>
+        /// <returns></returns>
+        public ActionResult InstallApp(Int32 appId, Int32 deskNum)
+        {
+            _appApplicationServices.InstallApp(CurrentUser.Id, appId, deskNum);
             return Json(new { success = 1 });
         }
     }

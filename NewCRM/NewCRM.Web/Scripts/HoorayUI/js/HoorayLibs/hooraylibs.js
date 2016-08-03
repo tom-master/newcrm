@@ -2590,6 +2590,7 @@ ZENG.msgbox.show = function (c, g, h, a) {
     j._setPosition(b, h, a.topPosition);
 };
 ZENG.msgbox._setPosition = function (a, f, d) {
+    
     f = f || 5000;
     var g = ZENG.msgbox,
     b = ZENG.dom.getScrollTop(),
@@ -2601,6 +2602,7 @@ ZENG.msgbox._setPosition = function (a, f, d) {
     f && (g._timer = setTimeout(g.hide, f));
 };
 ZENG.msgbox.hide = function (a) {
+     
     var b = ZENG.msgbox;
     if (a) {
         clearTimeout(b._timer);
@@ -2618,6 +2620,10 @@ ZENG.msgbox._hide = function () {
         ZENG.dom.setStyle(a, "display", "none");
     }
 };
+ZENG.msgbox.hideParent = function() {
+    $(parent.document).find('#q_Msgbox').hide();
+};
+
 
 /**
  * 全屏插件

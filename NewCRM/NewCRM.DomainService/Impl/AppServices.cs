@@ -19,7 +19,10 @@ namespace NewCRM.Domain.Services.Impl
         [Import]
         private IAppRepository _appRepository;
 
-        public IDictionary<Int32, IList<dynamic>> GetUserApp(Int32 userId)
+        [Import]
+        private IDeskRepository _deskRepository;
+
+        public IDictionary<Int32, IList<dynamic>> GetUserDeskMembers(Int32 userId)
         {
             var userConfig = GetUser(userId);
 
@@ -147,7 +150,7 @@ namespace NewCRM.Domain.Services.Impl
 
             Boolean isInstall = userDesks.Any(userDesk => userDesk.Members.Any(member => member.AppId == topApp.Id));
 
-            Double star = topApp.AppStars.Any() ? (topApp.AppStars.Sum(s => s.StartNum) * 1.0) / (topApp.AppStars.Count * 1.0) : 0.0;
+            Double star = topApp.AppStars.Any(appStar => appStar.IsDeleted == false) ? (topApp.AppStars.Sum(s => s.StartNum) * 1.0) / (topApp.AppStars.Count * 1.0) : 0.0;
 
             return new TodayRecommendAppModel
             {
@@ -199,7 +202,7 @@ namespace NewCRM.Domain.Services.Impl
             }
             else if (orderId == 3)//评价最高
             {
-                apps = apps.OrderByDescending(app => app.AppStars.Any() ? (app.AppStars.Sum(s => s.StartNum) / app.AppStars.Count) : 0);
+                apps = apps.OrderByDescending(app => app.AppStars.Any(appStar => appStar.IsDeleted == false) ? (app.AppStars.Sum(s => s.StartNum) / app.AppStars.Count) : 0);
             }
 
             if ((searchText + "").Length > 0)//关键字搜索
@@ -222,12 +225,53 @@ namespace NewCRM.Domain.Services.Impl
         {
             var appResult = _appRepository.Entities.FirstOrDefault(app => app.Id == appId);
 
-            appResult.ModifyStarCount(userId, starCount);
+            appResult.AddStar(userId, starCount);
 
             _appRepository.Update(appResult);
         }
+
+        public void InstallApp(Int32 userId, Int32 appId, Int32 deskNum)
+        {
+            var userResult = GetUser(userId);
+
+            var realDeskId = GetRealDeskId(deskNum, userResult.Config);
+
+            var appResult = _appRepository.Entities.FirstOrDefault(app => app.Id == appId);
+
+            if (appResult == null)
+            {
+                throw new BusinessException($"应用添加失败，请刷新重试");
+            }
+
+            var newMember = new Member(appResult.Name, appResult.IconUrl, appResult.AppUrl, appResult.Id, appResult.Width, appResult.Height, appResult.IsLock, appResult.IsMax, appResult.IsFull, appResult.IsSetbar, appResult.IsOpenMax, appResult.IsFlash, appResult.IsDraw, appResult.IsResize);
+
+            foreach (var desk in userResult.Config.Desks)
+            {
+                if (desk.Id == realDeskId)
+                {
+                    desk.Members.Add(newMember);
+                    _deskRepository.Update(desk);
+
+                    appResult.AddUserCount();
+                    _appRepository.Update(appResult);
+                    break;
+                }
+            }
+        }
+
+        public Boolean IsInstallApp(Int32 userId, Int32 appId)
+        {
+            var userResult = GetUser(userId);
+
+            return userResult.Config.Desks.Any(desk => desk.Members.Any(member => member.AppId == appId && member.IsDeleted == false));
+        }
     }
-    public class TodayRecommendAppModel
+
+
+    /// <summary>
+    /// app今日推荐模型
+    /// </summary>
+    public sealed class TodayRecommendAppModel
     {
         public Int32 AppId { get; set; }
 

@@ -14,7 +14,7 @@
                 <span class="app-name">@Model.Name</span>
                 <span class="app-desc"><i>@Model.UserCount</i> 人在使用</span>
                 @{
-                    if (Model.UserId == (Int32)ViewData["UserId"])
+                    if (((Boolean)ViewData["IsInstallApp"]))
                     {<text>
                     <a href="javascript:;" app_id="@Model.Id" app_type="@Model.AppStyle.ToString().ToLower()" class="btn-run">打开应用</a>
                     </text>
@@ -101,7 +101,9 @@
                             function (responseText) {
                                 if (typeof responseText.success !== 'undefined') {
                                     ZENG.msgbox.show("打分成功！", 4, 2000);
-                                    location.reload();
+                                    setTimeout(function () {
+                                        location.reload();
+                                    }, 2000);
                                 }
                             });
                     } else {

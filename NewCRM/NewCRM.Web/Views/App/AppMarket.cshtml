@@ -115,7 +115,12 @@
             </span>
             <span class="star-num">{{parseScore StartCount}}</span>
             <span class="app-stat">{{UserCount}} 人正在使用</span>
+
+            {{#if IsInstall }}
             <a href="javascript:;" app_id="{{Id}}" real_app_id="{{Id}}" app_type="app" class="btn-run-s" title="打开应用">打开应用</a>
+            {{else}}
+            <a href="javascript:;" real_app_id="{{Id}}" class="btn-add-s" title="安装应用">安装应用</a>
+            {{/if}}
         </li>
         {{/each}}
     </script>
@@ -127,7 +132,7 @@
             openDetailIframe2 = function (url) {
                 ZENG.msgbox.show('正在载入中，请稍后...', 6, 8000);
                 $('#detailIframe iframe').attr('src', url).load(function () {
-                    ZENG.msgbox._hide();
+                    ZENG.msgbox.hide();
                     $('#detailIframe').animate({
                         'left': '60px',
                         'opacity': 'show'
@@ -177,6 +182,7 @@
             });
             //添加，删除，打开应用
             $('.app-list').on('click', '.btn-add-s', function () {
+                 
                 if (window.parent.HROS.base.checkLogin()) {
                     $(this).removeClass().addClass('btn-loading-s');
                     window.parent.HROS.app.add($(this).attr('real_app_id'), function () {
@@ -206,7 +212,6 @@
                     window.parent.HROS.base.login();
                 }
             }).on('click', '.btn-run-s', function () {
-                debugger 
                 if ($(this).attr('app_type') === 'app') {
                     window.parent.HROS.window.create($(this).attr('real_app_id'), $(this).attr('app_type'));
                 } else {
@@ -255,7 +260,7 @@
             var appTypeId = $('#appType').val() === '' ? 0 : parseInt($('#appType').val());
             var orderId = $('#order').val() === '' ? 1 : parseInt($('#order').val());
 
-            ZENG.msgbox.show('正在加载中，请稍后...', 6, 8000);
+
             $.get('@Url.Action("GetAllApps", "App")', {
                 appTypeId: appTypeId,
                 orderId: orderId,
@@ -263,14 +268,12 @@
                 pageIndex: current_page,
                 pageSize: 4
             }, function (responseText) {
+                ZENG.msgbox.hideParent();
 
                 var liTemplate = Handlebars.compile($("#li-template").html());
-
                 $('.app-list').html(liTemplate(responseText));
-
                 $('#pagination_setting').attr('count', parseInt(responseText.totalCount));
                 initPagination(current_page);
-                ZENG.msgbox._hide();
             });
 
 
@@ -281,6 +284,14 @@
 
             Handlebars.registerHelper('parseScore', function (score) {
                 return parseFloat(score).toFixed(1);
+            });
+
+            Handlebars.registerHelper('appIsInstall', function(isInstall, options) {
+                if (isInstall) {
+                    return options.fn(this);
+                } else {
+                    return options.inverse(this);
+                }
             });
         }
     </script>

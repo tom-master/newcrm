@@ -12,11 +12,11 @@ namespace NewCRM.Domain.Services
     public interface IAppServices
     {
         /// <summary>
-        /// 根据用户id获取app
+        /// 获取用户桌面的成员
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        IDictionary<Int32, IList<dynamic>> GetUserApp(Int32 userId);
+        IDictionary<Int32, IList<dynamic>> GetUserDeskMembers(Int32 userId);
 
         /// <summary>
         /// 修改app的排列方向
@@ -92,5 +92,22 @@ namespace NewCRM.Domain.Services
         /// <param name="appId"></param>
         /// <param name="starCount"></param>
         void ModifyAppStar(Int32 userId, Int32 appId, Int32 starCount);
+
+        /// <summary>
+        /// 用户安装app
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="appId"></param>
+        /// <param name="deskNum"></param>
+        void InstallApp(Int32 userId, Int32 appId, Int32 deskNum);
+
+        /// <summary>
+        /// 当前用户是否安装了这个app
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="appId"></param>
+        /// <returns></returns>
+        Boolean IsInstallApp(Int32 userId, Int32 appId);
+
     }
 }

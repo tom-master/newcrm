@@ -907,7 +907,7 @@ artDialog.fn = artDialog.prototype = {
 	closed: true,
 	
 	_init: function (config) {
-        debugger
+        
 		var that = this, DOM,
 			icon = config.icon,
 			iconBg = icon && (_isIE6 ? {png: 'icons/' + icon + '.png'}
@@ -1349,7 +1349,7 @@ artDialog.fn = artDialog.prototype = {
 	
 	/** 置顶对话框 */
 	zIndex: function () {
-        debugger
+        
 		var that = this,
 			DOM = that.DOM,
 			wrap = DOM.wrap,

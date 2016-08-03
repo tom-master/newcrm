@@ -13,6 +13,7 @@
 {
     <script>
         $(function () {
+            
             loadAllSkin(function () {
                 changeSkin();
             });
@@ -20,7 +21,9 @@
 
 
         function loadAllSkin(callback) {
+            ZENG.msgbox.show('正在加载中，请稍后...', 6, 8000);
             $.post('@Url.Action("GetAllSkin", "DeskOptions")', { __: Date.now }, function (responseText) {
+                ZENG.msgbox._hide();
                 if (typeof responseText.data !== 'undefined') {
                     var html = '';
                     $.each(responseText.data, function (k, v) {
@@ -42,11 +45,13 @@
                 $(this).addClass('selected');
                 $.post('@Url.Action("ModifySkin", "DeskOptions")', { __: Date.now(), skin: skin }, function (responseText) {
                     if (typeof responseText.success !== 'undefined') {
-                        window.parent.ZENG.msgbox.show("设置成功，如果没有更新请刷新页面", 4, 2000);
+                        window.parent.ZENG.msgbox.show("皮肤设置成功，如果没有更新请刷新页面", 4, 2000);
 
-                        window.parent.HROS.base.getSkin(skin, function () {
-                            window.parent.ZENG.msgbox._hide();
-                        });
+                        setTimeout(function() {
+                            window.parent.HROS.base.getSkin(skin, function () {
+                                window.parent.ZENG.msgbox._hide();
+                            });
+                        }, 2000);
                     }
                 });
             });

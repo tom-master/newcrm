@@ -93,6 +93,11 @@ namespace NewCRM.Dto.Dto
         public Boolean IsResize { get; set; }
 
         /// <summary>
+        /// 是否安装
+        /// </summary>
+        public Boolean IsInstall { get; set; }
+
+        /// <summary>
         /// 开发者（用户）Id
         /// </summary>
         public Int32 UserId { get; set; }

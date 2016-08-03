@@ -16,6 +16,9 @@ namespace NewCRM.Domain.Services.Impl
         [Import]
         private IDeskRepository _deskRepository;
 
+        [Import]
+        private IAppRepository _appRepository;
+
         public void ModifyDefaultShowDesk(Int32 userId, Int32 newDefaultDeskNumber)
         {
             var userResult = GetUser(userId);
@@ -124,8 +127,6 @@ namespace NewCRM.Domain.Services.Impl
             }
         }
 
-       
-
         public void DockToFolder(Int32 userId, Int32 memberId, Int32 folderId)
         {
             var configResult = GetUser(userId).Config;
@@ -231,11 +232,10 @@ namespace NewCRM.Domain.Services.Impl
             }
         }
 
-
         public void RemoveMember(Int32 userId, Int32 memberId)
         {
             var userConfig = GetUser(userId).Config;
-
+            App appResult = null;
             foreach (var desk in userConfig.Desks)
             {
                 var memberResult = InternalDeskMember(memberId, desk);
@@ -250,9 +250,20 @@ namespace NewCRM.Domain.Services.Impl
                             desk1.Members.Where(d => d.FolderId == memberId && d.IsDeleted == false).ToList().ForEach(m => m.Remove());
                         }
                     }
+                    else
+                    {
+                        appResult = _appRepository.Entities.FirstOrDefault(app => app.Id == memberResult.AppId);
+                        appResult.SubtractUserCount();
+                        appResult.SubtractStar(userId);
+                    }
 
                     memberResult.Remove();
                     _deskRepository.Update(desk);
+
+                    if (appResult != null)
+                    {
+                        _appRepository.Update(appResult);
+                    }
                     break;
                 }
             }
@@ -286,9 +297,6 @@ namespace NewCRM.Domain.Services.Impl
             return memberResult;
         }
 
-        private static Int32 GetRealDeskId(Int32 deskId, Config userConfig)
-        {
-            return userConfig.Desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
-        }
+
     }
 }

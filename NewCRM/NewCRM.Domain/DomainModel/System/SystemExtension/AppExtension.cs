@@ -9,34 +9,68 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         #region public method
 
         /// <summary>
-        /// 更新用户使用数
+        /// 增加用户使用数
         /// </summary>
-        public App ModifyUserCount()
+        public App AddUserCount()
         {
-            ++UserCount;
+            UserCount = UserCount + 1;
             return this;
-
         }
 
         /// <summary>
-        /// 添加app的评价分数
+        /// 减小用户使用数
+        /// </summary>
+        /// <returns></returns>
+        public App SubtractUserCount()
+        {
+            UserCount = UserCount - 1;
+            return this;
+        }
+
+        /// <summary>
+        /// 增加app的评价分数
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="startCount"></param>
-        public App ModifyStarCount(Int32 userId, Int32 startCount)
+        public App AddStar(Int32 userId, Int32 startCount)
         {
+            if (userId <= 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(userId)}:不能为0");
+            }
+
             if (startCount <= 0)
             {
                 throw new ArgumentOutOfRangeException($"{nameof(startCount)}:不能为0");
             }
 
-            if (AppStars.Any(app => app.UserId == userId))
+            if (AppStars.Any(appStar => appStar.UserId == userId && appStar.IsDeleted == false))
             {
                 throw new ArgumentException($"您已对这个应用打过分");
             }
-            var score = startCount*1.0;
+            var score = startCount * 1.0;
             AppStars.Add(new AppStar(userId, score));
             return this;
+        }
+
+        /// <summary>
+        /// 减小app的评价分数
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public App SubtractStar(Int32 userId)
+        {
+            if (userId <= 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(userId)}:不能为0");
+            }
+
+            var appStar = AppStars.FirstOrDefault(star => star.UserId == userId && star.IsDeleted == false);
+
+            appStar.RemoveStar();
+
+            return this;
+
         }
 
         /// <summary>
