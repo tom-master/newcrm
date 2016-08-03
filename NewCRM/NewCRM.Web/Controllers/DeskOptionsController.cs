@@ -79,7 +79,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult ModifyWallpaperDisplayModel(String wallPaperShowType = "")
         {
             _wallpaperApplicationServices.ModifyWallpaperMode(CurrentUser.Id, wallPaperShowType);
-            return null;
+            return Json(new { success = 1 });
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult ModifyWallpaper(Int32 wallpaperId)
         {
             _wallpaperApplicationServices.ModifyWallpaper(CurrentUser.Id, wallpaperId);
-            return null;
+            return Json(new { success = 1 });
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult DeleteWallPaper(Int32 wallPaperId = 0)
         {
             _wallpaperApplicationServices.RemoveWallpaper(CurrentUser.Id, wallPaperId);
-            return Json(new { data = 1 });
+            return Json(new { success = 1 });
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace NewCRM.Web.Controllers
         {
             var skinPath = Server.MapPath(ConfigurationManager.AppSettings["PlantFormSkinPath"]);
             var data = _skinApplicationServices.GetAllSkin(skinPath);
-            return Json(new { data, currentSkin = CurrentUser.Skin }, JsonRequestBehavior.AllowGet);
+            return Json(new { data, currentSkin = CurrentUser.Skin });
         }
 
         /// <summary>
@@ -185,10 +185,10 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <param name="skin"></param>
         /// <returns></returns>
-        public ActionResult ChangeSkin(String skin = "")
+        public ActionResult ModifySkin(String skin = "")
         {
             _skinApplicationServices.ModifySkin(CurrentUser.Id, skin);
-            return Json(new { data = 1 }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = 1 });
 
         }
 
@@ -197,10 +197,10 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <param name="deskNum"></param>
         /// <returns></returns>
-        public ActionResult ChangeDefaultDesk(Int32 deskNum)
+        public ActionResult ModifyDefaultDesk(Int32 deskNum)
         {
             _deskApplicationServices.ModifyDefaultDeskNumber(CurrentUser.Id, deskNum);
-            return Json(new { data = 1 }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = 1 });
         }
 
         /// <summary>
@@ -208,10 +208,10 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <param name="appXy"></param>
         /// <returns></returns>
-        public ActionResult ChangeAppXy(String appXy)
+        public ActionResult ModifyAppXy(String appXy)
         {
             _appApplicationServices.ModifyAppDirection(CurrentUser.Id, appXy);
-            return Json(new { data = 1 }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = 1 });
         }
 
         /// <summary>
@@ -219,10 +219,10 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <param name="appSize"></param>
         /// <returns></returns>
-        public ActionResult ChangeAppSize(Int32 appSize)
+        public ActionResult ModifyAppSize(Int32 appSize)
         {
             _appApplicationServices.ModifyAppIconSize(CurrentUser.Id, appSize);
-            return Json(new { data = 1 });
+            return Json(new { success = 1 });
         }
 
         /// <summary>
@@ -230,11 +230,11 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <param name="appVertical"></param>
         /// <returns></returns>
-        public ActionResult ChangeAppVertical(Int32 appVertical)
+        public ActionResult ModifyAppVertical(Int32 appVertical)
         {
             _appApplicationServices.ModifyAppVerticalSpacing(CurrentUser.Id, appVertical);
 
-            return Json(new { data = 1 });
+            return Json(new { success = 1 });
         }
 
         /// <summary>
@@ -242,11 +242,11 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <param name="appHorizontal"></param>
         /// <returns></returns>
-        public ActionResult ChangeAppHorizontal(Int32 appHorizontal)
+        public ActionResult ModifyAppHorizontal(Int32 appHorizontal)
         {
             _appApplicationServices.ModifyAppHorizontalSpacing(CurrentUser.Id, appHorizontal);
 
-            return Json(new { data = 1 });
+            return Json(new { success = 1 });
         }
 
         /// <summary>
@@ -255,13 +255,12 @@ namespace NewCRM.Web.Controllers
         /// <param name="pos"></param>
         /// <param name="deskNum"></param>
         /// <returns></returns>
-        public ActionResult ChangeDockPosition(String pos = "", Int32 deskNum = 0)
+        public ActionResult ModifyDockPosition(String pos = "", Int32 deskNum = 0)
         {
             _deskApplicationServices.ModifyDockPosition(CurrentUser.Id, deskNum, pos);
 
-            return Json(new { data = 1 });
+            return Json(new { success = 1 });
         }
-
 
     }
 }

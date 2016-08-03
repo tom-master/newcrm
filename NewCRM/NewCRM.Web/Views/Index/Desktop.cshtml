@@ -8,6 +8,7 @@
     <link href="@Url.Content("~/Scripts/HoorayUI/css/index.css")" rel="stylesheet" />
 }
 <div class="loading"></div>
+<div id="hideDiv"></div>
 <div id="desktop">
     <div id="zoom-tip">
         <div><i>​</i>​<span></span></div><a href="javascript:void(0);" class="close" onclick="HROS.zoom.close();">×</a>
@@ -159,7 +160,7 @@
                     });
 
                 openDetailIframe = function(url) {
-                    ZENG.msgbox.show('正在载入中，请稍后...', 6, 100000);
+                    ZENG.msgbox.show('正在载入中，请稍后...', 6, 8000);
                     $('#detailIframe iframe')
                         .attr('src', url)
                         .load(function() {

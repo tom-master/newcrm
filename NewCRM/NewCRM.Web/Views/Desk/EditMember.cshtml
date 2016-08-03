@@ -175,8 +175,8 @@
                     }
                 },
                 ajaxPost: true,
-                callback: function (data) {
-                    if (data.status === 'y') {
+                callback: function (responseText) {
+                    if (typeof responseText.success!=='undefined') {
                         ZENG.msgbox.show('修改成功', 4, 2000);
                         setTimeout(function () {
                             window.parent.HROS.app.get();

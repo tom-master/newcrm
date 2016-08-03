@@ -16,8 +16,6 @@ namespace NewCRM.Web.Controllers
         [Import]
         private IDeskApplicationServices _deskApplicationServices;
 
-     
-
         // GET: Desks
         public ActionResult EditMember(Int32 memberId)
         {
@@ -58,7 +56,7 @@ namespace NewCRM.Web.Controllers
                     _deskApplicationServices.DeskToOtherDesk(CurrentUser.Id, memberId, to);
                     break;
             }
-            return new EmptyResult();
+            return Json(new { success = 1 });
         }
 
         /// <summary>
@@ -71,7 +69,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult ModifyFolderInfo(String name, String icon, Int32 memberId)
         {
             _deskApplicationServices.ModifyFolderInfo(name, icon, memberId, CurrentUser.Id);
-            return new EmptyResult();
+            return Json(new { success = 1 });
         }
 
         /// <summary>
@@ -95,10 +93,7 @@ namespace NewCRM.Web.Controllers
 
             _deskApplicationServices.ModifyMemberInfo(CurrentUser.Id, memberDto);
 
-            return Json(new
-            {
-                status = "y"
-            });
+            return Json(new { success = 1 });
         }
 
         /// <summary>
@@ -129,9 +124,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult UnInstallMember(Int32 memberId)
         {
             _deskApplicationServices.RemoveMember(CurrentUser.Id, memberId);
-            return new EmptyResult();
+            return Json(new { success = 1 });
         }
-
-
     }
 }

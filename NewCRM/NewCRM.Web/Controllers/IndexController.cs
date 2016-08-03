@@ -55,7 +55,6 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult Landing(String userName, String passWord, Boolean isRememberPasswrod = false)
         {
-            /*var userData = */
             var userResult = _accountApplicationServices.Login(userName, passWord);
 
             Response.SetCookie(new HttpCookie("Account")
@@ -64,15 +63,11 @@ namespace NewCRM.Web.Controllers
                 Expires = isRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddMinutes(30)
             });
 
-
-
-
             CurrentUser = userResult;
 
-            return Json(new { status = 1 });
+            return Json(new { success = 1 });
         }
-
-
+        
         /// <summary>
         /// 初始化皮肤
         /// </summary>
@@ -158,9 +153,8 @@ namespace NewCRM.Web.Controllers
                     isOpenMax = internalMemberResult.IsOpenMax,
                     isSetbar = internalMemberResult.IsSetbar,
                     url = internalMemberResult.AppUrl
-
                 }
-            }, JsonRequestBehavior.AllowGet);
+            });
         }
     }
 }

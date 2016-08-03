@@ -10,8 +10,7 @@ namespace NewCRM.Web.Filter
     {
         public override void OnException(ExceptionContext filterContext)
         {
-            //filterContext.HttpContext.Response.Output.Write("<script>ZENG.msgbox.show(" + filterContext.Exception.Message + ", 1, 2000);</script>");
-            base.OnException(filterContext);
+           
         }
     }
 }

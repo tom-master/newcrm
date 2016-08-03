@@ -47,7 +47,7 @@
                         passWord: $('.password').val()
                     },
                     function (responseText) {
-                        if (responseText.status === 1) {
+                        if (typeof responseText.success !== 'undefined') {
                             progressBar.mover(100);
                             clearInterval(setIntervalIndex);
                             location.href = '@Url.Action("Desktop", "Index")';
@@ -99,4 +99,3 @@
     });
 
 </script>
-

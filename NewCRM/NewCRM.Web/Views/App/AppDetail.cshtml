@@ -96,25 +96,13 @@
                 var num = $(this).attr('num');
                 if (!isNaN(num) && /^[1-5]$/.test(num)) {
                     if (window.parent.parent.HROS.base.checkLogin()) {
-                        //    $.ajax({
-                        //        type: 'POST',
-                        //        url: 'detail.ajax.php',
-                        //        data: 'ac=updateAppStar&id=<?php echo $_GET['id']; ?>&starnum=' + num,
-                        //        success: function(msg) {
-                        //            if (msg) {
-                        //                ZENG.msgbox.show("打分成功！", 4, 2000);
-                        //                location.reload();
-                        //            } else {
-                        //                ZENG.msgbox.show("你已经打过分了！", 1, 2000);
-                        //            }
-                        //        }
-                        //});
-
                         $.post('@Url.Action("ModifyAppStart", "App")',
                             { appId: '@Model.Id', starCount: num },
                             function (responseText) {
-                                ZENG.msgbox.show("打分成功！", 4, 2000);
-                                location.reload();
+                                if (typeof responseText.success !== 'undefined') {
+                                    ZENG.msgbox.show("打分成功！", 4, 2000);
+                                    location.reload();
+                                }
                             });
                     } else {
                         window.parent.parent.HROS.base.login();

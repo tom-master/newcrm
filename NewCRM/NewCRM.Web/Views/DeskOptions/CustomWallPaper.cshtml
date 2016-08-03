@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
     var currentUser = ViewData["CurrentUser"] as UserDto;
 }
- 
+
 <div class="title">
     <ul>
         <li class="focus">壁纸设置</li>
@@ -17,11 +17,11 @@
     <div class="fr">
         <label>显示方式：</label>
         <select name="wallpapertype" id="wallpapertype" style="width: 100px">
-            <option name="fill" value="fill" @{ if (currentUser.WallpaperMode == "Fill") { <text> selected="selected" </text>             } }>填充</option>
-            <option name="adapted" value="adapted" @{if (currentUser.WallpaperMode == "Adapted") { <text> selected="selected" </text>            }}>适应</option>
-            <option name="tile" value="tile" @{ if (currentUser.WallpaperMode == "Tile") { <text> selected="selected" </text>            } }>平铺</option>
-            <option name="draw" value="draw" @{ if (currentUser.WallpaperMode == "Draw") { <text> selected="selected" </text>            } }>拉伸</option>
-            <option name="center" value="center" @{ if (currentUser.WallpaperMode == "Center") { <text> selected="selected" </text>            } }>居中</option>
+            <option name="fill" value="fill" @{ if (currentUser.WallpaperMode == "Fill") { <text> selected="selected" </text>               } }>填充</option>
+            <option name="adapted" value="adapted" @{if (currentUser.WallpaperMode == "Adapted") { <text> selected="selected" </text>              }}>适应</option>
+            <option name="tile" value="tile" @{ if (currentUser.WallpaperMode == "Tile") { <text> selected="selected" </text>              } }>平铺</option>
+            <option name="draw" value="draw" @{ if (currentUser.WallpaperMode == "Draw") { <text> selected="selected" </text>              } }>拉伸</option>
+            <option name="center" value="center" @{ if (currentUser.WallpaperMode == "Center") { <text> selected="selected" </text>              } }>居中</option>
         </select>
     </div>
 </div>
@@ -98,8 +98,9 @@
             $('.wapppapercustom .view').on('click', 'li a', function (event) {
                 event.stopPropagation();
                 var id = $(this).parent().attr('id');
-                $.post("@Url.Action("DeleteWallPaper", "DeskOptions")", { wallPaperId: id }, function (result) {
-                    if (parseInt(result.data) === 1) {
+                $.post("@Url.Action("DeleteWallPaper", "DeskOptions")", { wallPaperId: id }, function (responseText) {
+
+                    if (typeof responseText.success !== 'undefined') {
                         ZENG.msgbox.show('壁纸移除成功', 5, 2000);
                         $('#' + id).remove();
                     } else {
@@ -117,12 +118,14 @@
         });
 
         function GetAllUploadWallPaper() {
-            $.get("@Url.Action("GetAllUploadWallPaper", "DeskOptions")", function (result) {
-                var liElement = '';
-                $.each(result.wallPapers, function (k, v) {
-                    liElement += '<li id="' + v.Id + '" style="background:url(' + v.ShortUrl + ')"><a href="javascript:;">删 除</a></li>';
-                });
-                $('.view').children('ul').append(liElement);
+            $.get("@Url.Action("GetAllUploadWallPaper", "DeskOptions")", function (responseText) {
+                if (typeof responseText.wallPapers !== 'undefined') {
+                    var liElement = '';
+                    $.each(responseText.wallPapers, function (k, v) {
+                        liElement += '<li id="' + v.Id + '" style="background:url(' + v.ShortUrl + ')"><a href="javascript:;">删 除</a></li>';
+                    });
+                    $('.view').children('ul').append(liElement);
+                }
             });
         }
 

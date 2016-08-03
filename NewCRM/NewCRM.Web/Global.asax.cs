@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.Composition.Hosting;
-using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -20,6 +19,7 @@ namespace NewCRM.Web
 
 
             DependencyResolver.SetResolver(new MefDependencySolver(new DirectoryCatalog(AppDomain.CurrentDomain.SetupInformation.PrivateBinPath)));
+
         }
     }
 }

@@ -79,7 +79,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult ModifyAppStart(Int32 appId, Int32 starCount)
         {
             _appApplicationServices.ModifyAppStar(CurrentUser.Id, appId, starCount);
-            return new EmptyResult();
+            return Json(new { success = 1 });
         }
     }
 }
