@@ -4,12 +4,15 @@ using System.ComponentModel.DataAnnotations;
 namespace NewCRM.Domain.Entities.DomainModel
 {
     [Serializable]
-    public abstract class DomainModelBase 
+    public abstract class DomainModelBase
     {
-        /// <summary>
-        /// field
-        /// </summary>
+        #region private field
+
         private Int32 _id;
+
+        private DateTime _dateTime;
+
+        #endregion
 
         #region ctor
 
@@ -20,7 +23,6 @@ namespace NewCRM.Domain.Entities.DomainModel
 
         #endregion
 
-
         #region public property
 
         [Key]
@@ -30,23 +32,14 @@ namespace NewCRM.Domain.Entities.DomainModel
             protected set { _id = value; }
         }
 
-
-        public bool IsDeleted { get; protected set; }
+        public Boolean IsDeleted { get; protected set; }
 
         [DataType(DataType.DateTime)]
         public DateTime AddTime
         {
-            get
-            {
-                return DateTime.Now;
-            }
-
-            private set
-            {
-
-            }
+            get { return _dateTime; }
+            protected set { _dateTime = value; }
         }
-
 
         #endregion
 

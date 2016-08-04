@@ -22,6 +22,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         {
             DeskNumber = deskNumber;
             Members = new List<Member>();
+            AddTime = DateTime.Now;
         }
 
 

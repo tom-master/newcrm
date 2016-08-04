@@ -28,6 +28,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         {
             Name = name;
             Remark = remark;
+            AddTime = DateTime.Now;
         }
 
         public AppType()

@@ -29,7 +29,8 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         public Title(String name, String remark = default(String))
         {
             Name = name;
-            Remark = remark;
+            Remark = remark; 
+            AddTime = DateTime.Now;
         }
 
         public Title()

@@ -23,7 +23,7 @@ namespace NewCRM.Web.Controllers.ControllerHelper
         protected override void OnException(ExceptionContext filterContext)
         {
             filterContext.ExceptionHandled = true;
-            filterContext.Result = JavaScript("ZENG.msgbox.show('" + filterContext.Exception.Message + "', 5, 2000);");
+            filterContext.Result = JavaScript("ZENG.msgbox.show('" + filterContext.Exception.Message + "', 5, 3000);");
         }
     }
 }

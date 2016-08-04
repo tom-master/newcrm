@@ -42,9 +42,14 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// </summary>
         public Int32 Height { get; private set; }
 
+        /// <summary>
+        /// 上传者（用户）
+        /// </summary>
         public Int32 UserId { get; private set; }
 
-
+        /// <summary>
+        /// md5
+        /// </summary>
         public String Md5 { get; private set; }
 
         #endregion
@@ -72,6 +77,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             Source = wallpaperSource;
             UserId = userId;
             Md5 = md5;
+            AddTime = DateTime.Now;
         }
 
         public Wallpaper() { }

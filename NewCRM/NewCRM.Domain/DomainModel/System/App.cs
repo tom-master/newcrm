@@ -196,6 +196,8 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             AppReleaseState = AppReleaseState.UnRelease;
             UserCount = 0;
             AppStars = new List<AppStar>();
+
+            AddTime = DateTime.Now;
         }
 
         public App()

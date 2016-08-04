@@ -67,7 +67,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
 
             var appStar = AppStars.FirstOrDefault(star => star.UserId == userId && star.IsDeleted == false);
 
-            appStar.RemoveStar();
+            appStar?.RemoveStar();
 
             return this;
 

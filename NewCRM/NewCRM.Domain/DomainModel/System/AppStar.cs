@@ -14,6 +14,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         {
             UserId = userId;
             StartNum = startNum;
+            AddTime = DateTime.Now;
         }
 
         public AppStar() { }

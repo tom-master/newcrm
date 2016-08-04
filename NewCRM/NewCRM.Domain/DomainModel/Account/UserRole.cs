@@ -21,6 +21,7 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         {
             UserId = userId;
             RoleId = roleId;
+            AddTime = DateTime.Now;
         }
 
         public UserRole() { }

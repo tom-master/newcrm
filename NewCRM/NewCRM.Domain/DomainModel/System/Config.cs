@@ -82,7 +82,9 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             AppSize = 48;
             AppVerticalSpacing = 50;
             AppHorizontalSpacing = 50;
-            DefaultDeskNumber = 1;
+            DefaultDeskNumber = 1; 
+
+            AddTime = DateTime.Now;
         }
         #endregion
     }

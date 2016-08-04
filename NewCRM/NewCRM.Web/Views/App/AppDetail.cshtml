@@ -7,7 +7,7 @@
     <div class="app-contents">
         <div class="mbox">
             <div class="title">
-                <a href="javascript:window.parent.closeDetailIframe2();" class="btn-back">返回</a>
+                <a href="javascript:window.parent.closeDetailIframe2(function(){window.parent.getPageList(1);});" class="btn-back">返回</a>
             </div>
             <div class="app-title">
                 <img src="@Model.IconUrl" alt="@Model.Name">
@@ -53,7 +53,7 @@
                     }
                 }
 
-                <em style="margin-left:10px">所属分类：</em>@Model.AppType.Name
+                <em style="margin-left:10px">所属分类：</em>@Model.AppType
                 <em style="margin-left:10px">发布时间：</em>@Model.AddTime
             </h5>
             <div class="app-text breakword">@Model.Remark</div>

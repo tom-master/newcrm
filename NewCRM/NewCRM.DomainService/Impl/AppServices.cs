@@ -148,9 +148,9 @@ namespace NewCRM.Domain.Services.Impl
 
             var userDesks = GetUser(userId).Config.Desks;
 
-            Boolean isInstall = userDesks.Any(userDesk => userDesk.Members.Any(member => member.AppId == topApp.Id));
+            Boolean isInstall = userDesks.Any(userDesk => userDesk.Members.Any(member => member.AppId == topApp.Id && member.IsDeleted == false));
 
-            Double star = topApp.AppStars.Any(appStar => appStar.IsDeleted == false) ? (topApp.AppStars.Sum(s => s.StartNum) * 1.0) / (topApp.AppStars.Count * 1.0) : 0.0;
+            Double star = topApp.AppStars.Any(appStar => appStar.IsDeleted == false) ? (topApp.AppStars.Sum(s => s.StartNum) * 1.0) / (topApp.AppStars.Count(appStar => appStar.IsDeleted == false) * 1.0) : 0.0;
 
             return new TodayRecommendAppModel
             {
@@ -202,7 +202,7 @@ namespace NewCRM.Domain.Services.Impl
             }
             else if (orderId == 3)//评价最高
             {
-                apps = apps.OrderByDescending(app => app.AppStars.Any(appStar => appStar.IsDeleted == false) ? (app.AppStars.Sum(s => s.StartNum) / app.AppStars.Count) : 0);
+                apps = apps.OrderByDescending(app => app.AppStars.Any(appStar => appStar.IsDeleted == false) ? (app.AppStars.Sum(s => s.StartNum) * 1.0) / app.AppStars.Count(appStar => appStar.IsDeleted == false) * 1.0 : 0);
             }
 
             if ((searchText + "").Length > 0)//关键字搜索
@@ -223,6 +223,13 @@ namespace NewCRM.Domain.Services.Impl
 
         public void ModifyAppStar(Int32 userId, Int32 appId, Int32 starCount)
         {
+            var userResult = GetUser(userId);
+
+            if (!userResult.Config.Desks.Any(desk => desk.Members.Any(member => member.AppId == appId && member.IsDeleted == false)))
+            {
+                throw new BusinessException($"请安装这个应用后再打分");
+            }
+
             var appResult = _appRepository.Entities.FirstOrDefault(app => app.Id == appId);
 
             appResult.AddStar(userId, starCount);
@@ -254,6 +261,7 @@ namespace NewCRM.Domain.Services.Impl
 
                     appResult.AddUserCount();
                     _appRepository.Update(appResult);
+
                     break;
                 }
             }

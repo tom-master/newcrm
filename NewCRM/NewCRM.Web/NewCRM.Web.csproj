@@ -158,12 +158,9 @@
     <Content Include="Scripts\HoorayUI\js\bubbler\bubbler.jquery.js" />
     <Content Include="Scripts\HoorayUI\js\fullcalendar-1.6.4\demos\json-events.php" />
     <Content Include="Scripts\HoorayUI\js\HoorayJs\hros.min.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\jquery-2.1.4.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\jquery-2.1.4.min.js" />
     <Content Include="Scripts\HoorayUI\js\HoorayJs\jquery-browser.js" />
     <Content Include="Scripts\HoorayUI\js\HoorayLibs\devil.php" />
     <Content Include="Scripts\HoorayUI\js\sugar\sugar-1.4.1.min.js" />
-    <Content Include="Scripts\HoorayUI\js\HoorayJs\worker.js" />
     <Content Include="Scripts\HoorayUI\js\HoorayJs\第1步：合并JS.bat" />
     <Content Include="Scripts\HoorayUI\css\globle.css" />
     <Content Include="Scripts\HoorayUI\css\sys.css" />

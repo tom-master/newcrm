@@ -28,10 +28,10 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
         /// <param name="name"></param>
         /// <param name="remark"></param>
         public Power(String name, String remark = default(String))
-        {
-
+        { 
             Name = name;
             Remark = remark;
+            AddTime = DateTime.Now;
         }
         public Power()
         {

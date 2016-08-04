@@ -145,7 +145,9 @@
                     'opacity': 'hide'
                 }, 500, function () {
                     $('#detailIframe').css('left', '140px');
-                    callback && callback();
+                    if (typeof callback === 'function') {
+                        callback && callback();
+                    }
                 });
             };
             $('.sub-nav ul li').click(function () {
@@ -182,7 +184,7 @@
             });
             //添加，删除，打开应用
             $('.app-list').on('click', '.btn-add-s', function () {
-                 
+
                 if (window.parent.HROS.base.checkLogin()) {
                     $(this).removeClass().addClass('btn-loading-s');
                     window.parent.HROS.app.add($(this).attr('real_app_id'), function () {
@@ -286,7 +288,7 @@
                 return parseFloat(score).toFixed(1);
             });
 
-            Handlebars.registerHelper('appIsInstall', function(isInstall, options) {
+            Handlebars.registerHelper('appIsInstall', function (isInstall, options) {
                 if (isInstall) {
                     return options.fn(this);
                 } else {

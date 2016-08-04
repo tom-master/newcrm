@@ -41,7 +41,7 @@ namespace NewCRM.Repository.UnitOfWorkProvide
             }
         }
 
-        internal static void Update<TEntity, TKey>(this DbContext dbContext, Expression<Func<TEntity, object>> propertyExpression, params TEntity[] entities)
+        internal static void Update<TEntity, TKey>(this DbContext dbContext, Expression<Func<TEntity, Object>> propertyExpression, params TEntity[] entities)
             where TEntity : DomainModelBase
         {
             if (propertyExpression == null) throw new ArgumentNullException($"{nameof(propertyExpression)}");
@@ -74,9 +74,9 @@ namespace NewCRM.Repository.UnitOfWorkProvide
             }
         }
 
-        internal static int SaveChanges(this DbContext dbContext, bool validateOnSaveEnabled)
+        internal static Int32 SaveChanges(this DbContext dbContext, Boolean validateOnSaveEnabled)
         {
-            bool isReturn = dbContext.Configuration.ValidateOnSaveEnabled != validateOnSaveEnabled;
+            Boolean isReturn = dbContext.Configuration.ValidateOnSaveEnabled != validateOnSaveEnabled;
             try
             {
                 dbContext.Configuration.ValidateOnSaveEnabled = validateOnSaveEnabled;

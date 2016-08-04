@@ -30,6 +30,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         {
             IpAddress = ipAddress;
             UserId = userId;
+            AddTime = DateTime.Now;
         }
 
         public Online() { }

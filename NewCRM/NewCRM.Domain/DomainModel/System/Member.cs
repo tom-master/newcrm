@@ -156,6 +156,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             IconUrl = iconUrl;
             AppUrl = appUrl;
             MemberType = appId == 0 ? MemberType.Folder : MemberType.App;
+            AddTime = DateTime.Now;
         }
 
         public Member(String name, String iconUrl, Int32 appId)

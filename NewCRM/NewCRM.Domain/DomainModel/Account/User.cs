@@ -41,10 +41,15 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         /// </summary>
         public Boolean IsOnline { get; private set; }
 
+        /// <summary>
+        /// 职称id
+        /// </summary>
         public Int32 TitleId { get; set; }
 
+        /// <summary>
+        /// 用户id
+        /// </summary>
         public Int32 ConfigId { get; set; }
-
 
         /// <summary>
         /// 职称
@@ -79,6 +84,7 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
             Roles = new List<UserRole>();
             Config = new Config();
             IsOnline = false;
+            AddTime = DateTime.Now;
         }
         public User()
         {

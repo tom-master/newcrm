@@ -18,8 +18,7 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
         /// 备注
         /// </summary>
         public String Remark { get; private set; }
-
-
+         
         /// <summary>
         /// 角色对应的权限
         /// </summary>
@@ -39,6 +38,7 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
             Name = name;
             Remark = remark;
             Powers = new List<RolePower>();
+            AddTime = DateTime.Now;
         }
 
         public Role() { }

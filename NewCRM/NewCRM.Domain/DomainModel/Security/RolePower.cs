@@ -20,6 +20,7 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
         {
             RoleId = roleId;
             PowerId = powerId;
+            AddTime = DateTime.Now;
         }
 
         public RolePower() { }

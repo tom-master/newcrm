@@ -73,6 +73,7 @@ namespace NewCRM.Repository.RepositoryProvide
         {
             VaildateParameter.Validate(entity);
             EfContext.RegisterNew<TEntity, Int32>(entity);
+
             if (isSave)
             {
                 EfContext.Commit();
@@ -92,6 +93,7 @@ namespace NewCRM.Repository.RepositoryProvide
         {
             VaildateParameter.Validate(entities);
             EfContext.RegisterNew<TEntity, Int32>(entities);
+            
             if (isSave)
             {
                 EfContext.Commit();
