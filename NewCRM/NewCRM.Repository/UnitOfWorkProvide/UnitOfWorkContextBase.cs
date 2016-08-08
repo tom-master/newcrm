@@ -23,14 +23,14 @@ namespace NewCRM.Repository.UnitOfWorkProvide
         /// <summary>
         ///     获取 当前单元操作是否已被提交
         /// </summary>
-        public bool IsCommitted { get; private set; }
+        public Boolean IsCommitted { get; private set; }
 
         /// <summary>
         ///     提交当前单元操作的结果
         /// </summary>
         /// <param name="validateOnSaveEnabled">保存时是否自动验证跟踪实体</param>
         /// <returns></returns>
-        public int Commit(bool validateOnSaveEnabled = true)
+        public Int32 Commit(Boolean validateOnSaveEnabled = true)
         {
             if (IsCommitted)
             {
@@ -38,7 +38,7 @@ namespace NewCRM.Repository.UnitOfWorkProvide
             }
             try
             {
-                int result = Context.SaveChanges(validateOnSaveEnabled);
+                Int32 result = Context.SaveChanges(validateOnSaveEnabled);
                 IsCommitted = true;
                 return result;
             }
@@ -139,7 +139,7 @@ namespace NewCRM.Repository.UnitOfWorkProvide
         /// <typeparam name="TKey">主键类型</typeparam>
         /// <param name="propertyExpression">属性表达式，包含要更新的实体属性</param>
         /// <param name="entity">附带新值的实体信息，必须包含主键</param>
-        public void RegisterModified<TEntity, TKey>(Expression<Func<TEntity, object>> propertyExpression, TEntity entity) where TEntity : DomainModelBase
+        public void RegisterModified<TEntity, TKey>(Expression<Func<TEntity, Object>> propertyExpression, TEntity entity) where TEntity : DomainModelBase
         {
             Context.Update<TEntity, TKey>(propertyExpression, entity);
             IsCommitted = false;

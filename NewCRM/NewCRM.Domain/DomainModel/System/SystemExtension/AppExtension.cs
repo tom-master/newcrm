@@ -102,6 +102,26 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         }
 
         /// <summary>
+        /// 暂不提交审核
+        /// </summary>
+        /// <returns></returns>
+        public App DontSentAudit()
+        {
+            AppAuditState = AppAuditState.UnAuditState;
+            return this;
+        }
+
+        /// <summary>
+        /// 提交审核
+        /// </summary>
+        /// <returns></returns>
+        public App SentAudit()
+        {
+            AppAuditState = AppAuditState.Wait;
+            return this;
+        }
+
+        /// <summary>
         /// 修改app的宽
         /// </summary>
         /// <param name="width"></param>
@@ -164,6 +184,17 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             IconUrl = newIconUrl;
             return this;
 
+        }
+
+        /// <summary>
+        /// 修改app名称
+        /// </summary>
+        /// <param name="newName"></param>
+        /// <returns></returns>
+        public App ModifyName(String newName)
+        {
+            Name = newName;
+            return this;
         }
 
         /// <summary>
@@ -251,6 +282,43 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         public App ModifyIsResize(Boolean isResize)
         {
             IsResize = isResize;
+            return this;
+        }
+
+        /// <summary>
+        /// 修改app类型
+        /// </summary>
+        /// <param name="appTypeId"></param>
+        /// <returns></returns>
+        public App ModifyAppType(Int32 appTypeId)
+        {
+            if (appTypeId <= 0)
+            {
+                throw new ArgumentOutOfRangeException($"应用类型不能为空");
+            }
+            AppTypeId = appTypeId;
+            return this;
+        }
+
+        /// <summary>
+        /// 修改app介绍
+        /// </summary>
+        /// <param name="remake"></param>
+        /// <returns></returns>
+        public App ModifyAppRemake(String remake)
+        {
+            Remark = remake;
+            return this;
+        }
+
+        /// <summary>
+        /// 修改app样式
+        /// </summary>
+        /// <param name="appStyle"></param>
+        /// <returns></returns>
+        public App ModifyAppStyle(AppStyle appStyle)
+        {
+            AppStyle = appStyle;
             return this;
         }
 

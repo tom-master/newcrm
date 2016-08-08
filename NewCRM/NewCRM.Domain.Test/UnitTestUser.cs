@@ -26,6 +26,38 @@ namespace NewCRM.Domain.Test
         [TestMethod]
         public void TestMethod()
         {
+            var a =AppStyle.Widget;
         }
+
+        public IEnumerable<TT> Bb()
+        {
+            var r = Aa();
+
+            foreach (var o in r)
+            {
+                yield return new TT
+                {
+                    Id = o.Id,
+                    Name = o.Value,
+                    Type = o.Type
+                };
+            }
+        }
+
+
+        private List<dynamic> Aa()
+        {
+            return typeof(AppStyle).GetFields().Where(field => field.CustomAttributes.Any()).Select(s => new { s.CustomAttributes.ToArray()[0].ConstructorArguments[0].Value, Id = s.GetRawConstantValue(), Type = typeof(AppStyle).Name }).Cast<dynamic>().ToList();
+        }
+    }
+
+    public sealed class TT
+    {
+        public Int32 Id { get; set; }
+
+        public String Name { get; set; }
+
+        public String Type { get; set; }
+
     }
 }

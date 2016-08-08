@@ -138,7 +138,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// <param name="appUrl">app地址</param>
         /// <param name="width">宽</param>
         /// <param name="height">高</param>
-        /// <param name="appType"></param>
+        /// <param name="appTypeId"></param>
         /// <param name="appStyle"></param>
         /// <param name="userId"></param>
         /// <param name="remark">备注</param>
@@ -154,7 +154,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             String appUrl,
             Int32 width,
             Int32 height,
-            AppType appType,
+            Int32 appTypeId,
             AppStyle appStyle = AppStyle.App,
             Int32 userId = default(Int32),
             String remark = default(String),
@@ -178,7 +178,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             IsFlash = isFlash;
             IsDraw = isDraw;
             IsResize = isResize;
-            AppType = appType;
+            AppTypeId = appTypeId;
             AppStyle = appStyle;
             if (userId == 0)
             {
@@ -196,7 +196,6 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             AppReleaseState = AppReleaseState.UnRelease;
             UserCount = 0;
             AppStars = new List<AppStar>();
-
             AddTime = DateTime.Now;
         }
 

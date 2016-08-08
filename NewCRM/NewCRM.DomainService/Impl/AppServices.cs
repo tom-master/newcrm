@@ -7,6 +7,7 @@ using NewCRM.Domain.Entities.Repositories.IRepository.Account;
 using NewCRM.Domain.Entities.Repositories.IRepository.System;
 using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustemException;
+using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Domain.Services.Impl
 {
@@ -144,13 +145,20 @@ namespace NewCRM.Domain.Services.Impl
 
         public TodayRecommendAppModel GetTodayRecommend(Int32 userId)
         {
-            var topApp = _appRepository.Entities.OrderByDescending(app => app.UserCount).FirstOrDefault();
+            var topApp = _appRepository.Entities.Where(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release).OrderByDescending(app => app.UserCount).Select(app => new
+            {
+                app.UserCount,
+                AppStars = app.AppStars.Select(s => new { s.IsDeleted }).Any(appStar => appStar.IsDeleted == false) ? (app.AppStars.Select(s => s.StartNum).Sum(s => s) * 1.0) / (app.AppStars.Select(s => s.IsDeleted).Count(isDeleted => isDeleted == false) * 1.0) : 0.0,
+                app.Id,
+                app.Name,
+                app.IconUrl,
+                app.Remark,
+                app.AppStyle
+            }).FirstOrDefault();
 
             var userDesks = GetUser(userId).Config.Desks;
 
             Boolean isInstall = userDesks.Any(userDesk => userDesk.Members.Any(member => member.AppId == topApp.Id && member.IsDeleted == false));
-
-            Double star = topApp.AppStars.Any(appStar => appStar.IsDeleted == false) ? (topApp.AppStars.Sum(s => s.StartNum) * 1.0) / (topApp.AppStars.Count(appStar => appStar.IsDeleted == false) * 1.0) : 0.0;
 
             return new TodayRecommendAppModel
             {
@@ -158,7 +166,7 @@ namespace NewCRM.Domain.Services.Impl
                 Name = topApp.Name,
                 UserCount = topApp.UserCount,
                 AppIcon = topApp.IconUrl,
-                StartCount = star,
+                StartCount = topApp.AppStars,
                 IsInstall = isInstall,
                 Remark = topApp.Remark,
                 Style = topApp.AppStyle.ToString().ToLower()
@@ -176,9 +184,11 @@ namespace NewCRM.Domain.Services.Impl
             return new Tuple<Int32, Int32>(userDevAppCount, userUnReleaseAppCount);
         }
 
-        public List<App> GetAllApps(Int32 userId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+        public List<dynamic> GetAllApps(Int32 userId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
-            var apps = _appRepository.Entities;
+            var apps = _appRepository.Entities.Where(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release);
+
+            #region 条件筛选
 
             if (appTypeId != 0 && appTypeId != -1)//全部app
             {
@@ -202,7 +212,7 @@ namespace NewCRM.Domain.Services.Impl
             }
             else if (orderId == 3)//评价最高
             {
-                apps = apps.OrderByDescending(app => app.AppStars.Any(appStar => appStar.IsDeleted == false) ? (app.AppStars.Sum(s => s.StartNum) * 1.0) / app.AppStars.Count(appStar => appStar.IsDeleted == false) * 1.0 : 0);
+                apps = apps.OrderByDescending(app => app.AppStars);
             }
 
             if ((searchText + "").Length > 0)//关键字搜索
@@ -212,13 +222,57 @@ namespace NewCRM.Domain.Services.Impl
 
             totalCount = apps.Count();
 
-            return apps.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            #endregion
 
+            return apps.OrderByDescending(o => o.AddTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(app => new
+            {
+                app.AppTypeId,
+                app.UserId,
+                app.AddTime,
+                app.UserCount,
+                StartCount = app.AppStars.Select(s => new { s.IsDeleted }).Any(appStar => appStar.IsDeleted == false) ? (app.AppStars.Select(s => s.StartNum).Sum(s => s) * 1.0) / (app.AppStars.Select(s => s.IsDeleted).Count(isDeleted => isDeleted == false) * 1.0) : 0.0,
+                app.Name,
+                app.IconUrl,
+                app.Remark,
+                app.AppStyle,
+                AppType = app.AppType.Name,
+                app.Id
+            }).ToList<dynamic>();
         }
 
-        public App GetApp(Int32 appId)
+        public dynamic GetApp(Int32 appId)
         {
-            return _appRepository.Entities.FirstOrDefault(app => app.Id == appId);
+            var appResult =
+                _appRepository.Entities.Where(
+                    app =>
+                        app.Id == appId).Select(app => new
+                        {
+                            app.Name,
+                            app.IconUrl,
+                            app.Remark,
+                            app.UserCount,
+                            StartCount = app.AppStars.Select(s => new
+                            {
+                                s.IsDeleted
+                            }).Any(appStar => appStar.IsDeleted == false)
+                                    ? (app.AppStars.Select(s => s.StartNum).Sum(s => s) * 1.0) /
+                                      (app.AppStars.Select(s => s.IsDeleted).Count(isDeleted => isDeleted == false) * 1.0)
+                                    : 0.0,
+                            AppType = app.AppType.Name,
+                            app.AddTime,
+                            app.UserId,
+                            app.Id,
+                            app.IsResize,
+                            app.IsOpenMax,
+                            app.IsFlash,
+                            app.AppStyle,
+                            app.AppUrl,
+                            app.Width,
+                            app.Height,
+                            app.AppAuditState,
+                            app.AppTypeId
+                        }).FirstOrDefault();
+            return appResult;
         }
 
         public void ModifyAppStar(Int32 userId, Int32 appId, Int32 starCount)
@@ -243,7 +297,7 @@ namespace NewCRM.Domain.Services.Impl
 
             var realDeskId = GetRealDeskId(deskNum, userResult.Config);
 
-            var appResult = _appRepository.Entities.FirstOrDefault(app => app.Id == appId);
+            var appResult = _appRepository.Entities.Where(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release).FirstOrDefault(app => app.Id == appId);
 
             if (appResult == null)
             {
@@ -272,6 +326,131 @@ namespace NewCRM.Domain.Services.Impl
             var userResult = GetUser(userId);
 
             return userResult.Config.Desks.Any(desk => desk.Members.Any(member => member.AppId == appId && member.IsDeleted == false));
+        }
+
+        public List<dynamic> GetUserAllApps(Int32 userId, String appName, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize,
+            out Int32 totalCount)
+        {
+            var userApps = _appRepository.Entities.Where(app => app.UserId == userId);
+
+            #region 条件筛选
+
+            //应用名称
+            if ((appName + "").Length > 0)
+            {
+                userApps = userApps.Where(app => app.Name.Contains(appName));
+            }
+
+            //应用所属类型
+            if (appTypeId != 0)
+            {
+                userApps = userApps.Where(app => app.AppTypeId == appTypeId);
+            }
+
+            //应用样式
+            if (appStyleId != 0)
+            {
+                var enumConst = Enum.GetName(typeof(AppStyle), 1);
+
+                AppStyle appStyle;
+
+                if (Enum.TryParse(enumConst, true, out appStyle))
+                {
+                    userApps = userApps.Where(app => app.AppStyle == appStyle);
+                }
+                else
+                {
+                    throw new BusinessException($"无法识别的应用样式：{enumConst}");
+                }
+            }
+
+            if ((appState + "").Length > 0)
+            {
+                //app发布状态
+                var stats = appState.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                if (stats[0] == "AppReleaseState")
+                {
+                    var enumConst = Enum.GetName(typeof(AppReleaseState), Int32.Parse(stats[1]));
+
+                    AppReleaseState appReleaseState;
+
+                    if (Enum.TryParse(enumConst, true, out appReleaseState))
+                    {
+                        userApps = userApps.Where(app => app.AppReleaseState == appReleaseState);
+                    }
+                    else
+                    {
+                        throw new BusinessException($"无法识别的应用状态：{enumConst}");
+                    }
+                }
+
+                //app应用审核状态
+                if (stats[0] == "AppAuditState")
+                {
+                    var enumConst = Enum.GetName(typeof(AppAuditState), Int32.Parse(stats[1]));
+
+                    AppAuditState appAuditState;
+
+                    if (Enum.TryParse(enumConst, true, out appAuditState))
+                    {
+                        userApps = userApps.Where(app => app.AppAuditState == appAuditState);
+                    }
+                    else
+                    {
+                        throw new BusinessException($"无法识别的应用审核状态{enumConst}");
+                    }
+                }
+            }
+
+            totalCount = userApps.Count();
+
+            #endregion
+
+            var result = userApps.OrderByDescending(o => o.AddTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(
+             app => new
+             {
+                 app.Name,
+                 app.AppStyle,
+                 AppType = app.AppType.Name,
+                 app.UserCount,
+                 app.Id,
+                 app.IconUrl
+             }).ToList<dynamic>();
+
+            return result;
+        }
+
+        public void ModifyUserAppInfo(Int32 userId, App app)
+        {
+            var appResult = _appRepository.Entities.FirstOrDefault(internalApp => internalApp.Id == app.Id && internalApp.UserId == userId);
+
+            if (appResult == null)
+            {
+                throw new BusinessException("这个应用可能已被删除，请刷新后再试");
+            }
+
+            appResult.ModifyIconUrl(app.IconUrl)
+                .ModifyName(app.Name)
+                .ModifyAppType(app.AppTypeId)
+                .ModifyUrl(app.AppUrl)
+                .ModifyWidth(app.Width)
+                .ModifyHeight(app.Height)
+                .ModifyAppStyle(app.AppStyle)
+                .ModifyIsResize(app.IsResize)
+                .ModifyIsOpenMax(app.IsOpenMax)
+                .ModifyIsFlash(app.IsFlash)
+                .ModifyAppRemake(app.Remark);
+
+            if (app.AppAuditState == AppAuditState.UnAuditState)//未审核
+            {
+                appResult = appResult.DontSentAudit();
+            }
+            else if (app.AppAuditState == AppAuditState.Wait)
+            {
+                appResult = appResult.SentAudit();
+            }
+
+            _appRepository.Update(appResult);
         }
     }
 

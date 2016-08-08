@@ -10,7 +10,7 @@ namespace NewCRM.Domain.Entities.DomainModel
 
         private Int32 _id;
 
-        private DateTime _dateTime;
+
 
         #endregion
 
@@ -35,11 +35,7 @@ namespace NewCRM.Domain.Entities.DomainModel
         public Boolean IsDeleted { get; protected set; }
 
         [DataType(DataType.DateTime)]
-        public DateTime AddTime
-        {
-            get { return _dateTime; }
-            protected set { _dateTime = value; }
-        }
+        public DateTime AddTime { get; set; }
 
         #endregion
 

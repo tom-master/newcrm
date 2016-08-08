@@ -10,9 +10,5 @@ namespace NewCRM.Repository.RepositoryImpl.Account
 
     public class UserRepository : EfRepositoryBase<User>, IUserRepository
     {
-        public override IQueryable<User> Entities
-        {
-            get { return base.Entities.Where(w => w.IsDisable == false && w.IsDeleted == false); }
-        }
     }
 }

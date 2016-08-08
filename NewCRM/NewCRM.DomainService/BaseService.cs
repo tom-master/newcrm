@@ -27,11 +27,13 @@ namespace NewCRM.Domain.Services
         protected User GetUser(Int32 userId)
         {
             var userResult = UserRepository.Entities.FirstOrDefault(user => user.Id == userId);
+
             if (userResult == null)
             {
                 throw new BusinessException("该用户可能不存在");
             }
             return userResult;
+
         }
 
         protected Int32 GetRealDeskId(Int32 deskId, Config userConfig)

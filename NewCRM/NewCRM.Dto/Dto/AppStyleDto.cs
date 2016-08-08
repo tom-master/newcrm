@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace NewCRM.Dto.Dto
 {
-    public sealed class AppTypeDto : BaseDto
+    public sealed class AppStyleDto : BaseDto
     {
         public String Name { get; set; }
+
+        public String Type { get; set; }
     }
 }

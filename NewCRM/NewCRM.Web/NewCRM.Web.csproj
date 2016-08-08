@@ -51,10 +51,6 @@
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NewCRM.Domain.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\NewCRM.Domain\bin\Debug\NewCRM.Domain.Entities.dll</HintPath>
-    </Reference>
     <Reference Include="NewCRM.Repository, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\NewCRM.Repository\bin\Debug\NewCRM.Repository.dll</HintPath>
@@ -711,6 +707,10 @@
     <Content Include="Views\Desk\EditMember.cshtml" />
     <Content Include="Views\App\AppDetail.cshtml" />
     <None Include="Views\App\AppMarket.cshtml" />
+    <Content Include="Views\App\UserAppManage.cshtml" />
+    <None Include="Views\App\UserAppManageDetail.cshtml" />
+    <Content Include="Views\App\UserAppManageEdit.cshtml" />
+    <None Include="Views\App\UserAppManageInfo.cshtml" />
     <None Include="Views\Test\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -739,6 +739,10 @@
     <ProjectReference Include="..\NewCRM.ApplicationService\NewCRM.Application.Services.csproj">
       <Project>{053A2AA0-4738-4CF3-AA99-D805411BFC40}</Project>
       <Name>NewCRM.Application.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NewCRM.Domain\NewCRM.Domain.Entities.csproj">
+      <Project>{173C1046-4529-4D70-B6F5-501C61514E86}</Project>
+      <Name>NewCRM.Domain.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\NewCRM.Dto\NewCRM.Dto.csproj">
       <Project>{0C635AA2-3953-4AA0-A07F-CF8B1B7BBC6E}</Project>

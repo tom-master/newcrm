@@ -76,14 +76,14 @@ namespace NewCRM.Domain.Services
         /// <param name="pageSize"></param>
         /// <param name="totalCount"></param>
         /// <returns></returns>
-        List<App> GetAllApps(Int32 userId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
+        List<dynamic> GetAllApps(Int32 userId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
 
         /// <summary>
         /// 获取app
         /// </summary>
         /// <param name="appId"></param>
         /// <returns></returns>
-        App GetApp(Int32 appId);
+        dynamic GetApp(Int32 appId);
 
         /// <summary>
         /// app打分
@@ -108,6 +108,28 @@ namespace NewCRM.Domain.Services
         /// <param name="appId"></param>
         /// <returns></returns>
         Boolean IsInstallApp(Int32 userId, Int32 appId);
+
+        /// <summary>
+        /// 获取当前开发者（用户）的开发的app
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="appName"></param>
+        /// <param name="appStyleId"></param>
+        /// <param name="appState"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="totalCount"></param>
+        /// <param name="appTypeId"></param>
+        /// <returns></returns>
+        List<dynamic> GetUserAllApps(Int32 userId, String appName, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize,
+            out Int32 totalCount);
+
+        /// <summary>
+        /// 修改开发者（用户）的app信息
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="app"></param>
+        void ModifyUserAppInfo(Int32 userId, App app);
 
     }
 }

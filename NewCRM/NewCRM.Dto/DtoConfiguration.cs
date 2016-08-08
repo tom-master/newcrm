@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using AutoMapper;
 using NewCRM.Domain.Entities.DomainModel;
 using NewCRM.Domain.Entities.DomainModel.Account;
@@ -129,7 +130,7 @@ namespace NewCRM.Dto
 
             #endregion
 
-            #region app
+            #region App
             #region domain -> dto
             Mapper.CreateMap<App, AppDto>()
                 .ForMember(app => app.Id, dto => dto.MapFrom(w => w.Id))
@@ -147,29 +148,24 @@ namespace NewCRM.Dto
             #endregion
 
             #region dto -> domain
-            //Mapper.CreateMap<AppDto, App>()
-            //    .ForMember(dto => dto.Id, app => app.MapFrom(w => w.Id))
-            //    .ForMember(dto => dto.Name, app => app.MapFrom(w => w.Name))
-            //    .ForMember(dto => dto.IconUrl, app => app.MapFrom(w => w.IconUrl))
-            //    .ForMember(dto => dto.AppUrl, app => app.MapFrom(w => w.AppUrl))
-            //    .ForMember(dto => dto.Remark, app => app.MapFrom(w => w.Remark))
-            //    .ForMember(dto => dto.Width, app => app.MapFrom(w => w.Width))
-            //    .ForMember(dto => dto.Height, app => app.MapFrom(w => w.Height))
-            //    .ForMember(dto => dto.UserCount, app => app.MapFrom(w => w.UserCount))
-            //    .ForMember(dto => dto.IsMax, app => app.MapFrom(w => w.IsMax))
-            //    .ForMember(dto => dto.IsFull, app => app.MapFrom(w => w.IsFull))
-            //    .ForMember(dto => dto.IsOpenMax, app => app.MapFrom(w => w.IsOpenMax))
-            //    .ForMember(dto => dto.IsLock, app => app.MapFrom(w => w.IsLock))
-            //    .ForMember(dto => dto.IsSystem, app => app.MapFrom(w => w.IsSystem))
-            //    .ForMember(dto => dto.IsFlash, app => app.MapFrom(w => w.IsFlash))
-            //    .ForMember(dto => dto.IsDraw, app => app.MapFrom(w => w.IsDraw))
-            //    .ForMember(dto => dto.IsResize, app => app.MapFrom(w => w.IsResize))
-            //    .ForMember(dto => dto.UserId, app => app.MapFrom(w => w.UserId))
-            //    .ForMember(dto => dto.AppAuditState, app => app.MapFrom(w => w.AppAuditState))
-            //    .ForMember(dto => dto.AppReleaseState, app => app.MapFrom(w => w.AppReleaseState))
-            //    .ForMember(dto => dto.AppTypeId, app => app.MapFrom(w => w.AppTypeId))
-            //    .ForMember(dto => dto.AppStyle, app => app.MapFrom(w => w.AppStyle))
-            //    .ForMember(dto => dto.AppType, app => app.MapFrom(w => w.AppType));
+            Mapper.CreateMap<AppDto, App>()
+                .ForMember(dto => dto.Id, app => app.MapFrom(w => w.Id))
+                .ForMember(dto => dto.Name, app => app.MapFrom(w => w.Name))
+                .ForMember(dto => dto.IconUrl, app => app.MapFrom(w => w.IconUrl))
+                .ForMember(dto => dto.AppUrl, app => app.MapFrom(w => w.AppUrl))
+                .ForMember(dto => dto.Remark, app => app.MapFrom(w => w.Remark))
+                .ForMember(dto => dto.Width, app => app.MapFrom(w => w.Width))
+                .ForMember(dto => dto.Height, app => app.MapFrom(w => w.Height))
+                .ForMember(dto => dto.UserCount, app => app.MapFrom(w => w.UserCount))
+                .ForMember(dto => dto.IsOpenMax, app => app.MapFrom(w => w.IsOpenMax))
+                .ForMember(dto => dto.IsFlash, app => app.MapFrom(w => w.IsFlash))
+                .ForMember(dto => dto.IsResize, app => app.MapFrom(w => w.IsResize))
+                .ForMember(dto => dto.UserId, app => app.MapFrom(w => w.UserId))
+                .ForMember(dto => dto.AppAuditState, app => app.MapFrom(w => w.AppAuditState))
+                .ForMember(dto => dto.AppReleaseState, app => app.MapFrom(w => w.AppReleaseState))
+                .ForMember(dto => dto.AppTypeId, app => app.MapFrom(w => w.AppTypeId))
+                .ForMember(dto => dto.AppStyle, app => app.MapFrom(w => w.AppStyle))
+                .ForMember(dto => dto.AppType, app => app.MapFrom(w => w.AppType));
             #endregion
             #endregion
 
@@ -195,6 +191,17 @@ namespace NewCRM.Dto
             return Mapper.Map<IEnumerable<TModel>, IList<TDto>>(source);
         }
 
+        public static List<TDto> ConvertDynamicToDtos<TDto>(this IEnumerable<dynamic> source)
+        {
+            return source.Select(Mapper.DynamicMap<TDto>).ToList();
+        }
+
+
+        public static TDto ConvertDynamicToDto<TDto>(dynamic source)
+        {
+            return Mapper.DynamicMap<TDto>(source);
+        }
+
         #endregion
 
         #region DtoToDomainModel
@@ -209,7 +216,17 @@ namespace NewCRM.Dto
             where TDto : BaseDto
             where TModel : DomainModelBase
         {
-            return Mapper.Map<TDto, TModel>(source);
+            try
+            {
+                return Mapper.Map<TDto, TModel>(source);
+
+            }
+            catch (Exception exception) 
+            {
+                    
+                throw;
+            }
+            
         }
 
         public static IEnumerable<TModel> ConvertToModel<TDto, TModel>(this IList<TDto> source)

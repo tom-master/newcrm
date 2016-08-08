@@ -66,8 +66,20 @@ namespace NewCRM.Dto.Dto
         /// app分类
         /// </summary>
         public String AppType { get; set; }
-
+        
         public String AddTime { get; set; }
+
+        public Boolean IsResize { get; set; }
+
+        public Boolean IsOpenMax { get; set; }
+
+        public Boolean IsFlash { get; set; }
+
+        public String AppUrl { get; set; }
+
+        public Int32 Width { get; set; }
+
+        public Int32 Height { get; set; }
 
         #endregion
     }

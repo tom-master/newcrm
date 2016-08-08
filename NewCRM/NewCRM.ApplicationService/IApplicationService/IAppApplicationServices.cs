@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NewCRM.Dto.Dto;
 
 namespace NewCRM.Application.Services.IApplicationService
@@ -75,7 +72,7 @@ namespace NewCRM.Application.Services.IApplicationService
         /// <param name="pageSize"></param>
         /// <param name="totalCount"></param>
         /// <returns></returns>
-        List<AppDto> GetAllApps(Int32 userId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize,out Int32 totalCount);
+        List<AppDto> GetAllApps(Int32 userId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
 
         /// <summary>
         /// 根据appId获取App
@@ -107,6 +104,44 @@ namespace NewCRM.Application.Services.IApplicationService
         /// <param name="appId"></param>
         /// <returns></returns>
         Boolean IsInstallApp(Int32 userId, Int32 appId);
+
+        /// <summary>
+        /// 获取所有的app样式
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<AppStyleDto> GetAllAppStyles();
+
+        /// <summary>
+        /// 获取所有的app状态
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<AppStateDto> GetAllAppStates();
+
+
+        /// <summary>
+        /// 获取开发者（用户）的app
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="appName"></param>
+        /// <param name="appTypeId"></param>
+        /// <param name="appStyleId"></param>
+        /// <param name="appState"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="totalCount"></param>
+        /// <returns></returns>
+
+        List<AppDto> GetUserAllApps(
+            Int32 userId, String appName, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex,
+            Int32 pageSize,
+            out Int32 totalCount);
+
+        /// <summary>
+        /// 修改开发者（用户）的app信息
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="appDto"></param>
+        void ModifyUserAppInfo(Int32 userId, AppDto appDto);
 
         #endregion
     }

@@ -51,14 +51,7 @@ namespace NewCRM.Repository.RepositoryProvide
         /// <summary>
         ///  获取 当前实体的查询数据集
         /// </summary>
-        public virtual IQueryable<TEntity> Entities
-        {
-            get
-            {
-                return EfContext.Set<TEntity, Int32>().Where(w => w.IsDeleted == false);
-            }
-        }
-
+        public virtual IQueryable<TEntity> Entities => EfContext.Set<TEntity, Int32>().Where(w=>w.IsDeleted==false);
 
         #endregion
 

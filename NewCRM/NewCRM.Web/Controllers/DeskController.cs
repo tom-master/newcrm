@@ -73,11 +73,11 @@ namespace NewCRM.Web.Controllers
         }
 
         /// <summary>
-        /// 修改app信息
+        /// 修改成员信息
         /// </summary>
         /// <param name="forms"></param>
         /// <returns></returns>
-        public ActionResult ModifyAppInfo(FormCollection forms)
+        public ActionResult ModifyMemberInfo(FormCollection forms)
         {
             var memberDto = new MemberDto
             {

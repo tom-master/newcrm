@@ -19,7 +19,6 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// </summary>
         public String Url { get; private set; }
 
-
         public String ShortUrl { get; set; }
 
         /// <summary>
