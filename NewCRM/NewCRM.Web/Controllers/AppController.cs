@@ -169,8 +169,6 @@ namespace NewCRM.Web.Controllers
             return Json(new { success = 1 });
         }
 
-
-
         /// <summary>
         /// 更新图标
         /// </summary>
@@ -204,7 +202,6 @@ namespace NewCRM.Web.Controllers
                 success = 1
             });
         }
-
 
         #region private method
         /// <summary>
@@ -240,6 +237,5 @@ namespace NewCRM.Web.Controllers
             return appDto;
         }
         #endregion
-
     }
 }

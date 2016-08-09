@@ -21,6 +21,8 @@ namespace NewCRM.Web.Controllers
         [Import]
         private IDeskApplicationServices _deskApplicationServices;
 
+        #region 页面
+
         // GET: Index
         /// <summary>
         /// 桌面
@@ -46,6 +48,8 @@ namespace NewCRM.Web.Controllers
             return View();
         }
 
+        #endregion
+
         /// <summary>
         /// 登陆
         /// </summary>
@@ -67,7 +71,18 @@ namespace NewCRM.Web.Controllers
 
             return Json(new { success = 1 });
         }
-        
+
+        /// <summary>
+        /// 账户登出
+        /// </summary>
+        public void Logout()
+        {
+            Response.Cookies.Add(new HttpCookie("Account")
+            {
+                Expires = DateTime.Now.AddDays(-1)
+            });
+        }
+
         /// <summary>
         /// 初始化皮肤
         /// </summary>
