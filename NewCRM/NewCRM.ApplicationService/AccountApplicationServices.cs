@@ -10,42 +10,36 @@ using NewCRM.Infrastructure.CommonTools.CustomHelper;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IAccountApplicationServices))]
-    internal class AccountApplicationServices : IAccountApplicationServices
+    internal class AccountApplicationServices : BaseApplicationServices, IAccountApplicationServices
     {
-        [Import]
-        private IAccountServices _accountServices;
-
-        private readonly Parameter _validateParameter = new Parameter();
-
-
         public UserDto Login(String userName, String password)
         {
-            _validateParameter.Validate(userName).Validate(password);
-            return _accountServices.Validate(userName, password).ConvertToDto<User, UserDto>();
+            ValidateParameter.Validate(userName).Validate(password);
+            return AccountServices.Validate(userName, password).ConvertToDto<User, UserDto>();
 
         }
 
         public UserDto GetUserConfig(Int32 userId)
         {
-            return _accountServices.GetUserConfig(userId).ConvertToDto<User, UserDto>();
+            return AccountServices.GetUserConfig(userId).ConvertToDto<User, UserDto>();
         }
 
         public void Logout(Int32 userId)
         {
-            _validateParameter.Validate(userId);
-            _accountServices.Logout(userId);
+            ValidateParameter.Validate(userId);
+            AccountServices.Logout(userId);
         }
 
         public void Enable(Int32 userId)
         {
-            _validateParameter.Validate(userId);
-            _accountServices.Enable(userId);
+            ValidateParameter.Validate(userId);
+            AccountServices.Enable(userId);
         }
 
         public void Disable(Int32 userId)
         {
-            _validateParameter.Validate(userId);
-            _accountServices.Disable(userId);
+            ValidateParameter.Validate(userId);
+            AccountServices.Disable(userId);
         }
     }
 }

@@ -20,52 +20,49 @@ using NewCRM.Infrastructure.CommonTools.CustomHelper;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IWallpaperApplicationServices))]
-    internal class WallpaperApplicationServices:IWallpaperApplicationServices
+    internal class WallpaperApplicationServices : BaseApplicationServices, IWallpaperApplicationServices
     {
-        [Import]
-        private IWallpaperServices _wallpaperServices;
 
-        private readonly Parameter _validateParameter = new Parameter();
-    
+
         public IList<WallpaperDto> GetWallpaper()
         {
-            return _wallpaperServices.GetWallpaper().ConvertToDto<Wallpaper, WallpaperDto>();
+            return WallpaperServices.GetWallpaper().ConvertToDto<Wallpaper, WallpaperDto>();
         }
 
         public void ModifyWallpaperMode(Int32 userId, String newMode)
         {
-            _validateParameter.Validate(userId).Validate(newMode);
+            ValidateParameter.Validate(userId).Validate(newMode);
 
-            _wallpaperServices.ModifyWallpaperMode(userId, newMode);
+            WallpaperServices.ModifyWallpaperMode(userId, newMode);
         }
 
         public void ModifyWallpaper(Int32 userId, Int32 newWallpaperId)
         {
-            _validateParameter.Validate(userId).Validate(newWallpaperId);
+            ValidateParameter.Validate(userId).Validate(newWallpaperId);
 
-            _wallpaperServices.ModifyWallpaper(userId, newWallpaperId);
+            WallpaperServices.ModifyWallpaper(userId, newWallpaperId);
         }
 
         public Tuple<Int32, String> AddWallpaper(WallpaperDto wallpaperDto)
         {
-            _validateParameter.Validate(wallpaperDto);
+            ValidateParameter.Validate(wallpaperDto);
 
             var wallpaper = wallpaperDto.ConvertToModel<WallpaperDto, Wallpaper>();
 
-            return _wallpaperServices.AddWallpaper(wallpaper);
+            return WallpaperServices.AddWallpaper(wallpaper);
         }
 
         public IList<WallpaperDto> GetUploadWallpaper(Int32 userId)
         {
-            _validateParameter.Validate(userId);
+            ValidateParameter.Validate(userId);
 
-            return _wallpaperServices.GetUploadWallpaper(userId).ConvertToDto<Wallpaper, WallpaperDto>();
+            return WallpaperServices.GetUploadWallpaper(userId).ConvertToDto<Wallpaper, WallpaperDto>();
         }
 
         public void RemoveWallpaper(Int32 userId, Int32 wallpaperId)
         {
-            _validateParameter.Validate(userId).Validate(wallpaperId);
-            _wallpaperServices.RemoveWallpaper(userId, wallpaperId);
+            ValidateParameter.Validate(userId).Validate(wallpaperId);
+            WallpaperServices.RemoveWallpaper(userId, wallpaperId);
         }
 
         public async Task<Tuple<Int32, String>> AddWebWallpaper(Int32 userId, String url)
@@ -100,13 +97,13 @@ namespace NewCRM.Application.Services
 
         public WallpaperDto GetUploadWallpaper(String md5)
         {
-            _validateParameter.Validate(md5);
+            ValidateParameter.Validate(md5);
 
-            var wallpaperResult = _wallpaperServices.GetUploadWallpaper(md5);
+            var wallpaperResult = WallpaperServices.GetUploadWallpaper(md5);
 
             return wallpaperResult?.ConvertToDto<Wallpaper, WallpaperDto>();
         }
 
-      
+
     }
 }

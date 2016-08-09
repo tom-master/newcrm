@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="AccountApplicationServices.cs" />
     <Compile Include="AppApplicationServices.cs" />
+    <Compile Include="BaseApplicationServices.cs" />
     <Compile Include="DeskApplicationServices.cs" />
     <Compile Include="IApplicationService\IAccountApplicationServices.cs" />
     <Compile Include="IApplicationService\IAppApplicationServices.cs" />

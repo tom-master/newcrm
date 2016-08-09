@@ -13,15 +13,11 @@ using NewCRM.Infrastructure.CommonTools.CustomHelper;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(ISkinApplicationServices))]
-    public class SkinApplicationServices:ISkinApplicationServices
+    internal class SkinApplicationServices : BaseApplicationServices, ISkinApplicationServices
     {
-        [Import]
-        private ISkinServices _skinServices;
-
-        private readonly Parameter _validateParameter = new Parameter();
         public IDictionary<String, dynamic> GetAllSkin(String skinPath)
         {
-            _validateParameter.Validate(skinPath);
+            ValidateParameter.Validate(skinPath);
             IDictionary<String, dynamic> dataDictionary = new Dictionary<String, dynamic>();
             Directory.GetFiles(skinPath, "*.css").ToList().ForEach(path =>
             {
@@ -37,8 +33,8 @@ namespace NewCRM.Application.Services
 
         public void ModifySkin(Int32 userId, String newSkin)
         {
-            _validateParameter.Validate(userId).Validate(newSkin);
-            _skinServices.ModifySkin(userId, newSkin);
+            ValidateParameter.Validate(userId).Validate(newSkin);
+            SkinServices.ModifySkin(userId, newSkin);
         }
 
         #region private method
