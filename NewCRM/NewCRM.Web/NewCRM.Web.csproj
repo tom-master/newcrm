@@ -52,6 +52,10 @@
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NewCRM.Infrastructure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NewCRM.Infrastructure\bin\Debug\NewCRM.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="NewCRM.Repository, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\NewCRM.Repository\bin\Debug\NewCRM.Repository.dll</HintPath>
@@ -150,10 +154,6 @@
     <ProjectReference Include="..\NewCRM.Dto\NewCRM.Dto.csproj">
       <Project>{0C635AA2-3953-4AA0-A07F-CF8B1B7BBC6E}</Project>
       <Name>NewCRM.Dto</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NewCRM.Infrastructure\NewCRM.Infrastructure.csproj">
-      <Project>{457EE31D-B485-4D98-A0A2-1FF2F58123D9}</Project>
-      <Name>NewCRM.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
