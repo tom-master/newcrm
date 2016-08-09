@@ -18,7 +18,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
             {
                 returnValue.Append(members[0].ToDescription() + " 或 ");
             }
-            char[] replaceChar = { ' ', '或', ' ' };
+            Char[] replaceChar = { ' ', '或', ' ' };
             return returnValue.ToString().TrimEnd(replaceChar);
         }
     }

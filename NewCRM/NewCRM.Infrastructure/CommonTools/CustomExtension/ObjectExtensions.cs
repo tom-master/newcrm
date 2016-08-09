@@ -13,10 +13,10 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         /// <typeparam name="T"> 动态类型 </typeparam>
         /// <param name="value"> 要转化的源对象 </param>
         /// <returns> 转化后的指定类型的对象，转化失败返回类型的默认值 </returns>
-        public static T CastTo<T>(this object value)
+        public static T CastTo<T>(this Object value)
         {
-            object result;
-            Type type = typeof(T);
+            Object result;
+            var type = typeof(T);
             try
             {
                 if (type.IsEnum)
@@ -47,10 +47,10 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         /// <param name="value"> 要转化的源对象 </param>
         /// <param name="defaultValue"> 转化失败返回的指定默认值 </param>
         /// <returns> 转化后的指定类型对象，转化失败时返回指定的默认值 </returns>
-        public static T CastTo<T>(this object value, T defaultValue)
+        public static T CastTo<T>(this Object value, T defaultValue)
         {
-            object result;
-            Type type = typeof(T);
+            Object result;
+            var type = typeof(T);
             try
             {
                 result = type.IsEnum ? Enum.Parse(type, value.ToString()) : Convert.ChangeType(value, type);

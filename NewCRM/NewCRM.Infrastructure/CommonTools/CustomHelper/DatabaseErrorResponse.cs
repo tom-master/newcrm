@@ -9,7 +9,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
     {
         public static String ReturnDatabaseErrorMessage(DataBaseErrorType dataBaseErrorType)
         {
-            String msg = String.Empty;
+            String msg;
             switch (dataBaseErrorType)
             {
                 case DataBaseErrorType.ConnectionTimeout:

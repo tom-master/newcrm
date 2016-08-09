@@ -8,10 +8,6 @@ namespace NewCRM.Infrastructure.CommonTools.CustemException
     /// </summary>
     public class ExceptionMessage
     {
-        #region 字段
-
-        #endregion
-
         #region 构造函数
 
         /// <summary>

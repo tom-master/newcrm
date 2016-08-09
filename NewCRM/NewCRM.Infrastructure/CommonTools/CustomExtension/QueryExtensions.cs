@@ -17,7 +17,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
             String sropertyName;
 
             sortExpression = sortExpression.Trim();
-            int spaceIndex = sortExpression.Trim().IndexOf(" ", StringComparison.Ordinal);
+            var spaceIndex = sortExpression.Trim().IndexOf(" ", StringComparison.Ordinal);
             if (spaceIndex < 0)
             {
                 sropertyName = sortExpression;
@@ -34,11 +34,11 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
                 return source;
             }
 
-            ParameterExpression parameter = Expression.Parameter(source.ElementType, String.Empty);
-            MemberExpression property = Expression.Property(parameter, sropertyName);
-            LambdaExpression lambda = Expression.Lambda(property, parameter);
+            var parameter = Expression.Parameter(source.ElementType, String.Empty);
+            var property = Expression.Property(parameter, sropertyName);
+            var lambda = Expression.Lambda(property, parameter);
 
-            String methodName = (sortDirection == "ASC") ? "OrderBy" : "OrderByDescending";
+            var methodName = (sortDirection == "ASC") ? "OrderBy" : "OrderByDescending";
 
             Expression methodCallExpression = Expression.Call(typeof(Queryable), methodName,
                                                 new[] { source.ElementType, property.Type },

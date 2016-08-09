@@ -147,10 +147,6 @@
       <Project>{053A2AA0-4738-4CF3-AA99-D805411BFC40}</Project>
       <Name>NewCRM.Application.Services</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NewCRM.Domain\NewCRM.Domain.Entities.csproj">
-      <Project>{173C1046-4529-4D70-B6F5-501C61514E86}</Project>
-      <Name>NewCRM.Domain.Entities</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NewCRM.Dto\NewCRM.Dto.csproj">
       <Project>{0C635AA2-3953-4AA0-A07F-CF8B1B7BBC6E}</Project>
       <Name>NewCRM.Dto</Name>

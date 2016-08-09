@@ -27,12 +27,12 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
         /// </summary>
         /// <param name="parameter"></param>
         /// <param name="canZero"></param>
-        public Parameter Validate(ValueType parameter, bool canZero = false)
+        public Parameter Validate(ValueType parameter, Boolean canZero = false)
         {
             Type type = parameter.GetType();
             if (type.IsValueType && type.IsNumeric())
             {
-                bool flag = !canZero ? parameter.CastTo(0.0) <= 0.0 : parameter.CastTo(0.0) < 0.0;
+                Boolean flag = !canZero ? parameter.CastTo(0.0) <= 0.0 : parameter.CastTo(0.0) < 0.0;
                 if (flag)
                 {
                     throw ThrowComponentException($"参数 {parameter.GetType().Name} 不在有效范围内引发异常。具体信息请查看系统日志。", new ArgumentOutOfRangeException(parameter.GetType().Name));

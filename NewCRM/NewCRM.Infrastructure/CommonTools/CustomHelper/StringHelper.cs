@@ -9,7 +9,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
     /// </summary>
     public sealed class StringHelper
     {
-        private static Parameter _parameter = new Parameter();
+        private static readonly Parameter _parameter = new Parameter();
 
         public static Int32[] GetIntArrayFromString(String commaSeparatedString)
         {
@@ -22,7 +22,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
         /// </summary>
         /// <param name="jsonObject"></param>
         /// <returns></returns>
-        public static String BuildJsonString(object jsonObject)
+        public static String BuildJsonString(Object jsonObject)
         {
             _parameter.Validate(jsonObject);
             return JsonConvert.SerializeObject(jsonObject);
@@ -33,7 +33,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
         /// </summary>
         /// <param name="input">要判断的Json字符串</param>
         /// <returns></returns>
-        public static bool IsJsonObjectString(String input)
+        public static Boolean IsJsonObjectString(String input)
         {
             _parameter.Validate(input);
             return input != null && input.StartsWith("{") && input.EndsWith("}");
@@ -44,7 +44,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
         /// </summary>
         /// <param name="input">要判断的Json字符串</param>
         /// <returns></returns>
-        public static bool IsJsonArrayString(String input)
+        public static Boolean IsJsonArrayString(String input)
         {
             _parameter.Validate(input);
             return input != null && input.StartsWith("[") && input.EndsWith("]");

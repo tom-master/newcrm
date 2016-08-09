@@ -50,7 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommonTools\BasePage.cs" />
     <Compile Include="CommonTools\CalculateFile.cs" />
     <Compile Include="CommonTools\CustemException\BusinessException.cs" />
     <Compile Include="CommonTools\CustemException\ComponentException.cs" />

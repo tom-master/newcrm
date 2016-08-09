@@ -4,10 +4,8 @@ using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using NewCRM.Application.Services.IApplicationService;
-using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
-using NewCRM.Infrastructure.CommonTools.CustemException;
 using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
@@ -216,21 +214,6 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         private static AppDto WrapperAppDto(FormCollection forms)
         {
-            //app样式枚举
-            AppStyle appStyle;
-
-            if (!Enum.TryParse(forms["val_type"], true, out appStyle))
-            {
-                throw new BusinessException($"{forms["val_type"]}不是有效的枚举值");
-            }
-
-            //app审核枚举
-            AppAuditState appAuditState;
-            if (!Enum.TryParse(forms["val_verifytype"], true, out appAuditState))
-            {
-                throw new BusinessException($"{forms["val_verifytype"]}不是有效的枚举值");
-            }
-
             var appDto = new AppDto
             {
                 IconUrl = forms["val_icon"],
@@ -239,13 +222,13 @@ namespace NewCRM.Web.Controllers
                 AppUrl = forms["val_url"],
                 Width = Int32.Parse(forms["val_width"]),
                 Height = Int32.Parse(forms["val_height"]),
-                AppStyle = appStyle,
+                AppStyle = Int32.Parse(forms["val_type"]),
                 IsResize = Int32.Parse(forms["val_isresize"]) == 1,
                 IsOpenMax = Int32.Parse(forms["val_isopenmax"]) == 1,
                 IsFlash = Int32.Parse(forms["val_isflash"]) == 1,
                 Remark = forms["val_remark"],
-                AppAuditState = appAuditState,
-                AppReleaseState = AppReleaseState.UnRelease
+                AppAuditState = Int32.Parse(forms["val_verifytype"]),
+                AppReleaseState = 2 //未发布
             };
 
             if ((forms["val_Id"] + "").Length > 0)

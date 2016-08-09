@@ -27,8 +27,8 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
 
         public static String ToDescription(this MemberInfo member, Boolean inherit = false)
         {
-            DescriptionAttribute desc = member.GetAttribute<DescriptionAttribute>(inherit);
-            return desc == null ? null : desc.Description;
+            var desc = member.GetAttribute<DescriptionAttribute>(inherit);
+            return desc?.Description;
         }
 
         public static Boolean AttributeExists<T>(this MemberInfo memberInfo, Boolean inherit) where T : Attribute
@@ -61,7 +61,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
             {
                 return true;
             }
-            Type baseType = givenType.BaseType;
+            var baseType = givenType.BaseType;
             if (baseType == null)
             {
                 return false;

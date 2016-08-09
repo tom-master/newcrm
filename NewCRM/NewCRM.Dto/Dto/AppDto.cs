@@ -45,12 +45,12 @@ namespace NewCRM.Dto.Dto
         /// <summary>
         /// 审核状态
         /// </summary>
-        public AppAuditState AppAuditState { get; set; }
+        public Int32 AppAuditState { get; set; }
 
         ///// <summary>
         ///// 发布状态
         ///// </summary>
-        public AppReleaseState AppReleaseState { get; set; }
+        public Int32 AppReleaseState { get; set; }
 
         /// <summary>
         /// app类型Id
@@ -60,7 +60,7 @@ namespace NewCRM.Dto.Dto
         /// <summary>
         /// app样式
         /// </summary>
-        public AppStyle AppStyle { get; set; }
+        public Int32 AppStyle { get; set; }
 
         /// <summary>
         /// app分类

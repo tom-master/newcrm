@@ -4,7 +4,6 @@ using System.Configuration;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using NewCRM.Application.Services.IApplicationService;
-using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Web.Controllers.ControllerHelper;
@@ -142,7 +141,7 @@ namespace NewCRM.Web.Controllers
                     var wallpaperResult = _wallpaperApplicationServices.AddWallpaper(new WallpaperDto
                     {
                         Height = fileUpLoad.FileHeight,
-                        Source = WallpaperSource.Upload.ToString(),
+                        Source = "Upload",
                         Title = fileUpLoad.OldFileName,
                         Url = fileUpLoad.FilePath + fileUpLoad.OldFileName,
                         UserId = CurrentUser.Id,

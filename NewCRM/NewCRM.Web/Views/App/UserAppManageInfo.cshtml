@@ -1,5 +1,4 @@
-﻿@using NewCRM.Domain.Entities.ValueObject
-@model NewCRM.Dto.Dto.AppDto
+﻿@model NewCRM.Dto.Dto.AppDto
 @{
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
 }
@@ -7,7 +6,7 @@
 @{
     if (Model != null)
     {
-        if ((AppAuditState)ViewData["AppState"] == AppAuditState.Pass || (AppAuditState)ViewData["AppState"] == AppAuditState.Wait)
+        if ((Int32)ViewData["AppState"] == 2|| (Int32)ViewData["AppState"] == 1)
         {
             <text>
                 @Html.Partial("~/Views/App/UserAppManageDetail.cshtml", Model)

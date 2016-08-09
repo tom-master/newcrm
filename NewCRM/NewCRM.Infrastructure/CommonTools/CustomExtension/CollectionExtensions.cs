@@ -14,9 +14,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
     /// </summary>
     public static class CollectionsExtensions
     {
-
-
-        private static Parameter _parameter = new Parameter();
+        private static readonly Parameter _parameter = new Parameter();
 
         #region 公共方法
 
@@ -30,12 +28,12 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         /// <returns> 拼接后的字符串 </returns>
         public static String ExpandAndToString<T>(this IEnumerable<T> collection, String separator)
         {
-            List<T> source = collection as List<T> ?? collection.ToList();
+            var source = collection as List<T> ?? collection.ToList();
             if (source.IsEmpty())
             {
                 return null;
             }
-            String result = source.Cast<object>().Aggregate<object, String>(null, (current, o) => current + String.Format("{0}{1}", o, separator));
+            var result = source.Cast<Object>().Aggregate<Object, String>(null, (current, o) => current + String.Format("{0}{1}", o, separator));
             return result.Substring(0, result.Length - separator.Length);
         }
 
@@ -45,7 +43,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         /// <param name="collection"> 要处理的集合 </param>
         /// <typeparam name="T"> 动态类型 </typeparam>
         /// <returns> 为空返回True，不为空返回False </returns>
-        public static bool IsEmpty<T>(this IEnumerable<T> collection)
+        public static Boolean IsEmpty<T>(this IEnumerable<T> collection)
         {
             return !collection.Any();
         }
@@ -58,7 +56,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         /// <param name="condition"> 第三方条件 </param>
         /// <typeparam name="T"> 动态类型 </typeparam>
         /// <returns> 查询的结果 </returns>
-        public static IEnumerable<T> WhereIf<T>(this IEnumerable<T> source, Func<T, bool> predicate, bool condition)
+        public static IEnumerable<T> WhereIf<T>(this IEnumerable<T> source, Func<T, Boolean> predicate, Boolean condition)
         {
             return condition ? source.Where(predicate) : source;
         }
@@ -88,7 +86,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         /// <param name="condition"> 第三方条件 </param>
         /// <typeparam name="T"> 动态类型 </typeparam>
         /// <returns> 查询的结果 </returns>
-        public static IQueryable<T> WhereIf<T>(this IQueryable<T> source, Expression<Func<T, bool>> predicate, bool condition)
+        public static IQueryable<T> WhereIf<T>(this IQueryable<T> source, Expression<Func<T, Boolean>> predicate, Boolean condition)
         {
             _parameter.Validate(predicate);
             return condition ? source.Where(predicate) : source;
@@ -161,8 +159,8 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         /// <param name="total">输出符合条件的总记录数</param>
         /// <param name="sortConditions">排序条件集合</param>
         /// <returns></returns>
-        public static IQueryable<TEntity> Where<TEntity>(this IQueryable<TEntity> source, Expression<Func<TEntity, bool>> predicate, int pageIndex, int pageSize,
-            out int total, PropertySortCondition[] sortConditions = null) where TEntity : DomainModelBase
+        public static IQueryable<TEntity> Where<TEntity>(this IQueryable<TEntity> source, Expression<Func<TEntity, Boolean>> predicate, Int32 pageIndex, Int32 pageSize,
+            out Int32 total, PropertySortCondition[] sortConditions = null) where TEntity : DomainModelBase
         {
             _parameter.Validate(source).Validate(predicate).Validate(pageIndex).Validate(pageSize);
 
@@ -173,9 +171,9 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
             }
             else
             {
-                int count = 0;
+                var count = 0;
                 IOrderedQueryable<TEntity> orderSource = null;
-                foreach (PropertySortCondition sortCondition in sortConditions)
+                foreach (var sortCondition in sortConditions)
                 {
                     orderSource = count == 0
                         ? source.OrderBy(sortCondition.PropertyName, sortCondition.ListSortDirection)
@@ -184,9 +182,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
                 }
                 source = orderSource;
             }
-            return source != null
-                ? source.Where(predicate).Skip((pageIndex - 1) * pageSize).Take(pageSize)
-                : Enumerable.Empty<TEntity>().AsQueryable();
+            return source?.Where(predicate).Skip((pageIndex - 1) * pageSize).Take(pageSize) ?? Enumerable.Empty<TEntity>().AsQueryable();
         }
 
         #endregion
@@ -222,9 +218,9 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
                 {
                     return _cache[propertyName];
                 }
-                ParameterExpression param = Expression.Parameter(typeof(T));
-                MemberExpression body = Expression.Property(param, propertyName);
-                LambdaExpression keySelector = Expression.Lambda(body, param);
+                var param = Expression.Parameter(typeof(T));
+                var body = Expression.Property(param, propertyName);
+                var keySelector = Expression.Lambda(body, param);
                 _cache[propertyName] = keySelector;
                 return keySelector;
             }

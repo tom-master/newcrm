@@ -1,19 +1,20 @@
 ﻿using System;
 using System.IO;
+using NewCRM.Infrastructure.CommonTools.CustemException;
 
 namespace NewCRM.Infrastructure.CommonTools
 {
     /// <summary>
     /// 文件操作类
     /// </summary>
-    public class FileHelper
+    public sealed class FileHelper
     {
         #region 检测指定目录是否存在
         /// <summary>
         /// 检测指定目录是否存在
         /// </summary>
         /// <param name="directoryPath">目录的绝对路径</param>        
-        public static bool IsExistDirectory(String directoryPath)
+        public static Boolean IsExistDirectory(String directoryPath)
         {
             return Directory.Exists(directoryPath);
         }
@@ -24,7 +25,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// 检测指定文件是否存在,如果存在则返回true。
         /// </summary>
         /// <param name="filePath">文件的绝对路径</param>        
-        public static bool IsExistFile(String filePath)
+        public static Boolean IsExistFile(String filePath)
         {
             return File.Exists(filePath);
         }
@@ -50,10 +51,10 @@ namespace NewCRM.Infrastructure.CommonTools
         /// 获取文本文件的行数
         /// </summary>
         /// <param name="filePath">文件的绝对路径</param>        
-        public static int GetLineCount(String filePath)
+        public static Int32 GetLineCount(String filePath)
         {
             //将文本文件的各行读到一个字符串数组中
-            String[] rows = File.ReadAllLines(filePath);
+            var rows = File.ReadAllLines(filePath);
 
             //返回行数
             return rows.Length;
@@ -84,7 +85,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// <param name="searchPattern">模式字符串，"*"代表0或N个字符，"?"代表1个字符。
         /// 范例："Log*.xml"表示搜索所有以Log开头的Xml文件。</param>
         /// <param name="isSearchChild">是否搜索子目录</param>
-        public static String[] GetFileNames(String directoryPath, String searchPattern, bool isSearchChild)
+        public static String[] GetFileNames(String directoryPath, String searchPattern, Boolean isSearchChild)
         {
             //如果目录不存在，则抛出异常
             if (!IsExistDirectory(directoryPath))
@@ -98,14 +99,11 @@ namespace NewCRM.Infrastructure.CommonTools
                 {
                     return Directory.GetFiles(directoryPath, searchPattern, SearchOption.AllDirectories);
                 }
-                else
-                {
-                    return Directory.GetFiles(directoryPath, searchPattern, SearchOption.TopDirectoryOnly);
-                }
+                return Directory.GetFiles(directoryPath, searchPattern, SearchOption.TopDirectoryOnly);
             }
             catch (IOException ex)
             {
-                throw ex;
+                throw new ComponentException(ex.Message);
             }
         }
         #endregion
@@ -123,7 +121,7 @@ namespace NewCRM.Infrastructure.CommonTools
             }
             catch (IOException ex)
             {
-                throw ex;
+                throw new ComponentException(ex.Message);
             }
         }
 
@@ -134,7 +132,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// <param name="searchPattern">模式字符串，"*"代表0或N个字符，"?"代表1个字符。
         /// 范例："Log*.xml"表示搜索所有以Log开头的Xml文件。</param>
         /// <param name="isSearchChild">是否搜索子目录</param>
-        public static String[] GetDirectories(String directoryPath, String searchPattern, bool isSearchChild)
+        public static String[] GetDirectories(String directoryPath, String searchPattern, Boolean isSearchChild)
         {
             try
             {
@@ -142,14 +140,11 @@ namespace NewCRM.Infrastructure.CommonTools
                 {
                     return Directory.GetDirectories(directoryPath, searchPattern, SearchOption.AllDirectories);
                 }
-                else
-                {
-                    return Directory.GetDirectories(directoryPath, searchPattern, SearchOption.TopDirectoryOnly);
-                }
+                return Directory.GetDirectories(directoryPath, searchPattern, SearchOption.TopDirectoryOnly);
             }
             catch (IOException ex)
             {
-                throw ex;
+                throw new ComponentException(ex.Message);
             }
         }
         #endregion
@@ -200,7 +195,7 @@ namespace NewCRM.Infrastructure.CommonTools
         public static void Move(String sourceFilePath, String descDirectoryPath)
         {
             //获取源文件的名称
-            String sourceFileName = GetFileName(sourceFilePath);
+            var sourceFileName = GetFileName(sourceFilePath);
 
             if (IsExistDirectory(descDirectoryPath))
             {
@@ -223,7 +218,7 @@ namespace NewCRM.Infrastructure.CommonTools
         public static String GetFileName(String filePath)
         {
             //获取文件的名称
-            FileInfo fi = new FileInfo(filePath);
+            var fi = new FileInfo(filePath);
             return fi.Name;
         }
         #endregion
@@ -236,7 +231,7 @@ namespace NewCRM.Infrastructure.CommonTools
         public static String GetFileNameNoExtension(String filePath)
         {
             //获取文件的名称
-            FileInfo fi = new FileInfo(filePath);
+            var fi = new FileInfo(filePath);
             return fi.Name.Split('.')[0];
         }
         #endregion
@@ -249,7 +244,7 @@ namespace NewCRM.Infrastructure.CommonTools
         public static String GetExtension(String filePath)
         {
             //获取文件的名称
-            FileInfo fi = new FileInfo(filePath);
+            var fi = new FileInfo(filePath);
             return fi.Extension;
         }
         #endregion
@@ -264,17 +259,17 @@ namespace NewCRM.Infrastructure.CommonTools
             if (IsExistDirectory(directoryPath))
             {
                 //删除目录中所有的文件
-                String[] fileNames = GetFileNames(directoryPath);
-                for (int i = 0; i < fileNames.Length; i++)
+                var fileNames = GetFileNames(directoryPath);
+                foreach (String t in fileNames)
                 {
-                    DeleteFile(fileNames[i]);
+                    DeleteFile(t);
                 }
 
                 //删除目录中所有的子目录
-                String[] directoryNames = GetDirectories(directoryPath);
-                for (int i = 0; i < directoryNames.Length; i++)
+                var directoryNames = GetDirectories(directoryPath);
+                foreach (String t in directoryNames)
                 {
-                    DeleteDirectory(directoryNames[i]);
+                    DeleteDirectory(t);
                 }
             }
         }

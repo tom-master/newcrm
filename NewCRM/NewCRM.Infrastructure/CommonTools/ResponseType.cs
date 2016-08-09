@@ -6,8 +6,7 @@ namespace NewCRM.Infrastructure.CommonTools
     /// <summary>
     /// 表示业务操作结果的枚举
     /// </summary>
-    [Description("业务操作结果的枚举")]
-    [Flags]
+    [Description("业务操作结果的枚举"),Flags]
     public enum ResponseType
     {
         /// <summary>

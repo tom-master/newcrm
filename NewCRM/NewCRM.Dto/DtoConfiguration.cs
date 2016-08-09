@@ -6,6 +6,7 @@ using AutoMapper;
 using NewCRM.Domain.Entities.DomainModel;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.System;
+using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Dto.Dto;
 
 namespace NewCRM.Dto
@@ -57,7 +58,7 @@ namespace NewCRM.Dto
             Mapper.CreateMap<WallpaperDto, Wallpaper>()
                   .ForMember(wallpaper => wallpaper.Id, dto => dto.MapFrom(d => d.Id))
                 .ForMember(wallpaper => wallpaper.Height, dto => dto.MapFrom(d => d.Height))
-                .ForMember(wallpaper => wallpaper.Source, dto => dto.MapFrom(d => d.Source))
+                .ForMember(wallpaper => wallpaper.Source, dto => dto.MapFrom(d => ConvertEnum(typeof(WallpaperSource), d.Source)))
                 .ForMember(wallpaper => wallpaper.Title, dto => dto.MapFrom(d => d.Title))
                 .ForMember(wallpaper => wallpaper.Url, dto => dto.MapFrom(d => d.Url))
                 .ForMember(wallpaper => wallpaper.Width, dto => dto.MapFrom(d => d.Width))
@@ -140,11 +141,11 @@ namespace NewCRM.Dto
                 .ForMember(app => app.UserCount, dto => dto.MapFrom(w => w.UserCount))
                 .ForMember(app => app.StartCount, dto => dto.MapFrom(w => w.AppStars.Any(appStar => appStar.IsDeleted == false) ? (w.AppStars.Sum(s => s.StartNum) * 1.0) / (w.AppStars.Count(appStar => appStar.IsDeleted == false) * 1.0) : 0.0))
                 .ForMember(app => app.UserId, dto => dto.MapFrom(w => w.UserId))
-                .ForMember(app => app.AppStyle, dto => dto.MapFrom(w => w.AppStyle))
+                .ForMember(app => app.AppStyle, dto => dto.MapFrom(w => (Int32)w.AppStyle))
                 .ForMember(app => app.AppType, dto => dto.MapFrom(w => w.AppType.Name))
                 .ForMember(app => app.AddTime, dto => dto.MapFrom(w => w.AddTime.ToString("yyyy-MM-dd")))
-                .ForMember(app => app.AppAuditState, dto => dto.MapFrom(w => w.AppAuditState))
-                .ForMember(app => app.AppReleaseState, dto => dto.MapFrom(w => w.AppReleaseState));
+                .ForMember(app => app.AppAuditState, dto => dto.MapFrom(w => (Int32)w.AppAuditState))
+                .ForMember(app => app.AppReleaseState, dto => dto.MapFrom(w => (Int32)w.AppReleaseState));
             #endregion
 
             #region dto -> domain
@@ -161,16 +162,34 @@ namespace NewCRM.Dto
                 .ForMember(dto => dto.IsFlash, app => app.MapFrom(w => w.IsFlash))
                 .ForMember(dto => dto.IsResize, app => app.MapFrom(w => w.IsResize))
                 .ForMember(dto => dto.UserId, app => app.MapFrom(w => w.UserId))
-                .ForMember(dto => dto.AppAuditState, app => app.MapFrom(w => w.AppAuditState))
-                .ForMember(dto => dto.AppReleaseState, app => app.MapFrom(w => w.AppReleaseState))
+                .ForMember(dto => dto.AppAuditState, app => app.MapFrom(w => ConvertEnum(typeof(AppAuditState), w.AppAuditState)))
+                .ForMember(dto => dto.AppReleaseState, app => app.MapFrom(w => ConvertEnum(typeof(AppReleaseState), w.AppReleaseState)))
                 .ForMember(dto => dto.AppTypeId, app => app.MapFrom(w => w.AppTypeId))
-                .ForMember(dto => dto.AppStyle, app => app.MapFrom(w => w.AppStyle));
+                .ForMember(dto => dto.AppStyle, app => app.MapFrom(w => ConvertEnum(typeof(AppStyle), w.AppStyle)));
 
             #endregion
 
             #endregion
 
 
+        }
+
+        /// <summary>
+        /// 转换枚举
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private static Enum ConvertEnum(Type target, Int32 value)
+        {
+            var constName = Enum.GetName(target, value);
+
+            return (Enum)Enum.Parse(target, constName, true);
+        }
+
+        private static Enum ConvertEnum(Type target, String value)
+        {
+            return (Enum)Enum.Parse(target, value, true);
         }
 
         #region DomainModelToDto
