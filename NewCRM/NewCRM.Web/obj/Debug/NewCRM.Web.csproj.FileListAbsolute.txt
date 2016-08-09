@@ -1,3 +1,4 @@
+E:\NewCRMTest\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.csprojResolveAssemblyReference.cache
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Web.dll.config
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Web.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Web.pdb

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Services.Impl;
 
@@ -130,6 +126,12 @@ namespace NewCRM.Domain.Services
         /// <param name="userId"></param>
         /// <param name="app"></param>
         void ModifyUserAppInfo(Int32 userId, App app);
+
+        /// <summary>
+        /// 开发者（用户）创建新的app
+        /// </summary>
+        /// <param name="app"></param>
+        void CreateNewApp(App app);
 
     }
 }

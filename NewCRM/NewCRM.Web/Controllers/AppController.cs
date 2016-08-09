@@ -4,7 +4,6 @@ using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using NewCRM.Application.Services.IApplicationService;
-using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
@@ -69,17 +68,21 @@ namespace NewCRM.Web.Controllers
         }
 
         /// <summary>
-        /// 
+        /// 我的应用
         /// </summary>
         /// <param name="appId"></param>
+        /// <param name="operation"></param>
         /// <returns></returns>
         public ActionResult UserAppManageInfo(Int32 appId)
         {
-            var appResult = _appApplicationServices.GetApp(appId);
+            AppDto appResult = null;
+            if (appId != 0)// 如果appId为0则是新创建app
+            {
+                appResult = _appApplicationServices.GetApp(appId);
+                ViewData["AppState"] = appResult.AppAuditState;
+            }
 
             ViewData["AppTypes"] = _appApplicationServices.GetAppTypes();
-
-            ViewData["AppState"] = appResult.AppAuditState;
 
             return View(appResult);
         }
@@ -155,7 +158,6 @@ namespace NewCRM.Web.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-
         /// <summary>
         /// 修改app信息
         /// </summary>
@@ -163,44 +165,13 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyAppInfo(FormCollection forms)
         {
-            //app样式枚举
-            AppStyle appStyle;
-
-            if (!Enum.TryParse(forms["val_type"], true, out appStyle))
-            {
-                throw new BusinessException($"{forms["val_type"]}不是有效的枚举值");
-            }
-
-            //app审核枚举
-            AppAuditState appAuditState;
-            if (!Enum.TryParse(forms["val_verifytype"], true, out appAuditState))
-            {
-                throw new BusinessException($"{forms["val_verifytype"]}不是有效的枚举值");
-            }
-
-
-            var appDto = new AppDto
-            {
-                Id = Int32.Parse(forms["val_Id"]),
-                IconUrl = forms["val_icon"],
-                Name = forms["val_name"],
-                AppTypeId = Int32.Parse(forms["val_app_category_id"]),
-                AppUrl = forms["val_url"],
-                Width = Int32.Parse(forms["val_width"]),
-                Height = Int32.Parse(forms["val_height"]),
-                AppStyle = appStyle,
-                IsResize = Int32.Parse(forms["val_isresize"]) == 1,
-                IsOpenMax = Int32.Parse(forms["val_isopenmax"]) == 1,
-                IsFlash = Int32.Parse(forms["val_isflash"]) == 1,
-                Remark = forms["val_remark"],
-                AppAuditState = appAuditState,
-                AppReleaseState = AppReleaseState.UnRelease
-            };
+            var appDto = WrapperAppDto(forms);
             _appApplicationServices.ModifyUserAppInfo(CurrentUser.Id, appDto);
-
 
             return Json(new { success = 1 });
         }
+
+
 
         /// <summary>
         /// 更新图标
@@ -221,5 +192,71 @@ namespace NewCRM.Web.Controllers
             }
             return Json(new { msg = "请上传一个图片" });
         }
+
+        public ActionResult CreateNewApp(FormCollection forms)
+        {
+            var appDto = WrapperAppDto(forms);
+
+            appDto.UserId = CurrentUser.Id;
+
+            _appApplicationServices.CreateNewApp(appDto);
+
+            return Json(new
+            {
+                success = 1
+            });
+        }
+
+
+        #region private method
+        /// <summary>
+        /// 封装从页面传入的forms表单到AppDto类型
+        /// </summary>
+        /// <param name="forms"></param>
+        /// <returns></returns>
+        private static AppDto WrapperAppDto(FormCollection forms)
+        {
+            //app样式枚举
+            AppStyle appStyle;
+
+            if (!Enum.TryParse(forms["val_type"], true, out appStyle))
+            {
+                throw new BusinessException($"{forms["val_type"]}不是有效的枚举值");
+            }
+
+            //app审核枚举
+            AppAuditState appAuditState;
+            if (!Enum.TryParse(forms["val_verifytype"], true, out appAuditState))
+            {
+                throw new BusinessException($"{forms["val_verifytype"]}不是有效的枚举值");
+            }
+
+            var appDto = new AppDto
+            {
+                IconUrl = forms["val_icon"],
+                Name = forms["val_name"],
+                AppTypeId = Int32.Parse(forms["val_app_category_id"]),
+                AppUrl = forms["val_url"],
+                Width = Int32.Parse(forms["val_width"]),
+                Height = Int32.Parse(forms["val_height"]),
+                AppStyle = appStyle,
+                IsResize = Int32.Parse(forms["val_isresize"]) == 1,
+                IsOpenMax = Int32.Parse(forms["val_isopenmax"]) == 1,
+                IsFlash = Int32.Parse(forms["val_isflash"]) == 1,
+                Remark = forms["val_remark"],
+                AppAuditState = appAuditState,
+                AppReleaseState = AppReleaseState.UnRelease
+            };
+
+            if ((forms["val_Id"] + "").Length > 0)
+            {
+                appDto.Id = Int32.Parse(forms["val_Id"]);
+            }
+
+
+            return appDto;
+        }
+        #endregion
+
     }
 }

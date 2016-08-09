@@ -139,6 +139,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// <param name="width">宽</param>
         /// <param name="height">高</param>
         /// <param name="appTypeId"></param>
+        /// <param name="appAuditState"></param>
         /// <param name="appStyle"></param>
         /// <param name="userId"></param>
         /// <param name="remark">备注</param>
@@ -155,6 +156,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             Int32 width,
             Int32 height,
             Int32 appTypeId,
+            AppAuditState appAuditState,
             AppStyle appStyle = AppStyle.App,
             Int32 userId = default(Int32),
             String remark = default(String),
@@ -192,7 +194,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
 
             IsLock = false;
             Remark = remark;
-            AppAuditState = AppAuditState.UnAuditState;
+            AppAuditState = appAuditState;
             AppReleaseState = AppReleaseState.UnRelease;
             UserCount = 0;
             AppStars = new List<AppStar>();

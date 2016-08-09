@@ -27,7 +27,7 @@
             <label>名称：</label>
             <input type="text" name="appName" id="appName" class="span3">
             <a class="btn" menu="search" href="javascript:;" style="margin-left:10px"><i class="icon-search"></i> 搜索</a>
-            <a class="btn btn-primary fr" href="javascript:openDetailIframe('myapp.edit.php');"><i class="icon-white icon-plus"></i> 添加新应用</a>
+            <a class="btn btn-primary fr" href="javascript:openDetailIframe('@Url.Action("UserAppManageInfo","App")?appId=0');"><i class="icon-white icon-plus"></i> 添加新应用</a>
             <a class="btn fr" href="javascript:window.parent.closeDetailIframe2();" style="margin-right:10px"><i class="icon-arrow-left"></i> 返回应用市场</a>
         </div>
         <div class="control-group">
@@ -41,8 +41,6 @@
                             <option value="@appType.Id">@appType.Name</option></text>
                     }
                 }
-
-
             </select>
             <label style="margin-left:10px">类型：</label>
             <select name="appStyle" id="appStyle" style="width:140px">
@@ -90,7 +88,7 @@
     <tfoot>
         <tr>
             <td colspan="100">
-                <div class="pagination pagination-centered">
+                <div class="pagination pagination-centered" style="margin: 5px 0">
                     <div id="pagination"></div>
                 </div>
                 <input id="pagination_setting" type="hidden" per="10">
@@ -98,10 +96,26 @@
         </tr>
     </tfoot>
 </table>
+@{
+    if ((Request["appId"] + "").Length > 0)
+    {
+        <text>
+            <div id="detailIframe" style="background:#fff;position:fixed;z-index:1;top:0;left:0;width:100%; height: 100%;">
+                <iframe frameborder="0" src="@Url.Action("UserAppManageInfo","App")?appId=0" style="width:100%;height:100%"></iframe>
+            </div>
+        </text>
+    }
+    else
+    {
+        <text>
+            <div id="detailIframe" style="background:#fff;position:fixed;z-index:1;top:-100px;left:0;width:100%;height:100%;display:none">
+                <iframe frameborder="0" style="width:100%;height:100%"></iframe>
+            </div>
+        </text>
+    }
+}
 
-<div id="detailIframe" style="background:#fff;position:fixed;z-index:1;top:-100px;left:0;width:100%;height:100%;display:none">
-    <iframe frameborder="0" style="width:100%;height:100%"></iframe>
-</div>
+
 @section ChildrenScript
 {
 
@@ -118,13 +132,15 @@
             <td>{{AppType}}</td>
             <td>{{UserCount}}</td>
             <td>
-                <a href="javascript:openDetailIframe('@Url.Action("UserAppManageInfo","App")?appId={{Id}}');" class="btn btn-mini btn-link">详情</a>
+                <a href="javascript:openDetailIframe('@Url.Action("UserAppManageInfo", "App")?appId={{Id}}');" class="btn btn-mini btn-link">详情</a>
             </td>
         </tr>
         {{/each}}
     </script>
     <script>
         $(function () {
+            $('html').css({ 'overflow-y': 'hidden' });
+
             //加载列表
             getPageList(1);
             //删除
@@ -169,7 +185,6 @@
             var from = current_page * parseInt($('#pagination_setting').attr('per')),
                 to = parseInt($('#pagination_setting').attr('per'));
 
-
             var $appStates = $('#appState').find("option:selected");
 
             var appStateResult = '';
@@ -191,7 +206,7 @@
                 $('.list-con').html(tableTemplate(responseText));
                 $('#pagination_setting').attr('count', parseInt(responseText.totalCount));
                 initPagination(current_page);
-               
+
             });
 
             Handlebars.registerHelper('convertstyle', function (appStyle) {

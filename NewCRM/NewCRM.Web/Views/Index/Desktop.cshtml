@@ -2,6 +2,8 @@
 @{
     Layout = "~/Views/Shared/_LayoutRoot.cshtml";
     var userResult = (UserDto)ViewData["CurrentUser"];
+
+    ViewBag.Title = "桌面";
 }
 @section ParentCss{
     <link href="@Url.Content("~/Scripts/HoorayUI/js/HoorayLibs/hooraylibs.css")" rel="stylesheet" />
@@ -137,47 +139,27 @@
 
 @section ParentScript{
 
-<script>
+    <script>
         $(function () {
-            $(function () {
-                //配置artDialog全局默认参数
-                (function (config) {
-                    config['lock'] = true;
-                    config['fixed'] = true;
-                    config['resize'] = false;
-                    config['background'] = '#000';
-                    config['opacity'] = 0.5;
-                })($.dialog.defaults);
-                //toolTip
-                $('[rel="tooltip"]').tooltip();
-                //表单提示
-                $("[datatype]")
-                    .focusin(function () {
-                        $(this).parent().addClass('info').children('.infomsg').show().siblings('.help-inline').hide();
-                    })
-                    .focusout(function () {
-                        $(this).parent().removeClass('info').children('.infomsg').hide().siblings('.help-inline')
-                            .show();
-                    });
 
-            });
+            $.cookie('memberID', '@userResult.Id');
+
+            document.body.onselectstart = document.body.ondrag = function () {
+                return false;
+            };
+            $(".loading").hide();
+            $("#desktop").show();
+
+            HROS.CONFIG.dockPos = '@userResult.DockPosition';
+            HROS.CONFIG.appXY = '@userResult.AppXy';
+            HROS.CONFIG.appSize = parseInt('@userResult.AppSize');
+            HROS.CONFIG.desk = parseInt(@userResult.DefaultDeskNumber);
+            HROS.CONFIG.appHorizontalSpacing = '@userResult.AppHorizontalSpacing';
+            HROS.CONFIG.appVerticalSpacing = '@userResult.AppVerticalSpacing';
+            HROS.CONFIG.deskCount = parseInt('@userResult.Desks.Count');
+            HROS.base.init();
         });
-        $.cookie('memberID', '@userResult.Id');
 
-        document.body.onselectstart = document.body.ondrag = function () {
-            return false;
-        };
-        $(".loading").hide();
-        $("#desktop").show();
-
-        HROS.CONFIG.dockPos = '@userResult.DockPosition';
-        HROS.CONFIG.appXY = '@userResult.AppXy';
-        HROS.CONFIG.appSize = parseInt('@userResult.AppSize');
-        HROS.CONFIG.desk = parseInt(@userResult.DefaultDeskNumber);
-        HROS.CONFIG.appHorizontalSpacing = '@userResult.AppHorizontalSpacing';
-        HROS.CONFIG.appVerticalSpacing = '@userResult.AppVerticalSpacing';
-        HROS.CONFIG.deskCount = parseInt('@userResult.Desks.Count');
-        HROS.base.init();
     </script>
 
 }

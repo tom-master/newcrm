@@ -171,6 +171,12 @@ namespace NewCRM.Application.Services
             _appServices.ModifyUserAppInfo(userId, appDto.ConvertToModel<AppDto, App>());
         }
 
+        public void CreateNewApp(AppDto app)
+        {
+            _validateParameter.Validate(app);
+            _appServices.CreateNewApp(app.ConvertToModel<AppDto, App>());
+        }
+
         #region private method
         /// <summary>
         /// 获取传入的枚举类型的字面量的描述

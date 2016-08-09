@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Linq.Expressions;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.Repositories.IRepository.Account;
 using NewCRM.Domain.Entities.Repositories.IRepository.System;
@@ -148,7 +149,10 @@ namespace NewCRM.Domain.Services.Impl
             var topApp = _appRepository.Entities.Where(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release).OrderByDescending(app => app.UserCount).Select(app => new
             {
                 app.UserCount,
-                AppStars = app.AppStars.Select(s => new { s.IsDeleted }).Any(appStar => appStar.IsDeleted == false) ? (app.AppStars.Select(s => s.StartNum).Sum(s => s) * 1.0) / (app.AppStars.Select(s => s.IsDeleted).Count(isDeleted => isDeleted == false) * 1.0) : 0.0,
+                AppStars = app.AppStars.Any(appStar => appStar.IsDeleted == false)
+               ? (app.AppStars.Where(a => a.IsDeleted == false).Sum(s => s.StartNum) * 1.0) /
+                 (app.AppStars.Count(a => a.IsDeleted == false) * 1.0)
+               : 0.0,
                 app.Id,
                 app.Name,
                 app.IconUrl,
@@ -230,7 +234,10 @@ namespace NewCRM.Domain.Services.Impl
                 app.UserId,
                 app.AddTime,
                 app.UserCount,
-                StartCount = app.AppStars.Select(s => new { s.IsDeleted }).Any(appStar => appStar.IsDeleted == false) ? (app.AppStars.Select(s => s.StartNum).Sum(s => s) * 1.0) / (app.AppStars.Select(s => s.IsDeleted).Count(isDeleted => isDeleted == false) * 1.0) : 0.0,
+                StartCount = app.AppStars.Any(appStar => appStar.IsDeleted == false)
+               ? (app.AppStars.Where(a => a.IsDeleted == false).Sum(s => s.StartNum) * 1.0) /
+                 (app.AppStars.Count(a => a.IsDeleted == false) * 1.0)
+               : 0.0,
                 app.Name,
                 app.IconUrl,
                 app.Remark,
@@ -251,13 +258,10 @@ namespace NewCRM.Domain.Services.Impl
                             app.IconUrl,
                             app.Remark,
                             app.UserCount,
-                            StartCount = app.AppStars.Select(s => new
-                            {
-                                s.IsDeleted
-                            }).Any(appStar => appStar.IsDeleted == false)
-                                    ? (app.AppStars.Select(s => s.StartNum).Sum(s => s) * 1.0) /
-                                      (app.AppStars.Select(s => s.IsDeleted).Count(isDeleted => isDeleted == false) * 1.0)
-                                    : 0.0,
+                            StartCount = app.AppStars.Any(appStar => appStar.IsDeleted == false)
+               ? (app.AppStars.Where(a => a.IsDeleted == false).Sum(s => s.StartNum) * 1.0) /
+                 (app.AppStars.Count(a => a.IsDeleted == false) * 1.0)
+               : 0.0,
                             AppType = app.AppType.Name,
                             app.AddTime,
                             app.UserId,
@@ -451,6 +455,15 @@ namespace NewCRM.Domain.Services.Impl
             }
 
             _appRepository.Update(appResult);
+        }
+
+        public void CreateNewApp(App app)
+        {
+            var internalApp = new App(
+                app.Name, app.IconUrl, app.AppUrl, app.Width, app.Height, app.AppTypeId, app.AppAuditState, app.AppStyle, app.UserId,
+                app.Remark, app.IsMax, app.IsFull, app.IsSetbar, app.IsOpenMax, app.IsFlash, app.IsDraw, app.IsResize);
+
+            _appRepository.Add(internalApp);
         }
     }
 

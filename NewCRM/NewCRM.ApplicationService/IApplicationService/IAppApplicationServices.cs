@@ -143,6 +143,12 @@ namespace NewCRM.Application.Services.IApplicationService
         /// <param name="appDto"></param>
         void ModifyUserAppInfo(Int32 userId, AppDto appDto);
 
+        /// <summary>
+        /// 开发者（用户）创建新的app
+        /// </summary>
+        /// <param name="app"></param>
+        void CreateNewApp(AppDto app);
+
         #endregion
     }
 }

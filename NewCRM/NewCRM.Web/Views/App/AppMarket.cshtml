@@ -36,7 +36,7 @@
 
             <h3>今日推荐</h3>
             <div class="commend-container">
-                <a href="javascript:openDetailIframe2('detail.php?id=@todayRecommendApp.Id');">
+                <a href="javascript:openDetailIframe2('@Url.Action("AppDetail","App")?appId=@todayRecommendApp.Id');">
                     <img src="@todayRecommendApp.AppIcon" alt="@todayRecommendApp.Name">
                 </a>
             </div>
@@ -72,7 +72,10 @@
                 <p>开发者：@ViewData["UserName"]</p>
                 <p>我开发的应用：<font style="font-weight:bold">@userApp.Item1</font> 个</p>
                 <p>未发布的应用：<font style="font-weight:bold">@userApp.Item2</font> 个</p>
-                <div class="text-center"><a href="javascript:openDetailIframe2('@Url.Action("UserAppManage","App")');" class="btn btn-primary">管理我的应用</a> <a href="javascript:openDetailIframe2('myapp.manage.php?add=1');" class="btn btn-danger">开发新应用</a></div>
+                <div class="text-center">
+                    <a href="javascript:openDetailIframe2('@Url.Action("UserAppManage", "App")');" class="btn btn-primary">管理我的应用</a> 
+                    <a href="javascript:openDetailIframe2('@Url.Action("UserAppManage","App")?appId=0');" class="btn btn-danger">开发新应用</a>
+                </div>
             </div>
         </div>
     </div>
@@ -105,10 +108,10 @@
     <script id="li-template" type="text/x-handlebars-template">
         {{#each apps}}
         <li>
-            <a href="javascript:openDetailIframe2('/App/AppDetail?appId={{Id}}');">
+            <a href="javascript:openDetailIframe2('@Url.Action("AppDetail","App")?appId={{Id}}');">
                 <img src="{{IconUrl}}">
             </a>
-            <a href="javascript:openDetailIframe2('/App/AppDetail?appId={{Id}}');" class="app-name">{{Name}}</a>
+            <a href="javascript:openDetailIframe2('@Url.Action("AppDetail","App")?appId={{Id}}');" class="app-name">{{Name}}</a>
             <span class="app-desc"></span>
             <span class="star-box">
                 <i style="width:{{scoreWidth StartCount}}%;"></i>
@@ -129,27 +132,28 @@
         $(function () {
             //加载列表
             getPageList(1);
+
             openDetailIframe2 = function (url) {
-                ZENG.msgbox.show('正在载入中，请稍后...', 6, 8000);
+                ZENG.msgbox.show('正在载入中，请稍后...', 6, 100000);
                 $('#detailIframe iframe').attr('src', url).load(function () {
-                    ZENG.msgbox.hide();
+                    ZENG.msgbox._hide();
                     $('#detailIframe').animate({
                         'left': '60px',
                         'opacity': 'show'
                     }, 500);
                 });
             };
+
             closeDetailIframe2 = function (callback) {
                 $('#detailIframe').animate({
                     'left': 0,
                     'opacity': 'hide'
                 }, 500, function () {
                     $('#detailIframe').css('left', '140px');
-                    if (typeof callback === 'function') {
-                        callback && callback();
-                    }
+                    callback && callback();
                 });
             };
+
             $('.sub-nav ul li').click(function () {
                 closeDetailIframe2();
                 $('.sub-nav ul li').removeClass('active');
@@ -270,8 +274,6 @@
                 pageIndex: current_page,
                 pageSize: 4
             }, function (responseText) {
-                ZENG.msgbox.hideParent();
-
                 var liTemplate = Handlebars.compile($("#li-template").html());
                 $('.app-list').html(liTemplate(responseText));
                 $('#pagination_setting').attr('count', parseInt(responseText.totalCount));

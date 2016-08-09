@@ -49,12 +49,13 @@ HROS.window = (function(){
 		**      后面参数依次为：标题、地址、宽、高、是否可拉伸、是否打开默认最大化、是否为flash
 		**      示例：HROS.window.createTemp({title:"百度",url:"http://www.baidu.com",width:800,height:400,isresize:false,isopenmax:false,isflash:false});
 		*/
-		createTemp : function(obj){
+		createTemp: function (obj) {
+		    
 			var type = 'window', appid = obj.appid == null ? Date.parse(new Date()) : obj.appid;
 			//判断窗口是否已打开
 			var iswindowopen = false;
 			$('#task-content-inner a.task-item').each(function(){
-				if($(this).attr('realappid') == appid){
+				if($(this).attr('realappid') === appid){
 					iswindowopen = true;
 					HROS.window.show2top($(this).attr('appid'));
 					return false;

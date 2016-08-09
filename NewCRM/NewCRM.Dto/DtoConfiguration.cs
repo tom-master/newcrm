@@ -148,6 +148,7 @@ namespace NewCRM.Dto
             #endregion
 
             #region dto -> domain
+
             Mapper.CreateMap<AppDto, App>()
                 .ForMember(dto => dto.Id, app => app.MapFrom(w => w.Id))
                 .ForMember(dto => dto.Name, app => app.MapFrom(w => w.Name))
@@ -156,7 +157,6 @@ namespace NewCRM.Dto
                 .ForMember(dto => dto.Remark, app => app.MapFrom(w => w.Remark))
                 .ForMember(dto => dto.Width, app => app.MapFrom(w => w.Width))
                 .ForMember(dto => dto.Height, app => app.MapFrom(w => w.Height))
-                .ForMember(dto => dto.UserCount, app => app.MapFrom(w => w.UserCount))
                 .ForMember(dto => dto.IsOpenMax, app => app.MapFrom(w => w.IsOpenMax))
                 .ForMember(dto => dto.IsFlash, app => app.MapFrom(w => w.IsFlash))
                 .ForMember(dto => dto.IsResize, app => app.MapFrom(w => w.IsResize))
@@ -164,9 +164,10 @@ namespace NewCRM.Dto
                 .ForMember(dto => dto.AppAuditState, app => app.MapFrom(w => w.AppAuditState))
                 .ForMember(dto => dto.AppReleaseState, app => app.MapFrom(w => w.AppReleaseState))
                 .ForMember(dto => dto.AppTypeId, app => app.MapFrom(w => w.AppTypeId))
-                .ForMember(dto => dto.AppStyle, app => app.MapFrom(w => w.AppStyle))
-                .ForMember(dto => dto.AppType, app => app.MapFrom(w => w.AppType));
+                .ForMember(dto => dto.AppStyle, app => app.MapFrom(w => w.AppStyle));
+
             #endregion
+
             #endregion
 
 
@@ -216,17 +217,7 @@ namespace NewCRM.Dto
             where TDto : BaseDto
             where TModel : DomainModelBase
         {
-            try
-            {
-                return Mapper.Map<TDto, TModel>(source);
-
-            }
-            catch (Exception exception) 
-            {
-                    
-                throw;
-            }
-            
+            return Mapper.Map<TDto, TModel>(source);
         }
 
         public static IEnumerable<TModel> ConvertToModel<TDto, TModel>(this IList<TDto> source)

@@ -2620,10 +2620,6 @@ ZENG.msgbox._hide = function () {
         ZENG.dom.setStyle(a, "display", "none");
     }
 };
-ZENG.msgbox.hideParent = function() {
-    $(parent.document).find('#q_Msgbox').hide();
-};
-
 
 /**
  * 全屏插件
