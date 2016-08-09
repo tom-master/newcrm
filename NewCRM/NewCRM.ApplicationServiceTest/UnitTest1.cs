@@ -10,7 +10,7 @@ namespace NewCRM.ApplicationServiceTest
         [TestMethod]
         public void TestMethod1()
         {
-            Boolean b = default(Boolean);
+          //  Boolean b = default(Boolean);
         }
     }
 }

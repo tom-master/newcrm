@@ -12,14 +12,7 @@ namespace NewCRM.Web.Controllers
     [Export]
     public class IndexController : BaseController
     {
-        [Import]
-        private IAccountApplicationServices _accountApplicationServices;
 
-        [Import]
-        private IAppApplicationServices _appApplicationServices;
-
-        [Import]
-        private IDeskApplicationServices _deskApplicationServices;
 
         #region 页面
 
@@ -32,7 +25,7 @@ namespace NewCRM.Web.Controllers
         {
             if (Request.Cookies["Account"] != null)
             {
-                CurrentUser = _accountApplicationServices.GetUserConfig(Int32.Parse(Request.Cookies["Account"].Value));
+                CurrentUser = AccountApplicationServices.GetUserConfig(Int32.Parse(Request.Cookies["Account"].Value));
                 ViewData["CurrentUser"] = CurrentUser;
                 return View();
             }
@@ -59,7 +52,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult Landing(String userName, String passWord, Boolean isRememberPasswrod = false)
         {
-            var userResult = _accountApplicationServices.Login(userName, passWord);
+            var userResult = AccountApplicationServices.Login(userName, passWord);
 
             Response.SetCookie(new HttpCookie("Account")
             {
@@ -99,7 +92,7 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult GetWallpaper()
         {
-            var config = _accountApplicationServices.GetUserConfig(CurrentUser.Id);
+            var config = AccountApplicationServices.GetUserConfig(CurrentUser.Id);
             return Json(new
             {
                 data = new
@@ -129,7 +122,7 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult GetUserDeskMembers()
         {
-            var app = _appApplicationServices.GetUserDeskMembers(CurrentUser.Id);
+            var app = AppApplicationServices.GetUserDeskMembers(CurrentUser.Id);
             return Json(new { app }, JsonRequestBehavior.AllowGet);
         }
 
@@ -150,7 +143,7 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult CreateWindow(Int32 id = 0, String type = "")
         {
-            var internalMemberResult = type == "folder" ? _deskApplicationServices.GetMember(CurrentUser.Id, id, true) : _deskApplicationServices.GetMember(CurrentUser.Id, id);
+            var internalMemberResult = type == "folder" ? DeskApplicationServices.GetMember(CurrentUser.Id, id, true) : DeskApplicationServices.GetMember(CurrentUser.Id, id);
 
             return Json(new
             {

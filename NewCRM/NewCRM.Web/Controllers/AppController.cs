@@ -13,8 +13,7 @@ namespace NewCRM.Web.Controllers
     [Export]
     public class AppController : BaseController
     {
-        [Import]
-        private IAppApplicationServices _appApplicationServices;
+      
 
         #region 页面
 
@@ -24,13 +23,13 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult AppMarket()
         {
-            ViewData["AppTypes"] = _appApplicationServices.GetAppTypes();
+            ViewData["AppTypes"] = AppApplicationServices.GetAppTypes();
 
-            ViewData["TodayRecommendApp"] = _appApplicationServices.GetTodayRecommend(CurrentUser.Id);
+            ViewData["TodayRecommendApp"] = AppApplicationServices.GetTodayRecommend(CurrentUser.Id);
 
             ViewData["UserName"] = CurrentUser.Name;
 
-            ViewData["UserApp"] = _appApplicationServices.GetUserDevAppAndUnReleaseApp(CurrentUser.Id);
+            ViewData["UserApp"] = AppApplicationServices.GetUserDevAppAndUnReleaseApp(CurrentUser.Id);
 
             return View();
         }
@@ -42,11 +41,11 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult AppDetail(Int32 appId)
         {
-            ViewData["IsInstallApp"] = _appApplicationServices.IsInstallApp(CurrentUser.Id, appId);
+            ViewData["IsInstallApp"] = AppApplicationServices.IsInstallApp(CurrentUser.Id, appId);
 
             ViewData["UserName"] = CurrentUser.Name;
 
-            var singleAppResult = _appApplicationServices.GetApp(appId);
+            var singleAppResult = AppApplicationServices.GetApp(appId);
             return View(singleAppResult);
         }
 
@@ -56,11 +55,11 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult UserAppManage()
         {
-            ViewData["AppTypes"] = _appApplicationServices.GetAppTypes();
+            ViewData["AppTypes"] = AppApplicationServices.GetAppTypes();
 
-            ViewData["AppStyles"] = _appApplicationServices.GetAllAppStyles().ToList();
+            ViewData["AppStyles"] = AppApplicationServices.GetAllAppStyles().ToList();
 
-            ViewData["AppStates"] = _appApplicationServices.GetAllAppStates().ToList();
+            ViewData["AppStates"] = AppApplicationServices.GetAllAppStates().ToList();
 
             return View();
         }
@@ -76,11 +75,11 @@ namespace NewCRM.Web.Controllers
             AppDto appResult = null;
             if (appId != 0)// 如果appId为0则是新创建app
             {
-                appResult = _appApplicationServices.GetApp(appId);
+                appResult = AppApplicationServices.GetApp(appId);
                 ViewData["AppState"] = appResult.AppAuditState;
             }
 
-            ViewData["AppTypes"] = _appApplicationServices.GetAppTypes();
+            ViewData["AppTypes"] = AppApplicationServices.GetAppTypes();
 
             return View(appResult);
         }
@@ -100,7 +99,7 @@ namespace NewCRM.Web.Controllers
         {
             Int32 totalCount;
 
-            var appResults = _appApplicationServices.GetAllApps(CurrentUser.Id, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
+            var appResults = AppApplicationServices.GetAllApps(CurrentUser.Id, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
 
             return Json(new
             {
@@ -117,7 +116,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyAppStart(Int32 appId, Int32 starCount)
         {
-            _appApplicationServices.ModifyAppStar(CurrentUser.Id, appId, starCount);
+            AppApplicationServices.ModifyAppStar(CurrentUser.Id, appId, starCount);
             return Json(new { success = 1 });
         }
 
@@ -129,7 +128,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult InstallApp(Int32 appId, Int32 deskNum)
         {
-            _appApplicationServices.InstallApp(CurrentUser.Id, appId, deskNum);
+            AppApplicationServices.InstallApp(CurrentUser.Id, appId, deskNum);
             return Json(new { success = 1 });
         }
 
@@ -147,7 +146,7 @@ namespace NewCRM.Web.Controllers
         {
             Int32 totalCount;
 
-            var appResults = _appApplicationServices.GetUserAllApps(CurrentUser.Id, appName, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
+            var appResults = AppApplicationServices.GetUserAllApps(CurrentUser.Id, appName, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
 
             return Json(new
             {
@@ -164,7 +163,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult ModifyAppInfo(FormCollection forms)
         {
             var appDto = WrapperAppDto(forms);
-            _appApplicationServices.ModifyUserAppInfo(CurrentUser.Id, appDto);
+            AppApplicationServices.ModifyUserAppInfo(CurrentUser.Id, appDto);
 
             return Json(new { success = 1 });
         }
@@ -195,7 +194,7 @@ namespace NewCRM.Web.Controllers
 
             appDto.UserId = CurrentUser.Id;
 
-            _appApplicationServices.CreateNewApp(appDto);
+            AppApplicationServices.CreateNewApp(appDto);
 
             return Json(new
             {
