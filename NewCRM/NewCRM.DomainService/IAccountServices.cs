@@ -1,6 +1,5 @@
 ﻿using System;
 using NewCRM.Domain.Entities.DomainModel.Account;
-using NewCRM.Domain.Entities.DomainModel.System;
 
 namespace NewCRM.Domain.Services
 {

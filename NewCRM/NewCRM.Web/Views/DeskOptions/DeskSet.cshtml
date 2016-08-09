@@ -97,8 +97,6 @@
 {
     <script>
         $(function () {
-            ZENG.msgbox.hideParent();
-
             $('input[name="desk"]').change(function () {
                 var desk = $('input[name="desk"]:checked').val();
                 window.parent.HROS.deskTop.updateDefaultDesk(desk);

@@ -4,24 +4,14 @@ using System.Linq;
 using System.Net;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.System;
-using NewCRM.Domain.Entities.Repositories.IRepository.Account;
-using NewCRM.Domain.Entities.Repositories.IRepository.System;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
 namespace NewCRM.Domain.Services.Impl
 {
     [Export(typeof(IAccountServices))]
-    public class AccountServices : BaseService,IAccountServices
+    internal class AccountServices : BaseService, IAccountServices
     {
-        #region private field
-
-      
-
-        [Import]
-        private IOnlineRepository _onlineRepository;
-        #endregion
-
         #region public method
 
         public User Validate(String userName, String password)
@@ -39,7 +29,7 @@ namespace NewCRM.Domain.Services.Impl
 
             UserRepository.Update(userResult);
 
-            _onlineRepository.Add(new Online(GetCurrentIpAddress(), userResult.Id));
+            OnlineRepository.Add(new Online(GetCurrentIpAddress(), userResult.Id));
 
             return userResult;
 
@@ -47,7 +37,7 @@ namespace NewCRM.Domain.Services.Impl
 
         public void Logout(Int32 userId)
         {
-            var userResult = GetUser(userId);
+            var userResult = GetUserInfoService(userId);
 
             if (!userResult.IsOnline)
             {
@@ -62,7 +52,7 @@ namespace NewCRM.Domain.Services.Impl
 
         public void Disable(Int32 userId)
         {
-            var userResult = GetUser(userId);
+            var userResult = GetUserInfoService(userId);
 
             if (userResult.IsDisable)
             {
@@ -79,7 +69,7 @@ namespace NewCRM.Domain.Services.Impl
 
         public void Enable(Int32 userId)
         {
-            var userResult = GetUser(userId);
+            var userResult = GetUserInfoService(userId);
             userResult.Enable();
 
             UserRepository.Update(userResult);
@@ -87,7 +77,7 @@ namespace NewCRM.Domain.Services.Impl
 
         public User GetUserConfig(Int32 userId)
         {
-            var userResult = GetUser(userId);
+            var userResult = GetUserInfoService(userId);
 
             return userResult;
         }
@@ -112,8 +102,8 @@ namespace NewCRM.Domain.Services.Impl
         /// <param name="userId"></param>
         private void ModifyOnlineState(Int32 userId)
         {
-            var onlineResult = _onlineRepository.Entities.FirstOrDefault(online => online.UserId == userId);
-            _onlineRepository.Remove(onlineResult);
+            var onlineResult = OnlineRepository.Entities.FirstOrDefault(online => online.UserId == userId);
+            OnlineRepository.Remove(onlineResult);
         }
 
         #endregion
