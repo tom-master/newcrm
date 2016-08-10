@@ -3,12 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using NewCRM.Application.Services.IApplicationService;
-using NewCRM.Domain.Services;
-using NewCRM.Infrastructure.CommonTools.CustomHelper;
 
 namespace NewCRM.Application.Services
 {

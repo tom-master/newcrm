@@ -26,7 +26,11 @@ namespace NewCRM.Domain.Test
         [TestMethod]
         public void TestMethod()
         {
-         
         }
+    }
+
+    public class Test
+    {
+        public String Name { get; set; }
     }
 }

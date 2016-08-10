@@ -13,7 +13,7 @@ namespace NewCRM.Application.Services
     [Export(typeof(IAppApplicationServices))]
     internal class AppApplicationServices : BaseApplicationServices, IAppApplicationServices
     {
-      
+
         public IDictionary<Int32, IList<dynamic>> GetUserDeskMembers(Int32 userId)
         {
             ValidateParameter.Validate(userId);
@@ -47,7 +47,7 @@ namespace NewCRM.Application.Services
 
         public List<AppTypeDto> GetAppTypes()
         {
-            return AppServices.GetAppTypes().ConvertToDto<AppType, AppTypeDto>().ToList();
+            return AppServices.GetAppTypes().ConvertToDtos<AppType, AppTypeDto>().ToList();
         }
 
         public TodayRecommendAppDto GetTodayRecommend(Int32 userId)
@@ -79,7 +79,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(userId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
 
-            var appDtoResult = AppServices.GetAllApps(userId, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount).ConvertDynamicToDtos<AppDto>();
+            var appDtoResult = AppServices.GetAllApps(userId, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount).ConvertDynamicToDtos<AppDto>().ToList();
 
             appDtoResult.ForEach(appDto => appDto.IsInstall = IsInstallApp(userId, appDto.Id));
 
@@ -153,8 +153,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(userId).Validate(appName).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
 
-            return AppServices.GetUserAllApps(userId, appName, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount).ConvertDynamicToDtos<AppDto>();
-
+            return AppServices.GetUserAllApps(userId, appName, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount).ConvertDynamicToDtos<AppDto>().ToList();
         }
 
         public void ModifyUserAppInfo(Int32 userId, AppDto appDto)

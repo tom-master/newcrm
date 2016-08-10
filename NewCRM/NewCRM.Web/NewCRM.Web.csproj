@@ -128,7 +128,7 @@
     <Compile Include="Controllers\ControllerHelper\Jsons.cs" />
     <Compile Include="Controllers\DeskController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
-    <Compile Include="Controllers\AuthorityManageController.cs" />
+    <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\DeskOptionsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Filter\ErrorFilterAttribute.cs" />
@@ -972,6 +972,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Views\App\UserAppManageNewApp.cshtml" />
+    <None Include="Views\Security\CreateNewRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css.map" />
@@ -1011,7 +1012,7 @@
     <Content Include="Views\App\UserAppManageDetail.cshtml" />
     <Content Include="Views\App\UserAppManageEdit.cshtml" />
     <Content Include="Views\App\UserAppManageInfo.cshtml" />
-    <Content Include="Views\AuthorityManage\RoleManage.cshtml" />
+    <Content Include="Views\Security\RoleManage.cshtml" />
     <Content Include="Views\DeskOptions\CustomWallPaper.cshtml" />
     <Content Include="Views\DeskOptions\DeskSet.cshtml" />
     <Content Include="Views\DeskOptions\SetSkin.cshtml" />

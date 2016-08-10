@@ -4,6 +4,7 @@ using System.Linq;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.Repositories.IRepository.Account;
+using NewCRM.Domain.Entities.Repositories.IRepository.Security;
 using NewCRM.Domain.Entities.Repositories.IRepository.System;
 using NewCRM.Domain.Entities.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustemException;
@@ -34,6 +35,10 @@ namespace NewCRM.Domain.Services
 
         [Import]
         protected IWallpaperRepository WallpaperRepository { get; set; }
+
+        [Import]
+        protected IRoleRepository RoleRepository { get; set; }
+
 
 
         /// <summary>

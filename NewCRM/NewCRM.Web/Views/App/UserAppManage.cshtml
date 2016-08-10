@@ -204,9 +204,9 @@
                 ZENG.msgbox.hide();
                 var tableTemplate = Handlebars.compile($("#table-template").html());
                 $('.list-con').html(tableTemplate(responseText));
+                $('.list-count').text(responseText.totalCount);
                 $('#pagination_setting').attr('count', parseInt(responseText.totalCount));
                 initPagination(current_page);
-
             });
 
             Handlebars.registerHelper('convertstyle', function (appStyle) {

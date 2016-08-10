@@ -5,28 +5,22 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NewCRM.Application.Services.IApplicationService;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.ValueObject;
-using NewCRM.Domain.Services;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
-using NewCRM.Infrastructure.CommonTools.CustomHelper;
 
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IWallpaperApplicationServices))]
     internal class WallpaperApplicationServices : BaseApplicationServices, IWallpaperApplicationServices
     {
-
-
-        public IList<WallpaperDto> GetWallpaper()
+        public List<WallpaperDto> GetWallpaper()
         {
-            return WallpaperServices.GetWallpaper().ConvertToDto<Wallpaper, WallpaperDto>();
+            return WallpaperServices.GetWallpaper().ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
         }
 
         public void ModifyWallpaperMode(Int32 userId, String newMode)
@@ -52,11 +46,11 @@ namespace NewCRM.Application.Services
             return WallpaperServices.AddWallpaper(wallpaper);
         }
 
-        public IList<WallpaperDto> GetUploadWallpaper(Int32 userId)
+        public List<WallpaperDto> GetUploadWallpaper(Int32 userId)
         {
             ValidateParameter.Validate(userId);
 
-            return WallpaperServices.GetUploadWallpaper(userId).ConvertToDto<Wallpaper, WallpaperDto>();
+            return WallpaperServices.GetUploadWallpaper(userId).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
         }
 
         public void RemoveWallpaper(Int32 userId, Int32 wallpaperId)
@@ -103,7 +97,5 @@ namespace NewCRM.Application.Services
 
             return wallpaperResult?.ConvertToDto<Wallpaper, WallpaperDto>();
         }
-
-
     }
 }

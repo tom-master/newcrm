@@ -55,8 +55,10 @@
     <Compile Include="Impl\AccountServices.cs" />
     <Compile Include="Impl\AppServices.cs" />
     <Compile Include="Impl\DeskServices.cs" />
+    <Compile Include="Impl\SecurityServices.cs" />
     <Compile Include="Impl\SkinServices.cs" />
     <Compile Include="Impl\WallpaperServices.cs" />
+    <Compile Include="ISecurityServices.cs" />
     <Compile Include="ISkinServices.cs" />
     <Compile Include="IWallpaperServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

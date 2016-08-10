@@ -12,7 +12,7 @@ namespace NewCRM.Application.Services.IApplicationService
         /// 获取所有的系统壁纸
         /// </summary>
         /// <returns></returns>
-        IList<WallpaperDto> GetWallpaper();
+        List<WallpaperDto> GetWallpaper();
 
         /// <summary>
         /// 修改壁纸的显示模式
@@ -40,7 +40,7 @@ namespace NewCRM.Application.Services.IApplicationService
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        IList<WallpaperDto> GetUploadWallpaper(Int32 userId);
+        List<WallpaperDto> GetUploadWallpaper(Int32 userId);
 
         /// <summary>
         /// 根据用户id删除上传的壁纸

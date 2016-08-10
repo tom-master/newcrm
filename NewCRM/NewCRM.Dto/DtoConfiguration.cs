@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using AutoMapper;
 using NewCRM.Domain.Entities.DomainModel;
 using NewCRM.Domain.Entities.DomainModel.Account;
+using NewCRM.Domain.Entities.DomainModel.Security;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Dto.Dto;
@@ -132,65 +133,57 @@ namespace NewCRM.Dto
             #endregion
 
             #region App
+
             #region domain -> dto
             Mapper.CreateMap<App, AppDto>()
-                .ForMember(app => app.Id, dto => dto.MapFrom(w => w.Id))
-                .ForMember(app => app.Name, dto => dto.MapFrom(w => w.Name))
-                .ForMember(app => app.IconUrl, dto => dto.MapFrom(w => w.IconUrl))
-                .ForMember(app => app.Remark, dto => dto.MapFrom(w => w.Remark))
-                .ForMember(app => app.UserCount, dto => dto.MapFrom(w => w.UserCount))
-                .ForMember(app => app.StartCount, dto => dto.MapFrom(w => w.AppStars.Any(appStar => appStar.IsDeleted == false) ? (w.AppStars.Sum(s => s.StartNum) * 1.0) / (w.AppStars.Count(appStar => appStar.IsDeleted == false) * 1.0) : 0.0))
-                .ForMember(app => app.UserId, dto => dto.MapFrom(w => w.UserId))
-                .ForMember(app => app.AppStyle, dto => dto.MapFrom(w => (Int32)w.AppStyle))
-                .ForMember(app => app.AppType, dto => dto.MapFrom(w => w.AppType.Name))
-                .ForMember(app => app.AddTime, dto => dto.MapFrom(w => w.AddTime.ToString("yyyy-MM-dd")))
-                .ForMember(app => app.AppAuditState, dto => dto.MapFrom(w => (Int32)w.AppAuditState))
-                .ForMember(app => app.AppReleaseState, dto => dto.MapFrom(w => (Int32)w.AppReleaseState));
+                .ForMember(dto => dto.Id, app => app.MapFrom(w => w.Id))
+                .ForMember(dto => dto.Name, app => app.MapFrom(w => w.Name))
+                .ForMember(dto => dto.IconUrl, app => app.MapFrom(w => w.IconUrl))
+                .ForMember(dto => dto.Remark, app => app.MapFrom(w => w.Remark))
+                .ForMember(dto => dto.UserCount, app => app.MapFrom(w => w.UserCount))
+                .ForMember(dto => dto.StartCount, app => app.MapFrom(w => w.AppStars.Any(appStar => appStar.IsDeleted == false) ? (w.AppStars.Sum(s => s.StartNum) * 1.0) / (w.AppStars.Count(appStar => appStar.IsDeleted == false) * 1.0) : 0.0))
+                .ForMember(dto => dto.UserId, app => app.MapFrom(w => w.UserId))
+                .ForMember(dto => dto.AppStyle, app => app.MapFrom(w => (Int32)w.AppStyle))
+                .ForMember(dto => dto.AppType, app => app.MapFrom(w => w.AppType.Name))
+                .ForMember(dto => dto.AddTime, app => app.MapFrom(w => w.AddTime.ToString("yyyy-MM-dd")))
+                .ForMember(dto => dto.AppAuditState, app => app.MapFrom(w => (Int32)w.AppAuditState))
+                .ForMember(dto => dto.AppReleaseState, app => app.MapFrom(w => (Int32)w.AppReleaseState));
             #endregion
 
             #region dto -> domain
 
             Mapper.CreateMap<AppDto, App>()
-                .ForMember(dto => dto.Id, app => app.MapFrom(w => w.Id))
-                .ForMember(dto => dto.Name, app => app.MapFrom(w => w.Name))
-                .ForMember(dto => dto.IconUrl, app => app.MapFrom(w => w.IconUrl))
-                .ForMember(dto => dto.AppUrl, app => app.MapFrom(w => w.AppUrl))
-                .ForMember(dto => dto.Remark, app => app.MapFrom(w => w.Remark))
-                .ForMember(dto => dto.Width, app => app.MapFrom(w => w.Width))
-                .ForMember(dto => dto.Height, app => app.MapFrom(w => w.Height))
-                .ForMember(dto => dto.IsOpenMax, app => app.MapFrom(w => w.IsOpenMax))
-                .ForMember(dto => dto.IsFlash, app => app.MapFrom(w => w.IsFlash))
-                .ForMember(dto => dto.IsResize, app => app.MapFrom(w => w.IsResize))
-                .ForMember(dto => dto.UserId, app => app.MapFrom(w => w.UserId))
-                .ForMember(dto => dto.AppAuditState, app => app.MapFrom(w => ConvertEnum(typeof(AppAuditState), w.AppAuditState)))
-                .ForMember(dto => dto.AppReleaseState, app => app.MapFrom(w => ConvertEnum(typeof(AppReleaseState), w.AppReleaseState)))
-                .ForMember(dto => dto.AppTypeId, app => app.MapFrom(w => w.AppTypeId))
-                .ForMember(dto => dto.AppStyle, app => app.MapFrom(w => ConvertEnum(typeof(AppStyle), w.AppStyle)));
+                .ForMember(app => app.Id, dto => dto.MapFrom(w => w.Id))
+                .ForMember(app => app.Name, dto => dto.MapFrom(w => w.Name))
+                .ForMember(app => app.IconUrl, dto => dto.MapFrom(w => w.IconUrl))
+                .ForMember(app => app.AppUrl, dto => dto.MapFrom(w => w.AppUrl))
+                .ForMember(app => app.Remark, dto => dto.MapFrom(w => w.Remark))
+                .ForMember(app => app.Width, dto => dto.MapFrom(w => w.Width))
+                .ForMember(app => app.Height, dto => dto.MapFrom(w => w.Height))
+                .ForMember(app => app.IsOpenMax, dto => dto.MapFrom(w => w.IsOpenMax))
+                .ForMember(app => app.IsFlash, dto => dto.MapFrom(w => w.IsFlash))
+                .ForMember(app => app.IsResize, dto => dto.MapFrom(w => w.IsResize))
+                .ForMember(app => app.UserId, dto => dto.MapFrom(w => w.UserId))
+                .ForMember(app => app.AppAuditState, dto => dto.MapFrom(w => ConvertEnum(typeof(AppAuditState), w.AppAuditState)))
+                .ForMember(app => app.AppReleaseState, dto => dto.MapFrom(w => ConvertEnum(typeof(AppReleaseState), w.AppReleaseState)))
+                .ForMember(app => app.AppTypeId, dto => dto.MapFrom(w => w.AppTypeId))
+                .ForMember(app => app.AppStyle, dto => dto.MapFrom(w => ConvertEnum(typeof(AppStyle), w.AppStyle)));
 
             #endregion
 
             #endregion
 
+            #region Role
+
+            Mapper.CreateMap<Role, RoleDto>()
+                .ForMember(dto => dto.Id, role => role.MapFrom(r => r.Id))
+                .ForMember(dto => dto.Name, role => role.MapFrom(r => r.Name));
+
+            #endregion
+
 
         }
 
-        /// <summary>
-        /// 转换枚举
-        /// </summary>
-        /// <param name="target"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        private static Enum ConvertEnum(Type target, Int32 value)
-        {
-            var constName = Enum.GetName(target, value);
-
-            return (Enum)Enum.Parse(target, constName, true);
-        }
-
-        private static Enum ConvertEnum(Type target, String value)
-        {
-            return (Enum)Enum.Parse(target, value, true);
-        }
 
         #region DomainModelToDto
 
@@ -206,17 +199,35 @@ namespace NewCRM.Dto
             return Mapper.Map<TModel, TDto>(source);
         }
 
-        public static IList<TDto> ConvertToDto<TModel, TDto>(this IEnumerable<TModel> source) where TModel : DomainModelBase where TDto : BaseDto
+        /// <summary>
+        /// 领域模型转换成DTO
+        /// </summary>
+        /// <typeparam name="TModel">领域模型</typeparam>
+        /// <typeparam name="TDto">DTO模型</typeparam>
+        /// <param name="source">领域模型</param>
+        /// <returns></returns>
+        public static IEnumerable<TDto> ConvertToDtos<TModel, TDto>(this IEnumerable<TModel> source) where TModel : DomainModelBase where TDto : BaseDto
         {
             return Mapper.Map<IEnumerable<TModel>, IList<TDto>>(source);
         }
 
-        public static List<TDto> ConvertDynamicToDtos<TDto>(this IEnumerable<dynamic> source)
+        /// <summary>
+        /// 将动态类型转换为指定的dto
+        /// </summary>
+        /// <typeparam name="TDto"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static IEnumerable<TDto> ConvertDynamicToDtos<TDto>(this IEnumerable<dynamic> source)
         {
             return source.Select(Mapper.DynamicMap<TDto>).ToList();
         }
 
-
+        /// <summary>
+        /// 将动态类型转换为指定的dto
+        /// </summary>
+        /// <typeparam name="TDto"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public static TDto ConvertDynamicToDto<TDto>(dynamic source)
         {
             return Mapper.DynamicMap<TDto>(source);
@@ -245,6 +256,30 @@ namespace NewCRM.Dto
         {
             return Mapper.Map<IList<TDto>, IEnumerable<TModel>>(source);
         }
+
+        #endregion
+
+
+        #region private method
+
+        /// <summary>
+        /// 转换枚举
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private static Enum ConvertEnum(Type target, Int32 value)
+            => (Enum)Enum.Parse(target, Enum.GetName(target, value), true);
+
+
+
+        /// <summary>
+        /// 转换枚举
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private static Enum ConvertEnum(Type target, String value) => (Enum)Enum.Parse(target, value, true);
 
         #endregion
     }

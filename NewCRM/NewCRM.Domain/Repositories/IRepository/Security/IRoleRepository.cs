@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 
 
+using System.ComponentModel.Composition;
 using NewCRM.Domain.Entities.DomainModel.Security;
 
 namespace NewCRM.Domain.Entities.Repositories.IRepository.Security
@@ -15,6 +16,7 @@ namespace NewCRM.Domain.Entities.Repositories.IRepository.Security
     /// <summary>
     ///   仓储操作层接口——角色
     /// </summary>
+    [InheritedExport(typeof(IRoleRepository))]
     public partial interface IRoleRepository : IRepository<Role>
     { }
 }

@@ -21,6 +21,11 @@ namespace NewCRM.Application.Services
         [Import]
         protected IWallpaperServices WallpaperServices { get; set; }
 
+        [Import]
+        protected ISecurityServices SecurityServices { get; set; }
+
+
+
         protected static Parameter ValidateParameter => new Parameter();
 
     }

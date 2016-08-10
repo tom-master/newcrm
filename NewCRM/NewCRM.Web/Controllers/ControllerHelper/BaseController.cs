@@ -25,6 +25,10 @@ namespace NewCRM.Web.Controllers.ControllerHelper
         [Import]
         protected IAccountApplicationServices AccountApplicationServices { get; set; }
 
+        [Import]
+        protected ISecurityApplicationServices SecurityApplicationServices { get; set; }
+
+
 
         protected static UserDto CurrentUser { get; set; }
 
