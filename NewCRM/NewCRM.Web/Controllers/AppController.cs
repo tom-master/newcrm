@@ -13,8 +13,6 @@ namespace NewCRM.Web.Controllers
     [Export]
     public class AppController : BaseController
     {
-      
-
         #region 页面
 
         /// <summary>
@@ -23,6 +21,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult AppMarket()
         {
+     
             ViewData["AppTypes"] = AppApplicationServices.GetAppTypes();
 
             ViewData["TodayRecommendApp"] = AppApplicationServices.GetTodayRecommend(CurrentUser.Id);
@@ -80,7 +79,7 @@ namespace NewCRM.Web.Controllers
             }
 
             ViewData["AppTypes"] = AppApplicationServices.GetAppTypes();
-
+       
             return View(appResult);
         }
 
@@ -116,6 +115,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyAppStart(Int32 appId, Int32 starCount)
         {
+            
             AppApplicationServices.ModifyAppStar(CurrentUser.Id, appId, starCount);
             return Json(new { success = 1 });
         }

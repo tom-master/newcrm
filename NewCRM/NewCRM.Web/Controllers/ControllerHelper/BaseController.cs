@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Web.Mvc;
 using System.Text;
+using System.Threading;
 using NewCRM.Application.Services.IApplicationService;
 using NewCRM.Dto.Dto;
 
@@ -41,7 +42,7 @@ namespace NewCRM.Web.Controllers.ControllerHelper
         protected override void OnException(ExceptionContext filterContext)
         {
             filterContext.ExceptionHandled = true;
-            filterContext.Result = Content("<script>window.top.ZENG.msgbox.show('" + filterContext.Exception.Message + "', 5, 3000)</script>");
+            filterContext.Result = Content(@"<script>setTimeout(function(){window.top.ZENG.msgbox.show('" + filterContext.Exception.Message + "', 5,3000);},0)</script>");
         }
     }
 }
