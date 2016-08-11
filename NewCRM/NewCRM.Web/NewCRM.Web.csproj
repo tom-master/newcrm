@@ -503,6 +503,7 @@
     <Content Include="Scripts\HoorayUI\img\ui\kugou.png" />
     <Content Include="Scripts\HoorayUI\img\ui\kw.png" />
     <Content Include="Scripts\HoorayUI\img\ui\loading.gif" />
+    <Content Include="Scripts\HoorayUI\img\ui\loading_128.gif" />
     <Content Include="Scripts\HoorayUI\img\ui\loading_16.gif" />
     <Content Include="Scripts\HoorayUI\img\ui\loading_24.gif" />
     <Content Include="Scripts\HoorayUI\img\ui\loading_48.gif" />
@@ -811,7 +812,6 @@
     <Content Include="Scripts\HoorayUI\js\HoorayLibs\hooraylibs.js" />
     <Content Include="Scripts\HoorayUI\js\HoorayLibs\scrolltotop.gif" />
     <Content Include="Scripts\HoorayUI\js\HoorayLibs\ZeroClipboard.swf" />
-    <Content Include="Scripts\HoorayUI\js\processBar\jquery.processbar.js" />
     <Content Include="Scripts\HoorayUI\js\sugar\sugar-1.4.1.min.js" />
     <Content Include="Scripts\HoorayUI\js\validate\Validform_v5.3.2\Validform_v5.3.2.js" />
     <Content Include="Scripts\HoorayUI\js\validate\Validform_v5.3.2\Validform_v5.3.2\demo.html" />

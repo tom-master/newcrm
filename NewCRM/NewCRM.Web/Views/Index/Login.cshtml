@@ -23,11 +23,9 @@
 </div>
 
 <script src="@Url.Content("~/Scripts/jquery-2.2.4.js")"></script>
-<script src="@Url.Content("~/Scripts/HoorayUI/js/processBar/jquery.processbar.js")"></script>
 <script src="@Url.Content("~/Scripts/HoorayUI/js/validate/Validform_v5.3.2/Validform_v5.3.2.js")"></script>
 <script src="@Url.Content("~/Scripts/dynamicBackground.js")"></script>
 <script>
-    var processIndex = 0;
     $(function () {
 
         $("#login")
@@ -35,12 +33,7 @@
                 event.preventDefault();
                 $('form').fadeOut(500);
                 $('.wrapper').addClass('form-success');
-                $('#yoda').show();
-
-
-                var setIntervalIndex = 0;
-                var progressBar = $("#yoda").ProgressBarWars({ porcentaje: 0, estilo: "yoda" });
-
+         
                 $.post('@Url.Action("Landing", "Index")',
                     {
                         userName: $('.username').val(),
@@ -48,24 +41,11 @@
                     },
                     function (responseText) {
                         if (typeof responseText.success !== 'undefined') {
-                            progressBar.mover(100);
-                            clearInterval(setIntervalIndex);
                             location.href = '@Url.Action("Desktop", "Index")';
                         } else {
                             $('.log .tip').text(responseText.msg).show();
                         }
                     });
-
-                setIntervalIndex = setInterval(function () {
-                    progressBar.mover(processIndex);
-                    processIndex += 10;
-                    if (progressBar.getCurrentPorcent() === 100) {
-                        progressBar.mover(0);
-                        processIndex = 0;
-                    }
-                },
-                    500);
-
             });
         $("#loginForm")
             .validate({
