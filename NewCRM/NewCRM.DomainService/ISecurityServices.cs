@@ -34,6 +34,6 @@ namespace NewCRM.Domain.Services
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
-        Role GetRoleInfo(Int32 roleId);
+        dynamic GetRoleInfo(Int32 roleId);
     }
 }

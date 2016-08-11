@@ -58,6 +58,7 @@
     <Compile Include="Dto\BaseDto.cs" />
     <Compile Include="Dto\DeskDto.cs" />
     <Compile Include="Dto\MemberDto.cs" />
+    <Compile Include="Dto\PowerDto.cs" />
     <Compile Include="Dto\RoleDto.cs" />
     <Compile Include="Dto\TodayRecommendAppDto.cs" />
     <Compile Include="Dto\UserDto.cs" />

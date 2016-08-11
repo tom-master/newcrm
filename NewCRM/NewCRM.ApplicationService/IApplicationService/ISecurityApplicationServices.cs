@@ -27,5 +27,12 @@ namespace NewCRM.Application.Services.IApplicationService
         /// </summary>
         /// <returns></returns>
         List<AppDto> GetSystemRoleApps();
+
+        /// <summary>
+        /// 根据角色Id获取角色
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        RoleDto GetRoleInfo(Int32 roleId);
     }
 }

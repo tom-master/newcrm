@@ -58,9 +58,22 @@ namespace NewCRM.Domain.Services.Impl
             }).ToList<dynamic>();
         }
 
-        public Role GetRoleInfo(Int32 roleId)
+        public dynamic GetRoleInfo(Int32 roleId)
         {
-            return RoleRepository.Entities.FirstOrDefault(role => role.Id == roleId);
+            var roleResult = RoleRepository.Entities.FirstOrDefault(role => role.Id == roleId);
+
+            if (roleResult == null)
+            {
+                throw new BusinessException($"角色可能已被删除，请刷新后再试");
+            }
+
+            var rolePowerIds = roleResult.Powers.Select(rolePower => rolePower.PowerId);
+
+            return new
+            {
+                Name = roleResult.Name,
+                Powers = AppRepository.Entities.Where(app => rolePowerIds.Contains(app.Id)).Select(s => new { s.Id, s.Name, s.IconUrl })
+            };
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Application.Services.IApplicationService;
+using NewCRM.Domain.Entities.DomainModel.Security;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 
@@ -28,6 +29,13 @@ namespace NewCRM.Application.Services
         public List<AppDto> GetSystemRoleApps()
         {
             return SecurityServices.GetSystemRoleApps().ConvertDynamicToDtos<AppDto>().ToList();
+        }
+
+        public RoleDto GetRoleInfo(Int32 roleId)
+        {
+            ValidateParameter.Validate(roleId);
+
+            return SecurityServices.GetRoleInfo(roleId).ConvertToDto<Role, RoleDto>();
         }
     }
 }

@@ -10,7 +10,7 @@ using NewCRM.Dto.MapperProfile;
 
 namespace NewCRM.Dto
 {
-    internal static class DtoConfiguration
+    public static class DtoConfiguration
     {
         static DtoConfiguration()
         {

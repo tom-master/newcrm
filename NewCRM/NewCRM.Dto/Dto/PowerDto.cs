@@ -9,5 +9,7 @@ namespace NewCRM.Dto.Dto
     public sealed class PowerDto : BaseDto
     {
         public String Name { get; set; }
+
+        public String IconUrl { get; set; }
     }
 }

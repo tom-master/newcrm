@@ -1,5 +1,8 @@
-﻿@{
+﻿@using NewCRM.Dto.Dto
+@{
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
+
+    var roleResultInfo = ViewData["RoleResultInfo"] as RoleDto;
 }
 
 <form action="detail.ajax.php" method="post" name="form" id="form">
@@ -19,19 +22,18 @@
             <div class="input-label">
                 <label class="label-text">专属应用：</label>
                 <div class="label-box form-inline control-group">
-                    @*<div class="permissions_apps">
-                        <?php if($ permission[' appsinfo'] ! =NULL){ foreach($ permission[' appsinfo'] as $ v){ echo '
-
-                        <div class="app" appid="'.$v['tbid'].'">
-                            ';
-                            echo '<img src="../../'.$v['icon'].'" alt="'.$v['name'].'" title="'.$v['name'].'">';
-                            echo '<span class="del">删</span>';
-                            echo '
-                        </div>';
+                    <div class="permissions_apps">
+                        @{
+                            foreach (var powerDto in roleResultInfo.Powers)
+                            {<text>
+                            <div class="app" appid="@powerDto.Id">
+                                <img src="@powerDto.IconUrl" alt="@powerDto.Name" title="@powerDto.Name">
+                                <span class="del">删</span>
+                            </div>
+                            </text>
+                            }
                         }
-                        }
-                        ?>
-                    </div>*@
+                    </div>
                     <a class="btn" href="javascript:;" menu="addapps">添加应用</a>
                     <input type="hidden" name="val_apps_id" id="val_apps_id" value="" datatype="*" nullmsg="请选择专属应用">
                     <span class="help-inline"></span>

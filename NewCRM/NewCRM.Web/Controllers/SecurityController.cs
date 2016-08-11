@@ -18,9 +18,14 @@ namespace NewCRM.Web.Controllers
         }
 
 
-        public ActionResult CreateNewRole()
+        public ActionResult CreateNewRole(Int32 roleId)
         {
-            
+            if (roleId != 0)
+            {
+                var roleInfoResult = SecurityApplicationServices.GetRoleInfo(roleId);
+                ViewData["RoleInfo"] = roleInfoResult;
+            }
+
             return View();
         }
 
