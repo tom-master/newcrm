@@ -7,3 +7,4 @@ namespace NewCRM.Dto.Dto
         public Int32 DeskNumber { get; set; }
     }
 }
+  
