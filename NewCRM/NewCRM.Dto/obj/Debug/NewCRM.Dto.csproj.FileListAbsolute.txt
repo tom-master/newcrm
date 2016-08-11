@@ -18,3 +18,4 @@ E:\NewCRMTest\NewCRM\NewCRM.Dto\bin\Debug\Newtonsoft.Json.dll
 E:\NewCRMTest\NewCRM\NewCRM.Dto\bin\Debug\NewCRM.Infrastructure.pdb
 E:\NewCRMTest\NewCRM\NewCRM.Dto\bin\Debug\Newtonsoft.Json.xml
 E:\NewCRMTest\NewCRM\NewCRM.Dto\bin\Debug\NewCRM.Infrastructure.dll
+E:\NewCRMTest\NewCRM\NewCRM.Dto\bin\Debug\AutoMapper.xml

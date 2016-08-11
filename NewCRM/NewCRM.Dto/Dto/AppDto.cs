@@ -1,5 +1,4 @@
 ﻿using System;
-using NewCRM.Domain.Entities.ValueObject;
 
 namespace NewCRM.Dto.Dto
 {

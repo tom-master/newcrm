@@ -1,39 +1,42 @@
 ﻿@{
     Layout = null;
 }
-<link href="@Url.Content("~/Scripts/HoorayUI/css/login.css")" rel="stylesheet" />
-<canvas id="Mycanvas"></canvas>
-<div class="wrapper">
-    <div class="container">
-        <h1 class="logo">
-            dog fucker v8.7
-            <div class="progress" id="yoda" style="display: none"></div>
-        </h1>
+<link href="@Url.Content("~/Scripts/HoorayUI/css/login.css")" rel="stylesheet"/>
+<div class="loading" style="display: none"></div>
+<div id="parentDiv">
+    <canvas id="Mycanvas"></canvas>
+    
+    <div class="wrapper">
+        <div class="container">
+            <h1 class="logo">
+                dog fucker v8.7
+            </h1>
 
-        <form id="loginForm">
-            <div>
-                <input type="text" name="username" value="admin" class="username" placeholder="用户名" autocomplete="off" />
-            </div>
-            <div>
-                <input type="password" name="password" value="admin123" class="password" placeholder="密码" oncontextmenu="return false" onpaste="return false" />
-            </div>
-            <button id="login">登 陆</button>
-        </form>
+            <form id="loginForm">
+                <div>
+                    <input type="text" name="username" value="admin" class="username" placeholder="用户名" autocomplete="off" />
+                </div>
+                <div>
+                    <input type="password" name="password" value="admin123" class="password" placeholder="密码" oncontextmenu="return false" onpaste="return false" />
+                </div>
+                <button id="login">登 陆</button>
+            </form>
+        </div>
     </div>
 </div>
-
 <script src="@Url.Content("~/Scripts/jquery-2.2.4.js")"></script>
 <script src="@Url.Content("~/Scripts/HoorayUI/js/validate/Validform_v5.3.2/Validform_v5.3.2.js")"></script>
 <script src="@Url.Content("~/Scripts/dynamicBackground.js")"></script>
 <script>
     $(function () {
-
         $("#login")
             .click(function (event) {
                 event.preventDefault();
                 $('form').fadeOut(500);
                 $('.wrapper').addClass('form-success');
-         
+
+                $('.loading').show();
+                $('#parentDiv').hide();
                 $.post('@Url.Action("Landing", "Index")',
                     {
                         userName: $('.username').val(),
@@ -41,40 +44,16 @@
                     },
                     function (responseText) {
                         if (typeof responseText.success !== 'undefined') {
-                            location.href = '@Url.Action("Desktop", "Index")';
+                            setTimeout(function () {
+                                $('.loading').hide();
+                                location.href = '@Url.Action("Desktop", "Index")';
+                            }, 2000);
                         } else {
+                            $('#parentDiv').show();
+                            $('.loading').hide();
                             $('.log .tip').text(responseText.msg).show();
                         }
                     });
-            });
-        $("#loginForm")
-            .validate({
-                rules: {
-                    username: {
-                        required: true, //必填
-                        minlength: 3, //最少6个字符
-                        maxlength: 32 //最多20个字符
-                    },
-                    password: {
-                        required: true,
-                        minlength: 3,
-                        maxlength: 32
-                    }
-                },
-                //错误信息提示
-                messages: {
-                    username: {
-                        required: "必须填写用户名",
-                        minlength: "用户名至少为3个字符",
-                        maxlength: "用户名至多为32个字符",
-                        remote: "用户名已存在"
-                    },
-                    password: {
-                        required: "必须填写密码",
-                        minlength: "密码至少为3个字符",
-                        maxlength: "密码至多为32个字符"
-                    }
-                }
             });
     });
 

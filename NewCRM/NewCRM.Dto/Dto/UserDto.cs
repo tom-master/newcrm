@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using NewCRM.Domain.Entities.DomainModel.Account;
-using NewCRM.Domain.Entities.DomainModel.Security;
-using NewCRM.Domain.Entities.DomainModel.System;
 
 namespace NewCRM.Dto.Dto
 {
     public sealed class UserDto : BaseDto
     {
-      
+
 
         /// <summary>
         /// 用户配置Id
@@ -105,9 +102,6 @@ namespace NewCRM.Dto.Dto
         /// <summary>
         /// 桌面
         /// </summary>
-
-        public ICollection<Desk> Desks { get; set; }
-
+        public List<DeskDto> Desks { get; set; }
     }
-
 }

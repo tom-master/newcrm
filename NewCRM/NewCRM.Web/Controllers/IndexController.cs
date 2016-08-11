@@ -23,6 +23,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult Desktop()
         {
+            ViewBag.Title = "桌面";
             if (Request.Cookies["Account"] != null)
             {
                 CurrentUser = AccountApplicationServices.GetUserConfig(Int32.Parse(Request.Cookies["Account"].Value));
