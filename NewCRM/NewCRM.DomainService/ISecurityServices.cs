@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NewCRM.Domain.Entities.DomainModel.Security;
 
 namespace NewCRM.Domain.Services
 {
@@ -20,5 +21,19 @@ namespace NewCRM.Domain.Services
         /// </summary>
         /// <param name="roleId"></param>
         void RemoveRole(Int32 roleId);
+
+        /// <summary>
+        /// 获取只有管理员才能使用的app
+        /// </summary>
+        /// <returns></returns>
+        List<dynamic> GetSystemRoleApps();
+
+
+        /// <summary>
+        /// 根据角色Id获取角色
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        Role GetRoleInfo(Int32 roleId);
     }
 }

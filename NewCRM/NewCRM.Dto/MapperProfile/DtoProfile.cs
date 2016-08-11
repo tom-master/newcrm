@@ -2,6 +2,7 @@
 using System.Linq;
 using AutoMapper;
 using NewCRM.Domain.Entities.DomainModel.Account;
+using NewCRM.Domain.Entities.DomainModel.Security;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Dto.Dto;
@@ -9,7 +10,7 @@ using NewCRM.Dto.Dto;
 namespace NewCRM.Dto.MapperProfile
 {
 
-    public class UserToUserDtoProfile : Profile
+    internal class UserToUserDtoProfile : Profile
     {
         public UserToUserDtoProfile()
         {
@@ -37,7 +38,7 @@ namespace NewCRM.Dto.MapperProfile
         }
     }
 
-    public class WallpaperToWallpaperDtoProfile : Profile
+    internal class WallpaperToWallpaperDtoProfile : Profile
     {
         public WallpaperToWallpaperDtoProfile()
         {
@@ -52,7 +53,7 @@ namespace NewCRM.Dto.MapperProfile
         }
     }
 
-    public class WallpaperDtoToWallpaperProfile : Profile
+    internal class WallpaperDtoToWallpaperProfile : Profile
     {
         public WallpaperDtoToWallpaperProfile()
         {
@@ -68,7 +69,7 @@ namespace NewCRM.Dto.MapperProfile
         }
     }
 
-    public class MemberToMemberDtoProfile : Profile
+    internal class MemberToMemberDtoProfile : Profile
     {
         public MemberToMemberDtoProfile()
         {
@@ -96,7 +97,7 @@ namespace NewCRM.Dto.MapperProfile
         }
     }
 
-    public class AppTypeToAppTypeDtoProfile : Profile
+    internal class AppTypeToAppTypeDtoProfile : Profile
     {
         public AppTypeToAppTypeDtoProfile()
         {
@@ -106,7 +107,7 @@ namespace NewCRM.Dto.MapperProfile
         }
     }
 
-    public class AppTypeDtoToAppTypeProfile : Profile
+    internal class AppTypeDtoToAppTypeProfile : Profile
     {
         public AppTypeDtoToAppTypeProfile()
         {
@@ -116,7 +117,7 @@ namespace NewCRM.Dto.MapperProfile
         }
     }
 
-    public class AppToAppDtoProfile : Profile
+    internal class AppToAppDtoProfile : Profile
     {
         public AppToAppDtoProfile()
         {
@@ -139,7 +140,7 @@ namespace NewCRM.Dto.MapperProfile
         }
     }
 
-    public class AppDtoToAppProfile : Profile
+    internal class AppDtoToAppProfile : Profile
     {
         public AppDtoToAppProfile()
         {
@@ -165,6 +166,25 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(app => app.AppStyle, dto => dto.MapFrom(w => EnumOp.ConvertEnum(typeof(AppStyle), w.AppStyle)));
         }
     }
+
+
+    internal class RoleToRoleDtoProfile : Profile
+    {
+        public RoleToRoleDtoProfile()
+        {
+            CreateMap<Role, RoleDto>()
+                .ForMember(dto => dto.Name, role => role.MapFrom(r => r.Name))
+                .ForMember(dto => dto.Powers, role => role.MapFrom(r => r.Powers.Select(s => new PowerDto
+                {
+                    Id = s.PowerId
+                })))
+                .ForMember(dto => dto.Id, role => role.MapFrom(r => r.Id));
+        }
+    }
+
+
+
+
 
     internal static class EnumOp
     {

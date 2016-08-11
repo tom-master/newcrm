@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Web.Mvc;
 using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
+    [Export]
     public class SecurityController : BaseController
     {
 
@@ -18,7 +20,15 @@ namespace NewCRM.Web.Controllers
 
         public ActionResult CreateNewRole()
         {
+            
             return View();
+        }
+
+
+        public ActionResult AddRoleApp()
+        {
+            var adminApps = SecurityApplicationServices.GetSystemRoleApps();
+            return View(adminApps);
         }
 
         #endregion

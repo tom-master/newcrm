@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using NewCRM.Domain.Entities.DomainModel.Security;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
 namespace NewCRM.Domain.Services.Impl
@@ -21,7 +22,7 @@ namespace NewCRM.Domain.Services.Impl
 
             totalCount = roles.Count();
 
-            return roles.Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(s => new
+            return roles.OrderByDescending(o => o.AddTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(s => new
             {
                 s.Name,
                 s.Id
@@ -43,6 +44,23 @@ namespace NewCRM.Domain.Services.Impl
             }
 
             roleResult.Remove();
+        }
+
+        public List<dynamic> GetSystemRoleApps()
+        {
+            var apps = AppRepository.Entities.Where(app => app.IsSystem);
+
+            return apps.OrderByDescending(o => o.AddTime).Select(app => new
+            {
+                app.Id,
+                app.Name,
+                app.IconUrl
+            }).ToList<dynamic>();
+        }
+
+        public Role GetRoleInfo(Int32 roleId)
+        {
+            return RoleRepository.Entities.FirstOrDefault(role => role.Id == roleId);
         }
     }
 }

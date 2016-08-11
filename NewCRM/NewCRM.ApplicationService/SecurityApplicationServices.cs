@@ -9,7 +9,7 @@ using NewCRM.Dto.Dto;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(ISecurityApplicationServices))]
-    internal sealed class SecurityApplicationServices : BaseApplicationServices, ISecurityApplicationServices
+    internal class SecurityApplicationServices : BaseApplicationServices, ISecurityApplicationServices
     {
         public List<RoleDto> GetAllRoles(String roleName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
@@ -23,6 +23,11 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(roleId);
 
             SecurityServices.RemoveRole(roleId);
+        }
+
+        public List<AppDto> GetSystemRoleApps()
+        {
+            return SecurityServices.GetSystemRoleApps().ConvertDynamicToDtos<AppDto>().ToList();
         }
     }
 }

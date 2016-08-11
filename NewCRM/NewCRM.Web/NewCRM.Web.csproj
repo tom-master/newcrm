@@ -972,6 +972,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Views\App\UserAppManageNewApp.cshtml" />
+    <Content Include="Views\Security\AddRoleApp.cshtml" />
     <None Include="Views\Security\CreateNewRole.cshtml" />
   </ItemGroup>
   <ItemGroup>

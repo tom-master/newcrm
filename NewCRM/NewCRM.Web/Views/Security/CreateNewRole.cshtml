@@ -3,8 +3,7 @@
 }
 
 <form action="detail.ajax.php" method="post" name="form" id="form">
-    <input type="hidden" name="ac" value="edit">
-    <input type="hidden" name="id" value="<?php echo $_GET['permissionid']; ?>">
+    <input type="hidden" name="id" value="@Request["roleId"]">
     <div class="creatbox">
         <div class="middle">
             <p class="detile-title">
@@ -34,7 +33,7 @@
                         ?>
                     </div>*@
                     <a class="btn" href="javascript:;" menu="addapps">添加应用</a>
-                    <input type="hidden" name="val_apps_id" id="val_apps_id" value="<?php echo $permission['apps_id']; ?>" datatype="*" nullmsg="请选择专属应用">
+                    <input type="hidden" name="val_apps_id" id="val_apps_id" value="" datatype="*" nullmsg="请选择专属应用">
                     <span class="help-inline"></span>
                 </div>
             </div>
@@ -55,9 +54,6 @@
                 btnSubmit: '#btn-submit',
                 postonce: false,
                 showAllError: true,
-                //msg：提示信息;
-                //o:{obj:*,type:*,curform:*}, obj指向的是当前验证的表单元素（或表单对象），type指示提示的状态，值为1、2、3、4， 1：正在检测/提交数据，2：通过验证，3：验证失败，4：提示ignore状态, curform为当前form对象;
-                //cssctl:内置的提示信息样式控制函数，该函数需传入两个参数：显示提示信息的对象 和 当前提示的状态（既形参o中的type）;
                 tiptype: function (msg, o) {
                     if (!o.obj.is('form')) {//验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
                         var B = o.obj.parents('.control-group');
@@ -112,7 +108,7 @@
             //添加应用
             $('a[menu=addapps]').click(function () {
                 $.dialog.data('appsid', $('#val_apps_id').val());
-                $.dialog.open('sysapp/permission/alert_addapps.php', {
+                $.dialog.open('@Url.Action("AddRoleApp","Security")', {
                     id: 'alert_addapps',
                     title: '添加应用',
                     resize: false,

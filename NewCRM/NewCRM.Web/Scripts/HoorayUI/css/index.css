@@ -609,11 +609,12 @@ input {
 }
 
 .radi {
-    -webkit-mask-image: url('../../HoorayUI/img/ui/circle_mask.png');
+    -webkit-mask: url('../../HoorayUI/img/ui/circle_mask.png');
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: 50% 50%;
     -webkit-mask-size: 300%;
     -webkit-animation: radi 1.5s;
+
 }
 
 /*遮罩层*/

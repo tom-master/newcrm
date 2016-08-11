@@ -14,6 +14,7 @@
                 <span class="app-name">@Model.Name</span>
                 <span class="app-desc"><i>@Model.UserCount</i> 人在使用</span>
                 @{
+ 
                     if (((Boolean)ViewData["IsInstallApp"]))
                     {<text>
                     <a href="javascript:;" app_id="@Model.Id" app_type="@Model.AppStyle.ToString().ToLower()" class="btn-run">打开应用</a>

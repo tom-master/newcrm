@@ -3,13 +3,14 @@ using System.Linq;
 using AutoMapper;
 using NewCRM.Domain.Entities.DomainModel;
 using NewCRM.Domain.Entities.DomainModel.Account;
+using NewCRM.Domain.Entities.DomainModel.Security;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Dto.Dto;
 using NewCRM.Dto.MapperProfile;
 
 namespace NewCRM.Dto
 {
-    public static class DtoConfiguration
+    internal static class DtoConfiguration
     {
         static DtoConfiguration()
         {
@@ -43,6 +44,10 @@ namespace NewCRM.Dto
 
                 d.CreateMap<AppDto, App>();
                 d.AddProfile<AppDtoToAppProfile>();
+
+                //Role
+                d.CreateMap<Role, RoleDto>();
+                d.AddProfile<RoleToRoleDtoProfile>();
             });
 
             #region Member

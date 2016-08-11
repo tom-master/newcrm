@@ -44,10 +44,8 @@
                     },
                     function (responseText) {
                         if (typeof responseText.success !== 'undefined') {
-                            setTimeout(function () {
-                                $('.loading').hide();
-                                location.href = '@Url.Action("Desktop", "Index")';
-                            }, 2000);
+                            $('.loading').hide();
+                            location.href = '@Url.Action("Desktop", "Index")';
                         } else {
                             $('#parentDiv').show();
                             $('.loading').hide();

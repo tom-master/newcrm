@@ -21,5 +21,11 @@ namespace NewCRM.Application.Services.IApplicationService
         /// </summary>
         /// <param name="roleId"></param>
         void RemoveRole(Int32 roleId);
+
+        /// <summary>
+        /// 获取只有管理员才能使用的应用
+        /// </summary>
+        /// <returns></returns>
+        List<AppDto> GetSystemRoleApps();
     }
 }
