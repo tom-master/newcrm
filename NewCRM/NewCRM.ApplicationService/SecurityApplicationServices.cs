@@ -37,5 +37,40 @@ namespace NewCRM.Application.Services
 
             return SecurityServices.GetRoleInfo(roleId).ConvertToDto<Role, RoleDto>();
         }
+
+        public void AddNewPower(PowerDto power)
+        {
+            ValidateParameter.Validate(power);
+            SecurityServices.AddNewPower(power.ConvertToModel<PowerDto, Power>());
+        }
+
+        public List<PowerDto> GetAllPowers(String powerName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+        {
+            ValidateParameter.Validate(powerName).Validate(pageIndex).Validate(pageSize);
+            return
+                SecurityServices.GetAllPowers(powerName, pageIndex, pageSize, out totalCount)
+                    .ConvertToDtos<Power, PowerDto>().ToList();
+        }
+
+        public PowerDto GetPower(Int32 powerId)
+        {
+            ValidateParameter.Validate(powerId);
+
+            return SecurityServices.GetPower(powerId).ConvertToDto<Power, PowerDto>();
+        }
+
+        public void ModifyPower(PowerDto power)
+        {
+            ValidateParameter.Validate(power);
+
+            SecurityServices.ModifyPower(power.ConvertToModel<PowerDto, Power>());
+        }
+
+        public void RemovePower(Int32 powerId)
+        {
+            ValidateParameter.Validate(powerId);
+
+            SecurityServices.RemovePower(powerId);
+        }
     }
 }

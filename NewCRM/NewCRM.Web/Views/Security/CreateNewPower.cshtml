@@ -1,0 +1,157 @@
+﻿@using NewCRM.Dto.Dto
+
+@{
+    Layout = "~/Views/Shared/_LayoutApps.cshtml";
+
+    PowerDto powerResult = ViewData["PowerResult"] as PowerDto;
+
+    if (powerResult==null)
+    {
+        powerResult = new PowerDto();
+    }
+}
+
+<form action="@Url.Action("NewPower","Security")?powerId=@Request["powerId"]" method="post" id="form" name="form">
+    <input type="hidden" id="powerId" name="powerId" value="@Request["powerId"]" />
+    <div class="creatbox">
+        <div class="middle" style="overflow: hidden; position: inherit; bottom: 0px;">
+            <div class="input-label">
+                <label class="label-text">权限标识：</label>
+                <div class="label-box form-inline control-group">
+                    @{
+                        if (powerResult.Name == null)
+                        {
+                            <text>
+                                <input type="text" class="text" name="val_powerIdentity" id="val_powerIdentity" value="" datatype="*" nullmsg="请输入权限标识" />
+                            </text>
+                        }
+                        else
+                        {
+                            <text>
+                                <input type="text" class="text" name="val_powerIdentity" id="val_powerIdentity" value="@powerResult.Name" datatype="*" nullmsg="请输入权限标识" />
+                            </text>
+                        }
+                    }
+
+                    <span class="help-inline"></span>
+                </div>
+            </div>
+            <div class="input-label">
+                <label class="label-text">权限名称：</label>
+                <div class="label-box form-inline control-group">
+
+                    @{
+                        if (powerResult.PowerIdentity == null)
+                        {
+                            <text>
+                                <input type="text" class="text" name="val_powerName" id="val_powerName" value="" datatype="*" nullmsg="请输入权限名称" />
+                            </text>
+                        }
+                        else
+                        {
+                            <text>
+                                <input type="text" class="text" name="val_powerName" id="val_powerName" value="@powerResult.PowerIdentity" datatype="*" nullmsg="请输入权限名称" />
+                            </text>
+                        }
+                    }
+
+
+                    <span class="help-inline"></span>
+                </div>
+            </div>
+            <div class="input-label">
+                <label class="label-text">权限描述：</label>
+                <div class="label-box form-inline control-group">
+
+                    @{
+                        if (powerResult.Remark == null)
+                        {<text>
+                    <textarea class="textarea" name="val_remark" id="val_remark" style="width: 300px; height: 100px; margin-bottom: 10px"></textarea>
+                         </text>
+                        }
+                        else
+                        {<text>
+                    <textarea class="textarea" name="val_remark" id="val_remark" style="width: 300px; height: 100px; margin-bottom: 10px">@powerResult.Remark</textarea>
+                         </text>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom-bar">
+        <div class="con">
+            <a class="btn btn-primary fr" id="btn-submit" href="javascript:;"><i class="icon-white icon-ok"></i> 确定</a>
+            <a class="btn fr" href="javascript:window.parent.closeDetailIframe();" style="margin-right: 10px"><i class="icon-chevron-up"></i> 返回权限列表</a>
+        </div>
+    </div>
+</form>
+
+@section ChildrenScript
+{
+    <script>
+        $('#form').Validform({
+            btnSubmit: '#btn-submit',
+            postonce: false,
+            showAllError: true,
+            tiptype: function (msg, o) {
+                if (!o.obj.is('form')) {//验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
+                    var B = o.obj.parents('.control-group');
+                    var T = B.children('.help-inline');
+                    if (o.type === 2) {
+                        B.removeClass('error');
+                        T.text('');
+                    } else {
+                        B.addClass('error');
+                        T.text(msg);
+                    }
+                }
+            },
+            ajaxPost: true,
+            callback: function (responseText) {
+                if ($('input[name="powerId"]').val() !== '') {
+                    if (typeof responseText.success !== 'undefined') {
+                        $.dialog({
+                            id: 'ajaxedit',
+                            content: '修改成功，是否继续修改？',
+                            okVal: '是',
+                            ok: function () {
+                                $.dialog.list['ajaxedit'].close();
+                            },
+                            cancel: function () {
+                                window.parent.closeDetailIframe(function () {
+                                    window.parent.$('#pagination').trigger('currentPage');
+                                });
+                            }
+                        });
+                    }
+                } else {
+                    if (typeof responseText.success !== 'undefined') {
+                        $.dialog({
+                            id: 'ajaxedit',
+                            content: '添加成功，是否继续添加？',
+                            okVal: '是',
+                            ok: function () {
+                                location.reload();
+                                return false;
+                            },
+                            cancel: function () {
+                                window.parent.closeDetailIframe(function () {
+                                    window.parent.$('#pagination').trigger('currentPage');
+                                });
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    </script>
+
+}
+
+
+
+
+
+
+

@@ -75,5 +75,65 @@ namespace NewCRM.Domain.Services.Impl
                 Powers = AppRepository.Entities.Where(app => rolePowerIds.Contains(app.Id)).Select(s => new { s.Id, s.Name, s.IconUrl })
             };
         }
+
+        public void AddNewPower(Power power)
+        {
+            PowerRepository.Add(power);
+        }
+
+        public List<Power> GetAllPowers(String powerName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+        {
+            var powers = PowerRepository.Entities;
+
+            if ((powerName + "").Length > 0)
+            {
+                powers = powers.Where(power => power.Name.Contains(powerName));
+            }
+
+            totalCount = powers.Count();
+
+            return powers.OrderByDescending(o => o.AddTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+
+        }
+
+        public Power GetPower(Int32 powerId)
+        {
+            var powerResult = PowerRepository.Entities.FirstOrDefault(power => power.Id == powerId);
+
+            if (powerResult == null)
+            {
+                throw new BusinessException($"该权限可能已被删除，请刷新后再试");
+            }
+            return powerResult;
+        }
+
+        public void ModifyPower(Power power)
+        {
+            var powerResult = PowerRepository.Entities.FirstOrDefault(p => p.Id == power.Id);
+            if (powerResult == null)
+            {
+                throw new BusinessException("该权限可能已被删除，请刷新后再试");
+            }
+
+            powerResult.ModifyPowerIdentity(power.PowerIdentity);
+
+            powerResult.ModifyPowerName(power.Name);
+
+            PowerRepository.Update(powerResult);
+        }
+
+        public void RemovePower(Int32 powerId)
+        {
+            var powerResult = PowerRepository.Entities.FirstOrDefault(power => power.Id == powerId);
+
+            if (powerResult == null)
+            {
+                throw new BusinessException("该权限可能已被删除，请刷新后再试");
+            }
+
+            powerResult.Remove();
+
+            PowerRepository.Update(powerResult);
+        }
     }
 }

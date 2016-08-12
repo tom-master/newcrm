@@ -10,6 +10,8 @@ namespace NewCRM.Dto.Dto
     {
         public String Name { get; set; }
 
-        public String IconUrl { get; set; }
+        public String PowerIdentity { get; set; }
+
+        public String Remark { get; set; }
     }
 }

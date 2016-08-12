@@ -8,13 +8,15 @@
 //------------------------------------------------------------------------------
 
 
+using System.ComponentModel.Composition;
 using NewCRM.Domain.Entities.DomainModel.Security;
 
 namespace NewCRM.Domain.Entities.Repositories.IRepository.Security
 {
     /// <summary>
-    ///   仓储操作层接口——权限
+    ///  仓储操作层接口——权限
     /// </summary>
+    [InheritedExport(typeof(IPowerRepository))]
     public partial interface IPowerRepository : IRepository<Power>
     { }
 }

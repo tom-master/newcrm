@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using AutoMapper;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.Security;
@@ -179,6 +180,31 @@ namespace NewCRM.Dto.MapperProfile
                     Id = s.PowerId
                 })))
                 .ForMember(dto => dto.Id, role => role.MapFrom(r => r.Id));
+        }
+    }
+
+
+    internal class PowerToPowerDtoProfile : Profile
+    {
+        public PowerToPowerDtoProfile()
+        {
+            CreateMap<Power, PowerDto>()
+                .ForMember(dto => dto.Name, power => power.MapFrom(r => r.Name))
+                .ForMember(dto => dto.PowerIdentity, power => power.MapFrom(r => r.PowerIdentity))
+                .ForMember(dto => dto.Remark, power => power.MapFrom(r => r.Remark))
+                .ForMember(dto => dto.Id, power => power.MapFrom(r => r.Id));
+        }
+    }
+
+    internal class PowerDtoToPowerProfile : Profile
+    {
+        public PowerDtoToPowerProfile()
+        {
+            CreateMap<PowerDto, Power>()
+                .ForMember(power => power.Name, dto => dto.MapFrom(r => r.Name))
+                .ForMember(power => power.PowerIdentity, dto => dto.MapFrom(r => r.PowerIdentity))
+                .ForMember(power => power.Remark, dto => dto.MapFrom(r => r.Remark))
+                .ForMember(power => power.Id, dto => dto.MapFrom(r => r.Id));
         }
     }
 

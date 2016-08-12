@@ -23,7 +23,7 @@
                 <label class="label-text">专属应用：</label>
                 <div class="label-box form-inline control-group">
                     <div class="permissions_apps">
-                        @{
+                        @*@{
                             foreach (var powerDto in roleResultInfo.Powers)
                             {<text>
                             <div class="app" appid="@powerDto.Id">
@@ -32,7 +32,7 @@
                             </div>
                             </text>
                             }
-                        }
+                        }*@
                     </div>
                     <a class="btn" href="javascript:;" menu="addapps">添加应用</a>
                     <input type="hidden" name="val_apps_id" id="val_apps_id" value="" datatype="*" nullmsg="请选择专属应用">
@@ -136,7 +136,7 @@
                 var appsid = $('#val_apps_id').val().split(',');
                 var newappsid = [];
                 for (var i = 0, j = 0; i < appsid.length; i++) {
-                    if (appsid[i] != appid) {
+                    if (appsid[i] !== appid) {
                         newappsid[j] = appsid[i];
                         j++;
                     }

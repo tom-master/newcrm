@@ -39,6 +39,9 @@ namespace NewCRM.Domain.Services
         [Import]
         protected IRoleRepository RoleRepository { get; set; }
 
+        [Import]
+        protected IPowerRepository PowerRepository { get; set; }
+
 
 
         /// <summary>

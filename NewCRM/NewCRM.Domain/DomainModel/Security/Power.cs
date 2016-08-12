@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace NewCRM.Domain.Entities.DomainModel.Security
 {
-    [Description("权限"),Serializable]
+    [Description("权限"), Serializable]
     public partial class Power : DomainModelBase, IAggregationRoot
     {
         #region public property
@@ -12,6 +12,8 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
         /// 名称
         /// </summary>
         public String Name { get; private set; }
+
+        public String PowerIdentity { get; private set; }
 
         /// <summary>
         /// 备注
@@ -26,10 +28,12 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
         /// 实例化一个权限对象
         /// </summary>
         /// <param name="name"></param>
+        /// <param name="powerIdentity"></param>
         /// <param name="remark"></param>
-        public Power(String name, String remark = default(String))
-        { 
+        public Power(String name, String powerIdentity, String remark = default(String))
+        {
             Name = name;
+            PowerIdentity = powerIdentity;
             Remark = remark;
             AddTime = DateTime.Now;
         }

@@ -34,5 +34,41 @@ namespace NewCRM.Application.Services.IApplicationService
         /// <param name="roleId"></param>
         /// <returns></returns>
         RoleDto GetRoleInfo(Int32 roleId);
+
+        /// <summary>
+        /// 创建新权限
+        /// </summary>
+        /// <param name="power"></param>
+        void AddNewPower(PowerDto power);
+
+        /// <summary>
+        /// 获取所有的权限
+        /// </summary>
+        /// <param name="powerName"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="totalCount"></param>
+        /// <returns></returns>
+        List<PowerDto> GetAllPowers(String powerName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
+
+
+        /// <summary>
+        /// 根据powerId获取权限信息
+        /// </summary>
+        /// <param name="powerId"></param>
+        /// <returns></returns>
+        PowerDto GetPower(Int32 powerId);
+
+        /// <summary>
+        /// 修改权限信息
+        /// </summary>
+        /// <param name="power"></param>
+        void ModifyPower(PowerDto power);
+
+        /// <summary>
+        /// 删除权限
+        /// </summary>
+        /// <param name="powerId"></param>
+        void RemovePower(Int32 powerId);
     }
 }

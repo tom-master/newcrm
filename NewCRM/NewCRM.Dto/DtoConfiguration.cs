@@ -48,6 +48,14 @@ namespace NewCRM.Dto
                 //Role
                 d.CreateMap<Role, RoleDto>();
                 d.AddProfile<RoleToRoleDtoProfile>();
+
+                //Power
+                d.CreateMap<Power, PowerDto>();
+                d.AddProfile<PowerToPowerDtoProfile>();
+
+                d.CreateMap<PowerDto, Power>();
+                d.AddProfile<PowerDtoToPowerProfile>();
+
             });
 
             #region Member
