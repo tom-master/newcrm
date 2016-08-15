@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Web.Mvc;
 using NewCRM.Dto.Dto;
@@ -21,22 +22,22 @@ namespace NewCRM.Web.Controllers
             return View();
         }
 
-
         public ActionResult CreateNewRole(Int32 roleId = 0)
         {
             if (roleId != 0)
             {
-                var roleInfoResult = SecurityApplicationServices.GetRoleInfo(roleId);
-                ViewData["RoleInfo"] = roleInfoResult;
+                ViewData["RoleResult"] = SecurityApplicationServices.GetRole(roleId);
             }
-
             return View();
         }
 
-
-        public ActionResult AddRoleApp()
+        public ActionResult AddPowerToRole(Int32 roleId = 0)
         {
-            var adminApps = SecurityApplicationServices.GetSystemRoleApps();
+            if (roleId != 0)
+            {
+                ViewData["RolePowerResult"] = SecurityApplicationServices.GetRole(roleId);
+            }
+            var adminApps = SecurityApplicationServices.GetAllPowers().GroupBy(g => g.PowerIdentity).ToList();
             return View(adminApps);
         }
 
@@ -85,6 +86,25 @@ namespace NewCRM.Web.Controllers
                 success = 1
             });
         }
+
+        public ActionResult NewRole(FormCollection forms, Int32 roleId = 0)
+        {
+            if (roleId != 0)
+            {
+                SecurityApplicationServices.ModifyRole(WapperRoleDto(forms));
+            }
+            else
+            {
+                SecurityApplicationServices.AddNewRole(WapperRoleDto(forms));
+            }
+
+
+            return Json(new
+            {
+                success = 1
+            });
+        }
+
 
         #endregion
 
@@ -141,7 +161,6 @@ namespace NewCRM.Web.Controllers
 
         #endregion
 
-
         #region private method
 
         private static PowerDto WapperPowerDto(FormCollection forms)
@@ -152,7 +171,7 @@ namespace NewCRM.Web.Controllers
                 powerId = Int32.Parse(forms["powerId"]);
             }
 
-            var powerDto = new PowerDto
+            return new PowerDto
             {
                 PowerIdentity = forms["val_powerIdentity"],
                 Name = forms["val_powerName"],
@@ -160,7 +179,24 @@ namespace NewCRM.Web.Controllers
                 Id = powerId
 
             };
-            return powerDto;
+
+        }
+
+
+        private static RoleDto WapperRoleDto(FormCollection forms)
+        {
+            Int32 roleId = 0;
+            if ((forms["roleId"] + "").Length > 0)
+            {
+                roleId = Int32.Parse(forms["roleId"]);
+            }
+            return new RoleDto
+            {
+                RoleIdentity = forms["val_roleIdentity"],
+                Id = roleId,
+                Name = forms["val_roleName"],
+                Remark = forms["val_roleRemake"]
+            };
         }
 
         #endregion

@@ -18,6 +18,17 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
         }
 
         /// <summary>
+        /// 修改角色标识
+        /// </summary>
+        /// <param name="newRoleIdentity"></param>
+        /// <returns></returns>
+        public Role ModifyRoleIdentity(String newRoleIdentity)
+        {
+            RoleIdentity = newRoleIdentity;
+            return this;
+        }
+
+        /// <summary>
         /// 为角色添加权限
         /// </summary>
         /// <param name="powers"></param>

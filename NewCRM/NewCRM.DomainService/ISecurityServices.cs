@@ -23,10 +23,10 @@ namespace NewCRM.Domain.Services
         void RemoveRole(Int32 roleId);
 
         /// <summary>
-        /// 获取只有管理员才能使用的app
+        /// 获取所有的权限
         /// </summary>
         /// <returns></returns>
-        List<dynamic> GetSystemRoleApps();
+        List<dynamic> GetAllPowers();
 
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace NewCRM.Domain.Services
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
-        dynamic GetRoleInfo(Int32 roleId);
+        dynamic GetRole(Int32 roleId);
 
         /// <summary>
         /// 创建新权限
@@ -71,5 +71,18 @@ namespace NewCRM.Domain.Services
         /// </summary>
         /// <param name="powerId"></param>
         void RemovePower(Int32 powerId);
+
+
+        /// <summary>
+        /// 添加新的角色
+        /// </summary>
+        void AddNewRole(Role role);
+
+
+        /// <summary>
+        /// 修改角色信息
+        /// </summary>
+        /// <param name="role"></param>
+        void ModifyRole(Role role);
     }
 }

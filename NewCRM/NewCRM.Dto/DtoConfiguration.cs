@@ -49,6 +49,9 @@ namespace NewCRM.Dto
                 d.CreateMap<Role, RoleDto>();
                 d.AddProfile<RoleToRoleDtoProfile>();
 
+                d.CreateMap<RoleDto, Role>();
+                d.AddProfile<RoleDtoToRoleProfile>();
+
                 //Power
                 d.CreateMap<Power, PowerDto>();
                 d.AddProfile<PowerToPowerDtoProfile>();

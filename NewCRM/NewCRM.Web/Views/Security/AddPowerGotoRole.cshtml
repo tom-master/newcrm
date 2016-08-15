@@ -2,21 +2,16 @@
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
 }
 
-@model List<NewCRM.Dto.Dto.AppDto>
-<div class="alert_addapps">
-
-    @{
-        foreach (var appDto in Model)
-        {
-            <text>
-                <div class="app" title="@appDto.Name" appid="@appDto.Id">
-                    <img src="@appDto.IconUrl" alt="@appDto.Name" title="@appDto.Name">
-                    <div class="name">@appDto.Name</div>
-                    <span class="selected"></span>
-                </div>
-            </text>
-        }
-    }
+@model List<NewCRM.Dto.Dto.RoleDto>
+<div >
+    <table class="list-table" style="text-align: center">
+        <thead>
+            <tr class="toolbar">
+                <td style="width: 50%">权限名称</td>
+                <td style="width: 50%">权限标识</td>
+            </tr>
+        </thead>
+    </table>
 </div>
 <input type="hidden" id="value_1">
 
@@ -24,7 +19,6 @@
 {
     <script>
         $(function () {
-            debugger
             if ($.dialog.data('appsid') !== '') {
                 $('#value_1').val($.dialog.data('appsid'));
                 var appsid = $.dialog.data('appsid').split(',');

@@ -7,6 +7,10 @@ namespace NewCRM.Dto.Dto
     {
         public String Name { get; set; }
 
+        public String RoleIdentity { get; set; }
+
+        public String Remark { get; set; }
+
         public List<PowerDto> Powers { get; set; }
     }
 }

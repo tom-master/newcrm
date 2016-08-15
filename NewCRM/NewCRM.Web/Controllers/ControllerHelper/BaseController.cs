@@ -46,7 +46,18 @@ namespace NewCRM.Web.Controllers.ControllerHelper
         protected override void OnException(ExceptionContext filterContext)
         {
             filterContext.ExceptionHandled = true;
-            filterContext.Result = Content(@"<script>setTimeout(function(){window.top.ZENG.msgbox.show('" + filterContext.Exception.Message + "', 5,3000);},0)</script>");
+
+            String exceptionMessage = "";
+
+            if (filterContext.Exception.Message.Length > 50)
+            {
+                exceptionMessage = filterContext.Exception.Message.Substring(0, 50) + "...";
+            }
+            else
+            {
+                exceptionMessage = filterContext.Exception.Message;
+            }
+            filterContext.Result = Content(@"<script>setTimeout(function(){window.top.ZENG.msgbox.show('"+ exceptionMessage + "', 5,3000);},0)</script>");
         }
     }
 }

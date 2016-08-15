@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace NewCRM.Domain.Entities.DomainModel.Security
 {
-    [Description("角色"),Serializable]
+    [Description("角色"), Serializable]
     public partial class Role : DomainModelBase, IAggregationRoot
     {
         #region public property
@@ -15,10 +15,15 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
         public String Name { get; private set; }
 
         /// <summary>
+        /// 角色标识
+        /// </summary>
+        public String RoleIdentity { get; set; }
+
+        /// <summary>
         /// 备注
         /// </summary>
         public String Remark { get; private set; }
-         
+
         /// <summary>
         /// 角色对应的权限
         /// </summary>

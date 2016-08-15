@@ -71,7 +71,7 @@ if ($.browser.msie && ($.browser.version == "6.0") && !$.support.style) {
         handlePseudoHover: function (a) {
             setTimeout(function () {
                 DD_belatedPNG.applyVML(a);
-                },
+            },
             1);
         },
         fix: function (a) {
@@ -1165,14 +1165,14 @@ var swfobject = function () {
     };
     $.evalJSON = typeof JSON === "object" && JSON.parse ? JSON.parse : function (str) {
         return eval("(" + str + ")");
-                     };
+    };
     $.secureEvalJSON = typeof JSON === "object" && JSON.parse ? JSON.parse : function (str) {
         var filtered = str.replace(/\\["\\\/bfnrtu]/g, "@").replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, "]").replace(/(?:^|:|,)(?:\s*\[)+/g, "");
         if (/^[\],:{}\s]*$/.test(filtered)) {
             return eval("(" + str + ")");
         }
         throw new SyntaxError("Error parsing JSON, source is not valid.");
-                           };
+    };
     $.quoteString = function (str) {
         if (str.match(escape)) {
             return '"' + str.replace(escape,
@@ -1482,7 +1482,7 @@ ZeroClipboard.Client.prototype = {
                     var c = this;
                     setTimeout(function () {
                         c.receiveEvent("load", null);
-                        },
+                    },
                     1);
                     return;
                 }
@@ -1490,7 +1490,7 @@ ZeroClipboard.Client.prototype = {
                     var c = this;
                     setTimeout(function () {
                         c.receiveEvent("load", null);
-                        },
+                    },
                     100);
                     this.ready = true;
                     return;
@@ -2262,6 +2262,7 @@ function (a) {
         }
     });
     $.fn.pagination = function (maxentries, opts) {
+
         opts = $.extend({
             items_per_page: 10,
             num_display_entries: 11,
@@ -2590,7 +2591,6 @@ ZENG.msgbox.show = function (c, g, h, a) {
     j._setPosition(b, h, a.topPosition);
 };
 ZENG.msgbox._setPosition = function (a, f, d) {
-    
     f = f || 5000;
     var g = ZENG.msgbox,
     b = ZENG.dom.getScrollTop(),
@@ -2602,10 +2602,10 @@ ZENG.msgbox._setPosition = function (a, f, d) {
     f && (g._timer = setTimeout(g.hide, f));
 };
 ZENG.msgbox.hide = function (a) {
-     
     var b = ZENG.msgbox;
     if (a) {
         clearTimeout(b._timer);
+        
         b._timer = setTimeout(b._hide, a);
     } else {
         b._hide();
@@ -2812,7 +2812,7 @@ function () {
     var h = function (a, b) {
         return "string" != typeof a && (b = typeof a, "number" === b ? a += "" : a = "function" === b ? h(a.call(a)) : ""),
         a;
-        },
+    },
     i = {
         "<": "&#60;",
         ">": "&#62;",
@@ -2856,7 +2856,7 @@ function () {
         function () {
             return "{Template Error}";
         };
-        },
+    },
     q = d.compile = function (a, b) {
         function d(c) {
             try {

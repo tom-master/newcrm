@@ -26,16 +26,16 @@ namespace NewCRM.Application.Services
             SecurityServices.RemoveRole(roleId);
         }
 
-        public List<AppDto> GetSystemRoleApps()
+        public List<PowerDto> GetAllPowers()
         {
-            return SecurityServices.GetSystemRoleApps().ConvertDynamicToDtos<AppDto>().ToList();
+            return SecurityServices.GetAllPowers().ConvertDynamicToDtos<PowerDto>().ToList();
         }
 
-        public RoleDto GetRoleInfo(Int32 roleId)
+        public RoleDto GetRole(Int32 roleId)
         {
             ValidateParameter.Validate(roleId);
 
-            return SecurityServices.GetRoleInfo(roleId).ConvertToDto<Role, RoleDto>();
+            return DtoConfiguration.ConvertDynamicToDto<RoleDto>(SecurityServices.GetRole(roleId));
         }
 
         public void AddNewPower(PowerDto power)
@@ -71,6 +71,20 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(powerId);
 
             SecurityServices.RemovePower(powerId);
+        }
+
+        public void AddNewRole(RoleDto role)
+        {
+            ValidateParameter.Validate(role);
+
+            SecurityServices.AddNewRole(role.ConvertToModel<RoleDto, Role>());
+        }
+
+        public void ModifyRole(RoleDto role)
+        {
+            ValidateParameter.Validate(role);
+
+            SecurityServices.ModifyRole(role.ConvertToModel<RoleDto, Role>());
         }
     }
 }

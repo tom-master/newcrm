@@ -109,6 +109,7 @@
             },
             ajaxPost: true,
             callback: function (responseText) {
+                 
                 if ($('input[name="powerId"]').val() !== '') {
                     if (typeof responseText.success !== 'undefined') {
                         $.dialog({
@@ -148,10 +149,3 @@
     </script>
 
 }
-
-
-
-
-
-
-

@@ -25,7 +25,8 @@ namespace NewCRM.Domain.Services.Impl
             return roles.OrderByDescending(o => o.AddTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(s => new
             {
                 s.Name,
-                s.Id
+                s.Id,
+                s.RoleIdentity
             }).ToList<dynamic>();
         }
 
@@ -44,21 +45,22 @@ namespace NewCRM.Domain.Services.Impl
             }
 
             roleResult.Remove();
+
+            RoleRepository.Update(roleResult);
         }
 
-        public List<dynamic> GetSystemRoleApps()
+        public List<dynamic> GetAllPowers()
         {
-            var apps = AppRepository.Entities.Where(app => app.IsSystem);
-
-            return apps.OrderByDescending(o => o.AddTime).Select(app => new
+            var powers = PowerRepository.Entities;
+            return powers.OrderByDescending(o => o.AddTime).Select(power => new
             {
-                app.Id,
-                app.Name,
-                app.IconUrl
+                power.Name,
+                power.Id,
+                power.PowerIdentity
             }).ToList<dynamic>();
         }
 
-        public dynamic GetRoleInfo(Int32 roleId)
+        public dynamic GetRole(Int32 roleId)
         {
             var roleResult = RoleRepository.Entities.FirstOrDefault(role => role.Id == roleId);
 
@@ -67,12 +69,12 @@ namespace NewCRM.Domain.Services.Impl
                 throw new BusinessException($"角色可能已被删除，请刷新后再试");
             }
 
-            var rolePowerIds = roleResult.Powers.Select(rolePower => rolePower.PowerId);
-
             return new
             {
-                Name = roleResult.Name,
-                Powers = AppRepository.Entities.Where(app => rolePowerIds.Contains(app.Id)).Select(s => new { s.Id, s.Name, s.IconUrl })
+                roleResult.Name,
+                roleResult.RoleIdentity,
+                roleResult.Remark,
+                roleResult.Powers
             };
         }
 
@@ -134,6 +136,25 @@ namespace NewCRM.Domain.Services.Impl
             powerResult.Remove();
 
             PowerRepository.Update(powerResult);
+        }
+
+        public void AddNewRole(Role role)
+        {
+            RoleRepository.Add(role);
+        }
+
+        public void ModifyRole(Role role)
+        {
+            var roleResult = RoleRepository.Entities.FirstOrDefault(internalRole => internalRole.Id == role.Id);
+
+            if (roleResult == null)
+            {
+                throw new BusinessException("该角色可能已被删除，请刷新后再试");
+            }
+
+            roleResult.ModifyRoleName(role.Name).ModifyRoleIdentity(role.RoleIdentity);
+
+            RoleRepository.Update(roleResult);
         }
     }
 }

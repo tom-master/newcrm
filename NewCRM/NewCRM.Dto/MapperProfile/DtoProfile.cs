@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using AutoMapper;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.Security;
@@ -175,14 +174,25 @@ namespace NewCRM.Dto.MapperProfile
         {
             CreateMap<Role, RoleDto>()
                 .ForMember(dto => dto.Name, role => role.MapFrom(r => r.Name))
-                .ForMember(dto => dto.Powers, role => role.MapFrom(r => r.Powers.Select(s => new PowerDto
-                {
-                    Id = s.PowerId
-                })))
-                .ForMember(dto => dto.Id, role => role.MapFrom(r => r.Id));
+                .ForMember(dto => dto.RoleIdentity, role => role.MapFrom(r => r.RoleIdentity))
+                .ForMember(dto => dto.Remark, role => role.MapFrom(r => r.Remark))
+                .ForMember(dto => dto.Id, role => role.MapFrom(r => r.Id))
+                .ForMember(dto => dto.Powers, role => role.MapFrom(r => r.Powers));
         }
     }
 
+    internal class RoleDtoToRoleProfile : Profile
+    {
+        public RoleDtoToRoleProfile()
+        {
+            CreateMap<RoleDto, Role>()
+               .ForMember(role => role.Name, dto => dto.MapFrom(r => r.Name))
+               .ForMember(role => role.RoleIdentity, dto => dto.MapFrom(r => r.RoleIdentity))
+               .ForMember(role => role.Remark, dto => dto.MapFrom(r => r.Remark))
+               .ForMember(role => role.Id, dto => dto.MapFrom(r => r.Id))
+               .ForMember(role => role.Powers, dto => dto.MapFrom(r => r.Powers));
+        }
+    }
 
     internal class PowerToPowerDtoProfile : Profile
     {
