@@ -48,7 +48,7 @@ namespace NewCRM.Domain.Services
         /// <param name="pageSize"></param>
         /// <param name="totalCount"></param>
         /// <returns></returns>
-        List<dynamic> GetAllUsers(String userName, Int32 userType, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
+        List<dynamic> GetAllUsers(String userName, String userType, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
 
         /// <summary>
         /// 根据userId获取用户

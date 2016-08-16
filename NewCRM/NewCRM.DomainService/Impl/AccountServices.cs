@@ -84,7 +84,7 @@ namespace NewCRM.Domain.Services.Impl
             return userResult;
         }
 
-        public List<dynamic> GetAllUsers(String userName, Int32 userType, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+        public List<dynamic> GetAllUsers(String userName, String userType, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
             var users = UserRepository.Entities;
             if ((userName + "").Length > 0)
@@ -92,18 +92,19 @@ namespace NewCRM.Domain.Services.Impl
                 users = users.Where(user => user.Name.Contains(userName));
             }
 
-            if (userType != 0)
+
+            UserType internalUserType;
+            if ((userType + "").Length > 0)
             {
                 var enumConst = Enum.GetName(typeof(UserType), userType);
 
-                UserType internalUserType;
                 if (Enum.TryParse(enumConst, true, out internalUserType))
                 {
                     users = users.Where(user => user.IsAdmin == (internalUserType == UserType.Admin));
                 }
                 else
                 {
-                    throw new BusinessException($"类型{enumConst}不是有效的用户类型");
+                    throw new BusinessException($"用户类型{userType}不是有效的类型");
                 }
             }
 
@@ -112,7 +113,7 @@ namespace NewCRM.Domain.Services.Impl
             return users.OrderByDescending(o => o.AddTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(user => new
             {
                 user.Id,
-                UserType = user.IsAdmin ? "管理员" : "用户",
+                UserType = user.IsAdmin ? "2" : "1",
                 user.Name
             }).ToList<dynamic>();
         }

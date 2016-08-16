@@ -25,7 +25,7 @@ namespace NewCRM.Web.Controllers
 
         #endregion
 
-        public ActionResult GetAllUsers(String userName, Int32 userType, Int32 pageIndex, Int32 pageSize)
+        public ActionResult GetAllUsers(String userName, String userType, Int32 pageIndex, Int32 pageSize)
         {
             Int32 totalCount = 0;
 
