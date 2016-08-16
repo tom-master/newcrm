@@ -98,6 +98,10 @@ namespace NewCRM.Dto.Dto
         /// </summary>
         public String WallpaperMode { get; set; }
 
+        /// <summary>
+        /// 用户类型
+        /// </summary>
+        public String UserType { get; set; }
 
         /// <summary>
         /// 桌面

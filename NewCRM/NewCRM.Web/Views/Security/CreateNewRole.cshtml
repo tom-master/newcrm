@@ -17,7 +17,7 @@
     <div class="creatbox">
         <div class="middle" style="overflow: hidden; position: inherit; bottom: 0px;">
             <div class="input-label">
-                <label class="label-text">角色标识：</label>
+                <label class="label-text">角色名称：</label>
                 <div class="label-box form-inline control-group">
                     @{
                         if (roleResult.Name == null)
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="input-label">
-                <label class="label-text">角色名称：</label>
+                <label class="label-text">角色标识：</label>
                 <div class="label-box form-inline control-group">
 
                     @{
@@ -51,7 +51,7 @@
                         else
                         {
                             <text>
-                                <input type="text" class="text" name="val_roleIdentity" id="val_roleIdentity" value="@roleResult.RoleIdentity" datatype="*" nullmsg="请输入角色名称" />
+                                <input type="text" disabled="disabled" class="text" name="val_roleIdentity" id="val_roleIdentity" value="@roleResult.RoleIdentity" datatype="*" nullmsg="请输入角色名称" />
                             </text>
                         }
                     }

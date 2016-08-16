@@ -57,7 +57,15 @@ namespace NewCRM.Web.Controllers.ControllerHelper
             {
                 exceptionMessage = filterContext.Exception.Message;
             }
-            filterContext.Result = Content(@"<script>setTimeout(function(){window.top.ZENG.msgbox.show('"+ exceptionMessage + "', 5,3000);},0)</script>");
+
+            if (filterContext.RequestContext.HttpContext.Request.HttpMethod.ToLower() != "post")
+            {
+                filterContext.Result = Content(@"<script>setTimeout(function(){window.top.ZENG.msgbox.show('" + exceptionMessage + "', 5,3000);},0)</script>");
+            }
+            else
+            {
+                filterContext.Result = Json(new {js= "<script>setTimeout(function(){window.top.ZENG.msgbox.show('" + exceptionMessage + "', 5,3000);},0)</script>" });
+            }
         }
     }
 }

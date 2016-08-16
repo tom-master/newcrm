@@ -75,6 +75,7 @@ namespace NewCRM.Application.Services
 
         public void AddNewRole(RoleDto role)
         {
+
             ValidateParameter.Validate(role);
 
             SecurityServices.AddNewRole(role.ConvertToModel<RoleDto, Role>());
@@ -85,6 +86,13 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(role);
 
             SecurityServices.ModifyRole(role.ConvertToModel<RoleDto, Role>());
+        }
+
+        public void AddPowerToCurrentRole(Int32 roleId, IEnumerable<Int32> powerIds)
+        {
+            ValidateParameter.Validate(roleId).Validate(powerIds);
+
+            SecurityServices.AddPowerToCurrentRole(roleId, powerIds);
         }
     }
 }

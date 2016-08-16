@@ -12,6 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NewCRM.Domain.DomainModel.Account;
 using NewCRM.Domain.DomainModel.Security;
 using NewCRM.Domain.DomainModel.System;
+using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Domain.Repositories;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Repository;
@@ -26,11 +27,8 @@ namespace NewCRM.Domain.Test
         [TestMethod]
         public void TestMethod()
         {
+            var userType = default(UserType);
         }
     }
 
-    public class Test
-    {
-        public String Name { get; set; }
-    }
 }

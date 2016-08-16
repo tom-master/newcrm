@@ -82,5 +82,12 @@ namespace NewCRM.Application.Services.IApplicationService
         /// </summary>
         /// <param name="role"></param>
         void ModifyRole(RoleDto role);
+
+        /// <summary>
+        /// 添加权限到当前的角色
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <param name="powerIds"></param>
+        void AddPowerToCurrentRole(Int32 roleId,IEnumerable<Int32> powerIds);
     }
 }

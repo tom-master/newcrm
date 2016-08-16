@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using NewCRM.Domain.Entities.DomainModel.System;
+using NewCRM.Domain.Entities.ValueObject;
 
 namespace NewCRM.Domain.Entities.DomainModel.Account
 {
@@ -42,6 +43,11 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         public Boolean IsOnline { get; private set; }
 
         /// <summary>
+        /// 是否为管理员
+        /// </summary>
+        public Boolean IsAdmin { get; private set; }
+
+        /// <summary>
         /// 职称id
         /// </summary>
         public Int32 TitleId { get; set; }
@@ -69,12 +75,14 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         #endregion
 
         #region ctor
+
         /// <summary>
         /// 实例化一个用户对象
         /// </summary>
         /// <param name="name"></param>
         /// <param name="password"></param>
-        public User(String name, String password)
+        /// <param name="userType"></param>
+        public User(String name, String password, UserType userType = default(UserType))
         {
             Name = name;
             LoginPassword = password;
@@ -85,6 +93,8 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
             Config = new Config();
             IsOnline = false;
             AddTime = DateTime.Now;
+
+            IsAdmin = userType == UserType.Admin;
         }
         public User()
         {

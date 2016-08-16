@@ -35,9 +35,14 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
         /// <returns></returns>
         public Role AddPower(params Power[] powers)
         {
-            return AddPower(Powers.Select(p => p.PowerId).ToArray());
+            return AddPower(powers.Select(p => p.Id).ToArray());
         }
 
+        /// <summary>
+        /// 为角色添加权限
+        /// </summary>
+        /// <param name="powerIds"></param>
+        /// <returns></returns>
         public Role AddPower(params Int32[] powerIds)
         {
             if (powerIds == null)
@@ -56,7 +61,6 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
             return this;
         }
 
-
         /// <summary>
         /// 移除角色权限
         /// </summary>
@@ -64,9 +68,15 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
         /// <returns></returns>
         public Role RemovePower(params Power[] powers)
         {
-            return RemovePower(Powers.Select(p => p.PowerId).ToArray());
+            return RemovePower(powers.Select(p => p.Id).ToArray());
         }
 
+
+        /// <summary>
+        /// 移除角色权限
+        /// </summary>
+        /// <param name="powerIds"></param>
+        /// <returns></returns>
         public Role RemovePower(params Int32[] powerIds)
         {
             if (powerIds == null)
@@ -80,7 +90,7 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
 
             foreach (var powerId in powerIds)
             {
-                Powers.FirstOrDefault(p => p.PowerId == powerId).Remove();
+                Powers.FirstOrDefault(p => p.PowerId == powerId && p.IsDeleted == false)?.Remove();
             }
             return this;
         }
@@ -92,14 +102,13 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
         {
             if (Powers.Any())
             {
-                Powers.ToList().ForEach(p =>
+                Powers.Where(power => power.IsDeleted == false).ToList().ForEach(p =>
                 {
                     p.Remove();
                 });
             }
             IsDeleted = true;
         }
-
 
         #endregion
     }

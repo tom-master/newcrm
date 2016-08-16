@@ -91,6 +91,7 @@
     <Compile Include="ValueObject\LogLevel.cs" />
     <Compile Include="ValueObject\MemberType.cs" />
     <Compile Include="ValueObject\AppReleaseState.cs" />
+    <Compile Include="ValueObject\UserType.cs" />
     <Compile Include="ValueObject\WallpaperMode.cs" />
     <Compile Include="ValueObject\WallpaperSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

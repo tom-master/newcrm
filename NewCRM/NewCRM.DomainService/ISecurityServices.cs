@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using NewCRM.Domain.Entities.DomainModel.Security;
 
 namespace NewCRM.Domain.Services
@@ -84,5 +85,12 @@ namespace NewCRM.Domain.Services
         /// </summary>
         /// <param name="role"></param>
         void ModifyRole(Role role);
+
+        /// <summary>
+        /// 添加权限到当前角色
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <param name="powerIds"></param>
+        void AddPowerToCurrentRole(Int32 roleId, IEnumerable<Int32> powerIds);
     }
 }

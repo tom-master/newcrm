@@ -1,0 +1,165 @@
+﻿@using NewCRM.Dto.Dto
+@model List<IGrouping<String, PowerDto>>
+@{
+    Layout = "~/Views/Shared/_LayoutApps.cshtml";
+
+    var rolePowerResult = ViewData["RolePowerResult"] as RoleDto;
+
+    if (rolePowerResult == null)
+    {
+        rolePowerResult = new RoleDto();
+    }
+}
+
+<form action="@Url.Action("AddPowerToRole", "Security")" method="post" name="form" id="form">
+    <input type="hidden" name="val_roleId" value="@Request["roleId"]">
+    <div class="creatbox">
+        <div class="middle">
+            <p class="detile-title">
+                <strong>角色添加权限</strong>
+            </p>
+            <div class="input-label">
+                <label class="label-text">角色名称：</label>
+                <div class="label-box form-inline control-group">
+                    @{
+                        if (rolePowerResult.Name == null)
+                        {
+                            <text> <input disabled="disabled" type="checkbox" name="val_name" value="" datatype="*" nullmsg="请输入权限名称"></text>
+                        }
+                        else
+                        {
+                            <text> <input disabled="disabled" type="text" name="val_name" value="@rolePowerResult.Name" datatype="*" nullmsg="请输入权限名称"></text>
+                        }
+                    }
+
+                    <span class="help-inline"></span>
+                </div>
+            </div>
+            <div>
+                <table class="list-table">
+                    <thead>
+                        <tr class="sep-row"><td colspan="100"></td></tr>
+                        <tr class="col-name">
+                            <th style="width: 20%">权限标识</th>
+                            <th style="width: 80%">权限名称</th>
+                        </tr>
+                        <tr class="sep-row"><td colspan="100"></td></tr>
+                    </thead>
+                    <tbody class="list-con">
+                        @{
+                            foreach (var groupingDto in Model)
+                            {
+                                var groupKey = groupingDto.Key;
+                                <text>
+                                    <tr class="list-bd">
+                                        <td>@groupKey</td>
+                                        <td>
+                                            @{
+                                                foreach (var powerDto in groupingDto)
+                                                {
+                                                    <text>
+                                                        <label style="float: left; margin-left: 10px;">
+                                                            <input class="checkbox" type="checkbox"
+                                                                   @{if (rolePowerResult.Powers.Any()) { if (rolePowerResult.Powers.Any(power => power.Id == powerDto.Id)) { <text> checked="checked" </text>  } } } name="@powerDto.Name" onclick="selectorPower();" id="@powerDto.Id" /> @powerDto.Name
+                                                            </label>
+                                                    </text>
+    }
+                                            }
+                                        </td>
+                                    </tr>
+                                </text>
+    }
+                        }
+                    </tbody>
+                </table>
+                <input type="hidden" name="val_powerIds" id="powerIds" value="" />
+            </div>
+        </div>
+    </div>
+    <div class="bottom-bar">
+        <div class="con">
+            <a class="btn btn-primary fr" id="btn-submit" href="javascript:void();"><i class="icon-white icon-ok"></i> 确定</a>
+            <a class="btn fr" href="javascript:window.parent.closeDetailIframe();" style="margin-right: 10px"><i class="icon-chevron-up"></i> 返回角色列表</a>
+        </div>
+    </div>
+</form>
+@section ChildrenScript
+{
+    <script>
+        $(function () {
+            selectorPower();
+            $('#form').Validform({
+                btnSubmit: '#btn-submit',
+                postonce: false,
+                showAllError: true,
+                tiptype: function (msg, o) {
+                    if (!o.obj.is('form')) {//验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
+                        var B = o.obj.parents('.control-group');
+                        var T = B.children('.help-inline');
+                        if (o.type === 2) {
+                            B.removeClass('error');
+                            T.text('');
+                        } else {
+                            B.addClass('error');
+                            T.text(msg);
+                        }
+                    }
+                },
+                ajaxPost: true,
+                callback: function (responseText) {
+                    if (typeof responseText.js !== 'undefined') {
+                        $('body').append(responseText.js);
+                    } else {
+
+                        if ($('input[name="roleId"]').val() !== '') {
+                            if (typeof responseText.success !== 'undefined') {
+                                $.dialog({
+                                    id: 'ajaxedit',
+                                    content: '修改成功，是否继续修改？',
+                                    okVal: '是',
+                                    ok: function () {
+                                        $.dialog.list['ajaxedit'].close();
+                                    },
+                                    cancel: function () {
+                                        window.parent.closeDetailIframe(function () {
+                                            window.parent.$('#pagination').trigger('currentPage');
+                                        });
+                                    }
+                                });
+                            }
+                        } else {
+                            if (typeof responseText.success !== 'undefined') {
+                                $.dialog({
+                                    id: 'ajaxedit',
+                                    content: '添加成功，是否继续添加？',
+                                    okVal: '是',
+                                    ok: function () {
+                                        location.reload();
+                                        return false;
+                                    },
+                                    cancel: function () {
+                                        window.parent.closeDetailIframe(function () {
+                                            window.parent.$('#pagination').trigger('currentPage');
+                                        });
+                                    }
+                                });
+                            }
+                        }
+                    }
+
+                }
+            });
+        });
+
+        function selectorPower() {
+            $('#powerIds').val('');
+            var ids = '';
+            $.each($('.list-table').find('input:checked'), function (k, v) {
+                ids += $(v).attr('id') + ',';
+            });
+
+            $('#powerIds').val(ids);
+        }
+    </script>
+}
+

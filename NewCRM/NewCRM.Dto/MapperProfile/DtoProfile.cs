@@ -34,7 +34,10 @@ namespace NewCRM.Dto.MapperProfile
                     DeskNumber = s.DeskNumber,
                     Id = s.Id
                 })))
-                .ForMember(dto => dto.Id, user => user.MapFrom(u => u.Id));
+                .ForMember(dto => dto.Id, user => user.MapFrom(u => u.Id))
+                .ForMember(dto => dto.UserType, user => user.MapFrom(u => u.IsAdmin ? "管理员" : "用户"));
+
+
         }
     }
 
@@ -177,7 +180,7 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(dto => dto.RoleIdentity, role => role.MapFrom(r => r.RoleIdentity))
                 .ForMember(dto => dto.Remark, role => role.MapFrom(r => r.Remark))
                 .ForMember(dto => dto.Id, role => role.MapFrom(r => r.Id))
-                .ForMember(dto => dto.Powers, role => role.MapFrom(r => r.Powers));
+                .ForMember(dto => dto.Powers, role => role.MapFrom(r => r.Powers.Select(s => s.PowerId)));
         }
     }
 

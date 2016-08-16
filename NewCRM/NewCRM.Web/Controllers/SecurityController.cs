@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Web.Mvc;
 using NewCRM.Dto.Dto;
+using NewCRM.Infrastructure.CommonTools.CustemException;
 using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
@@ -31,7 +31,7 @@ namespace NewCRM.Web.Controllers
             return View();
         }
 
-        public ActionResult AddPowerToRole(Int32 roleId = 0)
+        public ActionResult AttachmentPower(Int32 roleId = 0)
         {
             if (roleId != 0)
             {
@@ -105,6 +105,23 @@ namespace NewCRM.Web.Controllers
             });
         }
 
+        public ActionResult AddPowerToRole(FormCollection forms)
+        {
+            Int32[] powerIds;
+
+            if ((forms["val_powerIds"] + "").Length > 0)
+            {
+                powerIds = forms["val_powerIds"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
+            }
+            else
+            {
+                throw new BusinessException("所选的权限列表不能为空");
+            }
+
+            SecurityApplicationServices.AddPowerToCurrentRole(Int32.Parse(forms["val_roleId"]), powerIds);
+
+            return Json(new { success = 1 });
+        }
 
         #endregion
 

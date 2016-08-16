@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Net;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.System;
+using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
@@ -80,6 +82,49 @@ namespace NewCRM.Domain.Services.Impl
             var userResult = GetUserInfoService(userId);
 
             return userResult;
+        }
+
+        public List<dynamic> GetAllUsers(String userName, Int32 userType, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+        {
+            var users = UserRepository.Entities;
+            if ((userName + "").Length > 0)
+            {
+                users = users.Where(user => user.Name.Contains(userName));
+            }
+
+            if (userType != 0)
+            {
+                var enumConst = Enum.GetName(typeof(UserType), userType);
+
+                UserType internalUserType;
+                if (Enum.TryParse(enumConst, true, out internalUserType))
+                {
+                    users = users.Where(user => user.IsAdmin == (internalUserType == UserType.Admin));
+                }
+                else
+                {
+                    throw new BusinessException($"类型{enumConst}不是有效的用户类型");
+                }
+            }
+
+            totalCount = users.Count();
+
+            return users.OrderByDescending(o => o.AddTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(user => new
+            {
+                user.Id,
+                UserType = user.IsAdmin ? "管理员" : "用户",
+                user.Name
+            }).ToList<dynamic>();
+        }
+
+        public User GetUser(Int32 userId)
+        {
+            var userResult = UserRepository.Entities.FirstOrDefault(user => user.Id == userId);
+            if (userResult == null)
+            {
+                throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
+            }
+            return null;
         }
 
         #endregion

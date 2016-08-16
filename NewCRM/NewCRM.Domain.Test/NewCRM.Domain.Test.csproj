@@ -82,6 +82,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NewCRM.Domain\NewCRM.Domain.Entities.csproj">
+      <Project>{173C1046-4529-4D70-B6F5-501C61514E86}</Project>
+      <Name>NewCRM.Domain.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
