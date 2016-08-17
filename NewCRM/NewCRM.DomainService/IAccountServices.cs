@@ -55,7 +55,13 @@ namespace NewCRM.Domain.Services
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        User GetUser(Int32 userId);
+        dynamic GetUser(Int32 userId);
+
+        /// <summary>
+        /// 添加新的用户
+        /// </summary>
+        /// <param name="user"></param>
+        void AddNewUser(User user);
 
     }
 }

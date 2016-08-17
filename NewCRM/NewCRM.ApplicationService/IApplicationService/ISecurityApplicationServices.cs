@@ -88,6 +88,12 @@ namespace NewCRM.Application.Services.IApplicationService
         /// </summary>
         /// <param name="roleId"></param>
         /// <param name="powerIds"></param>
-        void AddPowerToCurrentRole(Int32 roleId,IEnumerable<Int32> powerIds);
+        void AddPowerToCurrentRole(Int32 roleId, IEnumerable<Int32> powerIds);
+
+        /// <summary>
+        /// 获取全部角色
+        /// </summary>
+        /// <returns></returns>
+        List<RoleDto> GetAllRoles();
     }
 }

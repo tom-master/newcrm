@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Web.Mvc;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using NewCRM.Application.Services.IApplicationService;
 using NewCRM.Dto.Dto;
@@ -58,13 +60,15 @@ namespace NewCRM.Web.Controllers.ControllerHelper
                 exceptionMessage = filterContext.Exception.Message;
             }
 
+            exceptionMessage = Regex.Replace(exceptionMessage, @"[\r\n]", "");
+
             if (filterContext.RequestContext.HttpContext.Request.HttpMethod.ToLower() != "post")
             {
                 filterContext.Result = Content(@"<script>setTimeout(function(){window.top.ZENG.msgbox.show('" + exceptionMessage + "', 5,3000);},0)</script>");
             }
             else
             {
-                filterContext.Result = Json(new {js= "<script>setTimeout(function(){window.top.ZENG.msgbox.show('" + exceptionMessage + "', 5,3000);},0)</script>" });
+                filterContext.Result = Json(new {js= @"<script>setTimeout(function(){window.top.ZENG.msgbox.show('" + exceptionMessage + "', 5,3000);},0)</script>" });
             }
         }
     }

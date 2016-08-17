@@ -20,6 +20,9 @@ namespace NewCRM.Dto
                 d.CreateMap<User, UserDto>();
                 d.AddProfile<UserToUserDtoProfile>();
 
+                d.CreateMap<UserDto, User>();
+                d.AddProfile<UserDtoToUserProfile>();
+
                 //Wallpaper
                 d.CreateMap<Wallpaper, WallpaperDto>();
                 d.AddProfile<WallpaperToWallpaperDtoProfile>();

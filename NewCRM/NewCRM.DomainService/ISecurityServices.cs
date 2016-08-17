@@ -92,5 +92,11 @@ namespace NewCRM.Domain.Services
         /// <param name="roleId"></param>
         /// <param name="powerIds"></param>
         void AddPowerToCurrentRole(Int32 roleId, IEnumerable<Int32> powerIds);
+
+        /// <summary>
+        /// 获取全部的角色
+        /// </summary>
+        /// <returns></returns>
+        List<dynamic> GetAllRoles();
     }
 }

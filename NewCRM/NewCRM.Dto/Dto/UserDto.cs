@@ -28,7 +28,10 @@ namespace NewCRM.Dto.Dto
         /// </summary>
         public Boolean IsOnline { get; set; }
 
-
+        /// <summary>
+        /// 密码
+        /// </summary>
+        public String Password { get; set; }
 
         /// <summary>
         /// 皮肤
@@ -107,5 +110,10 @@ namespace NewCRM.Dto.Dto
         /// 桌面
         /// </summary>
         public List<DeskDto> Desks { get; set; }
+
+        /// <summary>
+        /// 用户角色Id
+        /// </summary>
+        public IEnumerable<Int32> RoleIds { get; set; }
     }
 }

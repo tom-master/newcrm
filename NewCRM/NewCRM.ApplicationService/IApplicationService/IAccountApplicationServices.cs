@@ -50,5 +50,18 @@ namespace NewCRM.Application.Services.IApplicationService
         /// <returns></returns>
         List<UserDto> GetAllUsers(String userName, String userType, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
 
+        /// <summary>
+        /// 根据用户id获取用户
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        UserDto GetUser(Int32 userId);
+
+        /// <summary>
+        /// 添加新的用户
+        /// </summary>
+        /// <param name="userDto"></param>
+        void AddNewUser(UserDto userDto);
+
     }
 }

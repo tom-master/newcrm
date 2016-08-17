@@ -35,11 +35,29 @@ namespace NewCRM.Dto.MapperProfile
                     Id = s.Id
                 })))
                 .ForMember(dto => dto.Id, user => user.MapFrom(u => u.Id))
-                .ForMember(dto => dto.UserType, user => user.MapFrom(u => u.IsAdmin ? "管理员" : "用户"));
-
-
+                .ForMember(dto => dto.UserType, user => user.MapFrom(u => u.IsAdmin ? "管理员" : "用户"))
+                .ForMember(dto => dto.Password, user => user.MapFrom(u => u.LoginPassword))
+                .ForMember(dto => dto.RoleIds, user => user.MapFrom(u => u.Roles.Select(role => role.RoleId)));
         }
     }
+
+
+    internal class UserDtoToUserProfile : Profile
+    {
+        public UserDtoToUserProfile()
+        {
+            CreateMap<UserDto, User>()
+                .ForMember(user => user.Name, dto => dto.MapFrom(d => d.Name))
+                .ForMember(user => user.Id, dto => dto.MapFrom(d => d.Id))
+                .ForMember(user => user.LoginPassword, dto => dto.MapFrom(d => d.Password))
+                .ForMember(user => user.IsAdmin, dto => dto.MapFrom(d => Int32.Parse(d.UserType) == 2))
+                .ForMember(user => user.Roles, dto => dto.MapFrom(d => d.RoleIds.Select(role => new RoleDto
+                {
+                    Id = role
+                })));
+        }
+    }
+
 
     internal class WallpaperToWallpaperDtoProfile : Profile
     {

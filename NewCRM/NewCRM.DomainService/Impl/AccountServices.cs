@@ -113,19 +113,55 @@ namespace NewCRM.Domain.Services.Impl
             return users.OrderByDescending(o => o.AddTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(user => new
             {
                 user.Id,
-                UserType = user.IsAdmin ? "2" : "1",
+                UserType = user.IsAdmin ? "2"/*管理员*/ : "1"/*用户*/,
                 user.Name
             }).ToList<dynamic>();
         }
 
-        public User GetUser(Int32 userId)
+        public dynamic GetUser(Int32 userId)
         {
             var userResult = UserRepository.Entities.FirstOrDefault(user => user.Id == userId);
             if (userResult == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
             }
-            return null;
+
+            return new
+            {
+                userResult.Id,
+                userResult.Name,
+                Password = userResult.LoginPassword,
+                UserType = userResult.IsAdmin ? "2" : "1",
+                RoleIds = userResult.Roles.Select(role => role.RoleId)
+            };
+        }
+
+        public void AddNewUser(User user)
+        {
+            UserType userType;
+
+            var enumConst = Enum.GetName(typeof(UserType), user.IsAdmin ? "2"/*管理员*/ : "1"/*用户*/);
+
+            if (!Enum.TryParse(enumConst, true, out userType))
+            {
+                throw new BusinessException($"类型{enumConst}不是有效的枚举类型");
+            }
+
+            var internalNewUser = new User(user.Name, PasswordUtil.CreateDbPassword(user.LoginPassword), userType);
+
+            var userRoles = internalNewUser.Roles.Where(role => role.IsDeleted == false).ToList();
+
+            if (userRoles.Any())
+            {
+                userRoles.ForEach(userRole =>
+                {
+                    userRole.Remove();
+                });
+            }
+
+            internalNewUser.AddUserRole(user.Roles.Select(role => role.RoleId).ToArray());
+
+            UserRepository.Add(internalNewUser);
         }
 
         #endregion

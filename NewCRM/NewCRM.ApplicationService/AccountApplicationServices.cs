@@ -31,6 +31,20 @@ namespace NewCRM.Application.Services
             return AccountServices.GetAllUsers(userName, userType, pageIndex, pageSize, out totalCount).ConvertDynamicToDtos<UserDto>().ToList();
         }
 
+        public UserDto GetUser(Int32 userId)
+        {
+            ValidateParameter.Validate(userId);
+
+            return DtoConfiguration.ConvertDynamicToDto<UserDto>(AccountServices.GetUser(userId));
+        }
+
+        public void AddNewUser(UserDto userDto)
+        {
+            ValidateParameter.Validate(userDto);
+
+            AccountServices.AddNewUser(userDto.ConvertToModel<UserDto, User>());
+        }
+
         public void Logout(Int32 userId)
         {
             ValidateParameter.Validate(userId);

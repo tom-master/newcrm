@@ -94,5 +94,10 @@ namespace NewCRM.Application.Services
 
             SecurityServices.AddPowerToCurrentRole(roleId, powerIds);
         }
+
+        public List<RoleDto> GetAllRoles()
+        {
+            return SecurityServices.GetAllRoles().ConvertDynamicToDtos<RoleDto>().ToList();
+        }
     }
 }

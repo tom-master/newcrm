@@ -1,70 +1,131 @@
-﻿@{
+﻿@using NewCRM.Dto.Dto
+@{
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
+
+    var userInfo = ViewData["User"] as UserDto;
+
+    var roles = ViewData["Roles"] as List<RoleDto>;
+
+    if (userInfo == null)
+    {
+        userInfo = new UserDto();
+    }
 }
 
-    <form action="detail.ajax.php" method="post" name="form" id="form">
-        <input type="hidden" name="id" value="@Request["userId"]">
-        <div class="creatbox">
-            <div class="middle">
-                <p class="detile-title">
-                    <strong>编辑用户</strong>
-                </p>
-                <div class="input-label">
-                    <label class="label-text">用户名：</label>
-                    <div class="label-box form-inline control-group">
-                        <?php
-                        if(isset($_GET['memberid'])){
-                        echo $member['username'];
-                        }else{
-                        ?>
-                        <input type="text" name="val_username" datatype="s6-18" ajaxurl="detail.ajax.php?ac=checkUsername" nullmsg="请输入用户名" errormsg="用户名长度为6-18个字符">
-                        <?php } ?>
-                        <span class="help-inline"></span>
-                    </div>
-                </div>
-                <div class="input-label">
-                    <label class="label-text">用户密码：</label>
-                    <div class="label-box form-inline control-group">
-                        <input type="password" name="val_password" <?php if(!isset($_GET['memberid'])){ ?>datatype="*" nullmsg="请输入用户密码"<?php } ?>>
-                        <span class="help-inline"><?php if(isset($_GET['memberid'])){ echo '（如果无需修改则不填）'; } ?></span>
-                    </div>
-                </div>
-                <div class="input-label">
-                    <label class="label-text">用户类型：</label>
-                    <div class="label-box form-inline">
-                        <label class="radio" style="margin-right:10px"><input type="radio" name="val_type" value="0" <?php if($member['type'] == 0 || !isset($_GET['memberid'])){echo 'checked';} ?>>普通会员</label>
-                        <label class="radio" style="margin-right:10px"><input type="radio" name="val_type" value="1" <?php if($member['type'] == 1){echo 'checked';} ?>>管理员</label>
-                    </div>
-                </div>
-                <div class="input-label input-label-permission <?php if($member['type'] == 0){echo 'hide';} ?>">
-                    <label class="label-text">用户权限：</label>
-                    <div class="label-box form-inline">
-                        <?php
-                        foreach($db->select('tb_permission', array('tbid', 'name')) as $v){
-                        echo '<label class="checkbox" style="margin-right:10px">
-                            <input type="checkbox" name="val_permission_id" value="'.$v['tbid'].'" ';
-						if($member[' permission_id']= =$v['tbid']){
-                                   echo 'checked' ;
-                                   }
-                                   echo '>' .$v['name'].'
-                        </label>';
+<form action="@Url.Action("NewUser", "User")" method="post" name="form" id="form">
+    <input type="hidden" name="userId" value="@Request["userId"]">
+    <div class="creatbox">
+        <div class="middle">
+            <p class="detile-title">
+                <strong>编辑用户</strong>
+            </p>
+            <div class="input-label">
+                <label class="label-text">用户名：</label>
+                <div class="label-box form-inline control-group">
+                    @{
+                        if (userInfo.Name == null)
+                        {
+                            <text>
+                                <input type="text" name="val_username" datatype="s6-18" ajaxurl="detail.ajax.php?ac=checkUsername" nullmsg="请输入用户名" errormsg="用户名长度为6-18个字符">
+                            </text>
                         }
-                        ?>
-                        <span class="help-inline">[<a href="javascript:;" rel="tooltip" title="权限最多只能选一项">?</a>]</span>
-                    </div>
+                        else
+                        {
+                            <text>
+                                <input type="text" name="val_username" value="@userInfo.Name" datatype="s6-18" ajaxurl="detail.ajax.php?ac=checkUsername" nullmsg="请输入用户名" errormsg="用户名长度为6-18个字符">
+                            </text>
+                        }
+                    }
+                    <span class="help-inline"></span>
+                </div>
+            </div>
+            <div class="input-label">
+                <label class="label-text">用户密码：</label>
+                <div class="label-box form-inline control-group">
+
+                    @{
+                        if (userInfo.Password == null)
+                        {
+                            <text>
+                                <input type="password" name="val_password" datatype="*" nullmsg="请输入用户密码" />
+                                <span class="help-inline"></span>
+                            </text>
+                        }
+                        else
+                        {
+                            <text>
+                                <input type="password" name="val_password">
+                                <span class="help-inline">[如果无需修改则不填]</span>
+                            </text>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="input-label">
+                <label class="label-text">用户类型：</label>
+                <div class="label-box form-inline">
+                    <label class="radio" style="margin-right: 10px">
+                        <input type="radio" name="val_type" value="1" @{ if (userInfo.UserType == null) { <text> checked="checked" </text>      } else { if (Int32.Parse(userInfo.UserType) == 1) { <text> checked="checked" </text>           } }  }>用户
+                    </label>
+
+
+                    <label class="radio" style="margin-right:10px">
+                        <input type="radio" name="val_type" value="2" @{ if (userInfo.UserType != null) { if (Int32.Parse(userInfo.UserType) == 2) { <text> checked="checked" </text>           } }  }>管理员
+                    </label>
+                </div>
+            </div>
+            <div class="input-label input-label-permission @{
+        if (userInfo.UserType != null)
+        {
+            if (Int32.Parse(userInfo.UserType) == 1)
+            {
+                <text> hide </text>
+            }
+        }
+        else
+        {
+            <text> hide </text>
+        }
+    }">
+                <label class="label-text">用户权限：</label>
+                <div class="label-box form-inline">
+                    @{
+                        foreach (var roleDto in roles)
+                        {
+                            if (userInfo.RoleIds != null && userInfo.RoleIds.Any(role => role == roleDto.Id))
+                            {
+                                <text>
+                                    <label class="checkbox" style="margin-right: 10px">
+                                        <input type="checkbox" name="val_permission_id" value="@roleDto.Id" checked="checked">
+                                        @roleDto.Name
+                                    </label>
+                                </text>
+                            }
+                            else
+                            {
+                                <label class="checkbox" style="margin-right: 10px">
+                                    <input type="checkbox" name="val_permission_id" value="@roleDto.Id">
+                                    @roleDto.Name
+                                </label>
+                            }
+                        }
+                    }
+                    <input type="hidden" name="val_roleIds" id="roleIds" value="" />
+                    <span class="help-inline"></span>
                 </div>
             </div>
         </div>
-        <div class="bottom-bar">
-            <div class="con">
-                <a class="btn btn-primary fr" id="btn-submit" href="javascript:;"><i class="icon-white icon-ok"></i> 确定</a>
-                <a class="btn fr" href="javascript:window.parent.closeDetailIframe();" style="margin-right:10px"><i class="icon-chevron-up"></i> 返回用户列表</a>
-            </div>
+    </div>
+    <div class="bottom-bar">
+        <div class="con">
+            <a class="btn btn-primary fr" id="btn-submit" href="javascript:;"><i class="icon-white icon-ok"></i> 确定</a>
+            <a class="btn fr" href="javascript:window.parent.closeDetailIframe();" style="margin-right:10px"><i class="icon-chevron-up"></i> 返回用户列表</a>
         </div>
-    </form>
+    </div>
+</form>
 @section ChildrenScript
 {
-<script>
+    <script>
         $(function () {
             $('#form').Validform({
                 btnSubmit: '#btn-submit',
@@ -87,45 +148,52 @@
                     }
                 },
                 ajaxPost: true,
-                callback: function (data) {
-                    if ($('input[name="id"]').val() != '') {
-                        if (data.status == 'y') {
-                            $.dialog({
-                                id: 'ajaxedit',
-                                content: '修改成功，是否继续修改？',
-                                okVal: '是',
-                                ok: function () {
-                                    $.dialog.list['ajaxedit'].close();
-                                },
-                                cancel: function () {
-                                    window.parent.closeDetailIframe(function () {
-                                        window.parent.$('#pagination').trigger('currentPage');
-                                    });
-                                }
-                            });
-                        }
+                callback: function (responseText) {
+                    if (typeof responseText.js !== 'undefined') {
+                        $('body').append(responseText.js);
                     } else {
-                        if (data.status == 'y') {
-                            $.dialog({
-                                id: 'ajaxedit',
-                                content: '添加成功，是否继续添加？',
-                                okVal: '是',
-                                ok: function () {
-                                    location.reload();
-                                    return false;
-                                },
-                                cancel: function () {
-                                    window.parent.closeDetailIframe(function () {
-                                        window.parent.$('#pagination').trigger('currentPage');
-                                    });
-                                }
-                            });
+                        if ($('input[name="userId"]').val() !== '') {
+                            if (typeof responseText.success !== 'undefined') {
+                                $.dialog({
+                                    id: 'ajaxedit',
+                                    content: '修改成功，是否继续修改？',
+                                    okVal: '是',
+                                    ok: function () {
+                                        $.dialog.list['ajaxedit'].close();
+                                    },
+                                    cancel: function () {
+                                        window.parent.closeDetailIframe(function () {
+                                            window.parent.$('#pagination').trigger('currentPage');
+                                        });
+                                    }
+                                });
+                            }
+                        } else {
+                            if (typeof responseText.success !== 'undefined') {
+                                $.dialog({
+                                    id: 'ajaxedit',
+                                    content: '添加成功，是否继续添加？',
+                                    okVal: '是',
+                                    ok: function () {
+                                        location.reload();
+                                        return false;
+                                    },
+                                    cancel: function () {
+                                        window.parent.closeDetailIframe(function () {
+                                            window.parent.$('#pagination').trigger('currentPage');
+                                        });
+                                    }
+                                });
+                            }
                         }
                     }
+
+
+
                 }
             });
             $('input[name="val_type"]').change(function () {
-                if ($(this).val() == 1) {
+                if (parseInt($(this).val()) === 2) {
                     $('.input-label-permission').slideDown();
                 } else {
                     $('.input-label-permission').slideUp();
@@ -147,7 +215,17 @@
                 });
             }
         }
-</script>
+
+
+        function selectorPower() {
+            $('#roleIds').val('');
+            var ids = '';
+            $.each($('input[name="val_permission_id"]').filter(':checked'), function (k, v) {
+                ids += $(v).attr('id') + ',';
+            });
+            $('#roleIds').val(ids);
+        }
+    </script>
 
 }
 

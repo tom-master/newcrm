@@ -171,5 +171,14 @@ namespace NewCRM.Domain.Services.Impl
 
             RoleRepository.Update(roleResult);
         }
+
+        public List<dynamic> GetAllRoles()
+        {
+            return RoleRepository.Entities.Select(role => new
+            {
+                role.Name,
+                role.Id
+            }).ToList<dynamic>();
+        }
     }
 }
