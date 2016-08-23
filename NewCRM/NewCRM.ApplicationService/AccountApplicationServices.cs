@@ -45,6 +45,19 @@ namespace NewCRM.Application.Services
             AccountServices.AddNewUser(userDto.ConvertToModel<UserDto, User>());
         }
 
+        public Boolean ValidSameUserNameExist(String userName)
+        {
+            ValidateParameter.Validate(userName);
+
+            return AccountServices.ValidSameUserNameExist(userName);
+        }
+
+        public void ModifyUser(UserDto user)
+        {
+            ValidateParameter.Validate(user);
+            AccountServices.ModifyUser(user.ConvertToModel<UserDto, User>());
+        }
+
         public void Logout(Int32 userId)
         {
             ValidateParameter.Validate(userId);

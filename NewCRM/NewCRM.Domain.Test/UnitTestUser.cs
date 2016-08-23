@@ -27,7 +27,7 @@ namespace NewCRM.Domain.Test
         [TestMethod]
         public void TestMethod()
         {
-            var userType = default(UserType);
+            //var userType = default(UserType);
         }
     }
 

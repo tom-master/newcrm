@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Web.Mvc;
 using NewCRM.Dto.Dto;
+using NewCRM.Infrastructure.CommonTools.CustemException;
 using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
@@ -47,11 +49,25 @@ namespace NewCRM.Web.Controllers
         {
             var userDto = WapperUserDto(forms);
 
-            AccountApplicationServices.AddNewUser(userDto);
+            if (userId == 0)
+            {
+                AccountApplicationServices.AddNewUser(userDto);
+            }
+            else
+            {
+                AccountApplicationServices.ModifyUser(userDto);
+            }
 
             return Json(new { success = 1 });
         }
 
+
+
+        public ActionResult ValidUserExist(String param)
+        {
+            var value = AccountApplicationServices.ValidSameUserNameExist(param) ? 'y' : 'n';
+            return Json(new { status = value });
+        }
 
         #region private method
 
@@ -63,7 +79,19 @@ namespace NewCRM.Web.Controllers
                 userId = Int32.Parse(forms["userId"]);
             }
 
-            var roleIds = forms["val_roleIds"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
+            List<RoleDto> roleIds;
+
+            if ((forms["val_roleIds"] + "").Length > 0)
+            {
+                roleIds = forms["val_roleIds"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(role => new RoleDto
+                {
+                    Id = Int32.Parse(role)
+                }).ToList();
+            }
+            else
+            {
+                throw new BusinessException("所选的角色列表不能为空");
+            }
 
             return new UserDto
             {
@@ -71,10 +99,9 @@ namespace NewCRM.Web.Controllers
                 Name = forms["val_username"],
                 Password = forms["val_password"],
                 UserType = forms["val_type"],
-                RoleIds = roleIds
+                Roles = roleIds
             };
         }
-
 
         #endregion
     }

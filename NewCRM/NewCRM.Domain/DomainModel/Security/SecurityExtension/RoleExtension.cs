@@ -90,7 +90,7 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
 
             foreach (var powerId in powerIds)
             {
-                Powers.FirstOrDefault(p => p.PowerId == powerId && p.IsDeleted == false)?.Remove();
+                Powers.FirstOrDefault(p => p.PowerId == powerId )?.Remove();
             }
             return this;
         }
@@ -102,7 +102,7 @@ namespace NewCRM.Domain.Entities.DomainModel.Security
         {
             if (Powers.Any())
             {
-                Powers.Where(power => power.IsDeleted == false).ToList().ForEach(p =>
+                Powers.ToList().ForEach(p =>
                 {
                     p.Remove();
                 });

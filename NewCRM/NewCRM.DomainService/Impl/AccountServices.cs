@@ -18,7 +18,7 @@ namespace NewCRM.Domain.Services.Impl
 
         public User Validate(String userName, String password)
         {
-            var userResult = UserRepository.Entities.FirstOrDefault(user => user.Name == userName && user.IsDisable == false && user.IsDeleted == false);
+            var userResult = UserRepository.Entities.FirstOrDefault(user => user.Name == userName && user.IsDisable == false );
             if (userResult == null)
             {
                 throw new BusinessException($"该用户不存在或被禁用{userName}");
@@ -132,7 +132,10 @@ namespace NewCRM.Domain.Services.Impl
                 userResult.Name,
                 Password = userResult.LoginPassword,
                 UserType = userResult.IsAdmin ? "2" : "1",
-                RoleIds = userResult.Roles.Select(role => role.RoleId)
+                Roles = userResult.Roles.Select(s => new
+                {
+                   Id= s.RoleId
+                })
             };
         }
 
@@ -149,7 +152,7 @@ namespace NewCRM.Domain.Services.Impl
 
             var internalNewUser = new User(user.Name, PasswordUtil.CreateDbPassword(user.LoginPassword), userType);
 
-            var userRoles = internalNewUser.Roles.Where(role => role.IsDeleted == false).ToList();
+            var userRoles = internalNewUser.Roles.ToList();
 
             if (userRoles.Any())
             {
@@ -162,6 +165,39 @@ namespace NewCRM.Domain.Services.Impl
             internalNewUser.AddUserRole(user.Roles.Select(role => role.RoleId).ToArray());
 
             UserRepository.Add(internalNewUser);
+        }
+
+        public Boolean ValidSameUserNameExist(String userName)
+        {
+            return UserRepository.Entities.Any(user => user.Name == userName);
+        }
+
+        public void ModifyUser(User user)
+        {
+            var userResult = UserRepository.Entities.FirstOrDefault(internalUser => internalUser.Id == user.Id);
+
+            if (userResult == null)
+            {
+                throw new BusinessException($"用户{user.Name}可能已被禁用或删除");
+            }
+
+            if ((user.LoginPassword + "").Length > 0)
+            {
+                var newPassword = PasswordUtil.CreateDbPassword(user.LoginPassword);
+                userResult.ModifyPassword(newPassword);
+            }
+
+            if (userResult.Roles.Any())
+            {
+                userResult.Roles.ToList().ForEach(role =>
+                {
+                    role.Remove();
+                });
+            }
+
+            userResult.AddUserRole(user.Roles.Select(role => role.RoleId).ToArray());
+
+            UserRepository.Update(userResult);
         }
 
         #endregion

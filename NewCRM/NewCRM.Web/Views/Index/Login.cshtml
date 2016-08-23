@@ -5,7 +5,6 @@
 <div class="loading" style="display: none"></div>
 <div id="parentDiv">
     <canvas id="Mycanvas"></canvas>
-    
     <div class="wrapper">
         <div class="container">
             <h1 class="logo">
@@ -17,7 +16,7 @@
                     <input type="text" name="username" value="admin" class="username" placeholder="用户名" autocomplete="off" />
                 </div>
                 <div>
-                    <input type="password" name="password" value="admin123" class="password" placeholder="密码" oncontextmenu="return false" onpaste="return false" />
+                    <input type="password" name="password" value="admin" class="password" placeholder="密码" oncontextmenu="return false" onpaste="return false" />
                 </div>
                 <button id="login">登 陆</button>
             </form>
@@ -43,14 +42,22 @@
                         passWord: $('.password').val()
                     },
                     function (responseText) {
-                        if (typeof responseText.success !== 'undefined') {
-                            $('.loading').hide();
-                            location.href = '@Url.Action("Desktop", "Index")';
+                        if (typeof responseText.js !== 'undefined') {
+                            alert("密码错误");
+                            setTimeout(function() {
+                                location.href = '@Url.Action("Login","Index")';
+                            },3000);
                         } else {
-                            $('#parentDiv').show();
-                            $('.loading').hide();
-                            $('.log .tip').text(responseText.msg).show();
+                            if (typeof responseText.success !== 'undefined') {
+                                $('.loading').hide();
+                                location.href = '@Url.Action("Desktop", "Index")';
+                            } else {
+                                $('#parentDiv').show();
+                                $('.loading').hide();
+                                $('.log .tip').text(responseText.msg).show();
+                            }
                         }
+                        
                     });
             });
     });

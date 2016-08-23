@@ -63,5 +63,17 @@ namespace NewCRM.Application.Services.IApplicationService
         /// <param name="userDto"></param>
         void AddNewUser(UserDto userDto);
 
+        /// <summary>
+        /// 验证相同的用户名是否存在
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        Boolean ValidSameUserNameExist(String userName);
+
+        /// <summary>
+        /// 修改用户
+        /// </summary>
+        /// <param name="user"></param>
+        void ModifyUser(UserDto user);
     }
 }

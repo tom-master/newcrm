@@ -26,13 +26,13 @@
                         if (userInfo.Name == null)
                         {
                             <text>
-                                <input type="text" name="val_username" datatype="s6-18" ajaxurl="detail.ajax.php?ac=checkUsername" nullmsg="请输入用户名" errormsg="用户名长度为6-18个字符">
+                                <input type="text" name="val_username" datatype="s4-12" ajaxurl="@Url.Action("ValidUserExist","User")" nullmsg="请输入用户名" errormsg="用户名长度为4-12个字符">
                             </text>
                         }
                         else
                         {
                             <text>
-                                <input type="text" name="val_username" value="@userInfo.Name" datatype="s6-18" ajaxurl="detail.ajax.php?ac=checkUsername" nullmsg="请输入用户名" errormsg="用户名长度为6-18个字符">
+                                @userInfo.Name
                             </text>
                         }
                     }
@@ -65,12 +65,12 @@
                 <label class="label-text">用户类型：</label>
                 <div class="label-box form-inline">
                     <label class="radio" style="margin-right: 10px">
-                        <input type="radio" name="val_type" value="1" @{ if (userInfo.UserType == null) { <text> checked="checked" </text>      } else { if (Int32.Parse(userInfo.UserType) == 1) { <text> checked="checked" </text>           } }  }>用户
+                        <input type="radio" name="val_type" value="1" @{ if (userInfo.UserType == null) { <text> checked="checked" </text>        } else { if (Int32.Parse(userInfo.UserType) == 1) { <text> checked="checked" </text>             } }  }>用户
                     </label>
 
 
                     <label class="radio" style="margin-right:10px">
-                        <input type="radio" name="val_type" value="2" @{ if (userInfo.UserType != null) { if (Int32.Parse(userInfo.UserType) == 2) { <text> checked="checked" </text>           } }  }>管理员
+                        <input type="radio" name="val_type" value="2" @{ if (userInfo.UserType != null) { if (Int32.Parse(userInfo.UserType) == 2) { <text> checked="checked" </text>             } }  }>管理员
                     </label>
                 </div>
             </div>
@@ -87,16 +87,16 @@
             <text> hide </text>
         }
     }">
-                <label class="label-text">用户权限：</label>
+                <label class="label-text">用户角色：</label>
                 <div class="label-box form-inline">
                     @{
                         foreach (var roleDto in roles)
                         {
-                            if (userInfo.RoleIds != null && userInfo.RoleIds.Any(role => role == roleDto.Id))
+                            if (userInfo.Roles != null && userInfo.Roles.Any(role => role.Id == roleDto.Id))
                             {
                                 <text>
                                     <label class="checkbox" style="margin-right: 10px">
-                                        <input type="checkbox" name="val_permission_id" value="@roleDto.Id" checked="checked">
+                                        <input type="checkbox" onclick="javascript: selectorPower();" name="val_permission_id" id="@roleDto.Id" checked="checked">
                                         @roleDto.Name
                                     </label>
                                 </text>
@@ -104,7 +104,7 @@
                             else
                             {
                                 <label class="checkbox" style="margin-right: 10px">
-                                    <input type="checkbox" name="val_permission_id" value="@roleDto.Id">
+                                    <input type="checkbox" onclick="javascript: selectorPower();" name="val_permission_id" id="@roleDto.Id">
                                     @roleDto.Name
                                 </label>
                             }
@@ -187,9 +187,6 @@
                             }
                         }
                     }
-
-
-
                 }
             });
             $('input[name="val_type"]').change(function () {
@@ -215,7 +212,6 @@
                 });
             }
         }
-
 
         function selectorPower() {
             $('#roleIds').val('');

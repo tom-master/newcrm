@@ -1,5 +1,8 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.Data.Entity;
+using EntityFramework.DynamicFilters;
+using NewCRM.Domain.Entities.DomainModel;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.Security;
 using NewCRM.Domain.Entities.DomainModel.System;
@@ -48,6 +51,9 @@ namespace NewCRM.Repository
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Filter("IsDeleted", (DomainModelBase modelBase) => modelBase.IsDeleted, false);
+
+
             //modelBuilder.Entity<Desk>().HasMany(desk => desk.Members).WithRequired(member => member.Desk);
 
 

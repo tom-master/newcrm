@@ -44,7 +44,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
                 throw new ArgumentOutOfRangeException($"{nameof(startCount)}:不能为0");
             }
 
-            if (AppStars.Any(appStar => appStar.UserId == userId && appStar.IsDeleted == false))
+            if (AppStars.Any(appStar => appStar.UserId == userId ))
             {
                 throw new ArgumentException($"您已对这个应用打过分");
             }
@@ -65,7 +65,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
                 throw new ArgumentOutOfRangeException($"{nameof(userId)}:不能为0");
             }
 
-            var appStar = AppStars.FirstOrDefault(star => star.UserId == userId && star.IsDeleted == false);
+            var appStar = AppStars.FirstOrDefault(star => star.UserId == userId );
 
             appStar?.RemoveStar();
 

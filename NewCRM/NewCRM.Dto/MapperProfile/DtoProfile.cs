@@ -37,7 +37,7 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(dto => dto.Id, user => user.MapFrom(u => u.Id))
                 .ForMember(dto => dto.UserType, user => user.MapFrom(u => u.IsAdmin ? "管理员" : "用户"))
                 .ForMember(dto => dto.Password, user => user.MapFrom(u => u.LoginPassword))
-                .ForMember(dto => dto.RoleIds, user => user.MapFrom(u => u.Roles.Select(role => role.RoleId)));
+                .ForMember(dto => dto.Roles, user => user.MapFrom(u => u.Roles));
         }
     }
 
@@ -51,10 +51,7 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(user => user.Id, dto => dto.MapFrom(d => d.Id))
                 .ForMember(user => user.LoginPassword, dto => dto.MapFrom(d => d.Password))
                 .ForMember(user => user.IsAdmin, dto => dto.MapFrom(d => Int32.Parse(d.UserType) == 2))
-                .ForMember(user => user.Roles, dto => dto.MapFrom(d => d.RoleIds.Select(role => new RoleDto
-                {
-                    Id = role
-                })));
+                .ForMember(user => user.Roles, dto => dto.MapFrom(d => d.Roles));
         }
     }
 
@@ -149,9 +146,9 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(dto => dto.Remark, app => app.MapFrom(w => w.Remark))
                 .ForMember(dto => dto.UserCount, app => app.MapFrom(w => w.UserCount))
                 .ForMember(dto => dto.StartCount, app => app.MapFrom(w =>
-                             w.AppStars.Any(appStar => appStar.IsDeleted == false)
+                             w.AppStars.Any()
                                  ? (w.AppStars.Sum(s => s.StartNum) * 1.0) /
-                                   (w.AppStars.Count(appStar => appStar.IsDeleted == false) * 1.0) : 0.0))
+                                   (w.AppStars.Count* 1.0) : 0.0))
                 .ForMember(dto => dto.UserId, app => app.MapFrom(w => w.UserId))
                 .ForMember(dto => dto.AppStyle, app => app.MapFrom(w => (Int32)w.AppStyle))
                 .ForMember(dto => dto.AppType, app => app.MapFrom(w => w.AppType.Name))
@@ -239,9 +236,23 @@ namespace NewCRM.Dto.MapperProfile
         }
     }
 
+    internal class RoleDtoToUserRoleProfile : Profile
+    {
+        public RoleDtoToUserRoleProfile()
+        {
+            CreateMap<RoleDto, UserRole>()
+                .ForMember(userRole => userRole.RoleId, dto => dto.MapFrom(d => d.Id));
+        }
+    }
 
-
-
+    internal class UserRoleToRoleDtoProfile : Profile
+    {
+        public UserRoleToRoleDtoProfile()
+        {
+            CreateMap<UserRole, RoleDto>()
+                .ForMember(dto => dto.Id, userRole => userRole.MapFrom(role => role.RoleId));
+        }
+    }
 
     internal static class EnumOp
     {

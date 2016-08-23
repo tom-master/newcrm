@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.ValueObject;
+using NewCRM.Domain.Services.DomainSpecification;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
 namespace NewCRM.Domain.Services.Impl
@@ -21,7 +22,7 @@ namespace NewCRM.Domain.Services.Impl
             {
                 IList<dynamic> deskMembers = new List<dynamic>();
 
-                var members = desk.Members.Where(member => member.IsDeleted == false).ToList();
+                var members = desk.Members.ToList();
 
                 foreach (var member in members)
                 {
@@ -136,9 +137,9 @@ namespace NewCRM.Domain.Services.Impl
             var topApp = AppRepository.Entities.Where(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release).OrderByDescending(app => app.UserCount).Select(app => new
             {
                 app.UserCount,
-                AppStars = app.AppStars.Any(appStar => appStar.IsDeleted == false)
-               ? (app.AppStars.Where(a => a.IsDeleted == false).Sum(s => s.StartNum) * 1.0) /
-                 (app.AppStars.Count(a => a.IsDeleted == false) * 1.0)
+                AppStars = app.AppStars.Any()
+               ? (app.AppStars.Sum(s => s.StartNum) * 1.0) /
+                 (app.AppStars.Count * 1.0)
                : 0.0,
                 app.Id,
                 app.Name,
@@ -149,7 +150,7 @@ namespace NewCRM.Domain.Services.Impl
 
             var userDesks = GetUserInfoService(userId).Config.Desks;
 
-            Boolean isInstall = userDesks.Any(userDesk => userDesk.Members.Any(member => member.AppId == topApp.Id && member.IsDeleted == false));
+            Boolean isInstall = userDesks.Any(userDesk => userDesk.Members.Any(member => member.AppId == topApp.Id));
 
             return new TodayRecommendAppModel
             {
@@ -177,6 +178,7 @@ namespace NewCRM.Domain.Services.Impl
 
         public List<dynamic> GetAllApps(Int32 userId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
+
             var apps = AppRepository.Entities.Where(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release);
 
             #region 条件筛选
@@ -213,6 +215,7 @@ namespace NewCRM.Domain.Services.Impl
 
             totalCount = apps.Count();
 
+
             #endregion
 
             return apps.OrderByDescending(o => o.AddTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(app => new
@@ -221,9 +224,9 @@ namespace NewCRM.Domain.Services.Impl
                 app.UserId,
                 app.AddTime,
                 app.UserCount,
-                StartCount = app.AppStars.Any(appStar => appStar.IsDeleted == false)
-               ? (app.AppStars.Where(a => a.IsDeleted == false).Sum(s => s.StartNum) * 1.0) /
-                 (app.AppStars.Count(a => a.IsDeleted == false) * 1.0)
+                StartCount = app.AppStars.Any()
+               ? (app.AppStars.Sum(s => s.StartNum) * 1.0) /
+                 (app.AppStars.Count * 1.0)
                : 0.0,
                 app.Name,
                 app.IconUrl,
@@ -245,9 +248,9 @@ namespace NewCRM.Domain.Services.Impl
                             app.IconUrl,
                             app.Remark,
                             app.UserCount,
-                            StartCount = app.AppStars.Any(appStar => appStar.IsDeleted == false)
-               ? (app.AppStars.Where(a => a.IsDeleted == false).Sum(s => s.StartNum) * 1.0) /
-                 (app.AppStars.Count(a => a.IsDeleted == false) * 1.0)
+                            StartCount = app.AppStars.Any()
+               ? (app.AppStars.Sum(s => s.StartNum) * 1.0) /
+                 (app.AppStars.Count * 1.0)
                : 0.0,
                             AppType = app.AppType.Name,
                             app.AddTime,
@@ -270,7 +273,7 @@ namespace NewCRM.Domain.Services.Impl
         {
             var userResult = GetUserInfoService(userId);
 
-            if (!userResult.Config.Desks.Any(desk => desk.Members.Any(member => member.AppId == appId && member.IsDeleted == false)))
+            if (!userResult.Config.Desks.Any(desk => desk.Members.Any(member => member.AppId == appId)))
             {
                 throw new BusinessException($"请安装这个应用后再打分");
             }
@@ -316,7 +319,7 @@ namespace NewCRM.Domain.Services.Impl
         {
             var userResult = GetUserInfoService(userId);
 
-            return userResult.Config.Desks.Any(desk => desk.Members.Any(member => member.AppId == appId && member.IsDeleted == false));
+            return userResult.Config.Desks.Any(desk => desk.Members.Any(member => member.AppId == appId));
         }
 
         public List<dynamic> GetUserAllApps(Int32 userId, String appName, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize,

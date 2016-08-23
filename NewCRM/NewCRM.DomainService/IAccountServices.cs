@@ -63,5 +63,18 @@ namespace NewCRM.Domain.Services
         /// <param name="user"></param>
         void AddNewUser(User user);
 
+        /// <summary>
+        /// 验证相同的用户名是否存在
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        Boolean ValidSameUserNameExist(String userName);
+
+        /// <summary>
+        /// 修改用户
+        /// </summary>
+        /// <param name="user"></param>
+        void ModifyUser(User user);
+
     }
 }

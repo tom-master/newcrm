@@ -31,7 +31,7 @@ namespace NewCRM.Domain.Services.Impl
                 {
                     var deskResult = DeskRepository.Entities.FirstOrDefault(desk => desk.DeskNumber == userResult.Config.DefaultDeskNumber);
 
-                    var dockMembers = deskResult.Members.Where(member => member.IsOnDock && member.IsDeleted == false).ToList();
+                    var dockMembers = deskResult.Members.Where(member => member.IsOnDock).ToList();
 
                     if (dockMembers.Any())
                     {
@@ -65,7 +65,7 @@ namespace NewCRM.Domain.Services.Impl
 
             foreach (var desk in userConfig.Desks)
             {
-                var members = desk.Members.Where(member => member.IsDeleted == false);
+                var members = desk.Members;
                 if (isFolder)
                 {
                     var folderMember = members.FirstOrDefault(member => member.Id == memberId && member.MemberType == MemberType.Folder);
@@ -239,7 +239,7 @@ namespace NewCRM.Domain.Services.Impl
                         //移除文件夹中的内容
                         foreach (var desk1 in userConfig.Desks)
                         {
-                            desk1.Members.Where(d => d.FolderId == memberId && d.IsDeleted == false).ToList().ForEach(m => m.Remove());
+                            desk1.Members.Where(d => d.FolderId == memberId).ToList().ForEach(m => m.Remove());
                         }
                     }
                     else
@@ -285,7 +285,7 @@ namespace NewCRM.Domain.Services.Impl
 
         private Member InternalDeskMember(Int32 memberId, Desk desk)
         {
-            var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId && member.IsDeleted == false);
+            var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId);
             return memberResult;
         }
 

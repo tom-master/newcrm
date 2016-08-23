@@ -49,6 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseService.cs" />
+    <Compile Include="DomainSpecification\ISpecification.cs" />
+    <Compile Include="DomainSpecification\Specification.cs" />
     <Compile Include="IAccountServices.cs" />
     <Compile Include="IAppServices.cs" />
     <Compile Include="IDeskServices.cs" />
@@ -68,6 +70,9 @@
       <Project>{173C1046-4529-4D70-B6F5-501C61514E86}</Project>
       <Name>NewCRM.Domain.Entities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DomainSpecification\SpecificationExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

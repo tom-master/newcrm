@@ -1,12 +1,15 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Linq.Expressions;
+using NewCRM.Domain.Entities.DomainModel;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.Repositories.IRepository.Account;
 using NewCRM.Domain.Entities.Repositories.IRepository.Security;
 using NewCRM.Domain.Entities.Repositories.IRepository.System;
 using NewCRM.Domain.Entities.UnitWork;
+using NewCRM.Domain.Services.DomainSpecification;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
 namespace NewCRM.Domain.Services
@@ -41,8 +44,6 @@ namespace NewCRM.Domain.Services
 
         [Import]
         protected IPowerRepository PowerRepository { get; set; }
-
-
 
         /// <summary>
         /// 获取一个用户

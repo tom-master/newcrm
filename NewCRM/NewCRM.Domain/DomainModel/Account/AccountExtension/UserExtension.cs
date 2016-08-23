@@ -11,6 +11,28 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         #region public method
 
         /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="newPassword"></param>
+        /// <returns></returns>
+        public User ModifyPassword(String newPassword)
+        {
+            LoginPassword = newPassword;
+            return this;
+        }
+
+        /// <summary>
+        /// 修改锁屏密码
+        /// </summary>
+        /// <param name="newLockScreenPassword"></param>
+        /// <returns></returns>
+        public User ModifyLockScreenPassword(String newLockScreenPassword)
+        {
+            LockScreenPassword = newLockScreenPassword;
+            return this;
+        }
+
+        /// <summary>
         /// 禁用当前用户
         /// </summary>
         public User Disable()
@@ -105,7 +127,6 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
             return this;
         }
 
-
         /// <summary>
         /// 在线
         /// </summary>
@@ -129,11 +150,11 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         /// <summary>
         /// 移除职称
         /// </summary>
-        public void RemoveTitle()
+        public User RemoveTitle()
         {
             Title.Remove();
+            return this;
         }
-
 
         /// <summary>
         /// 移除用户

@@ -18,12 +18,6 @@ namespace NewCRM.Dto.Dto
         public String Name { get; set; }
 
         /// <summary>
-        /// 职称
-        /// </summary>
-        public String Title { get; set; }
-
-
-        /// <summary>
         /// 是否在线
         /// </summary>
         public Boolean IsOnline { get; set; }
@@ -114,6 +108,6 @@ namespace NewCRM.Dto.Dto
         /// <summary>
         /// 用户角色Id
         /// </summary>
-        public IEnumerable<Int32> RoleIds { get; set; }
+        public List<RoleDto> Roles { get; set; }
     }
 }

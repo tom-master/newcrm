@@ -74,7 +74,7 @@ namespace NewCRM.Domain.Services.Impl
                 roleResult.Name,
                 roleResult.RoleIdentity,
                 roleResult.Remark,
-                Powers = roleResult.Powers.Where(power => power.IsDeleted == false).Select(s => new { Id = s.PowerId })
+                Powers = roleResult.Powers.Select(s => new { Id = s.PowerId })
             };
         }
 
@@ -165,7 +165,7 @@ namespace NewCRM.Domain.Services.Impl
                 throw new BusinessException("该角色可能已被删除，请刷新后再试");
             }
 
-            roleResult.Powers.Where(power => power.IsDeleted == false).ToList().ForEach(f => f.Remove());
+            roleResult.Powers.ToList().ForEach(f => f.Remove());
 
             roleResult.AddPower(powerIds.ToArray());
 
