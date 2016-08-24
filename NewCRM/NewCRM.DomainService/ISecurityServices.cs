@@ -1,102 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml.Serialization;
-using NewCRM.Domain.Entities.DomainModel.Security;
+using System.ComponentModel.Composition;
+using NewCRM.Domain.Entities.DomainModel.Account;
 
 namespace NewCRM.Domain.Services
 {
-    public interface ISecurityServices
+    public interface ISecurityContext
     {
+        IRoleServices RoleServices { get; set; }
+
+        IPowerServices PowerServices { get; set; }
+
         /// <summary>
-        /// 获取全部的角色
+        /// 获取所有的用户
         /// </summary>
-        /// <param name="roleName"></param>
+        /// <param name="userName"></param>
+        /// <param name="userType"></param>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <param name="totalCount"></param>
         /// <returns></returns>
-        List<dynamic> GetAllRoles(String roleName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
+        List<dynamic> GetAllUsers(String userName, String userType, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
 
         /// <summary>
-        /// 移除角色
+        /// 根据userId获取用户
         /// </summary>
-        /// <param name="roleId"></param>
-        void RemoveRole(Int32 roleId);
-
-        /// <summary>
-        /// 获取所有的权限
-        /// </summary>
+        /// <param name="userId"></param>
         /// <returns></returns>
-        List<dynamic> GetAllPowers();
-
+        dynamic GetUser(Int32 userId);
 
         /// <summary>
-        /// 根据角色Id获取角色
+        /// 添加新的用户
         /// </summary>
-        /// <param name="roleId"></param>
+        /// <param name="user"></param>
+        void AddNewUser(User user);
+
+        /// <summary>
+        /// 验证相同的用户名是否存在
+        /// </summary>
+        /// <param name="userName"></param>
         /// <returns></returns>
-        dynamic GetRole(Int32 roleId);
+        Boolean ValidSameUserNameExist(String userName);
 
         /// <summary>
-        /// 创建新权限
+        /// 修改用户
         /// </summary>
-        /// <param name="power"></param>
-        void AddNewPower(Power power);
-
-
-        /// <summary>
-        /// 获取所有的权限
-        /// </summary>
-        /// <param name="powerName"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="totalCount"></param>
-        /// <returns></returns>
-        List<Power> GetAllPowers(String powerName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
-
-        /// <summary>
-        /// 根据powerId获取权限信息
-        /// </summary>
-        /// <param name="powerId"></param>
-        /// <returns></returns>
-        Power GetPower(Int32 powerId);
-
-        /// <summary>
-        /// 修改权限信息
-        /// </summary>
-        /// <param name="power"></param>
-        void ModifyPower(Power power);
-
-        /// <summary>
-        /// 删除权限
-        /// </summary>
-        /// <param name="powerId"></param>
-        void RemovePower(Int32 powerId);
-
-
-        /// <summary>
-        /// 添加新的角色
-        /// </summary>
-        void AddNewRole(Role role);
-
-
-        /// <summary>
-        /// 修改角色信息
-        /// </summary>
-        /// <param name="role"></param>
-        void ModifyRole(Role role);
-
-        /// <summary>
-        /// 添加权限到当前角色
-        /// </summary>
-        /// <param name="roleId"></param>
-        /// <param name="powerIds"></param>
-        void AddPowerToCurrentRole(Int32 roleId, IEnumerable<Int32> powerIds);
-
-        /// <summary>
-        /// 获取全部的角色
-        /// </summary>
-        /// <returns></returns>
-        List<dynamic> GetAllRoles();
+        /// <param name="user"></param>
+        void ModifyUser(User user);
     }
 }

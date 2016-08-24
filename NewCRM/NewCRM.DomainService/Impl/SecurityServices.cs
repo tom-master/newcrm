@@ -2,183 +2,140 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using NewCRM.Domain.Entities.DomainModel.Security;
+using NewCRM.Domain.Entities.DomainModel.Account;
+using NewCRM.Domain.Entities.ValueObject;
+using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
 namespace NewCRM.Domain.Services.Impl
 {
-
-    [Export(typeof(ISecurityServices))]
-    internal sealed class SecurityServices : BaseService, ISecurityServices
+    [Export(typeof(ISecurityContext))]
+    internal sealed class SecurityContext : BaseService, ISecurityContext
     {
-        public List<dynamic> GetAllRoles(String roleName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
-        {
-            var roles = RoleRepository.Entities;
+        [Import]
+        public IRoleServices RoleServices { get; set; }
 
-            if ((roleName + "").Length > 0)
+        [Import]
+        public IPowerServices PowerServices { get; set; }
+
+        #region User
+
+        public List<dynamic> GetAllUsers(String userName, String userType, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+        {
+            var users = UserRepository.Entities;
+            if ((userName + "").Length > 0)
             {
-                roles = roles.Where(role => role.Name.Contains(roleName));
+                users = users.Where(user => user.Name.Contains(userName));
             }
 
-            totalCount = roles.Count();
 
-            return roles.OrderByDescending(o => o.AddTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(s => new
+            UserType internalUserType;
+            if ((userType + "").Length > 0)
             {
-                s.Name,
-                s.Id,
-                s.RoleIdentity
+                var enumConst = Enum.GetName(typeof(UserType), userType);
+
+                if (Enum.TryParse(enumConst, true, out internalUserType))
+                {
+                    users = users.Where(user => user.IsAdmin == (internalUserType == UserType.Admin));
+                }
+                else
+                {
+                    throw new BusinessException($"用户类型{userType}不是有效的类型");
+                }
+            }
+
+            totalCount = users.Count();
+
+            return users.OrderByDescending(o => o.AddTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(user => new
+            {
+                user.Id,
+                UserType = user.IsAdmin ? "2"/*管理员*/ : "1"/*用户*/,
+                user.Name
             }).ToList<dynamic>();
         }
 
-        public void RemoveRole(Int32 roleId)
+        public dynamic GetUser(Int32 userId)
         {
-            var roleResult = RoleRepository.Entities.FirstOrDefault(role => role.Id == roleId);
-
-            if (roleResult == null)
+            var userResult = UserRepository.Entities.FirstOrDefault(user => user.Id == userId);
+            if (userResult == null)
             {
-                throw new BusinessException("该角色可能已不存在，请刷新后再试");
-            }
-
-            if (roleResult.Powers.Any())
-            {
-                roleResult.Powers.ToList().ForEach(rolePower => rolePower.Remove());
-            }
-
-            roleResult.Remove();
-
-            RoleRepository.Update(roleResult);
-        }
-
-        public List<dynamic> GetAllPowers()
-        {
-            var powers = PowerRepository.Entities;
-            return powers.OrderByDescending(o => o.AddTime).Select(power => new
-            {
-                power.Name,
-                power.Id,
-                power.PowerIdentity
-            }).ToList<dynamic>();
-        }
-
-        public dynamic GetRole(Int32 roleId)
-        {
-            var roleResult = RoleRepository.Entities.FirstOrDefault(role => role.Id == roleId);
-
-            if (roleResult == null)
-            {
-                throw new BusinessException($"角色可能已被删除，请刷新后再试");
+                throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
             }
 
             return new
             {
-                roleResult.Name,
-                roleResult.RoleIdentity,
-                roleResult.Remark,
-                Powers = roleResult.Powers.Select(s => new { Id = s.PowerId })
+                userResult.Id,
+                userResult.Name,
+                Password = userResult.LoginPassword,
+                UserType = userResult.IsAdmin ? "2" : "1",
+                Roles = userResult.Roles.Select(s => new
+                {
+                    Id = s.RoleId
+                })
             };
         }
 
-        public void AddNewPower(Power power)
+        public void AddNewUser(User user)
         {
-            PowerRepository.Add(power);
-        }
+            UserType userType;
 
-        public List<Power> GetAllPowers(String powerName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
-        {
-            var powers = PowerRepository.Entities;
+            var enumConst = Enum.GetName(typeof(UserType), user.IsAdmin ? "2"/*管理员*/ : "1"/*用户*/);
 
-            if ((powerName + "").Length > 0)
+            if (!Enum.TryParse(enumConst, true, out userType))
             {
-                powers = powers.Where(power => power.Name.Contains(powerName));
+                throw new BusinessException($"类型{enumConst}不是有效的枚举类型");
             }
 
-            totalCount = powers.Count();
+            var internalNewUser = new User(user.Name, PasswordUtil.CreateDbPassword(user.LoginPassword), userType);
 
-            return powers.OrderByDescending(o => o.AddTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            var userRoles = internalNewUser.Roles.ToList();
 
-        }
-
-        public Power GetPower(Int32 powerId)
-        {
-            var powerResult = PowerRepository.Entities.FirstOrDefault(power => power.Id == powerId);
-
-            if (powerResult == null)
+            if (userRoles.Any())
             {
-                throw new BusinessException($"该权限可能已被删除，请刷新后再试");
-            }
-            return powerResult;
-        }
-
-        public void ModifyPower(Power power)
-        {
-            var powerResult = PowerRepository.Entities.FirstOrDefault(p => p.Id == power.Id);
-            if (powerResult == null)
-            {
-                throw new BusinessException("该权限可能已被删除，请刷新后再试");
+                userRoles.ForEach(userRole =>
+                {
+                    userRole.Remove();
+                });
             }
 
-            powerResult.ModifyPowerIdentity(power.PowerIdentity);
+            internalNewUser.AddUserRole(user.Roles.Select(role => role.RoleId).ToArray());
 
-            powerResult.ModifyPowerName(power.Name);
-
-            PowerRepository.Update(powerResult);
+            UserRepository.Add(internalNewUser);
         }
 
-        public void RemovePower(Int32 powerId)
+        public void ModifyUser(User user)
         {
-            var powerResult = PowerRepository.Entities.FirstOrDefault(power => power.Id == powerId);
+            var userResult = UserRepository.Entities.FirstOrDefault(internalUser => internalUser.Id == user.Id);
 
-            if (powerResult == null)
+            if (userResult == null)
             {
-                throw new BusinessException("该权限可能已被删除，请刷新后再试");
+                throw new BusinessException($"用户{user.Name}可能已被禁用或删除");
             }
 
-            powerResult.Remove();
-
-            PowerRepository.Update(powerResult);
-        }
-
-        public void AddNewRole(Role role)
-        {
-            RoleRepository.Add(role);
-        }
-
-        public void ModifyRole(Role role)
-        {
-            var roleResult = RoleRepository.Entities.FirstOrDefault(internalRole => internalRole.Id == role.Id);
-
-            if (roleResult == null)
+            if ((user.LoginPassword + "").Length > 0)
             {
-                throw new BusinessException("该角色可能已被删除，请刷新后再试");
+                var newPassword = PasswordUtil.CreateDbPassword(user.LoginPassword);
+                userResult.ModifyPassword(newPassword);
             }
 
-            roleResult.ModifyRoleName(role.Name).ModifyRoleIdentity(role.RoleIdentity);
-
-            RoleRepository.Update(roleResult);
-        }
-
-        public void AddPowerToCurrentRole(Int32 roleId, IEnumerable<Int32> powerIds)
-        {
-            var roleResult = RoleRepository.Entities.FirstOrDefault(role => role.Id == roleId);
-            if (roleResult == null)
+            if (userResult.Roles.Any())
             {
-                throw new BusinessException("该角色可能已被删除，请刷新后再试");
+                userResult.Roles.ToList().ForEach(role =>
+                {
+                    role.Remove();
+                });
             }
 
-            roleResult.Powers.ToList().ForEach(f => f.Remove());
+            userResult.AddUserRole(user.Roles.Select(role => role.RoleId).ToArray());
 
-            roleResult.AddPower(powerIds.ToArray());
-
-            RoleRepository.Update(roleResult);
+            UserRepository.Update(userResult);
         }
 
-        public List<dynamic> GetAllRoles()
+        public Boolean ValidSameUserNameExist(String userName)
         {
-            return RoleRepository.Entities.Select(role => new
-            {
-                role.Name,
-                role.Id
-            }).ToList<dynamic>();
+            return UserRepository.Entities.Any(user => user.Name == userName);
         }
+
+        #endregion
     }
 }

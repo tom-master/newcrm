@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseService.cs" />
+    <Compile Include="DomainContext\PermissionsContext.cs" />
     <Compile Include="DomainSpecification\ISpecification.cs" />
     <Compile Include="DomainSpecification\Specification.cs" />
     <Compile Include="IAccountServices.cs" />
@@ -57,9 +58,13 @@
     <Compile Include="Impl\AccountServices.cs" />
     <Compile Include="Impl\AppServices.cs" />
     <Compile Include="Impl\DeskServices.cs" />
+    <Compile Include="Impl\PowerServices.cs" />
+    <Compile Include="Impl\RoleServices.cs" />
     <Compile Include="Impl\SecurityServices.cs" />
     <Compile Include="Impl\SkinServices.cs" />
     <Compile Include="Impl\WallpaperServices.cs" />
+    <Compile Include="IRoleServices.cs" />
+    <Compile Include="IPowerServices.cs" />
     <Compile Include="ISecurityServices.cs" />
     <Compile Include="ISkinServices.cs" />
     <Compile Include="IWallpaperServices.cs" />

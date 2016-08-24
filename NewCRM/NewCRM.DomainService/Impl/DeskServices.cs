@@ -10,7 +10,6 @@ namespace NewCRM.Domain.Services.Impl
     [Export(typeof(IDeskServices))]
     internal class DeskServices : BaseService, IDeskServices
     {
-
         public void ModifyDefaultShowDesk(Int32 userId, Int32 newDefaultDeskNumber)
         {
             var userResult = GetUserInfoService(userId);

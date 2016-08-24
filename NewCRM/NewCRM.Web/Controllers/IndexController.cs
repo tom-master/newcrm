@@ -26,7 +26,7 @@ namespace NewCRM.Web.Controllers
             ViewBag.Title = "桌面";
             if (Request.Cookies["Account"] != null)
             {
-                CurrentUser = AccountApplicationServices.GetUserConfig(Int32.Parse(Request.Cookies["Account"].Value));
+                CurrentUser = AccountApplicationServices.GetConfig(Int32.Parse(Request.Cookies["Account"].Value));
                 ViewData["CurrentUser"] = CurrentUser;
                 return View();
             }
@@ -93,7 +93,7 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult GetWallpaper()
         {
-            var config = AccountApplicationServices.GetUserConfig(CurrentUser.Id);
+            var config = AccountApplicationServices.GetConfig(CurrentUser.Id);
             return Json(new
             {
                 data = new

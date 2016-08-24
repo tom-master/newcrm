@@ -19,7 +19,7 @@ namespace NewCRM.Application.Services
 
         }
 
-        public UserDto GetUserConfig(Int32 userId)
+        public UserDto GetConfig(Int32 userId)
         {
             return AccountServices.GetUserConfig(userId).ConvertToDto<User, UserDto>();
         }
@@ -28,34 +28,34 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(userName).Validate(pageIndex).Validate(pageSize);
 
-            return AccountServices.GetAllUsers(userName, userType, pageIndex, pageSize, out totalCount).ConvertDynamicToDtos<UserDto>().ToList();
+            return SecurityContext.GetAllUsers(userName, userType, pageIndex, pageSize, out totalCount).ConvertDynamicToDtos<UserDto>().ToList();
         }
 
         public UserDto GetUser(Int32 userId)
         {
             ValidateParameter.Validate(userId);
 
-            return DtoConfiguration.ConvertDynamicToDto<UserDto>(AccountServices.GetUser(userId));
+            return DtoConfiguration.ConvertDynamicToDto<UserDto>(SecurityContext.GetUser(userId));
         }
 
         public void AddNewUser(UserDto userDto)
         {
             ValidateParameter.Validate(userDto);
 
-            AccountServices.AddNewUser(userDto.ConvertToModel<UserDto, User>());
+            SecurityContext.AddNewUser(userDto.ConvertToModel<UserDto, User>());
         }
 
         public Boolean ValidSameUserNameExist(String userName)
         {
             ValidateParameter.Validate(userName);
 
-            return AccountServices.ValidSameUserNameExist(userName);
+            return SecurityContext.ValidSameUserNameExist(userName);
         }
 
         public void ModifyUser(UserDto user)
         {
             ValidateParameter.Validate(user);
-            AccountServices.ModifyUser(user.ConvertToModel<UserDto, User>());
+            SecurityContext.ModifyUser(user.ConvertToModel<UserDto, User>());
         }
 
         public void Logout(Int32 userId)

@@ -18,12 +18,14 @@ E:\NewCRMTest\NewCRM\NewCRM.Web\bin\System.Web.WebPages.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\System.Web.WebPages.Razor.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\WebGrease.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Domain.Services.dll
+E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Domain.Entities.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\AutoMapper.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\EntityFramework.dll
+E:\NewCRMTest\NewCRM\NewCRM.Web\bin\EntityFramework.DynamicFilters.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Application.Services.pdb
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Dto.pdb
-E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Infrastructure.pdb
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\Antlr3.Runtime.pdb
+E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Infrastructure.pdb
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Repository.pdb
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\Newtonsoft.Json.xml
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\System.Web.Helpers.xml
@@ -34,6 +36,8 @@ E:\NewCRMTest\NewCRM\NewCRM.Web\bin\System.Web.WebPages.Deployment.xml
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\System.Web.WebPages.Razor.xml
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\System.Web.Optimization.xml
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Domain.Services.pdb
+E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Domain.Entities.pdb
+E:\NewCRMTest\NewCRM\NewCRM.Web\bin\AutoMapper.xml
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\EntityFramework.xml
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\zh-Hans\System.Web.Helpers.resources.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\zh-Hans\System.Web.Mvc.resources.dll
@@ -44,6 +48,3 @@ E:\NewCRMTest\NewCRM\NewCRM.Web\bin\zh-Hans\System.Web.WebPages.Razor.resources.
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\zh-Hans\System.Web.Optimization.resources.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.pdb
-E:\NewCRMTest\NewCRM\NewCRM.Web\bin\AutoMapper.xml
-E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Domain.Entities.dll
-E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Domain.Entities.pdb

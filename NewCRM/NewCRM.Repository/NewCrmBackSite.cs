@@ -53,6 +53,8 @@ namespace NewCRM.Repository
         {
             modelBuilder.Filter("IsDeleted", (DomainModelBase modelBase) => modelBase.IsDeleted, false);
 
+            modelBuilder.Filter("IsDisable", (User user) => user.IsDisable, false);
+
 
             //modelBuilder.Entity<Desk>().HasMany(desk => desk.Members).WithRequired(member => member.Desk);
 

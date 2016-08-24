@@ -19,8 +19,6 @@ namespace NewCRM.Domain.Services
     /// </summary>
     internal abstract class BaseService
     {
-        protected IUnitOfWork UnitOfWork { get; set; }
-
         [Import]
         protected IUserRepository UserRepository { get; set; }
 
