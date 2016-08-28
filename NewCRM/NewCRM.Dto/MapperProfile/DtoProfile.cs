@@ -16,19 +16,6 @@ namespace NewCRM.Dto.MapperProfile
         {
             CreateMap<User, UserDto>()
                 .ForMember(dto => dto.Name, user => user.MapFrom(u => u.Name))
-                .ForMember(dto => dto.Skin, user => user.MapFrom(u => u.Config.Skin))
-                .ForMember(dto => dto.UserFace, user => user.MapFrom(u => u.Config.UserFace))
-                .ForMember(dto => dto.AppSize, user => user.MapFrom(u => u.Config.AppSize))
-                .ForMember(dto => dto.AppVerticalSpacing, user => user.MapFrom(u => u.Config.AppVerticalSpacing))
-                .ForMember(dto => dto.AppHorizontalSpacing, user => user.MapFrom(u => u.Config.AppHorizontalSpacing))
-                .ForMember(dto => dto.DefaultDeskNumber, user => user.MapFrom(u => u.Config.DefaultDeskNumber))
-                .ForMember(dto => dto.WallpaperMode, user => user.MapFrom(u => u.Config.WallpaperMode.ToString().ToLower()))
-                .ForMember(dto => dto.AppXy, user => user.MapFrom(u => u.Config.AppXy.ToString().ToLower()))
-                .ForMember(dto => dto.DockPosition, user => user.MapFrom(u => u.Config.DockPosition.ToString().ToLower()))
-                .ForMember(dto => dto.WallpaperUrl, user => user.MapFrom(u => u.Config.Wallpaper.Url))
-                .ForMember(dto => dto.WallpaperWidth, user => user.MapFrom(u => u.Config.Wallpaper.Width))
-                .ForMember(dto => dto.WallpaperHeigth, user => user.MapFrom(u => u.Config.Wallpaper.Height))
-                .ForMember(dto => dto.WallpaperSource, user => user.MapFrom(u => u.Config.Wallpaper.Source.ToString().ToLower()))
                 .ForMember(dto => dto.Desks, user => user.MapFrom(u => u.Config.Desks.Select(s => new DeskDto
                 {
                     DeskNumber = s.DeskNumber,
@@ -52,6 +39,29 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(user => user.LoginPassword, dto => dto.MapFrom(d => d.Password))
                 .ForMember(user => user.IsAdmin, dto => dto.MapFrom(d => Int32.Parse(d.UserType) == 2))
                 .ForMember(user => user.Roles, dto => dto.MapFrom(d => d.Roles));
+        }
+    }
+
+
+    internal class ConfigToConfigDtoProfile : Profile
+    {
+        public ConfigToConfigDtoProfile()
+        {
+            CreateMap<Config, ConfigDto>()
+                .ForMember(dto => dto.Skin, config => config.MapFrom(c => c.Skin))
+                .ForMember(dto => dto.UserFace, config => config.MapFrom(c => c.UserFace))
+                .ForMember(dto => dto.AppSize, config => config.MapFrom(c => c.AppSize))
+                .ForMember(dto => dto.AppVerticalSpacing, config => config.MapFrom(c => c.AppVerticalSpacing))
+                .ForMember(dto => dto.AppHorizontalSpacing, config => config.MapFrom(c => c.AppHorizontalSpacing))
+                .ForMember(dto => dto.DefaultDeskNumber, config => config.MapFrom(c => c.DefaultDeskNumber))
+                .ForMember(dto => dto.AppXy, config => config.MapFrom(c => c.AppXy))
+                .ForMember(dto => dto.DockPosition, config => config.MapFrom(c => c.DockPosition))
+                .ForMember(dto => dto.WallpaperUrl, config => config.MapFrom(c => c.Wallpaper.Url))
+                .ForMember(dto => dto.WallpaperWidth, config => config.MapFrom(c => c.Wallpaper.Width))
+                .ForMember(dto => dto.WallpaperHeigth, config => config.MapFrom(c => c.Wallpaper.Height))
+                .ForMember(dto => dto.WallpaperSource, config => config.MapFrom(c => c.Wallpaper.Source))
+                .ForMember(dto => dto.WallpaperMode, config => config.MapFrom(c => c.WallpaperMode));
+
         }
     }
 
@@ -148,7 +158,7 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(dto => dto.StartCount, app => app.MapFrom(w =>
                              w.AppStars.Any()
                                  ? (w.AppStars.Sum(s => s.StartNum) * 1.0) /
-                                   (w.AppStars.Count* 1.0) : 0.0))
+                                   (w.AppStars.Count * 1.0) : 0.0))
                 .ForMember(dto => dto.UserId, app => app.MapFrom(w => w.UserId))
                 .ForMember(dto => dto.AppStyle, app => app.MapFrom(w => (Int32)w.AppStyle))
                 .ForMember(dto => dto.AppType, app => app.MapFrom(w => w.AppType.Name))

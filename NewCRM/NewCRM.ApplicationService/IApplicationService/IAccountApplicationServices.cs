@@ -37,7 +37,7 @@ namespace NewCRM.Application.Services.IApplicationService
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        UserDto GetConfig(Int32 userId);
+        ConfigDto GetConfig(Int32 userId);
 
         /// <summary>
         /// 获取全部的用户

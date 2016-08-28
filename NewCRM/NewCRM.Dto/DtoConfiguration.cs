@@ -29,7 +29,9 @@ namespace NewCRM.Dto
                 d.CreateMap<UserRole, RoleDto>();
                 d.AddProfile<UserRoleToRoleDtoProfile>();
 
-
+                //Wallpaper
+                d.CreateMap<Config, ConfigDto>();
+                d.AddProfile<ConfigToConfigDtoProfile>();
 
                 //Wallpaper
                 d.CreateMap<Wallpaper, WallpaperDto>();

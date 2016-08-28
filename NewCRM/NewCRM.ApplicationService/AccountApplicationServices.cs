@@ -19,9 +19,9 @@ namespace NewCRM.Application.Services
 
         }
 
-        public UserDto GetConfig(Int32 userId)
+        public ConfigDto GetConfig(Int32 userId)
         {
-            return AccountServices.GetUserConfig(userId).ConvertToDto<User, UserDto>();
+            return DtoConfiguration.ConvertDynamicToDto<ConfigDto>(AccountServices.GetConfig(userId));
         }
 
         public List<UserDto> GetAllUsers(String userName, String userType, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)

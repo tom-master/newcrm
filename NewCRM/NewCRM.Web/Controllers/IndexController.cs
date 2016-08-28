@@ -1,11 +1,8 @@
 ﻿using NewCRM.Web.Controllers.ControllerHelper;
 using System;
 using System.ComponentModel.Composition;
-using System.Globalization;
 using System.Web;
 using System.Web.Mvc;
-using NewCRM.Application.Services.IApplicationService;
-using NewCRM.Dto.Dto;
 
 namespace NewCRM.Web.Controllers
 {
@@ -26,8 +23,9 @@ namespace NewCRM.Web.Controllers
             ViewBag.Title = "桌面";
             if (Request.Cookies["Account"] != null)
             {
-                CurrentUser = AccountApplicationServices.GetConfig(Int32.Parse(Request.Cookies["Account"].Value));
+                CurrentUserConfig = AccountApplicationServices.GetConfig(Int32.Parse(Request.Cookies["Account"].Value));
                 ViewData["CurrentUser"] = CurrentUser;
+                ViewData["CurrentUserConfig"] = CurrentUserConfig;
                 return View();
             }
             return RedirectToAction("Login", "Index");
@@ -83,7 +81,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult GetSkin()
         {
-            var skinName = CurrentUser.Skin;
+            var skinName = CurrentUserConfig.Skin;
             return Json(new { data = skinName }, JsonRequestBehavior.AllowGet);
         }
 
@@ -113,7 +111,7 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult GetDockPos()
         {
-            var dockPos = CurrentUser.DockPosition;
+            var dockPos = CurrentUserConfig.DockPosition;
             return Json(new { data = dockPos }, JsonRequestBehavior.AllowGet);
         }
 
@@ -133,7 +131,7 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult GetUserFace()
         {
-            return Json(new { data = CurrentUser.UserFace }, JsonRequestBehavior.AllowGet);
+            return Json(new { data = CurrentUserConfig.UserFace }, JsonRequestBehavior.AllowGet);
         }
 
         ///// <summary>

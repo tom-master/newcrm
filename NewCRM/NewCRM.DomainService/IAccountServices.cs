@@ -37,9 +37,6 @@ namespace NewCRM.Domain.Services
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        User GetUserConfig(Int32 userId);
-
-       
-
+        dynamic GetConfig(Int32 userId);
     }
 }

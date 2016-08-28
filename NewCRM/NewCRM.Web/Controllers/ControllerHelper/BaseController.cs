@@ -31,8 +31,15 @@ namespace NewCRM.Web.Controllers.ControllerHelper
         protected ISecurityApplicationServices SecurityApplicationServices { get; set; }
 
 
-
+        /// <summary>
+        /// 当前用户
+        /// </summary>
         protected static UserDto CurrentUser { get; set; }
+
+        /// <summary>
+        /// 当前用户的配置
+        /// </summary>
+        protected static ConfigDto CurrentUserConfig { get; set; }
 
         protected override JsonResult Json(Object data, String contentType, Encoding contentEncoding, JsonRequestBehavior behavior)
         {
@@ -68,7 +75,7 @@ namespace NewCRM.Web.Controllers.ControllerHelper
             }
             else
             {
-                filterContext.Result = Json(new {js= @"<script>setTimeout(function(){window.top.ZENG.msgbox.show('" + exceptionMessage + "', 5,3000);},0)</script>" });
+                filterContext.Result = Json(new { js = @"<script>setTimeout(function(){window.top.ZENG.msgbox.show('" + exceptionMessage + "', 5,3000);},0)</script>" });
             }
         }
     }

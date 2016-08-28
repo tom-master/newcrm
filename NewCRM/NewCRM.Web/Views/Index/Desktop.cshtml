@@ -1,9 +1,11 @@
 ﻿@using NewCRM.Dto.Dto
 @{
     Layout = "~/Views/Shared/_LayoutRoot.cshtml";
-    var userResult = (UserDto)ViewData["CurrentUser"];
+    var userResult = ViewData["CurrentUser"] as UserDto;
 
-    
+    var configResult = ViewData["CurrentUserConfig"] as ConfigDto;
+
+
 }
 @section ParentCss{
     <link href="@Url.Content("~/Scripts/HoorayUI/js/HoorayLibs/hooraylibs.css")" rel="stylesheet" />
@@ -146,16 +148,16 @@
             document.body.onselectstart = document.body.ondrag = function () {
                 return false;
             };
-           
+
             $(".loading").hide();
             $("#desktop").show();
 
-            HROS.CONFIG.dockPos = '@userResult.DockPosition';
-            HROS.CONFIG.appXY = '@userResult.AppXy';
-            HROS.CONFIG.appSize = parseInt('@userResult.AppSize');
-            HROS.CONFIG.desk = parseInt(@userResult.DefaultDeskNumber);
-            HROS.CONFIG.appHorizontalSpacing = '@userResult.AppHorizontalSpacing';
-            HROS.CONFIG.appVerticalSpacing = '@userResult.AppVerticalSpacing';
+            HROS.CONFIG.dockPos = '@configResult.DockPosition';
+            HROS.CONFIG.appXY = '@configResult.AppXy';
+            HROS.CONFIG.appSize = parseInt('@configResult.AppSize');
+            HROS.CONFIG.desk = parseInt(@configResult.DefaultDeskNumber);
+            HROS.CONFIG.appHorizontalSpacing = '@configResult.AppHorizontalSpacing';
+            HROS.CONFIG.appVerticalSpacing = '@configResult.AppVerticalSpacing';
             HROS.CONFIG.deskCount = parseInt('@userResult.Desks.Count');
             HROS.base.init();
         });

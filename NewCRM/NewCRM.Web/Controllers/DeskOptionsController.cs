@@ -166,7 +166,7 @@ namespace NewCRM.Web.Controllers
         {
             var skinPath = Server.MapPath(ConfigurationManager.AppSettings["PlantFormSkinPath"]);
             var data = SkinApplicationServices.GetAllSkin(skinPath);
-            return Json(new { data, currentSkin = CurrentUser.Skin });
+            return Json(new { data, currentSkin = CurrentUserConfig.Skin });
         }
 
         /// <summary>

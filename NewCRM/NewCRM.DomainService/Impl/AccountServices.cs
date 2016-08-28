@@ -78,13 +78,29 @@ namespace NewCRM.Domain.Services.Impl
             UserRepository.Update(userResult);
         }
 
-        public User GetUserConfig(Int32 userId)
+        public dynamic GetConfig(Int32 userId)
         {
-            var userResult = GetUserInfoService(userId);
+            var userConfig = GetUserInfoService(userId).Config;
 
-            return userResult;
+            return new
+            {
+                userConfig.Id,
+                userConfig.Skin,
+                userConfig.UserFace,
+                userConfig.AppSize,
+                userConfig.AppVerticalSpacing,
+                userConfig.AppHorizontalSpacing,
+                userConfig.DefaultDeskNumber,
+                AppXy=userConfig.AppXy.ToString().ToLower(),
+                DockPosition=userConfig.DockPosition.ToString().ToLower(),
+                WallpaperUrl = userConfig.Wallpaper.Url,
+                WallpaperWidth = userConfig.Wallpaper.Width,
+                WallpaperHeigth = userConfig.Wallpaper.Height,
+                WallpaperSource = userConfig.Wallpaper.Source.ToString().ToLower(),
+                WallpaperMode = userConfig.WallpaperMode.ToString().ToLower()
+            };
         }
- 
+
         #endregion
 
         #region private method
