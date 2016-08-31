@@ -1,15 +1,11 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Linq.Expressions;
-using NewCRM.Domain.Entities.DomainModel;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.Repositories.IRepository.Account;
 using NewCRM.Domain.Entities.Repositories.IRepository.Security;
 using NewCRM.Domain.Entities.Repositories.IRepository.System;
-using NewCRM.Domain.Entities.UnitWork;
-using NewCRM.Domain.Services.DomainSpecification;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
 namespace NewCRM.Domain.Services
@@ -20,7 +16,7 @@ namespace NewCRM.Domain.Services
     internal abstract class BaseService
     {
         [Import]
-        protected IUserRepository UserRepository { get; set; }
+        protected IAccountRepository AccountRepository { get; set; }
 
         [Import]
         protected IAppTypeRepository AppTypeRepository { get; set; }
@@ -46,17 +42,17 @@ namespace NewCRM.Domain.Services
         /// <summary>
         /// 获取一个用户
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="accountId"></param>
         /// <returns></returns>
-        protected User GetUserInfoService(Int32 userId)
+        protected Account GetAccountInfoService(Int32 accountId)
         {
-            var userResult = UserRepository.Entities.FirstOrDefault(user => user.Id == userId);
+            var accountResult = AccountRepository.Entities.FirstOrDefault(account => account.Id == accountId);
 
-            if (userResult == null)
+            if (accountResult == null)
             {
                 throw new BusinessException("该用户可能不存在");
             }
-            return userResult;
+            return accountResult;
 
         }
 
@@ -64,13 +60,11 @@ namespace NewCRM.Domain.Services
         /// 获取真实的桌面Id
         /// </summary>
         /// <param name="deskId"></param>
-        /// <param name="userConfig"></param>
+        /// <param name="accountConfig"></param>
         /// <returns></returns>
-        protected Int32 GetRealDeskIdService(Int32 deskId, Config userConfig)
+        protected Int32 GetRealDeskIdService(Int32 deskId, Config accountConfig)
         {
-            return userConfig.Desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
+            return accountConfig.Desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
         }
-
-
     }
 }

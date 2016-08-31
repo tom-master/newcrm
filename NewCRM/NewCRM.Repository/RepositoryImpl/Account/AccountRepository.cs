@@ -8,7 +8,7 @@ namespace NewCRM.Repository.RepositoryImpl.Account
 {
 
 
-    public class UserRepository : EfRepositoryBase<User>, IUserRepository
+    public class AccountRepository : EfRepositoryBase<Domain.Entities.DomainModel.Account.Account>, IAccountRepository
     {
     }
 }

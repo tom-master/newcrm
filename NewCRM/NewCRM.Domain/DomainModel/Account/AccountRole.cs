@@ -2,12 +2,12 @@
 
 namespace NewCRM.Domain.Entities.DomainModel.Account
 {
-    public class UserRole : DomainModelBase
+    public class AccountRole : DomainModelBase
     {
         #region public property
 
 
-        public Int32 UserId { get; private set; }
+        public Int32 AccountId { get; private set; }
 
 
         public Int32 RoleId { get; private set; }
@@ -17,14 +17,14 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
 
         #region ctor
 
-        public UserRole(Int32 userId, Int32 roleId)
+        public AccountRole(Int32 accountId, Int32 roleId)
         {
-            UserId = userId;
+            AccountId = accountId;
             RoleId = roleId;
             AddTime = DateTime.Now;
         }
 
-        public UserRole() { }
+        public AccountRole() { }
 
         public void Remove()
         {

@@ -23,9 +23,9 @@ namespace NewCRM.Web.Controllers
             ViewBag.Title = "桌面";
             if (Request.Cookies["Account"] != null)
             {
-                CurrentUserConfig = AccountApplicationServices.GetConfig(Int32.Parse(Request.Cookies["Account"].Value));
-                ViewData["CurrentUser"] = CurrentUser;
-                ViewData["CurrentUserConfig"] = CurrentUserConfig;
+                AccountConfig = AccountApplicationServices.GetConfig(Int32.Parse(Request.Cookies["Account"].Value));
+                ViewData["Account"] = Account;
+                ViewData["AccountConfig"] = AccountConfig;
                 return View();
             }
             return RedirectToAction("Login", "Index");
@@ -45,21 +45,21 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 登陆
         /// </summary>
-        /// <param name="userName"></param>
+        /// <param name="accountName"></param>
         /// <param name="passWord"></param>
         /// <param name="isRememberPasswrod"></param>
         /// <returns></returns>
-        public ActionResult Landing(String userName, String passWord, Boolean isRememberPasswrod = false)
+        public ActionResult Landing(String accountName, String passWord, Boolean isRememberPasswrod = false)
         {
-            var userResult = AccountApplicationServices.Login(userName, passWord);
+            var accountResult = AccountApplicationServices.Login(accountName, passWord);
 
             Response.SetCookie(new HttpCookie("Account")
             {
-                Value = userResult.Id.ToString(),
+                Value = accountResult.Id.ToString(),
                 Expires = isRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddMinutes(30)
             });
 
-            CurrentUser = userResult;
+            Account = accountResult;
 
             return Json(new { success = 1 });
         }
@@ -81,7 +81,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult GetSkin()
         {
-            var skinName = CurrentUserConfig.Skin;
+            var skinName = AccountConfig.Skin;
             return Json(new { data = skinName }, JsonRequestBehavior.AllowGet);
         }
 
@@ -91,7 +91,7 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult GetWallpaper()
         {
-            var config = AccountApplicationServices.GetConfig(CurrentUser.Id);
+            var config = AccountApplicationServices.GetConfig(Account.Id);
             return Json(new
             {
                 data = new
@@ -111,7 +111,7 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult GetDockPos()
         {
-            var dockPos = CurrentUserConfig.DockPosition;
+            var dockPos = AccountConfig.DockPosition;
             return Json(new { data = dockPos }, JsonRequestBehavior.AllowGet);
         }
 
@@ -119,9 +119,9 @@ namespace NewCRM.Web.Controllers
         ///// 获取我的应用
         ///// </summary>
         ///// <returns></returns>
-        public ActionResult GetUserDeskMembers()
+        public ActionResult GetAccountDeskMembers()
         {
-            var app = AppApplicationServices.GetUserDeskMembers(CurrentUser.Id);
+            var app = AppApplicationServices.GetAccountDeskMembers(Account.Id);
             return Json(new { app }, JsonRequestBehavior.AllowGet);
         }
 
@@ -129,9 +129,9 @@ namespace NewCRM.Web.Controllers
         ///// 获取用户头像
         ///// </summary>
         ///// <returns></returns>
-        public ActionResult GetUserFace()
+        public ActionResult GetAccountFace()
         {
-            return Json(new { data = CurrentUserConfig.UserFace }, JsonRequestBehavior.AllowGet);
+            return Json(new { data = AccountConfig.AccountFace }, JsonRequestBehavior.AllowGet);
         }
 
         ///// <summary>
@@ -142,7 +142,7 @@ namespace NewCRM.Web.Controllers
         ///// <returns></returns>
         public ActionResult CreateWindow(Int32 id = 0, String type = "")
         {
-            var internalMemberResult = type == "folder" ? DeskApplicationServices.GetMember(CurrentUser.Id, id, true) : DeskApplicationServices.GetMember(CurrentUser.Id, id);
+            var internalMemberResult = type == "folder" ? DeskApplicationServices.GetMember(Account.Id, id, true) : DeskApplicationServices.GetMember(Account.Id, id);
 
             return Json(new
             {

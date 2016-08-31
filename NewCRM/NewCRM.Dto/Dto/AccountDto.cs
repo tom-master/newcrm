@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NewCRM.Dto.Dto
 {
-    public sealed class UserDto : BaseDto
+    public sealed class AccountDto : BaseDto
     {
         /// <summary>
         /// 用户名
@@ -23,12 +23,8 @@ namespace NewCRM.Dto.Dto
         /// <summary>
         /// 用户类型
         /// </summary>
-        public String UserType { get; set; }
+        public String AccountType { get; set; }
 
-        /// <summary>
-        /// 桌面
-        /// </summary>
-        public List<DeskDto> Desks { get; set; }
 
         /// <summary>
         /// 用户角色Id

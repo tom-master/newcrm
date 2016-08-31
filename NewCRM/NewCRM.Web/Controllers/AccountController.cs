@@ -10,19 +10,19 @@ using NewCRM.Web.Controllers.ControllerHelper;
 namespace NewCRM.Web.Controllers
 {
     [Export]
-    public class UserController : BaseController
+    public class AccountController : BaseController
     {
         #region 页面
-        public ActionResult UserManage()
+        public ActionResult AccountManage()
         {
             return View();
         }
 
-        public ActionResult CreateNewUser(Int32 userId = 0)
+        public ActionResult CreateNewAccount(Int32 accountId = 0)
         {
-            if (userId != 0)
+            if (accountId != 0)
             {
-                ViewData["User"] = AccountApplicationServices.GetUser(userId);
+                ViewData["Account"] = AccountApplicationServices.GetAccount(accountId);
             }
 
             ViewData["Roles"] = SecurityApplicationServices.GetAllRoles();
@@ -32,30 +32,30 @@ namespace NewCRM.Web.Controllers
 
         #endregion
 
-        public ActionResult GetAllUsers(String userName, String userType, Int32 pageIndex, Int32 pageSize)
+        public ActionResult GetAllAccounts(String accountName, String accountType, Int32 pageIndex, Int32 pageSize)
         {
             Int32 totalCount;
 
-            var users = AccountApplicationServices.GetAllUsers(userName, userType, pageIndex, pageSize, out totalCount);
+            var accounts = AccountApplicationServices.GetAccounts(accountName, accountType, pageIndex, pageSize, out totalCount);
 
             return Json(new
             {
-                users,
+                accounts,
                 totalCount
             }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult NewUser(FormCollection forms, Int32 userId)
+        public ActionResult NewAccount(FormCollection forms, Int32 accountId)
         {
-            var userDto = WapperUserDto(forms);
+            var accountDto = WapperAccountDto(forms);
 
-            if (userId == 0)
+            if (accountId == 0)
             {
-                AccountApplicationServices.AddNewUser(userDto);
+                AccountApplicationServices.AddNewAccount(accountDto);
             }
             else
             {
-                AccountApplicationServices.ModifyUser(userDto);
+                AccountApplicationServices.ModifyAccount(accountDto);
             }
 
             return Json(new { success = 1 });
@@ -63,20 +63,20 @@ namespace NewCRM.Web.Controllers
 
 
 
-        public ActionResult ValidUserExist(String param)
+        public ActionResult CheckAccountNameExist(String param)
         {
-            var value = AccountApplicationServices.ValidSameUserNameExist(param) ? 'y' : 'n';
+            var value = AccountApplicationServices.CheckAccountNameExist(param) ? 'y' : 'n';
             return Json(new { status = value });
         }
 
         #region private method
 
-        private static UserDto WapperUserDto(FormCollection forms)
+        private static AccountDto WapperAccountDto(FormCollection forms)
         {
-            Int32 userId = 0;
-            if ((forms["userId"] + "").Length > 0)
+            Int32 accountId = 0;
+            if ((forms["accountId"] + "").Length > 0)
             {
-                userId = Int32.Parse(forms["userId"]);
+                accountId = Int32.Parse(forms["accountId"]);
             }
 
             List<RoleDto> roleIds;
@@ -93,12 +93,12 @@ namespace NewCRM.Web.Controllers
                 throw new BusinessException("所选的角色列表不能为空");
             }
 
-            return new UserDto
+            return new AccountDto
             {
-                Id = userId,
-                Name = forms["val_username"],
+                Id = accountId,
+                Name = forms["val_accountname"],
                 Password = forms["val_password"],
-                UserType = forms["val_type"],
+                AccountType = forms["val_type"],
                 Roles = roleIds
             };
         }

@@ -48,9 +48,9 @@
   <ItemGroup>
     <Compile Include="DomainModel\Account\AccountExtension\TitleExtension.cs" />
     <Compile Include="DomainModel\Account\Title.cs" />
-    <Compile Include="DomainModel\Account\User.cs" />
-    <Compile Include="DomainModel\Account\AccountExtension\UserExtension.cs" />
-    <Compile Include="DomainModel\Account\UserRole.cs" />
+    <Compile Include="DomainModel\Account\Account.cs" />
+    <Compile Include="DomainModel\Account\AccountExtension\AccountExtension.cs" />
+    <Compile Include="DomainModel\Account\AccountRole.cs" />
     <Compile Include="DomainModel\DomainModelBase.cs" />
     <Compile Include="DomainModel\IAggregationRoot.cs" />
     <Compile Include="DomainModel\Security\RolePower.cs" />
@@ -67,7 +67,7 @@
     <Compile Include="DomainModel\System\SystemExtension\MemberExtension.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\IRepository\Account\ITitleRepository.cs" />
-    <Compile Include="Repositories\IRepository\Account\IUserRepository.cs" />
+    <Compile Include="Repositories\IRepository\Account\IAccountRepository.cs" />
     <Compile Include="Repositories\IRepository\Security\IPowerRepository.cs" />
     <Compile Include="Repositories\IRepository\Security\IRoleRepository.cs" />
     <Compile Include="Repositories\IRepository\System\IAppRepository.cs" />
@@ -91,7 +91,7 @@
     <Compile Include="ValueObject\LogLevel.cs" />
     <Compile Include="ValueObject\MemberType.cs" />
     <Compile Include="ValueObject\AppReleaseState.cs" />
-    <Compile Include="ValueObject\UserType.cs" />
+    <Compile Include="ValueObject\AccountType.cs" />
     <Compile Include="ValueObject\WallpaperMode.cs" />
     <Compile Include="ValueObject\WallpaperSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

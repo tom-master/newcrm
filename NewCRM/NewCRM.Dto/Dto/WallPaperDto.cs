@@ -4,7 +4,7 @@ namespace NewCRM.Dto.Dto
 {
     public sealed class WallpaperDto : BaseDto
     {
-        public Int32 UserId { get; set; }
+        public Int32 AccountId { get; set; }
 
         /// <summary>
         /// 标题

@@ -98,10 +98,10 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// <summary>
         /// 修改用户头像
         /// </summary>
-        /// <param name="userFaceUrl"></param>
-        public Config ModifyUserFace(String userFaceUrl)
+        /// <param name="faceUrl"></param>
+        public Config ModifyAccountFace(String faceUrl)
         {
-            UserFace = userFaceUrl;
+            AccountFace = faceUrl;
             return this;
         }
 

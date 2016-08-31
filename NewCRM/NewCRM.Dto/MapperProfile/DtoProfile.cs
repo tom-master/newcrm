@@ -10,35 +10,31 @@ using NewCRM.Dto.Dto;
 namespace NewCRM.Dto.MapperProfile
 {
 
-    internal class UserToUserDtoProfile : Profile
+    internal class AccountToAccountDtoProfile : Profile
     {
-        public UserToUserDtoProfile()
+        public AccountToAccountDtoProfile()
         {
-            CreateMap<User, UserDto>()
-                .ForMember(dto => dto.Name, user => user.MapFrom(u => u.Name))
-                .ForMember(dto => dto.Desks, user => user.MapFrom(u => u.Config.Desks.Select(s => new DeskDto
-                {
-                    DeskNumber = s.DeskNumber,
-                    Id = s.Id
-                })))
-                .ForMember(dto => dto.Id, user => user.MapFrom(u => u.Id))
-                .ForMember(dto => dto.UserType, user => user.MapFrom(u => u.IsAdmin ? "管理员" : "用户"))
-                .ForMember(dto => dto.Password, user => user.MapFrom(u => u.LoginPassword))
-                .ForMember(dto => dto.Roles, user => user.MapFrom(u => u.Roles));
+            CreateMap<Account, AccountDto>()
+                .ForMember(dto => dto.Name, account => account.MapFrom(u => u.Name))
+                
+                .ForMember(dto => dto.Id, account => account.MapFrom(u => u.Id))
+                .ForMember(dto => dto.AccountType, account => account.MapFrom(u => u.IsAdmin ? "管理员" : "用户"))
+                .ForMember(dto => dto.Password, account => account.MapFrom(u => u.LoginPassword))
+                .ForMember(dto => dto.Roles, account => account.MapFrom(u => u.Roles));
         }
     }
 
 
-    internal class UserDtoToUserProfile : Profile
+    internal class AccountDtoToAccountProfile : Profile
     {
-        public UserDtoToUserProfile()
+        public AccountDtoToAccountProfile()
         {
-            CreateMap<UserDto, User>()
-                .ForMember(user => user.Name, dto => dto.MapFrom(d => d.Name))
-                .ForMember(user => user.Id, dto => dto.MapFrom(d => d.Id))
-                .ForMember(user => user.LoginPassword, dto => dto.MapFrom(d => d.Password))
-                .ForMember(user => user.IsAdmin, dto => dto.MapFrom(d => Int32.Parse(d.UserType) == 2))
-                .ForMember(user => user.Roles, dto => dto.MapFrom(d => d.Roles));
+            CreateMap<AccountDto, Account>()
+                .ForMember(account => account.Name, dto => dto.MapFrom(d => d.Name))
+                .ForMember(account => account.Id, dto => dto.MapFrom(d => d.Id))
+                .ForMember(account => account.LoginPassword, dto => dto.MapFrom(d => d.Password))
+                .ForMember(account => account.IsAdmin, dto => dto.MapFrom(d => Int32.Parse(d.AccountType) == 2))
+                .ForMember(account => account.Roles, dto => dto.MapFrom(d => d.Roles));
         }
     }
 
@@ -49,7 +45,7 @@ namespace NewCRM.Dto.MapperProfile
         {
             CreateMap<Config, ConfigDto>()
                 .ForMember(dto => dto.Skin, config => config.MapFrom(c => c.Skin))
-                .ForMember(dto => dto.UserFace, config => config.MapFrom(c => c.UserFace))
+                .ForMember(dto => dto.AccountFace, config => config.MapFrom(c => c.AccountFace))
                 .ForMember(dto => dto.AppSize, config => config.MapFrom(c => c.AppSize))
                 .ForMember(dto => dto.AppVerticalSpacing, config => config.MapFrom(c => c.AppVerticalSpacing))
                 .ForMember(dto => dto.AppHorizontalSpacing, config => config.MapFrom(c => c.AppHorizontalSpacing))
@@ -60,7 +56,12 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(dto => dto.WallpaperWidth, config => config.MapFrom(c => c.Wallpaper.Width))
                 .ForMember(dto => dto.WallpaperHeigth, config => config.MapFrom(c => c.Wallpaper.Height))
                 .ForMember(dto => dto.WallpaperSource, config => config.MapFrom(c => c.Wallpaper.Source))
-                .ForMember(dto => dto.WallpaperMode, config => config.MapFrom(c => c.WallpaperMode));
+                .ForMember(dto => dto.WallpaperMode, config => config.MapFrom(c => c.WallpaperMode))
+                .ForMember(dto => dto.Desks, account => account.MapFrom(u => u.Desks.Select(s => new DeskDto
+                {
+                    DeskNumber = s.DeskNumber,
+                    Id = s.Id
+                })));
 
         }
     }
@@ -154,12 +155,12 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(dto => dto.Name, app => app.MapFrom(w => w.Name))
                 .ForMember(dto => dto.IconUrl, app => app.MapFrom(w => w.IconUrl))
                 .ForMember(dto => dto.Remark, app => app.MapFrom(w => w.Remark))
-                .ForMember(dto => dto.UserCount, app => app.MapFrom(w => w.UserCount))
+                .ForMember(dto => dto.UseCount, app => app.MapFrom(w => w.UseCount))
                 .ForMember(dto => dto.StartCount, app => app.MapFrom(w =>
                              w.AppStars.Any()
                                  ? (w.AppStars.Sum(s => s.StartNum) * 1.0) /
                                    (w.AppStars.Count * 1.0) : 0.0))
-                .ForMember(dto => dto.UserId, app => app.MapFrom(w => w.UserId))
+                .ForMember(dto => dto.AccountId, app => app.MapFrom(w => w.AccountId))
                 .ForMember(dto => dto.AppStyle, app => app.MapFrom(w => (Int32)w.AppStyle))
                 .ForMember(dto => dto.AppType, app => app.MapFrom(w => w.AppType.Name))
                 .ForMember(dto => dto.AddTime, app => app.MapFrom(w => w.AddTime.ToString("yyyy-MM-dd")))
@@ -183,7 +184,7 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(app => app.IsOpenMax, dto => dto.MapFrom(w => w.IsOpenMax))
                 .ForMember(app => app.IsFlash, dto => dto.MapFrom(w => w.IsFlash))
                 .ForMember(app => app.IsResize, dto => dto.MapFrom(w => w.IsResize))
-                .ForMember(app => app.UserId, dto => dto.MapFrom(w => w.UserId))
+                .ForMember(app => app.AccountId, dto => dto.MapFrom(w => w.AccountId))
                 .ForMember(
                     app => app.AppAuditState,
                     dto => dto.MapFrom(w => EnumOp.ConvertEnum(typeof(AppAuditState), w.AppAuditState)))
@@ -246,21 +247,21 @@ namespace NewCRM.Dto.MapperProfile
         }
     }
 
-    internal class RoleDtoToUserRoleProfile : Profile
+    internal class RoleDtoToAccountRoleProfile : Profile
     {
-        public RoleDtoToUserRoleProfile()
+        public RoleDtoToAccountRoleProfile()
         {
-            CreateMap<RoleDto, UserRole>()
-                .ForMember(userRole => userRole.RoleId, dto => dto.MapFrom(d => d.Id));
+            CreateMap<RoleDto, AccountRole>()
+                .ForMember(accountRole => accountRole.RoleId, dto => dto.MapFrom(d => d.Id));
         }
     }
 
-    internal class UserRoleToRoleDtoProfile : Profile
+    internal class AccountRoleToRoleDtoProfile : Profile
     {
-        public UserRoleToRoleDtoProfile()
+        public AccountRoleToRoleDtoProfile()
         {
-            CreateMap<UserRole, RoleDto>()
-                .ForMember(dto => dto.Id, userRole => userRole.MapFrom(role => role.RoleId));
+            CreateMap<AccountRole, RoleDto>()
+                .ForMember(dto => dto.Id, accountRole => accountRole.MapFrom(role => role.RoleId));
         }
     }
 

@@ -1,21 +1,47 @@
 ﻿using System;
-using NewCRM.Dto.Dto;
+using NewCRM.Domain.Entities.DomainModel.System;
 
-namespace NewCRM.Application.Services.IApplicationService
+namespace NewCRM.Domain.Services
 {
-    public interface IDeskApplicationServices
+    public interface IAccountConfigServices
     {
-        #region desk
+        /// <summary>
+        /// 修改app的排列方向
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="direction"></param>
+        void ModifyAppDirection(Int32 accountId, String direction);
+
+        /// <summary>
+        /// 修改app图标的大小
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="newSize"></param>
+        void ModifyAppIconSize(Int32 accountId, Int32 newSize);
+
+        /// <summary>
+        /// 修改app垂直距离
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="newSize"></param>
+        void ModifyAppVerticalSpacing(Int32 accountId, Int32 newSize);
+
+        /// <summary>
+        /// 修改app水平距离
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="newSize"></param>
+        void ModifyAppHorizontalSpacing(Int32 accountId, Int32 newSize);
 
         /// <summary>
         /// 修改默认显示的桌面
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="newDefaultDeskNumber"></param>
-        void ModifyDefaultDeskNumber(Int32 accountId, Int32 newDefaultDeskNumber);
+        void ModifyDefaultShowDesk(Int32 accountId, Int32 newDefaultDeskNumber);
 
         /// <summary>
-        /// 修改码头的位置
+        /// 修改应用码头的位置
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="defaultDeskNumber"></param>
@@ -23,13 +49,13 @@ namespace NewCRM.Application.Services.IApplicationService
         void ModifyDockPosition(Int32 accountId, Int32 defaultDeskNumber, String newPosition);
 
         /// <summary>
-        /// 根据用户id获取桌面的成员
+        /// 根据用户id和成员id获取桌面成员
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="memberId"></param>
         /// <param name="isFolder"></param>
         /// <returns></returns>
-        MemberDto GetMember(Int32 accountId, Int32 memberId, Boolean isFolder = default(Boolean));
+        Member GetMember(Int32 accountId, Int32 memberId, Boolean isFolder = default(Boolean));
 
         /// <summary>
         /// 桌面成员移动到码头中
@@ -39,7 +65,7 @@ namespace NewCRM.Application.Services.IApplicationService
         void MemberInDock(Int32 accountId, Int32 memberId);
 
         /// <summary>
-        /// 桌面成员移出码头
+        /// 桌面成员移出码头中
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="memberId"></param>
@@ -55,7 +81,7 @@ namespace NewCRM.Application.Services.IApplicationService
         void DockToFolder(Int32 accountId, Int32 memberId, Int32 folderId);
 
         /// <summary>
-        /// 成员从文件夹中移动到码头中
+        /// 成员从文件夹中移动到码头
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="memberId"></param>
@@ -75,7 +101,7 @@ namespace NewCRM.Application.Services.IApplicationService
         /// <param name="accountId"></param>
         /// <param name="memberId"></param>
         /// <param name="deskId"></param>
-        void FolderToDesk(Int32 accountId, Int32 memberId,Int32 deskId);
+        void FolderToDesk(Int32 accountId, Int32 memberId, Int32 deskId);
 
         /// <summary>
         /// 成员从文件夹移动到另一个文件夹
@@ -94,7 +120,7 @@ namespace NewCRM.Application.Services.IApplicationService
         void DeskToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId);
 
         /// <summary>
-        /// 修改文件夹信息
+        /// 修改文件夹的信息
         /// </summary>
         /// <param name="memberName"></param>
         /// <param name="memberIcon"></param>
@@ -114,8 +140,15 @@ namespace NewCRM.Application.Services.IApplicationService
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="member"></param>
-        void ModifyMemberInfo(Int32 accountId, MemberDto member);
+        void ModifyMemberInfo(Int32 accountId, Member member);
 
-        #endregion
+        /// <summary>
+        /// 修改皮肤
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="newSkin"></param>
+        void ModifySkin(Int32 accountId, String newSkin);
+
+
     }
 }

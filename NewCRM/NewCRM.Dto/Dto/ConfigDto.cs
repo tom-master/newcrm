@@ -16,7 +16,7 @@ namespace NewCRM.Dto.Dto
         /// <summary>
         /// 用户头像
         /// </summary>
-        public String UserFace { get; set; }
+        public String AccountFace { get; set; }
 
         /// <summary>
         /// app尺寸
@@ -73,5 +73,11 @@ namespace NewCRM.Dto.Dto
         /// 壁纸的展示模式
         /// </summary>
         public String WallpaperMode { get; set; }
+
+
+        /// <summary>
+        /// 桌面
+        /// </summary>
+        public List<DeskDto> Desks { get; set; }
     }
 }

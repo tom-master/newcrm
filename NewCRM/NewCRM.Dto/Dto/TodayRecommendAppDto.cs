@@ -6,7 +6,7 @@ namespace NewCRM.Dto.Dto
     {
         public String Name { get; set; }
 
-        public Int32 UserCount { get; set; }
+        public Int32 UseCount { get; set; }
 
         public String AppIcon { get; set; }
 

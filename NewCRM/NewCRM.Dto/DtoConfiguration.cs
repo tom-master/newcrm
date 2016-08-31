@@ -16,18 +16,18 @@ namespace NewCRM.Dto
         {
             Mapper.Initialize(d =>
             {
-                //User
-                d.CreateMap<User, UserDto>();
-                d.AddProfile<UserToUserDtoProfile>();
+                //Account
+                d.CreateMap<Account, AccountDto>();
+                d.AddProfile<AccountToAccountDtoProfile>();
 
-                d.CreateMap<UserDto, User>();
-                d.AddProfile<UserDtoToUserProfile>();
+                d.CreateMap<AccountDto, Account>();
+                d.AddProfile<AccountDtoToAccountProfile>();
 
-                d.CreateMap<RoleDto, UserRole>();
-                d.AddProfile<RoleDtoToUserRoleProfile>();
+                d.CreateMap<RoleDto, AccountRole>();
+                d.AddProfile<RoleDtoToAccountRoleProfile>();
 
-                d.CreateMap<UserRole, RoleDto>();
-                d.AddProfile<UserRoleToRoleDtoProfile>();
+                d.CreateMap<AccountRole, RoleDto>();
+                d.AddProfile<AccountRoleToRoleDtoProfile>();
 
                 //Wallpaper
                 d.CreateMap<Config, ConfigDto>();

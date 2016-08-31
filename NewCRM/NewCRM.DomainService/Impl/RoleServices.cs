@@ -4,13 +4,13 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entities.DomainModel.Security;
 using NewCRM.Infrastructure.CommonTools.CustemException;
+using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Domain.Services.Impl
 {
     [Export(typeof(IRoleServices))]
     internal sealed class RoleServices : BaseService, IRoleServices
     {
-        #region Role
         public List<dynamic> GetAllRoles(String roleName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
             var roles = RoleRepository.Entities;
@@ -22,7 +22,7 @@ namespace NewCRM.Domain.Services.Impl
 
             totalCount = roles.Count();
 
-            return roles.OrderByDescending(o => o.AddTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(s => new
+            return roles.PageBy(pageIndex, pageSize, d => d.AddTime).Select(s => new
             {
                 s.Name,
                 s.Id,
@@ -109,7 +109,5 @@ namespace NewCRM.Domain.Services.Impl
                 role.Id
             }).ToList<dynamic>();
         }
-
-        #endregion
     }
 }

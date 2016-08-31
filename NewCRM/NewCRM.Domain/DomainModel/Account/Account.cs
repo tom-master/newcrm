@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.ValueObject;
 
 namespace NewCRM.Domain.Entities.DomainModel.Account
 {
     [Description("用户"), Serializable]
-    public partial class User : DomainModelBase, IAggregationRoot
+    public partial class Account : DomainModelBase, IAggregationRoot
     {
         #region public property
 
@@ -70,7 +69,7 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         /// <summary>
         /// 用户角色
         /// </summary>
-        public virtual ICollection<UserRole> Roles { get; private set; }
+        public virtual ICollection<AccountRole> Roles { get; private set; }
 
         #endregion
 
@@ -81,22 +80,22 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         /// </summary>
         /// <param name="name"></param>
         /// <param name="password"></param>
-        /// <param name="userType"></param>
-        public User(String name, String password, UserType userType = default(UserType))
+        /// <param name="accountType"></param>
+        public Account(String name, String password, AccountType accountType = default(AccountType))
         {
             Name = name;
             LoginPassword = password;
             IsDisable = false;
             LastLoginTime = DateTime.Now;
             LockScreenPassword = password;
-            Roles = new List<UserRole>();
+            Roles = new List<AccountRole>();
             Config = new Config();
             IsOnline = false;
             AddTime = DateTime.Now;
 
-            IsAdmin = userType == UserType.Admin;
+            IsAdmin = accountType == AccountType.Admin;
         }
-        public User()
+        public Account()
         {
 
         }

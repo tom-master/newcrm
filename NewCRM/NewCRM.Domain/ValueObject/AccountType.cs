@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NewCRM.Domain.Entities.ValueObject
 {
-    public enum UserType
+    public enum AccountType
     {
         [Description("普通用户")]
         User = 1,

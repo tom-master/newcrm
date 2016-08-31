@@ -40,7 +40,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,21 +54,19 @@
     <Compile Include="DomainContext\PermissionsContext.cs" />
     <Compile Include="DomainSpecification\ISpecification.cs" />
     <Compile Include="DomainSpecification\Specification.cs" />
-    <Compile Include="IAccountServices.cs" />
+    <Compile Include="IAccountConfigServices.cs" />
+    <Compile Include="IAccountContext.cs" />
     <Compile Include="IAppServices.cs" />
-    <Compile Include="IDeskServices.cs" />
-    <Compile Include="Impl\AccountServices.cs" />
+    <Compile Include="Impl\AccountConfigServices.cs" />
+    <Compile Include="Impl\AccountContext.cs" />
     <Compile Include="Impl\AppServices.cs" />
-    <Compile Include="Impl\DeskServices.cs" />
     <Compile Include="Impl\PowerServices.cs" />
     <Compile Include="Impl\RoleServices.cs" />
-    <Compile Include="Impl\SecurityServices.cs" />
-    <Compile Include="Impl\SkinServices.cs" />
+    <Compile Include="Impl\SecurityContext.cs" />
     <Compile Include="Impl\WallpaperServices.cs" />
     <Compile Include="IRoleServices.cs" />
     <Compile Include="IPowerServices.cs" />
-    <Compile Include="ISecurityServices.cs" />
-    <Compile Include="ISkinServices.cs" />
+    <Compile Include="ISecurityContext.cs" />
     <Compile Include="IWallpaperServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

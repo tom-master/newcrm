@@ -9,34 +9,34 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         #region public method
 
         /// <summary>
-        /// 增加用户使用数
+        /// 增加使用数
         /// </summary>
-        public App AddUserCount()
+        public App AddUseCount()
         {
-            UserCount = UserCount + 1;
+            ++UseCount;
             return this;
         }
 
         /// <summary>
-        /// 减小用户使用数
+        /// 减小使用数
         /// </summary>
         /// <returns></returns>
-        public App SubtractUserCount()
+        public App SubtractUseCount()
         {
-            UserCount = UserCount - 1;
+            --UseCount;
             return this;
         }
 
         /// <summary>
         /// 增加app的评价分数
-        /// </summary>
-        /// <param name="userId"></param>
+        /// </summary> 
+        /// <param name="accountId"></param>
         /// <param name="startCount"></param>
-        public App AddStar(Int32 userId, Int32 startCount)
+        public App AddStar(Int32 accountId, Int32 startCount)
         {
-            if (userId <= 0)
+            if (accountId <= 0)
             {
-                throw new ArgumentOutOfRangeException($"{nameof(userId)}:不能为0");
+                throw new ArgumentOutOfRangeException($"{nameof(accountId)}:不能为0");
             }
 
             if (startCount <= 0)
@@ -44,28 +44,28 @@ namespace NewCRM.Domain.Entities.DomainModel.System
                 throw new ArgumentOutOfRangeException($"{nameof(startCount)}:不能为0");
             }
 
-            if (AppStars.Any(appStar => appStar.UserId == userId ))
+            if (AppStars.Any(appStar => appStar.AccountId == accountId))
             {
                 throw new ArgumentException($"您已对这个应用打过分");
             }
             var score = startCount * 1.0;
-            AppStars.Add(new AppStar(userId, score));
+            AppStars.Add(new AppStar(accountId, score));
             return this;
         }
 
         /// <summary>
         /// 减小app的评价分数
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="accountId"></param>
         /// <returns></returns>
-        public App SubtractStar(Int32 userId)
+        public App SubtractStar(Int32 accountId)
         {
-            if (userId <= 0)
+            if (accountId <= 0)
             {
-                throw new ArgumentOutOfRangeException($"{nameof(userId)}:不能为0");
+                throw new ArgumentOutOfRangeException($"{nameof(accountId)}:不能为0");
             }
 
-            var appStar = AppStars.FirstOrDefault(star => star.UserId == userId );
+            var appStar = AppStars.FirstOrDefault(star => star.AccountId == accountId);
 
             appStar?.RemoveStar();
 

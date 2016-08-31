@@ -1,9 +1,9 @@
 ﻿@using NewCRM.Dto.Dto
 @{
     Layout = "~/Views/Shared/_LayoutRoot.cshtml";
-    var userResult = ViewData["CurrentUser"] as UserDto;
+    var account = ViewData["Account"] as AccountDto;
 
-    var configResult = ViewData["CurrentUserConfig"] as ConfigDto;
+    var accountConfig = ViewData["AccountConfig"] as ConfigDto;
 
 
 }
@@ -18,7 +18,7 @@
     </div>
     <div id="desk">
         @{
-            foreach (var desk in userResult.Desks)
+            foreach (var desk in accountConfig.Desks)
             {
                 <text>
                     <div id="desk-@desk.DeskNumber" class="desktop-container">
@@ -50,7 +50,7 @@
                         @{
 
 
-                            foreach (var desk in userResult.Desks)
+                            foreach (var desk in accountConfig.Desks)
                             {
                                 var deskIndex = desk.DeskNumber;
                                 <text>
@@ -107,8 +107,8 @@
     <div class="amg_line_x"></div>
     <div id="amg_folder_container">
         @{
-            var width = 100 / userResult.Desks.Count;
-            for (var i = 1; i <= userResult.Desks.Count; i++)
+            var width = 100 / accountConfig.Desks.Count;
+            for (var i = 1; i <= accountConfig.Desks.Count; i++)
             {
                 if (i == 1)
                 {
@@ -143,7 +143,7 @@
     <script>
         $(function () {
 
-            $.cookie('memberID', '@userResult.Id');
+            $.cookie('memberID', '@account.Id');
 
             document.body.onselectstart = document.body.ondrag = function () {
                 return false;
@@ -152,13 +152,13 @@
             $(".loading").hide();
             $("#desktop").show();
 
-            HROS.CONFIG.dockPos = '@configResult.DockPosition';
-            HROS.CONFIG.appXY = '@configResult.AppXy';
-            HROS.CONFIG.appSize = parseInt('@configResult.AppSize');
-            HROS.CONFIG.desk = parseInt(@configResult.DefaultDeskNumber);
-            HROS.CONFIG.appHorizontalSpacing = '@configResult.AppHorizontalSpacing';
-            HROS.CONFIG.appVerticalSpacing = '@configResult.AppVerticalSpacing';
-            HROS.CONFIG.deskCount = parseInt('@userResult.Desks.Count');
+            HROS.CONFIG.dockPos = '@accountConfig.DockPosition';
+            HROS.CONFIG.appXY = '@accountConfig.AppXy';
+            HROS.CONFIG.appSize = parseInt('@accountConfig.AppSize');
+            HROS.CONFIG.desk = parseInt(@accountConfig.DefaultDeskNumber);
+            HROS.CONFIG.appHorizontalSpacing = '@accountConfig.AppHorizontalSpacing';
+            HROS.CONFIG.appVerticalSpacing = '@accountConfig.AppVerticalSpacing';
+            HROS.CONFIG.deskCount = parseInt('@accountConfig.Desks.Count');
             HROS.base.init();
         });
 

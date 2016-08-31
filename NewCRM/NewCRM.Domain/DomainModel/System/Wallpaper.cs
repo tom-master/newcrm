@@ -44,7 +44,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// <summary>
         /// 上传者（用户）
         /// </summary>
-        public Int32 UserId { get; private set; }
+        public Int32 AccountId { get; private set; }
 
         /// <summary>
         /// md5
@@ -64,9 +64,9 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="md5"></param>
-        /// <param name="userId"></param>
+        /// <param name="accountId"></param>
         /// <param name="wallpaperSource"></param>
-        public Wallpaper(String title, String url, String description, Int32 width, Int32 height, String md5, Int32 userId = default(Int32), WallpaperSource wallpaperSource = default(WallpaperSource))
+        public Wallpaper(String title, String url, String description, Int32 width, Int32 height, String md5, Int32 accountId = default(Int32), WallpaperSource wallpaperSource = default(WallpaperSource))
         {
             Title = title;
             Url = url;
@@ -74,7 +74,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             Width = width;
             Height = height;
             Source = wallpaperSource;
-            UserId = userId;
+            AccountId = accountId;
             Md5 = md5;
             AddTime = DateTime.Now;
         }

@@ -62,7 +62,7 @@
     <Compile Include="Dto\PowerDto.cs" />
     <Compile Include="Dto\RoleDto.cs" />
     <Compile Include="Dto\TodayRecommendAppDto.cs" />
-    <Compile Include="Dto\UserDto.cs" />
+    <Compile Include="Dto\AccountDto.cs" />
     <Compile Include="Dto\WallpaperDto.cs" />
     <Compile Include="MapperProfile\DtoProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

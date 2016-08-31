@@ -50,6 +50,6 @@ namespace NewCRM.Domain.Services
         /// <param name="powerId"></param>
         void RemovePower(Int32 powerId);
 
-       
+
     }
 }

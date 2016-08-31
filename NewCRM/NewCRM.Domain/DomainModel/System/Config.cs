@@ -18,7 +18,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// <summary>
         /// 用户头像
         /// </summary>
-        public String UserFace { get; private set; }
+        public String AccountFace { get; private set; }
 
         /// <summary>
         /// app尺寸
@@ -78,7 +78,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             DockPosition = DockPostion.Top;
             Skin = "default";
             WallpaperMode = WallpaperMode.Fill;
-            UserFace = "";
+            AccountFace = "";
             AppSize = 48;
             AppVerticalSpacing = 50;
             AppHorizontalSpacing = 50;

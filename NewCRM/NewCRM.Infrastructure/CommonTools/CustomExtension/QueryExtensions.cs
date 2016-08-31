@@ -46,5 +46,15 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
 
             return source.Provider.CreateQuery<T>(methodCallExpression);
         }
+
+        public static IQueryable<T> PageBy<T>(this IQueryable<T> source, Int32 pageIndex, Int32 pageSize, Expression<Func<T, dynamic>> sort = default(Expression<Func<T, dynamic>>))
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException($"{nameof(source)}不能为空");
+            }
+
+            return sort == default(Expression<Func<T, dynamic>>) ? source.Skip((pageIndex - 1) * pageSize).Take(pageSize) : source.OrderByDescending(sort).Skip((pageIndex - 1) * pageSize).Take(pageSize);
+        }
     }
 }

@@ -12,13 +12,18 @@ namespace NewCRM.Domain.Services.Impl
     [Export(typeof(IAppServices))]
     internal class AppServices : BaseService, IAppServices
     {
-        public IDictionary<Int32, IList<dynamic>> GetUserDeskMembers(Int32 userId)
+        public List<AppType> GetAppTypes()
         {
-            var userConfig = GetUserInfoService(userId);
+            return AppTypeRepository.Entities.ToList();
+        }
+
+        public IDictionary<Int32, IList<dynamic>> GetAccountDeskMembers(Int32 accountId)
+        {
+            var accountConfig = GetAccountInfoService(accountId);
 
             IDictionary<Int32, IList<dynamic>> desks = new Dictionary<Int32, IList<dynamic>>();
 
-            foreach (var desk in userConfig.Config.Desks)
+            foreach (var desk in accountConfig.Config.Desks)
             {
                 IList<dynamic> deskMembers = new List<dynamic>();
 
@@ -85,62 +90,12 @@ namespace NewCRM.Domain.Services.Impl
             return desks;
         }
 
-        public void ModifyAppDirection(Int32 userId, String direction)
+        public dynamic GetTodayRecommend(Int32 accountId)
         {
-            var userResult = GetUserInfoService(userId);
-
-            if (direction.ToLower() == "x")
+            var topApp = AppRepository.Entities.Where(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release).OrderByDescending(app => app.UseCount).Select(app => new
             {
-                userResult.Config.ModifyAppDirectionToX();
-            }
-            else if (direction.ToLower() == "y")
-            {
-                userResult.Config.ModifyAppDirectionToY();
-            }
-            else
-            {
-                throw new BusinessException($"未能识别的App排列方向:{direction.ToLower()}");
-            }
-
-
-            UserRepository.Update(userResult);
-        }
-
-        public void ModifyAppIconSize(Int32 userId, Int32 newSize)
-        {
-            var userResult = GetUserInfoService(userId);
-            userResult.Config.ModifyDisplayIconLength(newSize);
-            UserRepository.Update(userResult);
-        }
-
-        public void ModifyAppVerticalSpacing(Int32 userId, Int32 newSize)
-        {
-            var userResult = GetUserInfoService(userId);
-            userResult.Config.ModifyAppVerticalSpacingLength(newSize);
-            UserRepository.Update(userResult);
-        }
-
-        public void ModifyAppHorizontalSpacing(Int32 userId, Int32 newSize)
-        {
-            var userResult = GetUserInfoService(userId);
-            userResult.Config.ModifyAppHorizontalSpacingLength(newSize);
-            UserRepository.Update(userResult);
-        }
-
-        public List<AppType> GetAppTypes()
-        {
-            return AppTypeRepository.Entities.ToList();
-        }
-
-        public TodayRecommendAppModel GetTodayRecommend(Int32 userId)
-        {
-            var topApp = AppRepository.Entities.Where(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release).OrderByDescending(app => app.UserCount).Select(app => new
-            {
-                app.UserCount,
-                AppStars = app.AppStars.Any()
-               ? (app.AppStars.Sum(s => s.StartNum) * 1.0) /
-                 (app.AppStars.Count * 1.0)
-               : 0.0,
+                app.UseCount,
+                AppStars = app.AppStars.Any() ? (app.AppStars.Sum(s => s.StartNum) * 1.0) / (app.AppStars.Count * 1.0) : 0.0,
                 app.Id,
                 app.Name,
                 app.IconUrl,
@@ -148,35 +103,35 @@ namespace NewCRM.Domain.Services.Impl
                 app.AppStyle
             }).FirstOrDefault();
 
-            var userDesks = GetUserInfoService(userId).Config.Desks;
+            var accountDesks = GetAccountInfoService(accountId).Config.Desks;
 
-            Boolean isInstall = userDesks.Any(userDesk => userDesk.Members.Any(member => member.AppId == topApp.Id));
+            Boolean isInstall = accountDesks.Any(accountDesk => accountDesk.Members.Any(member => member.AppId == topApp.Id));
 
-            return new TodayRecommendAppModel
+            return new
             {
                 AppId = topApp.Id,
-                Name = topApp.Name,
-                UserCount = topApp.UserCount,
+                topApp.Name,
+                topApp.UseCount,
                 AppIcon = topApp.IconUrl,
                 StartCount = topApp.AppStars,
                 IsInstall = isInstall,
-                Remark = topApp.Remark,
+                topApp.Remark,
                 Style = topApp.AppStyle.ToString().ToLower()
             };
         }
 
-        public Tuple<Int32, Int32> GetUserDevAppAndUnReleaseApp(Int32 userId)
+        public Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount(Int32 accountId)
         {
-            var userApps = AppRepository.Entities.Where(app => app.UserId == userId);
+            var accountApps = AppRepository.Entities.Where(app => app.AccountId == accountId);
 
-            var userDevAppCount = userApps.Count();
+            var accountDevAppCount = accountApps.Count();
 
-            var userUnReleaseAppCount = userApps.Count(app => app.AppReleaseState == AppReleaseState.UnRelease);
+            var accountUnReleaseAppCount = accountApps.Count(app => app.AppReleaseState == AppReleaseState.UnRelease);
 
-            return new Tuple<Int32, Int32>(userDevAppCount, userUnReleaseAppCount);
+            return new Tuple<Int32, Int32>(accountDevAppCount, accountUnReleaseAppCount);
         }
 
-        public List<dynamic> GetAllApps(Int32 userId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+        public List<dynamic> GetAllApps(Int32 accountId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
 
             var apps = AppRepository.Entities.Where(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release);
@@ -191,7 +146,7 @@ namespace NewCRM.Domain.Services.Impl
             {
                 if (appTypeId == -1)//用户制作的app
                 {
-                    apps = apps.Where(app => app.UserId == userId);
+                    apps = apps.Where(app => app.AccountId == accountId);
                 }
             }
 
@@ -201,7 +156,7 @@ namespace NewCRM.Domain.Services.Impl
             }
             else if (orderId == 2)//使用最多
             {
-                apps = apps.OrderByDescending(app => app.UserCount);
+                apps = apps.OrderByDescending(app => app.UseCount);
             }
             else if (orderId == 3)//评价最高
             {
@@ -221,13 +176,10 @@ namespace NewCRM.Domain.Services.Impl
             return apps.OrderByDescending(o => o.AddTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(app => new
             {
                 app.AppTypeId,
-                app.UserId,
+                app.AccountId,
                 app.AddTime,
-                app.UserCount,
-                StartCount = app.AppStars.Any()
-               ? (app.AppStars.Sum(s => s.StartNum) * 1.0) /
-                 (app.AppStars.Count * 1.0)
-               : 0.0,
+                app.UseCount,
+                StartCount = app.AppStars.Any() ? (app.AppStars.Sum(s => s.StartNum) * 1.0) / (app.AppStars.Count * 1.0) : 0.0,
                 app.Name,
                 app.IconUrl,
                 app.Remark,
@@ -247,14 +199,11 @@ namespace NewCRM.Domain.Services.Impl
                             app.Name,
                             app.IconUrl,
                             app.Remark,
-                            app.UserCount,
-                            StartCount = app.AppStars.Any()
-               ? (app.AppStars.Sum(s => s.StartNum) * 1.0) /
-                 (app.AppStars.Count * 1.0)
-               : 0.0,
+                            app.UseCount,
+                            StartCount = app.AppStars.Any() ? (app.AppStars.Sum(s => s.StartNum) * 1.0) / (app.AppStars.Count * 1.0) : 0.0,
                             AppType = app.AppType.Name,
                             app.AddTime,
-                            app.UserId,
+                            app.AccountId,
                             app.Id,
                             app.IsResize,
                             app.IsOpenMax,
@@ -269,27 +218,27 @@ namespace NewCRM.Domain.Services.Impl
             return appResult;
         }
 
-        public void ModifyAppStar(Int32 userId, Int32 appId, Int32 starCount)
+        public void ModifyAppStar(Int32 accountId, Int32 appId, Int32 starCount)
         {
-            var userResult = GetUserInfoService(userId);
+            var accountResult = GetAccountInfoService(accountId);
 
-            if (!userResult.Config.Desks.Any(desk => desk.Members.Any(member => member.AppId == appId)))
+            if (!accountResult.Config.Desks.Any(desk => desk.Members.Any(member => member.AppId == appId)))
             {
                 throw new BusinessException($"请安装这个应用后再打分");
             }
 
             var appResult = AppRepository.Entities.FirstOrDefault(app => app.Id == appId);
 
-            appResult.AddStar(userId, starCount);
+            appResult.AddStar(accountId, starCount);
 
             AppRepository.Update(appResult);
         }
 
-        public void InstallApp(Int32 userId, Int32 appId, Int32 deskNum)
+        public void InstallApp(Int32 accountId, Int32 appId, Int32 deskNum)
         {
-            var userResult = GetUserInfoService(userId);
+            var accountResult = GetAccountInfoService(accountId);
 
-            var realDeskId = GetRealDeskIdService(deskNum, userResult.Config);
+            var realDeskId = GetRealDeskIdService(deskNum, accountResult.Config);
 
             var appResult = AppRepository.Entities.Where(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release).FirstOrDefault(app => app.Id == appId);
 
@@ -300,14 +249,14 @@ namespace NewCRM.Domain.Services.Impl
 
             var newMember = new Member(appResult.Name, appResult.IconUrl, appResult.AppUrl, appResult.Id, appResult.Width, appResult.Height, appResult.IsLock, appResult.IsMax, appResult.IsFull, appResult.IsSetbar, appResult.IsOpenMax, appResult.IsFlash, appResult.IsDraw, appResult.IsResize);
 
-            foreach (var desk in userResult.Config.Desks)
+            foreach (var desk in accountResult.Config.Desks)
             {
                 if (desk.Id == realDeskId)
                 {
                     desk.Members.Add(newMember);
                     DeskRepository.Update(desk);
 
-                    appResult.AddUserCount();
+                    appResult.AddUseCount();
                     AppRepository.Update(appResult);
 
                     break;
@@ -315,30 +264,29 @@ namespace NewCRM.Domain.Services.Impl
             }
         }
 
-        public Boolean IsInstallApp(Int32 userId, Int32 appId)
+        public Boolean IsInstallApp(Int32 accountId, Int32 appId)
         {
-            var userResult = GetUserInfoService(userId);
+            var accountResult = GetAccountInfoService(accountId);
 
-            return userResult.Config.Desks.Any(desk => desk.Members.Any(member => member.AppId == appId));
+            return accountResult.Config.Desks.Any(desk => desk.Members.Any(member => member.AppId == appId));
         }
 
-        public List<dynamic> GetUserAllApps(Int32 userId, String appName, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize,
-            out Int32 totalCount)
+        public List<dynamic> GetAccountAllApps(Int32 accountId, String appName, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
-            var userApps = AppRepository.Entities.Where(app => app.UserId == userId);
+            var accountApps = AppRepository.Entities.Where(app => app.AccountId == accountId);
 
             #region 条件筛选
 
             //应用名称
             if ((appName + "").Length > 0)
             {
-                userApps = userApps.Where(app => app.Name.Contains(appName));
+                accountApps = accountApps.Where(app => app.Name.Contains(appName));
             }
 
             //应用所属类型
             if (appTypeId != 0)
             {
-                userApps = userApps.Where(app => app.AppTypeId == appTypeId);
+                accountApps = accountApps.Where(app => app.AppTypeId == appTypeId);
             }
 
             //应用样式
@@ -350,7 +298,7 @@ namespace NewCRM.Domain.Services.Impl
 
                 if (Enum.TryParse(enumConst, true, out appStyle))
                 {
-                    userApps = userApps.Where(app => app.AppStyle == appStyle);
+                    accountApps = accountApps.Where(app => app.AppStyle == appStyle);
                 }
                 else
                 {
@@ -370,7 +318,7 @@ namespace NewCRM.Domain.Services.Impl
 
                     if (Enum.TryParse(enumConst, true, out appReleaseState))
                     {
-                        userApps = userApps.Where(app => app.AppReleaseState == appReleaseState);
+                        accountApps = accountApps.Where(app => app.AppReleaseState == appReleaseState);
                     }
                     else
                     {
@@ -387,7 +335,7 @@ namespace NewCRM.Domain.Services.Impl
 
                     if (Enum.TryParse(enumConst, true, out appAuditState))
                     {
-                        userApps = userApps.Where(app => app.AppAuditState == appAuditState);
+                        accountApps = accountApps.Where(app => app.AppAuditState == appAuditState);
                     }
                     else
                     {
@@ -396,17 +344,17 @@ namespace NewCRM.Domain.Services.Impl
                 }
             }
 
-            totalCount = userApps.Count();
+            totalCount = accountApps.Count();
 
             #endregion
 
-            var result = userApps.OrderByDescending(o => o.AddTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(
+            var result = accountApps.OrderByDescending(o => o.AddTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(
              app => new
              {
                  app.Name,
                  app.AppStyle,
                  AppType = app.AppType.Name,
-                 app.UserCount,
+                 app.UseCount,
                  app.Id,
                  app.IconUrl
              }).ToList<dynamic>();
@@ -414,9 +362,9 @@ namespace NewCRM.Domain.Services.Impl
             return result;
         }
 
-        public void ModifyUserAppInfo(Int32 userId, App app)
+        public void ModifyAccountAppInfo(Int32 accountId, App app)
         {
-            var appResult = AppRepository.Entities.FirstOrDefault(internalApp => internalApp.Id == app.Id && internalApp.UserId == userId);
+            var appResult = AppRepository.Entities.FirstOrDefault(internalApp => internalApp.Id == app.Id && internalApp.AccountId == accountId);
 
             if (appResult == null)
             {
@@ -450,33 +398,10 @@ namespace NewCRM.Domain.Services.Impl
         public void CreateNewApp(App app)
         {
             var internalApp = new App(
-                app.Name, app.IconUrl, app.AppUrl, app.Width, app.Height, app.AppTypeId, app.AppAuditState, app.AppStyle, app.UserId,
+                app.Name, app.IconUrl, app.AppUrl, app.Width, app.Height, app.AppTypeId, app.AppAuditState, app.AppStyle, app.AccountId,
                 app.Remark, app.IsMax, app.IsFull, app.IsSetbar, app.IsOpenMax, app.IsFlash, app.IsDraw, app.IsResize);
 
             AppRepository.Add(internalApp);
         }
-    }
-
-
-    /// <summary>
-    /// app今日推荐模型
-    /// </summary>
-    public sealed class TodayRecommendAppModel
-    {
-        public Int32 AppId { get; set; }
-
-        public String Name { get; set; }
-
-        public Int32 UserCount { get; set; }
-
-        public String AppIcon { get; set; }
-
-        public Double StartCount { get; set; }
-
-        public Boolean IsInstall { get; set; }
-
-        public String Remark { get; set; }
-
-        public String Style { get; set; }
     }
 }

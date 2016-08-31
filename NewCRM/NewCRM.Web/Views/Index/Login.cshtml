@@ -13,7 +13,7 @@
 
             <form id="loginForm">
                 <div>
-                    <input type="text" name="username" value="admin" class="username" placeholder="用户名" autocomplete="off" />
+                    <input type="text" name="accountname" value="admin" class="accountname" placeholder="用户名" autocomplete="off" />
                 </div>
                 <div>
                     <input type="password" name="password" value="admin" class="password" placeholder="密码" oncontextmenu="return false" onpaste="return false" />
@@ -38,7 +38,7 @@
                 $('#parentDiv').hide();
                 $.post('@Url.Action("Landing", "Index")',
                     {
-                        userName: $('.username').val(),
+                        AccountName: $('.accountname').val(),
                         passWord: $('.password').val()
                     },
                     function (responseText) {

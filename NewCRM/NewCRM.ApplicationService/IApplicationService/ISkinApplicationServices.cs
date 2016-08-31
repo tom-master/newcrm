@@ -17,9 +17,9 @@ namespace NewCRM.Application.Services.IApplicationService
         /// <summary>
         /// 修改默认显示的皮肤
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="accountId"></param>
         /// <param name="newSkin"></param>
-        void ModifySkin(Int32 userId, String newSkin);
+        void ModifySkin(Int32 accountId, String newSkin);
         #endregion
     }
 }

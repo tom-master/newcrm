@@ -9,21 +9,21 @@
         if ((Int32)ViewData["AppState"] == 2|| (Int32)ViewData["AppState"] == 1)
         {
             <text>
-                @Html.Partial("~/Views/App/UserAppManageDetail.cshtml", Model)
+                @Html.Partial("~/Views/App/AccountAppManageDetail.cshtml", Model)
             </text>
         }
         else
         {
 
             <text>
-                @Html.Partial("~/Views/App/UserAppManageEdit.cshtml", Model)
+                @Html.Partial("~/Views/App/AccountAppManageEdit.cshtml", Model)
             </text>
         }
     }
     else
     {
         <text>
-            @Html.Partial("~/Views/App/UserAppManageNewApp.cshtml")
+            @Html.Partial("~/Views/App/AccountAppManageNewApp.cshtml")
         </text>
     }
 

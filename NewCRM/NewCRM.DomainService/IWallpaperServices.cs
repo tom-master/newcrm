@@ -17,16 +17,16 @@ namespace NewCRM.Domain.Services
         /// <summary>
         /// 修改壁纸的显示模式
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="accountId"></param>
         /// <param name="newMode"></param>
-        void ModifyWallpaperMode(Int32 userId, String newMode);
+        void ModifyWallpaperMode(Int32 accountId, String newMode);
 
         /// <summary>
         /// 更换壁纸
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="accountId"></param>
         /// <param name="newWallpaperId"></param>
-        void ModifyWallpaper(Int32 userId, Int32 newWallpaperId);
+        void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId);
 
         /// <summary>
         /// 添加壁纸
@@ -38,16 +38,16 @@ namespace NewCRM.Domain.Services
         /// <summary>
         /// 根据用户id获取上传的壁纸
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="accountId"></param>
         /// <returns></returns>
-        IList<Wallpaper> GetUploadWallpaper(Int32 userId);
+        IList<Wallpaper> GetUploadWallpaper(Int32 accountId);
 
         /// <summary>
         /// 根据用户id删除壁纸
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="accountId"></param>
         /// <param name="wallpaperId"></param>
-        void RemoveWallpaper(Int32 userId, Int32 wallpaperId);
+        void RemoveWallpaper(Int32 accountId, Int32 wallpaperId);
 
         /// <summary>
         /// 根据md5获取已存在的壁纸

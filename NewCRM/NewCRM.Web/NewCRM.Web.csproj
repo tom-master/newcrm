@@ -131,7 +131,7 @@
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\DeskOptionsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Filter\ErrorFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -973,14 +973,14 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Views\App\UserAppManageNewApp.cshtml" />
+    <Content Include="Views\App\AccountAppManageNewApp.cshtml" />
     <Content Include="Views\Security\AddPowerGotoRole.cshtml" />
     <Content Include="Views\Security\AttachmentPower.cshtml" />
     <None Include="Views\Security\CreateNewPower.cshtml" />
     <None Include="Views\Security\CreateNewRole.cshtml" />
     <None Include="Views\Security\PowerManage.cshtml" />
-    <Content Include="Views\User\UserManage.cshtml" />
-    <Content Include="Views\User\CreateNewUser.cshtml" />
+    <Content Include="Views\User\AccountManage.cshtml" />
+    <Content Include="Views\User\CreateNewAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css.map" />
@@ -1016,10 +1016,10 @@
     <Content Include="Scripts\jquery-2.2.4.min.map" />
     <Content Include="Views\App\AppDetail.cshtml" />
     <Content Include="Views\App\AppMarket.cshtml" />
-    <Content Include="Views\App\UserAppManage.cshtml" />
-    <Content Include="Views\App\UserAppManageDetail.cshtml" />
-    <Content Include="Views\App\UserAppManageEdit.cshtml" />
-    <Content Include="Views\App\UserAppManageInfo.cshtml" />
+    <Content Include="Views\App\AccountAppManage.cshtml" />
+    <Content Include="Views\App\AccountAppManageDetail.cshtml" />
+    <Content Include="Views\App\AccountAppManageEdit.cshtml" />
+    <Content Include="Views\App\AccountAppManageInfo.cshtml" />
     <Content Include="Views\Security\RoleManage.cshtml" />
     <Content Include="Views\DeskOptions\CustomWallPaper.cshtml" />
     <Content Include="Views\DeskOptions\DeskSet.cshtml" />

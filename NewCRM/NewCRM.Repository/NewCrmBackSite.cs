@@ -19,7 +19,7 @@ namespace NewCRM.Repository
         }
         public DbSet<Title> Titles { get; set; }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<Account> Accounts { get; set; }
 
         public DbSet<Power> Powers { get; set; }
 
@@ -41,7 +41,7 @@ namespace NewCRM.Repository
 
         public DbSet<Wallpaper> Wallpapers { get; set; }
 
-        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<AccountRole> AccountRoles { get; set; }
 
         public DbSet<RolePower> RolePowers { get; set; }
 
@@ -53,34 +53,7 @@ namespace NewCRM.Repository
         {
             modelBuilder.Filter("IsDeleted", (DomainModelBase modelBase) => modelBase.IsDeleted, false);
 
-            modelBuilder.Filter("IsDisable", (User user) => user.IsDisable, false);
-
-
-            //modelBuilder.Entity<Desk>().HasMany(desk => desk.Members).WithRequired(member => member.Desk);
-
-
-            //modelBuilder.Entity<Config>().HasMany(userConfig => userConfig.Desks);
-            //modelBuilder.Entity<Config>().HasRequired(userConfig => userConfig.Wallpaper);
-
-
-
-            //modelBuilder.Entity<User>().HasRequired(user => user.Title);
-            //modelBuilder.Entity<User>().HasRequired(user => user.Config);
-
-            //modelBuilder.Entity<App>().HasRequired(app => app.AppType);
-
-
-            //modelBuilder.Entity<Role>()
-            //    .HasMany(role => role.Powers)
-            //    .WithMany(power => power.Roles)
-            //    .Map(map => map.ToTable("RolePower").MapLeftKey("RoleId").MapRightKey("PowerId"));
-
-
-            //modelBuilder.Entity<User>()
-            //    .HasMany(user => user.Roles)
-            //    .WithMany(role => role.Users)
-            //    .Map(map => map.ToTable("UserRole").MapLeftKey("UserId").MapRightKey("RoleId"));
-
+            modelBuilder.Filter("IsDisable", (Account account) => account.IsDisable, false);
 
 
             base.OnModelCreating(modelBuilder);

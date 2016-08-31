@@ -14,35 +14,35 @@ namespace NewCRM.Application.Services
     internal class AppApplicationServices : BaseApplicationServices, IAppApplicationServices
     {
 
-        public IDictionary<Int32, IList<dynamic>> GetUserDeskMembers(Int32 userId)
+        public IDictionary<Int32, IList<dynamic>> GetAccountDeskMembers(Int32 accountId)
         {
-            ValidateParameter.Validate(userId);
+            ValidateParameter.Validate(accountId);
 
-            return AppServices.GetUserDeskMembers(userId);
+            return AppServices.GetAccountDeskMembers(accountId);
         }
 
-        public void ModifyAppDirection(Int32 userId, String direction)
+        public void ModifyAppDirection(Int32 accountId, String direction)
         {
-            ValidateParameter.Validate(userId).Validate(direction);
-            AppServices.ModifyAppDirection(userId, direction);
+            ValidateParameter.Validate(accountId).Validate(direction);
+            AccountContext.ConfigServices.ModifyAppDirection(accountId, direction);
         }
 
-        public void ModifyAppIconSize(Int32 userId, Int32 newSize)
+        public void ModifyAppIconSize(Int32 accountId, Int32 newSize)
         {
-            ValidateParameter.Validate(userId).Validate(newSize);
-            AppServices.ModifyAppIconSize(userId, newSize);
+            ValidateParameter.Validate(accountId).Validate(newSize);
+            AccountContext.ConfigServices.ModifyAppIconSize(accountId, newSize);
         }
 
-        public void ModifyAppVerticalSpacing(Int32 userId, Int32 newSize)
+        public void ModifyAppVerticalSpacing(Int32 accountId, Int32 newSize)
         {
-            ValidateParameter.Validate(userId).Validate(newSize);
-            AppServices.ModifyAppVerticalSpacing(userId, newSize);
+            ValidateParameter.Validate(accountId).Validate(newSize);
+            AccountContext.ConfigServices.ModifyAppVerticalSpacing(accountId, newSize);
         }
 
-        public void ModifyAppHorizontalSpacing(Int32 userId, Int32 newSize)
+        public void ModifyAppHorizontalSpacing(Int32 accountId, Int32 newSize)
         {
-            ValidateParameter.Validate(userId).Validate(newSize);
-            AppServices.ModifyAppHorizontalSpacing(userId, newSize);
+            ValidateParameter.Validate(accountId).Validate(newSize);
+            AccountContext.ConfigServices.ModifyAppHorizontalSpacing(accountId, newSize);
         }
 
         public List<AppTypeDto> GetAppTypes()
@@ -50,38 +50,26 @@ namespace NewCRM.Application.Services
             return AppServices.GetAppTypes().ConvertToDtos<AppType, AppTypeDto>().ToList();
         }
 
-        public TodayRecommendAppDto GetTodayRecommend(Int32 userId)
+        public TodayRecommendAppDto GetTodayRecommend(Int32 accountId)
         {
-            ValidateParameter.Validate(userId);
+            ValidateParameter.Validate(accountId);
 
-            var todayRecommendAppResult = AppServices.GetTodayRecommend(userId);
-
-            return new TodayRecommendAppDto
-            {
-                AppIcon = todayRecommendAppResult.AppIcon,
-                Id = todayRecommendAppResult.AppId,
-                IsInstall = todayRecommendAppResult.IsInstall,
-                Name = todayRecommendAppResult.Name,
-                Remark = todayRecommendAppResult.Remark,
-                StartCount = todayRecommendAppResult.StartCount,
-                UserCount = todayRecommendAppResult.UserCount,
-                Style = todayRecommendAppResult.Style
-            };
+            return DtoConfiguration.ConvertDynamicToDto<TodayRecommendAppDto>(AppServices.GetTodayRecommend(accountId));
         }
 
-        public Tuple<Int32, Int32> GetUserDevAppAndUnReleaseApp(Int32 userId)
+        public Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount(Int32 accountId)
         {
-            ValidateParameter.Validate(userId);
-            return AppServices.GetUserDevAppAndUnReleaseApp(userId);
+            ValidateParameter.Validate(accountId);
+            return AppServices.GetAccountDevelopAppCountAndNotReleaseAppCount(accountId);
         }
 
-        public List<AppDto> GetAllApps(Int32 userId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+        public List<AppDto> GetAllApps(Int32 accountId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
-            ValidateParameter.Validate(userId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
+            ValidateParameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
 
-            var appDtoResult = AppServices.GetAllApps(userId, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount).ConvertDynamicToDtos<AppDto>().ToList();
+            var appDtoResult = AppServices.GetAllApps(accountId, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount).ConvertDynamicToDtos<AppDto>().ToList();
 
-            appDtoResult.ForEach(appDto => appDto.IsInstall = IsInstallApp(userId, appDto.Id));
+            appDtoResult.ForEach(appDto => appDto.IsInstall = IsInstallApp(accountId, appDto.Id));
 
             return appDtoResult;
         }
@@ -93,23 +81,23 @@ namespace NewCRM.Application.Services
             return DtoConfiguration.ConvertDynamicToDto<AppDto>(AppServices.GetApp(appId));
         }
 
-        public void ModifyAppStar(Int32 userId, Int32 appId, Int32 starCount)
+        public void ModifyAppStar(Int32 accountId, Int32 appId, Int32 starCount)
         {
-            ValidateParameter.Validate(userId).Validate(appId).Validate(starCount, true);
+            ValidateParameter.Validate(accountId).Validate(appId).Validate(starCount, true);
 
-            AppServices.ModifyAppStar(userId, appId, starCount);
+            AppServices.ModifyAppStar(accountId, appId, starCount);
         }
 
-        public void InstallApp(Int32 userId, Int32 appId, Int32 deskNum)
+        public void InstallApp(Int32 accountId, Int32 appId, Int32 deskNum)
         {
-            ValidateParameter.Validate(userId).Validate(appId).Validate(deskNum);
-            AppServices.InstallApp(userId, appId, deskNum);
+            ValidateParameter.Validate(accountId).Validate(appId).Validate(deskNum);
+            AppServices.InstallApp(accountId, appId, deskNum);
         }
 
-        public Boolean IsInstallApp(Int32 userId, Int32 appId)
+        public Boolean IsInstallApp(Int32 accountId, Int32 appId)
         {
-            ValidateParameter.Validate(userId).Validate(appId);
-            return AppServices.IsInstallApp(userId, appId);
+            ValidateParameter.Validate(accountId).Validate(appId);
+            return AppServices.IsInstallApp(accountId, appId);
         }
 
         public IEnumerable<AppStyleDto> GetAllAppStyles()
@@ -147,20 +135,18 @@ namespace NewCRM.Application.Services
             }
         }
 
-        public List<AppDto> GetUserAllApps(
-            Int32 userId, String appName, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize,
-            out Int32 totalCount)
+        public List<AppDto> GetAccountAllApps(Int32 accountId, String appName, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
-            ValidateParameter.Validate(userId).Validate(appName).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
+            ValidateParameter.Validate(accountId).Validate(appName).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
 
-            return AppServices.GetUserAllApps(userId, appName, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount).ConvertDynamicToDtos<AppDto>().ToList();
+            return AppServices.GetAccountAllApps(accountId, appName, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount).ConvertDynamicToDtos<AppDto>().ToList();
         }
 
-        public void ModifyUserAppInfo(Int32 userId, AppDto appDto)
+        public void ModifyAccountAppInfo(Int32 accountId, AppDto appDto)
         {
-            ValidateParameter.Validate(userId).Validate(appDto);
+            ValidateParameter.Validate(accountId).Validate(appDto);
 
-            AppServices.ModifyUserAppInfo(userId, appDto.ConvertToModel<AppDto, App>());
+            AppServices.ModifyAccountAppInfo(accountId, appDto.ConvertToModel<AppDto, App>());
         }
 
         public void CreateNewApp(AppDto app)

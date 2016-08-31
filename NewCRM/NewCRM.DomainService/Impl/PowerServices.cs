@@ -10,7 +10,6 @@ namespace NewCRM.Domain.Services.Impl
     [Export(typeof(IPowerServices))]
     internal sealed class PowerServices : BaseService, IPowerServices
     {
-        #region Power
         public List<dynamic> GetAllPowers()
         {
             var powers = PowerRepository.Entities;
@@ -81,7 +80,5 @@ namespace NewCRM.Domain.Services.Impl
 
             PowerRepository.Update(powerResult);
         }
-
-        #endregion
     }
 }

@@ -1,34 +1,75 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
 namespace NewCRM.Domain.Services.Impl
 {
-    [Export(typeof(IDeskServices))]
-    internal class DeskServices : BaseService, IDeskServices
+    [Export(typeof(IAccountConfigServices))]
+    internal sealed class AccountConfigServices : BaseService, IAccountConfigServices
     {
-        public void ModifyDefaultShowDesk(Int32 userId, Int32 newDefaultDeskNumber)
+        public void ModifyAppDirection(Int32 accountId, String direction)
         {
-            var userResult = GetUserInfoService(userId);
+            var accountResult = GetAccountInfoService(accountId);
 
-            userResult.Config.ModifyDefaultDesk(newDefaultDeskNumber);
-
-            UserRepository.Update(userResult);
+            if (direction.ToLower() == "x")
+            {
+                accountResult.Config.ModifyAppDirectionToX();
+            }
+            else if (direction.ToLower() == "y")
+            {
+                accountResult.Config.ModifyAppDirectionToY();
+            }
+            else
+            {
+                throw new BusinessException($"未能识别的App排列方向:{direction.ToLower()}");
+            }
+            AccountRepository.Update(accountResult);
         }
 
-        public void ModifyDockPosition(Int32 userId, Int32 defaultDeskNumber, String newPosition)
+        public void ModifyAppIconSize(Int32 accountId, Int32 newSize)
         {
-            var userResult = GetUserInfoService(userId);
+            var accountResult = GetAccountInfoService(accountId);
+            accountResult.Config.ModifyDisplayIconLength(newSize);
+            AccountRepository.Update(accountResult);
+        }
+
+        public void ModifyAppVerticalSpacing(Int32 accountId, Int32 newSize)
+        {
+            var accountResult = GetAccountInfoService(accountId);
+            accountResult.Config.ModifyAppVerticalSpacingLength(newSize);
+            AccountRepository.Update(accountResult);
+        }
+
+        public void ModifyAppHorizontalSpacing(Int32 accountId, Int32 newSize)
+        {
+            var accountResult = GetAccountInfoService(accountId);
+            accountResult.Config.ModifyAppHorizontalSpacingLength(newSize);
+            AccountRepository.Update(accountResult);
+        }
+
+        public void ModifyDefaultShowDesk(Int32 accountId, Int32 newDefaultDeskNumber)
+        {
+            var accountResult = GetAccountInfoService(accountId);
+            accountResult.Config.ModifyDefaultDesk(newDefaultDeskNumber);
+            AccountRepository.Update(accountResult);
+        }
+
+        public void ModifyDockPosition(Int32 accountId, Int32 defaultDeskNumber, String newPosition)
+        {
+            var accountResult = GetAccountInfoService(accountId);
 
             DockPostion dockPostion;
             if (Enum.TryParse(newPosition, true, out dockPostion))
             {
                 if (dockPostion == DockPostion.None)
                 {
-                    var deskResult = DeskRepository.Entities.FirstOrDefault(desk => desk.DeskNumber == userResult.Config.DefaultDeskNumber);
+                    var deskResult = DeskRepository.Entities.FirstOrDefault(desk => desk.DeskNumber == accountResult.Config.DefaultDeskNumber);
 
                     var dockMembers = deskResult.Members.Where(member => member.IsOnDock).ToList();
 
@@ -41,28 +82,28 @@ namespace NewCRM.Domain.Services.Impl
                         });
                         DeskRepository.Update(deskResult);
                     }
-                    userResult.Config.ModifyDockPostion(dockPostion);
+                    accountResult.Config.ModifyDockPostion(dockPostion);
                 }
                 else
                 {
-                    userResult.Config.ModifyDockPostion(dockPostion);
+                    accountResult.Config.ModifyDockPostion(dockPostion);
                 }
             }
             else
             {
                 throw new BusinessException($"未识别出的码头位置:{newPosition}");
             }
-            userResult.Config.ModifyDefaultDesk(defaultDeskNumber);
+            accountResult.Config.ModifyDefaultDesk(defaultDeskNumber);
 
-            UserRepository.Update(userResult);
+            AccountRepository.Update(accountResult);
         }
 
-        public Member GetMember(Int32 userId, Int32 memberId, Boolean isFolder = default(Boolean))
+        public Member GetMember(Int32 accountId, Int32 memberId, Boolean isFolder = default(Boolean))
         {
-            var userConfig = GetUserInfoService(userId).Config;
+            var accountConfig = GetAccountInfoService(accountId).Config;
 
 
-            foreach (var desk in userConfig.Desks)
+            foreach (var desk in accountConfig.Desks)
             {
                 var members = desk.Members;
                 if (isFolder)
@@ -86,11 +127,11 @@ namespace NewCRM.Domain.Services.Impl
 
         }
 
-        public void MemberInDock(Int32 userId, Int32 memberId)
+        public void MemberInDock(Int32 accountId, Int32 memberId)
         {
-            var userConfig = GetUserInfoService(userId).Config;
+            var accountConfig = GetAccountInfoService(accountId).Config;
 
-            foreach (var desk in userConfig.Desks)
+            foreach (var desk in accountConfig.Desks)
             {
                 var memberResult = InternalDeskMember(memberId, desk);
                 if (memberResult != null)
@@ -102,11 +143,11 @@ namespace NewCRM.Domain.Services.Impl
             }
         }
 
-        public void MemberOutDock(Int32 userId, Int32 memberId, Int32 deskId)
+        public void MemberOutDock(Int32 accountId, Int32 memberId, Int32 deskId)
         {
-            var userConfig = GetUserInfoService(userId).Config;
-            var realDeskId = GetRealDeskIdService(deskId, userConfig);
-            foreach (var desk in userConfig.Desks)
+            var accountConfig = GetAccountInfoService(accountId).Config;
+            var realDeskId = GetRealDeskIdService(deskId, accountConfig);
+            foreach (var desk in accountConfig.Desks)
             {
                 var memberResult = InternalDeskMember(memberId, desk);
                 if (memberResult != null)
@@ -118,9 +159,9 @@ namespace NewCRM.Domain.Services.Impl
             }
         }
 
-        public void DockToFolder(Int32 userId, Int32 memberId, Int32 folderId)
+        public void DockToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
         {
-            var configResult = GetUserInfoService(userId).Config;
+            var configResult = GetAccountInfoService(accountId).Config;
 
             var desk = configResult.Desks.FirstOrDefault(c => c.DeskNumber == configResult.DefaultDeskNumber);
 
@@ -129,9 +170,9 @@ namespace NewCRM.Domain.Services.Impl
             DeskRepository.Update(desk);
         }
 
-        public void FolderToDock(Int32 userId, Int32 memberId)
+        public void FolderToDock(Int32 accountId, Int32 memberId)
         {
-            var configResult = GetUserInfoService(userId).Config;
+            var configResult = GetAccountInfoService(accountId).Config;
 
             var desk = configResult.Desks.FirstOrDefault(c => c.DeskNumber == configResult.DefaultDeskNumber);
 
@@ -140,10 +181,10 @@ namespace NewCRM.Domain.Services.Impl
             DeskRepository.Update(desk);
         }
 
-        public void DeskToFolder(Int32 userId, Int32 memberId, Int32 folderId)
+        public void DeskToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
         {
-            var userConfig = GetUserInfoService(userId).Config;
-            foreach (var desk in userConfig.Desks)
+            var accountConfig = GetAccountInfoService(accountId).Config;
+            foreach (var desk in accountConfig.Desks)
             {
                 var memberResult = InternalDeskMember(memberId, desk);
                 if (memberResult != null)
@@ -155,11 +196,11 @@ namespace NewCRM.Domain.Services.Impl
             }
         }
 
-        public void FolderToDesk(Int32 userId, Int32 memberId, Int32 deskId)
+        public void FolderToDesk(Int32 accountId, Int32 memberId, Int32 deskId)
         {
-            var userConfig = GetUserInfoService(userId).Config;
-            var realDeskId = GetRealDeskIdService(deskId, userConfig);
-            foreach (var desk in userConfig.Desks)
+            var accountConfig = GetAccountInfoService(accountId).Config;
+            var realDeskId = GetRealDeskIdService(deskId, accountConfig);
+            foreach (var desk in accountConfig.Desks)
             {
                 var memberResult = InternalDeskMember(memberId, desk);
                 if (memberResult != null)
@@ -178,9 +219,9 @@ namespace NewCRM.Domain.Services.Impl
             }
         }
 
-        public void FolderToOtherFolder(Int32 userId, Int32 memberId, Int32 folderId)
+        public void FolderToOtherFolder(Int32 accountId, Int32 memberId, Int32 folderId)
         {
-            var configResult = GetUserInfoService(userId).Config;
+            var configResult = GetAccountInfoService(accountId).Config;
 
             var desk = configResult.Desks.FirstOrDefault(c => c.DeskNumber == configResult.DefaultDeskNumber);
 
@@ -189,13 +230,13 @@ namespace NewCRM.Domain.Services.Impl
             DeskRepository.Update(desk);
         }
 
-        public void DeskToOtherDesk(Int32 userId, Int32 memberId, Int32 deskId)
+        public void DeskToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId)
         {
-            var userConfig = GetUserInfoService(userId).Config;
+            var accountConfig = GetAccountInfoService(accountId).Config;
 
-            var realDeskId = GetRealDeskIdService(deskId, userConfig);
+            var realDeskId = GetRealDeskIdService(deskId, accountConfig);
 
-            foreach (var desk in userConfig.Desks)
+            foreach (var desk in accountConfig.Desks)
             {
                 var memberResult = InternalDeskMember(memberId, desk);
                 if (memberResult != null)
@@ -207,11 +248,11 @@ namespace NewCRM.Domain.Services.Impl
             }
         }
 
-        public void ModifyFolderInfo(String memberName, String memberIcon, Int32 memberId, Int32 userId)
+        public void ModifyFolderInfo(String memberName, String memberIcon, Int32 memberId, Int32 accountId)
         {
-            var userConfig = GetUserInfoService(userId).Config;
+            var accountConfig = GetAccountInfoService(accountId).Config;
 
-            foreach (var desk in userConfig.Desks)
+            foreach (var desk in accountConfig.Desks)
             {
                 var memberResult = InternalDeskMember(memberId, desk);
                 if (memberResult != null)
@@ -223,11 +264,11 @@ namespace NewCRM.Domain.Services.Impl
             }
         }
 
-        public void RemoveMember(Int32 userId, Int32 memberId)
+        public void RemoveMember(Int32 accountId, Int32 memberId)
         {
-            var userConfig = GetUserInfoService(userId).Config;
+            var accountConfig = GetAccountInfoService(accountId).Config;
             App appResult = null;
-            foreach (var desk in userConfig.Desks)
+            foreach (var desk in accountConfig.Desks)
             {
                 var memberResult = InternalDeskMember(memberId, desk);
 
@@ -236,7 +277,7 @@ namespace NewCRM.Domain.Services.Impl
                     if (memberResult.MemberType == MemberType.Folder)
                     {
                         //移除文件夹中的内容
-                        foreach (var desk1 in userConfig.Desks)
+                        foreach (var desk1 in accountConfig.Desks)
                         {
                             desk1.Members.Where(d => d.FolderId == memberId).ToList().ForEach(m => m.Remove());
                         }
@@ -244,8 +285,8 @@ namespace NewCRM.Domain.Services.Impl
                     else
                     {
                         appResult = AppRepository.Entities.FirstOrDefault(app => app.Id == memberResult.AppId);
-                        appResult.SubtractUserCount();
-                        appResult.SubtractStar(userId);
+                        appResult.SubtractUseCount();
+                        appResult.SubtractStar(accountId);
                     }
 
                     memberResult.Remove();
@@ -260,11 +301,11 @@ namespace NewCRM.Domain.Services.Impl
             }
         }
 
-        public void ModifyMemberInfo(Int32 userId, Member member)
+        public void ModifyMemberInfo(Int32 accountId, Member member)
         {
-            var userResult = GetUserInfoService(userId);
+            var accountResult = GetAccountInfoService(accountId);
 
-            foreach (var desk in userResult.Config.Desks)
+            foreach (var desk in accountResult.Config.Desks)
             {
                 var memberResult = InternalDeskMember(member.Id, desk);
                 if (memberResult != null)
@@ -282,12 +323,19 @@ namespace NewCRM.Domain.Services.Impl
             }
         }
 
+        public void ModifySkin(Int32 accountId, String newSkin)
+        {
+            var accountResult = GetAccountInfoService(accountId);
+
+            accountResult.Config.ModifySkin(newSkin);
+
+            AccountRepository.Update(accountResult);
+        }
+
         private Member InternalDeskMember(Int32 memberId, Desk desk)
         {
             var memberResult = desk.Members.FirstOrDefault(member => member.Id == memberId);
             return memberResult;
         }
-
-
     }
 }

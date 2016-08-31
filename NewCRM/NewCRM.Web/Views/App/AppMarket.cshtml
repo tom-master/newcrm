@@ -2,10 +2,10 @@
 @{
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
 
-    var appTypes = (List<AppTypeDto>)ViewData["AppTypes"];
+    var appTypes = ViewData["AppTypes"] as List<AppTypeDto>;
     var todayRecommendApp = ViewData["TodayRecommendApp"] as TodayRecommendAppDto;
 
-    var userApp = ViewData["UserApp"] as Tuple<Int32, Int32>;
+    var accountApp = ViewData["AccountApp"] as Tuple<Int32, Int32>;
 }
 
 <div class="sub-nav tabbable tabs-left">
@@ -43,7 +43,7 @@
             <div class="commend-text">
                 <h4>
                     <strong>@todayRecommendApp.Name</strong>
-                    <span>@todayRecommendApp.UserCount 人在用</span>
+                    <span>@todayRecommendApp.UseCount 人在用</span>
                 </h4>
                 <div class="con" title="@todayRecommendApp.Remark">@todayRecommendApp.Remark</div>
                 @{
@@ -69,12 +69,12 @@
         <div class="mbox develop">
             <h3>我是开发者</h3>
             <div class="developer">
-                <p>开发者：@ViewData["UserName"]</p>
-                <p>我开发的应用：<font style="font-weight:bold">@userApp.Item1</font> 个</p>
-                <p>未发布的应用：<font style="font-weight:bold">@userApp.Item2</font> 个</p>
+                <p>开发者：@ViewData["AccountName"]</p>
+                <p>我开发的应用：<font style="font-weight:bold">@accountApp.Item1</font> 个</p>
+                <p>未发布的应用：<font style="font-weight:bold">@accountApp.Item2</font> 个</p>
                 <div class="text-center">
-                    <a href="javascript:openDetailIframe2('@Url.Action("UserAppManage", "App")');" class="btn btn-primary">管理我的应用</a> 
-                    <a href="javascript:openDetailIframe2('@Url.Action("UserAppManage","App")?appId=0');" class="btn btn-danger">开发新应用</a>
+                    <a href="javascript:openDetailIframe2('@Url.Action("AccountAppManage", "App")');" class="btn btn-primary">管理我的应用</a> 
+                    <a href="javascript:openDetailIframe2('@Url.Action("AccountAppManage","App")?appId=0');" class="btn btn-danger">开发新应用</a>
                 </div>
             </div>
         </div>
@@ -117,7 +117,7 @@
                 <i style="width:{{scoreWidth StartCount}}%;"></i>
             </span>
             <span class="star-num">{{parseScore StartCount}}</span>
-            <span class="app-stat">{{UserCount}} 人正在使用</span>
+            <span class="app-stat">{{UseCount}} 人正在使用</span>
 
             {{#if IsInstall }}
             <a href="javascript:;" app_id="{{Id}}" real_app_id="{{Id}}" app_type="app" class="btn-run-s" title="打开应用">打开应用</a>

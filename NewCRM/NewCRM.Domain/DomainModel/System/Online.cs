@@ -16,7 +16,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// <summary>
         /// 用户Id
         /// </summary>
-        public Int32 UserId { get; private set; }
+        public Int32 AccountId { get; private set; }
         #endregion
 
         #region ctor
@@ -25,11 +25,11 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// 实例化一个在线状态的对象
         /// </summary>
         /// <param name="ipAddress"></param>
-        /// <param name="userId"></param>
-        public Online(String ipAddress, Int32 userId)
+        /// <param name="accountId"></param>
+        public Online(String ipAddress, Int32 accountId)
         {
             IpAddress = ipAddress;
-            UserId = userId;
+            AccountId = accountId;
             AddTime = DateTime.Now;
         }
 

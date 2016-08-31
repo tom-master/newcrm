@@ -42,9 +42,9 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         public Int32 Height { get; private set; }
 
         /// <summary>
-        /// 使用人数
+        /// 使用数
         /// </summary>
-        public Int32 UserCount { get; private set; }
+        public Int32 UseCount { get; private set; }
 
         /// <summary>
         /// 是否能最大化
@@ -94,7 +94,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// <summary>
         /// 开发者(用户)Id
         /// </summary>
-        public Int32 UserId { get; private set; }
+        public Int32 AccountId { get; private set; }
 
         /// <summary>
         /// app类型Id
@@ -141,7 +141,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// <param name="appTypeId"></param>
         /// <param name="appAuditState"></param>
         /// <param name="appStyle"></param>
-        /// <param name="userId"></param>
+        /// <param name="accountId"></param>
         /// <param name="remark">备注</param>
         /// <param name="isMax">是否最大化</param>
         /// <param name="isFull">是否全屏</param>
@@ -158,7 +158,7 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             Int32 appTypeId,
             AppAuditState appAuditState,
             AppStyle appStyle = AppStyle.App,
-            Int32 userId = default(Int32),
+            Int32 accountId = default(Int32),
             String remark = default(String),
             Boolean isMax = default(Boolean),
             Boolean isFull = default(Boolean),
@@ -182,21 +182,21 @@ namespace NewCRM.Domain.Entities.DomainModel.System
             IsResize = isResize;
             AppTypeId = appTypeId;
             AppStyle = appStyle;
-            if (userId == 0)
+            if (accountId == 0)
             {
                 IsSystem = true;
             }
             else
             {
                 IsSystem = false;
-                UserId = userId;
+                AccountId = accountId;
             }
 
             IsLock = false;
             Remark = remark;
             AppAuditState = appAuditState;
             AppReleaseState = AppReleaseState.UnRelease;
-            UserCount = 0;
+            UseCount = 0;
             AppStars = new List<AppStar>();
             AddTime = DateTime.Now;
         }

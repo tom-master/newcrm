@@ -32,14 +32,14 @@ namespace NewCRM.Web.Controllers.ControllerHelper
 
 
         /// <summary>
-        /// 当前用户
+        /// 当前登陆的账户
         /// </summary>
-        protected static UserDto CurrentUser { get; set; }
+        protected static AccountDto Account { get; set; }
 
         /// <summary>
         /// 当前用户的配置
         /// </summary>
-        protected static ConfigDto CurrentUserConfig { get; set; }
+        protected static ConfigDto AccountConfig { get; set; }
 
         protected override JsonResult Json(Object data, String contentType, Encoding contentEncoding, JsonRequestBehavior behavior)
         {

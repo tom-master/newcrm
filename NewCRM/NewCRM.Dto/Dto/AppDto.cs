@@ -24,7 +24,7 @@ namespace NewCRM.Dto.Dto
         /// <summary>
         /// 使用人数
         /// </summary>
-        public Int32 UserCount { get; set; }
+        public Int32 UseCount { get; set; }
 
         /// <summary>
         /// 评价星级
@@ -39,7 +39,7 @@ namespace NewCRM.Dto.Dto
         /// <summary>
         /// 开发者（用户）Id
         /// </summary>
-        public Int32 UserId { get; set; }
+        public Int32 AccountId { get; set; }
 
         /// <summary>
         /// 审核状态

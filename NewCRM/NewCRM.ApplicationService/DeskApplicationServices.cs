@@ -10,92 +10,103 @@ namespace NewCRM.Application.Services
     [Export(typeof(IDeskApplicationServices))]
     internal class DeskApplicationServices : BaseApplicationServices, IDeskApplicationServices
     {
-        public void ModifyDefaultDeskNumber(Int32 userId, Int32 newDefaultDeskNumber)
+        public void ModifyDefaultDeskNumber(Int32 accountId, Int32 newDefaultDeskNumber)
         {
-            ValidateParameter.Validate(userId).Validate(newDefaultDeskNumber);
-            DeskServices.ModifyDefaultShowDesk(userId, newDefaultDeskNumber);
+            ValidateParameter.Validate(accountId).Validate(newDefaultDeskNumber);
+
+            AccountContext.ConfigServices.ModifyDefaultShowDesk(accountId, newDefaultDeskNumber);
         }
 
 
-        public void ModifyDockPosition(Int32 userId, Int32 defaultDeskNumber, String newPosition)
+        public void ModifyDockPosition(Int32 accountId, Int32 defaultDeskNumber, String newPosition)
         {
-            ValidateParameter.Validate(userId).Validate(defaultDeskNumber).Validate(newPosition);
+            ValidateParameter.Validate(accountId).Validate(defaultDeskNumber).Validate(newPosition);
 
-            DeskServices.ModifyDockPosition(userId, defaultDeskNumber, newPosition);
+            AccountContext.ConfigServices.ModifyDockPosition(accountId, defaultDeskNumber, newPosition);
         }
 
-        public MemberDto GetMember(Int32 userId, Int32 memberId, Boolean isFolder = default(Boolean))
+        public MemberDto GetMember(Int32 accountId, Int32 memberId, Boolean isFolder = default(Boolean))
         {
-            ValidateParameter.Validate(userId).Validate(memberId);
-            return DeskServices.GetMember(userId, memberId, isFolder).ConvertToDto<Member, MemberDto>();
+            ValidateParameter.Validate(accountId).Validate(memberId);
+
+            return AccountContext.ConfigServices.GetMember(accountId, memberId, isFolder).ConvertToDto<Member, MemberDto>();
         }
 
-        public void MemberInDock(Int32 userId, Int32 memberId)
+        public void MemberInDock(Int32 accountId, Int32 memberId)
         {
-            ValidateParameter.Validate(userId).Validate(memberId);
-            DeskServices.MemberInDock(userId, memberId);
+            ValidateParameter.Validate(accountId).Validate(memberId);
+
+            AccountContext.ConfigServices.MemberInDock(accountId, memberId);
         }
 
-        public void MemberOutDock(Int32 userId, Int32 memberId, Int32 deskId)
+        public void MemberOutDock(Int32 accountId, Int32 memberId, Int32 deskId)
         {
-            ValidateParameter.Validate(userId).Validate(memberId);
-            DeskServices.MemberOutDock(userId, memberId, deskId);
+            ValidateParameter.Validate(accountId).Validate(memberId);
+
+            AccountContext.ConfigServices.MemberOutDock(accountId, memberId, deskId);
         }
 
-        public void DockToFolder(Int32 userId, Int32 memberId, Int32 folderId)
+        public void DockToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
         {
-            ValidateParameter.Validate(userId).Validate(memberId).Validate(folderId);
-            DeskServices.DockToFolder(userId, memberId, folderId);
+            ValidateParameter.Validate(accountId).Validate(memberId).Validate(folderId);
+
+            AccountContext.ConfigServices.DockToFolder(accountId, memberId, folderId);
         }
 
-        public void FolderToDock(Int32 userId, Int32 memberId)
+        public void FolderToDock(Int32 accountId, Int32 memberId)
         {
-            ValidateParameter.Validate(userId).Validate(memberId);
+            ValidateParameter.Validate(accountId).Validate(memberId);
 
-            DeskServices.FolderToDock(userId, memberId);
+            AccountContext.ConfigServices.FolderToDock(accountId, memberId);
         }
 
-        public void DeskToFolder(Int32 userId, Int32 memberId, Int32 folderId)
+        public void DeskToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
         {
-            ValidateParameter.Validate(userId).Validate(memberId).Validate(folderId);
-            DeskServices.DeskToFolder(userId, memberId, folderId);
+            ValidateParameter.Validate(accountId).Validate(memberId).Validate(folderId);
+
+            AccountContext.ConfigServices.DeskToFolder(accountId, memberId, folderId);
         }
 
-        public void FolderToDesk(Int32 userId, Int32 memberId, Int32 deskId)
+        public void FolderToDesk(Int32 accountId, Int32 memberId, Int32 deskId)
         {
-            ValidateParameter.Validate(userId).Validate(memberId).Validate(deskId);
-            DeskServices.FolderToDesk(userId, memberId, deskId);
+            ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
+
+            AccountContext.ConfigServices.FolderToDesk(accountId, memberId, deskId);
         }
 
-        public void FolderToOtherFolder(Int32 userId, Int32 memberId, Int32 folderId)
+        public void FolderToOtherFolder(Int32 accountId, Int32 memberId, Int32 folderId)
         {
-            ValidateParameter.Validate(userId).Validate(memberId).Validate(folderId);
-            DeskServices.FolderToOtherFolder(userId, memberId, folderId);
+            ValidateParameter.Validate(accountId).Validate(memberId).Validate(folderId);
+
+            AccountContext.ConfigServices.FolderToOtherFolder(accountId, memberId, folderId);
         }
 
-        public void DeskToOtherDesk(Int32 userId, Int32 memberId, Int32 deskId)
+        public void DeskToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId)
         {
-            ValidateParameter.Validate(userId).Validate(memberId).Validate(deskId);
-            DeskServices.DeskToOtherDesk(userId, memberId, deskId);
+            ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
+
+            AccountContext.ConfigServices.DeskToOtherDesk(accountId, memberId, deskId);
         }
 
-        public void ModifyFolderInfo(String memberName, String memberIcon, Int32 memberId, Int32 userId)
+        public void ModifyFolderInfo(String memberName, String memberIcon, Int32 memberId, Int32 accountId)
         {
-            ValidateParameter.Validate(memberName).Validate(memberIcon).Validate(memberId).Validate(userId);
-            DeskServices.ModifyFolderInfo(memberName, memberIcon, memberId, userId);
+            ValidateParameter.Validate(memberName).Validate(memberIcon).Validate(memberId).Validate(accountId);
+
+            AccountContext.ConfigServices.ModifyFolderInfo(memberName, memberIcon, memberId, accountId);
         }
 
-        public void RemoveMember(Int32 userId, Int32 memberId)
+        public void RemoveMember(Int32 accountId, Int32 memberId)
         {
-            ValidateParameter.Validate(userId).Validate(memberId);
-            DeskServices.RemoveMember(userId, memberId);
+            ValidateParameter.Validate(accountId).Validate(memberId);
+
+            AccountContext.ConfigServices.RemoveMember(accountId, memberId);
         }
 
-        public void ModifyMemberInfo(Int32 userId, MemberDto member)
+        public void ModifyMemberInfo(Int32 accountId, MemberDto member)
         {
-            ValidateParameter.Validate(userId).Validate(member);
+            ValidateParameter.Validate(accountId).Validate(member);
 
-            DeskServices.ModifyMemberInfo(userId, member.ConvertToModel<MemberDto, Member>());
+            AccountContext.ConfigServices.ModifyMemberInfo(accountId, member.ConvertToModel<MemberDto, Member>());
         }
     }
 }

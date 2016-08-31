@@ -12,7 +12,7 @@
             <div class="app-title">
                 <img src="@Model.IconUrl" alt="@Model.Name">
                 <span class="app-name">@Model.Name</span>
-                <span class="app-desc"><i>@Model.UserCount</i> 人在使用</span>
+                <span class="app-desc"><i>@Model.UseCount</i> 人在使用</span>
                 @{
  
                     if (((Boolean)ViewData["IsInstallApp"]))
@@ -45,12 +45,12 @@
             <h5>
 
                 @{
-                    if (Model.UserId == 0)
+                    if (Model.AccountId == 0)
                     {<text><em>开发者：</em><b style="color:red">平台提供</b></text>
                     }
                     else
                     {
-                        <text><em>开发者：</em><b style="color:red">@ViewData["UserName"]</b></text>
+                        <text><em>开发者：</em><b style="color:red">@ViewData["AccountName"]</b></text>
                     }
                 }
 

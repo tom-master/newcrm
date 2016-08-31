@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using NewCRM.Domain.Entities.DomainModel.Security;
 
 
 namespace NewCRM.Domain.Entities.DomainModel.Account
 {
-    public partial class User
+    public partial class Account
     {
         #region public method
 
@@ -15,7 +14,7 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         /// </summary>
         /// <param name="newPassword"></param>
         /// <returns></returns>
-        public User ModifyPassword(String newPassword)
+        public Account ModifyPassword(String newPassword)
         {
             LoginPassword = newPassword;
             return this;
@@ -26,7 +25,7 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         /// </summary>
         /// <param name="newLockScreenPassword"></param>
         /// <returns></returns>
-        public User ModifyLockScreenPassword(String newLockScreenPassword)
+        public Account ModifyLockScreenPassword(String newLockScreenPassword)
         {
             LockScreenPassword = newLockScreenPassword;
             return this;
@@ -35,7 +34,7 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         /// <summary>
         /// 禁用当前用户
         /// </summary>
-        public User Disable()
+        public Account Disable()
         {
             IsDisable = true;
             return this;
@@ -44,7 +43,7 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         /// <summary>
         /// 启用当前用户
         /// </summary>
-        public User Enable()
+        public Account Enable()
         {
             IsDisable = false;
             return this;
@@ -54,7 +53,7 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         /// 添加职称
         /// </summary>
         /// <param name="newTitle"></param>
-        public User AddTitle(Title newTitle)
+        public Account AddTitle(Title newTitle)
         {
             if (newTitle == null)
             {
@@ -68,16 +67,16 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         /// 添加用户角色
         /// </summary>
         /// <param name="roles"></param>
-        public User AddUserRole(params Role[] roles)
+        public Account AddRole(params Role[] roles)
         {
-            return AddUserRole(roles.Select(r => r.Id).ToArray());
+            return AddRole(roles.Select(r => r.Id).ToArray());
         }
 
         /// <summary>
         /// 添加用户角色
         /// </summary>
         /// <param name="roleIds"></param>
-        public User AddUserRole(params Int32[] roleIds)
+        public Account AddRole(params Int32[] roleIds)
         {
             if (roleIds == null)
             {
@@ -90,7 +89,7 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
 
             foreach (var roleId in roleIds)
             {
-                Roles.Add(new UserRole(Id, roleId));
+                Roles.Add(new AccountRole(Id, roleId));
             }
             return this;
         }
@@ -100,9 +99,9 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         /// </summary>
         /// <param name="roles"></param>
         /// <returns></returns>
-        public User RemoveUserRole(params Role[] roles)
+        public Account RemoveRole(params Role[] roles)
         {
-            return RemoveUserRole(roles.Select(role => role.Id).ToArray());
+            return RemoveRole(roles.Select(role => role.Id).ToArray());
         }
 
         /// <summary>
@@ -110,7 +109,7 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         /// </summary>
         /// <param name="roleIds"></param>
         /// <returns></returns>
-        public User RemoveUserRole(params Int32[] roleIds)
+        public Account RemoveRole(params Int32[] roleIds)
         {
             if (roleIds == null)
             {
@@ -131,7 +130,7 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         /// 在线
         /// </summary>
         /// <returns></returns>
-        public User Online()
+        public Account Online()
         {
             IsOnline = true;
             return this;
@@ -141,7 +140,7 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         /// 离线
         /// </summary>
         /// <returns></returns>
-        public User Offline()
+        public Account Offline()
         {
             IsOnline = false;
             return this;
@@ -150,7 +149,7 @@ namespace NewCRM.Domain.Entities.DomainModel.Account
         /// <summary>
         /// 移除职称
         /// </summary>
-        public User RemoveTitle()
+        public Account RemoveTitle()
         {
             Title.Remove();
             return this;

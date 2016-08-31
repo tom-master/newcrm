@@ -37,13 +37,13 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// <summary>
         /// 用户id
         /// </summary>
-        public Int32 UserId { get; private set; }
+        public Int32 AccountId { get; private set; }
         #endregion
 
         #region ctor
-        public Log(Int32 userId, String controller, String action, LogLevel logLevel, String track, String exceptionMessage)
+        public Log(Int32 accountId, String controller, String action, LogLevel logLevel, String track, String exceptionMessage)
         {
-            UserId = userId;
+            AccountId = accountId;
             Controller = controller;
             Action = action;
             LogLevelEnum = logLevel;

@@ -27,10 +27,10 @@ namespace NewCRM.Application.Services
             return dataDictionary;
         }
 
-        public void ModifySkin(Int32 userId, String newSkin)
+        public void ModifySkin(Int32 accountId, String newSkin)
         {
-            ValidateParameter.Validate(userId).Validate(newSkin);
-            SkinServices.ModifySkin(userId, newSkin);
+            ValidateParameter.Validate(accountId).Validate(newSkin);
+            AccountContext.ConfigServices.ModifySkin(accountId, newSkin);
         }
 
         #region private method

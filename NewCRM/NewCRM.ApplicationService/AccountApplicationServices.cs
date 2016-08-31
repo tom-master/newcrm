@@ -4,76 +4,147 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Application.Services.IApplicationService;
 using NewCRM.Domain.Entities.DomainModel.Account;
+using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
+using NewCRM.Infrastructure.CommonTools.CustemException;
 
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IAccountApplicationServices))]
     internal class AccountApplicationServices : BaseApplicationServices, IAccountApplicationServices
     {
-        public UserDto Login(String userName, String password)
+        public AccountDto Login(String accountName, String password)
         {
-            ValidateParameter.Validate(userName).Validate(password);
-            return AccountServices.Validate(userName, password).ConvertToDto<User, UserDto>();
+            ValidateParameter.Validate(accountName).Validate(password);
+            return AccountContext.Validate(accountName, password).ConvertToDto<Account, AccountDto>();
+        }
+
+        public ConfigDto GetConfig(Int32 accountId)
+        {
+            ValidateParameter.Validate(accountId);
+
+            var accountConfig = AccountRepository.Entities.FirstOrDefault(account => account.Id == accountId)?.Config;
+
+            return DtoConfiguration.ConvertDynamicToDto<ConfigDto>(new
+            {
+                accountConfig.Desks,
+                accountConfig.Id,
+                accountConfig.Skin,
+                accountConfig.AccountFace,
+                accountConfig.AppSize,
+                accountConfig.AppVerticalSpacing,
+                accountConfig.AppHorizontalSpacing,
+                accountConfig.DefaultDeskNumber,
+                AppXy = accountConfig.AppXy.ToString().ToLower(),
+                DockPosition = accountConfig.DockPosition.ToString().ToLower(),
+                WallpaperUrl = accountConfig.Wallpaper.Url,
+                WallpaperWidth = accountConfig.Wallpaper.Width,
+                WallpaperHeigth = accountConfig.Wallpaper.Height,
+                WallpaperSource = accountConfig.Wallpaper.Source.ToString().ToLower(),
+                WallpaperMode = accountConfig.WallpaperMode.ToString().ToLower()
+            });
+        }
+
+        public List<AccountDto> GetAccounts(String accountName, String accountType, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+        {
+            ValidateParameter.Validate(accountName).Validate(pageIndex).Validate(pageSize);
+
+            var accounts = AccountRepository.Entities;
+
+            if ((accountName + "").Length > 0)
+            {
+                accounts = accounts.Where(account => account.Name.Contains(accountName));
+            }
+
+
+            AccountType internalAccountType;
+            if ((accountType + "").Length > 0)
+            {
+                var enumConst = Enum.GetName(typeof(AccountType), accountType);
+
+                if (Enum.TryParse(enumConst, true, out internalAccountType))
+                {
+                    accounts = accounts.Where(account => account.IsAdmin == (internalAccountType == AccountType.Admin));
+                }
+                else
+                {
+                    throw new BusinessException($"用户类型{accountType}不是有效的类型");
+                }
+            }
+
+            totalCount = accounts.Count();
+
+            return accounts.OrderByDescending(o => o.AddTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(
+                  account => new
+                  {
+                      account.Id,
+                      AccountType = account.IsAdmin ? "2" /*管理员*/ : "1" /*用户*/,
+                      account.Name
+                  }).ConvertDynamicToDtos<AccountDto>().ToList();
+        }
+
+        public AccountDto GetAccount(Int32 accountId)
+        {
+            ValidateParameter.Validate(accountId);
+
+            var accountResult = AccountRepository.Entities.FirstOrDefault(account => account.Id == accountId);
+            if (accountResult == null)
+            {
+                throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
+            }
+
+            return DtoConfiguration.ConvertDynamicToDto<AccountDto>(new
+            {
+                accountResult.Id,
+                accountResult.Name,
+                Password = accountResult.LoginPassword,
+                AccountType = accountResult.IsAdmin ? "2" : "1",
+                Roles = accountResult.Roles.Select(s => new
+                {
+                    Id = s.RoleId
+                })
+            });
+        }
+
+        public void AddNewAccount(AccountDto accountDto)
+        {
+            ValidateParameter.Validate(accountDto);
+
+            SecurityContext.AddNewAccount(accountDto.ConvertToModel<AccountDto, Account>());
+        }
+
+        public Boolean CheckAccountNameExist(String accountName)
+        {
+            ValidateParameter.Validate(accountName);
+
+            return AccountRepository.Entities.Any(account => account.Name == accountName);
+        }
+
+        public void ModifyAccount(AccountDto account)
+        {
+            ValidateParameter.Validate(account);
+            SecurityContext.ModifyAccount(account.ConvertToModel<AccountDto, Account>());
+        }
+
+        public void Logout(Int32 accountId)
+        {
+            ValidateParameter.Validate(accountId);
+            AccountContext.Logout(accountId);
+        }
+
+        public void Enable(Int32 accountId)
+        {
+            ValidateParameter.Validate(accountId);
+
+            AccountRepository.Entities.FirstOrDefault(account => account.Id == accountId)?.Enable();
 
         }
 
-        public ConfigDto GetConfig(Int32 userId)
+        public void Disable(Int32 accountId)
         {
-            return DtoConfiguration.ConvertDynamicToDto<ConfigDto>(AccountServices.GetConfig(userId));
-        }
-
-        public List<UserDto> GetAllUsers(String userName, String userType, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
-        {
-            ValidateParameter.Validate(userName).Validate(pageIndex).Validate(pageSize);
-
-            return SecurityContext.GetAllUsers(userName, userType, pageIndex, pageSize, out totalCount).ConvertDynamicToDtos<UserDto>().ToList();
-        }
-
-        public UserDto GetUser(Int32 userId)
-        {
-            ValidateParameter.Validate(userId);
-
-            return DtoConfiguration.ConvertDynamicToDto<UserDto>(SecurityContext.GetUser(userId));
-        }
-
-        public void AddNewUser(UserDto userDto)
-        {
-            ValidateParameter.Validate(userDto);
-
-            SecurityContext.AddNewUser(userDto.ConvertToModel<UserDto, User>());
-        }
-
-        public Boolean ValidSameUserNameExist(String userName)
-        {
-            ValidateParameter.Validate(userName);
-
-            return SecurityContext.ValidSameUserNameExist(userName);
-        }
-
-        public void ModifyUser(UserDto user)
-        {
-            ValidateParameter.Validate(user);
-            SecurityContext.ModifyUser(user.ConvertToModel<UserDto, User>());
-        }
-
-        public void Logout(Int32 userId)
-        {
-            ValidateParameter.Validate(userId);
-            AccountServices.Logout(userId);
-        }
-
-        public void Enable(Int32 userId)
-        {
-            ValidateParameter.Validate(userId);
-            AccountServices.Enable(userId);
-        }
-
-        public void Disable(Int32 userId)
-        {
-            ValidateParameter.Validate(userId);
-            AccountServices.Disable(userId);
+            ValidateParameter.Validate(accountId);
+            AccountRepository.Entities.FirstOrDefault(account => account.Id == accountId)?.Disable();
         }
     }
 }

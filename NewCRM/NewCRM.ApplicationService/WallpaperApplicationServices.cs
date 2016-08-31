@@ -23,18 +23,18 @@ namespace NewCRM.Application.Services
             return WallpaperServices.GetWallpaper().ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
         }
 
-        public void ModifyWallpaperMode(Int32 userId, String newMode)
+        public void ModifyWallpaperMode(Int32 accountId, String newMode)
         {
-            ValidateParameter.Validate(userId).Validate(newMode);
+            ValidateParameter.Validate(accountId).Validate(newMode);
 
-            WallpaperServices.ModifyWallpaperMode(userId, newMode);
+            WallpaperServices.ModifyWallpaperMode(accountId, newMode);
         }
 
-        public void ModifyWallpaper(Int32 userId, Int32 newWallpaperId)
+        public void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId)
         {
-            ValidateParameter.Validate(userId).Validate(newWallpaperId);
+            ValidateParameter.Validate(accountId).Validate(newWallpaperId);
 
-            WallpaperServices.ModifyWallpaper(userId, newWallpaperId);
+            WallpaperServices.ModifyWallpaper(accountId, newWallpaperId);
         }
 
         public Tuple<Int32, String> AddWallpaper(WallpaperDto wallpaperDto)
@@ -46,20 +46,20 @@ namespace NewCRM.Application.Services
             return WallpaperServices.AddWallpaper(wallpaper);
         }
 
-        public List<WallpaperDto> GetUploadWallpaper(Int32 userId)
+        public List<WallpaperDto> GetUploadWallpaper(Int32 accountId)
         {
-            ValidateParameter.Validate(userId);
+            ValidateParameter.Validate(accountId);
 
-            return WallpaperServices.GetUploadWallpaper(userId).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
+            return WallpaperServices.GetUploadWallpaper(accountId).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
         }
 
-        public void RemoveWallpaper(Int32 userId, Int32 wallpaperId)
+        public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
         {
-            ValidateParameter.Validate(userId).Validate(wallpaperId);
-            WallpaperServices.RemoveWallpaper(userId, wallpaperId);
+            ValidateParameter.Validate(accountId).Validate(wallpaperId);
+            WallpaperServices.RemoveWallpaper(accountId, wallpaperId);
         }
 
-        public async Task<Tuple<Int32, String>> AddWebWallpaper(Int32 userId, String url)
+        public async Task<Tuple<Int32, String>> AddWebWallpaper(Int32 accountId, String url)
         {
             var imageTitle = Path.GetFileNameWithoutExtension(url);
             Image image;
@@ -80,7 +80,7 @@ namespace NewCRM.Application.Services
                     Source = WallpaperSource.Web.ToString(),
                     Title = imageTitle,
                     Url = url,
-                    UserId = userId,
+                    AccountId = accountId,
                     Md5 = wallpaperMd5,
                     ShortUrl = url
 

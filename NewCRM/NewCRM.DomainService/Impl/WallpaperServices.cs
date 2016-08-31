@@ -17,15 +17,15 @@ namespace NewCRM.Domain.Services.Impl
             return WallpaperRepository.Entities.Where(wallpaper => wallpaper.Source == WallpaperSource.System).ToList();
         }
 
-        public void ModifyWallpaperMode(Int32 userId, String newMode)
+        public void ModifyWallpaperMode(Int32 accountId, String newMode)
         {
             WallpaperMode wallpaperMode;
 
             if (Enum.TryParse(newMode, true, out wallpaperMode))
             {
-                var userResult = GetUserInfoService(userId);
-                userResult.Config.ModifyDisplayMode(wallpaperMode);
-                UserRepository.Update(userResult);
+                var accountResult = GetAccountInfoService(accountId);
+                accountResult.Config.ModifyDisplayMode(wallpaperMode);
+                AccountRepository.Update(accountResult);
             }
             else
             {
@@ -34,21 +34,21 @@ namespace NewCRM.Domain.Services.Impl
 
         }
 
-        public void ModifyWallpaper(Int32 userId, Int32 newWallpaperId)
+        public void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId)
         {
-            var userResult = GetUserInfoService(userId);
+            var accountResult = GetAccountInfoService(accountId);
 
             var wallpaperResult =
                 WallpaperRepository.Entities.FirstOrDefault(wallpaper => wallpaper.Id == newWallpaperId);
 
-            userResult.Config.ModifyWallpaper(wallpaperResult);
+            accountResult.Config.ModifyWallpaper(wallpaperResult);
 
-            UserRepository.Update(userResult);
+            AccountRepository.Update(accountResult);
         }
 
         public Tuple<Int32, String> AddWallpaper(Wallpaper wallpaper)
         {
-            if (WallpaperRepository.Entities.Count(w => w.UserId == wallpaper.UserId) == 6)
+            if (WallpaperRepository.Entities.Count(w => w.AccountId == wallpaper.AccountId) == 6)
             {
                 throw new BusinessException($"最多只能上传6张壁纸");
             }
@@ -58,19 +58,19 @@ namespace NewCRM.Domain.Services.Impl
             return new Tuple<Int32, String>(wallpaper.Id, wallpaper.ShortUrl);
         }
 
-        public IList<Wallpaper> GetUploadWallpaper(Int32 userId)
+        public IList<Wallpaper> GetUploadWallpaper(Int32 accountId)
         {
-            var wallpapers = WallpaperRepository.Entities.Where(wallpaper => wallpaper.UserId == userId);
+            var wallpapers = WallpaperRepository.Entities.Where(wallpaper => wallpaper.AccountId == accountId);
 
             return wallpapers.ToList();
         }
 
-        public void RemoveWallpaper(Int32 userId, Int32 wallpaperId)
+        public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
         {
 
-            var userResult = GetUserInfoService(userId);
+            var accountResult = GetAccountInfoService(accountId);
 
-            if (userResult.Config.Wallpaper.Id == wallpaperId)
+            if (accountResult.Config.Wallpaper.Id == wallpaperId)
             {
                 throw new BusinessException($"当前壁纸正在使用或已被删除");
             }
