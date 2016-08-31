@@ -8,6 +8,7 @@ using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustemException;
+using NewCRM.QueryServices.DomainSpecification;
 
 namespace NewCRM.Application.Services
 {
@@ -24,7 +25,9 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var accountConfig = AccountRepository.Entities.FirstOrDefault(account => account.Id == accountId)?.Config;
+            ISpecification<Account> accountSpecification = new Specification<Account>(account => account.Id == accountId);
+
+            var accountConfig = AccountQuery.Find(accountSpecification).FirstOrDefault()?.Config;
 
             return DtoConfiguration.ConvertDynamicToDto<ConfigDto>(new
             {
@@ -50,12 +53,8 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountName).Validate(pageIndex).Validate(pageSize);
 
-            var accounts = AccountRepository.Entities;
+            ISpecification<Account> specification = new Specification<Account>(account => (accountName + "").Length == 0 || account.Name.Contains(accountName));
 
-            if ((accountName + "").Length > 0)
-            {
-                accounts = accounts.Where(account => account.Name.Contains(accountName));
-            }
 
 
             AccountType internalAccountType;
@@ -65,7 +64,7 @@ namespace NewCRM.Application.Services
 
                 if (Enum.TryParse(enumConst, true, out internalAccountType))
                 {
-                    accounts = accounts.Where(account => account.IsAdmin == (internalAccountType == AccountType.Admin));
+                    specification.And(new Specification<Account>(account => account.IsAdmin == (internalAccountType == AccountType.Admin)));
                 }
                 else
                 {
@@ -73,22 +72,19 @@ namespace NewCRM.Application.Services
                 }
             }
 
-            totalCount = accounts.Count();
-
-            return accounts.OrderByDescending(o => o.AddTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(
-                  account => new
-                  {
-                      account.Id,
-                      AccountType = account.IsAdmin ? "2" /*管理员*/ : "1" /*用户*/,
-                      account.Name
-                  }).ConvertDynamicToDtos<AccountDto>().ToList();
+            return AccountQuery.PageBy(specification, pageIndex, pageSize, out totalCount).Select(account => new
+            {
+                account.Id,
+                AccountType = account.IsAdmin ? "2" /*管理员*/ : "1" /*用户*/,
+                account.Name
+            }).ConvertDynamicToDtos<AccountDto>().ToList();
         }
 
         public AccountDto GetAccount(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
 
-            var accountResult = AccountRepository.Entities.FirstOrDefault(account => account.Id == accountId);
+            var accountResult = AccountQuery.Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault();
             if (accountResult == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
@@ -118,7 +114,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountName);
 
-            return AccountRepository.Entities.Any(account => account.Name == accountName);
+            return AccountQuery.Find(new Specification<Account>(account => account.Name == accountName)).Any();
         }
 
         public void ModifyAccount(AccountDto account)
@@ -137,14 +133,14 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            AccountRepository.Entities.FirstOrDefault(account => account.Id == accountId)?.Enable();
-
+            AccountQuery.Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Enable();
         }
 
         public void Disable(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
-            AccountRepository.Entities.FirstOrDefault(account => account.Id == accountId)?.Disable();
+
+            AccountQuery.Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Disable();
         }
     }
 }

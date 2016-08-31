@@ -49,15 +49,6 @@ namespace NewCRM.Domain.Services
         void ModifyDockPosition(Int32 accountId, Int32 defaultDeskNumber, String newPosition);
 
         /// <summary>
-        /// 根据用户id和成员id获取桌面成员
-        /// </summary>
-        /// <param name="accountId"></param>
-        /// <param name="memberId"></param>
-        /// <param name="isFolder"></param>
-        /// <returns></returns>
-        Member GetMember(Int32 accountId, Int32 memberId, Boolean isFolder = default(Boolean));
-
-        /// <summary>
         /// 桌面成员移动到码头中
         /// </summary>
         /// <param name="accountId"></param>
@@ -148,7 +139,6 @@ namespace NewCRM.Domain.Services
         /// <param name="accountId"></param>
         /// <param name="newSkin"></param>
         void ModifySkin(Int32 accountId, String newSkin);
-
 
     }
 }

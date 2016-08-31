@@ -10,6 +10,7 @@ namespace NewCRM.Domain.Entities.Repositories
     /// 定义仓储模型中的数据标准操作
     /// </summary>
     /// <typeparam name="T">动态实体类型</typeparam>
+    
     public interface IRepository<T> where T : DomainModelBase, IAggregationRoot
     {
 

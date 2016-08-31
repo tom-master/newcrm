@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Application.Services.IApplicationService;
+using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
+using NewCRM.Infrastructure.CommonTools.CustemException;
+using NewCRM.QueryServices.DomainSpecification;
 
 namespace NewCRM.Application.Services
 {
@@ -18,7 +21,78 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            return AppServices.GetAccountDeskMembers(accountId);
+            var accountConfig = AccountQuery.Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Config;
+
+            IDictionary<Int32, IList<dynamic>> desks = new Dictionary<Int32, IList<dynamic>>();
+
+            #region accountConfig
+
+            foreach (var desk in accountConfig.Desks)
+            {
+                IList<dynamic> deskMembers = new List<dynamic>();
+
+                var members = desk.Members.ToList();
+
+                foreach (var member in members)
+                {
+                    if (member.MemberType == MemberType.Folder)
+                    {
+                        deskMembers.Add(new
+                        {
+                            type = member.MemberType.ToString().ToLower(),
+                            memberId = member.Id,
+                            appId = member.AppId,
+                            name = member.Name,
+                            icon = member.IconUrl,
+                            width = member.Width,
+                            height = member.Height,
+                            isOnDock = member.IsOnDock,
+                            isDraw = member.IsDraw,
+                            isOpenMax = member.IsOpenMax,
+                            isSetbar = member.IsSetbar,
+                            apps = members.Where(m => m.FolderId == member.Id).Select(app => new
+                            {
+                                type = app.MemberType.ToString().ToLower(),
+                                memberId = app.Id,
+                                appId = app.AppId,
+                                name = app.Name,
+                                icon = app.IconUrl,
+                                width = app.Width,
+                                height = app.Height,
+                                isOnDock = app.IsOnDock,
+                                isDraw = app.IsDraw,
+                                isOpenMax = app.IsOpenMax,
+                                isSetbar = app.IsSetbar,
+                            })
+                        });
+                    }
+                    else
+                    {
+                        if (member.FolderId == 0)
+                        {
+                            var internalType = member.MemberType.ToString().ToLower();
+                            deskMembers.Add(new
+                            {
+                                type = internalType,
+                                memberId = member.Id,
+                                appId = member.AppId,
+                                name = member.Name,
+                                icon = member.IconUrl,
+                                width = member.Width,
+                                height = member.Height,
+                                isOnDock = member.IsOnDock,
+                                isDraw = member.IsDraw,
+                                isOpenMax = member.IsOpenMax,
+                                isSetbar = member.IsSetbar
+                            });
+                        }
+                    }
+                }
+                desks.Add(new KeyValuePair<Int32, IList<dynamic>>(desk.DeskNumber, deskMembers));
+            }
+            #endregion
+
+            return desks;
         }
 
         public void ModifyAppDirection(Int32 accountId, String direction)
@@ -47,27 +121,112 @@ namespace NewCRM.Application.Services
 
         public List<AppTypeDto> GetAppTypes()
         {
-            return AppServices.GetAppTypes().ConvertToDtos<AppType, AppTypeDto>().ToList();
+            return AppTypeQuery.Find(new Specification<AppType>(appType => true)).ConvertToDtos<AppType, AppTypeDto>().ToList();
         }
 
         public TodayRecommendAppDto GetTodayRecommend(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
 
-            return DtoConfiguration.ConvertDynamicToDto<TodayRecommendAppDto>(AppServices.GetTodayRecommend(accountId));
+            var topApp = AppQuery.Find(new Specification<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release)).OrderByDescending(app => app.UseCount).Select(app => new
+            {
+                app.UseCount,
+                AppStars = app.AppStars.Any() ? (app.AppStars.Sum(s => s.StartNum) * 1.0) / (app.AppStars.Count * 1.0) : 0.0,
+                app.Id,
+                app.Name,
+                app.IconUrl,
+                app.Remark,
+                app.AppStyle
+            }).FirstOrDefault();
+
+            var accountDesks = AccountQuery.Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Config.Desks;
+
+            var isInstall = accountDesks.Any(accountDesk => accountDesk.Members.Any(member => member.AppId == topApp.Id));
+
+
+            return DtoConfiguration.ConvertDynamicToDto<TodayRecommendAppDto>(new
+            {
+                AppId = topApp.Id,
+                topApp.Name,
+                topApp.UseCount,
+                AppIcon = topApp.IconUrl,
+                StartCount = topApp.AppStars,
+                IsInstall = isInstall,
+                topApp.Remark,
+                Style = topApp.AppStyle.ToString().ToLower()
+            });
+
+
         }
 
         public Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
-            return AppServices.GetAccountDevelopAppCountAndNotReleaseAppCount(accountId);
+
+            var accountApps = AppQuery.Find(new Specification<App>(app => app.AccountId == accountId));
+
+            var accountDevAppCount = accountApps.Count();
+
+            var accountUnReleaseAppCount = accountApps.Count(app => app.AppReleaseState == AppReleaseState.UnRelease);
+
+            return new Tuple<Int32, Int32>(accountDevAppCount, accountUnReleaseAppCount);
+
         }
 
         public List<AppDto> GetAllApps(Int32 accountId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
             ValidateParameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
 
-            var appDtoResult = AppServices.GetAllApps(accountId, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount).ConvertDynamicToDtos<AppDto>().ToList();
+            ISpecification<App> appSpecification = new Specification<App>(app => true);
+
+            #region 条件筛选
+
+            if (appTypeId != 0 && appTypeId != -1)//全部app
+            {
+                appSpecification.And(new Specification<App>(app => app.AppTypeId == appTypeId));
+            }
+            else
+            {
+                if (appTypeId == -1)//用户制作的app
+                {
+                    appSpecification.And(new Specification<App>(app => app.AccountId == accountId));
+                }
+            }
+
+            if (orderId == 1)//最新应用
+            {
+                appSpecification.OrderByDescending(new Specification<App>(app => app.AddTime));
+            }
+            else if (orderId == 2)//使用最多
+            {
+                appSpecification.OrderByDescending(new Specification<App>(app => app.UseCount));
+            }
+            else if (orderId == 3)//评价最高
+            {
+                appSpecification.OrderByDescending(new Specification<App>(app => app.AppStars));
+            }
+
+            if ((searchText + "").Length > 0)//关键字搜索
+            {
+                appSpecification.And(new Specification<App>(app => app.Name.Contains(searchText)));
+            }
+
+            #endregion
+
+            var appDtoResult = AppQuery.PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
+            {
+                app.AppTypeId,
+                app.AccountId,
+                app.AddTime,
+                app.UseCount,
+                StartCount = app.AppStars.Any() ? (app.AppStars.Sum(s => s.StartNum) * 1.0) / (app.AppStars.Count * 1.0) : 0.0,
+                app.Name,
+                app.IconUrl,
+                app.Remark,
+                app.AppStyle,
+                AppType = app.AppType.Name,
+                app.Id
+            }).ConvertDynamicToDtos<AppDto>().ToList();
 
             appDtoResult.ForEach(appDto => appDto.IsInstall = IsInstallApp(accountId, appDto.Id));
 
@@ -78,7 +237,27 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(appId);
 
-            return DtoConfiguration.ConvertDynamicToDto<AppDto>(AppServices.GetApp(appId));
+            return DtoConfiguration.ConvertDynamicToDto<AppDto>(AppQuery.Find(new Specification<App>(app => app.Id == appId)).Where(app => app.Id == appId).Select(app => new
+            {
+                app.Name,
+                app.IconUrl,
+                app.Remark,
+                app.UseCount,
+                StartCount = app.AppStars.Any() ? (app.AppStars.Sum(s => s.StartNum) * 1.0) / (app.AppStars.Count * 1.0) : 0.0,
+                AppType = app.AppType.Name,
+                app.AddTime,
+                app.AccountId,
+                app.Id,
+                app.IsResize,
+                app.IsOpenMax,
+                app.IsFlash,
+                app.AppStyle,
+                app.AppUrl,
+                app.Width,
+                app.Height,
+                app.AppAuditState,
+                app.AppTypeId
+            }).FirstOrDefault());
         }
 
         public void ModifyAppStar(Int32 accountId, Int32 appId, Int32 starCount)
@@ -97,7 +276,11 @@ namespace NewCRM.Application.Services
         public Boolean IsInstallApp(Int32 accountId, Int32 appId)
         {
             ValidateParameter.Validate(accountId).Validate(appId);
-            return AppServices.IsInstallApp(accountId, appId);
+
+            var accountResult = AccountQuery.Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault();
+
+            return accountResult.Config.Desks.Any(desk => desk.Members.Any(member => member.AppId == appId));
+
         }
 
         public IEnumerable<AppStyleDto> GetAllAppStyles()
@@ -139,7 +322,90 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(appName).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
 
-            return AppServices.GetAccountAllApps(accountId, appName, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount).ConvertDynamicToDtos<AppDto>().ToList();
+            ISpecification<App> appSpecification = new Specification<App>(app => true);
+
+            #region 条件筛选
+
+            //应用名称
+            if ((appName + "").Length > 0)
+            {
+                appSpecification.And(new Specification<App>(app => app.Name.Contains(appName)));
+            }
+
+            //应用所属类型
+            if (appTypeId != 0)
+            {
+                appSpecification.And(new Specification<App>(app => app.AppTypeId == appTypeId));
+            }
+
+            //应用样式
+            if (appStyleId != 0)
+            {
+                var enumConst = Enum.GetName(typeof(AppStyle), 1);
+
+                AppStyle appStyle;
+
+                if (Enum.TryParse(enumConst, true, out appStyle))
+                {
+                    appSpecification.And(new Specification<App>(app => app.AppStyle == appStyle));
+
+                }
+                else
+                {
+                    throw new BusinessException($"无法识别的应用样式：{enumConst}");
+                }
+            }
+
+            if ((appState + "").Length > 0)
+            {
+                //app发布状态
+                var stats = appState.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                if (stats[0] == "AppReleaseState")
+                {
+                    var enumConst = Enum.GetName(typeof(AppReleaseState), Int32.Parse(stats[1]));
+
+                    AppReleaseState appReleaseState;
+
+                    if (Enum.TryParse(enumConst, true, out appReleaseState))
+                    {
+                        appSpecification.And(new Specification<App>(app => app.AppReleaseState == appReleaseState));
+                    }
+                    else
+                    {
+                        throw new BusinessException($"无法识别的应用状态：{enumConst}");
+                    }
+                }
+
+                //app应用审核状态
+                if (stats[0] == "AppAuditState")
+                {
+                    var enumConst = Enum.GetName(typeof(AppAuditState), Int32.Parse(stats[1]));
+
+                    AppAuditState appAuditState;
+
+                    if (Enum.TryParse(enumConst, true, out appAuditState))
+                    {
+                        appSpecification.And(new Specification<App>(app => app.AppAuditState == appAuditState));
+                    }
+                    else
+                    {
+                        throw new BusinessException($"无法识别的应用审核状态{enumConst}");
+                    }
+                }
+            }
+
+            #endregion
+
+            return AppQuery.PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
+            {
+                app.Name,
+                app.AppStyle,
+                AppType = app.AppType.Name,
+                app.UseCount,
+                app.Id,
+                app.IconUrl
+            }).ConvertDynamicToDtos<AppDto>().ToList();
+
         }
 
         public void ModifyAccountAppInfo(Int32 accountId, AppDto appDto)

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustemException;
@@ -97,36 +94,7 @@ namespace NewCRM.Domain.Services.Impl
 
             AccountRepository.Update(accountResult);
         }
-
-        public Member GetMember(Int32 accountId, Int32 memberId, Boolean isFolder = default(Boolean))
-        {
-            var accountConfig = GetAccountInfoService(accountId).Config;
-
-
-            foreach (var desk in accountConfig.Desks)
-            {
-                var members = desk.Members;
-                if (isFolder)
-                {
-                    var folderMember = members.FirstOrDefault(member => member.Id == memberId && member.MemberType == MemberType.Folder);
-                    if (folderMember != null)
-                    {
-                        return folderMember;
-                    }
-                }
-                else
-                {
-                    var appMember = members.FirstOrDefault(member => member.AppId == memberId && member.MemberType == MemberType.App);
-                    if (appMember != null)
-                    {
-                        return appMember;
-                    }
-                }
-            }
-            throw new BusinessException($"未找到app");
-
-        }
-
+ 
         public void MemberInDock(Int32 accountId, Int32 memberId)
         {
             var accountConfig = GetAccountInfoService(accountId).Config;

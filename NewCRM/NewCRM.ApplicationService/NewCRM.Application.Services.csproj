@@ -44,6 +44,9 @@
     <Reference Include="NewCRM.Infrastructure">
       <HintPath>..\NewCRM.Infrastructure\bin\Debug\NewCRM.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="NewCRM.QueryServices">
+      <HintPath>..\NewCRM.App.QueryServices\bin\Debug\NewCRM.QueryServices.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />

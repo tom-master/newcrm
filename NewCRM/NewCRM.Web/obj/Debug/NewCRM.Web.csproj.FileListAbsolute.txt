@@ -48,3 +48,5 @@ E:\NewCRMTest\NewCRM\NewCRM.Web\bin\zh-Hans\System.Web.WebPages.Razor.resources.
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\zh-Hans\System.Web.Optimization.resources.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.pdb
+E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.QueryServices.dll
+E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.QueryServices.pdb

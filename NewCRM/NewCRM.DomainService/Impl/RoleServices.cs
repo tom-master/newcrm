@@ -11,25 +11,6 @@ namespace NewCRM.Domain.Services.Impl
     [Export(typeof(IRoleServices))]
     internal sealed class RoleServices : BaseService, IRoleServices
     {
-        public List<dynamic> GetAllRoles(String roleName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
-        {
-            var roles = RoleRepository.Entities;
-
-            if ((roleName + "").Length > 0)
-            {
-                roles = roles.Where(role => role.Name.Contains(roleName));
-            }
-
-            totalCount = roles.Count();
-
-            return roles.PageBy(pageIndex, pageSize, d => d.AddTime).Select(s => new
-            {
-                s.Name,
-                s.Id,
-                s.RoleIdentity
-            }).ToList<dynamic>();
-        }
-
         public void RemoveRole(Int32 roleId)
         {
             var roleResult = RoleRepository.Entities.FirstOrDefault(role => role.Id == roleId);
@@ -47,24 +28,6 @@ namespace NewCRM.Domain.Services.Impl
             roleResult.Remove();
 
             RoleRepository.Update(roleResult);
-        }
-
-        public dynamic GetRole(Int32 roleId)
-        {
-            var roleResult = RoleRepository.Entities.FirstOrDefault(role => role.Id == roleId);
-
-            if (roleResult == null)
-            {
-                throw new BusinessException($"角色可能已被删除，请刷新后再试");
-            }
-
-            return new
-            {
-                roleResult.Name,
-                roleResult.RoleIdentity,
-                roleResult.Remark,
-                Powers = roleResult.Powers.Select(s => new { Id = s.PowerId })
-            };
         }
 
         public void AddNewRole(Role role)
@@ -101,13 +64,5 @@ namespace NewCRM.Domain.Services.Impl
             RoleRepository.Update(roleResult);
         }
 
-        public List<dynamic> GetAllRoles()
-        {
-            return RoleRepository.Entities.Select(role => new
-            {
-                role.Name,
-                role.Id
-            }).ToList<dynamic>();
-        }
     }
 }

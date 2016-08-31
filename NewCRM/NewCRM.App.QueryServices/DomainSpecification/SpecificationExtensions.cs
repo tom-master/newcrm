@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 using NewCRM.Domain.Entities.DomainModel;
 
-namespace NewCRM.Domain.Services.DomainSpecification
+namespace NewCRM.QueryServices.DomainSpecification
 {
-    internal static class SpecificationExtensions
+    public static class SpecificationExtensions
     {
         public static ISpecification<T> And<T>(this ISpecification<T> left, ISpecification<T> right) where T : DomainModelBase
         {
@@ -22,6 +20,21 @@ namespace NewCRM.Domain.Services.DomainSpecification
         public static ISpecification<T> Not<T>(this ISpecification<T> left) where T : DomainModelBase
         {
             return new Specification<T>(candidate => !left.IsSatisfiedBy(candidate));
+        }
+
+
+        public static ISpecification<T> OrderByDescending<T>(this ISpecification<T> left, ISpecification<T> right) where T : DomainModelBase
+        {
+            var newSpecification = new Specification<T>(left.Selector) { PostProcess = left.PostProcess };
+            if (left.Sort != null)
+            {
+                newSpecification.Sort = items => left.Sort(items).ThenBy(right.Selector);
+            }
+            else
+            {
+                newSpecification.Sort = items => items.OrderBy(right.Selector);
+            }
+            return newSpecification;
         }
     }
 }
