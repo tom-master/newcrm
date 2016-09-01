@@ -15,8 +15,7 @@ namespace NewCRM.Domain.Entities.Repositories.IRepository.Security
 {
     /// <summary>
     ///   仓储操作层接口——角色
-    /// </summary>
-    [InheritedExport(typeof(IRoleRepository))]
+    /// </summary> 
     public partial interface IRoleRepository : IRepository<Role>
     { }
 }

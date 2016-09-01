@@ -34,7 +34,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
 
-            var accountConfig = AccountQuery.Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Config;
+            var accountConfig = Query.CreateQuery<Account>().Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Config;
 
 
             foreach (var desk in accountConfig.Desks)

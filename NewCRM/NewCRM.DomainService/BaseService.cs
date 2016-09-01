@@ -2,10 +2,9 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entities.DomainModel.Account;
+using NewCRM.Domain.Entities.DomainModel.Security;
 using NewCRM.Domain.Entities.DomainModel.System;
-using NewCRM.Domain.Entities.Repositories.IRepository.Account;
-using NewCRM.Domain.Entities.Repositories.IRepository.Security;
-using NewCRM.Domain.Entities.Repositories.IRepository.System;
+using NewCRM.Domain.Entities.Repositories;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
 namespace NewCRM.Domain.Services
@@ -15,29 +14,30 @@ namespace NewCRM.Domain.Services
     /// </summary>
     internal abstract class BaseService
     {
-        [Import]
-        protected IAccountRepository AccountRepository { get; set; }
 
         [Import]
-        protected IAppTypeRepository AppTypeRepository { get; set; }
+        protected IRepository<Account> AccountRepository { get; set; }
 
         [Import]
-        protected IAppRepository AppRepository { get; set; }
+        protected IRepository<AppType> AppTypeRepository { get; set; }
 
         [Import]
-        protected IDeskRepository DeskRepository { get; set; }
+        protected IRepository<App> AppRepository { get; set; }
 
         [Import]
-        protected IOnlineRepository OnlineRepository { get; set; }
+        protected IRepository<Desk> DeskRepository { get; set; }
 
         [Import]
-        protected IWallpaperRepository WallpaperRepository { get; set; }
+        protected IRepository<Online> OnlineRepository { get; set; }
 
         [Import]
-        protected IRoleRepository RoleRepository { get; set; }
+        protected IRepository<Wallpaper> WallpaperRepository { get; set; }
 
         [Import]
-        protected IPowerRepository PowerRepository { get; set; }
+        protected IRepository<Role> RoleRepository { get; set; }
+
+        [Import]
+        protected IRepository<Power> PowerRepository { get; set; }
 
         /// <summary>
         /// 获取一个用户

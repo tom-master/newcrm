@@ -30,9 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NewCRM.Domain">
-      <HintPath>..\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.Domain.dll</HintPath>
-    </Reference>
     <Reference Include="NewCRM.Domain.Entities">
       <HintPath>..\NewCRM.Domain\bin\Debug\NewCRM.Domain.Entities.dll</HintPath>
     </Reference>
@@ -50,19 +47,17 @@
     <Compile Include="DomainSpecification\ISpecification.cs" />
     <Compile Include="DomainSpecification\DefaultSpecification.cs" />
     <Compile Include="DomainSpecification\SpecificationExtensions.cs" />
-    <Compile Include="IAccountQuery.cs" />
-    <Compile Include="IAppQuery.cs" />
-    <Compile Include="IAppTypeQuery.cs" />
-    <Compile Include="IPowerQuery.cs" />
-    <Compile Include="IQueryExtension.cs" />
-    <Compile Include="IRoleQuery.cs" />
-    <Compile Include="QueryImpl\AccountQuery.cs" />
-    <Compile Include="QueryImpl\AppQuery.cs" />
-    <Compile Include="QueryImpl\AppTypeQuery.cs" />
-    <Compile Include="QueryImpl\PowerQuery.cs" />
-    <Compile Include="QueryImpl\RoleQuery.cs" />
+    <Compile Include="QueryImpl\ConcreteQuery\AccountQuery.cs" />
+    <Compile Include="QueryImpl\ConcreteQuery\AppQuery.cs" />
+    <Compile Include="QueryImpl\ConcreteQuery\AppTypeQuery.cs" />
+    <Compile Include="QueryImpl\ConcreteQuery\PowerQuery.cs" />
+    <Compile Include="QueryImpl\ConcreteQuery\RoleQuery.cs" />
+    <Compile Include="QueryImpl\ConcreteQuery\WallpaperQuery.cs" />
+    <Compile Include="Query\IQueryExtension.cs" />
+    <Compile Include="QueryImpl\DefaultQueryFactory.cs" />
     <Compile Include="Query\IQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\QueryFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NewCRM.Infrastructure\NewCRM.Infrastructure.csproj">

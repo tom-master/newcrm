@@ -15,8 +15,7 @@ namespace NewCRM.Domain.Entities.Repositories.IRepository.System
 {
     /// <summary>
     ///   仓储操作层接口——应用
-    /// </summary>
-    [InheritedExport(typeof(IAppRepository))]
+    /// </summary> 
     public partial interface IAppRepository : IRepository<App>
     { }
 }

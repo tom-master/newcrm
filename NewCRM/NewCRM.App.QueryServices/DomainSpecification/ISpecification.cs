@@ -5,7 +5,7 @@ using NewCRM.Domain.Entities.DomainModel;
 
 namespace NewCRM.QueryServices.DomainSpecification
 {
-    public interface ISpecification<T> where T : DomainModelBase
+    public interface ISpecification<T> where T : DomainModelBase, IAggregationRoot
     {
         Expression<Func<T, dynamic>> Selector { get; set; }
 
@@ -14,6 +14,5 @@ namespace NewCRM.QueryServices.DomainSpecification
         Func<IQueryable<T>, IQueryable<T>> PostProcess { get; set; }
 
         Boolean IsSatisfiedBy(T candidate);
-
     }
 }

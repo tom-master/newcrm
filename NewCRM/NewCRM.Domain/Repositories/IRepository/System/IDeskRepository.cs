@@ -15,8 +15,7 @@ namespace NewCRM.Domain.Entities.Repositories.IRepository.System
 {
     /// <summary>
     ///   仓储操作层接口——桌面
-    /// </summary>
-    [InheritedExport(typeof(IDeskRepository))]
+    /// </summary> 
     public partial interface IDeskRepository : IRepository<Desk>
     { }
 }

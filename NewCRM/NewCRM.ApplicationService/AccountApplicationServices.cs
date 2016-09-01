@@ -27,7 +27,7 @@ namespace NewCRM.Application.Services
 
             ISpecification<Account> accountSpecification = new Specification<Account>(account => account.Id == accountId);
 
-            var accountConfig = AccountQuery.Find(accountSpecification).FirstOrDefault()?.Config;
+            var accountConfig = Query.CreateQuery<Account>().Find(accountSpecification).FirstOrDefault()?.Config;
 
             return DtoConfiguration.ConvertDynamicToDto<ConfigDto>(new
             {
@@ -72,7 +72,7 @@ namespace NewCRM.Application.Services
                 }
             }
 
-            return AccountQuery.PageBy(specification, pageIndex, pageSize, out totalCount).Select(account => new
+            return Query.CreateQuery<Account>().PageBy(specification, pageIndex, pageSize, out totalCount).Select(account => new
             {
                 account.Id,
                 AccountType = account.IsAdmin ? "2" /*管理员*/ : "1" /*用户*/,
@@ -84,7 +84,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var accountResult = AccountQuery.Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault();
+            var accountResult = Query.CreateQuery<Account>().Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault();
             if (accountResult == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
@@ -114,7 +114,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountName);
 
-            return AccountQuery.Find(new Specification<Account>(account => account.Name == accountName)).Any();
+            return Query.CreateQuery<Account>().Find(new Specification<Account>(account => account.Name == accountName)).Any();
         }
 
         public void ModifyAccount(AccountDto account)
@@ -133,14 +133,14 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            AccountQuery.Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Enable();
+            Query.CreateQuery<Account>().Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Enable();
         }
 
         public void Disable(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
 
-            AccountQuery.Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Disable();
+            Query.CreateQuery<Account>().Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Disable();
         }
     }
 }

@@ -2,20 +2,18 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NewCRM.Domain.Entities.DomainModel.Security;
-using NewCRM.Domain.Entities.Repositories.IRepository.Security;
+using NewCRM.Domain.Entities.Repositories;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewCRM.QueryServices.DomainSpecification;
+using NewCRM.QueryServices.Query;
 
-namespace NewCRM.QueryServices.QueryImpl
+namespace NewCRM.QueryServices.QueryImpl.ConcreteQuery
 {
-    [InheritedExport(typeof(IRoleQuery))]
-    public sealed class RoleQuery : IRoleQuery
+    public sealed class RoleQuery : IQuery<Role>
     {
         [Export]
-        private IRoleRepository RoleRepository { get; set; }
+        private IRepository<Role> RoleRepository { get; set; }
 
         public IEnumerable<Role> Find(ISpecification<Role> specification)
         {

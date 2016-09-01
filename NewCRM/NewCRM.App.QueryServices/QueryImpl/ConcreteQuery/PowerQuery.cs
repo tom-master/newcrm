@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entities.DomainModel.Security;
-using NewCRM.Domain.Entities.Repositories.IRepository.Security;
+using NewCRM.Domain.Entities.Repositories;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewCRM.QueryServices.DomainSpecification;
+using NewCRM.QueryServices.Query;
 
-namespace NewCRM.QueryServices.QueryImpl
+namespace NewCRM.QueryServices.QueryImpl.ConcreteQuery
 {
-    [InheritedExport(typeof(IPowerQuery))]
-    public sealed class PowerQuery : IPowerQuery
+    public sealed class PowerQuery : IQuery<Power>
     {
         [Export]
-        private IPowerRepository PowerRepository { get; set; }
+        private IRepository<Power> PowerRepository { get; set; }
 
         public IEnumerable<Power> Find(ISpecification<Power> specification)
         {

@@ -2,23 +2,27 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NewCRM.Domain.Entities.DomainModel.System;
+using NewCRM.Domain.Entities.Repositories;
 using NewCRM.Domain.Entities.Repositories.IRepository.System;
 using NewCRM.QueryServices.DomainSpecification;
+using NewCRM.QueryServices.Query;
 
-namespace NewCRM.QueryServices.QueryImpl
+namespace NewCRM.QueryServices.QueryImpl.ConcreteQuery
 {
-    [InheritedExport(typeof(IAppTypeQuery))]
-    public sealed class AppTypeQuery : IAppTypeQuery
+    public sealed class AppTypeQuery : IQuery<AppType>
     {
         [Import]
-        private IAppTypeRepository AppTypeRepository { get; set; }
+        private IRepository<AppType> AppTypeRepository { get; set; }
 
         public IEnumerable<AppType> Find(ISpecification<AppType> specification)
         {
             return AppTypeRepository.Entities.Where(appType => specification.IsSatisfiedBy(appType)).ToList();
+        }
+
+        public IEnumerable<AppType> PageBy(ISpecification<AppType> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+        {
+            throw new NotImplementedException();
         }
     }
 }

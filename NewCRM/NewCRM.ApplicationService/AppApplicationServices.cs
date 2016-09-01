@@ -21,7 +21,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var accountConfig = AccountQuery.Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Config;
+            var accountConfig = Query.CreateQuery<Account>().Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Config;
 
             IDictionary<Int32, IList<dynamic>> desks = new Dictionary<Int32, IList<dynamic>>();
 
@@ -121,14 +121,14 @@ namespace NewCRM.Application.Services
 
         public List<AppTypeDto> GetAppTypes()
         {
-            return AppTypeQuery.Find(new Specification<AppType>(appType => true)).ConvertToDtos<AppType, AppTypeDto>().ToList();
+            return Query.CreateQuery<AppType>().Find(new Specification<AppType>(appType => true)).ConvertToDtos<AppType, AppTypeDto>().ToList();
         }
 
         public TodayRecommendAppDto GetTodayRecommend(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
 
-            var topApp = AppQuery.Find(new Specification<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release)).OrderByDescending(app => app.UseCount).Select(app => new
+            var topApp = Query.CreateQuery<App>().Find(new Specification<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release)).OrderByDescending(app => app.UseCount).Select(app => new
             {
                 app.UseCount,
                 AppStars = app.AppStars.Any() ? (app.AppStars.Sum(s => s.StartNum) * 1.0) / (app.AppStars.Count * 1.0) : 0.0,
@@ -139,7 +139,7 @@ namespace NewCRM.Application.Services
                 app.AppStyle
             }).FirstOrDefault();
 
-            var accountDesks = AccountQuery.Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Config.Desks;
+            var accountDesks = Query.CreateQuery<Account>().Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Config.Desks;
 
             var isInstall = accountDesks.Any(accountDesk => accountDesk.Members.Any(member => member.AppId == topApp.Id));
 
@@ -163,7 +163,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var accountApps = AppQuery.Find(new Specification<App>(app => app.AccountId == accountId));
+            var accountApps = Query.CreateQuery<App>().Find(new Specification<App>(app => app.AccountId == accountId));
 
             var accountDevAppCount = accountApps.Count();
 
@@ -213,7 +213,7 @@ namespace NewCRM.Application.Services
 
             #endregion
 
-            var appDtoResult = AppQuery.PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
+            var appDtoResult = Query.CreateQuery<App>().PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
             {
                 app.AppTypeId,
                 app.AccountId,
@@ -237,7 +237,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(appId);
 
-            return DtoConfiguration.ConvertDynamicToDto<AppDto>(AppQuery.Find(new Specification<App>(app => app.Id == appId)).Where(app => app.Id == appId).Select(app => new
+            return DtoConfiguration.ConvertDynamicToDto<AppDto>(Query.CreateQuery<App>().Find(new Specification<App>(app => app.Id == appId)).Where(app => app.Id == appId).Select(app => new
             {
                 app.Name,
                 app.IconUrl,
@@ -277,7 +277,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(appId);
 
-            var accountResult = AccountQuery.Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault();
+            var accountResult = Query.CreateQuery<Account>().Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault();
 
             return accountResult.Config.Desks.Any(desk => desk.Members.Any(member => member.AppId == appId));
 
@@ -396,7 +396,7 @@ namespace NewCRM.Application.Services
 
             #endregion
 
-            return AppQuery.PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
+            return Query.CreateQuery<App>().PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
             {
                 app.Name,
                 app.AppStyle,

@@ -48,6 +48,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewCRM.App.QueryServices", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCRM.QueryServices", "NewCRM.App.QueryServices\NewCRM.QueryServices.csproj", "{FE7153FA-29BA-4352-80ED-CF912ED114CB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCRM.QueryServices.Test", "NewCRM.QueryServices.Test\NewCRM.QueryServices.Test.csproj", "{DFE05A46-8693-4FCD-AB3D-830EC348C6FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +104,10 @@ Global
 		{FE7153FA-29BA-4352-80ED-CF912ED114CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE7153FA-29BA-4352-80ED-CF912ED114CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE7153FA-29BA-4352-80ED-CF912ED114CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFE05A46-8693-4FCD-AB3D-830EC348C6FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFE05A46-8693-4FCD-AB3D-830EC348C6FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFE05A46-8693-4FCD-AB3D-830EC348C6FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFE05A46-8693-4FCD-AB3D-830EC348C6FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -119,5 +125,6 @@ Global
 		{951B196F-22E6-4C4C-B7CA-8AF239BBF34E} = {A2B54E32-DD84-44E3-9FB5-52CD214D81B1}
 		{22353979-DF74-4DE3-84B3-9F7D27EC23EA} = {1DDA3B32-30E1-49B7-A415-622B5B1BEB35}
 		{FE7153FA-29BA-4352-80ED-CF912ED114CB} = {394351A2-98DC-4C9C-BB47-BBAC5E356D26}
+		{DFE05A46-8693-4FCD-AB3D-830EC348C6FE} = {394351A2-98DC-4C9C-BB47-BBAC5E356D26}
 	EndGlobalSection
 EndGlobal

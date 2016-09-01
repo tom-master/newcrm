@@ -7,7 +7,7 @@ using NewCRM.Domain.Entities.DomainModel;
 namespace NewCRM.QueryServices.DomainSpecification
 {
     [Export(typeof(ISpecification<>))]
-    public class Specification<T> : ISpecification<T> where T : DomainModelBase
+    public class Specification<T> : ISpecification<T> where T : DomainModelBase,IAggregationRoot
     {
         public Expression<Func<T, dynamic>> Selector { get; set; }
 

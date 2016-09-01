@@ -53,6 +53,7 @@
     <Compile Include="DomainModel\Account\AccountRole.cs" />
     <Compile Include="DomainModel\DomainModelBase.cs" />
     <Compile Include="DomainModel\IAggregationRoot.cs" />
+    <Compile Include="DomainModel\NullObjectModel.cs" />
     <Compile Include="DomainModel\Security\RolePower.cs" />
     <Compile Include="DomainModel\Security\SecurityExtension\PowerExtension.cs" />
     <Compile Include="DomainModel\Security\SecurityExtension\RoleExtension.cs" />

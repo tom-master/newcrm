@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entities.DomainModel.System;
+using NewCRM.Domain.Entities.Repositories;
 using NewCRM.Domain.Entities.Repositories.IRepository.System;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewCRM.QueryServices.DomainSpecification;
+using NewCRM.QueryServices.Query;
 
-namespace NewCRM.QueryServices.QueryImpl
+namespace NewCRM.QueryServices.QueryImpl.ConcreteQuery
 {
-    [InheritedExport(typeof(IAppQuery))]
-    public sealed class AppQuery : IAppQuery
+    public sealed class AppQuery : IQuery<App>
     {
         [Import]
-        private IAppRepository AppRepository { get; set; }
+        private IRepository<App> AppRepository { get; set; }
 
         public IEnumerable<App> Find(ISpecification<App> specification)
         {

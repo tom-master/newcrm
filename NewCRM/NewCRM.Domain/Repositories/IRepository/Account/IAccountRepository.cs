@@ -15,7 +15,7 @@ namespace NewCRM.Domain.Entities.Repositories.IRepository.Account
     /// <summary>
     ///   仓储操作层接口——用户
     /// </summary>
-    [InheritedExport(typeof(IAccountRepository))]
+
     public partial interface IAccountRepository : IRepository<DomainModel.Account.Account>
     { }
 }

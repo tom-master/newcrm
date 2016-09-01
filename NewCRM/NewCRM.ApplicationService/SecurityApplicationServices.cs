@@ -40,7 +40,7 @@ namespace NewCRM.Application.Services
 
         public List<RoleDto> GetAllRoles()
         {
-            return RoleQuery.Find(new Specification<Role>(role => true)).Select(role => new
+            return Query.CreateQuery<Role>().Find(new Specification<Role>(role => true)).Select(role => new
             {
                 role.Name,
                 role.Id
@@ -51,7 +51,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(roleId);
 
-            var roleResult = RoleQuery.Find(new Specification<Role>(role => role.Id == roleId)).FirstOrDefault();
+            var roleResult = Query.CreateQuery<Role>().Find(new Specification<Role>(role => role.Id == roleId)).FirstOrDefault();
 
             if (roleResult == null)
             {
@@ -86,7 +86,7 @@ namespace NewCRM.Application.Services
                 roleSpecification.And(new Specification<Role>(role => role.Name.Contains(roleName)));
             }
 
-            return RoleQuery.PageBy(roleSpecification, pageIndex, pageSize, out totalCount).Select(s => new
+            return Query.CreateQuery<Role>().PageBy(roleSpecification, pageIndex, pageSize, out totalCount).Select(s => new
             {
                 s.Name,
                 s.Id,
@@ -101,7 +101,7 @@ namespace NewCRM.Application.Services
 
         public List<PowerDto> GetAllPowers()
         {
-            return PowerQuery.Find(new Specification<Power>(power => true)).Select(power => new
+            return Query.CreateQuery<Power>().Find(new Specification<Power>(power => true)).Select(power => new
             {
                 power.Name,
                 power.Id,
@@ -119,7 +119,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(powerId);
 
-            var powerResult = PowerQuery.Find(new Specification<Power>(power => power.Id == powerId)).FirstOrDefault();
+            var powerResult = Query.CreateQuery<Power>().Find(new Specification<Power>(power => power.Id == powerId)).FirstOrDefault();
 
             if (powerResult == null)
             {
@@ -154,7 +154,7 @@ namespace NewCRM.Application.Services
                 powerSpecification.And(new Specification<Power>(power => power.Name.Contains(powerName)));
             }
 
-            return PowerQuery.PageBy(powerSpecification, pageIndex, pageSize, out totalCount).ConvertToDtos<Power, PowerDto>().ToList();
+            return Query.CreateQuery<Power>().PageBy(powerSpecification, pageIndex, pageSize, out totalCount).ConvertToDtos<Power, PowerDto>().ToList();
         }
 
         #endregion

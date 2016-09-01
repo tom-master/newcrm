@@ -49,6 +49,7 @@ namespace NewCRM.Application.Services
         {
             return path.Substring(filterFunc(path));
         }
+
         #endregion
 
     }

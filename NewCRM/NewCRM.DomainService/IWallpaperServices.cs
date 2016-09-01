@@ -9,12 +9,6 @@ namespace NewCRM.Domain.Services
         #region wallpaper
 
         /// <summary>
-        /// 获取所有系统自带的壁纸
-        /// </summary>
-        /// <returns></returns>
-        IList<Wallpaper> GetWallpaper();
-
-        /// <summary>
         /// 修改壁纸的显示模式
         /// </summary>
         /// <param name="accountId"></param>
@@ -35,12 +29,6 @@ namespace NewCRM.Domain.Services
         /// <returns></returns>
         Tuple<Int32, String> AddWallpaper(Wallpaper wallpaper);
 
-        /// <summary>
-        /// 根据用户id获取上传的壁纸
-        /// </summary>
-        /// <param name="accountId"></param>
-        /// <returns></returns>
-        IList<Wallpaper> GetUploadWallpaper(Int32 accountId);
 
         /// <summary>
         /// 根据用户id删除壁纸
@@ -48,13 +36,6 @@ namespace NewCRM.Domain.Services
         /// <param name="accountId"></param>
         /// <param name="wallpaperId"></param>
         void RemoveWallpaper(Int32 accountId, Int32 wallpaperId);
-
-        /// <summary>
-        /// 根据md5获取已存在的壁纸
-        /// </summary>
-        /// <param name="md5"></param>
-        /// <returns></returns>
-        Wallpaper GetUploadWallpaper(String md5);
 
         #endregion
     }

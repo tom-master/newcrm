@@ -21,7 +21,17 @@ namespace NewCRM.Repository.RepositoryProvide
     {
         public virtual Parameter VaildateParameter => new Parameter();
 
+        #region 获取 当前实体的查询数据集
+
+        /// <summary>
+        ///  获取 当前实体的查询数据集
+        /// </summary>
+        public virtual IQueryable<TEntity> Entities => EfContext.Set<TEntity, Int32>();
+
+        #endregion
+
         #region 仓储上下文的实例
+
         /// <summary>
         ///     获取 仓储上下文的实例
         /// </summary>
@@ -48,10 +58,6 @@ namespace NewCRM.Repository.RepositoryProvide
 
 
 
-        /// <summary>
-        ///  获取 当前实体的查询数据集
-        /// </summary>
-        public virtual IQueryable<TEntity> Entities => EfContext.Set<TEntity, Int32>();
 
         #endregion
 

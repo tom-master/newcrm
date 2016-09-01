@@ -11,12 +11,6 @@ namespace NewCRM.Domain.Services.Impl
     [Export(typeof(IWallpaperServices))]
     internal class WallpaperServices : BaseService, IWallpaperServices
     {
-
-        public IList<Wallpaper> GetWallpaper()
-        {
-            return WallpaperRepository.Entities.Where(wallpaper => wallpaper.Source == WallpaperSource.System).ToList();
-        }
-
         public void ModifyWallpaperMode(Int32 accountId, String newMode)
         {
             WallpaperMode wallpaperMode;
@@ -57,14 +51,7 @@ namespace NewCRM.Domain.Services.Impl
 
             return new Tuple<Int32, String>(wallpaper.Id, wallpaper.ShortUrl);
         }
-
-        public IList<Wallpaper> GetUploadWallpaper(Int32 accountId)
-        {
-            var wallpapers = WallpaperRepository.Entities.Where(wallpaper => wallpaper.AccountId == accountId);
-
-            return wallpapers.ToList();
-        }
-
+ 
         public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
         {
 
@@ -77,13 +64,6 @@ namespace NewCRM.Domain.Services.Impl
 
             WallpaperRepository.Remove(wallpaper => wallpaper.Id == wallpaperId);
 
-        }
-
-        public Wallpaper GetUploadWallpaper(String md5)
-        {
-            var wallpaperResult = WallpaperRepository.Entities.FirstOrDefault(wallpaper => wallpaper.Md5 == md5);
-
-            return wallpaperResult;
         }
     }
 }
