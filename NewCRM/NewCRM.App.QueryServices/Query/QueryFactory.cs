@@ -9,6 +9,6 @@ namespace NewCRM.QueryServices.Query
 {
     public abstract class QueryFactory
     {
-        public abstract IQuery<T> CreateQuery<T>() where T : DomainModelBase, IAggregationRoot,new();
+        public abstract IQuery CreateQuery<T>() where T : DomainModelBase, IAggregationRoot;
     }
 }

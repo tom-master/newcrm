@@ -4,7 +4,7 @@ using NewCRM.Repository.RepositoryProvide;
 
 namespace NewCRM.Repository.RepositoryImpl.Security
 {
-    public class RoleRepository : EfRepositoryBase<Role>,IRoleRepository
+    public class RoleRepository : EntityFrameworkRepository<Role>,IRoleRepository
     {
     }
 }

@@ -19,6 +19,8 @@ namespace NewCRM.Domain.Services.Impl
 
         public Account Validate(String accountName, String password)
         {
+            var a = TestRepositories;
+
             var accountResult = AccountRepository.Entities.FirstOrDefault(account => account.Name == accountName);
             if (accountResult == null)
             {

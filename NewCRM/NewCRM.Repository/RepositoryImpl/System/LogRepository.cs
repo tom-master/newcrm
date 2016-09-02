@@ -5,7 +5,7 @@ using NewCRM.Repository.RepositoryProvide;
 
 namespace NewCRM.Repository.RepositoryImpl.System
 {
-    public class LogRepository : EfRepositoryBase<Log>, ILogRepository
+    public class LogRepository : EntityFrameworkRepository<Log>, ILogRepository
     {
     }
 }

@@ -17,7 +17,7 @@ namespace NewCRM.Repository.RepositoryProvide
     ///     EntityFramework仓储操作基类
     /// </summary>
     /// <typeparam name="TEntity">动态实体类型</typeparam>
-    public class EfRepositoryBase<TEntity> : IRepository<TEntity> where TEntity : DomainModelBase, IAggregationRoot
+    public abstract class EntityFrameworkRepository<TEntity> : IRepository<TEntity> where TEntity : DomainModelBase, IAggregationRoot
     {
         public virtual Parameter VaildateParameter => new Parameter();
 

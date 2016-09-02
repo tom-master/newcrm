@@ -53,7 +53,6 @@
     <Compile Include="DomainModel\Account\AccountRole.cs" />
     <Compile Include="DomainModel\DomainModelBase.cs" />
     <Compile Include="DomainModel\IAggregationRoot.cs" />
-    <Compile Include="DomainModel\NullObjectModel.cs" />
     <Compile Include="DomainModel\Security\RolePower.cs" />
     <Compile Include="DomainModel\Security\SecurityExtension\PowerExtension.cs" />
     <Compile Include="DomainModel\Security\SecurityExtension\RoleExtension.cs" />
@@ -66,6 +65,10 @@
     <Compile Include="DomainModel\System\Desk.cs" />
     <Compile Include="DomainModel\System\SystemExtension\DeskExtension.cs" />
     <Compile Include="DomainModel\System\SystemExtension\MemberExtension.cs" />
+    <Compile Include="DomainSpecification\DefaultSpecification.cs" />
+    <Compile Include="DomainSpecification\ISpecification.cs" />
+    <Compile Include="DomainSpecification\SpecificationExtensions.cs" />
+    <Compile Include="Repositories\IDomainModelQueryProvider.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\IRepository\Account\ITitleRepository.cs" />
     <Compile Include="Repositories\IRepository\Account\IAccountRepository.cs" />

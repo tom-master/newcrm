@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entities.DomainModel.Account;
-using NewCRM.Domain.Entities.DomainModel.Security;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.Repositories;
+using NewCRM.Domain.Entities.Repositories.IRepository.Account;
+using NewCRM.Domain.Entities.Repositories.IRepository.Security;
+using NewCRM.Domain.Entities.Repositories.IRepository.System;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
 namespace NewCRM.Domain.Services
@@ -15,29 +18,33 @@ namespace NewCRM.Domain.Services
     internal abstract class BaseService
     {
 
-        [Import]
-        protected IRepository<Account> AccountRepository { get; set; }
+        [ImportMany(typeof(IRepository<>), AllowRecomposition = true, RequiredCreationPolicy = CreationPolicy.Any)]
+        protected IEnumerable<IRepository<Account>> TestRepositories { get; set; }
 
-        [Import]
-        protected IRepository<AppType> AppTypeRepository { get; set; }
 
-        [Import]
-        protected IRepository<App> AppRepository { get; set; }
+        //[Import]
+        protected IAccountRepository AccountRepository { get; set; }
 
-        [Import]
-        protected IRepository<Desk> DeskRepository { get; set; }
+        //[Import]
+        protected IAppTypeRepository AppTypeRepository { get; set; }
 
-        [Import]
-        protected IRepository<Online> OnlineRepository { get; set; }
+        //[Import]
+        protected IAppRepository AppRepository { get; set; }
 
-        [Import]
-        protected IRepository<Wallpaper> WallpaperRepository { get; set; }
+        //[Import]
+        protected IDeskRepository DeskRepository { get; set; }
 
-        [Import]
-        protected IRepository<Role> RoleRepository { get; set; }
+        //[Import]
+        protected IOnlineRepository OnlineRepository { get; set; }
 
-        [Import]
-        protected IRepository<Power> PowerRepository { get; set; }
+        //[Import]
+        protected IWallpaperRepository WallpaperRepository { get; set; }
+
+        //[Import]
+        protected IRoleRepository RoleRepository { get; set; }
+
+        //[Import]
+        protected IPowerRepository PowerRepository { get; set; }
 
         /// <summary>
         /// 获取一个用户

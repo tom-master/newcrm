@@ -4,11 +4,11 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Application.Services.IApplicationService;
 using NewCRM.Domain.Entities.DomainModel.Account;
+using NewCRM.Domain.Entities.DomainSpecification;
 using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustemException;
-using NewCRM.QueryServices.DomainSpecification;
 
 namespace NewCRM.Application.Services
 {
@@ -17,6 +17,17 @@ namespace NewCRM.Application.Services
     {
         public AccountDto Login(String accountName, String password)
         {
+            try
+            {
+
+                var result = QueryFactory.CreateQuery<Account>().Find(new Specification<Account>(account => true));
+            }
+            catch (Exception exception)
+            {
+                
+                throw;
+            }
+
             ValidateParameter.Validate(accountName).Validate(password);
             return AccountContext.Validate(accountName, password).ConvertToDto<Account, AccountDto>();
         }
@@ -27,7 +38,7 @@ namespace NewCRM.Application.Services
 
             ISpecification<Account> accountSpecification = new Specification<Account>(account => account.Id == accountId);
 
-            var accountConfig = Query.CreateQuery<Account>().Find(accountSpecification).FirstOrDefault()?.Config;
+            var accountConfig = QueryFactory.CreateQuery<Account>().Find(accountSpecification).FirstOrDefault()?.Config;
 
             return DtoConfiguration.ConvertDynamicToDto<ConfigDto>(new
             {
@@ -72,7 +83,7 @@ namespace NewCRM.Application.Services
                 }
             }
 
-            return Query.CreateQuery<Account>().PageBy(specification, pageIndex, pageSize, out totalCount).Select(account => new
+            return QueryFactory.CreateQuery<Account>().PageBy(specification, pageIndex, pageSize, out totalCount).Select(account => new
             {
                 account.Id,
                 AccountType = account.IsAdmin ? "2" /*管理员*/ : "1" /*用户*/,
@@ -84,7 +95,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var accountResult = Query.CreateQuery<Account>().Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault();
+            var accountResult = QueryFactory.CreateQuery<Account>().Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault();
             if (accountResult == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
@@ -114,7 +125,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountName);
 
-            return Query.CreateQuery<Account>().Find(new Specification<Account>(account => account.Name == accountName)).Any();
+            return QueryFactory.CreateQuery<Account>().Find(new Specification<Account>(account => account.Name == accountName)).Any();
         }
 
         public void ModifyAccount(AccountDto account)
@@ -133,14 +144,14 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            Query.CreateQuery<Account>().Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Enable();
+            QueryFactory.CreateQuery<Account>().Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Enable();
         }
 
         public void Disable(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
 
-            Query.CreateQuery<Account>().Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Disable();
+            QueryFactory.CreateQuery<Account>().Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Disable();
         }
     }
 }

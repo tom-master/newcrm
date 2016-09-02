@@ -80,7 +80,7 @@
   <ItemGroup>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NewCrmBackSite.cs" />
-    <Compile Include="RepositoryFactory.cs" />
+    <Compile Include="QueryProvider.cs" />
     <Compile Include="RepositoryImpl\Account\TitleRepository.cs" />
     <Compile Include="RepositoryImpl\Account\AccountRepository.cs" />
     <Compile Include="RepositoryImpl\Security\PowerRepository.cs" />
@@ -91,7 +91,7 @@
     <Compile Include="RepositoryImpl\System\LogRepository.cs" />
     <Compile Include="RepositoryImpl\System\OnlineRepository.cs" />
     <Compile Include="RepositoryImpl\System\WallpaperRepository.cs" />
-    <Compile Include="RepositoryProvide\EfRepositoryBase.cs" />
+    <Compile Include="RepositoryProvide\EntityFrameworkRepository.cs" />
     <Compile Include="UnitOfWorkProvide\EFUnitOfWorkContext.cs" />
     <Compile Include="UnitOfWorkProvide\UnitOfWorkContextBase.cs" />
     <Compile Include="UnitOfWorkProvide\UnitOfWorkContextExtensions.cs" />

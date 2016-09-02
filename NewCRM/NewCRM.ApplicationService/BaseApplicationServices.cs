@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
+using NewCRM.Domain.Entities.DomainModel;
 using NewCRM.Domain.Services;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
 using NewCRM.QueryServices.Query;
@@ -21,7 +23,7 @@ namespace NewCRM.Application.Services
         protected ISecurityContext SecurityContext { get; set; }
 
         [Import]
-        protected QueryFactory Query { get; set; }
+        protected QueryFactory QueryFactory { get; set; }
 
         protected static Parameter ValidateParameter => new Parameter();
 

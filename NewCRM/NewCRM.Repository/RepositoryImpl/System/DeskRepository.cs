@@ -5,7 +5,7 @@ using NewCRM.Repository.RepositoryProvide;
 
 namespace NewCRM.Repository.RepositoryImpl.System
 {
-    public class DeskRepository : EfRepositoryBase<Desk>,IDeskRepository
+    public class DeskRepository : EntityFrameworkRepository<Desk>,IDeskRepository
     {
     }
 }

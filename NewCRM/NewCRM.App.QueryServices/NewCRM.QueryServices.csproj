@@ -44,17 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DomainSpecification\ISpecification.cs" />
-    <Compile Include="DomainSpecification\DefaultSpecification.cs" />
-    <Compile Include="DomainSpecification\SpecificationExtensions.cs" />
-    <Compile Include="QueryImpl\ConcreteQuery\AccountQuery.cs" />
-    <Compile Include="QueryImpl\ConcreteQuery\AppQuery.cs" />
-    <Compile Include="QueryImpl\ConcreteQuery\AppTypeQuery.cs" />
-    <Compile Include="QueryImpl\ConcreteQuery\PowerQuery.cs" />
-    <Compile Include="QueryImpl\ConcreteQuery\RoleQuery.cs" />
-    <Compile Include="QueryImpl\ConcreteQuery\WallpaperQuery.cs" />
-    <Compile Include="Query\IQueryExtension.cs" />
-    <Compile Include="QueryImpl\DefaultQueryFactory.cs" />
+    <Compile Include="ConcreteQuery\DefaultQuery.cs" />
+    <Compile Include="ConcreteQuery\DefaultQueryFactory.cs" />
     <Compile Include="Query\IQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\QueryFactory.cs" />

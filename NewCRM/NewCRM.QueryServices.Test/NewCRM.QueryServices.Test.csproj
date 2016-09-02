@@ -35,6 +35,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mef.Extended.Tools">
+      <HintPath>..\..\..\Mef.Extended.Tools\Mef.Extended.Tools\Mef.Extended.Tools\bin\Debug\Mef.Extended.Tools.dll</HintPath>
+    </Reference>
+    <Reference Include="MefContrib">
+      <HintPath>..\..\..\Mef.Extended.Tools\Mef.Extended.Tools\Mef.Extended.Tools\bin\Debug\MefContrib.dll</HintPath>
+    </Reference>
     <Reference Include="NewCRM.QueryServices">
       <HintPath>..\NewCRM.App.QueryServices\bin\Debug\NewCRM.QueryServices.dll</HintPath>
     </Reference>

@@ -8,11 +8,11 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using NewCRM.Application.Services.IApplicationService;
 using NewCRM.Domain.Entities.DomainModel.System;
+using NewCRM.Domain.Entities.DomainSpecification;
 using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
-using NewCRM.QueryServices.DomainSpecification;
 
 namespace NewCRM.Application.Services
 {
@@ -21,7 +21,7 @@ namespace NewCRM.Application.Services
     {
         public List<WallpaperDto> GetWallpaper()
         {
-            return Query.CreateQuery<Wallpaper>().Find(new Specification<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
+            return QueryFactory.CreateQuery<Wallpaper>().Find(new Specification<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
         }
 
         public void ModifyWallpaperMode(Int32 accountId, String newMode)
@@ -51,7 +51,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            return Query.CreateQuery<Wallpaper>().Find(new Specification<Wallpaper>(wallpaper => wallpaper.AccountId == accountId)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
+            return QueryFactory.CreateQuery<Wallpaper>().Find(new Specification<Wallpaper>(wallpaper => wallpaper.AccountId == accountId)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
         }
 
         public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
@@ -94,7 +94,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(md5);
 
-            return Query.CreateQuery<Wallpaper>().Find(new Specification<Wallpaper>(wallpaper => wallpaper.Md5 == md5)).FirstOrDefault().ConvertToDto<Wallpaper, WallpaperDto>();
+            return QueryFactory.CreateQuery<Wallpaper>().Find(new Specification<Wallpaper>(wallpaper => wallpaper.Md5 == md5)).FirstOrDefault().ConvertToDto<Wallpaper, WallpaperDto>();
         }
     }
 }

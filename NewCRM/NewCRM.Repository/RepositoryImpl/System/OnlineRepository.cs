@@ -4,7 +4,7 @@ using NewCRM.Repository.RepositoryProvide;
 
 namespace NewCRM.Repository.RepositoryImpl.System
 {
-    public class OnlineRepository : EfRepositoryBase<Online>,IOnlineRepository
+    public class OnlineRepository : EntityFrameworkRepository<Online>,IOnlineRepository
     {
     }
 }

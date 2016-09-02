@@ -5,7 +5,7 @@ using NewCRM.Repository.RepositoryProvide;
 namespace NewCRM.Repository.RepositoryImpl.Account
 {
 
-    public class TitleRepository : EfRepositoryBase<Title>, ITitleRepository
+    public class TitleRepository : EntityFrameworkRepository<Title>, ITitleRepository
     {
     }
 }

@@ -4,7 +4,7 @@ using NewCRM.Repository.RepositoryProvide;
 
 namespace NewCRM.Repository.RepositoryImpl.System
 {
-    public class AppTypeRepository : EfRepositoryBase<AppType>, IAppTypeRepository
+    public class AppTypeRepository : EntityFrameworkRepository<AppType>, IAppTypeRepository
     {
     }
 }

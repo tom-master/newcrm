@@ -5,7 +5,7 @@ using NewCRM.Repository.RepositoryProvide;
 
 namespace NewCRM.Repository.RepositoryImpl.Security
 {
-    public class PowerRepository : EfRepositoryBase<Power>,IPowerRepository
+    public class PowerRepository : EntityFrameworkRepository<Power>,IPowerRepository
     {
     }
 }
