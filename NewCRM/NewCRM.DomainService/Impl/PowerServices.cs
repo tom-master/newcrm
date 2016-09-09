@@ -10,7 +10,6 @@ namespace NewCRM.Domain.Services.Impl
     [Export(typeof(IPowerServices))]
     internal sealed class PowerServices : BaseService, IPowerServices
     {
-
         public void AddNewPower(Power power)
         {
             PowerRepository.Add(power);

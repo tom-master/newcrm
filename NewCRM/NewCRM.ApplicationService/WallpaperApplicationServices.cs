@@ -16,11 +16,13 @@ using NewCRM.Infrastructure.CommonTools;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IWallpaperApplicationServices))]
-    internal class WallpaperApplicationServices : BaseApplicationServices, IWallpaperApplicationServices
+    internal class WallpaperApplicationServices : BaseServices, IWallpaperApplicationServices
     {
         public List<WallpaperDto> GetWallpaper()
         {
-            return QueryFactory.Create<Wallpaper>().Find(SpecificationFactory.Create<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
+            return QueryFactory.Create<Wallpaper>()
+                .Find(SpecificationFactory.Create<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System))
+                .ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
         }
 
         public void ModifyWallpaperMode(Int32 accountId, String newMode)
@@ -41,8 +43,6 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(wallpaperDto);
 
-
-
             return WallpaperServices.AddWallpaper(wallpaperDto.ConvertToModel<WallpaperDto, Wallpaper>());
         }
 
@@ -56,18 +56,24 @@ namespace NewCRM.Application.Services
         public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
         {
             ValidateParameter.Validate(accountId).Validate(wallpaperId);
+
             WallpaperServices.RemoveWallpaper(accountId, wallpaperId);
         }
 
         public async Task<Tuple<Int32, String>> AddWebWallpaper(Int32 accountId, String url)
         {
             var imageTitle = Path.GetFileNameWithoutExtension(url);
+
             Image image;
+
             using (var stream = await new HttpClient().GetStreamAsync(new Uri(url)))
+
             using (image = Image.FromStream(stream))
             {
                 var wallpaperMd5 = CalculateFile.Calculate(stream);
+
                 var webWallpaper = GetUploadWallpaper(wallpaperMd5);
+
                 if (webWallpaper != null)
                 {
                     return new Tuple<Int32, String>(webWallpaper.Id, webWallpaper.ShortUrl);
@@ -83,8 +89,8 @@ namespace NewCRM.Application.Services
                     AccountId = accountId,
                     Md5 = wallpaperMd5,
                     ShortUrl = url
-
                 });
+
                 return new Tuple<Int32, String>(wallpaperResult.Item1, wallpaperResult.Item2);
             }
         }

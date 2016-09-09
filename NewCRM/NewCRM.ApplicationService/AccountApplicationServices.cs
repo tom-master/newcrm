@@ -13,11 +13,12 @@ using NewCRM.Infrastructure.CommonTools.CustemException;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IAccountApplicationServices))]
-    internal class AccountApplicationServices : BaseApplicationServices, IAccountApplicationServices
+    internal class AccountApplicationServices : BaseServices, IAccountApplicationServices
     {
         public AccountDto Login(String accountName, String password)
         {
             ValidateParameter.Validate(accountName).Validate(password);
+
             return AccountContext.Validate(accountName, password).ConvertToDto<Account, AccountDto>();
         }
 
@@ -25,7 +26,14 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var accountConfig = QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId))?.Config;
+            var accountResult = GetLoginAccount(accountId);
+
+            if (accountResult == null)
+            {
+                throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
+            }
+
+            var accountConfig = accountResult.Config;
 
             return DtoConfiguration.ConvertDynamicToDto<ConfigDto>(new
             {
@@ -80,7 +88,8 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var accountResult = QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId));
+            var accountResult = GetLoginAccount(accountId);
+
             if (accountResult == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
@@ -116,12 +125,14 @@ namespace NewCRM.Application.Services
         public void ModifyAccount(AccountDto account)
         {
             ValidateParameter.Validate(account);
+
             SecurityContext.ModifyAccount(account.ConvertToModel<AccountDto, Account>());
         }
 
         public void Logout(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
+
             AccountContext.Logout(accountId);
         }
 
@@ -129,14 +140,31 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId))?.Enable();
+            var accountResult = GetLoginAccount(accountId);
+
+            if (accountResult == null)
+            {
+                throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
+            }
+
+            accountResult.Enable();
+
         }
 
         public void Disable(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
 
-            QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId))?.Disable();
+            var accountResult = GetLoginAccount(accountId);
+
+            if (accountResult == null)
+            {
+                throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
+            }
+
+            accountResult.Disable();
+
         }
+
     }
 }

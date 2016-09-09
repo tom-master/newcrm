@@ -6,7 +6,6 @@ using NewCRM.Application.Services.IApplicationService;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.DomainSpecification;
-using NewCRM.Domain.Entities.DomainSpecification.ConcreteSpecification;
 using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
@@ -15,14 +14,21 @@ using NewCRM.Infrastructure.CommonTools.CustemException;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IAppApplicationServices))]
-    internal class AppApplicationServices : BaseApplicationServices, IAppApplicationServices
+    internal class AppApplicationServices : BaseServices, IAppApplicationServices
     {
 
         public IDictionary<Int32, IList<dynamic>> GetAccountDeskMembers(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
 
-            var accountConfig = QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId))?.Config;
+            var accountResult = GetLoginAccount(accountId);
+
+            if (accountResult == null)
+            {
+                throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
+            }
+
+            var accountConfig = accountResult.Config;
 
             IDictionary<Int32, IList<dynamic>> desks = new Dictionary<Int32, IList<dynamic>>();
 
@@ -122,7 +128,8 @@ namespace NewCRM.Application.Services
 
         public List<AppTypeDto> GetAppTypes()
         {
-            return QueryFactory.Create<AppType>().Find(SpecificationFactory.Create<AppType>()).ConvertToDtos<AppType, AppTypeDto>().ToList();
+            return QueryFactory.Create<AppType>().Find(SpecificationFactory.Create<AppType>())
+                .ConvertToDtos<AppType, AppTypeDto>().ToList();
         }
 
         public TodayRecommendAppDto GetTodayRecommend(Int32 accountId)
@@ -140,10 +147,16 @@ namespace NewCRM.Application.Services
                 app.AppStyle
             }).FirstOrDefault();
 
-            var accountDesks = QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId))?.Config.Desks;
+            var accountResult = GetLoginAccount(accountId);
+
+            if (accountResult == null)
+            {
+                throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
+            }
+
+            var accountDesks = accountResult.Config.Desks;
 
             var isInstall = accountDesks.Any(accountDesk => accountDesk.Members.Any(member => member.AppId == topApp.Id));
-
 
             return DtoConfiguration.ConvertDynamicToDto<TodayRecommendAppDto>(new
             {
@@ -156,11 +169,7 @@ namespace NewCRM.Application.Services
                 topApp.Remark,
                 Style = topApp.AppStyle.ToString().ToLower()
             });
-
-
         }
-
-
 
         public Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount(Int32 accountId)
         {
@@ -250,7 +259,7 @@ namespace NewCRM.Application.Services
                 appResult.IconUrl,
                 appResult.Remark,
                 appResult.UseCount,
-                StartCount = appResult.AppStars.Any() ? (appResult.AppStars.Sum(s => s.StartNum) * 1.0) / (appResult.AppStars.Count * 1.0) : 0.0,
+                StartCount = CountAppStars(appResult),
                 AppType = appResult.AppType.Name,
                 appResult.AddTime,
                 appResult.AccountId,
@@ -277,6 +286,7 @@ namespace NewCRM.Application.Services
         public void InstallApp(Int32 accountId, Int32 appId, Int32 deskNum)
         {
             ValidateParameter.Validate(accountId).Validate(appId).Validate(deskNum);
+
             AppServices.InstallApp(accountId, appId, deskNum);
         }
 
@@ -284,9 +294,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(appId);
 
-            var specification = SpecificationFactory.Create<Account>(account => account.Id == accountId);
-
-            var accountResult = QueryFactory.Create<Account>().FindOne(specification);
+            var accountResult = GetLoginAccount(accountId);
 
             return accountResult.Config.Desks.Any(desk => desk.Members.Any(member => member.AppId == appId));
 

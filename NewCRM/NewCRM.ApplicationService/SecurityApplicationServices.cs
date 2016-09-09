@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using NewCRM.Application.Services.IApplicationService;
 using NewCRM.Domain.Entities.DomainModel.Security;
 using NewCRM.Domain.Entities.DomainSpecification;
-using NewCRM.Domain.Entities.DomainSpecification.ConcreteSpecification;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustemException;
@@ -14,7 +12,7 @@ using NewCRM.Infrastructure.CommonTools.CustemException;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(ISecurityApplicationServices))]
-    internal class SecurityApplicationServices : BaseApplicationServices, ISecurityApplicationServices
+    internal class SecurityApplicationServices : BaseServices, ISecurityApplicationServices
     {
         #region Role
 
@@ -59,7 +57,6 @@ namespace NewCRM.Application.Services
             {
                 throw new BusinessException($"角色可能已被删除，请刷新后再试");
             }
-
 
             return DtoConfiguration.ConvertDynamicToDto<RoleDto>(new
             {
@@ -114,6 +111,7 @@ namespace NewCRM.Application.Services
         public void AddNewPower(PowerDto power)
         {
             ValidateParameter.Validate(power);
+
             SecurityContext.PowerServices.AddNewPower(power.ConvertToModel<PowerDto, Power>());
         }
 
@@ -149,7 +147,6 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(powerName).Validate(pageIndex).Validate(pageSize);
 
-
             var powerSpecification = SpecificationFactory.Create<Power>();
 
             if ((powerName + "").Length > 0)
@@ -157,7 +154,8 @@ namespace NewCRM.Application.Services
                 powerSpecification.And(power => power.Name.Contains(powerName));
             }
 
-            return QueryFactory.Create<Power>().PageBy(powerSpecification, pageIndex, pageSize, out totalCount).ConvertToDtos<Power, PowerDto>().ToList();
+            return QueryFactory.Create<Power>().PageBy(powerSpecification, pageIndex, pageSize, out totalCount)
+                .ConvertToDtos<Power, PowerDto>().ToList();
         }
 
         #endregion

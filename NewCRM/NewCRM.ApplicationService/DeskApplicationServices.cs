@@ -12,7 +12,7 @@ using NewCRM.Infrastructure.CommonTools.CustemException;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IDeskApplicationServices))]
-    internal class DeskApplicationServices : BaseApplicationServices, IDeskApplicationServices
+    internal class DeskApplicationServices : BaseServices, IDeskApplicationServices
     {
         public void ModifyDefaultDeskNumber(Int32 accountId, Int32 newDefaultDeskNumber)
         {
@@ -20,7 +20,6 @@ namespace NewCRM.Application.Services
 
             AccountContext.ConfigServices.ModifyDefaultShowDesk(accountId, newDefaultDeskNumber);
         }
-
 
         public void ModifyDockPosition(Int32 accountId, Int32 defaultDeskNumber, String newPosition)
         {
@@ -33,8 +32,14 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
 
-            var accountConfig = QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId))?.Config;
+            var accountResult = GetLoginAccount(accountId);
 
+            if (accountResult == null)
+            {
+                throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
+            }
+
+            var accountConfig = accountResult.Config;
 
             foreach (var desk in accountConfig.Desks)
             {

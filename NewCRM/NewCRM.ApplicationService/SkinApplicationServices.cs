@@ -9,27 +9,32 @@ using NewCRM.Application.Services.IApplicationService;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(ISkinApplicationServices))]
-    internal class SkinApplicationServices : BaseApplicationServices, ISkinApplicationServices
+    internal class SkinApplicationServices : BaseServices, ISkinApplicationServices
     {
         public IDictionary<String, dynamic> GetAllSkin(String skinPath)
         {
             ValidateParameter.Validate(skinPath);
+
             IDictionary<String, dynamic> dataDictionary = new Dictionary<String, dynamic>();
+
             Directory.GetFiles(skinPath, "*.css").ToList().ForEach(path =>
             {
                 var fileName = Get(path, x => x.LastIndexOf(@"\", StringComparison.OrdinalIgnoreCase) + 1).Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[0];
+
                 dataDictionary.Add(fileName, new
                 {
                     cssPath = path.Substring(path.LastIndexOf("script", StringComparison.OrdinalIgnoreCase) - 1).Replace(@"\", "/"),
                     imgPath = GetLocalImagePath(fileName, skinPath)
                 });
             });
+
             return dataDictionary;
         }
 
         public void ModifySkin(Int32 accountId, String newSkin)
         {
             ValidateParameter.Validate(accountId).Validate(newSkin);
+
             AccountContext.ConfigServices.ModifySkin(accountId, newSkin);
         }
 
@@ -38,10 +43,12 @@ namespace NewCRM.Application.Services
         private String GetLocalImagePath(String fileName, String fullPath)
         {
             var dic = Directory.GetFiles(fullPath, "preview.png", SearchOption.AllDirectories).ToList();
+
             foreach (var dicItem in from dicItem in dic let regex = new Regex(fileName) where regex.IsMatch(dicItem) select dicItem)
             {
                 return dicItem.Substring(dicItem.LastIndexOf("script", StringComparison.OrdinalIgnoreCase) - 1).Replace(@"\", "/");
             }
+
             return "";
         }
 
