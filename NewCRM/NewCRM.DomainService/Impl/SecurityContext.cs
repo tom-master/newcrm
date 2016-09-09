@@ -40,7 +40,7 @@ namespace NewCRM.Domain.Services.Impl
 
         public void ModifyAccount(Account account)
         {
-            var accountResult = AccountRepository.Entities.FirstOrDefault(internalAccount => internalAccount.Id == account.Id);
+            var accountResult = QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(internalAccount => internalAccount.Id == account.Id));
 
             if (accountResult == null)
             {

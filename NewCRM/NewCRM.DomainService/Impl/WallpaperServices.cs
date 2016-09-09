@@ -32,8 +32,8 @@ namespace NewCRM.Domain.Services.Impl
         {
             var accountResult = GetAccountInfoService(accountId);
 
-            var wallpaperResult =
-                WallpaperRepository.Entities.FirstOrDefault(wallpaper => wallpaper.Id == newWallpaperId);
+
+            var wallpaperResult = QueryFactory.Create<Wallpaper>().FindOne(SpecificationFactory.Create<Wallpaper>(wallpaper => wallpaper.Id == newWallpaperId));
 
             accountResult.Config.ModifyWallpaper(wallpaperResult);
 
@@ -42,7 +42,9 @@ namespace NewCRM.Domain.Services.Impl
 
         public Tuple<Int32, String> AddWallpaper(Wallpaper wallpaper)
         {
-            if (WallpaperRepository.Entities.Count(w => w.AccountId == wallpaper.AccountId) == 6)
+            var wallPaperCount = QueryFactory.Create<Wallpaper>().Find(SpecificationFactory.Create<Wallpaper>(w => w.AccountId == wallpaper.AccountId)).Count();
+
+            if (wallPaperCount == 6)
             {
                 throw new BusinessException($"最多只能上传6张壁纸");
             }
@@ -51,7 +53,7 @@ namespace NewCRM.Domain.Services.Impl
 
             return new Tuple<Int32, String>(wallpaper.Id, wallpaper.ShortUrl);
         }
- 
+
         public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
         {
 

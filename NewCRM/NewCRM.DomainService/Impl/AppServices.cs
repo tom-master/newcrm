@@ -20,7 +20,7 @@ namespace NewCRM.Domain.Services.Impl
                 throw new BusinessException($"请安装这个应用后再打分");
             }
 
-            var appResult = AppRepository.Entities.FirstOrDefault(app => app.Id == appId);
+            var appResult = QueryFactory.Create<App>().FindOne(SpecificationFactory.Create<App>(app => app.Id == appId));
 
             appResult.AddStar(accountId, starCount);
 
@@ -33,7 +33,8 @@ namespace NewCRM.Domain.Services.Impl
 
             var realDeskId = GetRealDeskIdService(deskNum, accountResult.Config);
 
-            var appResult = AppRepository.Entities.Where(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release).FirstOrDefault(app => app.Id == appId);
+
+            var appResult = QueryFactory.Create<App>().FindOne(SpecificationFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release && app.Id == appId));
 
             if (appResult == null)
             {
@@ -59,7 +60,7 @@ namespace NewCRM.Domain.Services.Impl
 
         public void ModifyAccountAppInfo(Int32 accountId, App app)
         {
-            var appResult = AppRepository.Entities.FirstOrDefault(internalApp => internalApp.Id == app.Id && internalApp.AccountId == accountId);
+            var appResult = QueryFactory.Create<App>().FindOne(SpecificationFactory.Create<App>(internalApp => internalApp.Id == app.Id && internalApp.AccountId == accountId));
 
             if (appResult == null)
             {

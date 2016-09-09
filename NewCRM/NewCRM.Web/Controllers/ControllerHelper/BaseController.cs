@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
+using System.Reflection;
 using System.Web.Mvc;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -41,16 +43,6 @@ namespace NewCRM.Web.Controllers.ControllerHelper
         /// </summary>
         protected static ConfigDto AccountConfig { get; set; }
 
-        protected override JsonResult Json(Object data, String contentType, Encoding contentEncoding, JsonRequestBehavior behavior)
-        {
-            return new Jsons
-            {
-                Data = data,
-                ContentType = contentType,
-                ContentEncoding = contentEncoding,
-                JsonRequestBehavior = behavior
-            };
-        }
 
         protected override void OnException(ExceptionContext filterContext)
         {

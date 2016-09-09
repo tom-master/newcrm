@@ -11,6 +11,6 @@ namespace NewCRM.Domain.Entities.Repositories
 {
     public interface IDomainModelQueryProvider
     {
-        IQueryable<T> Query<T>(ISpecification<T> selector) where T : DomainModelBase, IAggregationRoot;
+        IQueryable<T> Query<T>(Specification<T> selector) where T : DomainModelBase, IAggregationRoot;
     }
 }

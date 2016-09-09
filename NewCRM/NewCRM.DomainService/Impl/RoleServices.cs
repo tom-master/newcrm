@@ -13,7 +13,7 @@ namespace NewCRM.Domain.Services.Impl
     {
         public void RemoveRole(Int32 roleId)
         {
-            var roleResult = RoleRepository.Entities.FirstOrDefault(role => role.Id == roleId);
+            var roleResult = QueryFactory.Create<Role>().FindOne(SpecificationFactory.Create<Role>(role => role.Id == roleId));
 
             if (roleResult == null)
             {
@@ -37,7 +37,8 @@ namespace NewCRM.Domain.Services.Impl
 
         public void ModifyRole(Role role)
         {
-            var roleResult = RoleRepository.Entities.FirstOrDefault(internalRole => internalRole.Id == role.Id);
+
+            var roleResult = QueryFactory.Create<Role>().FindOne(SpecificationFactory.Create<Role>(internalRole => internalRole.Id == role.Id));
 
             if (roleResult == null)
             {
@@ -51,7 +52,8 @@ namespace NewCRM.Domain.Services.Impl
 
         public void AddPowerToCurrentRole(Int32 roleId, IEnumerable<Int32> powerIds)
         {
-            var roleResult = RoleRepository.Entities.FirstOrDefault(role => role.Id == roleId);
+            var roleResult = QueryFactory.Create<Role>().FindOne(SpecificationFactory.Create<Role>(role => role.Id == roleId));
+
             if (roleResult == null)
             {
                 throw new BusinessException("该角色可能已被删除，请刷新后再试");

@@ -7,6 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.Composition;
 using NewCRM.Domain.Entities.DomainModel.System;
 
 namespace NewCRM.Domain.Entities.Repositories.IRepository.System

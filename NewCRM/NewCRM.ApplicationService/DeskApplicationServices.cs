@@ -4,7 +4,6 @@ using System.Linq;
 using NewCRM.Application.Services.IApplicationService;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.System;
-using NewCRM.Domain.Entities.DomainSpecification;
 using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
@@ -34,7 +33,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
 
-            var accountConfig = QueryFactory.CreateQuery<Account>().Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Config;
+            var accountConfig = QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId))?.Config;
 
 
             foreach (var desk in accountConfig.Desks)

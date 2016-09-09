@@ -11,7 +11,7 @@ namespace NewCRM.QueryServices.ConcreteQuery
         [Import]
         private IQuery Query { get; set; }
 
-        public override IQuery CreateQuery<T>()
+        public override IQuery Create<T>()
         {
             return Query;
         }

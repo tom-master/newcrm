@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Net;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.System;
-using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
@@ -19,13 +17,14 @@ namespace NewCRM.Domain.Services.Impl
 
         public Account Validate(String accountName, String password)
         {
-            var a = TestRepositories;
 
-            var accountResult = AccountRepository.Entities.FirstOrDefault(account => account.Name == accountName);
+            var accountResult = QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Name == accountName));
+
             if (accountResult == null)
             {
                 throw new BusinessException($"该用户不存在或被禁用{accountName}");
             }
+
             if (!PasswordUtil.ComparePasswords(accountResult.LoginPassword, password))
             {
                 throw new BusinessException("密码错误");
@@ -74,7 +73,7 @@ namespace NewCRM.Domain.Services.Impl
         /// <param name="accountId"></param>
         private void ModifyOnlineState(Int32 accountId)
         {
-            var onlineResult = OnlineRepository.Entities.FirstOrDefault(online => online.AccountId == accountId);
+            var onlineResult = QueryFactory.Create<Online>().FindOne(SpecificationFactory.Create<Online>(online => online.AccountId == accountId));
             OnlineRepository.Remove(onlineResult);
         }
 

@@ -1,10 +1,10 @@
 ﻿using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.Repositories.IRepository.System;
-using NewCRM.Repository.RepositoryProvide;
+using NewCRM.Repository.DataBaseProvider; 
 
 namespace NewCRM.Repository.RepositoryImpl.System
 {
-    public class AppTypeRepository : EntityFrameworkRepository<AppType>, IAppTypeRepository
+    public class AppTypeRepository : EntityFrameworkProvider<AppType>, IAppTypeRepository
     {
     }
 }

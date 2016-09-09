@@ -18,7 +18,8 @@ namespace NewCRM.Domain.Services.Impl
 
         public void ModifyPower(Power power)
         {
-            var powerResult = PowerRepository.Entities.FirstOrDefault(p => p.Id == power.Id);
+            var powerResult = QueryFactory.Create<Power>().FindOne(SpecificationFactory.Create<Power>(p => p.Id == power.Id));
+
             if (powerResult == null)
             {
                 throw new BusinessException("该权限可能已被删除，请刷新后再试");
@@ -33,7 +34,7 @@ namespace NewCRM.Domain.Services.Impl
 
         public void RemovePower(Int32 powerId)
         {
-            var powerResult = PowerRepository.Entities.FirstOrDefault(power => power.Id == powerId);
+            var powerResult = QueryFactory.Create<Power>().FindOne(SpecificationFactory.Create<Power>(power => power.Id == powerId));
 
             if (powerResult == null)
             {

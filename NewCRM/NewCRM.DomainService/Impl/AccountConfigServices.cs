@@ -66,7 +66,7 @@ namespace NewCRM.Domain.Services.Impl
             {
                 if (dockPostion == DockPostion.None)
                 {
-                    var deskResult = DeskRepository.Entities.FirstOrDefault(desk => desk.DeskNumber == accountResult.Config.DefaultDeskNumber);
+                    var deskResult = QueryFactory.Create<Desk>().FindOne(SpecificationFactory.Create<Desk>(desk => desk.DeskNumber == accountResult.Config.DefaultDeskNumber));
 
                     var dockMembers = deskResult.Members.Where(member => member.IsOnDock).ToList();
 
@@ -94,7 +94,7 @@ namespace NewCRM.Domain.Services.Impl
 
             AccountRepository.Update(accountResult);
         }
- 
+
         public void MemberInDock(Int32 accountId, Int32 memberId)
         {
             var accountConfig = GetAccountInfoService(accountId).Config;
@@ -252,8 +252,10 @@ namespace NewCRM.Domain.Services.Impl
                     }
                     else
                     {
-                        appResult = AppRepository.Entities.FirstOrDefault(app => app.Id == memberResult.AppId);
+                        appResult = QueryFactory.Create<App>().FindOne(SpecificationFactory.Create<App>(app => app.Id == memberResult.AppId));
+
                         appResult.SubtractUseCount();
+
                         appResult.SubtractStar(accountId);
                     }
 

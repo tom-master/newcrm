@@ -38,9 +38,6 @@
     <Reference Include="NewCRM.ApplicationService">
       <HintPath>..\NewCRM.ApplicationService\bin\Debug\NewCRM.ApplicationService.dll</HintPath>
     </Reference>
-    <Reference Include="NewCRM.Domain">
-      <HintPath>..\NewCRM.Domain\bin\Debug\NewCRM.Domain.dll</HintPath>
-    </Reference>
     <Reference Include="NewCRM.DomainService">
       <HintPath>..\NewCRM.DomainService\bin\Debug\NewCRM.DomainService.dll</HintPath>
     </Reference>

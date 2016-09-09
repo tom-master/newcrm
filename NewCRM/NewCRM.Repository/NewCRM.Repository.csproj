@@ -91,7 +91,7 @@
     <Compile Include="RepositoryImpl\System\LogRepository.cs" />
     <Compile Include="RepositoryImpl\System\OnlineRepository.cs" />
     <Compile Include="RepositoryImpl\System\WallpaperRepository.cs" />
-    <Compile Include="RepositoryProvide\EntityFrameworkRepository.cs" />
+    <Compile Include="DataBaseProvider\EntityFrameworkProvider.cs" />
     <Compile Include="UnitOfWorkProvide\EFUnitOfWorkContext.cs" />
     <Compile Include="UnitOfWorkProvide\UnitOfWorkContextBase.cs" />
     <Compile Include="UnitOfWorkProvide\UnitOfWorkContextExtensions.cs" />

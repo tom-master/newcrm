@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Linq.Expressions;
 using NewCRM.Domain.Entities.DomainModel;
 using NewCRM.Domain.Entities.DomainSpecification;
 using NewCRM.Domain.Entities.Repositories;
@@ -11,6 +10,9 @@ using NewCRM.Repository.UnitOfWorkProvide;
 
 namespace NewCRM.Repository
 {
+    /// <summary>
+    /// 提供查询
+    /// </summary>
     [Export(typeof(IDomainModelQueryProvider))]
     public class QueryProvider : IDomainModelQueryProvider
     {
@@ -42,10 +44,15 @@ namespace NewCRM.Repository
             }
         }
 
-
-        public IQueryable<T> Query<T>(ISpecification<T> selector) where T : DomainModelBase, IAggregationRoot
+        /// <summary>
+        /// 查询
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="specification"></param>
+        /// <returns></returns>
+        public IQueryable<T> Query<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot
         {
-            return EfContext.Set<T, Int32>().Where(model => selector.IsSatisfiedBy(model));
+            return EfContext.Set<T, Int32>().Where(specification.Expression);
         }
 
         #endregion

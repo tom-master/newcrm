@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using NewCRM.Application.Services.IApplicationService;
 using NewCRM.Domain.Entities.DomainModel.Security;
 using NewCRM.Domain.Entities.DomainSpecification;
+using NewCRM.Domain.Entities.DomainSpecification.ConcreteSpecification;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustemException;
@@ -40,7 +42,7 @@ namespace NewCRM.Application.Services
 
         public List<RoleDto> GetAllRoles()
         {
-            return QueryFactory.CreateQuery<Role>().Find(new Specification<Role>(role => true)).Select(role => new
+            return QueryFactory.Create<Role>().Find(SpecificationFactory.Create<Role>()).Select(role => new
             {
                 role.Name,
                 role.Id
@@ -51,7 +53,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(roleId);
 
-            var roleResult = QueryFactory.CreateQuery<Role>().Find(new Specification<Role>(role => role.Id == roleId)).FirstOrDefault();
+            var roleResult = QueryFactory.Create<Role>().FindOne(SpecificationFactory.Create<Role>(role => role.Id == roleId));
 
             if (roleResult == null)
             {
@@ -79,14 +81,14 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(roleName).Validate(pageIndex).Validate(pageIndex);
 
-            ISpecification<Role> roleSpecification = new Specification<Role>(role => true);
+            var roleSpecification = SpecificationFactory.Create<Role>();
 
             if ((roleName + "").Length > 0)
             {
-                roleSpecification.And(new Specification<Role>(role => role.Name.Contains(roleName)));
+                roleSpecification.And(role => role.Name.Contains(roleName));
             }
 
-            return QueryFactory.CreateQuery<Role>().PageBy(roleSpecification, pageIndex, pageSize, out totalCount).Select(s => new
+            return QueryFactory.Create<Role>().PageBy(roleSpecification, pageIndex, pageSize, out totalCount).Select(s => new
             {
                 s.Name,
                 s.Id,
@@ -101,7 +103,7 @@ namespace NewCRM.Application.Services
 
         public List<PowerDto> GetAllPowers()
         {
-            return QueryFactory.CreateQuery<Power>().Find(new Specification<Power>(power => true)).Select(power => new
+            return QueryFactory.Create<Power>().Find(SpecificationFactory.Create<Power>()).Select(power => new
             {
                 power.Name,
                 power.Id,
@@ -119,7 +121,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(powerId);
 
-            var powerResult = QueryFactory.CreateQuery<Power>().Find(new Specification<Power>(power => power.Id == powerId)).FirstOrDefault();
+            var powerResult = QueryFactory.Create<Power>().FindOne(SpecificationFactory.Create<Power>());
 
             if (powerResult == null)
             {
@@ -147,14 +149,15 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(powerName).Validate(pageIndex).Validate(pageSize);
 
-            ISpecification<Power> powerSpecification = new Specification<Power>(power => true);
+
+            var powerSpecification = SpecificationFactory.Create<Power>();
 
             if ((powerName + "").Length > 0)
             {
-                powerSpecification.And(new Specification<Power>(power => power.Name.Contains(powerName)));
+                powerSpecification.And(power => power.Name.Contains(powerName));
             }
 
-            return QueryFactory.CreateQuery<Power>().PageBy(powerSpecification, pageIndex, pageSize, out totalCount).ConvertToDtos<Power, PowerDto>().ToList();
+            return QueryFactory.Create<Power>().PageBy(powerSpecification, pageIndex, pageSize, out totalCount).ConvertToDtos<Power, PowerDto>().ToList();
         }
 
         #endregion

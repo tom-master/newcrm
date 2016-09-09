@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 
 
+using System.ComponentModel.Composition;
 using NewCRM.Domain.Entities.DomainModel.Account;
 
 namespace NewCRM.Domain.Entities.Repositories.IRepository.Account

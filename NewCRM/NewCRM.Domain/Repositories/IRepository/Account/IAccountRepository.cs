@@ -8,14 +8,13 @@
 //------------------------------------------------------------------------------
 
 using System.ComponentModel.Composition;
-using NewCRM.Domain.Entities.DomainModel.Account;
 
 namespace NewCRM.Domain.Entities.Repositories.IRepository.Account
 {
     /// <summary>
     ///   仓储操作层接口——用户
     /// </summary>
-
+    [InheritedExport]
     public partial interface IAccountRepository : IRepository<DomainModel.Account.Account>
     { }
 }

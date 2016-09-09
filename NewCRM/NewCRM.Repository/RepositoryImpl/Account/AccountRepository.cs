@@ -1,14 +1,11 @@
-﻿using System.ComponentModel.Composition;
-using System.Linq;
-using NewCRM.Domain.Entities.DomainModel.Account;
-using NewCRM.Domain.Entities.Repositories.IRepository.Account;
-using NewCRM.Repository.RepositoryProvide;
+﻿using NewCRM.Domain.Entities.Repositories.IRepository.Account;
+using NewCRM.Repository.DataBaseProvider;
 
 namespace NewCRM.Repository.RepositoryImpl.Account
 {
 
 
-    public class AccountRepository : EntityFrameworkRepository<Domain.Entities.DomainModel.Account.Account>, IAccountRepository
+    public class AccountRepository : EntityFrameworkProvider<Domain.Entities.DomainModel.Account.Account>, IAccountRepository
     {
     }
 }

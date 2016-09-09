@@ -6,6 +6,7 @@ using NewCRM.Application.Services.IApplicationService;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.DomainSpecification;
+using NewCRM.Domain.Entities.DomainSpecification.ConcreteSpecification;
 using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
@@ -21,7 +22,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var accountConfig = QueryFactory.CreateQuery<Account>().Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Config;
+            var accountConfig = QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId))?.Config;
 
             IDictionary<Int32, IList<dynamic>> desks = new Dictionary<Int32, IList<dynamic>>();
 
@@ -121,17 +122,17 @@ namespace NewCRM.Application.Services
 
         public List<AppTypeDto> GetAppTypes()
         {
-            return QueryFactory.CreateQuery<AppType>().Find(new Specification<AppType>(appType => true)).ConvertToDtos<AppType, AppTypeDto>().ToList();
+            return QueryFactory.Create<AppType>().Find(SpecificationFactory.Create<AppType>()).ConvertToDtos<AppType, AppTypeDto>().ToList();
         }
 
         public TodayRecommendAppDto GetTodayRecommend(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
 
-            var topApp = QueryFactory.CreateQuery<App>().Find(new Specification<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release)).OrderByDescending(app => app.UseCount).Select(app => new
+            var topApp = QueryFactory.Create<App>().Find(SpecificationFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release).OrderByDescending(app => app.UseCount)).Select(app => new
             {
                 app.UseCount,
-                AppStars = app.AppStars.Any() ? (app.AppStars.Sum(s => s.StartNum) * 1.0) / (app.AppStars.Count * 1.0) : 0.0,
+                AppStars = CountAppStars(app),
                 app.Id,
                 app.Name,
                 app.IconUrl,
@@ -139,7 +140,7 @@ namespace NewCRM.Application.Services
                 app.AppStyle
             }).FirstOrDefault();
 
-            var accountDesks = QueryFactory.CreateQuery<Account>().Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Config.Desks;
+            var accountDesks = QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId))?.Config.Desks;
 
             var isInstall = accountDesks.Any(accountDesk => accountDesk.Members.Any(member => member.AppId == topApp.Id));
 
@@ -159,11 +160,13 @@ namespace NewCRM.Application.Services
 
         }
 
+
+
         public Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
 
-            var accountApps = QueryFactory.CreateQuery<App>().Find(new Specification<App>(app => app.AccountId == accountId));
+            var accountApps = QueryFactory.Create<App>().Find(SpecificationFactory.Create<App>(app => app.AccountId == accountId));
 
             var accountDevAppCount = accountApps.Count();
 
@@ -177,49 +180,49 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
 
-            ISpecification<App> appSpecification = new Specification<App>(app => true);
+            var appSpecification = SpecificationFactory.Create<App>();
 
             #region 条件筛选
 
             if (appTypeId != 0 && appTypeId != -1)//全部app
             {
-                appSpecification.And(new Specification<App>(app => app.AppTypeId == appTypeId));
+                appSpecification.And(app => app.AppTypeId == appTypeId);
             }
             else
             {
                 if (appTypeId == -1)//用户制作的app
                 {
-                    appSpecification.And(new Specification<App>(app => app.AccountId == accountId));
+                    appSpecification.And(app => app.AccountId == accountId);
                 }
             }
 
             if (orderId == 1)//最新应用
             {
-                //appSpecification.OrderByDescending(new Specification<App>(app => app.AddTime));
+                appSpecification.OrderByDescending(app => app.AddTime);
             }
             else if (orderId == 2)//使用最多
             {
-                //appSpecification.OrderByDescending(new Specification<App>(app => app.UseCount));
+                appSpecification.OrderByDescending(app => app.UseCount);
             }
             else if (orderId == 3)//评价最高
             {
-                //appSpecification.OrderByDescending(new Specification<App>(app => app.AppStars));
+                appSpecification.OrderByDescending(app => app.AppStars);
             }
 
             if ((searchText + "").Length > 0)//关键字搜索
             {
-                appSpecification.And(new Specification<App>(app => app.Name.Contains(searchText)));
+                appSpecification.And(app => app.Name.Contains(searchText));
             }
 
             #endregion
 
-            var appDtoResult = QueryFactory.CreateQuery<App>().PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
+            var appDtoResult = QueryFactory.Create<App>().PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
             {
                 app.AppTypeId,
                 app.AccountId,
                 app.AddTime,
                 app.UseCount,
-                StartCount = app.AppStars.Any() ? (app.AppStars.Sum(s => s.StartNum) * 1.0) / (app.AppStars.Count * 1.0) : 0.0,
+                StartCount = CountAppStars(app),
                 app.Name,
                 app.IconUrl,
                 app.Remark,
@@ -237,27 +240,31 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(appId);
 
-            return DtoConfiguration.ConvertDynamicToDto<AppDto>(QueryFactory.CreateQuery<App>().Find(new Specification<App>(app => app.Id == appId)).Where(app => app.Id == appId).Select(app => new
+            var specification = SpecificationFactory.Create<App>(app => app.Id == appId);
+
+            var appResult = QueryFactory.Create<App>().FindOne(specification);
+
+            return DtoConfiguration.ConvertDynamicToDto<AppDto>(new
             {
-                app.Name,
-                app.IconUrl,
-                app.Remark,
-                app.UseCount,
-                StartCount = app.AppStars.Any() ? (app.AppStars.Sum(s => s.StartNum) * 1.0) / (app.AppStars.Count * 1.0) : 0.0,
-                AppType = app.AppType.Name,
-                app.AddTime,
-                app.AccountId,
-                app.Id,
-                app.IsResize,
-                app.IsOpenMax,
-                app.IsFlash,
-                app.AppStyle,
-                app.AppUrl,
-                app.Width,
-                app.Height,
-                app.AppAuditState,
-                app.AppTypeId
-            }).FirstOrDefault());
+                appResult.Name,
+                appResult.IconUrl,
+                appResult.Remark,
+                appResult.UseCount,
+                StartCount = appResult.AppStars.Any() ? (appResult.AppStars.Sum(s => s.StartNum) * 1.0) / (appResult.AppStars.Count * 1.0) : 0.0,
+                AppType = appResult.AppType.Name,
+                appResult.AddTime,
+                appResult.AccountId,
+                appResult.Id,
+                appResult.IsResize,
+                appResult.IsOpenMax,
+                appResult.IsFlash,
+                appResult.AppStyle,
+                appResult.AppUrl,
+                appResult.Width,
+                appResult.Height,
+                appResult.AppAuditState,
+                appResult.AppTypeId
+            });
         }
 
         public void ModifyAppStar(Int32 accountId, Int32 appId, Int32 starCount)
@@ -277,7 +284,9 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(appId);
 
-            var accountResult = QueryFactory.CreateQuery<Account>().Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault();
+            var specification = SpecificationFactory.Create<Account>(account => account.Id == accountId);
+
+            var accountResult = QueryFactory.Create<Account>().FindOne(specification);
 
             return accountResult.Config.Desks.Any(desk => desk.Members.Any(member => member.AppId == appId));
 
@@ -322,20 +331,20 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(appName).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
 
-            ISpecification<App> appSpecification = new Specification<App>(app => true);
+            var specification = SpecificationFactory.Create<App>();
 
             #region 条件筛选
 
             //应用名称
             if ((appName + "").Length > 0)
             {
-                appSpecification.And(new Specification<App>(app => app.Name.Contains(appName)));
+                specification.And(app => app.Name.Contains(appName));
             }
 
             //应用所属类型
             if (appTypeId != 0)
             {
-                appSpecification.And(new Specification<App>(app => app.AppTypeId == appTypeId));
+                specification.And(app => app.AppTypeId == appTypeId);
             }
 
             //应用样式
@@ -347,7 +356,7 @@ namespace NewCRM.Application.Services
 
                 if (Enum.TryParse(enumConst, true, out appStyle))
                 {
-                    appSpecification.And(new Specification<App>(app => app.AppStyle == appStyle));
+                    specification.And(app => app.AppStyle == appStyle);
 
                 }
                 else
@@ -368,7 +377,7 @@ namespace NewCRM.Application.Services
 
                     if (Enum.TryParse(enumConst, true, out appReleaseState))
                     {
-                        appSpecification.And(new Specification<App>(app => app.AppReleaseState == appReleaseState));
+                        specification.And(app => app.AppReleaseState == appReleaseState);
                     }
                     else
                     {
@@ -385,7 +394,7 @@ namespace NewCRM.Application.Services
 
                     if (Enum.TryParse(enumConst, true, out appAuditState))
                     {
-                        appSpecification.And(new Specification<App>(app => app.AppAuditState == appAuditState));
+                        specification.And(app => app.AppAuditState == appAuditState);
                     }
                     else
                     {
@@ -396,7 +405,7 @@ namespace NewCRM.Application.Services
 
             #endregion
 
-            return QueryFactory.CreateQuery<App>().PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
+            return QueryFactory.Create<App>().PageBy(specification, pageIndex, pageSize, out totalCount).Select(app => new
             {
                 app.Name,
                 app.AppStyle,
@@ -430,6 +439,16 @@ namespace NewCRM.Application.Services
         private IEnumerable<dynamic> GetEnumDescriptions(Type enumType)
         {
             return enumType.GetFields().Where(field => field.CustomAttributes.Any()).Select(s => new { s.CustomAttributes.ToArray()[0].ConstructorArguments[0].Value, Id = s.GetRawConstantValue(), Type = enumType.Name }).Cast<dynamic>().ToList();
+        }
+
+        /// <summary>
+        /// 计算app的星级
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
+        private Double CountAppStars(App app)
+        {
+            return app.AppStars.Any() ? (app.AppStars.Sum(s => s.StartNum) * 1.0) / (app.AppStars.Count * 1.0) : 0.0;
         }
         #endregion
     }

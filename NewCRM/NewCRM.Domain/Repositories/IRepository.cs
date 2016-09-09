@@ -11,15 +11,9 @@ namespace NewCRM.Domain.Entities.Repositories
     /// 定义仓储模型中的数据标准操作
     /// </summary>
     /// <typeparam name="T">动态实体类型</typeparam>
-    [InheritedExport]
+    [InheritedExport(typeof(IRepository<>))]
     public interface IRepository<T> where T : DomainModelBase, IAggregationRoot
     {
-        #region 属性
-
-        IQueryable<T> Entities { get; }
-
-        #endregion
-
         #region 公共方法
 
         void Add(T entity, Boolean isSave = true);

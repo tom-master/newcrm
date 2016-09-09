@@ -17,17 +17,6 @@ namespace NewCRM.Application.Services
     {
         public AccountDto Login(String accountName, String password)
         {
-            try
-            {
-
-                var result = QueryFactory.CreateQuery<Account>().Find(new Specification<Account>(account => true));
-            }
-            catch (Exception exception)
-            {
-                
-                throw;
-            }
-
             ValidateParameter.Validate(accountName).Validate(password);
             return AccountContext.Validate(accountName, password).ConvertToDto<Account, AccountDto>();
         }
@@ -36,9 +25,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            ISpecification<Account> accountSpecification = new Specification<Account>(account => account.Id == accountId);
-
-            var accountConfig = QueryFactory.CreateQuery<Account>().Find(accountSpecification).FirstOrDefault()?.Config;
+            var accountConfig = QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId))?.Config;
 
             return DtoConfiguration.ConvertDynamicToDto<ConfigDto>(new
             {
@@ -64,9 +51,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountName).Validate(pageIndex).Validate(pageSize);
 
-            ISpecification<Account> specification = new Specification<Account>(account => (accountName + "").Length == 0 || account.Name.Contains(accountName));
-
-
+            var specification = SpecificationFactory.Create<Account>(account => (accountName + "").Length == 0 || account.Name.Contains(accountName));
 
             AccountType internalAccountType;
             if ((accountType + "").Length > 0)
@@ -75,7 +60,7 @@ namespace NewCRM.Application.Services
 
                 if (Enum.TryParse(enumConst, true, out internalAccountType))
                 {
-                    specification.And(new Specification<Account>(account => account.IsAdmin == (internalAccountType == AccountType.Admin)));
+                    specification.And(account => account.IsAdmin == (internalAccountType == AccountType.Admin));
                 }
                 else
                 {
@@ -83,7 +68,7 @@ namespace NewCRM.Application.Services
                 }
             }
 
-            return QueryFactory.CreateQuery<Account>().PageBy(specification, pageIndex, pageSize, out totalCount).Select(account => new
+            return QueryFactory.Create<Account>().PageBy(specification, pageIndex, pageSize, out totalCount).Select(account => new
             {
                 account.Id,
                 AccountType = account.IsAdmin ? "2" /*管理员*/ : "1" /*用户*/,
@@ -95,7 +80,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var accountResult = QueryFactory.CreateQuery<Account>().Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault();
+            var accountResult = QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId));
             if (accountResult == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
@@ -125,7 +110,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountName);
 
-            return QueryFactory.CreateQuery<Account>().Find(new Specification<Account>(account => account.Name == accountName)).Any();
+            return QueryFactory.Create<Account>().Find(SpecificationFactory.Create<Account>(account => account.Name == accountName)).Any();
         }
 
         public void ModifyAccount(AccountDto account)
@@ -144,14 +129,14 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            QueryFactory.CreateQuery<Account>().Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Enable();
+            QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId))?.Enable();
         }
 
         public void Disable(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
 
-            QueryFactory.CreateQuery<Account>().Find(new Specification<Account>(account => account.Id == accountId)).FirstOrDefault()?.Disable();
+            QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId))?.Disable();
         }
     }
 }

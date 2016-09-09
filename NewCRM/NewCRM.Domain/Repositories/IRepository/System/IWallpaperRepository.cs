@@ -15,6 +15,7 @@ namespace NewCRM.Domain.Entities.Repositories.IRepository.System
     /// <summary>
     ///   仓储操作层接口——壁纸
     /// </summary> 
+    [InheritedExport]
     public partial interface IWallpaperRepository : IRepository<Wallpaper>
     { }
 }

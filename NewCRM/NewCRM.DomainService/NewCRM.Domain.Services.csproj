@@ -34,10 +34,6 @@
     <Reference Include="NewCRM.Infrastructure">
       <HintPath>..\NewCRM.Infrastructure\bin\Debug\NewCRM.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="NewCRM.Repository, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\NewCRM.Repository\bin\Debug\NewCRM.Repository.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -51,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseService.cs" />
-    <Compile Include="DomainContext\PermissionsContext.cs" />
     <Compile Include="IAccountConfigServices.cs" />
     <Compile Include="IAccountContext.cs" />
     <Compile Include="IAppServices.cs" />
@@ -69,6 +64,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NewCRM.App.QueryServices\NewCRM.QueryServices.csproj">
+      <Project>{FE7153FA-29BA-4352-80ED-CF912ED114CB}</Project>
+      <Name>NewCRM.QueryServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NewCRM.Domain\NewCRM.Domain.Entities.csproj">
       <Project>{173C1046-4529-4D70-B6F5-501C61514E86}</Project>
       <Name>NewCRM.Domain.Entities</Name>

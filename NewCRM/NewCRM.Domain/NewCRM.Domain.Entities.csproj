@@ -65,9 +65,12 @@
     <Compile Include="DomainModel\System\Desk.cs" />
     <Compile Include="DomainModel\System\SystemExtension\DeskExtension.cs" />
     <Compile Include="DomainModel\System\SystemExtension\MemberExtension.cs" />
-    <Compile Include="DomainSpecification\DefaultSpecification.cs" />
-    <Compile Include="DomainSpecification\ISpecification.cs" />
+    <Compile Include="DomainSpecification\ConcreteSpecification\DefaultSpecification.cs" />
+    <Compile Include="DomainSpecification\ConcreteSpecification\DefaultSpecificationFactory.cs" />
+    <Compile Include="DomainSpecification\Specification.cs" />
+    <Compile Include="DomainSpecification\ParameterVisitor.cs" />
     <Compile Include="DomainSpecification\SpecificationExtensions.cs" />
+    <Compile Include="DomainSpecification\Factory\SpecificationFactory.cs" />
     <Compile Include="Repositories\IDomainModelQueryProvider.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\IRepository\Account\ITitleRepository.cs" />
