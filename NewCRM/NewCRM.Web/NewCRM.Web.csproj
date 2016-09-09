@@ -153,6 +153,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NewCRM.Application.Interface\NewCRM.Application.Interface.csproj">
+      <Project>{BB9C76EF-E30C-46BE-96E7-C6D53F508536}</Project>
+      <Name>NewCRM.Application.Interface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NewCRM.ApplicationService\NewCRM.Application.Services.csproj">
       <Project>{053A2AA0-4738-4CF3-AA99-D805411BFC40}</Project>
       <Name>NewCRM.Application.Services</Name>

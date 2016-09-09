@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using NewCRM.Dto.Dto;
 
-namespace NewCRM.Application.Services.IApplicationService
+namespace NewCRM.Application.Interface
 {
     public interface IWallpaperApplicationServices
     {
-        #region wallpaper
         /// <summary>
         /// 获取所有的系统壁纸
         /// </summary>
@@ -63,6 +62,5 @@ namespace NewCRM.Application.Services.IApplicationService
         /// <param name="md5"></param>
         /// <returns></returns>
         WallpaperDto GetUploadWallpaper(String md5);
-        #endregion
     }
 }

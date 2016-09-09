@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NewCRM.Domain.DomainModel.Account;
 using NewCRM.Infrastructure.CommonTools;
 
 namespace NewCrm.InfrastructureTest

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NewCRM.Application.Services.IApplicationService
+namespace NewCRM.Application.Interface
 {
     public interface ISkinApplicationServices
     {
-        #region skin
-
         /// <summary>
         /// 获取全部的皮肤
         /// </summary>
@@ -20,6 +18,5 @@ namespace NewCRM.Application.Services.IApplicationService
         /// <param name="accountId"></param>
         /// <param name="newSkin"></param>
         void ModifySkin(Int32 accountId, String newSkin);
-        #endregion
     }
 }

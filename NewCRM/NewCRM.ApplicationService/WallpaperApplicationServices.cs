@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using NewCRM.Application.Services.IApplicationService;
+using NewCRM.Application.Interface;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Dto;

@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
-using System.Reflection;
 using System.Web.Mvc;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
-using NewCRM.Application.Services.IApplicationService;
+using NewCRM.Application.Interface;
 using NewCRM.Dto.Dto;
 
 namespace NewCRM.Web.Controllers.ControllerHelper

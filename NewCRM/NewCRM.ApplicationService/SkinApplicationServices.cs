@@ -4,7 +4,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using NewCRM.Application.Services.IApplicationService;
+using NewCRM.Application.Interface;
 
 namespace NewCRM.Application.Services
 {

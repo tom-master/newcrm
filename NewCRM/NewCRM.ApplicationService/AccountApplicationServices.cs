@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using NewCRM.Application.Services.IApplicationService;
+using NewCRM.Application.Interface;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainSpecification;
 using NewCRM.Domain.Entities.ValueObject;

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
-using NewCRM.Application.Services.IApplicationService;
-using NewCRM.Domain.Entities.DomainModel.Account;
+using NewCRM.Application.Interface;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Dto;

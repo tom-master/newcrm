@@ -52,7 +52,9 @@ namespace NewCRM.QueryServices.ConcreteQuery
         public IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount) where T : DomainModelBase, IAggregationRoot
         {
             var query = QueryProvider.Query(specification).PageBy(pageIndex, pageSize, d => d.AddTime);
+
             totalCount = query.Count();
+
             return query.ToList();
         }
     }

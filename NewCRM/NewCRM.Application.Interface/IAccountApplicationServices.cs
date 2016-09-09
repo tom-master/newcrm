@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using NewCRM.Dto.Dto;
 
-namespace NewCRM.Application.Services.IApplicationService
+namespace NewCRM.Application.Interface
 {
     public interface IAccountApplicationServices
     {

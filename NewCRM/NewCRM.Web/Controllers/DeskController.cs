@@ -2,11 +2,9 @@
 using System.ComponentModel.Composition;
 using System.Configuration;
 using System.Web.Mvc;
-using NewCRM.Application.Services.IApplicationService;
 using NewCRM.Dto.Dto;
 using NewCRM.Web.Controllers.ControllerHelper;
 using NewCRM.Infrastructure.CommonTools;
-using Newtonsoft.Json;
 
 namespace NewCRM.Web.Controllers
 {

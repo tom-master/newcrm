@@ -50,6 +50,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCRM.QueryServices", "New
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCRM.QueryServices.Test", "NewCRM.QueryServices.Test\NewCRM.QueryServices.Test.csproj", "{DFE05A46-8693-4FCD-AB3D-830EC348C6FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCRM.Application.Interface", "NewCRM.Application.Interface\NewCRM.Application.Interface.csproj", "{BB9C76EF-E30C-46BE-96E7-C6D53F508536}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,6 +110,10 @@ Global
 		{DFE05A46-8693-4FCD-AB3D-830EC348C6FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFE05A46-8693-4FCD-AB3D-830EC348C6FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFE05A46-8693-4FCD-AB3D-830EC348C6FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB9C76EF-E30C-46BE-96E7-C6D53F508536}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB9C76EF-E30C-46BE-96E7-C6D53F508536}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB9C76EF-E30C-46BE-96E7-C6D53F508536}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB9C76EF-E30C-46BE-96E7-C6D53F508536}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -126,5 +132,6 @@ Global
 		{22353979-DF74-4DE3-84B3-9F7D27EC23EA} = {1DDA3B32-30E1-49B7-A415-622B5B1BEB35}
 		{FE7153FA-29BA-4352-80ED-CF912ED114CB} = {394351A2-98DC-4C9C-BB47-BBAC5E356D26}
 		{DFE05A46-8693-4FCD-AB3D-830EC348C6FE} = {394351A2-98DC-4C9C-BB47-BBAC5E356D26}
+		{BB9C76EF-E30C-46BE-96E7-C6D53F508536} = {D6EC715D-F363-47CC-B40E-5DFD0A737E89}
 	EndGlobalSection
 EndGlobal
