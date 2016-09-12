@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Application.Interface;
+using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.DomainSpecification;
 using NewCRM.Domain.Entities.ValueObject;
@@ -20,7 +21,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var accountResult = GetLoginAccount(accountId);
+            var accountResult = GetAccountInfoService(accountId);
 
             if (accountResult == null)
             {
@@ -104,32 +105,71 @@ namespace NewCRM.Application.Services
         public void ModifyAppDirection(Int32 accountId, String direction)
         {
             ValidateParameter.Validate(accountId).Validate(direction);
-            AccountContext.ConfigServices.ModifyAppDirection(accountId, direction);
+
+            var accountResult = GetAccountInfoService(accountId);
+
+            if (direction.ToLower() == "x")
+            {
+                accountResult.Config.ModifyAppDirectionToX();
+            }
+            else if (direction.ToLower() == "y")
+            {
+                accountResult.Config.ModifyAppDirectionToY();
+            }
+            else
+            {
+                throw new BusinessException($"未能识别的App排列方向:{direction.ToLower()}");
+            }
+
+            Repository.Create<Account>().Update(accountResult);
+
+            UnitOfWork.Commit();
+
         }
 
         public void ModifyAppIconSize(Int32 accountId, Int32 newSize)
         {
             ValidateParameter.Validate(accountId).Validate(newSize);
-            AccountContext.ConfigServices.ModifyAppIconSize(accountId, newSize);
+
+            var accountResult = GetAccountInfoService(accountId);
+
+            accountResult.Config.ModifyDisplayIconLength(newSize);
+
+            Repository.Create<Account>().Update(accountResult);
+
+            UnitOfWork.Commit();
         }
 
         public void ModifyAppVerticalSpacing(Int32 accountId, Int32 newSize)
         {
             ValidateParameter.Validate(accountId).Validate(newSize);
-            AccountContext.ConfigServices.ModifyAppVerticalSpacing(accountId, newSize);
+
+            var accountResult = GetAccountInfoService(accountId);
+
+            accountResult.Config.ModifyAppVerticalSpacingLength(newSize);
+
+            Repository.Create<Account>().Update(accountResult);
+
+            UnitOfWork.Commit();
         }
 
         public void ModifyAppHorizontalSpacing(Int32 accountId, Int32 newSize)
         {
             ValidateParameter.Validate(accountId).Validate(newSize);
-            AccountContext.ConfigServices.ModifyAppHorizontalSpacing(accountId, newSize);
+
+            var accountResult = GetAccountInfoService(accountId);
+
+            accountResult.Config.ModifyAppHorizontalSpacingLength(newSize);
+
+            Repository.Create<Account>().Update(accountResult);
+
+            UnitOfWork.Commit();
         }
 
-        public List<AppTypeDto> GetAppTypes()
-        {
-            return QueryFactory.Create<AppType>().Find(SpecificationFactory.Create<AppType>())
-                .ConvertToDtos<AppType, AppTypeDto>().ToList();
-        }
+
+
+
+        public List<AppTypeDto> GetAppTypes() => QueryFactory.Create<AppType>().Find(SpecificationFactory.Create<AppType>()).ConvertToDtos<AppType, AppTypeDto>().ToList();
 
         public TodayRecommendAppDto GetTodayRecommend(Int32 accountId)
         {
@@ -146,7 +186,7 @@ namespace NewCRM.Application.Services
                 app.AppStyle
             }).FirstOrDefault();
 
-            var accountResult = GetLoginAccount(accountId);
+            var accountResult = GetAccountInfoService(accountId);
 
             if (accountResult == null)
             {
@@ -280,6 +320,8 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId).Validate(appId).Validate(starCount, true);
 
             AppServices.ModifyAppStar(accountId, appId, starCount);
+
+            UnitOfWork.Commit();
         }
 
         public void InstallApp(Int32 accountId, Int32 appId, Int32 deskNum)
@@ -287,13 +329,15 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId).Validate(appId).Validate(deskNum);
 
             AppServices.InstallApp(accountId, appId, deskNum);
+
+            UnitOfWork.Commit();
         }
 
         public Boolean IsInstallApp(Int32 accountId, Int32 appId)
         {
             ValidateParameter.Validate(accountId).Validate(appId);
 
-            var accountResult = GetLoginAccount(accountId);
+            var accountResult = GetAccountInfoService(accountId);
 
             return accountResult.Config.Desks.Any(desk => desk.Members.Any(member => member.AppId == appId));
 
@@ -429,34 +473,42 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId).Validate(appDto);
 
             AppServices.ModifyAccountAppInfo(accountId, appDto.ConvertToModel<AppDto, App>());
+
+            UnitOfWork.Commit();
         }
 
-        public void CreateNewApp(AppDto app)
+        public void CreateNewApp(AppDto appDto)
         {
-            ValidateParameter.Validate(app);
-            AppServices.CreateNewApp(app.ConvertToModel<AppDto, App>());
+            ValidateParameter.Validate(appDto);
+
+            var app = appDto.ConvertToModel<AppDto, App>();
+
+            var internalApp = new App(
+                app.Name, app.IconUrl, app.AppUrl, app.Width, app.Height, app.AppTypeId, app.AppAuditState, app.AppStyle, app.AccountId,
+                app.Remark, app.IsMax, app.IsFull, app.IsSetbar, app.IsOpenMax, app.IsFlash, app.IsDraw, app.IsResize);
+
+            Repository.Create<App>().Add(internalApp);
+
+            UnitOfWork.Commit();
         }
 
         #region private method
+
         /// <summary>
         /// 获取传入的枚举类型的字面量的描述
         /// </summary>
         /// <param name="enumType"></param>
         /// <returns></returns>
-        private IEnumerable<dynamic> GetEnumDescriptions(Type enumType)
-        {
-            return enumType.GetFields().Where(field => field.CustomAttributes.Any()).Select(s => new { s.CustomAttributes.ToArray()[0].ConstructorArguments[0].Value, Id = s.GetRawConstantValue(), Type = enumType.Name }).Cast<dynamic>().ToList();
-        }
+        private IEnumerable<dynamic> GetEnumDescriptions(Type enumType) => enumType.GetFields().Where(field => field.CustomAttributes.Any()).Select(s => new { s.CustomAttributes.ToArray()[0].ConstructorArguments[0].Value, Id = s.GetRawConstantValue(), Type = enumType.Name }).Cast<dynamic>().ToList();
+
 
         /// <summary>
         /// 计算app的星级
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
-        private Double CountAppStars(App app)
-        {
-            return app.AppStars.Any() ? (app.AppStars.Sum(s => s.StartNum) * 1.0) / (app.AppStars.Count * 1.0) : 0.0;
-        }
+        private Double CountAppStars(App app) => app.AppStars.Any() ? (app.AppStars.Sum(s => s.StartNum) * 1.0) / (app.AppStars.Count * 1.0) : 0.0;
+
         #endregion
     }
 }

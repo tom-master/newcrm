@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.ValueObject;
+using NewCRM.Domain.Interface;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
-namespace NewCRM.Domain.Services.Impl
+namespace NewCRM.Domain.Services
 {
     [Export(typeof(IAppServices))]
-    internal class AppServices : BaseService, IAppServices
+    internal class AppServices : BaseService.BaseService, IAppServices
     {
         public void ModifyAppStar(Int32 accountId, Int32 appId, Int32 starCount)
         {
@@ -24,7 +24,8 @@ namespace NewCRM.Domain.Services.Impl
 
             appResult.AddStar(accountId, starCount);
 
-            AppRepository.Update(appResult);
+            Repository.Create<App>().Update(appResult);
+
         }
 
         public void InstallApp(Int32 accountId, Int32 appId, Int32 deskNum)
@@ -48,10 +49,10 @@ namespace NewCRM.Domain.Services.Impl
                 if (desk.Id == realDeskId)
                 {
                     desk.Members.Add(newMember);
-                    DeskRepository.Update(desk);
+                    Repository.Create<Desk>().Update(desk);
 
                     appResult.AddUseCount();
-                    AppRepository.Update(appResult);
+                    Repository.Create<App>().Update(appResult);
 
                     break;
                 }
@@ -81,24 +82,15 @@ namespace NewCRM.Domain.Services.Impl
 
             if (app.AppAuditState == AppAuditState.UnAuditState)//未审核
             {
-                appResult = appResult.DontSentAudit();
+                appResult.DontSentAudit();
             }
             else if (app.AppAuditState == AppAuditState.Wait)
             {
-                appResult = appResult.SentAudit();
+                appResult.SentAudit();
             }
 
-            AppRepository.Update(appResult);
+            Repository.Create<App>().Update(appResult);
+
         }
-
-        public void CreateNewApp(App app)
-        {
-            var internalApp = new App(
-                app.Name, app.IconUrl, app.AppUrl, app.Width, app.Height, app.AppTypeId, app.AppAuditState, app.AppStyle, app.AccountId,
-                app.Remark, app.IsMax, app.IsFull, app.IsSetbar, app.IsOpenMax, app.IsFlash, app.IsDraw, app.IsResize);
-
-            AppRepository.Add(internalApp);
-        }
-
     }
 }

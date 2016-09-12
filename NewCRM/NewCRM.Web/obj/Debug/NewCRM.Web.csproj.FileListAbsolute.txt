@@ -20,7 +20,6 @@ E:\NewCRMTest\NewCRM\NewCRM.Web\bin\System.Web.WebPages.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\System.Web.WebPages.Razor.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\WebGrease.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Domain.Entities.dll
-E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Domain.Services.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.QueryServices.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\AutoMapper.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Application.Services.pdb
@@ -38,7 +37,6 @@ E:\NewCRMTest\NewCRM\NewCRM.Web\bin\System.Web.WebPages.Deployment.xml
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\System.Web.WebPages.Razor.xml
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\System.Web.Optimization.xml
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Domain.Entities.pdb
-E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Domain.Services.pdb
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.QueryServices.pdb
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\AutoMapper.xml
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\zh-Hans\System.Web.Helpers.resources.dll
@@ -52,3 +50,5 @@ E:\NewCRMTest\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.pdb
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Application.Interface.dll
 E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Application.Interface.pdb
+E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Domain.Interface.dll
+E:\NewCRMTest\NewCRM\NewCRM.Web\bin\NewCRM.Domain.Interface.pdb

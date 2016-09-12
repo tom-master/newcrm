@@ -46,27 +46,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseService.cs" />
-    <Compile Include="IAccountConfigServices.cs" />
-    <Compile Include="IAccountContext.cs" />
-    <Compile Include="IAppServices.cs" />
-    <Compile Include="Impl\AccountConfigServices.cs" />
-    <Compile Include="Impl\AccountContext.cs" />
-    <Compile Include="Impl\AppServices.cs" />
-    <Compile Include="Impl\PowerServices.cs" />
-    <Compile Include="Impl\RoleServices.cs" />
-    <Compile Include="Impl\SecurityContext.cs" />
-    <Compile Include="Impl\WallpaperServices.cs" />
-    <Compile Include="IRoleServices.cs" />
-    <Compile Include="IPowerServices.cs" />
-    <Compile Include="ISecurityContext.cs" />
-    <Compile Include="IWallpaperServices.cs" />
+    <Compile Include="MemberRemoveServices.cs" />
+    <Compile Include="ModifyDeskMemberPostionServices.cs" />
+    <Compile Include="AccountContext.cs" />
+    <Compile Include="AppServices.cs" />
+    <Compile Include="BaseService\BaseService.cs" />
+    <Compile Include="ModifyDeskMemberInfoServices.cs" />
+    <Compile Include="ModifyDockPostionServices.cs" />
+    <Compile Include="ModifyWallpaperServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NewCRM.App.QueryServices\NewCRM.QueryServices.csproj">
       <Project>{FE7153FA-29BA-4352-80ED-CF912ED114CB}</Project>
       <Name>NewCRM.QueryServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NewCRM.Domain.Interface\NewCRM.Domain.Interface.csproj">
+      <Project>{CC9D6AD9-938F-45D4-882E-B12411AA727D}</Project>
+      <Name>NewCRM.Domain.Interface</Name>
     </ProjectReference>
     <ProjectReference Include="..\NewCRM.Domain\NewCRM.Domain.Entities.csproj">
       <Project>{173C1046-4529-4D70-B6F5-501C61514E86}</Project>

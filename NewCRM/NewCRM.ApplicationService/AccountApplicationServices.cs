@@ -8,6 +8,7 @@ using NewCRM.Domain.Entities.DomainSpecification;
 using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
+using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
 namespace NewCRM.Application.Services
@@ -19,14 +20,18 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountName).Validate(password);
 
-            return AccountContext.Validate(accountName, password).ConvertToDto<Account, AccountDto>();
+            var account = AccountContext.Validate(accountName, password).ConvertToDto<Account, AccountDto>();
+
+            UnitOfWork.Commit();
+
+            return account;
         }
 
         public ConfigDto GetConfig(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
 
-            var accountResult = GetLoginAccount(accountId);
+            var accountResult = GetAccountInfoService(accountId);
 
             if (accountResult == null)
             {
@@ -88,7 +93,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var accountResult = GetLoginAccount(accountId);
+            var accountResult = GetAccountInfoService(accountId);
 
             if (accountResult == null)
             {
@@ -112,7 +117,24 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountDto);
 
-            SecurityContext.AddNewAccount(accountDto.ConvertToModel<AccountDto, Account>());
+            var account = accountDto.ConvertToModel<AccountDto, Account>();
+
+            AccountType accountType;
+
+            var enumConst = Enum.GetName(typeof(AccountType), account.IsAdmin ? "2"/*管理员*/ : "1"/*用户*/);
+
+            if (!Enum.TryParse(enumConst, true, out accountType))
+            {
+                throw new BusinessException($"类型{enumConst}不是有效的枚举类型");
+            }
+
+            var internalNewAccount = new Account(account.Name, PasswordUtil.CreateDbPassword(account.LoginPassword), accountType);
+
+            internalNewAccount.AddRole(account.Roles.Select(role => role.RoleId).ToArray());
+
+            Repository.Create<Account>().Add(internalNewAccount);
+
+            UnitOfWork.Commit();
         }
 
         public Boolean CheckAccountNameExist(String accountName)
@@ -122,11 +144,39 @@ namespace NewCRM.Application.Services
             return QueryFactory.Create<Account>().Find(SpecificationFactory.Create<Account>(account => account.Name == accountName)).Any();
         }
 
-        public void ModifyAccount(AccountDto account)
+        public void ModifyAccount(AccountDto accountDto)
         {
-            ValidateParameter.Validate(account);
+            ValidateParameter.Validate(accountDto);
 
-            SecurityContext.ModifyAccount(account.ConvertToModel<AccountDto, Account>());
+            var account = accountDto.ConvertToModel<AccountDto, Account>();
+
+            var accountResult = QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(internalAccount => internalAccount.Id == account.Id));
+
+            if (accountResult == null)
+            {
+                throw new BusinessException($"用户{account.Name}可能已被禁用或删除");
+            }
+
+            if ((account.LoginPassword + "").Length > 0)
+            {
+                var newPassword = PasswordUtil.CreateDbPassword(account.LoginPassword);
+                accountResult.ModifyPassword(newPassword);
+            }
+
+            if (accountResult.Roles.Any())
+            {
+                accountResult.Roles.ToList().ForEach(role =>
+                {
+                    role.Remove();
+                });
+            }
+
+            accountResult.AddRole(account.Roles.Select(role => role.RoleId).ToArray());
+
+            Repository.Create<Account>().Update(accountResult);
+
+            UnitOfWork.Commit();
+
         }
 
         public void Logout(Int32 accountId)
@@ -134,13 +184,15 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId);
 
             AccountContext.Logout(accountId);
+
+            UnitOfWork.Commit();
         }
 
         public void Enable(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
 
-            var accountResult = GetLoginAccount(accountId);
+            var accountResult = GetAccountInfoService(accountId);
 
             if (accountResult == null)
             {
@@ -149,13 +201,17 @@ namespace NewCRM.Application.Services
 
             accountResult.Enable();
 
+            Repository.Create<Account>().Update(accountResult);
+
+            UnitOfWork.Commit();
+
         }
 
         public void Disable(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
 
-            var accountResult = GetLoginAccount(accountId);
+            var accountResult = GetAccountInfoService(accountId);
 
             if (accountResult == null)
             {
@@ -164,7 +220,9 @@ namespace NewCRM.Application.Services
 
             accountResult.Disable();
 
-        }
+            Repository.Create<Account>().Update(accountResult);
 
+            UnitOfWork.Commit();
+        }
     }
 }

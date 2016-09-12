@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NewCRM.Application.Interface;
+using NewCRM.Domain.Entities.DomainModel.Account;
 
 namespace NewCRM.Application.Services
 {
@@ -35,7 +36,13 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(newSkin);
 
-            AccountContext.ConfigServices.ModifySkin(accountId, newSkin);
+            var accountResult = GetAccountInfoService(accountId);
+
+            accountResult.Config.ModifySkin(newSkin);
+
+            Repository.Create<Account>().Update(accountResult);
+
+            UnitOfWork.Commit();
         }
 
         #region private method

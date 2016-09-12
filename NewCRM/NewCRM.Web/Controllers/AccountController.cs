@@ -66,6 +66,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult CheckAccountNameExist(String param)
         {
             var value = AccountApplicationServices.CheckAccountNameExist(param) ? 'y' : 'n';
+
             return Json(new { status = value });
         }
 

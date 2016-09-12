@@ -74,21 +74,21 @@ namespace NewCRM.Repository.UnitOfWorkProvide
         /// <summary>
         ///   为指定的类型返回 System.Data.Entity.DbSet，这将允许对上下文中的给定实体执行 CRUD 操作。
         /// </summary>
-        /// <typeparam name="TEntity"> 应为其返回一个集的实体类型。 </typeparam>
+        /// <typeparam name="T"> 应为其返回一个集的实体类型。 </typeparam>
         /// <typeparam name="TKey">实体主键类型</typeparam>
         /// <returns> 给定实体类型的 System.Data.Entity.DbSet 实例。 </returns>
-        public DbSet<TEntity> Set<TEntity, TKey>() where TEntity : DomainModelBase
+        public DbSet<T> Set<T, TKey>() where T : DomainModelBase
         {
-            return Context.Set<TEntity>();
+            return Context.Set<T>();
         }
 
         /// <summary>
         ///     注册一个新的对象到仓储上下文中
         /// </summary>
-        /// <typeparam name="TEntity"> 要注册的类型 </typeparam>
+        /// <typeparam name="T"> 要注册的类型 </typeparam>
         /// <typeparam name="TKey">实体主键类型</typeparam>
         /// <param name="entity"> 要注册的对象 </param>
-        public void RegisterNew<TEntity, TKey>(TEntity entity) where TEntity : DomainModelBase
+        public void RegisterNew<T, TKey>(T entity) where T : DomainModelBase
         {
             EntityState state = Context.Entry(entity).State;
             if (state == EntityState.Detached)
@@ -101,17 +101,17 @@ namespace NewCRM.Repository.UnitOfWorkProvide
         /// <summary>
         ///     批量注册多个新的对象到仓储上下文中
         /// </summary>
-        /// <typeparam name="TEntity"> 要注册的类型 </typeparam>
+        /// <typeparam name="T"> 要注册的类型 </typeparam>
         /// <typeparam name="TKey">实体主键类型</typeparam>
         /// <param name="entities"> 要注册的对象集合 </param>
-        public void RegisterNew<TEntity, TKey>(IEnumerable<TEntity> entities) where TEntity : DomainModelBase
+        public void RegisterNew<T, TKey>(IEnumerable<T> entities) where T : DomainModelBase
         {
             try
             {
                 Context.Configuration.AutoDetectChangesEnabled = false;
-                foreach (TEntity entity in entities)
+                foreach (T entity in entities)
                 {
-                    RegisterNew<TEntity, TKey>(entity);
+                    RegisterNew<T, TKey>(entity);
                 }
             }
             finally
@@ -123,35 +123,35 @@ namespace NewCRM.Repository.UnitOfWorkProvide
         /// <summary>
         ///     注册一个更改的对象到仓储上下文中
         /// </summary>
-        /// <typeparam name="TEntity"> 要注册的类型 </typeparam>
+        /// <typeparam name="T"> 要注册的类型 </typeparam>
         /// <typeparam name="TKey">实体主键类型</typeparam>
         /// <param name="entity"> 要注册的对象 </param>
-        public void RegisterModified<TEntity, TKey>(TEntity entity) where TEntity : DomainModelBase
+        public void RegisterModified<T, TKey>(T entity) where T : DomainModelBase
         {
-            Context.Update<TEntity, TKey>(entity);
+            Context.Update<T, TKey>(entity);
             IsCommitted = false;
         }
 
         /// <summary>
         /// 使用指定的属性表达式指定注册更改的对象到仓储上下文中
         /// </summary>
-        /// <typeparam name="TEntity">要注册的类型</typeparam>
+        /// <typeparam name="T">要注册的类型</typeparam>
         /// <typeparam name="TKey">主键类型</typeparam>
         /// <param name="propertyExpression">属性表达式，包含要更新的实体属性</param>
         /// <param name="entity">附带新值的实体信息，必须包含主键</param>
-        public void RegisterModified<TEntity, TKey>(Expression<Func<TEntity, Object>> propertyExpression, TEntity entity) where TEntity : DomainModelBase
+        public void RegisterModified<T, TKey>(Expression<Func<T, Object>> propertyExpression, T entity) where T : DomainModelBase
         {
-            Context.Update<TEntity, TKey>(propertyExpression, entity);
+            Context.Update<T, TKey>(propertyExpression, entity);
             IsCommitted = false;
         }
 
         /// <summary>
         ///   注册一个删除的对象到仓储上下文中
         /// </summary>
-        /// <typeparam name="TEntity"> 要注册的类型 </typeparam>
+        /// <typeparam name="T"> 要注册的类型 </typeparam>
         /// <typeparam name="TKey">实体主键类型</typeparam>
         /// <param name="entity"> 要注册的对象 </param>
-        public void RegisterDeleted<TEntity, TKey>(TEntity entity) where TEntity : DomainModelBase
+        public void RegisterDeleted<T, TKey>(T entity) where T : DomainModelBase
         {
             Context.Entry(entity).State = EntityState.Deleted;
             IsCommitted = false;
@@ -160,17 +160,17 @@ namespace NewCRM.Repository.UnitOfWorkProvide
         /// <summary>
         ///   批量注册多个删除的对象到仓储上下文中
         /// </summary>
-        /// <typeparam name="TEntity"> 要注册的类型 </typeparam>
+        /// <typeparam name="T"> 要注册的类型 </typeparam>
         /// <typeparam name="TKey">实体主键类型</typeparam>
         /// <param name="entities"> 要注册的对象集合 </param>
-        public void RegisterDeleted<TEntity, TKey>(IEnumerable<TEntity> entities) where TEntity : DomainModelBase
+        public void RegisterDeleted<T, TKey>(IEnumerable<T> entities) where T : DomainModelBase
         {
             try
             {
                 Context.Configuration.AutoDetectChangesEnabled = false;
-                foreach (TEntity entity in entities)
+                foreach (T entity in entities)
                 {
-                    RegisterDeleted<TEntity, TKey>(entity);
+                    RegisterDeleted<T, TKey>(entity);
                 }
             }
             finally

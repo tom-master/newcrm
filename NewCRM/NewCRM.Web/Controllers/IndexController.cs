@@ -21,13 +21,18 @@ namespace NewCRM.Web.Controllers
         public ActionResult Desktop()
         {
             ViewBag.Title = "桌面";
+
             if (Request.Cookies["Account"] != null)
             {
                 AccountConfig = AccountApplicationServices.GetConfig(Int32.Parse(Request.Cookies["Account"].Value));
+
                 ViewData["Account"] = Account;
+
                 ViewData["AccountConfig"] = AccountConfig;
+
                 return View();
             }
+
             return RedirectToAction("Login", "Index");
         }
 
@@ -82,6 +87,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult GetSkin()
         {
             var skinName = AccountConfig.Skin;
+
             return Json(new { data = skinName }, JsonRequestBehavior.AllowGet);
         }
 
@@ -92,6 +98,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult GetWallpaper()
         {
             var config = AccountApplicationServices.GetConfig(Account.Id);
+
             return Json(new
             {
                 data = new
@@ -112,6 +119,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult GetDockPos()
         {
             var dockPos = AccountConfig.DockPosition;
+
             return Json(new { data = dockPos }, JsonRequestBehavior.AllowGet);
         }
 
@@ -122,6 +130,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult GetAccountDeskMembers()
         {
             var app = AppApplicationServices.GetAccountDeskMembers(Account.Id);
+
             return Json(new { app }, JsonRequestBehavior.AllowGet);
         }
 

@@ -44,6 +44,7 @@ namespace NewCRM.Web.Controllers
             ViewData["AccountName"] = Account.Name;
 
             var singleAppResult = AppApplicationServices.GetApp(appId);
+
             return View(singleAppResult);
         }
 
@@ -73,6 +74,7 @@ namespace NewCRM.Web.Controllers
             if (appId != 0)// 如果appId为0则是新创建app
             {
                 appResult = AppApplicationServices.GetApp(appId);
+
                 ViewData["AppState"] = appResult.AppAuditState;
             }
 

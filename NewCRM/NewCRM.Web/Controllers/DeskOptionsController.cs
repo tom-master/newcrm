@@ -24,7 +24,9 @@ namespace NewCRM.Web.Controllers
         public ActionResult SystemWallPaper()
         {
             ViewData["AccountConfig"] = AccountConfig;
+
             ViewData["Wallpapers"] = WallpaperApplicationServices.GetWallpaper();
+
             return View();
         }
 
@@ -35,6 +37,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult CustomWallPaper()
         {
             ViewData["AccountConfig"] = AccountConfig;
+
             return View();
         }
 
@@ -54,6 +57,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult DeskSet()
         {
             ViewData["AccountConfig"] = AccountConfig;
+
             return View();
         }
         #endregion
@@ -66,6 +70,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult ModifyWallpaperDisplayModel(String wallPaperShowType = "")
         {
             WallpaperApplicationServices.ModifyWallpaperMode(Account.Id, wallPaperShowType);
+
             return Json(new { success = 1 });
         }
 
@@ -77,6 +82,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult ModifyWallpaper(Int32 wallpaperId)
         {
             WallpaperApplicationServices.ModifyWallpaper(Account.Id, wallpaperId);
+
             return Json(new { success = 1 });
         }
 
@@ -87,6 +93,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult GetAllUploadWallPaper()
         {
             var wallPapers = WallpaperApplicationServices.GetUploadWallpaper(Account.Id);
+
             return Json(new { wallPapers }, JsonRequestBehavior.AllowGet);
         }
 
@@ -98,6 +105,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult DeleteWallPaper(Int32 wallPaperId = 0)
         {
             WallpaperApplicationServices.RemoveWallpaper(Account.Id, wallPaperId);
+
             return Json(new { success = 1 });
         }
 
@@ -112,6 +120,7 @@ namespace NewCRM.Web.Controllers
                 var httpPostedFile = HttpContext.Request.Files[0];
 
                 var wallpaperDtoResult = WallpaperApplicationServices.GetUploadWallpaper(CalculateFile.Calculate(httpPostedFile.InputStream));
+
                 if (wallpaperDtoResult != null)
                 {
                     return Json(new { value = 1, msg = "这张壁纸已经存在" }, JsonRequestBehavior.AllowGet);
@@ -163,7 +172,9 @@ namespace NewCRM.Web.Controllers
         public ActionResult GetAllSkin()
         {
             var skinPath = Server.MapPath(ConfigurationManager.AppSettings["PlantFormSkinPath"]);
+
             var data = SkinApplicationServices.GetAllSkin(skinPath);
+
             return Json(new { data, currentSkin = AccountConfig.Skin });
         }
 
@@ -175,8 +186,8 @@ namespace NewCRM.Web.Controllers
         public ActionResult ModifySkin(String skin = "")
         {
             SkinApplicationServices.ModifySkin(Account.Id, skin);
-            return Json(new { success = 1 });
 
+            return Json(new { success = 1 });
         }
 
         /// <summary>
@@ -187,6 +198,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult ModifyDefaultDesk(Int32 deskNum)
         {
             DeskApplicationServices.ModifyDefaultDeskNumber(Account.Id, deskNum);
+
             return Json(new { success = 1 });
         }
 
@@ -198,6 +210,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult ModifyAppXy(String appXy)
         {
             AppApplicationServices.ModifyAppDirection(Account.Id, appXy);
+
             return Json(new { success = 1 });
         }
 
@@ -209,6 +222,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult ModifyAppSize(Int32 appSize)
         {
             AppApplicationServices.ModifyAppIconSize(Account.Id, appSize);
+
             return Json(new { success = 1 });
         }
 

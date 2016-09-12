@@ -14,13 +14,10 @@ namespace NewCRM.Web
 
         private static readonly String _containerKey = "MefKey";
 
-
         public MefDependencySolver(ComposablePartCatalog composablePartCatalog)
         {
             _catalog = composablePartCatalog;
         }
-
-
 
         public CompositionContainer Container
         {
@@ -43,7 +40,6 @@ namespace NewCRM.Web
             var contractName = AttributedModelServices.GetContractName(serviceType);
 
             return Container.GetExportedValueOrDefault<Object>(contractName);
-
         }
 
         public IEnumerable<Object> GetServices(Type serviceType)

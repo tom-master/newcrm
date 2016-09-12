@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using NewCRM.Domain.Entities.DomainModel.System;
-using NewCRM.Domain.Services.Impl;
 
-namespace NewCRM.Domain.Services
+namespace NewCRM.Domain.Interface
 {
     public interface IAppServices
     {
-        /// <summary>
-        /// 开发者（用户）创建新的app
-        /// </summary>
-        /// <param name="app"></param>
-        void CreateNewApp(App app);
-
         /// <summary>
         /// 修改开发者（用户）的app信息
         /// </summary>

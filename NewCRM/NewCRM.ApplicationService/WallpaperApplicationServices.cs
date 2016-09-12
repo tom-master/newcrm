@@ -12,6 +12,7 @@ using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
+using NewCRM.Infrastructure.CommonTools.CustemException;
 
 namespace NewCRM.Application.Services
 {
@@ -43,7 +44,21 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(wallpaperDto);
 
-            return WallpaperServices.AddWallpaper(wallpaperDto.ConvertToModel<WallpaperDto, Wallpaper>());
+            var wallpaper = wallpaperDto.ConvertToModel<WallpaperDto, Wallpaper>();
+
+            var wallPaperCount = QueryFactory.Create<Wallpaper>().Find(SpecificationFactory.Create<Wallpaper>(w => w.AccountId == wallpaper.AccountId)).Count();
+
+            if (wallPaperCount == 6)
+            {
+                throw new BusinessException($"最多只能上传6张壁纸");
+            }
+
+            Repository.Create<Wallpaper>().Add(wallpaper);
+
+            UnitOfWork.Commit();
+
+            return new Tuple<Int32, String>(wallpaper.Id, wallpaper.ShortUrl);
+
         }
 
         public List<WallpaperDto> GetUploadWallpaper(Int32 accountId)

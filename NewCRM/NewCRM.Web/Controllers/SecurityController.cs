@@ -28,6 +28,7 @@ namespace NewCRM.Web.Controllers
             {
                 ViewData["RoleResult"] = SecurityApplicationServices.GetRole(roleId);
             }
+
             return View();
         }
 
@@ -37,7 +38,9 @@ namespace NewCRM.Web.Controllers
             {
                 ViewData["RolePowerResult"] = SecurityApplicationServices.GetRole(roleId);
             }
+
             var adminApps = SecurityApplicationServices.GetAllPowers().GroupBy(g => g.PowerIdentity).ToList();
+
             return View(adminApps);
         }
 
@@ -97,8 +100,7 @@ namespace NewCRM.Web.Controllers
             {
                 SecurityApplicationServices.AddNewRole(WapperRoleDto(forms));
             }
-
-
+            
             return Json(new
             {
                 success = 1
@@ -143,6 +145,7 @@ namespace NewCRM.Web.Controllers
             {
                 SecurityApplicationServices.AddNewPower(WapperPowerDto(forms));
             }
+
             return Json(new { success = 1 });
         }
 
@@ -170,6 +173,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult RemovePower(Int32 powerId)
         {
             SecurityApplicationServices.RemovePower(powerId);
+
             return Json(new
             {
                 success = 1
@@ -183,6 +187,7 @@ namespace NewCRM.Web.Controllers
         private static PowerDto WapperPowerDto(FormCollection forms)
         {
             Int32 powerId = 0;
+
             if ((forms["powerId"] + "").Length > 0)
             {
                 powerId = Int32.Parse(forms["powerId"]);
@@ -194,7 +199,6 @@ namespace NewCRM.Web.Controllers
                 Name = forms["val_powerName"],
                 Remark = forms["val_remark"],
                 Id = powerId
-
             };
 
         }
@@ -203,10 +207,12 @@ namespace NewCRM.Web.Controllers
         private static RoleDto WapperRoleDto(FormCollection forms)
         {
             Int32 roleId = 0;
+
             if ((forms["roleId"] + "").Length > 0)
             {
                 roleId = Int32.Parse(forms["roleId"]);
             }
+
             return new RoleDto
             {
                 RoleIdentity = forms["val_roleIdentity"],

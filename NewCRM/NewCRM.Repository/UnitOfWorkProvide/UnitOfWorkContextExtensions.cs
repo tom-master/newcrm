@@ -16,17 +16,17 @@ namespace NewCRM.Repository.UnitOfWorkProvide
     /// </summary>
     public static class UnitOfWorkContextExtensions
     {
-        internal static void Update<TEntity, TKey>(this DbContext dbContext, params TEntity[] entities) where TEntity : DomainModelBase
+        internal static void Update<T, TKey>(this DbContext dbContext, params T[] entities) where T : DomainModelBase
         {
             if (dbContext == null) throw new ArgumentNullException($"{nameof(dbContext)}");
             if (entities == null) throw new ArgumentNullException($"{nameof(entities)}");
 
-            foreach (TEntity entity in entities)
+            foreach (T entity in entities)
             {
-                DbSet<TEntity> dbSet = dbContext.Set<TEntity>();
+                DbSet<T> dbSet = dbContext.Set<T>();
                 try
                 {
-                    DbEntityEntry<TEntity> entry = dbContext.Entry(entity);
+                    DbEntityEntry<T> entry = dbContext.Entry(entity);
                     if (entry.State == EntityState.Detached)
                     {
                         dbSet.Attach(entity);
@@ -35,24 +35,24 @@ namespace NewCRM.Repository.UnitOfWorkProvide
                 }
                 catch (InvalidOperationException)
                 {
-                    TEntity oldEntity = dbSet.Find(entity.Id);
+                    T oldEntity = dbSet.Find(entity.Id);
                     dbContext.Entry(oldEntity).CurrentValues.SetValues(entity);
                 }
             }
         }
 
-        internal static void Update<TEntity, TKey>(this DbContext dbContext, Expression<Func<TEntity, Object>> propertyExpression, params TEntity[] entities)
-            where TEntity : DomainModelBase
+        internal static void Update<T, TKey>(this DbContext dbContext, Expression<Func<T, Object>> propertyExpression, params T[] entities)
+            where T : DomainModelBase
         {
             if (propertyExpression == null) throw new ArgumentNullException($"{nameof(propertyExpression)}");
             if (entities == null) throw new ArgumentNullException($"{nameof(entities)}");
             ReadOnlyCollection<MemberInfo> memberInfos = ((dynamic)propertyExpression.Body).Members;
-            foreach (TEntity entity in entities)
+            foreach (T entity in entities)
             {
-                DbSet<TEntity> dbSet = dbContext.Set<TEntity>();
+                DbSet<T> dbSet = dbContext.Set<T>();
                 try
                 {
-                    DbEntityEntry<TEntity> entry = dbContext.Entry(entity);
+                    DbEntityEntry<T> entry = dbContext.Entry(entity);
                     entry.State = EntityState.Unchanged;
                     foreach (var memberInfo in memberInfos)
                     {
@@ -61,7 +61,7 @@ namespace NewCRM.Repository.UnitOfWorkProvide
                 }
                 catch (InvalidOperationException)
                 {
-                    TEntity originalEntity = dbSet.Local.Single(m => Equals(m.Id, entity.Id));
+                    T originalEntity = dbSet.Local.Single(m => Equals(m.Id, entity.Id));
                     ObjectContext objectContext = ((IObjectContextAdapter)dbContext).ObjectContext;
                     ObjectStateEntry objectEntry = objectContext.ObjectStateManager.GetObjectStateEntry(originalEntity);
                     objectEntry.ApplyCurrentValues(entity);

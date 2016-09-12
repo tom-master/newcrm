@@ -4,43 +4,24 @@ using System.Linq;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.DomainSpecification.Factory;
-using NewCRM.Domain.Entities.Repositories.IRepository.Account;
-using NewCRM.Domain.Entities.Repositories.IRepository.Security;
-using NewCRM.Domain.Entities.Repositories.IRepository.System;
+using NewCRM.Domain.Entities.Factory;
+using NewCRM.Domain.Entities.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 using NewCRM.QueryServices.Query;
 
-namespace NewCRM.Domain.Services
+namespace NewCRM.Domain.Services.BaseService
 {
     /// <summary>
     /// 基础服务实现
     /// </summary>
     internal abstract class BaseService
     {
-        [Import]
-        protected IAccountRepository AccountRepository { get; set; }
 
+        /// <summary>
+        /// 获取仓储工厂
+        /// </summary>
         [Import]
-        protected IAppTypeRepository AppTypeRepository { get; set; }
-
-        [Import]
-        protected IAppRepository AppRepository { get; set; }
-
-        [Import]
-        protected IDeskRepository DeskRepository { get; set; }
-
-        [Import]
-        protected IOnlineRepository OnlineRepository { get; set; }
-
-        [Import]
-        protected IWallpaperRepository WallpaperRepository { get; set; }
-
-        [Import]
-        protected IRoleRepository RoleRepository { get; set; }
-
-        [Import]
-        protected IPowerRepository PowerRepository { get; set; }
-
+        protected RepositoryFactory Repository { get; set; }
 
         /// <summary>
         /// 查询工厂
@@ -80,7 +61,11 @@ namespace NewCRM.Domain.Services
         /// <returns></returns>
         protected Int32 GetRealDeskIdService(Int32 deskId, Config accountConfig)
         {
-            return accountConfig.Desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
+            var internalDesk = accountConfig.Desks.FirstOrDefault(desk => desk.DeskNumber == deskId);
+
+            return internalDesk?.Id ?? 0;
         }
+
+        protected Member InternalDeskMember(Int32 memberId, Desk desk) => desk.Members.FirstOrDefault(member => member.Id == memberId);
     }
 }

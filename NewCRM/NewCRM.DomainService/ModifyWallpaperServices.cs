@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
+using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.ValueObject;
+using NewCRM.Domain.Interface;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
-namespace NewCRM.Domain.Services.Impl
+namespace NewCRM.Domain.Services
 {
-    [Export(typeof(IWallpaperServices))]
-    internal class WallpaperServices : BaseService, IWallpaperServices
+    [Export(typeof(IModifyWallpaperServices))]
+    internal class ModifyWallpaperServices : BaseService.BaseService, IModifyWallpaperServices
     {
         public void ModifyWallpaperMode(Int32 accountId, String newMode)
         {
@@ -18,45 +18,30 @@ namespace NewCRM.Domain.Services.Impl
             if (Enum.TryParse(newMode, true, out wallpaperMode))
             {
                 var accountResult = GetAccountInfoService(accountId);
+
                 accountResult.Config.ModifyDisplayMode(wallpaperMode);
-                AccountRepository.Update(accountResult);
+
+                Repository.Create<Account>().Update(accountResult);
             }
             else
             {
                 throw new BusinessException($"无法识别的壁纸显示模式:{newMode}");
             }
-
         }
 
         public void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId)
         {
             var accountResult = GetAccountInfoService(accountId);
 
-
             var wallpaperResult = QueryFactory.Create<Wallpaper>().FindOne(SpecificationFactory.Create<Wallpaper>(wallpaper => wallpaper.Id == newWallpaperId));
 
             accountResult.Config.ModifyWallpaper(wallpaperResult);
 
-            AccountRepository.Update(accountResult);
-        }
-
-        public Tuple<Int32, String> AddWallpaper(Wallpaper wallpaper)
-        {
-            var wallPaperCount = QueryFactory.Create<Wallpaper>().Find(SpecificationFactory.Create<Wallpaper>(w => w.AccountId == wallpaper.AccountId)).Count();
-
-            if (wallPaperCount == 6)
-            {
-                throw new BusinessException($"最多只能上传6张壁纸");
-            }
-
-            WallpaperRepository.Add(wallpaper);
-
-            return new Tuple<Int32, String>(wallpaper.Id, wallpaper.ShortUrl);
+            Repository.Create<Account>().Update(accountResult);
         }
 
         public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
         {
-
             var accountResult = GetAccountInfoService(accountId);
 
             if (accountResult.Config.Wallpaper.Id == wallpaperId)
@@ -64,7 +49,7 @@ namespace NewCRM.Domain.Services.Impl
                 throw new BusinessException($"当前壁纸正在使用或已被删除");
             }
 
-            WallpaperRepository.Remove(wallpaper => wallpaper.Id == wallpaperId);
+            Repository.Create<Wallpaper>().Remove(wallpaper => wallpaper.Id == wallpaperId);
 
         }
     }

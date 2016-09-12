@@ -15,8 +15,8 @@ namespace NewCRM.Repository.DataBaseProvider
     /// <summary>
     ///     EntityFramework仓储操作基类
     /// </summary>
-    /// <typeparam name="TEntity">动态实体类型</typeparam>
-    public abstract class EntityFrameworkProvider<TEntity> : IRepository<TEntity> where TEntity : DomainModelBase, IAggregationRoot
+    /// <typeparam name="T">动态实体类型</typeparam>
+    public abstract class EntityFrameworkProvider<T> : IRepository<T> where T : DomainModelBase, IAggregationRoot
     {
         public virtual Parameter VaildateParameter => new Parameter();
 
@@ -62,19 +62,10 @@ namespace NewCRM.Repository.DataBaseProvider
         /// </summary>
         /// <param name="entity"> 实体对象 </param>
         /// <param name="isSave"> 是否执行保存 </param>
-        public virtual void Add(TEntity entity, Boolean isSave = true)
+        public virtual void Add(T entity, Boolean isSave = true)
         {
             VaildateParameter.Validate(entity);
-            EfContext.RegisterNew<TEntity, Int32>(entity);
-
-            if (isSave)
-            {
-                EfContext.Commit();
-            }
-            else
-            {
-                throw new RepositoryException("数据添加失败");
-            }
+            EfContext.RegisterNew<T, Int32>(entity);
         }
 
         /// <summary>
@@ -82,19 +73,10 @@ namespace NewCRM.Repository.DataBaseProvider
         /// </summary>
         /// <param name="entities"> 实体记录集合 </param>
         /// <param name="isSave"> 是否执行保存 </param>
-        public virtual void Add(IEnumerable<TEntity> entities, Boolean isSave = true)
+        public virtual void Add(IEnumerable<T> entities, Boolean isSave = true)
         {
             VaildateParameter.Validate(entities);
-            EfContext.RegisterNew<TEntity, Int32>(entities);
-
-            if (isSave)
-            {
-                EfContext.Commit();
-            }
-            else
-            {
-                throw new RepositoryException("数据添加失败");
-            }
+            EfContext.RegisterNew<T, Int32>(entities);
         }
 
         /// <summary>
@@ -105,7 +87,7 @@ namespace NewCRM.Repository.DataBaseProvider
         public virtual void Remove(Int32 id, Boolean isSave = true)
         {
             VaildateParameter.Validate(id);
-            TEntity entity = EfContext.Set<TEntity, Int32>().Find(id);
+            T entity = EfContext.Set<T, Int32>().Find(id);
             if (entity != null)
             {
                 Remove(entity, isSave);
@@ -121,18 +103,10 @@ namespace NewCRM.Repository.DataBaseProvider
         /// </summary>
         /// <param name="entity"> 实体对象 </param>
         /// <param name="isSave"> 是否执行保存 </param>
-        public virtual void Remove(TEntity entity, Boolean isSave = true)
+        public virtual void Remove(T entity, Boolean isSave = true)
         {
             VaildateParameter.Validate(entity);
-            EfContext.RegisterDeleted<TEntity, Int32>(entity);
-            if (isSave)
-            {
-                EfContext.Commit();
-            }
-            else
-            {
-                throw new RepositoryException("数据移除失败");
-            }
+            EfContext.RegisterDeleted<T, Int32>(entity);
         }
 
         /// <summary>
@@ -140,18 +114,10 @@ namespace NewCRM.Repository.DataBaseProvider
         /// </summary>
         /// <param name="entities"> 实体记录集合 </param>
         /// <param name="isSave"> 是否执行保存 </param>
-        public virtual void Remove(IEnumerable<TEntity> entities, Boolean isSave = true)
+        public virtual void Remove(IEnumerable<T> entities, Boolean isSave = true)
         {
             VaildateParameter.Validate(entities);
-            EfContext.RegisterDeleted<TEntity, Int32>(entities);
-            if (isSave)
-            {
-                EfContext.Commit();
-            }
-            else
-            {
-                throw new RepositoryException("数据添加失败");
-            }
+            EfContext.RegisterDeleted<T, Int32>(entities);
         }
 
         /// <summary>
@@ -159,10 +125,10 @@ namespace NewCRM.Repository.DataBaseProvider
         /// </summary>
         /// <param name="predicate"> 查询条件谓语表达式 </param>
         /// <param name="isSave"> 是否执行保存 </param>
-        public virtual void Remove(Expression<Func<TEntity, Boolean>> predicate, Boolean isSave = true)
+        public virtual void Remove(Expression<Func<T, Boolean>> predicate, Boolean isSave = true)
         {
             VaildateParameter.Validate(predicate);
-            IList<TEntity> entities = EfContext.Set<TEntity, Int32>().Where(predicate).ToList();
+            IList<T> entities = EfContext.Set<T, Int32>().Where(predicate).ToList();
             if (entities.Any())
             {
                 Remove(entities, isSave);
@@ -178,18 +144,10 @@ namespace NewCRM.Repository.DataBaseProvider
         /// </summary>
         /// <param name="entity"> 实体对象 </param>
         /// <param name="isSave"> 是否执行保存 </param>
-        public virtual void Update(TEntity entity, Boolean isSave = true)
+        public virtual void Update(T entity, Boolean isSave = true)
         {
             VaildateParameter.Validate(entity);
-            EfContext.RegisterModified<TEntity, Int32>(entity);
-            if (isSave)
-            {
-                EfContext.Commit();
-            }
-            else
-            {
-                throw new RepositoryException("数据更新失败");
-            }
+            EfContext.RegisterModified<T, Int32>(entity);
         }
 
         /// <summary>
@@ -198,7 +156,7 @@ namespace NewCRM.Repository.DataBaseProvider
         /// <param name="propertyExpression">属性表达式</param>
         /// <param name="isSave">是否执行保存</param>
         /// <param name="entity">附带新值的实体信息，必须包含主键</param>
-        public virtual void Update(Expression<Func<TEntity, Boolean>> propertyExpression, TEntity entity, Boolean isSave = true)
+        public virtual void Update(Expression<Func<T, Boolean>> propertyExpression, T entity, Boolean isSave = true)
         {
             throw new NotSupportedException("上下文公用，不支持按需更新功能。");
         }

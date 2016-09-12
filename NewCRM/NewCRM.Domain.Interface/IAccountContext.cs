@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using NewCRM.Domain.Entities.DomainModel.Account;
 
-namespace NewCRM.Domain.Services
+namespace NewCRM.Domain.Interface
 {
     public interface IAccountContext
     {
 
-        IAccountConfigServices ConfigServices { get; set; }
+        IModifyDeskMemberPostionServices ModifyAccountConfigServices { get; set; }
 
         /// <summary>
         /// 验证用户是否合法

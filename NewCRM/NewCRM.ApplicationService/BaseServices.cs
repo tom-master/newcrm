@@ -1,8 +1,11 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Data.Common;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainSpecification.Factory;
-using NewCRM.Domain.Services;
+using NewCRM.Domain.Entities.Factory;
+using NewCRM.Domain.Entities.UnitWork;
+using NewCRM.Domain.Interface;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
 using NewCRM.QueryServices.Query;
 
@@ -10,6 +13,11 @@ namespace NewCRM.Application.Services
 {
     internal class BaseServices
     {
+        [Import]
+        protected IUnitOfWork UnitOfWork { get; set; }
+
+        [Import]
+        protected RepositoryFactory Repository { get; set; }
 
         [Import]
         protected IAccountContext AccountContext { get; set; }
@@ -18,10 +26,18 @@ namespace NewCRM.Application.Services
         protected IAppServices AppServices { get; set; }
 
         [Import]
-        protected IWallpaperServices WallpaperServices { get; set; }
+        protected IModifyWallpaperServices WallpaperServices { get; set; }
+
 
         [Import]
-        protected ISecurityContext SecurityContext { get; set; }
+        protected IModifyDockPostionServices ModifyDockPostionServices { get; set; }
+
+        [Import]
+        protected IModifyDeskMemberInfoServices ModifyDeskMemberInfoServices { get; set; }
+
+        [Import]
+        protected IMemberRemoveServices MemberRemoveServices { get; set; }
+
 
         /// <summary>
         /// 查询工厂
@@ -45,7 +61,7 @@ namespace NewCRM.Application.Services
         /// </summary>
         /// <param name="accountId"></param>
         /// <returns></returns>
-        internal Account GetLoginAccount(Int32 accountId)
+        internal Account GetAccountInfoService(Int32 accountId)
         {
             return QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId));
         }

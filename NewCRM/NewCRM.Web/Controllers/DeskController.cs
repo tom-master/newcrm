@@ -17,6 +17,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult EditMember(Int32 memberId)
         {
             var memberResult = DeskApplicationServices.GetMember(Account.Id, memberId);
+
             return View(memberResult);
         }
 
@@ -66,6 +67,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult ModifyFolderInfo(String name, String icon, Int32 memberId)
         {
             DeskApplicationServices.ModifyFolderInfo(name, icon, memberId, Account.Id);
+
             return Json(new { success = 1 });
         }
 
@@ -104,12 +106,15 @@ namespace NewCRM.Web.Controllers
                 var icon = Request.Files[0];
 
                 var fileUpLoadHelper = new FileUpLoadHelper(ConfigurationManager.AppSettings["UploadIconPath"], false, false);
+
                 if (fileUpLoadHelper.SaveFile(icon))
                 {
                     return Json(new { iconPath = fileUpLoadHelper.FilePath + fileUpLoadHelper.OldFileName });
                 }
+
                 return Json(new { msg = "上传失败" });
             }
+
             return Json(new { msg = "请上传一个图片" });
         }
 
@@ -121,6 +126,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult UnInstallMember(Int32 memberId)
         {
             DeskApplicationServices.RemoveMember(Account.Id, memberId);
+
             return Json(new { success = 1 });
         }
     }

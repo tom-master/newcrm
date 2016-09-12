@@ -74,6 +74,10 @@
       <Project>{BB9C76EF-E30C-46BE-96E7-C6D53F508536}</Project>
       <Name>NewCRM.Application.Interface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NewCRM.Domain.Interface\NewCRM.Domain.Interface.csproj">
+      <Project>{CC9D6AD9-938F-45D4-882E-B12411AA727D}</Project>
+      <Name>NewCRM.Domain.Interface</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

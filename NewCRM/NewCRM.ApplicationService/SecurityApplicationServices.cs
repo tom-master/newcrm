@@ -20,22 +20,54 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(roleId);
 
-            SecurityContext.RoleServices.RemoveRole(roleId);
+            var roleResult = QueryFactory.Create<Role>().FindOne(SpecificationFactory.Create<Role>(role => role.Id == roleId));
+
+            if (roleResult == null)
+            {
+                throw new BusinessException("该角色可能已不存在，请刷新后再试");
+            }
+
+            if (roleResult.Powers.Any())
+            {
+                roleResult.Powers.ToList().ForEach(rolePower => rolePower.Remove());
+            }
+
+            roleResult.Remove();
+
+            Repository.Create<Role>().Update(roleResult);
+
+            UnitOfWork.Commit();
         }
 
-        public void AddNewRole(RoleDto role)
+        public void AddNewRole(RoleDto roleDto)
         {
+            ValidateParameter.Validate(roleDto);
 
-            ValidateParameter.Validate(role);
+            var role = roleDto.ConvertToModel<RoleDto, Role>();
 
-            SecurityContext.RoleServices.AddNewRole(role.ConvertToModel<RoleDto, Role>());
+            Repository.Create<Role>().Add(role);
+
+            UnitOfWork.Commit();
         }
 
-        public void ModifyRole(RoleDto role)
+        public void ModifyRole(RoleDto roleDto)
         {
-            ValidateParameter.Validate(role);
+            ValidateParameter.Validate(roleDto);
 
-            SecurityContext.RoleServices.ModifyRole(role.ConvertToModel<RoleDto, Role>());
+            var role = roleDto.ConvertToModel<RoleDto, Role>();
+
+            var roleResult = QueryFactory.Create<Role>().FindOne(SpecificationFactory.Create<Role>(internalRole => internalRole.Id == role.Id));
+
+            if (roleResult == null)
+            {
+                throw new BusinessException("该角色可能已被删除，请刷新后再试");
+            }
+
+            roleResult.ModifyRoleName(role.Name).ModifyRoleIdentity(role.RoleIdentity);
+
+            Repository.Create<Role>().Update(roleResult);
+
+            UnitOfWork.Commit();
         }
 
         public List<RoleDto> GetAllRoles()
@@ -71,7 +103,20 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(roleId).Validate(powerIds);
 
-            SecurityContext.RoleServices.AddPowerToCurrentRole(roleId, powerIds);
+            var roleResult = QueryFactory.Create<Role>().FindOne(SpecificationFactory.Create<Role>(role => role.Id == roleId));
+
+            if (roleResult == null)
+            {
+                throw new BusinessException("该角色可能已被删除，请刷新后再试");
+            }
+
+            roleResult.Powers.ToList().ForEach(f => f.Remove());
+
+            roleResult.AddPower(powerIds.ToArray());
+
+            Repository.Create<Role>().Update(roleResult);
+
+            UnitOfWork.Commit();
         }
 
         public List<RoleDto> GetAllRoles(String roleName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
@@ -108,11 +153,15 @@ namespace NewCRM.Application.Services
             }).ConvertDynamicToDtos<PowerDto>().ToList();
         }
 
-        public void AddNewPower(PowerDto power)
+        public void AddNewPower(PowerDto powerDto)
         {
-            ValidateParameter.Validate(power);
+            ValidateParameter.Validate(powerDto);
 
-            SecurityContext.PowerServices.AddNewPower(power.ConvertToModel<PowerDto, Power>());
+            var power = powerDto.ConvertToModel<PowerDto, Power>();
+
+            Repository.Create<Power>().Add(power);
+
+            UnitOfWork.Commit();
         }
 
         public PowerDto GetPower(Int32 powerId)
@@ -129,18 +178,44 @@ namespace NewCRM.Application.Services
             return powerResult.ConvertToDto<Power, PowerDto>();
         }
 
-        public void ModifyPower(PowerDto power)
+        public void ModifyPower(PowerDto powerDto)
         {
-            ValidateParameter.Validate(power);
+            ValidateParameter.Validate(powerDto);
 
-            SecurityContext.PowerServices.ModifyPower(power.ConvertToModel<PowerDto, Power>());
+            var power = powerDto.ConvertToModel<PowerDto, Power>();
+
+            var powerResult = QueryFactory.Create<Power>().FindOne(SpecificationFactory.Create<Power>(p => p.Id == power.Id));
+
+            if (powerResult == null)
+            {
+                throw new BusinessException("该权限可能已被删除，请刷新后再试");
+            }
+
+            powerResult.ModifyPowerIdentity(power.PowerIdentity);
+
+            powerResult.ModifyPowerName(power.Name);
+
+            Repository.Create<Power>().Update(powerResult);
+
+            UnitOfWork.Commit();
         }
 
         public void RemovePower(Int32 powerId)
         {
             ValidateParameter.Validate(powerId);
 
-            SecurityContext.PowerServices.RemovePower(powerId);
+            var powerResult = QueryFactory.Create<Power>().FindOne(SpecificationFactory.Create<Power>(power => power.Id == powerId));
+
+            if (powerResult == null)
+            {
+                throw new BusinessException("该权限可能已被删除，请刷新后再试");
+            }
+
+            powerResult.Remove();
+
+            Repository.Create<Power>().Update(powerResult);
+
+            UnitOfWork.Commit();
         }
 
         public List<PowerDto> GetAllPowers(String powerName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)

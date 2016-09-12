@@ -78,6 +78,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultRepositoryFactory.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NewCrmBackSite.cs" />
     <Compile Include="QueryProvider.cs" />

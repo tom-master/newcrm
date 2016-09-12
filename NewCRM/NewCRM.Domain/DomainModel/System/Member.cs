@@ -43,7 +43,6 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// </summary>
         public String IconUrl { get; private set; }
 
-
         /// <summary>
         /// app地址
         /// </summary>
@@ -95,14 +94,12 @@ namespace NewCRM.Domain.Entities.DomainModel.System
         /// </summary>
         public Boolean IsResize { get; private set; }
 
-
         public Int32 DeskId { get; set; }
 
         /// <summary>
         /// 成员类型
         /// </summary>
         public MemberType MemberType { get; private set; }
-
 
         #endregion
 

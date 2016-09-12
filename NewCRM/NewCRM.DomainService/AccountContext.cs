@@ -1,19 +1,19 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Linq;
 using System.Net;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.System;
+using NewCRM.Domain.Interface;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
-namespace NewCRM.Domain.Services.Impl
+namespace NewCRM.Domain.Services
 {
     [Export(typeof(IAccountContext))]
-    internal class AccountContext : BaseService, IAccountContext
+    internal class AccountContext : BaseService.BaseService, IAccountContext
     {
         [Import]
-        public IAccountConfigServices ConfigServices { get; set; }
+        public IModifyDeskMemberPostionServices ModifyAccountConfigServices { get; set; }
 
         public Account Validate(String accountName, String password)
         {
@@ -32,9 +32,9 @@ namespace NewCRM.Domain.Services.Impl
 
             accountResult.Online();
 
-            AccountRepository.Update(accountResult);
+            Repository.Create<Account>().Update(accountResult);
 
-            OnlineRepository.Add(new Online(GetCurrentIpAddress(), accountResult.Id));
+            Repository.Create<Online>().Add(new Online(GetCurrentIpAddress(), accountResult.Id));
 
             return accountResult;
 
@@ -50,7 +50,7 @@ namespace NewCRM.Domain.Services.Impl
             }
             accountResult.Offline();
 
-            AccountRepository.Update(accountResult);
+            Repository.Create<Account>().Update(accountResult);
 
             ModifyOnlineState(accountId);
         }
@@ -64,6 +64,7 @@ namespace NewCRM.Domain.Services.Impl
         private String GetCurrentIpAddress()
         {
             IPHostEntry localhost = Dns.GetHostEntry(Dns.GetHostName());
+
             return (localhost.AddressList[0]).ToString();
         }
 
@@ -74,7 +75,9 @@ namespace NewCRM.Domain.Services.Impl
         private void ModifyOnlineState(Int32 accountId)
         {
             var onlineResult = QueryFactory.Create<Online>().FindOne(SpecificationFactory.Create<Online>(online => online.AccountId == accountId));
-            OnlineRepository.Remove(onlineResult);
+
+            Repository.Create<Online>().Remove(onlineResult);
+
         }
 
         #endregion
