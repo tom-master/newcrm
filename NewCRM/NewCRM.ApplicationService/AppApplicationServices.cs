@@ -14,7 +14,7 @@ using NewCRM.Infrastructure.CommonTools.CustemException;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IAppApplicationServices))]
-    internal class AppApplicationServices : BaseServices, IAppApplicationServices
+    internal class AppApplicationServices : BaseServices.BaseServices, IAppApplicationServices
     {
 
         public IDictionary<Int32, IList<dynamic>> GetAccountDeskMembers(Int32 accountId)
@@ -166,9 +166,6 @@ namespace NewCRM.Application.Services
             UnitOfWork.Commit();
         }
 
-
-
-
         public List<AppTypeDto> GetAppTypes() => QueryFactory.Create<AppType>().Find(SpecificationFactory.Create<AppType>()).ConvertToDtos<AppType, AppTypeDto>().ToList();
 
         public TodayRecommendAppDto GetTodayRecommend(Int32 accountId)
@@ -319,7 +316,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(appId).Validate(starCount, true);
 
-            AppServices.ModifyAppStar(accountId, appId, starCount);
+            AppContext.ModifyAppInfoServices.ModifyAppStar(accountId, appId, starCount);
 
             UnitOfWork.Commit();
         }
@@ -328,7 +325,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(appId).Validate(deskNum);
 
-            AppServices.InstallApp(accountId, appId, deskNum);
+            AppContext.InstallAppServices.Install(accountId, appId, deskNum);
 
             UnitOfWork.Commit();
         }
@@ -472,7 +469,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(appDto);
 
-            AppServices.ModifyAccountAppInfo(accountId, appDto.ConvertToModel<AppDto, App>());
+            AppContext.ModifyAppInfoServices.ModifyAccountAppInfo(accountId, appDto.ConvertToModel<AppDto, App>());
 
             UnitOfWork.Commit();
         }

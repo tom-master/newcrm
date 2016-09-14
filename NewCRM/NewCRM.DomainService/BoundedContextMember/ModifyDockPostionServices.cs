@@ -5,9 +5,10 @@ using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.ValueObject;
 using NewCRM.Domain.Interface;
+using NewCRM.Domain.Interface.BoundedContextMember;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
-namespace NewCRM.Domain.Services
+namespace NewCRM.Domain.Services.BoundedContextMember
 {
     [Export(typeof(IModifyDockPostionServices))]
     internal sealed class ModifyDockPostionServices : BaseService.BaseService, IModifyDockPostionServices

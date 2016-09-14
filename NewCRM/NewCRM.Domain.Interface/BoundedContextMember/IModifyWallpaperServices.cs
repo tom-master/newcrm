@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NewCRM.Domain.Interface
+namespace NewCRM.Domain.Interface.BoundedContextMember
 {
     public interface IModifyWallpaperServices
     {

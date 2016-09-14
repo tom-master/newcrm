@@ -1,15 +1,17 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Data.Common;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainSpecification.Factory;
 using NewCRM.Domain.Entities.Factory;
 using NewCRM.Domain.Entities.UnitWork;
-using NewCRM.Domain.Interface;
+using NewCRM.Domain.Interface.BoundedContext.Account;
+using NewCRM.Domain.Interface.BoundedContext.App;
+using NewCRM.Domain.Interface.BoundedContext.Desk;
+using NewCRM.Domain.Interface.BoundedContext.Wallpaper;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
 using NewCRM.QueryServices.Query;
 
-namespace NewCRM.Application.Services
+namespace NewCRM.Application.Services.BaseServices
 {
     internal class BaseServices
     {
@@ -17,27 +19,23 @@ namespace NewCRM.Application.Services
         protected IUnitOfWork UnitOfWork { get; set; }
 
         [Import]
-        protected RepositoryFactory Repository { get; set; }
-
-        [Import]
         protected IAccountContext AccountContext { get; set; }
 
         [Import]
-        protected IAppServices AppServices { get; set; }
+        protected IAppContext AppContext { get; set; }
 
         [Import]
-        protected IModifyWallpaperServices WallpaperServices { get; set; }
-
-
-        [Import]
-        protected IModifyDockPostionServices ModifyDockPostionServices { get; set; }
+        protected IDeskContext DeskContext { get; set; }
 
         [Import]
-        protected IModifyDeskMemberInfoServices ModifyDeskMemberInfoServices { get; set; }
+        protected IWallpaperContext WallpaperContext { get; set; }
 
+
+        /// <summary>
+        /// 仓储工厂
+        /// </summary>
         [Import]
-        protected IMemberRemoveServices MemberRemoveServices { get; set; }
-
+        protected RepositoryFactory Repository { get; set; }
 
         /// <summary>
         /// 查询工厂

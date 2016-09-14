@@ -1,13 +1,13 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Net;
-using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.System;
-using NewCRM.Domain.Interface;
+using NewCRM.Domain.Interface.BoundedContext.Account;
+using NewCRM.Domain.Interface.BoundedContextMember;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
-namespace NewCRM.Domain.Services
+namespace NewCRM.Domain.Services.BoundedContext.Account
 {
     [Export(typeof(IAccountContext))]
     internal class AccountContext : BaseService.BaseService, IAccountContext
@@ -15,10 +15,10 @@ namespace NewCRM.Domain.Services
         [Import]
         public IModifyDeskMemberPostionServices ModifyAccountConfigServices { get; set; }
 
-        public Account Validate(String accountName, String password)
+        public Entities.DomainModel.Account.Account Validate(String accountName, String password)
         {
 
-            var accountResult = QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Name == accountName));
+            var accountResult = QueryFactory.Create<Entities.DomainModel.Account.Account>().FindOne(SpecificationFactory.Create<Entities.DomainModel.Account.Account>(account => account.Name == accountName));
 
             if (accountResult == null)
             {
@@ -32,7 +32,7 @@ namespace NewCRM.Domain.Services
 
             accountResult.Online();
 
-            Repository.Create<Account>().Update(accountResult);
+            Repository.Create<Entities.DomainModel.Account.Account>().Update(accountResult);
 
             Repository.Create<Online>().Add(new Online(GetCurrentIpAddress(), accountResult.Id));
 
@@ -50,7 +50,7 @@ namespace NewCRM.Domain.Services
             }
             accountResult.Offline();
 
-            Repository.Create<Account>().Update(accountResult);
+            Repository.Create<Entities.DomainModel.Account.Account>().Update(accountResult);
 
             ModifyOnlineState(accountId);
         }

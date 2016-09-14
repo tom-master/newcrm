@@ -1,11 +1,12 @@
 ﻿using System;
-using NewCRM.Domain.Entities.DomainModel.Account;
+using System.ComponentModel.Composition;
+using NewCRM.Domain.Interface.BoundedContextMember;
 
-namespace NewCRM.Domain.Interface
+namespace NewCRM.Domain.Interface.BoundedContext.Account
 {
     public interface IAccountContext
     {
-
+        [Import]
         IModifyDeskMemberPostionServices ModifyAccountConfigServices { get; set; }
 
         /// <summary>
@@ -14,7 +15,7 @@ namespace NewCRM.Domain.Interface
         /// <param name="accountName"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        Account Validate(String accountName, String password);
+        Entities.DomainModel.Account.Account Validate(String accountName, String password);
 
         /// <summary>
         /// 用户登出

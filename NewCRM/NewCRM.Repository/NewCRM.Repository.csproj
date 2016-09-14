@@ -72,11 +72,11 @@
     <Folder Include="Configuration\Security\Imp\" />
     <Folder Include="Configuration\System\Imp\" />
   </ItemGroup>
-  <ItemGroup>
+  <!--<ItemGroup>
     <EmbeddedResource Include="Migrations\201606051122318_InitialCreate.resx">
       <DependentUpon>201606051122318_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
+  </ItemGroup>-->
   <ItemGroup>
     <Compile Include="DefaultRepositoryFactory.cs" />
     <Compile Include="Migrations\Configuration.cs" />

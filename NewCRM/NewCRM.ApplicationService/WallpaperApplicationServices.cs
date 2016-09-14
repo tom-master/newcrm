@@ -17,7 +17,7 @@ using NewCRM.Infrastructure.CommonTools.CustemException;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IWallpaperApplicationServices))]
-    internal class WallpaperApplicationServices : BaseServices, IWallpaperApplicationServices
+    internal class WallpaperApplicationServices : BaseServices.BaseServices, IWallpaperApplicationServices
     {
         public List<WallpaperDto> GetWallpaper()
         {
@@ -30,14 +30,14 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(newMode);
 
-            WallpaperServices.ModifyWallpaperMode(accountId, newMode);
+            WallpaperContext.ModifyWallpaperServices.ModifyWallpaperMode(accountId, newMode);
         }
 
         public void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId)
         {
             ValidateParameter.Validate(accountId).Validate(newWallpaperId);
 
-            WallpaperServices.ModifyWallpaper(accountId, newWallpaperId);
+            WallpaperContext.ModifyWallpaperServices.ModifyWallpaper(accountId, newWallpaperId);
         }
 
         public Tuple<Int32, String> AddWallpaper(WallpaperDto wallpaperDto)
@@ -72,7 +72,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(wallpaperId);
 
-            WallpaperServices.RemoveWallpaper(accountId, wallpaperId);
+            WallpaperContext.ModifyWallpaperServices.RemoveWallpaper(accountId, wallpaperId);
         }
 
         public async Task<Tuple<Int32, String>> AddWebWallpaper(Int32 accountId, String url)

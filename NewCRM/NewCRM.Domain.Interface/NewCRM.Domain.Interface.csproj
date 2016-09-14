@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,14 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IMemberRemoveServices.cs" />
-    <Compile Include="IModifyDeskMemberInfoServices.cs" />
-    <Compile Include="IModifyDeskMemberPostionServices.cs" />
-    <Compile Include="IAccountContext.cs" />
-    <Compile Include="IAppServices.cs" />
-    <Compile Include="IModifyDockPostionServices.cs" />
-    <Compile Include="IModifyWallpaperServices.cs" />
+    <Compile Include="BoundedContext\App\IAppContext.cs" />
+    <Compile Include="BoundedContext\Desk\IDeskContext.cs" />
+    <Compile Include="BoundedContextMember\IInstallAppServices.cs" />
+    <Compile Include="BoundedContextMember\IModifyDeskMemberServices.cs" />
+    <Compile Include="BoundedContextMember\IModifyDeskMemberPostionServices.cs" />
+    <Compile Include="BoundedContext\Account\IAccountContext.cs" />
+    <Compile Include="BoundedContextMember\IModifyAppInfoServices.cs" />
+    <Compile Include="BoundedContextMember\IModifyDockPostionServices.cs" />
+    <Compile Include="BoundedContextMember\IModifyWallpaperServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BoundedContext\Wallpaper\IWallpaperContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NewCRM.Domain\NewCRM.Domain.Entities.csproj">

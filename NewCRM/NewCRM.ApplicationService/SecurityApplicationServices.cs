@@ -12,7 +12,7 @@ using NewCRM.Infrastructure.CommonTools.CustemException;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(ISecurityApplicationServices))]
-    internal class SecurityApplicationServices : BaseServices, ISecurityApplicationServices
+    internal class SecurityApplicationServices : BaseServices.BaseServices, ISecurityApplicationServices
     {
         #region Role
 

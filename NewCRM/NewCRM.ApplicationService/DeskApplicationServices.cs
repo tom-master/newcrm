@@ -12,7 +12,7 @@ using NewCRM.Infrastructure.CommonTools.CustemException;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IDeskApplicationServices))]
-    internal class DeskApplicationServices : BaseServices, IDeskApplicationServices
+    internal class DeskApplicationServices : BaseServices.BaseServices, IDeskApplicationServices
     {
         public void ModifyDefaultDeskNumber(Int32 accountId, Int32 newDefaultDeskNumber)
         {
@@ -31,7 +31,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(defaultDeskNumber).Validate(newPosition);
 
-            ModifyDockPostionServices.ModifyDockPosition(accountId, defaultDeskNumber, newPosition);
+            DeskContext.ModifyDockPostionServices.ModifyDockPosition(accountId, defaultDeskNumber, newPosition);
 
             UnitOfWork.Commit();
         }
@@ -148,7 +148,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(memberName).Validate(memberIcon).Validate(memberId).Validate(accountId);
 
-            ModifyDeskMemberInfoServices.ModifyFolderInfo(memberName, memberIcon, memberId, accountId);
+            DeskContext.ModifyDeskMemberServices.ModifyFolderInfo(memberName, memberIcon, memberId, accountId);
 
             UnitOfWork.Commit();
         }
@@ -157,7 +157,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
 
-            MemberRemoveServices.RemoveMember(accountId, memberId);
+            DeskContext.ModifyDeskMemberServices.RemoveMember(accountId, memberId);
 
             UnitOfWork.Commit();
         }
@@ -166,7 +166,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(member);
 
-            ModifyDeskMemberInfoServices.ModifyMemberInfo(accountId, member.ConvertToModel<MemberDto, Member>());
+            DeskContext.ModifyDeskMemberServices.ModifyMemberInfo(accountId, member.ConvertToModel<MemberDto, Member>());
 
             UnitOfWork.Commit();
         }

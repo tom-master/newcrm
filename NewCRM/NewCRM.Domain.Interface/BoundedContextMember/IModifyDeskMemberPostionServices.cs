@@ -1,7 +1,6 @@
 ﻿using System;
-using NewCRM.Domain.Entities.DomainModel.System;
 
-namespace NewCRM.Domain.Interface
+namespace NewCRM.Domain.Interface.BoundedContextMember
 {
     public interface IModifyDeskMemberPostionServices
     {

@@ -14,7 +14,7 @@ using NewCRM.Infrastructure.CommonTools.CustemException;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IAccountApplicationServices))]
-    internal class AccountApplicationServices : BaseServices, IAccountApplicationServices
+    internal class AccountApplicationServices : BaseServices.BaseServices, IAccountApplicationServices
     {
         public AccountDto Login(String accountName, String password)
         {

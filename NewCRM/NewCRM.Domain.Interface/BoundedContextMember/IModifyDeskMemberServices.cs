@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NewCRM.Domain.Entities.DomainModel.System;
 
-namespace NewCRM.Domain.Interface
+namespace NewCRM.Domain.Interface.BoundedContextMember
 {
-    public interface IModifyDeskMemberInfoServices
+    public interface IModifyDeskMemberServices
     {
         /// <summary>
         /// 修改文件夹的信息
@@ -24,5 +20,12 @@ namespace NewCRM.Domain.Interface
         /// <param name="accountId"></param>
         /// <param name="member"></param>
         void ModifyMemberInfo(Int32 accountId, Member member);
+
+        /// <summary>
+        /// 移除用户的桌面app成员
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="memberId"></param>
+        void RemoveMember(Int32 accountId, Int32 memberId);
     }
 }
