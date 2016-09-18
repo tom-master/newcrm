@@ -9,7 +9,7 @@ namespace NewCRM.Domain.Entities.DomainSpecification.ConcreteSpecification
     /// 默认规约工厂
     /// </summary>
     [Export(typeof(SpecificationFactory))]
-    public sealed class DefaultSpecificationFactory : SpecificationFactory
+    internal sealed class DefaultSpecificationFactory : SpecificationFactory
     {
         public override Specification<T> Create<T>(Expression<Func<T, Boolean>> expression = default(Expression<Func<T, Boolean>>))
         {

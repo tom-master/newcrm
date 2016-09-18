@@ -15,7 +15,6 @@ namespace NewCRM.Domain.Entities.Repositories.IRepository.System
     /// <summary>
     ///   仓储操作层接口——在线人数
     /// </summary>
-    [InheritedExport]
     public partial interface IOnlineRepository : IRepository<Online>
     { }
 }

@@ -20,7 +20,7 @@ namespace NewCRM.Domain.Services.BaseService
         /// <summary>
         /// 获取仓储工厂
         /// </summary>
-        [Import]
+        //[Import]
         protected RepositoryFactory Repository { get; set; }
 
         /// <summary>

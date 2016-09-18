@@ -12,7 +12,6 @@ namespace NewCRM.Domain.Entities.DomainSpecification.ConcreteSpecification
     /// 默认规约 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    [Export(typeof(Specification<>))]
     internal class DefaultSpecification<T> : Specification<T> where T : DomainModelBase, IAggregationRoot
     {
         public override Expression<Func<T, Boolean>> Expression { get; }

@@ -9,7 +9,7 @@ using NewCRM.Domain.Entities.Repositories;
 namespace NewCRM.Repository
 {
     [Export(typeof(RepositoryFactory))]
-    public sealed class DefaultRepositoryFactory : RepositoryFactory
+    internal sealed class DefaultRepositoryFactory : RepositoryFactory
     {
         private static readonly IDictionary<String, dynamic> _repositoryCache = new Dictionary<String, dynamic>();
 
@@ -21,7 +21,6 @@ namespace NewCRM.Repository
                 {
                     return _repositoryCache[typeof(T).Name];
                 }
-
 
                 var currentExcuteAssembly = System.Reflection.Assembly.GetExecutingAssembly();
 

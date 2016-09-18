@@ -16,7 +16,6 @@ namespace NewCRM.Domain.Entities.Repositories.IRepository.Security
     /// <summary>
     ///  仓储操作层接口——权限
     /// </summary> 
-    [InheritedExport]
     public partial interface IPowerRepository : IRepository<Power>
     { }
 }
