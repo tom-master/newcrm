@@ -21,7 +21,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult CreateNewAccount(Int32 accountId = 0)
         {
             if (accountId != 0)
-            {
+            { 
                 ViewData["Account"] = AccountApplicationServices.GetAccount(accountId);
             }
 

@@ -31,6 +31,7 @@ namespace NewCRM.Repository.DataBaseProvider
         /// </summary>
         [Import]
         public IUnitOfWork UnitOfWork { get; set; }
+
         #endregion
 
         #region 属性
