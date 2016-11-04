@@ -32,3 +32,14 @@ E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.Infrastructu
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\Newtonsoft.Json.dll
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.Infrastructure.pdb
 E:\NewCRMTest\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\Newtonsoft.Json.xml
+E:\NewCRM\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.ApplicationServiceTest.dll
+E:\NewCRM\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.ApplicationServiceTest.pdb
+E:\NewCRM\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+E:\NewCRM\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.Infrastructure.dll
+E:\NewCRM\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\Newtonsoft.Json.dll
+E:\NewCRM\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.Infrastructure.pdb
+E:\NewCRM\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\Newtonsoft.Json.xml
+E:\NewCRM\NewCRM\NewCRM.ApplicationServiceTest\bin\Debug\zh-Hans\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
+E:\NewCRM\NewCRM\NewCRM.ApplicationServiceTest\obj\Debug\NewCRM.ApplicationServiceTest.csprojResolveAssemblyReference.cache
+E:\NewCRM\NewCRM\NewCRM.ApplicationServiceTest\obj\Debug\NewCRM.ApplicationServiceTest.dll
+E:\NewCRM\NewCRM\NewCRM.ApplicationServiceTest\obj\Debug\NewCRM.ApplicationServiceTest.pdb

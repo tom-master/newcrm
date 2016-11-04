@@ -27,11 +27,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewCRM.App.Dto", "NewCRM.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCRM.Dto", "NewCRM.Dto\NewCRM.Dto.csproj", "{0C635AA2-3953-4AA0-A07F-CF8B1B7BBC6E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{609FE6C1-CBCB-4682-BA5E-40C5C7C43ED9}"
-	ProjectSection(SolutionItems) = preProject
-		Local.testsettings = Local.testsettings
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCRM.ApplicationServiceTest", "NewCRM.ApplicationServiceTest\NewCRM.ApplicationServiceTest.csproj", "{781FC8B5-3395-4B18-A11C-4760473D9CE8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCRM.DomainServiceTest", "NewCRM.DomainServiceTest\NewCRM.DomainServiceTest.csproj", "{037BA35F-8D98-4CEA-9BEA-9E3E77050DB4}"
