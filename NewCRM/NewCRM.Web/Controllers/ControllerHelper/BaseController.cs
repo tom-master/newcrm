@@ -1,13 +1,14 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
 using System.Web.Mvc;
-using System.Text.RegularExpressions;
 using NewCRM.Application.Interface;
 using NewCRM.Dto.Dto;
 
 namespace NewCRM.Web.Controllers.ControllerHelper
 {
-    public class BaseController : Controller
+
+    public abstract class BaseController : Controller
     {
         [Import]
         protected IAppApplicationServices AppApplicationServices { get; set; }
@@ -38,32 +39,6 @@ namespace NewCRM.Web.Controllers.ControllerHelper
         /// </summary>
         protected static ConfigDto AccountConfig { get; set; }
 
-
-        protected override void OnException(ExceptionContext filterContext)
-        {
-            filterContext.ExceptionHandled = true;
-
-            String exceptionMessage = "";
-
-            if (filterContext.Exception.Message.Length > 50)
-            {
-                exceptionMessage = filterContext.Exception.Message.Substring(0, 50) + "...";
-            }
-            else
-            {
-                exceptionMessage = filterContext.Exception.Message;
-            }
-
-            exceptionMessage = Regex.Replace(exceptionMessage, @"[\r\n]", "");
-
-            if (filterContext.RequestContext.HttpContext.Request.HttpMethod.ToLower() != "post")
-            {
-                filterContext.Result = Content(@"<script>setTimeout(function(){window.top.ZENG.msgbox.show('" + exceptionMessage + "', 5,3000);},0)</script>");
-            }
-            else
-            {
-                filterContext.Result = Json(new { js = @"<script>setTimeout(function(){window.top.ZENG.msgbox.show('" + exceptionMessage + "', 5,3000);},0)</script>" });
-            }
-        }
+ 
     }
 }

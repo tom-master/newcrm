@@ -23,7 +23,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             {
                 if (dockPostion == DockPostion.None)
                 {
-                    var deskResult = QueryFactory.Create<Desk>().FindOne(SpecificationFactory.Create<Desk>(desk => desk.DeskNumber == accountResult.Config.DefaultDeskNumber));
+                    var deskResult = QueryFactory.First().Create<Desk>().FindOne(SpecificationFactory.First().Create<Desk>(desk => desk.DeskNumber == accountResult.Config.DefaultDeskNumber));
 
                     var dockMembers = deskResult.Members.Where(member => member.IsOnDock).ToList();
 

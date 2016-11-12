@@ -11,6 +11,7 @@ using NewCRM.QueryServices.Query;
 
 namespace NewCRM.QueryServices.ConcreteQuery
 {
+   
     [Export(typeof(IQuery))]
     internal class DefaultQuery : IQuery
     {

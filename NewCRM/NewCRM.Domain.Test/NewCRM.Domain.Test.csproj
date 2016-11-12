@@ -74,9 +74,6 @@
     <Compile Include="UnitTestUser.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Fakes Include="Fakes\NewCRM.Infrastructure.fakes" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

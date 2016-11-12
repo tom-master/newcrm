@@ -17,13 +17,14 @@ using NewCRM.Infrastructure.CommonTools.CustemException;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IWallpaperApplicationServices))]
-    internal class WallpaperApplicationServices : BaseServices.BaseServices, IWallpaperApplicationServices
+    public class WallpaperApplicationServices : BaseServices.BaseServices, IWallpaperApplicationServices
     {
         public List<WallpaperDto> GetWallpaper()
         {
-            return QueryFactory.Create<Wallpaper>()
-                .Find(SpecificationFactory.Create<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System))
+            return QueryFactory.First().Create<Wallpaper>()
+                .Find(SpecificationFactory.First().Create<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System))
                 .ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
+
         }
 
         public void ModifyWallpaperMode(Int32 accountId, String newMode)
@@ -46,7 +47,7 @@ namespace NewCRM.Application.Services
 
             var wallpaper = wallpaperDto.ConvertToModel<WallpaperDto, Wallpaper>();
 
-            var wallPaperCount = QueryFactory.Create<Wallpaper>().Find(SpecificationFactory.Create<Wallpaper>(w => w.AccountId == wallpaper.AccountId)).Count();
+            var wallPaperCount = QueryFactory.First().Create<Wallpaper>().Find(SpecificationFactory.First().Create<Wallpaper>(w => w.AccountId == wallpaper.AccountId)).Count();
 
             if (wallPaperCount == 6)
             {
@@ -59,13 +60,15 @@ namespace NewCRM.Application.Services
 
             return new Tuple<Int32, String>(wallpaper.Id, wallpaper.ShortUrl);
 
+
         }
 
         public List<WallpaperDto> GetUploadWallpaper(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
 
-            return QueryFactory.Create<Wallpaper>().Find(SpecificationFactory.Create<Wallpaper>(wallpaper => wallpaper.AccountId == accountId)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
+            return QueryFactory.First().Create<Wallpaper>().Find(SpecificationFactory.First().Create<Wallpaper>(wallpaper => wallpaper.AccountId == accountId)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
+
         }
 
         public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
@@ -108,13 +111,15 @@ namespace NewCRM.Application.Services
 
                 return new Tuple<Int32, String>(wallpaperResult.Item1, wallpaperResult.Item2);
             }
+
         }
 
         public WallpaperDto GetUploadWallpaper(String md5)
         {
             ValidateParameter.Validate(md5);
 
-            return QueryFactory.Create<Wallpaper>().FindOne(SpecificationFactory.Create<Wallpaper>(wallpaper => wallpaper.Md5 == md5)).ConvertToDto<Wallpaper, WallpaperDto>();
+            return QueryFactory.First().Create<Wallpaper>().FindOne(SpecificationFactory.First().Create<Wallpaper>(wallpaper => wallpaper.Md5 == md5)).ConvertToDto<Wallpaper, WallpaperDto>();
+
         }
     }
 }

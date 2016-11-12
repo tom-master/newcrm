@@ -10,7 +10,7 @@ using NewCRM.Domain.Entities.DomainModel.System;
 
 namespace NewCRM.Repository
 {
-    [Export("EF", typeof(DbContext))]
+    [Export(typeof(DbContext))]
     public sealed class NewCrmBackSite : DbContext
     {
         public NewCrmBackSite()

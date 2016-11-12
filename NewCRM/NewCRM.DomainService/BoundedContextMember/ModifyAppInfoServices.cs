@@ -23,7 +23,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                 throw new BusinessException($"请安装这个应用后再打分");
             }
 
-            var appResult = QueryFactory.Create<App>().FindOne(SpecificationFactory.Create<App>(app => app.Id == appId));
+            var appResult = QueryFactory.First().Create<App>().FindOne(SpecificationFactory.First().Create<App>(app => app.Id == appId));
 
             appResult.AddStar(accountId, starCount);
 
@@ -32,7 +32,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void ModifyAccountAppInfo(Int32 accountId, App app)
         {
-            var appResult = QueryFactory.Create<App>().FindOne(SpecificationFactory.Create<App>(internalApp => internalApp.Id == app.Id && internalApp.AccountId == accountId));
+            var appResult = QueryFactory.First().Create<App>().FindOne(SpecificationFactory.First().Create<App>(internalApp => internalApp.Id == app.Id && internalApp.AccountId == accountId));
 
             if (appResult == null)
             {

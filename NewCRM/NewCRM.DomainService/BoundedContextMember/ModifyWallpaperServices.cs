@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Linq;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.System;
 using NewCRM.Domain.Entities.ValueObject;
@@ -34,7 +35,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         {
             var accountResult = GetAccountInfoService(accountId);
 
-            var wallpaperResult = QueryFactory.Create<Wallpaper>().FindOne(SpecificationFactory.Create<Wallpaper>(wallpaper => wallpaper.Id == newWallpaperId));
+            var wallpaperResult = QueryFactory.First().Create<Wallpaper>().FindOne(SpecificationFactory.First().Create<Wallpaper>(wallpaper => wallpaper.Id == newWallpaperId));
 
             accountResult.Config.ModifyWallpaper(wallpaperResult);
 

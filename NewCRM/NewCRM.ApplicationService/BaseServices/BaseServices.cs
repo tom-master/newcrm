@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainSpecification.Factory;
 using NewCRM.Domain.Entities.Factory;
@@ -11,9 +13,13 @@ using NewCRM.Domain.Interface.BoundedContext.Wallpaper;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
 using NewCRM.QueryServices.Query;
 
+//using NewCRM.Infrastructure.CommonTools.CustomHelper;
+//using NewCRM.QueryServices.Query;
+
 namespace NewCRM.Application.Services.BaseServices
 {
-    internal class BaseServices
+
+    public abstract class BaseServices
     {
         [Import]
         protected IUnitOfWork UnitOfWork { get; set; }
@@ -40,14 +46,14 @@ namespace NewCRM.Application.Services.BaseServices
         /// <summary>
         /// 查询工厂
         /// </summary>
-        [Import]
-        protected QueryFactory QueryFactory { get; set; }
+        [ImportMany]
+        protected IEnumerable<QueryFactory> QueryFactory { get; set; }
 
         /// <summary>
         /// 规约工厂
         /// </summary>
-        [Import]
-        protected SpecificationFactory SpecificationFactory { get; set; }
+        [ImportMany]
+        protected IEnumerable<SpecificationFactory> SpecificationFactory { get; set; }
 
         /// <summary>
         /// 参数验证
@@ -61,7 +67,7 @@ namespace NewCRM.Application.Services.BaseServices
         /// <returns></returns>
         internal Account GetAccountInfoService(Int32 accountId)
         {
-            return QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId));
+            return QueryFactory.First().Create<Account>().FindOne(SpecificationFactory.First().Create<Account>(account => account.Id == accountId));
         }
     }
 }

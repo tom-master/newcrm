@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entities.DomainModel.Account;
@@ -20,20 +21,21 @@ namespace NewCRM.Domain.Services.BaseService
         /// <summary>
         /// 获取仓储工厂
         /// </summary>
-        //[Import]
+        [Import]
         protected RepositoryFactory Repository { get; set; }
 
         /// <summary>
         /// 查询工厂
         /// </summary>
-        [Import]
-        protected QueryFactory QueryFactory { get; set; }
+
+        [ImportMany]
+        protected IEnumerable<QueryFactory> QueryFactory { get; set; }
 
         /// <summary>
         /// 规约工厂
         /// </summary>
-        [Import]
-        protected SpecificationFactory SpecificationFactory { get; set; }
+        [ImportMany]
+        protected IEnumerable<SpecificationFactory> SpecificationFactory { get; set; }
 
         /// <summary>
         /// 获取一个用户
@@ -43,7 +45,7 @@ namespace NewCRM.Domain.Services.BaseService
         protected Account GetAccountInfoService(Int32 accountId)
         {
 
-            var accountResult = QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId));
+            var accountResult = QueryFactory.First().Create<Account>().FindOne(SpecificationFactory.First().Create<Account>(account => account.Id == accountId));
 
             if (accountResult == null)
             {

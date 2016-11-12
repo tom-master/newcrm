@@ -20,16 +20,14 @@ namespace NewCRM.Repository.DataBaseProvider
     {
         public virtual Parameter VaildateParameter => new Parameter();
 
-        #region 获取 当前实体的查询数据集
 
-        #endregion
 
         #region 仓储上下文的实例
 
         /// <summary>
         ///     获取 仓储上下文的实例
         /// </summary>
-        [Import]
+        [Import(typeof(IUnitOfWork))]
         public IUnitOfWork UnitOfWork { get; set; }
 
         #endregion
@@ -47,7 +45,7 @@ namespace NewCRM.Repository.DataBaseProvider
                 {
                     return UnitOfWork as UnitOfWorkContextBase;
                 }
-                throw new RepositoryException($"无法获取当前工作单元的实例:{UnitOfWork}");
+                throw new RepositoryException($"无法获取当前工作单元的实例:{nameof(UnitOfWork)}");
             }
         }
 

@@ -8,36 +8,38 @@ using System.Web.Mvc;
 
 namespace NewCRM.Web
 {
-    public class MefDependencySolver : IDependencyResolver
+    public sealed class MefDependencySolver : IDependencyResolver
     {
         private readonly ComposablePartCatalog _catalog;
+        private const String _httpContextKey = "MefContainerKey";
 
-        private static readonly String _containerKey = "MefKey";
-
-        public MefDependencySolver(ComposablePartCatalog composablePartCatalog)
+        public MefDependencySolver(ComposablePartCatalog catalog)
         {
-            _catalog = composablePartCatalog;
+            _catalog = catalog;
         }
 
         public CompositionContainer Container
         {
             get
             {
-                if (!HttpContext.Current.Items.Contains(_containerKey))
+                if (!HttpContext.Current.Items.Contains(_httpContextKey))
                 {
-                    HttpContext.Current.Items.Add(_containerKey, new CompositionContainer(_catalog));
+                    HttpContext.Current.Items.Add(_httpContextKey, new CompositionContainer(_catalog));
                 }
 
-                var container = HttpContext.Current.Items[_containerKey] as CompositionContainer;
+                CompositionContainer container = (CompositionContainer)HttpContext.Current.Items[_httpContextKey];
+
                 HttpContext.Current.Application["Container"] = container;
+
                 return container;
             }
         }
 
+        #region IDependencyResolver Members
 
         public Object GetService(Type serviceType)
         {
-            var contractName = AttributedModelServices.GetContractName(serviceType);
+            String contractName = AttributedModelServices.GetContractName(serviceType);
 
             return Container.GetExportedValueOrDefault<Object>(contractName);
         }
@@ -46,5 +48,7 @@ namespace NewCRM.Web
         {
             return Container.GetExportedValues<Object>(serviceType.FullName);
         }
+
+        #endregion
     }
 }

@@ -10,7 +10,7 @@ using NewCRM.Domain.Entities.DomainModel.Account;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(ISkinApplicationServices))]
-    internal class SkinApplicationServices : BaseServices.BaseServices, ISkinApplicationServices
+    public class SkinApplicationServices : BaseServices.BaseServices, ISkinApplicationServices
     {
         public IDictionary<String, dynamic> GetAllSkin(String skinPath)
         {
@@ -30,6 +30,7 @@ namespace NewCRM.Application.Services
             });
 
             return dataDictionary;
+             
         }
 
         public void ModifySkin(Int32 accountId, String newSkin)

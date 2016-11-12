@@ -14,7 +14,7 @@ using NewCRM.Infrastructure.CommonTools.CustemException;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IAccountApplicationServices))]
-    internal class AccountApplicationServices : BaseServices.BaseServices, IAccountApplicationServices
+    public class AccountApplicationServices : BaseServices.BaseServices, IAccountApplicationServices
     {
         public AccountDto Login(String accountName, String password)
         {
@@ -25,6 +25,7 @@ namespace NewCRM.Application.Services
             UnitOfWork.Commit();
 
             return account;
+
         }
 
         public ConfigDto GetConfig(Int32 accountId)
@@ -58,13 +59,14 @@ namespace NewCRM.Application.Services
                 WallpaperSource = accountConfig.Wallpaper.Source.ToString().ToLower(),
                 WallpaperMode = accountConfig.WallpaperMode.ToString().ToLower()
             });
+
         }
 
         public List<AccountDto> GetAccounts(String accountName, String accountType, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
             ValidateParameter.Validate(accountName).Validate(pageIndex).Validate(pageSize);
 
-            var specification = SpecificationFactory.Create<Account>(account => (accountName + "").Length == 0 || account.Name.Contains(accountName));
+            var specification = SpecificationFactory.First().Create<Account>(account => (accountName + "").Length == 0 || account.Name.Contains(accountName));
 
             AccountType internalAccountType;
             if ((accountType + "").Length > 0)
@@ -81,12 +83,13 @@ namespace NewCRM.Application.Services
                 }
             }
 
-            return QueryFactory.Create<Account>().PageBy(specification, pageIndex, pageSize, out totalCount).Select(account => new
+            return QueryFactory.First().Create<Account>().PageBy(specification, pageIndex, pageSize, out totalCount).Select(account => new
             {
                 account.Id,
                 AccountType = account.IsAdmin ? "2" /*管理员*/ : "1" /*用户*/,
                 account.Name
             }).ConvertDynamicToDtos<AccountDto>().ToList();
+          
         }
 
         public AccountDto GetAccount(Int32 accountId)
@@ -111,6 +114,7 @@ namespace NewCRM.Application.Services
                     Id = s.RoleId
                 })
             });
+
         }
 
         public void AddNewAccount(AccountDto accountDto)
@@ -141,7 +145,8 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountName);
 
-            return QueryFactory.Create<Account>().Find(SpecificationFactory.Create<Account>(account => account.Name == accountName)).Any();
+            return QueryFactory.First().Create<Account>().Find(SpecificationFactory.First().Create<Account>(account => account.Name == accountName)).Any();
+
         }
 
         public void ModifyAccount(AccountDto accountDto)
@@ -150,7 +155,7 @@ namespace NewCRM.Application.Services
 
             var account = accountDto.ConvertToModel<AccountDto, Account>();
 
-            var accountResult = QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(internalAccount => internalAccount.Id == account.Id));
+            var accountResult = QueryFactory.First().Create<Account>().FindOne(SpecificationFactory.First().Create<Account>(internalAccount => internalAccount.Id == account.Id));
 
             if (accountResult == null)
             {

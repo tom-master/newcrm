@@ -18,7 +18,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
         {
             if (vaildateParameter == null)
             {
-                throw ThrowComponentException($"参数 {vaildateParameter} 为空引发异常。");
+                throw ThrowComponentException($"参数 {nameof(vaildateParameter)} 为空引发异常。");
             }
             return this;
         }

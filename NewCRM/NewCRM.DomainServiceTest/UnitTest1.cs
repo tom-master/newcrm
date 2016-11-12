@@ -4,8 +4,6 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NewCRM.Domain.Entities.ValueObject;
-using NewCRM.DomainService;
-using NewCRM.DomainService.Impl;
 
 namespace NewCRM.DomainServiceTest
 {

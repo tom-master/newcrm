@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entities.DomainModel;
@@ -22,7 +23,7 @@ namespace NewCRM.Repository
         ///     获取 仓储上下文的实例
         /// </summary>
 
-        [Import]
+        [Import(typeof(IUnitOfWork))]
         private IUnitOfWork UnitOfWork { get; set; }
 
         #endregion
@@ -40,7 +41,7 @@ namespace NewCRM.Repository
                 {
                     return UnitOfWork as UnitOfWorkContextBase;
                 }
-                throw new RepositoryException($"无法获取当前工作单元的实例:{UnitOfWork}");
+                throw new RepositoryException($"无法获取当前工作单元的实例:{nameof(UnitOfWork)}");
             }
         }
 

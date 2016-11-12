@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.Composition;
+﻿using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Linq;
 using NewCRM.QueryServices.Query;
 
 namespace NewCRM.QueryServices.ConcreteQuery
@@ -8,12 +10,12 @@ namespace NewCRM.QueryServices.ConcreteQuery
     public sealed class DefaultQueryFactory : QueryFactory
     {
 
-        [Import]
-        private IQuery Query { get; set; }
+        [ImportMany]
+        private IEnumerable<IQuery> Query { get; set; }
 
         public override IQuery Create<T>()
         {
-            return Query;
+            return Query.First();
         }
     }
 }

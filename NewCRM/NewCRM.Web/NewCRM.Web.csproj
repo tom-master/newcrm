@@ -62,10 +62,6 @@
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NewCRM.Infrastructure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\NewCRM.Infrastructure\bin\Debug\NewCRM.Infrastructure.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -131,7 +127,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\ControllerHelper\BaseController.cs" />
-    <Compile Include="Controllers\ControllerHelper\Jsons.cs" />
     <Compile Include="Controllers\DeskController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
@@ -157,13 +152,13 @@
       <Project>{BB9C76EF-E30C-46BE-96E7-C6D53F508536}</Project>
       <Name>NewCRM.Application.Interface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NewCRM.ApplicationService\NewCRM.Application.Services.csproj">
-      <Project>{053A2AA0-4738-4CF3-AA99-D805411BFC40}</Project>
-      <Name>NewCRM.Application.Services</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NewCRM.Dto\NewCRM.Dto.csproj">
       <Project>{0C635AA2-3953-4AA0-A07F-CF8B1B7BBC6E}</Project>
       <Name>NewCRM.Dto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NewCRM.Infrastructure\NewCRM.Infrastructure.csproj">
+      <Project>{457EE31D-B485-4D98-A0A2-1FF2F58123D9}</Project>
+      <Name>NewCRM.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -434,7 +429,6 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Global.asax.cs" />
     <Content Include="Properties\PublishProfiles\Test.pubxml.user" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

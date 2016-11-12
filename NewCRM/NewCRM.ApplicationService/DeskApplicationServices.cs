@@ -12,7 +12,7 @@ using NewCRM.Infrastructure.CommonTools.CustemException;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IDeskApplicationServices))]
-    internal class DeskApplicationServices : BaseServices.BaseServices, IDeskApplicationServices
+    public class DeskApplicationServices : BaseServices.BaseServices, IDeskApplicationServices
     {
         public void ModifyDefaultDeskNumber(Int32 accountId, Int32 newDefaultDeskNumber)
         {

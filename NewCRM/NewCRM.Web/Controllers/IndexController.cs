@@ -10,7 +10,6 @@ namespace NewCRM.Web.Controllers
     public class IndexController : BaseController
     {
 
-
         #region 页面
 
         // GET: Index
@@ -46,7 +45,7 @@ namespace NewCRM.Web.Controllers
         }
 
         #endregion
-
+        
         /// <summary>
         /// 登陆
         /// </summary>
