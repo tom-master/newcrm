@@ -66,9 +66,10 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountName).Validate(pageIndex).Validate(pageSize);
 
-            var specification = SpecificationFactory.First().Create<Account>(account => (accountName + "").Length == 0 || account.Name.Contains(accountName));
+            var specification = SpecificationFactory.Create<Account>(account => (accountName + "").Length == 0 || account.Name.Contains(accountName));
 
             AccountType internalAccountType;
+
             if ((accountType + "").Length > 0)
             {
                 var enumConst = Enum.GetName(typeof(AccountType), accountType);
@@ -83,7 +84,7 @@ namespace NewCRM.Application.Services
                 }
             }
 
-            return QueryFactory.First().Create<Account>().PageBy(specification, pageIndex, pageSize, out totalCount).Select(account => new
+            return QueryFactory.Create<Account>().PageBy(specification, pageIndex, pageSize, out totalCount).Select(account => new
             {
                 account.Id,
                 AccountType = account.IsAdmin ? "2" /*管理员*/ : "1" /*用户*/,
@@ -145,7 +146,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountName);
 
-            return QueryFactory.First().Create<Account>().Find(SpecificationFactory.First().Create<Account>(account => account.Name == accountName)).Any();
+            return QueryFactory.Create<Account>().Find(SpecificationFactory.Create<Account>(account => account.Name == accountName)).Any();
 
         }
 
@@ -155,13 +156,13 @@ namespace NewCRM.Application.Services
 
             var account = accountDto.ConvertToModel<AccountDto, Account>();
 
-            var accountResult = QueryFactory.First().Create<Account>().FindOne(SpecificationFactory.First().Create<Account>(internalAccount => internalAccount.Id == account.Id));
+            var accountResult = QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(internalAccount => internalAccount.Id == account.Id));
 
             if (accountResult == null)
             {
                 throw new BusinessException($"用户{account.Name}可能已被禁用或删除");
             }
-
+            
             if ((account.LoginPassword + "").Length > 0)
             {
                 var newPassword = PasswordUtil.CreateDbPassword(account.LoginPassword);

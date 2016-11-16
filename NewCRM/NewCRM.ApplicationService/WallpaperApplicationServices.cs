@@ -21,8 +21,8 @@ namespace NewCRM.Application.Services
     {
         public List<WallpaperDto> GetWallpaper()
         {
-            return QueryFactory.First().Create<Wallpaper>()
-                .Find(SpecificationFactory.First().Create<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System))
+            return QueryFactory.Create<Wallpaper>()
+                .Find(SpecificationFactory.Create<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System))
                 .ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
 
         }
@@ -47,7 +47,7 @@ namespace NewCRM.Application.Services
 
             var wallpaper = wallpaperDto.ConvertToModel<WallpaperDto, Wallpaper>();
 
-            var wallPaperCount = QueryFactory.First().Create<Wallpaper>().Find(SpecificationFactory.First().Create<Wallpaper>(w => w.AccountId == wallpaper.AccountId)).Count();
+            var wallPaperCount = QueryFactory.Create<Wallpaper>().Find(SpecificationFactory.Create<Wallpaper>(w => w.AccountId == wallpaper.AccountId)).Count();
 
             if (wallPaperCount == 6)
             {
@@ -67,7 +67,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            return QueryFactory.First().Create<Wallpaper>().Find(SpecificationFactory.First().Create<Wallpaper>(wallpaper => wallpaper.AccountId == accountId)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
+            return QueryFactory.Create<Wallpaper>().Find(SpecificationFactory.Create<Wallpaper>(wallpaper => wallpaper.AccountId == accountId)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
 
         }
 
@@ -118,7 +118,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(md5);
 
-            return QueryFactory.First().Create<Wallpaper>().FindOne(SpecificationFactory.First().Create<Wallpaper>(wallpaper => wallpaper.Md5 == md5)).ConvertToDto<Wallpaper, WallpaperDto>();
+            return QueryFactory.Create<Wallpaper>().FindOne(SpecificationFactory.Create<Wallpaper>(wallpaper => wallpaper.Md5 == md5)).ConvertToDto<Wallpaper, WallpaperDto>();
 
         }
     }

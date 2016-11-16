@@ -4,11 +4,10 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entities.DomainModel.Account;
 using NewCRM.Domain.Entities.DomainModel.System;
+using NewCRM.Domain.Entities.DomainQuery.Query;
 using NewCRM.Domain.Entities.DomainSpecification.Factory;
 using NewCRM.Domain.Entities.Factory;
-using NewCRM.Domain.Entities.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustemException;
-using NewCRM.QueryServices.Query;
 
 namespace NewCRM.Domain.Services.BaseService
 {
@@ -28,14 +27,14 @@ namespace NewCRM.Domain.Services.BaseService
         /// 查询工厂
         /// </summary>
 
-        [ImportMany]
-        protected IEnumerable<QueryFactory> QueryFactory { get; set; }
+        [Import]
+        protected QueryFactory QueryFactory { get; set; }
 
         /// <summary>
         /// 规约工厂
         /// </summary>
-        [ImportMany]
-        protected IEnumerable<SpecificationFactory> SpecificationFactory { get; set; }
+        [Import]
+        protected SpecificationFactory SpecificationFactory { get; set; }
 
         /// <summary>
         /// 获取一个用户
@@ -45,7 +44,7 @@ namespace NewCRM.Domain.Services.BaseService
         protected Account GetAccountInfoService(Int32 accountId)
         {
 
-            var accountResult = QueryFactory.First().Create<Account>().FindOne(SpecificationFactory.First().Create<Account>(account => account.Id == accountId));
+            var accountResult = QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId));
 
             if (accountResult == null)
             {

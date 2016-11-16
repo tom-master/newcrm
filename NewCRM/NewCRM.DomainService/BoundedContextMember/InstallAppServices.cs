@@ -20,7 +20,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
             var realDeskId = GetRealDeskIdService(deskNum, accountResult.Config);
 
-            var appResult = QueryFactory.First().Create<App>().FindOne(SpecificationFactory.First().Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release && app.Id == appId));
+            var appResult = QueryFactory.Create<App>().FindOne(SpecificationFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release && app.Id == appId));
 
             if (appResult == null)
             {

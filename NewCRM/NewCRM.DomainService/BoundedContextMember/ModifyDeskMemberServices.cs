@@ -79,7 +79,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                     }
                     else
                     {
-                        appResult = QueryFactory.First().Create<App>().FindOne(SpecificationFactory.First().Create<App>(app => app.Id == memberResult.AppId));
+                        appResult = QueryFactory.Create<App>().FindOne(SpecificationFactory.Create<App>(app => app.Id == memberResult.AppId));
 
                         appResult.SubtractUseCount();
 

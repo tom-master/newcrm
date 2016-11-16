@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NewCRM.Domain.Entities.DomainModel;
 using NewCRM.Domain.Entities.DomainSpecification;
 
-namespace NewCRM.QueryServices.Query
+namespace NewCRM.Domain.Entities.DomainQuery.Query
 {
     public interface IQuery
     {

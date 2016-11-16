@@ -170,7 +170,7 @@ namespace NewCRM.Application.Services
 
         public List<AppTypeDto> GetAppTypes()
         {
-            QueryFactory.First().Create<AppType>().Find(SpecificationFactory.First().Create<AppType>()).ConvertToDtos<AppType, AppTypeDto>().ToList();
+            QueryFactory.Create<AppType>().Find(SpecificationFactory.Create<AppType>()).ConvertToDtos<AppType, AppTypeDto>().ToList();
 
             return new List<AppTypeDto>();
         }
@@ -179,7 +179,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var topApp = QueryFactory.First().Create<App>().Find(SpecificationFactory.First().Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release).OrderByDescending(app => app.UseCount)).Select(app => new
+            var topApp = QueryFactory.Create<App>().Find(SpecificationFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release).OrderByDescending(app => app.UseCount)).Select(app => new
             {
                 app.UseCount,
                 AppStars = CountAppStars(app),
@@ -218,7 +218,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var accountApps = QueryFactory.First().Create<App>().Find(SpecificationFactory.First().Create<App>(app => app.AccountId == accountId));
+            var accountApps = QueryFactory.Create<App>().Find(SpecificationFactory.Create<App>(app => app.AccountId == accountId));
 
             var accountDevAppCount = accountApps.Count();
 
@@ -233,7 +233,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
 
-            var appSpecification = SpecificationFactory.First().Create<App>();
+            var appSpecification = SpecificationFactory.Create<App>();
 
             #region 条件筛选
 
@@ -269,7 +269,7 @@ namespace NewCRM.Application.Services
 
             #endregion
 
-            var appDtoResult = QueryFactory.First().Create<App>().PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
+            var appDtoResult = QueryFactory.Create<App>().PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
             {
                 app.AppTypeId,
                 app.AccountId,
@@ -294,9 +294,9 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(appId);
 
-            var specification = SpecificationFactory.First().Create<App>(app => app.Id == appId);
+            var specification = SpecificationFactory.Create<App>(app => app.Id == appId);
 
-            var appResult = QueryFactory.First().Create<App>().FindOne(specification);
+            var appResult = QueryFactory.Create<App>().FindOne(specification);
 
             return DtoConfiguration.ConvertDynamicToDto<AppDto>(new
             {
@@ -390,7 +390,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(appName).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
 
-            var specification = SpecificationFactory.First().Create<App>();
+            var specification = SpecificationFactory.Create<App>();
 
             #region 条件筛选
 
@@ -464,7 +464,7 @@ namespace NewCRM.Application.Services
 
             #endregion
 
-            return QueryFactory.First().Create<App>().PageBy(specification, pageIndex, pageSize, out totalCount).Select(app => new
+            return QueryFactory.Create<App>().PageBy(specification, pageIndex, pageSize, out totalCount).Select(app => new
             {
                 app.Name,
                 app.AppStyle,

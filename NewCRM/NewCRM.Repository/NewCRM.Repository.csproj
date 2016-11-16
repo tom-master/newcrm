@@ -81,7 +81,7 @@
     <Compile Include="DefaultRepositoryFactory.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NewCrmBackSite.cs" />
-    <Compile Include="QueryProvider.cs" />
+    <Compile Include="DataBaseProvider\QueryProvider.cs" />
     <Compile Include="RepositoryImpl\Account\TitleRepository.cs" />
     <Compile Include="RepositoryImpl\Account\AccountRepository.cs" />
     <Compile Include="RepositoryImpl\Security\PowerRepository.cs" />

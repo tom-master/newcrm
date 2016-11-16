@@ -64,10 +64,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NewCRM.App.QueryServices\NewCRM.QueryServices.csproj">
-      <Project>{FE7153FA-29BA-4352-80ED-CF912ED114CB}</Project>
-      <Name>NewCRM.QueryServices</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NewCRM.Domain\NewCRM.Domain.Entities.csproj">
       <Project>{173C1046-4529-4D70-B6F5-501C61514E86}</Project>
       <Name>NewCRM.Domain.Entities</Name>

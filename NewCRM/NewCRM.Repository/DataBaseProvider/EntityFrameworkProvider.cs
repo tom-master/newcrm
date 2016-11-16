@@ -13,7 +13,7 @@ using NewCRM.Repository.UnitOfWorkProvide;
 namespace NewCRM.Repository.DataBaseProvider
 {
     /// <summary>
-    ///     EntityFramework仓储操作基类
+    /// EntityFramework仓储操作基类
     /// </summary>
     /// <typeparam name="T">动态实体类型</typeparam>
     public abstract class EntityFrameworkProvider<T> : IRepository<T> where T : DomainModelBase, IAggregationRoot
@@ -21,13 +21,13 @@ namespace NewCRM.Repository.DataBaseProvider
         public virtual Parameter VaildateParameter => new Parameter();
 
 
-
         #region 仓储上下文的实例
 
         /// <summary>
-        ///     获取 仓储上下文的实例
+        /// 获取 仓储上下文的实例
         /// </summary>
-        [Import(typeof(IUnitOfWork))]
+
+        [Import("NewCRM.Domain.Entities.UnitWork")]
         public IUnitOfWork UnitOfWork { get; set; }
 
         #endregion
@@ -48,9 +48,6 @@ namespace NewCRM.Repository.DataBaseProvider
                 throw new RepositoryException($"无法获取当前工作单元的实例:{nameof(UnitOfWork)}");
             }
         }
-
-
-
 
         #endregion
 

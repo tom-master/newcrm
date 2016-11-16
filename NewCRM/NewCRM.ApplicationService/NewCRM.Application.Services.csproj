@@ -58,10 +58,6 @@
     <Compile Include="WallpaperApplicationServices.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NewCRM.App.QueryServices\NewCRM.QueryServices.csproj">
-      <Project>{FE7153FA-29BA-4352-80ED-CF912ED114CB}</Project>
-      <Name>NewCRM.QueryServices</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NewCRM.Application.Interface\NewCRM.Application.Interface.csproj">
       <Project>{BB9C76EF-E30C-46BE-96E7-C6D53F508536}</Project>
       <Name>NewCRM.Application.Interface</Name>

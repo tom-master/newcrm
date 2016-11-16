@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entities.DomainModel;
@@ -9,7 +8,7 @@ using NewCRM.Domain.Entities.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 using NewCRM.Repository.UnitOfWorkProvide;
 
-namespace NewCRM.Repository
+namespace NewCRM.Repository.DataBaseProvider
 {
     /// <summary>
     /// 提供查询
@@ -20,10 +19,10 @@ namespace NewCRM.Repository
         #region 仓储上下文的实例
 
         /// <summary>
-        ///     获取 仓储上下文的实例
+        /// 获取 仓储上下文的实例
         /// </summary>
 
-        [Import(typeof(IUnitOfWork))]
+        [Import("NewCRM.Domain.Entities.UnitWork")]
         private IUnitOfWork UnitOfWork { get; set; }
 
         #endregion
@@ -53,10 +52,12 @@ namespace NewCRM.Repository
         /// <returns></returns>
         public IQueryable<T> Query<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot
         {
+
             return EfContext.Set<T, Int32>().Where(specification.Expression);
         }
 
         #endregion
 
+        
     }
 }

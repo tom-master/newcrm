@@ -22,6 +22,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
             }
             return this;
         }
+
         /// <summary>
         /// 验证值类型是否合法
         /// </summary>

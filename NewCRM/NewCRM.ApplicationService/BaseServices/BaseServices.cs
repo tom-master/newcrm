@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
 using NewCRM.Domain.Entities.DomainModel.Account;
+using NewCRM.Domain.Entities.DomainQuery.Query;
 using NewCRM.Domain.Entities.DomainSpecification.Factory;
 using NewCRM.Domain.Entities.Factory;
 using NewCRM.Domain.Entities.UnitWork;
@@ -11,17 +10,13 @@ using NewCRM.Domain.Interface.BoundedContext.App;
 using NewCRM.Domain.Interface.BoundedContext.Desk;
 using NewCRM.Domain.Interface.BoundedContext.Wallpaper;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
-using NewCRM.QueryServices.Query;
-
-//using NewCRM.Infrastructure.CommonTools.CustomHelper;
-//using NewCRM.QueryServices.Query;
 
 namespace NewCRM.Application.Services.BaseServices
 {
 
     public abstract class BaseServices
     {
-        [Import]
+        [Import("NewCRM.Domain.Entities.UnitWork", typeof(IUnitOfWork), RequiredCreationPolicy = CreationPolicy.NonShared)]
         protected IUnitOfWork UnitOfWork { get; set; }
 
         [Import]
@@ -46,14 +41,14 @@ namespace NewCRM.Application.Services.BaseServices
         /// <summary>
         /// 查询工厂
         /// </summary>
-        [ImportMany]
-        protected IEnumerable<QueryFactory> QueryFactory { get; set; }
+        [Import]
+        protected QueryFactory QueryFactory { get; set; }
 
         /// <summary>
         /// 规约工厂
         /// </summary>
-        [ImportMany]
-        protected IEnumerable<SpecificationFactory> SpecificationFactory { get; set; }
+        [Import]
+        protected SpecificationFactory SpecificationFactory { get; set; }
 
         /// <summary>
         /// 参数验证
@@ -67,7 +62,7 @@ namespace NewCRM.Application.Services.BaseServices
         /// <returns></returns>
         internal Account GetAccountInfoService(Int32 accountId)
         {
-            return QueryFactory.First().Create<Account>().FindOne(SpecificationFactory.First().Create<Account>(account => account.Id == accountId));
+            return QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId));
         }
     }
 }

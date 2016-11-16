@@ -1,21 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using NewCRM.QueryServices.Query;
+using NewCRM.Domain.Entities.DomainQuery.Query;
 
-namespace NewCRM.QueryServices.ConcreteQuery
+namespace NewCRM.Domain.Entities.DomainQuery.ConcreteQuery
 {
 
     [Export(typeof(QueryFactory))]
     public sealed class DefaultQueryFactory : QueryFactory
     {
 
-        [ImportMany]
-        private IEnumerable<IQuery> Query { get; set; }
+        [Import]
+        private IQuery Query { get; set; }
 
         public override IQuery Create<T>()
         {
-            return Query.First();
+            return Query;
         }
     }
 }

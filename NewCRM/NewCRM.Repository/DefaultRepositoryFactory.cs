@@ -13,6 +13,7 @@ namespace NewCRM.Repository
     {
         private static readonly IDictionary<String, dynamic> _repositoryCache = new Dictionary<String, dynamic>();
 
+
         public override IRepository<T> Create<T>()
         {
             lock (_repositoryCache)

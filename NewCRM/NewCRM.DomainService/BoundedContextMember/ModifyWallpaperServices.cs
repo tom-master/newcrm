@@ -35,7 +35,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         {
             var accountResult = GetAccountInfoService(accountId);
 
-            var wallpaperResult = QueryFactory.First().Create<Wallpaper>().FindOne(SpecificationFactory.First().Create<Wallpaper>(wallpaper => wallpaper.Id == newWallpaperId));
+            var wallpaperResult = QueryFactory.Create<Wallpaper>().FindOne(SpecificationFactory.Create<Wallpaper>(wallpaper => wallpaper.Id == newWallpaperId));
 
             accountResult.Config.ModifyWallpaper(wallpaperResult);
 

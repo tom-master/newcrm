@@ -65,6 +65,10 @@
     <Compile Include="DomainModel\System\Desk.cs" />
     <Compile Include="DomainModel\System\SystemExtension\DeskExtension.cs" />
     <Compile Include="DomainModel\System\SystemExtension\MemberExtension.cs" />
+    <Compile Include="DomainQuery\ConcreteQuery\DefaultQuery.cs" />
+    <Compile Include="DomainQuery\ConcreteQuery\DefaultQueryFactory.cs" />
+    <Compile Include="DomainQuery\Query\IQuery.cs" />
+    <Compile Include="DomainQuery\Query\QueryFactory.cs" />
     <Compile Include="DomainSpecification\ConcreteSpecification\DefaultSpecification.cs" />
     <Compile Include="DomainSpecification\ConcreteSpecification\DefaultSpecificationFactory.cs" />
     <Compile Include="DomainSpecification\Specification.cs" />
@@ -118,6 +122,12 @@
     <Folder Include="Repositories\IRepository\Account\Impl\" />
     <Folder Include="Repositories\IRepository\Security\Impl\" />
     <Folder Include="Repositories\IRepository\System\Impl\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NewCRM.Infrastructure\NewCRM.Infrastructure.csproj">
+      <Project>{457EE31D-B485-4D98-A0A2-1FF2F58123D9}</Project>
+      <Name>NewCRM.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

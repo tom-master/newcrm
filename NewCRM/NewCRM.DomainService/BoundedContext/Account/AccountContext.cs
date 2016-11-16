@@ -19,7 +19,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Account
         public Entities.DomainModel.Account.Account Validate(String accountName, String password)
         {
 
-            var accountResult = QueryFactory.First().Create<Entities.DomainModel.Account.Account>().FindOne(SpecificationFactory.First().Create<Entities.DomainModel.Account.Account>(account => account.Name == accountName));
+            var accountResult = QueryFactory.Create<Entities.DomainModel.Account.Account>().FindOne(SpecificationFactory.Create<Entities.DomainModel.Account.Account>(account => account.Name == accountName));
 
             if (accountResult == null)
             {
@@ -75,7 +75,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Account
         /// <param name="accountId"></param>
         private void ModifyOnlineState(Int32 accountId)
         {
-            var onlineResult = QueryFactory.First().Create<Online>().FindOne(SpecificationFactory.First().Create<Online>(online => online.AccountId == accountId));
+            var onlineResult = QueryFactory.Create<Online>().FindOne(SpecificationFactory.Create<Online>(online => online.AccountId == accountId));
 
             Repository.Create<Online>().Remove(onlineResult);
 
