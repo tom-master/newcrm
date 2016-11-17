@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 
-namespace NewCRM.Domain.Entities.UnitWork
+namespace NewCRM.Domain.UnitWork
 {
     public abstract class InternalImportUnitOfWork
     {

@@ -2,9 +2,9 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Application.Interface;
-using NewCRM.Domain.Entities.DomainModel.Account;
-using NewCRM.Domain.Entities.DomainModel.System;
-using NewCRM.Domain.Entities.ValueObject;
+using NewCRM.Domain.Entitys.Account;
+using NewCRM.Domain.Entitys.System;
+using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustemException;

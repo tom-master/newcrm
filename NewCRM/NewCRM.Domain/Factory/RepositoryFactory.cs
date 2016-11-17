@@ -1,8 +1,7 @@
-﻿using System.ComponentModel.Composition;
-using NewCRM.Domain.Entities.DomainModel;
-using NewCRM.Domain.Entities.Repositories;
+﻿using NewCRM.Domain.Entitys;
+using NewCRM.Domain.Repositories;
 
-namespace NewCRM.Domain.Entities.Factory
+namespace NewCRM.Domain.Factory
 {
     public abstract class RepositoryFactory
     {

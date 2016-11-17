@@ -1,6 +1,6 @@
-﻿using NewCRM.Domain.Entities.DomainModel;
+﻿using NewCRM.Domain.Entitys;
 
-namespace NewCRM.Domain.Entities.DomainQuery.Query
+namespace NewCRM.Domain.DomainQuery.Query
 {
     public abstract class QueryFactory
     {

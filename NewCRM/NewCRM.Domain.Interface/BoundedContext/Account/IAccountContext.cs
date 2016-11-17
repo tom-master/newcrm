@@ -15,7 +15,7 @@ namespace NewCRM.Domain.Interface.BoundedContext.Account
         /// <param name="accountName"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        Entities.DomainModel.Account.Account Validate(String accountName, String password);
+        Entitys.Account.Account Validate(String accountName, String password);
 
         /// <summary>
         /// 用户登出

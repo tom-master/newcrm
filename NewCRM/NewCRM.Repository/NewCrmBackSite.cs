@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.Composition;
 using System.Data.Entity;
 using EntityFramework.DynamicFilters;
-using NewCRM.Domain.Entities.DomainModel;
-using NewCRM.Domain.Entities.DomainModel.Account;
-using NewCRM.Domain.Entities.DomainModel.Security;
-using NewCRM.Domain.Entities.DomainModel.System;
+using NewCRM.Domain.Entitys;
+using NewCRM.Domain.Entitys.Account;
+using NewCRM.Domain.Entitys.Security;
+using NewCRM.Domain.Entitys.System;
 
 
 namespace NewCRM.Repository

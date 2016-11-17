@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Net;
-using NewCRM.Domain.Entities.DomainModel.System;
+using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContext.Account;
 using NewCRM.Domain.Interface.BoundedContextMember;
 using NewCRM.Infrastructure.CommonTools;
@@ -16,10 +16,10 @@ namespace NewCRM.Domain.Services.BoundedContext.Account
         [Import]
         public IModifyDeskMemberPostionServices ModifyAccountConfigServices { get; set; }
 
-        public Entities.DomainModel.Account.Account Validate(String accountName, String password)
+        public Entitys.Account.Account Validate(String accountName, String password)
         {
 
-            var accountResult = QueryFactory.Create<Entities.DomainModel.Account.Account>().FindOne(SpecificationFactory.Create<Entities.DomainModel.Account.Account>(account => account.Name == accountName));
+            var accountResult = QueryFactory.Create<Entitys.Account.Account>().FindOne(SpecificationFactory.Create<Entitys.Account.Account>(account => account.Name == accountName));
 
             if (accountResult == null)
             {
@@ -33,7 +33,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Account
 
             accountResult.Online();
 
-            Repository.Create<Entities.DomainModel.Account.Account>().Update(accountResult);
+            Repository.Create<Entitys.Account.Account>().Update(accountResult);
 
             Repository.Create<Online>().Add(new Online(GetCurrentIpAddress(), accountResult.Id));
 
@@ -51,7 +51,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Account
             }
             accountResult.Offline();
 
-            Repository.Create<Entities.DomainModel.Account.Account>().Update(accountResult);
+            Repository.Create<Entitys.Account.Account>().Update(accountResult);
 
             ModifyOnlineState(accountId);
         }

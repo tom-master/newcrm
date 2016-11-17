@@ -2,7 +2,7 @@
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace NewCRM.ApplicationServiceTest
+namespace NewCRM.Application.Test
 {
     [TestClass]
     public class UnitTest1

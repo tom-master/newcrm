@@ -66,9 +66,9 @@
       <Project>{CC9D6AD9-938F-45D4-882E-B12411AA727D}</Project>
       <Name>NewCRM.Domain.Interface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NewCRM.Domain\NewCRM.Domain.Entities.csproj">
+    <ProjectReference Include="..\NewCRM.Domain\NewCRM.Domain.csproj">
       <Project>{173C1046-4529-4D70-B6F5-501C61514E86}</Project>
-      <Name>NewCRM.Domain.Entities</Name>
+      <Name>NewCRM.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\NewCRM.Infrastructure\NewCRM.Infrastructure.csproj">
       <Project>{457EE31D-B485-4D98-A0A2-1FF2F58123D9}</Project>

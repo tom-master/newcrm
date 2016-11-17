@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{173C1046-4529-4D70-B6F5-501C61514E86}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NewCRM.Domain</RootNamespace>
+    <AssemblyName>NewCRM.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entitys\Account\AccountExtension\TitleExtension.cs" />
+    <Compile Include="Entitys\Account\Title.cs" />
+    <Compile Include="Entitys\Account\Account.cs" />
+    <Compile Include="Entitys\Account\AccountExtension\AccountExtension.cs" />
+    <Compile Include="Entitys\Account\AccountRole.cs" />
+    <Compile Include="Entitys\DomainModelBase.cs" />
+    <Compile Include="Entitys\IAggregationRoot.cs" />
+    <Compile Include="Entitys\Security\RolePower.cs" />
+    <Compile Include="Entitys\Security\SecurityExtension\PowerExtension.cs" />
+    <Compile Include="Entitys\Security\SecurityExtension\RoleExtension.cs" />
+    <Compile Include="Entitys\System\App.cs" />
+    <Compile Include="Entitys\System\SystemExtension\AppExtension.cs" />
+    <Compile Include="Entitys\System\AppStar.cs" />
+    <Compile Include="Entitys\System\SystemExtension\AppStarExtension.cs" />
+    <Compile Include="Entitys\System\SystemExtension\AppTypeExtension.cs" />
+    <Compile Include="Entitys\System\SystemExtension\ConfigExtension.cs" />
+    <Compile Include="Entitys\System\Desk.cs" />
+    <Compile Include="Entitys\System\SystemExtension\DeskExtension.cs" />
+    <Compile Include="Entitys\System\SystemExtension\MemberExtension.cs" />
+    <Compile Include="DomainQuery\ConcreteQuery\DefaultQuery.cs" />
+    <Compile Include="DomainQuery\ConcreteQuery\DefaultQueryFactory.cs" />
+    <Compile Include="DomainQuery\Query\IQuery.cs" />
+    <Compile Include="DomainQuery\Query\QueryFactory.cs" />
+    <Compile Include="DomainSpecification\ConcreteSpecification\DefaultSpecification.cs" />
+    <Compile Include="DomainSpecification\ConcreteSpecification\DefaultSpecificationFactory.cs" />
+    <Compile Include="DomainSpecification\Specification.cs" />
+    <Compile Include="DomainSpecification\ParameterVisitor.cs" />
+    <Compile Include="DomainSpecification\SpecificationExtensions.cs" />
+    <Compile Include="DomainSpecification\Factory\SpecificationFactory.cs" />
+    <Compile Include="Factory\Domain\ConcreteFactory\DefaultDomainFactory.cs" />
+    <Compile Include="Factory\Domain\DomainFactory.cs" />
+    <Compile Include="Factory\RepositoryFactory.cs" />
+    <Compile Include="Repositories\IDomainModelQueryProvider.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\IRepository\Account\ITitleRepository.cs" />
+    <Compile Include="Repositories\IRepository\Account\IAccountRepository.cs" />
+    <Compile Include="Repositories\IRepository\Security\IPowerRepository.cs" />
+    <Compile Include="Repositories\IRepository\Security\IRoleRepository.cs" />
+    <Compile Include="Repositories\IRepository\System\IAppRepository.cs" />
+    <Compile Include="Repositories\IRepository\System\IAppTypeRepository.cs" />
+    <Compile Include="Repositories\IRepository\System\IDeskRepository.cs" />
+    <Compile Include="Repositories\IRepository\System\ILogRepository.cs" />
+    <Compile Include="Repositories\IRepository\System\IOnlineRepository.cs" />
+    <Compile Include="Repositories\IRepository\System\IWallpaperRepository.cs" />
+    <Compile Include="UnitWork\InternalImportUnitOfWork.cs" />
+    <Compile Include="UnitWork\IUnitOfWork.cs" />
+    <Compile Include="UnitWork\IUnitOfWorkContext.cs" />
+    <Compile Include="ValueObject\AppAuditState.cs" />
+    <Compile Include="ValueObject\AppStyle.cs" />
+    <Compile Include="Entitys\System\AppType.cs" />
+    <Compile Include="Entitys\System\Member.cs" />
+    <Compile Include="Entitys\System\Log.cs" />
+    <Compile Include="Entitys\System\Online.cs" />
+    <Compile Include="Entitys\System\Config.cs" />
+    <Compile Include="Entitys\System\Wallpaper.cs" />
+    <Compile Include="ValueObject\AppAlignMode.cs" />
+    <Compile Include="ValueObject\DockPostion.cs" />
+    <Compile Include="ValueObject\LogLevel.cs" />
+    <Compile Include="ValueObject\MemberType.cs" />
+    <Compile Include="ValueObject\AppReleaseState.cs" />
+    <Compile Include="ValueObject\AccountType.cs" />
+    <Compile Include="ValueObject\WallpaperMode.cs" />
+    <Compile Include="ValueObject\WallpaperSource.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Entitys\Security\Power.cs" />
+    <Compile Include="Entitys\Security\Role.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Repositories\IRepository\Account\Impl\" />
+    <Folder Include="Repositories\IRepository\Security\Impl\" />
+    <Folder Include="Repositories\IRepository\System\Impl\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NewCRM.Infrastructure\NewCRM.Infrastructure.csproj">
+      <Project>{457EE31D-B485-4D98-A0A2-1FF2F58123D9}</Project>
+      <Name>NewCRM.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

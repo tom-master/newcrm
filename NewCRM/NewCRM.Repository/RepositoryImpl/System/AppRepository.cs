@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
-using NewCRM.Domain.Entities.DomainModel.System;
-using NewCRM.Domain.Entities.Repositories;
-using NewCRM.Domain.Entities.Repositories.IRepository.System;
+using NewCRM.Domain.Entitys.System;
+using NewCRM.Domain.Repositories;
+using NewCRM.Domain.Repositories.IRepository.System;
 using NewCRM.Repository.DataBaseProvider; 
 
 namespace NewCRM.Repository.RepositoryImpl.System

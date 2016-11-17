@@ -1,14 +1,14 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using NewCRM.Domain.Entities.DomainModel.Account;
-using NewCRM.Domain.Entities.DomainQuery.Query;
-using NewCRM.Domain.Entities.DomainSpecification.Factory;
-using NewCRM.Domain.Entities.Factory;
-using NewCRM.Domain.Entities.UnitWork;
+using NewCRM.Domain.DomainQuery.Query;
+using NewCRM.Domain.DomainSpecification.Factory;
+using NewCRM.Domain.Entitys.Account;
+using NewCRM.Domain.Factory;
 using NewCRM.Domain.Interface.BoundedContext.Account;
 using NewCRM.Domain.Interface.BoundedContext.App;
 using NewCRM.Domain.Interface.BoundedContext.Desk;
 using NewCRM.Domain.Interface.BoundedContext.Wallpaper;
+using NewCRM.Domain.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
 
 namespace NewCRM.Application.Services.BaseServices

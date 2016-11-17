@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace NewCRM.Domain.Entities.ValueObject
+namespace NewCRM.Domain.ValueObject
 {
     /// <summary>
     /// App的审核状态

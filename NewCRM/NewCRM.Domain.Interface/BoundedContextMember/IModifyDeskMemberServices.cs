@@ -1,5 +1,5 @@
 ﻿using System;
-using NewCRM.Domain.Entities.DomainModel.System;
+using NewCRM.Domain.Entitys.System;
 
 namespace NewCRM.Domain.Interface.BoundedContextMember
 {

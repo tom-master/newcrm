@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
-namespace NewCRM.Domain.Entities.ValueObject
+namespace NewCRM.Domain.ValueObject
 {
     /// <summary>
     /// app发布状态

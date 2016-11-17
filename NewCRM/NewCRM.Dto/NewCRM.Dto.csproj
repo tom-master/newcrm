@@ -35,9 +35,6 @@
       <HintPath>..\packages\AutoMapper.5.0.2\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NewCRM.Domain.Entities">
-      <HintPath>..\NewCRM.Domain\bin\Debug\NewCRM.Domain.Entities.dll</HintPath>
-    </Reference>
     <Reference Include="NewCRM.Infrastructure">
       <HintPath>..\NewCRM.Infrastructure\bin\Debug\NewCRM.Infrastructure.dll</HintPath>
     </Reference>
@@ -69,6 +66,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NewCRM.Domain\NewCRM.Domain.csproj">
+      <Project>{173C1046-4529-4D70-B6F5-501C61514E86}</Project>
+      <Name>NewCRM.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

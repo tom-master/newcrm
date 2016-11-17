@@ -1,11 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using NewCRM.Domain.Entities.DomainModel.System;
-using NewCRM.Domain.Entities.ValueObject;
-using NewCRM.Domain.Interface;
+using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContextMember;
+using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
 

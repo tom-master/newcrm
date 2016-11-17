@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NewCRM.Application.Interface;
-using NewCRM.Domain.Entities.DomainModel.Account;
+using NewCRM.Domain.Entitys.Account;
 
 namespace NewCRM.Application.Services
 {

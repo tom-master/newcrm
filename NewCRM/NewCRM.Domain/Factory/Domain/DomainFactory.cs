@@ -1,6 +1,6 @@
-﻿using NewCRM.Domain.Entities.DomainModel;
+﻿using NewCRM.Domain.Entitys;
 
-namespace NewCRM.Domain.Entities.Factory.Domain
+namespace NewCRM.Domain.Factory.Domain
 {
     public abstract class DomainFactory
     {

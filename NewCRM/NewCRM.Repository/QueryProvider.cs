@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
-using NewCRM.Domain.Entities.DomainModel;
-using NewCRM.Domain.Entities.DomainSpecification;
-using NewCRM.Domain.Entities.Repositories;
-using NewCRM.Domain.Entities.UnitWork;
+using NewCRM.Domain.DomainSpecification;
+using NewCRM.Domain.Entitys;
+using NewCRM.Domain.Repositories;
+using NewCRM.Domain.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 using NewCRM.Repository.UnitOfWorkProvide;
 

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
-using NewCRM.Domain.Entities.DomainModel;
+using NewCRM.Domain.Entitys;
 
-namespace NewCRM.Domain.Entities.DomainSpecification.Factory
+namespace NewCRM.Domain.DomainSpecification.Factory
 {
     /// <summary>
     /// 抽象规约工厂

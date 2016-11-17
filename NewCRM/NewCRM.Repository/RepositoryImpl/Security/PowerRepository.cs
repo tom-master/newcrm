@@ -1,8 +1,7 @@
-﻿
-using System.ComponentModel.Composition;
-using NewCRM.Domain.Entities.DomainModel.Security;
-using NewCRM.Domain.Entities.Repositories;
-using NewCRM.Domain.Entities.Repositories.IRepository.Security;
+﻿using System.ComponentModel.Composition;
+using NewCRM.Domain.Entitys.Security;
+using NewCRM.Domain.Repositories;
+using NewCRM.Domain.Repositories.IRepository.Security;
 using NewCRM.Repository.DataBaseProvider; 
 
 namespace NewCRM.Repository.RepositoryImpl.Security

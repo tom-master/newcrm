@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using NewCRM.Domain.Entities.DomainModel;
-using NewCRM.Domain.Entities.DomainModel.Account;
-using NewCRM.Domain.Entities.DomainModel.Security;
-using NewCRM.Domain.Entities.DomainModel.System;
+using NewCRM.Domain.Entitys;
+using NewCRM.Domain.Entitys.Account;
+using NewCRM.Domain.Entitys.Security;
+using NewCRM.Domain.Entitys.System;
 using NewCRM.Dto.Dto;
 using NewCRM.Dto.MapperProfile;
 

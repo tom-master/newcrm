@@ -7,13 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.Composition;
-
-namespace NewCRM.Domain.Entities.Repositories.IRepository.Account
+namespace NewCRM.Domain.Repositories.IRepository.Account
 {
     /// <summary>
     ///   仓储操作层接口——用户
     /// </summary>
-    public partial interface IAccountRepository : IRepository<DomainModel.Account.Account>
+    public partial interface IAccountRepository : IRepository<Entitys.Account.Account>
     { }
 }

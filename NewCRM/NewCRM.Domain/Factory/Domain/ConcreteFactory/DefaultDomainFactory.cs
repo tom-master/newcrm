@@ -1,4 +1,4 @@
-﻿namespace NewCRM.Domain.Entities.Factory.Domain.ConcreteFactory
+﻿namespace NewCRM.Domain.Factory.Domain.ConcreteFactory
 {
     public sealed class DefaultDomainFactory : DomainFactory
     {

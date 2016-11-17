@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
-using NewCRM.Domain.Entities.DomainModel.System;
-using NewCRM.Domain.Entities.ValueObject;
+using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface;
 using NewCRM.Domain.Interface.BoundedContextMember;
+using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {

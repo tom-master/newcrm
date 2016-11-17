@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Linq.Expressions;
-using NewCRM.Domain.Entities.DomainModel;
-using NewCRM.Domain.Entities.DomainSpecification.ConcreteSpecification;
+using NewCRM.Domain.DomainSpecification.ConcreteSpecification;
+using NewCRM.Domain.Entitys;
 
-namespace NewCRM.Domain.Entities.DomainSpecification
+namespace NewCRM.Domain.DomainSpecification
 {
 
     /// <summary>

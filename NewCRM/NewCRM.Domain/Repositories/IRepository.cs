@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
 using System.Linq.Expressions;
-using NewCRM.Domain.Entities.DomainModel;
+using NewCRM.Domain.Entitys;
 
-namespace NewCRM.Domain.Entities.Repositories
+namespace NewCRM.Domain.Repositories
 {
     /// <summary>
     /// 定义仓储模型中的数据标准操作

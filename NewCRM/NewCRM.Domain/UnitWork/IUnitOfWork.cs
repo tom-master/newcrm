@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NewCRM.Domain.Entities.UnitWork
+namespace NewCRM.Domain.UnitWork
 {
     /// <summary>
     ///     业务单元操作接口

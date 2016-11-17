@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Linq;
-using NewCRM.Domain.Entities.Factory;
-using NewCRM.Domain.Entities.Repositories;
+using NewCRM.Domain.Factory;
+using NewCRM.Domain.Repositories;
 
 namespace NewCRM.Repository
 {

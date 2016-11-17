@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using NewCRM.Domain.Entities.DomainModel;
-using NewCRM.Domain.Entities.DomainQuery.Query;
-using NewCRM.Domain.Entities.DomainSpecification;
-using NewCRM.Domain.Entities.Repositories;
+using NewCRM.Domain.DomainQuery.Query;
+using NewCRM.Domain.DomainSpecification;
+using NewCRM.Domain.Entitys;
+using NewCRM.Domain.Repositories;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
-namespace NewCRM.Domain.Entities.DomainQuery.ConcreteQuery
+namespace NewCRM.Domain.DomainQuery.ConcreteQuery
 {
    
     [Export(typeof(IQuery))]

@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewCRM.App.Infrastructure",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "View", "View", "{DBD703D5-88B5-4A93-BAA4-5C10F3F97A10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCRM.Domain.Entities", "NewCRM.Domain\NewCRM.Domain.Entities.csproj", "{173C1046-4529-4D70-B6F5-501C61514E86}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCRM.Domain", "NewCRM.Domain\NewCRM.Domain.csproj", "{173C1046-4529-4D70-B6F5-501C61514E86}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewCRM.App.Domain", "NewCRM.App.Domain", "{1DDA3B32-30E1-49B7-A415-622B5B1BEB35}"
 EndProject
@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewCRM.App.Dto", "NewCRM.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCRM.Dto", "NewCRM.Dto\NewCRM.Dto.csproj", "{0C635AA2-3953-4AA0-A07F-CF8B1B7BBC6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCRM.ApplicationServiceTest", "NewCRM.ApplicationServiceTest\NewCRM.ApplicationServiceTest.csproj", "{781FC8B5-3395-4B18-A11C-4760473D9CE8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCRM.Application.Test", "NewCRM.ApplicationServiceTest\NewCRM.Application.Test.csproj", "{781FC8B5-3395-4B18-A11C-4760473D9CE8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCRM.DomainServiceTest", "NewCRM.DomainServiceTest\NewCRM.DomainServiceTest.csproj", "{037BA35F-8D98-4CEA-9BEA-9E3E77050DB4}"
 EndProject

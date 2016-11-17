@@ -4,8 +4,8 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
-using NewCRM.Domain.Entities.DomainModel;
-using NewCRM.Domain.Entities.UnitWork;
+using NewCRM.Domain.Entitys;
+using NewCRM.Domain.UnitWork;
 
 namespace NewCRM.Repository.UnitOfWorkProvide
 {

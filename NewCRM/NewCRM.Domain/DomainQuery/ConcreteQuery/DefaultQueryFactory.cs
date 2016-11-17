@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using NewCRM.Domain.Entities.DomainQuery.Query;
+﻿using System.ComponentModel.Composition;
+using NewCRM.Domain.DomainQuery.Query;
 
-namespace NewCRM.Domain.Entities.DomainQuery.ConcreteQuery
+namespace NewCRM.Domain.DomainQuery.ConcreteQuery
 {
 
     [Export(typeof(QueryFactory))]

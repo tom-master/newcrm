@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace NewCRM.Domain.Entities.DomainSpecification
+namespace NewCRM.Domain.DomainSpecification
 {
 
     internal sealed class ParameterVisitor : ExpressionVisitor

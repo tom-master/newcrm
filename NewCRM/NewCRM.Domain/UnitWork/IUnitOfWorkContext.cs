@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using NewCRM.Domain.Entities.DomainModel;
+using NewCRM.Domain.Entitys;
 
-namespace NewCRM.Domain.Entities.UnitWork
+namespace NewCRM.Domain.UnitWork
 {
     /// <summary>
     ///     数据单元操作接口

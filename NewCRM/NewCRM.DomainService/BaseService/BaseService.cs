@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using NewCRM.Domain.Entities.DomainModel.Account;
-using NewCRM.Domain.Entities.DomainModel.System;
-using NewCRM.Domain.Entities.DomainQuery.Query;
-using NewCRM.Domain.Entities.DomainSpecification.Factory;
-using NewCRM.Domain.Entities.Factory;
+using NewCRM.Domain.DomainQuery.Query;
+using NewCRM.Domain.DomainSpecification.Factory;
+using NewCRM.Domain.Entitys.Account;
+using NewCRM.Domain.Entitys.System;
+using NewCRM.Domain.Factory;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
 namespace NewCRM.Domain.Services.BaseService

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Data.Entity;
-using NewCRM.Domain.Entities.UnitWork;
+using NewCRM.Domain.UnitWork;
 
 namespace NewCRM.Repository.UnitOfWorkProvide
 {

@@ -8,10 +8,9 @@
 //------------------------------------------------------------------------------
 
 
-using System.ComponentModel.Composition;
-using NewCRM.Domain.Entities.DomainModel.System;
+using NewCRM.Domain.Entitys.System;
 
-namespace NewCRM.Domain.Entities.Repositories.IRepository.System
+namespace NewCRM.Domain.Repositories.IRepository.System
 {
     /// <summary>
     ///   仓储操作层接口——应用

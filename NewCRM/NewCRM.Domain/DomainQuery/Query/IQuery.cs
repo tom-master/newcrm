@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using NewCRM.Domain.Entities.DomainModel;
-using NewCRM.Domain.Entities.DomainSpecification;
+using NewCRM.Domain.DomainSpecification;
+using NewCRM.Domain.Entitys;
 
-namespace NewCRM.Domain.Entities.DomainQuery.Query
+namespace NewCRM.Domain.DomainQuery.Query
 {
     public interface IQuery
     {
