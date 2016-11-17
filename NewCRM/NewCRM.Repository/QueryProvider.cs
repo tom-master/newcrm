@@ -8,22 +8,16 @@ using NewCRM.Domain.Entities.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 using NewCRM.Repository.UnitOfWorkProvide;
 
-namespace NewCRM.Repository.DataBaseProvider
+namespace NewCRM.Repository
 {
     /// <summary>
     /// 提供查询
     /// </summary>
     [Export(typeof(IDomainModelQueryProvider))]
-    public class QueryProvider : IDomainModelQueryProvider
+    internal class QueryProvider : InternalImportUnitOfWork, IDomainModelQueryProvider
     {
         #region 仓储上下文的实例
 
-        /// <summary>
-        /// 获取 仓储上下文的实例
-        /// </summary>
-
-        [Import("NewCRM.Domain.Entities.UnitWork")]
-        private IUnitOfWork UnitOfWork { get; set; }
 
         #endregion
 
@@ -36,10 +30,13 @@ namespace NewCRM.Repository.DataBaseProvider
         {
             get
             {
-                if (UnitOfWork is UnitOfWorkContextBase)
+                var unitofwork = UnitOfWork as UnitOfWorkContextBase;
+
+                if (unitofwork != null)
                 {
-                    return UnitOfWork as UnitOfWorkContextBase;
+                    return unitofwork;
                 }
+
                 throw new RepositoryException($"无法获取当前工作单元的实例:{nameof(UnitOfWork)}");
             }
         }
@@ -58,6 +55,5 @@ namespace NewCRM.Repository.DataBaseProvider
 
         #endregion
 
-        
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Data.Entity;
 using EntityFramework.DynamicFilters;
 using NewCRM.Domain.Entities.DomainModel;

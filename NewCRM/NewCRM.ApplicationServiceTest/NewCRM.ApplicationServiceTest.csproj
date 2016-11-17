@@ -44,9 +44,6 @@
     <Reference Include="NewCRM.Infrastructure">
       <HintPath>..\NewCRM.Infrastructure\bin\Debug\NewCRM.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="NewCRM.Repositories">
-      <HintPath>..\NewCRM.Repositories\bin\Debug\NewCRM.Repositories.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>

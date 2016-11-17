@@ -16,7 +16,7 @@ namespace NewCRM.Application.Services.BaseServices
 
     public abstract class BaseServices
     {
-        [Import("NewCRM.Domain.Entities.UnitWork", typeof(IUnitOfWork), RequiredCreationPolicy = CreationPolicy.NonShared)]
+        [Import]
         protected IUnitOfWork UnitOfWork { get; set; }
 
         [Import]

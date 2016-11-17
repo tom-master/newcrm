@@ -11,8 +11,10 @@ namespace NewCRM.Repository
     [Export(typeof(RepositoryFactory))]
     internal sealed class DefaultRepositoryFactory : RepositoryFactory
     {
-        private static readonly IDictionary<String, dynamic> _repositoryCache = new Dictionary<String, dynamic>();
+        private static readonly IDictionary<String, Type> _repositoryCache = new Dictionary<String, Type>();
 
+        [ImportMany(typeof(IRepository<>))]
+        private IEnumerable<dynamic> RepositoryFactory { get; set; }
 
         public override IRepository<T> Create<T>()
         {
@@ -20,7 +22,7 @@ namespace NewCRM.Repository
             {
                 if (_repositoryCache.ContainsKey(typeof(T).Name))
                 {
-                    return _repositoryCache[typeof(T).Name];
+                    return RepositoryFactory.FirstOrDefault(w => w.GetType().FullName == _repositoryCache[typeof(T).Name].FullName);
                 }
 
                 var currentExcuteAssembly = System.Reflection.Assembly.GetExecutingAssembly();
@@ -33,14 +35,16 @@ namespace NewCRM.Repository
                     return null;
                 }
 
-                var newRepositoryInstance = currentExcuteAssembly.CreateInstance(repositoryType.FullName);
-                if (!(newRepositoryInstance is IRepository<T>))
+                var newRepositoryInstance = RepositoryFactory.FirstOrDefault(w => w.GetType().FullName == repositoryType.FullName) as IRepository<T>;
+
+                if (newRepositoryInstance == null)
                 {
                     return null;
                 }
 
-                _repositoryCache.Add(typeof(T).Name, (IRepository<T>)newRepositoryInstance);
-                return (IRepository<T>)newRepositoryInstance;
+                _repositoryCache.Add(typeof(T).Name, repositoryType);
+
+                return newRepositoryInstance;
             }
         }
     }

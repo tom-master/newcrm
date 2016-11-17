@@ -8,7 +8,7 @@ namespace NewCRM.Repository.UnitOfWorkProvide
     /// <summary>
     ///     数据单元操作类
     /// </summary> 
-    [Export("NewCRM.Domain.Entities.UnitWork", typeof(IUnitOfWork))]
+    [Export(typeof(IUnitOfWork))]
     public class EfUnitOfWorkContext : UnitOfWorkContextBase
     {
         /// <summary>

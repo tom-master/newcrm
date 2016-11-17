@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -22,8 +21,6 @@ namespace NewCRM.Web
 
 
             var catalog = new AggregateCatalog();
-
-
 
             catalog.Catalogs.Add(new AssemblyCatalog(@"E:\NewCRM\NewCRM\NewCRM.Application.Interface\bin\Debug\NewCRM.Application.Interface.dll"));
 

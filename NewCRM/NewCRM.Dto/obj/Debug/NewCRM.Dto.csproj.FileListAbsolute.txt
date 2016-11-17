@@ -19,6 +19,7 @@ E:\NewCRMTest\NewCRM\NewCRM.Dto\bin\Debug\NewCRM.Infrastructure.pdb
 E:\NewCRMTest\NewCRM\NewCRM.Dto\bin\Debug\Newtonsoft.Json.xml
 E:\NewCRMTest\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.dll
 E:\NewCRMTest\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.pdb
+E:\NewCRM\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.csprojResolveAssemblyReference.cache
 E:\NewCRM\NewCRM\NewCRM.Dto\bin\Debug\NewCRM.Dto.dll
 E:\NewCRM\NewCRM\NewCRM.Dto\bin\Debug\NewCRM.Dto.pdb
 E:\NewCRM\NewCRM\NewCRM.Dto\bin\Debug\AutoMapper.dll
@@ -29,6 +30,5 @@ E:\NewCRM\NewCRM\NewCRM.Dto\bin\Debug\AutoMapper.xml
 E:\NewCRM\NewCRM\NewCRM.Dto\bin\Debug\NewCRM.Domain.Entities.pdb
 E:\NewCRM\NewCRM\NewCRM.Dto\bin\Debug\NewCRM.Infrastructure.pdb
 E:\NewCRM\NewCRM\NewCRM.Dto\bin\Debug\Newtonsoft.Json.xml
-E:\NewCRM\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.csprojResolveAssemblyReference.cache
 E:\NewCRM\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.dll
 E:\NewCRM\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.pdb

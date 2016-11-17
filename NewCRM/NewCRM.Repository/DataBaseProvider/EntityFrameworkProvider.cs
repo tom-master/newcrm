@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
 using NewCRM.Domain.Entities.DomainModel;
@@ -16,35 +15,28 @@ namespace NewCRM.Repository.DataBaseProvider
     /// EntityFramework仓储操作基类
     /// </summary>
     /// <typeparam name="T">动态实体类型</typeparam>
-    public abstract class EntityFrameworkProvider<T> : IRepository<T> where T : DomainModelBase, IAggregationRoot
+    public abstract class EntityFrameworkProvider<T> : InternalImportUnitOfWork
+        , IRepository<T> where T : DomainModelBase, IAggregationRoot
     {
         public virtual Parameter VaildateParameter => new Parameter();
 
 
-        #region 仓储上下文的实例
-
-        /// <summary>
-        /// 获取 仓储上下文的实例
-        /// </summary>
-
-        [Import("NewCRM.Domain.Entities.UnitWork")]
-        public IUnitOfWork UnitOfWork { get; set; }
-
-        #endregion
-
         #region 属性
 
         /// <summary>
-        ///     获取 EntityFramework的数据仓储上下文
+        /// 获取 EntityFramework的数据仓储上下文
         /// </summary>
         protected UnitOfWorkContextBase EfContext
         {
             get
             {
-                if (UnitOfWork is UnitOfWorkContextBase)
+                var unitofwork = UnitOfWork as UnitOfWorkContextBase;
+
+                if (unitofwork != null)
                 {
-                    return UnitOfWork as UnitOfWorkContextBase;
+                    return unitofwork;
                 }
+
                 throw new RepositoryException($"无法获取当前工作单元的实例:{nameof(UnitOfWork)}");
             }
         }
@@ -157,5 +149,6 @@ namespace NewCRM.Repository.DataBaseProvider
             throw new NotSupportedException("上下文公用，不支持按需更新功能。");
         }
         #endregion
+
     }
 }

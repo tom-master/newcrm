@@ -18,7 +18,7 @@ namespace NewCRM.Application.Services
     public class AppApplicationServices : BaseServices.BaseServices, IAppApplicationServices
     {
 
-        public IDictionary<Int32, IList<dynamic>> GetAccountDeskMembers(Int32 accountId)
+        public IDictionary<String, IList<dynamic>> GetAccountDeskMembers(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
 
@@ -31,7 +31,7 @@ namespace NewCRM.Application.Services
 
             var accountConfig = accountResult.Config;
 
-            IDictionary<Int32, IList<dynamic>> desks = new Dictionary<Int32, IList<dynamic>>();
+            IDictionary<String, IList<dynamic>> desks = new Dictionary<String, IList<dynamic>>();
 
             #region accountConfig
 
@@ -96,7 +96,7 @@ namespace NewCRM.Application.Services
                         }
                     }
                 }
-                desks.Add(new KeyValuePair<Int32, IList<dynamic>>(desk.DeskNumber, deskMembers));
+                desks.Add(new KeyValuePair<String, IList<dynamic>>(desk.DeskNumber.ToString(), deskMembers));
             }
             #endregion
 

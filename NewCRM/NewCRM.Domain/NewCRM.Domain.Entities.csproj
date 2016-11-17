@@ -90,6 +90,7 @@
     <Compile Include="Repositories\IRepository\System\ILogRepository.cs" />
     <Compile Include="Repositories\IRepository\System\IOnlineRepository.cs" />
     <Compile Include="Repositories\IRepository\System\IWallpaperRepository.cs" />
+    <Compile Include="UnitWork\InternalImportUnitOfWork.cs" />
     <Compile Include="UnitWork\IUnitOfWork.cs" />
     <Compile Include="UnitWork\IUnitOfWorkContext.cs" />
     <Compile Include="ValueObject\AppAuditState.cs" />

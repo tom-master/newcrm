@@ -12,7 +12,7 @@ namespace NewCRM.Application.Interface
         /// </summary>
         /// <param name="accountId"></param>
         /// <returns></returns>
-        IDictionary<Int32, IList<dynamic>> GetAccountDeskMembers(Int32 accountId);
+        IDictionary<String, IList<dynamic>> GetAccountDeskMembers(Int32 accountId);
 
         /// <summary>
         /// 修改app排列方向
