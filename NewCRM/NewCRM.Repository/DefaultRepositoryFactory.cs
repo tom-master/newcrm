@@ -5,16 +5,18 @@ using System.Globalization;
 using System.Linq;
 using NewCRM.Domain.Factory;
 using NewCRM.Domain.Repositories;
+using NewCRM.Infrastructure.CommonTools.CustemException;
 
 namespace NewCRM.Repository
 {
     [Export(typeof(RepositoryFactory))]
     internal sealed class DefaultRepositoryFactory : RepositoryFactory
     {
-        private static readonly IDictionary<String, Type> _repositoryCache = new Dictionary<String, Type>();
-
         [ImportMany(typeof(IRepository<>))]
         private IEnumerable<dynamic> RepositoryFactory { get; set; }
+
+        private static readonly IDictionary<String, Type> _repositoryCache = new Dictionary<String, Type>();
+
 
         public override IRepository<T> Create<T>()
         {
@@ -32,14 +34,14 @@ namespace NewCRM.Repository
 
                 if (repositoryType == null)
                 {
-                    return null;
+                    throw new RepositoryException($"{nameof(repositoryType)}:为空");
                 }
 
                 var newRepositoryInstance = RepositoryFactory.FirstOrDefault(w => w.GetType().FullName == repositoryType.FullName) as IRepository<T>;
 
                 if (newRepositoryInstance == null)
                 {
-                    return null;
+                    throw new RepositoryException($"{nameof(newRepositoryInstance)}:为空");
                 }
 
                 _repositoryCache.Add(typeof(T).Name, repositoryType);

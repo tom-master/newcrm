@@ -26,7 +26,7 @@ namespace NewCRM.Web
 
             catalog.Catalogs.Add(new AssemblyCatalog(@"E:\NewCRM\NewCRM\NewCRM.ApplicationService\bin\Debug\NewCRM.Application.Services.dll"));
 
-            catalog.Catalogs.Add(new AssemblyCatalog(@"E:\NewCRM\NewCRM\NewCRM.Domain\bin\Debug\NewCRM.Domain.Entities.dll"));
+            catalog.Catalogs.Add(new AssemblyCatalog(@"E:\NewCRM\NewCRM\NewCRM.Domain\bin\Debug\NewCRM.Domain.dll"));
 
             catalog.Catalogs.Add(new AssemblyCatalog(@"E:\NewCRM\NewCRM\NewCRM.Domain.Interface\bin\Debug\NewCRM.Domain.Interface.dll"));
 

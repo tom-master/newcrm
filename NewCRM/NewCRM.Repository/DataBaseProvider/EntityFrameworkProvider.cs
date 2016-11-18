@@ -18,7 +18,13 @@ namespace NewCRM.Repository.DataBaseProvider
     public abstract class EntityFrameworkProvider<T> : InternalImportUnitOfWork
         , IRepository<T> where T : DomainModelBase, IAggregationRoot
     {
-        public virtual Parameter VaildateParameter => new Parameter();
+        private readonly Parameter _vaildateParameter;
+
+
+        protected EntityFrameworkProvider()
+        {
+            _vaildateParameter = new Parameter();
+        }
 
 
         #region 属性
@@ -52,29 +58,29 @@ namespace NewCRM.Repository.DataBaseProvider
         /// <param name="isSave"> 是否执行保存 </param>
         public virtual void Add(T entity, Boolean isSave = true)
         {
-            VaildateParameter.Validate(entity);
+            _vaildateParameter.Validate(entity);
             EfContext.RegisterNew<T, Int32>(entity);
         }
 
         /// <summary>
-        ///     批量插入实体记录集合
+        /// 批量插入实体记录集合
         /// </summary>
         /// <param name="entities"> 实体记录集合 </param>
         /// <param name="isSave"> 是否执行保存 </param>
         public virtual void Add(IEnumerable<T> entities, Boolean isSave = true)
         {
-            VaildateParameter.Validate(entities);
+            _vaildateParameter.Validate(entities);
             EfContext.RegisterNew<T, Int32>(entities);
         }
 
         /// <summary>
-        ///     删除指定编号的记录
+        /// 删除指定编号的记录
         /// </summary>
         /// <param name="id"> 实体记录编号 </param>
         /// <param name="isSave"> 是否执行保存 </param>
         public virtual void Remove(Int32 id, Boolean isSave = true)
         {
-            VaildateParameter.Validate(id);
+            _vaildateParameter.Validate(id);
             T entity = EfContext.Set<T, Int32>().Find(id);
             if (entity != null)
             {
@@ -87,35 +93,35 @@ namespace NewCRM.Repository.DataBaseProvider
         }
 
         /// <summary>
-        ///     删除实体记录
+        /// 删除实体记录
         /// </summary>
         /// <param name="entity"> 实体对象 </param>
         /// <param name="isSave"> 是否执行保存 </param>
         public virtual void Remove(T entity, Boolean isSave = true)
         {
-            VaildateParameter.Validate(entity);
+            _vaildateParameter.Validate(entity);
             EfContext.RegisterDeleted<T, Int32>(entity);
         }
 
         /// <summary>
-        ///     删除实体记录集合
+        /// 删除实体记录集合
         /// </summary>
         /// <param name="entities"> 实体记录集合 </param>
         /// <param name="isSave"> 是否执行保存 </param>
         public virtual void Remove(IEnumerable<T> entities, Boolean isSave = true)
         {
-            VaildateParameter.Validate(entities);
+            _vaildateParameter.Validate(entities);
             EfContext.RegisterDeleted<T, Int32>(entities);
         }
 
         /// <summary>
-        ///     删除所有符合特定表达式的数据
+        /// 删除所有符合特定表达式的数据
         /// </summary>
         /// <param name="predicate"> 查询条件谓语表达式 </param>
         /// <param name="isSave"> 是否执行保存 </param>
         public virtual void Remove(Expression<Func<T, Boolean>> predicate, Boolean isSave = true)
         {
-            VaildateParameter.Validate(predicate);
+            _vaildateParameter.Validate(predicate);
             IList<T> entities = EfContext.Set<T, Int32>().Where(predicate).ToList();
             if (entities.Any())
             {
@@ -128,13 +134,13 @@ namespace NewCRM.Repository.DataBaseProvider
         }
 
         /// <summary>
-        ///     更新实体记录
+        /// 更新实体记录
         /// </summary>
         /// <param name="entity"> 实体对象 </param>
         /// <param name="isSave"> 是否执行保存 </param>
         public virtual void Update(T entity, Boolean isSave = true)
         {
-            VaildateParameter.Validate(entity);
+            _vaildateParameter.Validate(entity);
             EfContext.RegisterModified<T, Int32>(entity);
         }
 
