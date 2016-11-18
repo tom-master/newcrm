@@ -13,7 +13,7 @@ namespace NewCRM.Web.Filter
 
             String exceptionMessage = "";
 
-            if (filterContext.Exception.Message.Length > 50)
+            if (filterContext.Exception.Message.Length > 50) 
             {
                 exceptionMessage = filterContext.Exception.Message.Substring(0, 50) + "...";
             }
