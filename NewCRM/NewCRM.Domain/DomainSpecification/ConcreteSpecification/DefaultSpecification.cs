@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using NewCRM.Domain.Entitys;
+using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Domain.DomainSpecification.ConcreteSpecification
 {
@@ -14,7 +15,7 @@ namespace NewCRM.Domain.DomainSpecification.ConcreteSpecification
     {
         public override Expression<Func<T, Boolean>> Expression { get; }
 
-        public override IList<Expression<Func<T, dynamic>>> OrderByExpressions { get; protected set; }
+        public override IList<Expression<Func<PropertySortCondition>>> OrderByExpressions { get; protected set; }
 
 
         public DefaultSpecification(Expression<Func<T, Boolean>> expression)
@@ -28,11 +29,11 @@ namespace NewCRM.Domain.DomainSpecification.ConcreteSpecification
         }
 
 
-        public override void AddOrderByExpression(Expression<Func<T, dynamic>> expression)
+        public override void AddOrderByExpression(Expression<Func<PropertySortCondition>> expression)
         {
             if (OrderByExpressions == null)
             {
-                OrderByExpressions = new List<Expression<Func<T, dynamic>>>();
+                OrderByExpressions = new List<Expression<Func<PropertySortCondition>>>();
             }
             OrderByExpressions.Add(expression);
         }

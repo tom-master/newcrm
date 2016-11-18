@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using NewCRM.Domain.Entitys;
+using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Domain.DomainSpecification
 {
@@ -19,13 +20,13 @@ namespace NewCRM.Domain.DomainSpecification
         /// <summary>
         /// 排序表达式集合
         /// </summary>
-        public abstract IList<Expression<Func<T, dynamic>>> OrderByExpressions { get; protected set; }
+        public abstract IList<Expression<Func<PropertySortCondition>>> OrderByExpressions { get; protected set; }
 
         /// <summary>
         /// 添加一个排序表达式
         /// </summary>
         /// <param name="expression"></param>
-        public abstract void AddOrderByExpression(Expression<Func<T, dynamic>> expression);
+        public abstract void AddOrderByExpression(Expression<Func<PropertySortCondition>> expression);
 
         /// <summary>
         /// 重置排序表达式集合

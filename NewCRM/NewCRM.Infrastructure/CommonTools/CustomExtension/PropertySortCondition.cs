@@ -13,7 +13,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         /// </summary>
         /// <param name="propertyName">排序属性名称</param>
         public PropertySortCondition(String propertyName)
-            : this(propertyName, ListSortDirection.Ascending)
+            : this(propertyName, ListSortDirection.Descending)
         { }
 
         /// <summary>

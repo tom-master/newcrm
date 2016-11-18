@@ -73,6 +73,7 @@ E:\NewCRM\NewCRM\NewCRM.Web\bin\System.Web.WebPages.Deployment.dll
 E:\NewCRM\NewCRM\NewCRM.Web\bin\System.Web.WebPages.dll
 E:\NewCRM\NewCRM\NewCRM.Web\bin\System.Web.WebPages.Razor.dll
 E:\NewCRM\NewCRM\NewCRM.Web\bin\WebGrease.dll
+E:\NewCRM\NewCRM\NewCRM.Web\bin\NewCRM.Domain.dll
 E:\NewCRM\NewCRM\NewCRM.Web\bin\AutoMapper.dll
 E:\NewCRM\NewCRM\NewCRM.Web\bin\NewCRM.Application.Interface.pdb
 E:\NewCRM\NewCRM\NewCRM.Web\bin\NewCRM.Dto.pdb
@@ -88,6 +89,7 @@ E:\NewCRM\NewCRM\NewCRM.Web\bin\System.Web.WebPages.xml
 E:\NewCRM\NewCRM\NewCRM.Web\bin\System.Web.WebPages.Deployment.xml
 E:\NewCRM\NewCRM\NewCRM.Web\bin\System.Web.WebPages.Razor.xml
 E:\NewCRM\NewCRM\NewCRM.Web\bin\System.Web.Optimization.xml
+E:\NewCRM\NewCRM\NewCRM.Web\bin\NewCRM.Domain.pdb
 E:\NewCRM\NewCRM\NewCRM.Web\bin\AutoMapper.xml
 E:\NewCRM\NewCRM\NewCRM.Web\bin\zh-Hans\System.Web.Helpers.resources.dll
 E:\NewCRM\NewCRM\NewCRM.Web\bin\zh-Hans\System.Web.Mvc.resources.dll
@@ -98,5 +100,3 @@ E:\NewCRM\NewCRM\NewCRM.Web\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
 E:\NewCRM\NewCRM\NewCRM.Web\bin\zh-Hans\System.Web.Optimization.resources.dll
 E:\NewCRM\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.dll
 E:\NewCRM\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.pdb
-E:\NewCRM\NewCRM\NewCRM.Web\bin\NewCRM.Domain.dll
-E:\NewCRM\NewCRM\NewCRM.Web\bin\NewCRM.Domain.pdb

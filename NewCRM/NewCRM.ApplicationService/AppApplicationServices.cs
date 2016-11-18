@@ -11,6 +11,7 @@ using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustemException;
+using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Application.Services
 {
@@ -179,7 +180,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var topApp = QueryFactory.Create<App>().Find(SpecificationFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release).OrderByDescending(app => app.UseCount)).Select(app => new
+            var topApp = QueryFactory.Create<App>().Find(SpecificationFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release).OrderByDescending(() => new PropertySortCondition("UseCount"))).Select(app => new
             {
                 app.UseCount,
                 AppStars = CountAppStars(app),
@@ -251,15 +252,15 @@ namespace NewCRM.Application.Services
 
             if (orderId == 1)//最新应用
             {
-                appSpecification.OrderByDescending(app => app.AddTime);
+                appSpecification.OrderByDescending(() => new PropertySortCondition("AddTime"));
             }
             else if (orderId == 2)//使用最多
             {
-                appSpecification.OrderByDescending(app => app.UseCount);
+                appSpecification.OrderByDescending(() => new PropertySortCondition("UseCount"));
             }
             else if (orderId == 3)//评价最高
             {
-                appSpecification.OrderByDescending(app => app.AppStars);
+                appSpecification.OrderByDescending(() => new PropertySortCondition("AppStars"));
             }
 
             if ((searchText + "").Length > 0)//关键字搜索

@@ -10,7 +10,7 @@ using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Domain.DomainQuery.ConcreteQuery
 {
-   
+
     [Export(typeof(IQuery))]
     internal class DefaultQuery : IQuery
     {
@@ -51,7 +51,12 @@ namespace NewCRM.Domain.DomainQuery.ConcreteQuery
         /// <returns></returns>
         public IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount) where T : DomainModelBase, IAggregationRoot
         {
-            var query = QueryProvider.Query(specification).PageBy(pageIndex, pageSize, d => d.AddTime);
+            var query = QueryProvider.Query(specification);
+
+            query = specification.OrderByExpressions == null ?
+                query.PageBy(pageIndex, pageSize).Skip((pageIndex - 1) * pageSize).Take(pageSize)
+                :
+                query.PageBy(pageIndex, pageSize, specification.OrderByExpressions.First()).Skip((pageIndex - 1) * pageSize).Take(pageSize);
 
             totalCount = query.Count();
 

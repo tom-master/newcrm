@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using NewCRM.Domain.DomainSpecification.ConcreteSpecification;
 using NewCRM.Domain.Entitys;
+using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Domain.DomainSpecification
 {
@@ -79,7 +80,7 @@ namespace NewCRM.Domain.DomainSpecification
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static Specification<T> OrderByDescending<T>(this Specification<T> left, Expression<Func<T, dynamic>> right) where T : DomainModelBase, IAggregationRoot
+        public static Specification<T> OrderByDescending<T>(this Specification<T> left, Expression<Func<PropertySortCondition>> right) where T : DomainModelBase, IAggregationRoot
         {
             left.AddOrderByExpression(right);
 
