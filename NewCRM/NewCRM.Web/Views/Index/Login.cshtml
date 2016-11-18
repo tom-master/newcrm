@@ -1,14 +1,14 @@
 ﻿@{
     Layout = null;
 }
-<link href="@Url.Content("~/Scripts/HoorayUI/css/login.css")" rel="stylesheet"/>
+<link href="@Url.Content("~/Scripts/HoorayUI/css/login.css")" rel="stylesheet" />
 <div class="loading" style="display: none"></div>
 <div id="parentDiv">
     <canvas id="Mycanvas"></canvas>
     <div class="wrapper">
         <div class="container">
             <h1 class="logo">
-                dog fucker v8.7
+                Atlas v8.7
             </h1>
 
             <form id="loginForm">
@@ -44,9 +44,9 @@
                     function (responseText) {
                         if (typeof responseText.js !== 'undefined') {
                             alert("密码错误");
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 location.href = '@Url.Action("Login","Index")';
-                            },3000);
+                            }, 3000);
                         } else {
                             if (typeof responseText.success !== 'undefined') {
                                 $('.loading').hide();
@@ -57,7 +57,7 @@
                                 $('.log .tip').text(responseText.msg).show();
                             }
                         }
-                        
+
                     });
             });
     });

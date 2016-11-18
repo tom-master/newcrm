@@ -2,9 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Interface;
 using NewCRM.Domain.Interface.BoundedContextMember;
-using NewCRM.Infrastructure.CommonTools.CustemException;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
@@ -29,8 +27,6 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                     break;
                 }
             }
-
-
         }
 
         public void MemberOutDock(Int32 accountId, Int32 memberId, Int32 deskId)
@@ -52,8 +48,6 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                     break;
                 }
             }
-
-
         }
 
         public void DockToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
@@ -65,8 +59,6 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             InternalDeskMember(memberId, desk).OutDock().InFolder(folderId);
 
             Repository.Create<Desk>().Update(desk);
-
-
         }
 
         public void FolderToDock(Int32 accountId, Int32 memberId)
@@ -78,8 +70,6 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             InternalDeskMember(memberId, desk).InDock().OutFolder();
 
             Repository.Create<Desk>().Update(desk);
-
-
         }
 
         public void DeskToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
@@ -99,8 +89,6 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                     break;
                 }
             }
-
-
         }
 
         public void FolderToDesk(Int32 accountId, Int32 memberId, Int32 deskId)
@@ -129,8 +117,6 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                     break;
                 }
             }
-
-
         }
 
         public void FolderToOtherFolder(Int32 accountId, Int32 memberId, Int32 folderId)
@@ -164,7 +150,6 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                     break;
                 }
             }
-
         }
     }
 }

@@ -23,10 +23,7 @@ namespace NewCRM.Domain.DomainSpecification.ConcreteSpecification
             Expression = expression;
         }
 
-        public DefaultSpecification()
-        {
-            Expression = arg => true;
-        }
+        public DefaultSpecification() : this(default(Expression<Func<T, Boolean>>)) { }
 
 
         public override void AddOrderByExpression(Expression<Func<PropertySortCondition>> expression)
@@ -35,12 +32,11 @@ namespace NewCRM.Domain.DomainSpecification.ConcreteSpecification
             {
                 OrderByExpressions = new List<Expression<Func<PropertySortCondition>>>();
             }
+
             OrderByExpressions.Add(expression);
         }
 
-        public override void ResetOrderByExpressions()
-        {
-            OrderByExpressions?.Clear();
-        }
+        public override void ResetOrderByExpressions() => OrderByExpressions?.Clear();
+
     }
 }

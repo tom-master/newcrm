@@ -8,7 +8,7 @@ using NewCRM.Domain.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 using NewCRM.Repository.UnitOfWorkProvide;
 
-namespace NewCRM.Repository
+namespace NewCRM.Repository.DataBaseProvider
 {
     /// <summary>
     /// 提供查询

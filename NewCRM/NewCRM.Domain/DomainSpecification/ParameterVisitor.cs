@@ -12,14 +12,9 @@ namespace NewCRM.Domain.DomainSpecification
 
         internal ParameterExpression ParameterExpression { get; private set; }
 
-        internal Expression Replace(Expression expr)
-        {
-            return Visit(expr);
-        }
+        internal Expression Replace(Expression expr) => Visit(expr);
 
-        protected override Expression VisitParameter(ParameterExpression p)
-        {
-            return ParameterExpression;
-        }
+        protected override Expression VisitParameter(ParameterExpression p) => ParameterExpression;
+
     }
 }

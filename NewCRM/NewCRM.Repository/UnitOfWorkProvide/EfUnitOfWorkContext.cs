@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Data.Entity;
 using NewCRM.Domain.UnitWork;
+using NewCRM.Repository.DataBaseProvider;
 
 namespace NewCRM.Repository.UnitOfWorkProvide
 {

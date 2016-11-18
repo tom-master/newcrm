@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Linq;
 using System.Net;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContext.Account;
@@ -62,12 +61,8 @@ namespace NewCRM.Domain.Services.BoundedContext.Account
         /// 获取当前登陆的ip
         /// </summary>
         /// <returns></returns>
-        private String GetCurrentIpAddress()
-        {
-            IPHostEntry localhost = Dns.GetHostEntry(Dns.GetHostName());
+        private String GetCurrentIpAddress() => (Dns.GetHostEntry(Dns.GetHostName()).AddressList[0]).ToString();
 
-            return (localhost.AddressList[0]).ToString();
-        }
 
         /// <summary>
         /// 修改在线状态

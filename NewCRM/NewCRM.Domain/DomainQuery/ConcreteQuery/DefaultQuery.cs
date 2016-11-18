@@ -24,10 +24,8 @@ namespace NewCRM.Domain.DomainQuery.ConcreteQuery
         /// <typeparam name="T"></typeparam>
         /// <param name="specification"></param>
         /// <returns></returns>
-        public T FindOne<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot
-        {
-            return QueryProvider.Query(specification).FirstOrDefault();
-        }
+        public T FindOne<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot => QueryProvider.Query(specification).FirstOrDefault();
+
 
         /// <summary>
         /// 查找并返回集合
@@ -35,10 +33,8 @@ namespace NewCRM.Domain.DomainQuery.ConcreteQuery
         /// <typeparam name="T"></typeparam>
         /// <param name="specification"></param>
         /// <returns></returns>
-        public IEnumerable<T> Find<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot
-        {
-            return QueryProvider.Query(specification).ToList();
-        }
+        public IEnumerable<T> Find<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot => QueryProvider.Query(specification).ToList();
+
 
         /// <summary>
         /// 分页

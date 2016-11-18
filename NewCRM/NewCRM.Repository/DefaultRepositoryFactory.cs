@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Linq;
-using NewCRM.Domain.Entitys;
 using NewCRM.Domain.Factory;
 using NewCRM.Domain.Repositories;
 using NewCRM.Infrastructure.CommonTools.CustemException;

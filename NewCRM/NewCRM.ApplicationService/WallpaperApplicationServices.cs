@@ -19,13 +19,8 @@ namespace NewCRM.Application.Services
     [Export(typeof(IWallpaperApplicationServices))]
     public class WallpaperApplicationServices : BaseServices.BaseServices, IWallpaperApplicationServices
     {
-        public List<WallpaperDto> GetWallpaper()
-        {
-            return QueryFactory.Create<Wallpaper>()
-                .Find(SpecificationFactory.Create<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System))
-                .ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
+        public List<WallpaperDto> GetWallpaper() => QueryFactory.Create<Wallpaper>().Find(SpecificationFactory.Create<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
 
-        }
 
         public void ModifyWallpaperMode(Int32 accountId, String newMode)
         {

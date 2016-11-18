@@ -10,8 +10,6 @@ namespace NewCRM.Domain.Entitys
 
         private Int32 _id;
 
-
-
         #endregion
 
         #region ctor
@@ -38,7 +36,5 @@ namespace NewCRM.Domain.Entitys
         public DateTime AddTime { get; set; }
 
         #endregion
-
-
     }
 }

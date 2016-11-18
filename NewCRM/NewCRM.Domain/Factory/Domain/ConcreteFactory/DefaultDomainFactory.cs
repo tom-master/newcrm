@@ -7,9 +7,7 @@
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public override T Create<T>()
-        {
-            return new T();
-        }
+        public override T Create<T>() => new T();
+
     }
 }

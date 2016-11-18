@@ -983,8 +983,8 @@
     <None Include="Views\Security\CreateNewPower.cshtml" />
     <None Include="Views\Security\CreateNewRole.cshtml" />
     <None Include="Views\Security\PowerManage.cshtml" />
-    <Content Include="Views\User\AccountManage.cshtml" />
-    <Content Include="Views\User\CreateNewAccount.cshtml" />
+    <Content Include="Views\Account\AccountManage.cshtml" />
+    <Content Include="Views\Account\CreateNewAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css.map" />

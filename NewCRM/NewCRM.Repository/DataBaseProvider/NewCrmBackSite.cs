@@ -6,8 +6,7 @@ using NewCRM.Domain.Entitys.Account;
 using NewCRM.Domain.Entitys.Security;
 using NewCRM.Domain.Entitys.System;
 
-
-namespace NewCRM.Repository
+namespace NewCRM.Repository.DataBaseProvider
 {
     [Export(typeof(DbContext))]
     public sealed class NewCrmBackSite : DbContext

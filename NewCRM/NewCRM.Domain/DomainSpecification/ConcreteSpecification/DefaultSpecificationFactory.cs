@@ -11,13 +11,7 @@ namespace NewCRM.Domain.DomainSpecification.ConcreteSpecification
     [Export(typeof(SpecificationFactory))]
     internal sealed class DefaultSpecificationFactory : SpecificationFactory
     {
-        public override Specification<T> Create<T>(Expression<Func<T, Boolean>> expression = default(Expression<Func<T, Boolean>>))
-        {
-            if (expression == default(Expression<Func<T, Boolean>>))
-            {
-                return new DefaultSpecification<T>();
-            }
-            return new DefaultSpecification<T>(expression);
-        }
+        public override Specification<T> Create<T>(Expression<Func<T, Boolean>> expression = default(Expression<Func<T, Boolean>>)) => expression == default(Expression<Func<T, Boolean>>) ? new DefaultSpecification<T>() : new DefaultSpecification<T>(expression);
+
     }
 }

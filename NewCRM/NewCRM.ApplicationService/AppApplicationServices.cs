@@ -169,12 +169,8 @@ namespace NewCRM.Application.Services
             UnitOfWork.Commit();
         }
 
-        public List<AppTypeDto> GetAppTypes()
-        {
-            QueryFactory.Create<AppType>().Find(SpecificationFactory.Create<AppType>()).ConvertToDtos<AppType, AppTypeDto>().ToList();
+        public List<AppTypeDto> GetAppTypes() => QueryFactory.Create<AppType>().Find(SpecificationFactory.Create<AppType>()).ConvertToDtos<AppType, AppTypeDto>().ToList();
 
-            return new List<AppTypeDto>();
-        }
 
         public TodayRecommendAppDto GetTodayRecommend(Int32 accountId)
         {
@@ -226,7 +222,6 @@ namespace NewCRM.Application.Services
             var accountUnReleaseAppCount = accountApps.Count(app => app.AppReleaseState == AppReleaseState.UnRelease);
 
             return new Tuple<Int32, Int32>(accountDevAppCount, accountUnReleaseAppCount);
-
 
         }
 
@@ -369,11 +364,9 @@ namespace NewCRM.Application.Services
         {
             var appStates = new List<dynamic>();
 
-            var appAuditStates = GetEnumDescriptions(typeof(AppAuditState));
-            appStates.AddRange(appAuditStates);
+            appStates.AddRange(GetEnumDescriptions(typeof(AppAuditState)));
 
-            var appReleaseStates = GetEnumDescriptions(typeof(AppReleaseState));
-            appStates.AddRange(appReleaseStates);
+            appStates.AddRange(GetEnumDescriptions(typeof(AppReleaseState)));
 
             foreach (var appState in appStates)
             {
@@ -417,7 +410,6 @@ namespace NewCRM.Application.Services
                 if (Enum.TryParse(enumConst, true, out appStyle))
                 {
                     specification.And(app => app.AppStyle == appStyle);
-
                 }
                 else
                 {
@@ -492,8 +484,7 @@ namespace NewCRM.Application.Services
 
             var app = appDto.ConvertToModel<AppDto, App>();
 
-            var internalApp = new App(
-                app.Name, app.IconUrl, app.AppUrl, app.Width, app.Height, app.AppTypeId, app.AppAuditState, app.AppStyle, app.AccountId,
+            var internalApp = new App(app.Name, app.IconUrl, app.AppUrl, app.Width, app.Height, app.AppTypeId, app.AppAuditState, app.AppStyle, app.AccountId,
                 app.Remark, app.IsMax, app.IsFull, app.IsSetbar, app.IsOpenMax, app.IsFlash, app.IsDraw, app.IsResize);
 
             Repository.Create<App>().Add(internalApp);
