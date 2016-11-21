@@ -19,7 +19,6 @@ namespace NewCRM.Web
 
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-
             var catalog = new AggregateCatalog();
 
             catalog.Catalogs.Add(new AssemblyCatalog(@"E:\NewCRM\NewCRM\NewCRM.Application.Interface\bin\Debug\NewCRM.Application.Interface.dll"));

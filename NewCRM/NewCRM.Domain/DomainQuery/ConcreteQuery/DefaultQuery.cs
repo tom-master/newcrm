@@ -49,10 +49,14 @@ namespace NewCRM.Domain.DomainQuery.ConcreteQuery
         {
             var query = QueryProvider.Query(specification);
 
-            query = specification.OrderByExpressions == null ?
-                query.PageBy(pageIndex, pageSize).Skip((pageIndex - 1) * pageSize).Take(pageSize)
-                :
-                query.PageBy(pageIndex, pageSize, specification.OrderByExpressions.First()).Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            if (specification.OrderByExpressions == null)
+            {
+                query = query.PageBy(pageIndex, pageSize).Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            }
+            else
+            {
+                query = query.PageBy(pageIndex, pageSize, specification.OrderByExpressions.First()).Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            }
 
             totalCount = query.Count();
 
