@@ -2,7 +2,8 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Application.Interface;
-using NewCRM.Domain.Entitys.Account;
+using NewCRM.Application.Services.Services;
+using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
@@ -12,7 +13,7 @@ using NewCRM.Infrastructure.CommonTools.CustemException;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IDeskApplicationServices))]
-    public class DeskApplicationServices : BaseServices.BaseServices, IDeskApplicationServices
+    internal class DeskApplicationServices : BaseService, IDeskApplicationServices
     {
         public void ModifyDefaultDeskNumber(Int32 accountId, Int32 newDefaultDeskNumber)
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Linq.Expressions;
 using NewCRM.Domain.DomainQuery.Query;
 using NewCRM.Domain.DomainSpecification;
 using NewCRM.Domain.Entitys;
@@ -17,7 +18,6 @@ namespace NewCRM.Domain.DomainQuery.ConcreteQuery
         [Import]
         private IDomainModelQueryProvider QueryProvider { get; set; }
 
-
         /// <summary>
         /// 查找并返回单个对象
         /// </summary>
@@ -25,6 +25,8 @@ namespace NewCRM.Domain.DomainQuery.ConcreteQuery
         /// <param name="specification"></param>
         /// <returns></returns>
         public T FindOne<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot => QueryProvider.Query(specification).FirstOrDefault();
+
+        public dynamic FindOne<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector) where T : DomainModelBase, IAggregationRoot => QueryProvider.Query(specification).Select(selector).FirstOrDefault();
 
 
         /// <summary>
@@ -34,6 +36,9 @@ namespace NewCRM.Domain.DomainQuery.ConcreteQuery
         /// <param name="specification"></param>
         /// <returns></returns>
         public IEnumerable<T> Find<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot => QueryProvider.Query(specification).ToList();
+
+        public IEnumerable<dynamic> Find<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector) where T : DomainModelBase, IAggregationRoot
+        => QueryProvider.Query(specification).Select(selector).ToList();
 
 
         /// <summary>
@@ -61,6 +66,24 @@ namespace NewCRM.Domain.DomainQuery.ConcreteQuery
             totalCount = query.Count();
 
             return query.ToList();
+        }
+
+        public IEnumerable<dynamic> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount, Expression<Func<T, dynamic>> selector) where T : DomainModelBase, IAggregationRoot
+        {
+            var query = QueryProvider.Query(specification);
+
+            if (specification.OrderByExpressions == null)
+            {
+                query = query.PageBy(pageIndex, pageSize).Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            }
+            else
+            {
+                query = query.PageBy(pageIndex, pageSize, specification.OrderByExpressions.First()).Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            }
+
+            totalCount = query.Count();
+
+            return query.Select(selector).ToList();
         }
     }
 }

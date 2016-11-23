@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Application.Interface;
+using NewCRM.Application.Services.Services;
 using NewCRM.Domain.DomainSpecification;
-using NewCRM.Domain.Entitys.Account;
+using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustemException;
-
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IAccountApplicationServices))]
-    public class AccountApplicationServices : BaseServices.BaseServices, IAccountApplicationServices
+    internal class AccountApplicationServices : BaseService, IAccountApplicationServices
     {
         public AccountDto Login(String accountName, String password)
         {

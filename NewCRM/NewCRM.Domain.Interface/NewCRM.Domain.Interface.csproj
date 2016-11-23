@@ -46,7 +46,7 @@
     <Compile Include="BoundedContextMember\IInstallAppServices.cs" />
     <Compile Include="BoundedContextMember\IModifyDeskMemberServices.cs" />
     <Compile Include="BoundedContextMember\IModifyDeskMemberPostionServices.cs" />
-    <Compile Include="BoundedContext\Account\IAccountContext.cs" />
+    <Compile Include="BoundedContext\Agent\IAccountContext.cs" />
     <Compile Include="BoundedContextMember\IModifyAppInfoServices.cs" />
     <Compile Include="BoundedContextMember\IModifyDockPostionServices.cs" />
     <Compile Include="BoundedContextMember\IModifyWallpaperServices.cs" />

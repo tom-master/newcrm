@@ -1,6 +1,6 @@
-﻿using NewCRM.Domain.Entitys.Account;
+﻿using NewCRM.Domain.Entitys.Agent;
 
-namespace NewCRM.Domain.Repositories.IRepository.Account
+namespace NewCRM.Domain.Repositories.IRepository.Agent
 {
     /// <summary>
     ///   仓储操作层接口——职称

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Interface.BoundedContextMember;
 
-namespace NewCRM.Domain.Interface.BoundedContext.Account
+namespace NewCRM.Domain.Interface.BoundedContext.Agent
 {
     public interface IAccountContext
     {
@@ -15,7 +16,7 @@ namespace NewCRM.Domain.Interface.BoundedContext.Account
         /// <param name="accountName"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        Entitys.Account.Account Validate(String accountName, String password);
+        Account Validate(String accountName, String password);
 
         /// <summary>
         /// 用户登出

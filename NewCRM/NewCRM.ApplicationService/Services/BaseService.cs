@@ -2,19 +2,19 @@
 using System.ComponentModel.Composition;
 using NewCRM.Domain.DomainQuery.Query;
 using NewCRM.Domain.DomainSpecification.Factory;
-using NewCRM.Domain.Entitys.Account;
+using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Factory;
-using NewCRM.Domain.Interface.BoundedContext.Account;
+using NewCRM.Domain.Interface.BoundedContext.Agent;
 using NewCRM.Domain.Interface.BoundedContext.App;
 using NewCRM.Domain.Interface.BoundedContext.Desk;
 using NewCRM.Domain.Interface.BoundedContext.Wallpaper;
 using NewCRM.Domain.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
 
-namespace NewCRM.Application.Services.BaseServices
+namespace NewCRM.Application.Services.Services
 {
 
-    public abstract class BaseServices
+    internal abstract class BaseService
     {
         [Import]
         protected IUnitOfWork UnitOfWork { get; set; }

@@ -2,7 +2,7 @@
 using System.Data.Entity;
 using EntityFramework.DynamicFilters;
 using NewCRM.Domain.Entitys;
-using NewCRM.Domain.Entitys.Account;
+using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.Security;
 using NewCRM.Domain.Entitys.System;
 

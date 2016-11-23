@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using NewCRM.Application.Interface;
+using NewCRM.Application.Services.Services;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
@@ -17,7 +18,7 @@ using NewCRM.Infrastructure.CommonTools.CustemException;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IWallpaperApplicationServices))]
-    public class WallpaperApplicationServices : BaseServices.BaseServices, IWallpaperApplicationServices
+    internal class WallpaperApplicationServices : BaseService, IWallpaperApplicationServices
     {
         public List<WallpaperDto> GetWallpaper() => QueryFactory.Create<Wallpaper>().Find(SpecificationFactory.Create<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
 

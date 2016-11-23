@@ -2,14 +2,14 @@
 using System.ComponentModel.Composition;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContextMember;
+using NewCRM.Domain.Services.Service;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustemException;
-
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     [Export(typeof(IInstallAppServices))]
-    internal sealed class InstallAppServices : BaseService.BaseService, IInstallAppServices
+    internal sealed class InstallAppServices : BaseService, IInstallAppServices
     {
         public void Install(Int32 accountId, Int32 appId, Int32 deskNum)
         {

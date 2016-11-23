@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using NewCRM.Domain.DomainSpecification;
 using NewCRM.Domain.Entitys;
 
@@ -16,22 +17,52 @@ namespace NewCRM.Domain.DomainQuery.Query
         T FindOne<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot;
 
         /// <summary>
+        /// 查找并返回单个对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="specification">规约对象</param>
+        /// <param name="selector">选择的字段</param>
+        /// <returns></returns>
+        dynamic FindOne<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector) where T : DomainModelBase, IAggregationRoot;
+
+        /// <summary>
         /// 查找并返回集合
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="specification"></param>
+        /// <param name="specification">规约对象</param>
         /// <returns></returns>
         IEnumerable<T> Find<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot;
+
+        /// <summary>
+        /// 查找并返回集合
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="specification">规约对象</param>
+        /// <param name="selector">选择的字段</param>
+        /// <returns></returns>
+        IEnumerable<dynamic> Find<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector) where T : DomainModelBase, IAggregationRoot;
 
         /// <summary>
         /// 分页
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="specification"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="totalCount"></param>
+        /// <param name="specification">规约对象</param>
+        /// <param name="pageIndex">页索引</param>
+        /// <param name="pageSize">每页条数</param>
+        /// <param name="totalCount">总条数</param>
         /// <returns></returns>
         IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount) where T : DomainModelBase, IAggregationRoot;
+
+        /// <summary>
+        /// 分页
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="specification">规约对象</param>
+        /// <param name="pageIndex">页索引</param>
+        /// <param name="pageSize">每页条数</param>
+        /// <param name="totalCount">总条数</param>
+        /// <param name="selector">选择的字段</param>
+        /// <returns></returns>
+        IEnumerable<dynamic> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount, Expression<Func<T, dynamic>> selector) where T : DomainModelBase, IAggregationRoot;
     }
 }

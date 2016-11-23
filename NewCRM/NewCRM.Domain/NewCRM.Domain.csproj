@@ -46,11 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entitys\Account\AccountExtension\TitleExtension.cs" />
-    <Compile Include="Entitys\Account\Title.cs" />
-    <Compile Include="Entitys\Account\Account.cs" />
-    <Compile Include="Entitys\Account\AccountExtension\AccountExtension.cs" />
-    <Compile Include="Entitys\Account\AccountRole.cs" />
+    <Compile Include="Entitys\Agent\AccountExtension\TitleExtension.cs" />
+    <Compile Include="Entitys\Agent\Title.cs" />
+    <Compile Include="Entitys\Agent\Account.cs" />
+    <Compile Include="Entitys\Agent\AccountExtension\AccountExtension.cs" />
+    <Compile Include="Entitys\Agent\AccountRole.cs" />
     <Compile Include="Entitys\DomainModelBase.cs" />
     <Compile Include="Entitys\IAggregationRoot.cs" />
     <Compile Include="Entitys\Security\RolePower.cs" />
@@ -80,8 +80,8 @@
     <Compile Include="Factory\RepositoryFactory.cs" />
     <Compile Include="Repositories\IDomainModelQueryProvider.cs" />
     <Compile Include="Repositories\IRepository.cs" />
-    <Compile Include="Repositories\IRepository\Account\ITitleRepository.cs" />
-    <Compile Include="Repositories\IRepository\Account\IAccountRepository.cs" />
+    <Compile Include="Repositories\IRepository\Agent\ITitleRepository.cs" />
+    <Compile Include="Repositories\IRepository\Agent\IAccountRepository.cs" />
     <Compile Include="Repositories\IRepository\Security\IPowerRepository.cs" />
     <Compile Include="Repositories\IRepository\Security\IRoleRepository.cs" />
     <Compile Include="Repositories\IRepository\System\IAppRepository.cs" />
@@ -120,7 +120,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Repositories\IRepository\Account\Impl\" />
+    <Folder Include="Repositories\IRepository\Agent\Impl\" />
     <Folder Include="Repositories\IRepository\Security\Impl\" />
     <Folder Include="Repositories\IRepository\System\Impl\" />
   </ItemGroup>

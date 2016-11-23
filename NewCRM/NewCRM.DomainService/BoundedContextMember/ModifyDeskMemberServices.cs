@@ -2,14 +2,14 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Interface;
 using NewCRM.Domain.Interface.BoundedContextMember;
+using NewCRM.Domain.Services.Service;
 using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     [Export(typeof(IModifyDeskMemberServices))]
-    internal sealed class ModifyDeskMemberServices : BaseService.BaseService, IModifyDeskMemberServices
+    internal sealed class ModifyDeskMemberServices : BaseService, IModifyDeskMemberServices
     {
         public void ModifyFolderInfo(String memberName, String memberIcon, Int32 memberId, Int32 accountId)
         {

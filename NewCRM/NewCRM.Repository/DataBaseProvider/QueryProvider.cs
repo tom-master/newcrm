@@ -49,7 +49,6 @@ namespace NewCRM.Repository.DataBaseProvider
         /// <returns></returns>
         public IQueryable<T> Query<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot
         {
-
             return EfContext.Set<T, Int32>().Where(specification.Expression);
         }
 

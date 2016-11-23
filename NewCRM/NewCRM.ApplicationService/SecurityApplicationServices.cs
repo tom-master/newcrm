@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Application.Interface;
+using NewCRM.Application.Services.Services;
 using NewCRM.Domain.DomainSpecification;
 using NewCRM.Domain.Entitys.Security;
 using NewCRM.Dto;
@@ -12,7 +13,7 @@ using NewCRM.Infrastructure.CommonTools.CustemException;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(ISecurityApplicationServices))]
-    public class SecurityApplicationServices : BaseServices.BaseServices, ISecurityApplicationServices
+    internal class SecurityApplicationServices : BaseService, ISecurityApplicationServices
     {
         #region Role
 

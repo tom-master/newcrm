@@ -23,7 +23,7 @@ namespace NewCRM.Domain.DomainSpecification.ConcreteSpecification
             Expression = expression;
         }
 
-        public DefaultSpecification() : this(default(Expression<Func<T, Boolean>>)) { }
+        public DefaultSpecification() : this(T => true) { }
 
 
         public override void AddOrderByExpression(Expression<Func<PropertySortCondition>> expression)

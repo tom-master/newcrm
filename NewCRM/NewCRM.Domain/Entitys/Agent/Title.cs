@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace NewCRM.Domain.Entitys.Account
+namespace NewCRM.Domain.Entitys.Agent
 {
     [Description("职称"), Serializable]
     public partial class Title : DomainModelBase, IAggregationRoot

@@ -2,7 +2,7 @@
 using System.Linq;
 using NewCRM.Domain.Entitys.Security;
 
-namespace NewCRM.Domain.Entitys.Account
+namespace NewCRM.Domain.Entitys.Agent
 {
     public partial class Account
     {

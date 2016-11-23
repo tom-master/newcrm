@@ -1,24 +1,29 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Net;
+using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Interface.BoundedContext.Account;
+using NewCRM.Domain.Interface.BoundedContext.Agent;
 using NewCRM.Domain.Interface.BoundedContextMember;
+using NewCRM.Domain.Services.Service;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
-namespace NewCRM.Domain.Services.BoundedContext.Account
+namespace NewCRM.Domain.Services.BoundedContext.Agent
 {
     [Export(typeof(IAccountContext))]
-    internal class AccountContext : BaseService.BaseService, IAccountContext
+    internal class AccountContext : BaseService, IAccountContext
     {
         [Import]
         public IModifyDeskMemberPostionServices ModifyAccountConfigServices { get; set; }
 
-        public Entitys.Account.Account Validate(String accountName, String password)
+        public Account Validate(String accountName, String password)
         {
 
-            var accountResult = QueryFactory.Create<Entitys.Account.Account>().FindOne(SpecificationFactory.Create<Entitys.Account.Account>(account => account.Name == accountName));
+            var accountResult = QueryFactory.Create<Account>()
+                .FindOne(SpecificationFactory
+                .Create<Account>(account => account.Name == accountName)
+                , account => new { account.Id, account.LoginPassword });
 
             if (accountResult == null)
             {
@@ -32,7 +37,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Account
 
             accountResult.Online();
 
-            Repository.Create<Entitys.Account.Account>().Update(accountResult);
+            Repository.Create<Account>().Update(accountResult);
 
             Repository.Create<Online>().Add(new Online(GetCurrentIpAddress(), accountResult.Id));
 
@@ -50,7 +55,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Account
             }
             accountResult.Offline();
 
-            Repository.Create<Entitys.Account.Account>().Update(accountResult);
+            Repository.Create<Account>().Update(accountResult);
 
             ModifyOnlineState(accountId);
         }

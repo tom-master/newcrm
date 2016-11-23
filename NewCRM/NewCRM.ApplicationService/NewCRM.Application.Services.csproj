@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NewCRM.DomainService">
+      <HintPath>..\NewCRM.ApplicationServiceTest\bin\Debug\NewCRM.DomainService.dll</HintPath>
+    </Reference>
     <Reference Include="NewCRM.Dto, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\NewCRM.Dto\bin\Debug\NewCRM.Dto.dll</HintPath>
@@ -50,7 +53,7 @@
   <ItemGroup>
     <Compile Include="AccountApplicationServices.cs" />
     <Compile Include="AppApplicationServices.cs" />
-    <Compile Include="BaseServices\BaseServices.cs" />
+    <Compile Include="Services\BaseService.cs" />
     <Compile Include="DeskApplicationServices.cs" />
     <Compile Include="SecurityApplicationServices.cs" />
     <Compile Include="SkinApplicationServices.cs" />

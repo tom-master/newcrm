@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NewCRM.Domain.Entitys.Account
+namespace NewCRM.Domain.Entitys.Agent
 {
     public partial class Title
     {

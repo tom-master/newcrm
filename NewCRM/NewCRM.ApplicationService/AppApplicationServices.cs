@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Application.Interface;
+using NewCRM.Application.Services.Services;
 using NewCRM.Domain.DomainSpecification;
-using NewCRM.Domain.Entitys.Account;
+using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
@@ -16,7 +17,7 @@ using NewCRM.Infrastructure.CommonTools.CustomExtension;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IAppApplicationServices))]
-    public class AppApplicationServices : BaseServices.BaseServices, IAppApplicationServices
+    internal class AppApplicationServices : BaseService, IAppApplicationServices
     {
 
         public IDictionary<String, IList<dynamic>> GetAccountDeskMembers(Int32 accountId)
@@ -171,7 +172,6 @@ namespace NewCRM.Application.Services
 
         public List<AppTypeDto> GetAppTypes() => QueryFactory.Create<AppType>().Find(SpecificationFactory.Create<AppType>()).ConvertToDtos<AppType, AppTypeDto>().ToList();
 
-
         public TodayRecommendAppDto GetTodayRecommend(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
@@ -229,7 +229,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
 
-            var appSpecification = SpecificationFactory.Create<App>();
+            var appSpecification = SpecificationFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release);
 
             #region 条件筛选
 
@@ -245,17 +245,25 @@ namespace NewCRM.Application.Services
                 }
             }
 
-            if (orderId == 1)//最新应用
+            switch (orderId)
             {
-                appSpecification.OrderByDescending(() => new PropertySortCondition("AddTime"));
-            }
-            else if (orderId == 2)//使用最多
-            {
-                appSpecification.OrderByDescending(() => new PropertySortCondition("UseCount"));
-            }
-            else if (orderId == 3)//评价最高
-            {
-                appSpecification.OrderByDescending(() => new PropertySortCondition("AppStars"));
+                case 1:
+                    {
+                        appSpecification.OrderByDescending(() => new PropertySortCondition("AddTime"));
+                        break;
+                    }
+
+                case 2:
+                    {
+                        appSpecification.OrderByDescending(() => new PropertySortCondition("UseCount"));
+                        break;
+                    }
+
+                case 3:
+                    {
+                        appSpecification.OrderByDescending(() => new PropertySortCondition("AppStars"));
+                        break;
+                    }
             }
 
             if ((searchText + "").Length > 0)//关键字搜索
@@ -265,7 +273,7 @@ namespace NewCRM.Application.Services
 
             #endregion
 
-            var appDtoResult = QueryFactory.Create<App>().PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
+            var appDtoResult = QueryFactory.Create<App>().PageBy(appSpecification, pageIndex, pageSize, out totalCount, app => new
             {
                 app.AppTypeId,
                 app.AccountId,

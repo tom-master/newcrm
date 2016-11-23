@@ -2,15 +2,15 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Interface;
 using NewCRM.Domain.Interface.BoundedContextMember;
+using NewCRM.Domain.Services.Service;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     [Export(typeof(IModifyAppInfoServices))]
-    internal class ModifyAppInfoServices : BaseService.BaseService, IModifyAppInfoServices
+    internal class ModifyAppInfoServices : BaseService, IModifyAppInfoServices
     {
 
         public void ModifyAppStar(Int32 accountId, Int32 appId, Int32 starCount)

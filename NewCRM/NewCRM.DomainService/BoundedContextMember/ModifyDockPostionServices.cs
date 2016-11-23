@@ -1,17 +1,17 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
-using NewCRM.Domain.Entitys.Account;
+using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Interface;
 using NewCRM.Domain.Interface.BoundedContextMember;
+using NewCRM.Domain.Services.Service;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     [Export(typeof(IModifyDockPostionServices))]
-    internal sealed class ModifyDockPostionServices : BaseService.BaseService, IModifyDockPostionServices
+    internal sealed class ModifyDockPostionServices : BaseService, IModifyDockPostionServices
     {
         public void ModifyDockPosition(Int32 accountId, Int32 defaultDeskNumber, String newPosition)
         {

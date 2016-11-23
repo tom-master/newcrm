@@ -5,12 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NewCRM.Application.Interface;
-using NewCRM.Domain.Entitys.Account;
+using NewCRM.Application.Services.Services;
+using NewCRM.Domain.Entitys.Agent;
 
 namespace NewCRM.Application.Services
 {
     [Export(typeof(ISkinApplicationServices))]
-    public class SkinApplicationServices : BaseServices.BaseServices, ISkinApplicationServices
+    internal class SkinApplicationServices : BaseService, ISkinApplicationServices
     {
         public IDictionary<String, dynamic> GetAllSkin(String skinPath)
         {

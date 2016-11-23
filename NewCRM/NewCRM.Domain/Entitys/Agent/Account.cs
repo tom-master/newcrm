@@ -4,7 +4,7 @@ using System.ComponentModel;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.ValueObject;
 
-namespace NewCRM.Domain.Entitys.Account
+namespace NewCRM.Domain.Entitys.Agent
 {
     [Description("用户"), Serializable]
     public partial class Account : DomainModelBase, IAggregationRoot

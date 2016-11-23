@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AutoMapper;
-using NewCRM.Domain.Entitys.Account;
+using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.Security;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.ValueObject;
@@ -275,6 +275,7 @@ namespace NewCRM.Dto.MapperProfile
         /// <param name="value"></param>
         /// <returns></returns>
         internal static Enum ConvertEnum(Type target, Int32 value)
+            // ReSharper disable once AssignNullToNotNullAttribute
             => (Enum)Enum.Parse(target, Enum.GetName(target, value), true);
 
         /// <summary>

@@ -1,17 +1,16 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Linq;
-using NewCRM.Domain.Entitys.Account;
+using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Interface;
 using NewCRM.Domain.Interface.BoundedContextMember;
+using NewCRM.Domain.Services.Service;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     [Export(typeof(IModifyWallpaperServices))]
-    internal class ModifyWallpaperServices : BaseService.BaseService, IModifyWallpaperServices
+    internal class ModifyWallpaperServices : BaseService, IModifyWallpaperServices
     {
         public void ModifyWallpaperMode(Int32 accountId, String newMode)
         {

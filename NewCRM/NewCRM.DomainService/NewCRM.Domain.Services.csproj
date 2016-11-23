@@ -55,9 +55,9 @@
     <Compile Include="BoundedContext\Wallpaper\WallpaperContext.cs" />
     <Compile Include="BoundedContextMember\InstallAppServices.cs" />
     <Compile Include="BoundedContextMember\ModifyDeskMemberPostionServices.cs" />
-    <Compile Include="BoundedContext\Account\AccountContext.cs" />
+    <Compile Include="BoundedContext\Agent\AccountContext.cs" />
     <Compile Include="BoundedContextMember\ModifyAppInfoServices.cs" />
-    <Compile Include="BaseService\BaseService.cs" />
+    <Compile Include="Service\BaseService.cs" />
     <Compile Include="BoundedContextMember\ModifyDeskMemberServices.cs" />
     <Compile Include="BoundedContextMember\ModifyDockPostionServices.cs" />
     <Compile Include="BoundedContextMember\ModifyWallpaperServices.cs" />
