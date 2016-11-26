@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Linq.Expressions;
 using NewCRM.Domain.DomainSpecification;
 using NewCRM.Domain.Entitys;
 using NewCRM.Domain.Repositories;
@@ -50,6 +51,11 @@ namespace NewCRM.Repository.DataBaseProvider
         public IQueryable<T> Query<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot
         {
             return EfContext.Set<T, Int32>().Where(specification.Expression);
+        }
+
+        public IQueryable<dynamic> Query<T>(Specification<T> selector, Expression<Func<T, dynamic>> selectorField) where T : DomainModelBase, IAggregationRoot
+        {
+            return EfContext.Set<T, Int32>().Where(selector.Expression).Select(selectorField);
         }
 
         #endregion

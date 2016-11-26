@@ -30,7 +30,6 @@ namespace NewCRM.Domain.Entitys.Agent
         {
             Name = name;
             Remark = remark; 
-            AddTime = DateTime.Now;
         }
 
         public Title()

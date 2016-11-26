@@ -49,7 +49,6 @@ namespace NewCRM.Domain.Entitys.System
             LogLevelEnum = logLevel;
             Track = track;
             ExceptionMessage = exceptionMessage;
-            AddTime = DateTime.Now;
         }
 
         public Log()

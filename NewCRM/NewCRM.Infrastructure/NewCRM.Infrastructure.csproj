@@ -61,6 +61,7 @@
     <Compile Include="CommonTools\CustomHelper\DataBaseErrorType.cs" />
     <Compile Include="CommonTools\CustomHelper\DataBaseErrorResponse.cs" />
     <Compile Include="CommonTools\CustomHelper\Parameter.cs" />
+    <Compile Include="CommonTools\CustomHelper\SerializeHepler.cs" />
     <Compile Include="CommonTools\CustomHelper\StringHelper.cs" />
     <Compile Include="CommonTools\FileHelper.cs" />
     <Compile Include="CommonTools\FileUpLoadHelper.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="CommonTools\ResponseType.cs" />
     <Compile Include="CommonTools\PasswordUtil.cs" />
     <Compile Include="CommonTools\T4\T4ModelInfo.cs" />
+    <Compile Include="JsonNet.PrivateSettersContractResolvers\PrivateSettersContractResolvers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

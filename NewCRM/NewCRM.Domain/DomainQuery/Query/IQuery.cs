@@ -23,7 +23,7 @@ namespace NewCRM.Domain.DomainQuery.Query
         /// <param name="specification">规约对象</param>
         /// <param name="selector">选择的字段</param>
         /// <returns></returns>
-        dynamic FindOne<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector) where T : DomainModelBase, IAggregationRoot;
+        T FindOne<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector) where T : DomainModelBase, IAggregationRoot;
 
         /// <summary>
         /// 查找并返回集合
@@ -40,7 +40,7 @@ namespace NewCRM.Domain.DomainQuery.Query
         /// <param name="specification">规约对象</param>
         /// <param name="selector">选择的字段</param>
         /// <returns></returns>
-        IEnumerable<dynamic> Find<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector) where T : DomainModelBase, IAggregationRoot;
+        IEnumerable<T> Find<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector) where T : DomainModelBase, IAggregationRoot;
 
         /// <summary>
         /// 分页
@@ -63,6 +63,6 @@ namespace NewCRM.Domain.DomainQuery.Query
         /// <param name="totalCount">总条数</param>
         /// <param name="selector">选择的字段</param>
         /// <returns></returns>
-        IEnumerable<dynamic> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount, Expression<Func<T, dynamic>> selector) where T : DomainModelBase, IAggregationRoot;
+        IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount, Expression<Func<T, dynamic>> selector) where T : DomainModelBase, IAggregationRoot;
     }
 }

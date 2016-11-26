@@ -150,9 +150,11 @@ namespace NewCRM.Repository.DataBaseProvider
         /// <param name="propertyExpression">属性表达式</param>
         /// <param name="isSave">是否执行保存</param>
         /// <param name="entity">附带新值的实体信息，必须包含主键</param>
-        public virtual void Update(Expression<Func<T, Boolean>> propertyExpression, T entity, Boolean isSave = true)
+        public virtual void Update(Expression<Func<T, Object>> propertyExpression, T entity, Boolean isSave = true)
         {
-            throw new NotSupportedException("上下文公用，不支持按需更新功能。");
+            _vaildateParameter.Validate(propertyExpression).Validate(entity);
+
+            EfContext.RegisterModified<T, Int32>(propertyExpression, entity);
         }
         #endregion
 

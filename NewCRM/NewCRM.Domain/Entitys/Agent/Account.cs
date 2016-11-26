@@ -34,7 +34,7 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 最后一次登录的时间
         /// </summary>
-        public DateTime LastLoginTime { get; private set; }
+        public DateTime LastLoginTime { get; private set; } = DateTime.Now;
 
         /// <summary>
         /// 是否在线
@@ -91,8 +91,6 @@ namespace NewCRM.Domain.Entitys.Agent
             Roles = new List<AccountRole>();
             Config = new Config();
             IsOnline = false;
-            AddTime = DateTime.Now;
-
             IsAdmin = accountType == AccountType.Admin;
         }
         public Account()

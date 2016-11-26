@@ -30,7 +30,6 @@ namespace NewCRM.Domain.Entitys.System
         {
             IpAddress = ipAddress;
             AccountId = accountId;
-            AddTime = DateTime.Now;
         }
 
         public Online() { }

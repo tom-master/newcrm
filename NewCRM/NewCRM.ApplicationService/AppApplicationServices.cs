@@ -273,7 +273,36 @@ namespace NewCRM.Application.Services
 
             #endregion
 
+
+            /*app => new
+            {
+                app.AppTypeId,
+                app.AccountId,
+                app.AddTime,
+                app.UseCount,
+                StartCount = CountAppStars(app),
+                app.Name,
+                app.IconUrl,
+                app.Remark,
+                app.AppStyle,
+                AppType = app.AppType.Name,
+                app.Id
+            }*/
+
             var appDtoResult = QueryFactory.Create<App>().PageBy(appSpecification, pageIndex, pageSize, out totalCount, app => new
+            {
+                app.AppTypeId,
+                app.AccountId,
+                app.AddTime,
+                app.UseCount,
+                app.AppStars,
+                app.Name,
+                app.IconUrl,
+                app.Remark,
+                app.AppStyle,
+                app.AppType,
+                app.Id
+            }).Select(app => new
             {
                 app.AppTypeId,
                 app.AccountId,

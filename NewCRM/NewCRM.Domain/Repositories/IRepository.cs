@@ -27,7 +27,7 @@ namespace NewCRM.Domain.Repositories
 
         void Update(T entity, Boolean isSave = true);
 
-        void Update(Expression<Func<T, Boolean>> propertyExpression, T entity, Boolean isSave = true);
+        void Update(Expression<Func<T, Object>> propertyExpression, T entity, Boolean isSave = true);
 
         #endregion
     }

@@ -19,11 +19,10 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
 
         public Account Validate(String accountName, String password)
         {
+            var specification = SpecificationFactory.Create<Account>(account => account.Name == accountName);
 
             var accountResult = QueryFactory.Create<Account>()
-                .FindOne(SpecificationFactory
-                .Create<Account>(account => account.Name == accountName)
-                , account => new { account.Id, account.LoginPassword });
+                .FindOne(specification, account => new { account.Id, account.LoginPassword });
 
             if (accountResult == null)
             {

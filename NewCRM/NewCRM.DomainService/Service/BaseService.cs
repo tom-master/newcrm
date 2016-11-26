@@ -43,7 +43,8 @@ namespace NewCRM.Domain.Services.Service
         protected Account GetAccountInfoService(Int32 accountId)
         {
 
-            var accountResult = QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId));
+            var accountResult = QueryFactory.Create<Account>()
+                .FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId));
 
             if (accountResult == null)
             {

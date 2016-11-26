@@ -35,7 +35,6 @@ namespace NewCRM.Domain.Entitys.Security
             Name = name;
             PowerIdentity = powerIdentity;
             Remark = remark;
-            AddTime = DateTime.Now;
         }
         public Power()
         {

@@ -76,7 +76,6 @@ namespace NewCRM.Domain.Entitys.System
             Source = wallpaperSource;
             AccountId = accountId;
             Md5 = md5;
-            AddTime = DateTime.Now;
         }
 
         public Wallpaper() { }

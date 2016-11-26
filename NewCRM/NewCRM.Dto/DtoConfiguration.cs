@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using NewCRM.Domain.Entitys;
@@ -136,9 +137,10 @@ namespace NewCRM.Dto
         /// <typeparam name="TDto"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static IEnumerable<TDto> ConvertDynamicToDtos<TDto>(this IEnumerable<dynamic> source)
+        public static IEnumerable<TDto> ConvertDynamicToDtos<TDto>(this IEnumerable<dynamic> source) where TDto : BaseDto
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMissingTypeMaps = true);
+
             var mapper = config.CreateMapper();
 
             return source.Select(mapper.Map<TDto>).ToList();
@@ -150,10 +152,12 @@ namespace NewCRM.Dto
         /// <typeparam name="TDto"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static TDto ConvertDynamicToDto<TDto>(dynamic source)
+        public static TDto ConvertDynamicToDto<TDto>(dynamic source) where TDto : BaseDto
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMissingTypeMaps = true);
+
             var mapper = config.CreateMapper();
+
             return mapper.Map<TDto>(source);
         }
 

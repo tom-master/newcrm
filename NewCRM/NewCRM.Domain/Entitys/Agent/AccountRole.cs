@@ -21,7 +21,6 @@ namespace NewCRM.Domain.Entitys.Agent
         {
             AccountId = accountId;
             RoleId = roleId;
-            AddTime = DateTime.Now;
         }
 
         public AccountRole() { }
