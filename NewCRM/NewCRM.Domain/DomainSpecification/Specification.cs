@@ -20,13 +20,13 @@ namespace NewCRM.Domain.DomainSpecification
         /// <summary>
         /// 排序表达式集合
         /// </summary>
-        public abstract IList<Expression<Func<PropertySortCondition>>> OrderByExpressions { get; protected set; }
+        public abstract Expression<Func<T, Object>> OrderBy { get; protected set; }
 
         /// <summary>
         /// 添加一个排序表达式
         /// </summary>
         /// <param name="expression"></param>
-        public abstract void AddOrderByExpression(Expression<Func<PropertySortCondition>> expression);
+        public abstract void AddOrderByExpression(Expression<Func<T, Object>> expression);
 
         /// <summary>
         /// 重置排序表达式集合

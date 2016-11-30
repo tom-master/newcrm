@@ -80,7 +80,7 @@ namespace NewCRM.Domain.DomainSpecification
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static Specification<T> OrderByDescending<T>(this Specification<T> left, Expression<Func<PropertySortCondition>> right) where T : DomainModelBase, IAggregationRoot
+        public static Specification<T> OrderByDescending<T>(this Specification<T> left, Expression<Func<T, Object>> right) where T : DomainModelBase, IAggregationRoot
         {
             left.AddOrderByExpression(right);
 

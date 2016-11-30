@@ -21,8 +21,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
         {
             var specification = SpecificationFactory.Create<Account>(account => account.Name == accountName);
 
-            var accountResult = QueryFactory.Create<Account>()
-                .FindOne(specification, account => new { account.Id, account.LoginPassword });
+            var accountResult = QueryFactory.Create<Account>().FindOne(specification);
 
             if (accountResult == null)
             {

@@ -176,7 +176,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var topApp = QueryFactory.Create<App>().Find(SpecificationFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release).OrderByDescending(() => new PropertySortCondition("UseCount"))).Select(app => new
+            var topApp = QueryFactory.Create<App>().Find(SpecificationFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release).OrderByDescending(app=>app.UseCount)).Select(app => new
             {
                 app.UseCount,
                 AppStars = CountAppStars(app),
@@ -249,19 +249,19 @@ namespace NewCRM.Application.Services
             {
                 case 1:
                     {
-                        appSpecification.OrderByDescending(() => new PropertySortCondition("AddTime"));
+                        appSpecification.OrderByDescending(app=>app.AddTime);
                         break;
                     }
 
                 case 2:
                     {
-                        appSpecification.OrderByDescending(() => new PropertySortCondition("UseCount"));
+                        appSpecification.OrderByDescending(app=>app.UseCount);
                         break;
                     }
 
                 case 3:
                     {
-                        appSpecification.OrderByDescending(() => new PropertySortCondition("AppStars"));
+                        appSpecification.OrderByDescending(app=>app.AppStars.Count);
                         break;
                     }
             }
@@ -289,20 +289,7 @@ namespace NewCRM.Application.Services
                 app.Id
             }*/
 
-            var appDtoResult = QueryFactory.Create<App>().PageBy(appSpecification, pageIndex, pageSize, out totalCount, app => new
-            {
-                app.AppTypeId,
-                app.AccountId,
-                app.AddTime,
-                app.UseCount,
-                app.AppStars,
-                app.Name,
-                app.IconUrl,
-                app.Remark,
-                app.AppStyle,
-                app.AppType,
-                app.Id
-            }).Select(app => new
+            var appDtoResult = QueryFactory.Create<App>().PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
             {
                 app.AppTypeId,
                 app.AccountId,
