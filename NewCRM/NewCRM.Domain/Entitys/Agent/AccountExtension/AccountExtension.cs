@@ -81,6 +81,7 @@ namespace NewCRM.Domain.Entitys.Agent
             {
                 throw new ArgumentNullException($"{nameof(roleIds)}:不能为空");
             }
+
             if (roleIds.Length <= 0)
             {
                 throw new ArgumentOutOfRangeException($"{nameof(roleIds)}:不能为0");
@@ -90,6 +91,7 @@ namespace NewCRM.Domain.Entitys.Agent
             {
                 Roles.Add(new AccountRole(Id, roleId));
             }
+
             return this;
         }
 

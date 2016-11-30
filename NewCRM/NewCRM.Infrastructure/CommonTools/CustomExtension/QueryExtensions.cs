@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -16,7 +15,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
                 throw new ArgumentNullException($"{nameof(source)}不能为空");
             }
 
-            return sort == default(Expression<Func<T, Object>>) ? source.Skip((pageIndex - 1) * pageSize).Take(pageSize) : source.OrderByDesc(sort).Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            return source.OrderByDesc(sort).Skip((pageIndex - 1) * pageSize).Take(pageSize);
         }
 
         public static IOrderedQueryable<TSource> OrderByDesc<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, Object>> keySelector)
@@ -38,6 +37,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
             }
 
             LambdaExpression keySelector2 = Expression.Lambda(body, keySelector.Parameters);
+
             Type tkey = keySelector2.ReturnType;
 
             MethodInfo orderbyMethod = (from x in typeof(Queryable).GetMethods()

@@ -31,7 +31,6 @@ namespace NewCRM.Application.Services.Services
         [Import]
         protected IWallpaperContext WallpaperContext { get; set; }
 
-
         /// <summary>
         /// 仓储工厂
         /// </summary>
