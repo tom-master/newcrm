@@ -15,7 +15,7 @@ namespace NewCRM.Domain.DomainSpecification
         /// <summary>
         /// 查询表达式
         /// </summary>
-        public abstract Expression<Func<T, Boolean>> Expression { get; }
+        public abstract Expression<Func<T, Boolean>> Expression { get; internal set; }
 
         /// <summary>
         /// 排序表达式集合

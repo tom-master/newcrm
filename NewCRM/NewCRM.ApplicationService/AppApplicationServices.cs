@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -12,7 +11,6 @@ using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustemException;
-using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Application.Services
 {
@@ -235,7 +233,7 @@ namespace NewCRM.Application.Services
 
             if (appTypeId != 0 && appTypeId != -1)//全部app
             {
-                appSpecification.And(app => app.AppTypeId == appTypeId);
+                appSpecification.And(app => app.AppTypeId == appTypeId&& app.AppTypeId == appTypeId);
             }
             else
             {
@@ -272,23 +270,7 @@ namespace NewCRM.Application.Services
             }
 
             #endregion
-
-
-            /*app => new
-            {
-                app.AppTypeId,
-                app.AccountId,
-                app.AddTime,
-                app.UseCount,
-                StartCount = CountAppStars(app),
-                app.Name,
-                app.IconUrl,
-                app.Remark,
-                app.AppStyle,
-                AppType = app.AppType.Name,
-                app.Id
-            }*/
-
+            
             var appDtoResult = QueryFactory.Create<App>().PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
             {
                 app.AppTypeId,

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
-using NewCRM.Domain.DomainSpecification.ConcreteSpecification;
 using NewCRM.Domain.Entitys;
-using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Domain.DomainSpecification
 {
@@ -19,20 +17,20 @@ namespace NewCRM.Domain.DomainSpecification
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static Specification<T> And<T>(this Specification<T> left, Expression<Func<T, Boolean>> right) where T : DomainModelBase, IAggregationRoot
+        public static void And<T>(this Specification<T> left, Expression<Func<T, Boolean>> right) where T : DomainModelBase, IAggregationRoot
         {
 
             var internalParameter = Expression.Parameter(typeof(T), "entity");
 
             var parameterVister = new ParameterVisitor(internalParameter);
 
-            var leftBody = parameterVister.Replace(left.Expression);
+            var leftBody = parameterVister.Replace(left.Expression.Body);
 
             var rightBody = parameterVister.Replace(right.Body);
 
             var newExpression = Expression.And(leftBody, rightBody);
 
-            return new DefaultSpecification<T>(Expression.Lambda<Func<T, Boolean>>(newExpression, internalParameter));
+            left.Expression = Expression.Lambda<Func<T, Boolean>>(newExpression, internalParameter);
 
         }
 
@@ -43,7 +41,7 @@ namespace NewCRM.Domain.DomainSpecification
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static Specification<T> Or<T>(this Specification<T> left, Expression<Func<T, Boolean>> right) where T : DomainModelBase, IAggregationRoot
+        public static void Or<T>(this Specification<T> left, Expression<Func<T, Boolean>> right) where T : DomainModelBase, IAggregationRoot
         {
             var internalParameter = Expression.Parameter(typeof(T), "entity");
 
@@ -55,7 +53,7 @@ namespace NewCRM.Domain.DomainSpecification
 
             var orExpression = Expression.Or(leftBody, rightBody);
 
-            return new DefaultSpecification<T>(Expression.Lambda<Func<T, Boolean>>(orExpression, internalParameter));
+            left.Expression = Expression.Lambda<Func<T, Boolean>>(orExpression, internalParameter);
         }
 
         /// <summary>
@@ -64,13 +62,13 @@ namespace NewCRM.Domain.DomainSpecification
         /// <typeparam name="T"></typeparam>
         /// <param name="left"></param>
         /// <returns></returns>
-        public static Specification<T> Not<T>(this Specification<T> left) where T : DomainModelBase, IAggregationRoot
+        public static void Not<T>(this Specification<T> left) where T : DomainModelBase, IAggregationRoot
         {
             var internalParameter = left.Expression.Parameters[0];
 
             var newExpression = Expression.Not(left.Expression.Body);
 
-            return new DefaultSpecification<T>(Expression.Lambda<Func<T, Boolean>>(newExpression, internalParameter));
+            left.Expression = Expression.Lambda<Func<T, Boolean>>(newExpression, internalParameter);
         }
 
         /// <summary>

@@ -13,7 +13,7 @@ namespace NewCRM.Domain.DomainSpecification.ConcreteSpecification
     /// <typeparam name="T"></typeparam>
     internal class DefaultSpecification<T> : Specification<T> where T : DomainModelBase, IAggregationRoot
     {
-        public override Expression<Func<T, Boolean>> Expression { get; }
+        public override Expression<Func<T, Boolean>> Expression { get; internal set; }
 
         public sealed override Expression<Func<T, Object>> OrderBy
         {
