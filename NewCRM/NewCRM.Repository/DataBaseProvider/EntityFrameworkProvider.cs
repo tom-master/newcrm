@@ -20,7 +20,6 @@ namespace NewCRM.Repository.DataBaseProvider
     {
         private readonly Parameter _vaildateParameter;
 
-
         protected EntityFrameworkProvider()
         {
             _vaildateParameter = new Parameter();

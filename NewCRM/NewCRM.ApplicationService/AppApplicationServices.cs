@@ -168,13 +168,16 @@ namespace NewCRM.Application.Services
             UnitOfWork.Commit();
         }
 
-        public List<AppTypeDto> GetAppTypes() => QueryFactory.Create<AppType>().Find(SpecificationFactory.Create<AppType>()).ConvertToDtos<AppType, AppTypeDto>().ToList();
+        public List<AppTypeDto> GetAppTypes()
+        {
+            return QueryFactory.Create<AppType>().Find(SpecificationFactory.Create<AppType>()).ConvertToDtos<AppType, AppTypeDto>().ToList();
+        }
 
         public TodayRecommendAppDto GetTodayRecommend(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
 
-            var topApp = QueryFactory.Create<App>().Find(SpecificationFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release).OrderByDescending(app=>app.UseCount)).Select(app => new
+            var topApp = QueryFactory.Create<App>().Find(SpecificationFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release).OrderByDescending(app => app.UseCount)).Select(app => new
             {
                 app.UseCount,
                 AppStars = CountAppStars(app),
@@ -233,7 +236,7 @@ namespace NewCRM.Application.Services
 
             if (appTypeId != 0 && appTypeId != -1)//全部app
             {
-                appSpecification.And(app => app.AppTypeId == appTypeId&& app.AppTypeId == appTypeId);
+                appSpecification.And(app => app.AppTypeId == appTypeId && app.AppTypeId == appTypeId);
             }
             else
             {
@@ -247,19 +250,19 @@ namespace NewCRM.Application.Services
             {
                 case 1:
                     {
-                        appSpecification.OrderByDescending(app=>app.AddTime);
+                        appSpecification.OrderByDescending(app => app.AddTime);
                         break;
                     }
 
                 case 2:
                     {
-                        appSpecification.OrderByDescending(app=>app.UseCount);
+                        appSpecification.OrderByDescending(app => app.UseCount);
                         break;
                     }
 
                 case 3:
                     {
-                        appSpecification.OrderByDescending(app=>app.AppStars.Count);
+                        appSpecification.OrderByDescending(app => app.AppStars.Count);
                         break;
                     }
             }
@@ -270,7 +273,7 @@ namespace NewCRM.Application.Services
             }
 
             #endregion
-            
+
             var appDtoResult = QueryFactory.Create<App>().PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
             {
                 app.AppTypeId,
@@ -505,7 +508,7 @@ namespace NewCRM.Application.Services
         // <summary> </summary>
         // <summary> <param name="enumType"></param>
         // <summary> <returns></returns>
-        private IEnumerable<dynamic> GetEnumDescriptions(Type enumType) => enumType.GetFields().Where(field => field.CustomAttributes.Any()).Select(s => new { s.CustomAttributes.ToArray()[0].ConstructorArguments[0].Value, Id = s.GetRawConstantValue(), Type = enumType.Name }).Cast<dynamic>().ToList();
+        private static IEnumerable<dynamic> GetEnumDescriptions(Type enumType) => enumType.GetFields().Where(field => field.CustomAttributes.Any()).Select(s => new { s.CustomAttributes.ToArray()[0].ConstructorArguments[0].Value, Id = s.GetRawConstantValue(), Type = enumType.Name }).Cast<dynamic>().ToList();
 
 
         // <summary> <summary>
@@ -513,7 +516,7 @@ namespace NewCRM.Application.Services
         // <summary> </summary>
         // <summary> <param name="app"></param>
         // <summary> <returns></returns>
-        private Double CountAppStars(App app) => app.AppStars.Any() ? (app.AppStars.Sum(s => s.StartNum) * 1.0) / (app.AppStars.Count * 1.0) : 0.0;
+        private static Double CountAppStars(App app) => app.AppStars.Any() ? (app.AppStars.Sum(s => s.StartNum) * 1.0) / (app.AppStars.Count * 1.0) : 0.0;
 
         #endregion
     }

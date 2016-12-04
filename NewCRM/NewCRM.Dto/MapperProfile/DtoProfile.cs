@@ -16,11 +16,19 @@ namespace NewCRM.Dto.MapperProfile
         {
             CreateMap<Account, AccountDto>()
                 .ForMember(dto => dto.Name, account => account.MapFrom(u => u.Name))
-                
                 .ForMember(dto => dto.Id, account => account.MapFrom(u => u.Id))
                 .ForMember(dto => dto.AccountType, account => account.MapFrom(u => u.IsAdmin ? "管理员" : "用户"))
                 .ForMember(dto => dto.Password, account => account.MapFrom(u => u.LoginPassword))
-                .ForMember(dto => dto.Roles, account => account.MapFrom(u => u.Roles));
+                .ForMember(dto => dto.Roles, account => account.MapFrom(u => u.AccountRoles.Select(s => new RoleDto
+                {
+                    Id = s.RoleId,
+                    Name=s.Role.Name,
+                    RoleIdentity = s.Role.RoleIdentity,
+                    Powers = s.Role.Powers.Select(power=>new PowerDto
+                    {
+                        Id =power.Id
+                    }).ToList()
+                }).ToList()));
         }
     }
 
@@ -34,7 +42,7 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(account => account.Id, dto => dto.MapFrom(d => d.Id))
                 .ForMember(account => account.LoginPassword, dto => dto.MapFrom(d => d.Password))
                 .ForMember(account => account.IsAdmin, dto => dto.MapFrom(d => Int32.Parse(d.AccountType) == 2))
-                .ForMember(account => account.Roles, dto => dto.MapFrom(d => d.Roles));
+                .ForMember(account => account.AccountRoles, dto => dto.MapFrom(d => d.Roles));
         }
     }
 

@@ -62,7 +62,7 @@ namespace NewCRM.Domain.DomainQuery.ConcreteQuery
         /// <returns></returns>
         public IEnumerable<T> Find<T>(Specification<T> specification, Expression<Func<T, dynamic>> selectorField) where T : DomainModelBase, IAggregationRoot
         {
-            return (IEnumerable<T>)QueryProvider.Query(specification, selectorField).ToList();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -76,16 +76,7 @@ namespace NewCRM.Domain.DomainQuery.ConcreteQuery
         /// <returns></returns>
         public IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount) where T : DomainModelBase, IAggregationRoot
         {
-            var query = QueryProvider.Query(specification);
-
-            //if (specification.OrderBy == null)
-            //{
-            //    query = query.PageBy(pageIndex, pageSize).Skip((pageIndex - 1) * pageSize).Take(pageSize);
-            //}
-            //else
-            {
-                query = query.PageBy(pageIndex, pageSize, specification.OrderBy).Skip((pageIndex - 1) * pageSize).Take(pageSize);
-            }
+            var query = QueryProvider.Query(specification).PageBy(pageIndex, pageSize, specification.OrderBy).Skip((pageIndex - 1) * pageSize).Take(pageSize);
 
             totalCount = query.Count();
 
@@ -105,21 +96,6 @@ namespace NewCRM.Domain.DomainQuery.ConcreteQuery
         public IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount, Expression<Func<T, dynamic>> selectorField) where T : DomainModelBase, IAggregationRoot
         {
             throw new NotImplementedException();
-
-            //var query = QueryProvider.Query(specification);
-
-            //if (specification.OrderByExpressions == null)
-            //{
-            //    query = query.PageBy(pageIndex, pageSize).Skip((pageIndex - 1) * pageSize).Take(pageSize);
-            //}
-            //else
-            //{
-            //    query = query.PageBy(pageIndex, pageSize, specification.OrderByExpressions.First()).Skip((pageIndex - 1) * pageSize).Take(pageSize);
-            //}
-
-            //totalCount = query.Count();
-
-            //return (IEnumerable<T>)query.Select(selectorField).ToList();
         }
     }
 }

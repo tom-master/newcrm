@@ -65,15 +65,6 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 添加用户角色
         /// </summary>
-        /// <param name="roles"></param>
-        public Account AddRole(params Role[] roles)
-        {
-            return AddRole(roles.Select(r => r.Id).ToArray());
-        }
-
-        /// <summary>
-        /// 添加用户角色
-        /// </summary>
         /// <param name="roleIds"></param>
         public Account AddRole(params Int32[] roleIds)
         {
@@ -89,20 +80,10 @@ namespace NewCRM.Domain.Entitys.Agent
 
             foreach (var roleId in roleIds)
             {
-                Roles.Add(new AccountRole(Id, roleId));
+                AccountRoles.Add(new AccountRole(Id, roleId));
             }
 
             return this;
-        }
-
-        /// <summary>
-        /// 删除用户角色
-        /// </summary>
-        /// <param name="roles"></param>
-        /// <returns></returns>
-        public Account RemoveRole(params Role[] roles)
-        {
-            return RemoveRole(roles.Select(role => role.Id).ToArray());
         }
 
         /// <summary>
@@ -122,7 +103,7 @@ namespace NewCRM.Domain.Entitys.Agent
             }
             foreach (var roleId in roleIds)
             {
-                Roles.FirstOrDefault(r => r.Id == roleId).Remove();
+                AccountRoles.FirstOrDefault(r => r.Id == roleId).Remove();
             }
             return this;
         }

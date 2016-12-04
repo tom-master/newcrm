@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using NewCRM.Domain.Entitys.Security;
 
 namespace NewCRM.Domain.Entitys.Agent
 {
@@ -6,14 +8,13 @@ namespace NewCRM.Domain.Entitys.Agent
     {
         #region public property
 
-
         public Int32 AccountId { get; private set; }
-
 
         public Int32 RoleId { get; private set; }
 
-        #endregion
+        public virtual Role Role { get; private set; }
 
+        #endregion
 
         #region ctor
 
@@ -21,6 +22,7 @@ namespace NewCRM.Domain.Entitys.Agent
         {
             AccountId = accountId;
             RoleId = roleId;
+            Role = new Role();
         }
 
         public AccountRole() { }

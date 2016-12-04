@@ -95,5 +95,13 @@ namespace NewCRM.Application.Interface
         /// </summary>
         /// <returns></returns>
         List<RoleDto> GetAllRoles();
+
+        /// <summary>
+        /// 检查用户权限
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="roles"></param>
+        /// <returns></returns>
+        Boolean CheckPermissions(Int32 userId, params Int32[] roles);
     }
 }

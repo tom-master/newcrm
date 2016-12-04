@@ -20,7 +20,6 @@ namespace NewCRM.Domain.DomainSpecification.ConcreteSpecification
             get; protected set;
         }
 
-
         public DefaultSpecification(Expression<Func<T, Boolean>> expression)
         {
             Expression = expression;
@@ -32,7 +31,6 @@ namespace NewCRM.Domain.DomainSpecification.ConcreteSpecification
         {
 
         }
-
 
         public override void AddOrderByExpression(Expression<Func<T, Object>> expression)
         {

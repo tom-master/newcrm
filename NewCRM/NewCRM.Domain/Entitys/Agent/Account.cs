@@ -49,12 +49,12 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 职称id
         /// </summary>
-        public Int32 TitleId { get; set; }
+        public Int32 TitleId { get; private set; }
 
         /// <summary>
         /// 用户id
         /// </summary>
-        public Int32 ConfigId { get; set; }
+        public Int32 ConfigId { get; private set; }
 
         /// <summary>
         /// 职称
@@ -69,7 +69,7 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 用户角色
         /// </summary>
-        public virtual ICollection<AccountRole> Roles { get; private set; }
+        public virtual ICollection<AccountRole> AccountRoles { get; private set; }
 
         #endregion
 
@@ -88,7 +88,7 @@ namespace NewCRM.Domain.Entitys.Agent
             IsDisable = false;
             LastLoginTime = DateTime.Now;
             LockScreenPassword = password;
-            Roles = new List<AccountRole>();
+            AccountRoles = new List<AccountRole>();
             Config = new Config();
             IsOnline = false;
             IsAdmin = accountType == AccountType.Admin;

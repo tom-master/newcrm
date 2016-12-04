@@ -240,5 +240,10 @@ namespace NewCRM.Application.Services
         }
 
         #endregion
+
+        public Boolean CheckPermissions(Int32 userId, params Int32[] roles)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

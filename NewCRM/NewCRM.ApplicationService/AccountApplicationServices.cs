@@ -110,7 +110,7 @@ namespace NewCRM.Application.Services
                 accountResult.Name,
                 Password = accountResult.LoginPassword,
                 AccountType = accountResult.IsAdmin ? "2" : "1",
-                Roles = accountResult.Roles.Select(s => new
+                Roles = accountResult.AccountRoles.Select(s => new
                 {
                     Id = s.RoleId
                 })
@@ -135,7 +135,7 @@ namespace NewCRM.Application.Services
 
             var internalNewAccount = new Account(account.Name, PasswordUtil.CreateDbPassword(account.LoginPassword), accountType);
 
-            internalNewAccount.AddRole(account.Roles.Select(role => role.RoleId).ToArray());
+            internalNewAccount.AddRole(account.AccountRoles.Select(role => role.RoleId).ToArray());
 
             Repository.Create<Account>().Add(internalNewAccount);
 
@@ -169,15 +169,15 @@ namespace NewCRM.Application.Services
                 accountResult.ModifyPassword(newPassword);
             }
 
-            if (accountResult.Roles.Any())
+            if (accountResult.AccountRoles.Any())
             {
-                accountResult.Roles.ToList().ForEach(role =>
+                accountResult.AccountRoles.ToList().ForEach(role =>
                 {
                     role.Remove();
                 });
             }
 
-            accountResult.AddRole(account.Roles.Select(role => role.RoleId).ToArray());
+            accountResult.AddRole(account.AccountRoles.Select(role => role.RoleId).ToArray());
 
             Repository.Create<Account>().Update(accountResult);
 

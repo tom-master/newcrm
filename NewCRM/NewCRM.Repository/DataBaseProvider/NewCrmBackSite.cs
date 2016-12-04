@@ -11,8 +11,7 @@ namespace NewCRM.Repository.DataBaseProvider
     [Export(typeof(DbContext))]
     public sealed class NewCrmBackSite : DbContext
     {
-        public NewCrmBackSite()
-            : base("Data Source=localhost;Initial Catalog=NewCrmBackSite;Persist Security Info=True;User ID=sa;Password=sasa;MultipleActiveResultSets=true;")
+        public NewCrmBackSite() : base("Data Source=localhost;Initial Catalog=NewCrmBackSite;Persist Security Info=True;User ID=sa;Password=sasa;MultipleActiveResultSets=true;")
         {
         }
         public DbSet<Title> Titles { get; set; }

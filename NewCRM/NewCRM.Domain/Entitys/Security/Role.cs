@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using NewCRM.Domain.Entitys.Agent;
 
 namespace NewCRM.Domain.Entitys.Security
 {
@@ -28,7 +29,6 @@ namespace NewCRM.Domain.Entitys.Security
         /// 角色对应的权限
         /// </summary>
         public virtual ICollection<RolePower> Powers { get; private set; }
-
 
         #endregion
 
