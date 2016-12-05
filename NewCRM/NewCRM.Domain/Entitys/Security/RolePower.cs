@@ -11,6 +11,8 @@ namespace NewCRM.Domain.Entitys.Security
 
 
         public Int32 PowerId { get; private set; }
+
+        public virtual Power Power { get; private set; }
         #endregion
 
 

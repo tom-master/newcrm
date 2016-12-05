@@ -6,12 +6,6 @@ namespace NewCRM.Domain.Entitys
     [Serializable]
     public abstract class DomainModelBase
     {
-        #region private field
-
-        private Int32 _id;
-
-        #endregion
-
         #region ctor
 
         protected DomainModelBase()
@@ -24,16 +18,12 @@ namespace NewCRM.Domain.Entitys
         #region public property
 
         [Key]
-        public Int32 Id
-        {
-            get { return _id; }
-            protected set { _id = value; }
-        }
+        public Int32 Id { get; protected set; }
 
         public Boolean IsDeleted { get; protected set; }
 
         [DataType(DataType.DateTime)]
-        public DateTime AddTime { get; protected set; } = DateTime.Now;
+        public DateTime AddTime { get; } = DateTime.Now;
 
         #endregion
     }
