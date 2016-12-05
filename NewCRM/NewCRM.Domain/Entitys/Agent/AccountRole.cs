@@ -22,7 +22,6 @@ namespace NewCRM.Domain.Entitys.Agent
         {
             AccountId = accountId;
             RoleId = roleId;
-            Role = new Role();
         }
 
         public AccountRole() { }
