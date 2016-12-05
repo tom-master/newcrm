@@ -22,13 +22,13 @@
                         if (powerResult.Name == null)
                         {
                             <text>
-                                <input type="text" class="text" name="val_powerIdentity" id="val_powerIdentity" value="" datatype="*" nullmsg="请输入权限标识" />
+                                <input type="text" class="text" name="val_powerIdentity" id="val_powerIdentity" value="" datatype="*" nullmsg="请输入权限标识"/>
                             </text>
                         }
                         else
                         {
                             <text>
-                                <input type="text" class="text" name="val_powerIdentity" id="val_powerIdentity" value="@powerResult.Name" datatype="*" nullmsg="请输入权限标识" />
+                                <input type="text" class="text" name="val_powerIdentity" id="val_powerIdentity" value="@powerResult.Name" datatype="*" nullmsg="请输入权限标识"/>
                             </text>
                         }
                     }
@@ -44,17 +44,16 @@
                         if (powerResult.PowerIdentity == null)
                         {
                             <text>
-                                <input type="text" class="text" name="val_powerName" id="val_powerName" value="" datatype="*" nullmsg="请输入权限名称" />
+                                <input type="text" class="text" name="val_powerName" id="val_powerName" value="" datatype="*" nullmsg="请输入权限名称"/>
                             </text>
                         }
                         else
                         {
                             <text>
-                                <input type="text" class="text" name="val_powerName" id="val_powerName" value="@powerResult.PowerIdentity" datatype="*" nullmsg="请输入权限名称" />
+                                <input type="text" class="text" name="val_powerName" id="val_powerName" value="@powerResult.PowerIdentity" datatype="*" nullmsg="请输入权限名称"/>
                             </text>
                         }
                     }
-
 
                     <span class="help-inline"></span>
                 </div>
@@ -66,12 +65,12 @@
                     @{
                         if (powerResult.Remark == null)
                         {<text>
-                    <textarea class="textarea" name="val_remark" id="val_remark" style="width: 300px; height: 100px; margin-bottom: 10px"></textarea>
+                             <textarea class="textarea" name="val_remark" id="val_remark" style="width: 300px; height: 100px; margin-bottom: 10px"></textarea>
                          </text>
                         }
                         else
                         {<text>
-                    <textarea class="textarea" name="val_remark" id="val_remark" style="width: 300px; height: 100px; margin-bottom: 10px">@powerResult.Remark</textarea>
+                             <textarea class="textarea" name="val_remark" id="val_remark" style="width: 300px; height: 100px; margin-bottom: 10px">@powerResult.Remark</textarea>
                          </text>
                         }
                     }
