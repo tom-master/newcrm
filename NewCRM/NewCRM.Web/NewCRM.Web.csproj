@@ -966,13 +966,24 @@
     <Content Include="Scripts\HoorayUI\js\webuploader-0.1.5\webuploader.nolog.min.js" />
     <Content Include="Scripts\HoorayUI\js\webuploader-0.1.5\webuploader.withoutimage.js" />
     <Content Include="Scripts\HoorayUI\js\webuploader-0.1.5\webuploader.withoutimage.min.js" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Properties\PublishProfiles\Test.pubxml" />
     <None Include="Scripts\jquery-2.2.4.intellisense.js" />
-    <Content Include="Scripts\jquery-2.2.4.js" />
-    <Content Include="Scripts\jquery-2.2.4.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <None Include="Scripts\jquery-3.1.1-vsdoc.js" />
+    <Content Include="Scripts\jquery-3.1.1.js" />
+    <Content Include="Scripts\jquery-3.1.1.min.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -985,6 +996,8 @@
     <Content Include="Views\App\AccountAppManageNewApp.cshtml" />
     <Content Include="Views\Security\AddPowerGotoRole.cshtml" />
     <Content Include="Views\Security\AttachmentPower.cshtml" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.1.1.min.map" />
     <None Include="Views\Security\CreateNewPower.cshtml" />
     <None Include="Views\Security\CreateNewRole.cshtml" />
     <None Include="Views\Security\PowerManage.cshtml" />
@@ -992,10 +1005,6 @@
     <Content Include="Views\Account\CreateNewAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\Metro\img\fontawesome-webfont.eot" />
     <Content Include="Content\Metro\img\fontawesome-webfont.ttf" />
     <Content Include="Content\Metro\img\fontawesome-webfont.woff" />
@@ -1006,10 +1015,6 @@
     <Content Include="Content\Metro\img\glyphiconshalflings-regular.ttf" />
     <Content Include="Content\Metro\img\glyphiconshalflings-regular.woff" />
     <Content Include="Content\Metro\img\js" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="packages.config" />
     <Content Include="Scripts\HoorayUI\img\box.psd" />
     <Content Include="Scripts\HoorayUI\js\artDialog4.1.7\_doc\ajaxContent\content.json" />
@@ -1022,7 +1027,6 @@
     <Content Include="Scripts\HoorayUI\js\validate\Validform_v5.3.2\Validform_v5.3.2\demo\plugin\swfupload\thanks.php" />
     <Content Include="Scripts\HoorayUI\js\validate\Validform_v5.3.2\Validform_v5.3.2\demo\plugin\swfupload\upload.php" />
     <Content Include="Scripts\HoorayUI\js\validate\Validform_v5.3.2\Validform_v5.3.2\demo\valid.php" />
-    <Content Include="Scripts\jquery-2.2.4.min.map" />
     <Content Include="Views\App\AppDetail.cshtml" />
     <Content Include="Views\App\AppMarket.cshtml" />
     <Content Include="Views\App\AccountAppManage.cshtml" />

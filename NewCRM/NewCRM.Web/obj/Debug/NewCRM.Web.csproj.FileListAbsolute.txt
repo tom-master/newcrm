@@ -58,7 +58,6 @@ E:\NewCRM\NewCRM\NewCRM.Web\bin\NewCRM.Web.dll
 E:\NewCRM\NewCRM\NewCRM.Web\bin\NewCRM.Web.pdb
 E:\NewCRM\NewCRM\NewCRM.Web\bin\Antlr3.Runtime.dll
 E:\NewCRM\NewCRM\NewCRM.Web\bin\EntityFramework.dll
-E:\NewCRM\NewCRM\NewCRM.Web\bin\EntityFramework.DynamicFilters.dll
 E:\NewCRM\NewCRM\NewCRM.Web\bin\EntityFramework.SqlServer.dll
 E:\NewCRM\NewCRM\NewCRM.Web\bin\Microsoft.Web.Infrastructure.dll
 E:\NewCRM\NewCRM\NewCRM.Web\bin\NewCRM.Application.Interface.dll

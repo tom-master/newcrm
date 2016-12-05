@@ -28,6 +28,18 @@ namespace NewCRM.Domain.Entitys.Security
         }
 
         /// <summary>
+        /// 修改当前权限所属的父权限
+        /// </summary>
+        /// <param name="newParentId"></param>
+        /// <returns></returns>
+        public Power ModifyPowerParentId(Int32? newParentId)
+        {
+            ParentId = newParentId;
+
+            return this;
+        }
+
+        /// <summary>
         /// 移除权限
         /// </summary>
         public void Remove()

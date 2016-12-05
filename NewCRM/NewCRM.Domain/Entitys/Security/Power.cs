@@ -20,6 +20,11 @@ namespace NewCRM.Domain.Entitys.Security
         /// </summary>
         public String Remark { get; private set; }
 
+        /// <summary>
+        /// 父权限Id
+        /// </summary>
+        public Int32? ParentId { get; private set; }
+
         #endregion
 
         #region ctor
@@ -30,11 +35,16 @@ namespace NewCRM.Domain.Entitys.Security
         /// <param name="name"></param>
         /// <param name="powerIdentity"></param>
         /// <param name="remark"></param>
-        public Power(String name, String powerIdentity, String remark = default(String))
+        /// <param name="parentId"></param>
+        public Power(String name, String powerIdentity, String remark = default(String), Int32? parentId = null)
         {
             Name = name;
+
             PowerIdentity = powerIdentity;
+
             Remark = remark;
+
+            ParentId = parentId;
         }
         public Power()
         {
