@@ -116,16 +116,32 @@ namespace NewCRM.Domain.Entitys.Security
         /// <summary>
         /// 检查权限是否存在
         /// </summary>
-        /// <param name="userRoleIds"></param>
+        /// <param name="powerIds"></param>
         /// <returns></returns>
-        public Boolean CheckPower(IEnumerable<Int32> userRoleIds)
+        public Boolean CheckPower(IEnumerable<Int32> powerIds)
         {
-            if (!userRoleIds.Any())
+            if (!powerIds.Any())
             {
-                throw new ArgumentException($"用户的所拥有的角色中不存在权限");
+                throw new ArgumentException($"对不起，您没有访问的权限！");
             }
 
-            return Powers.Any(power => userRoleIds.Contains(power.PowerId));
+            return powerIds.Any(powerId =>
+             {
+                 var internalPower = Powers.FirstOrDefault(power => power.PowerId == powerId);
+
+                 if (internalPower == null)
+                 {
+                     return false;
+                 }
+
+                 if (internalPower.Power.ParentId == null)
+                 {
+                     return true;
+                 }
+
+                 return internalPower.PowerId == powerId;
+             });
+
         }
 
         #endregion

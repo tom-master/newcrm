@@ -99,9 +99,9 @@ namespace NewCRM.Application.Interface
         /// <summary>
         /// 检查用户权限
         /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="roles"></param>
+        /// <param name="accountId"></param>
+        /// <param name="powerName"></param>
         /// <returns></returns>
-        Boolean CheckPermissions(Int32 userId, params Int32[] roles);
+        Boolean CheckPermissions(Int32 accountId, String powerName);
     }
 }

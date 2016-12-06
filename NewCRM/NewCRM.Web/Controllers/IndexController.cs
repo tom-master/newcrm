@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.Composition;
 using System.Web;
-using System.Web.Mvc; 
+using System.Web.Mvc;
 
 namespace NewCRM.Web.Controllers
 {
@@ -45,7 +45,7 @@ namespace NewCRM.Web.Controllers
         }
 
         #endregion
-        
+
         /// <summary>
         /// 登陆
         /// </summary>
@@ -56,7 +56,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult Landing(String accountName, String passWord, Boolean isRememberPasswrod = false)
         {
             var accountResult = AccountApplicationServices.Login(accountName, passWord);
-            
+
             Response.SetCookie(new HttpCookie("Account")
             {
                 Value = accountResult.Id.ToString(),

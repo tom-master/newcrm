@@ -241,9 +241,18 @@ namespace NewCRM.Application.Services
 
         #endregion
 
-        public Boolean CheckPermissions(Int32 userId, params Int32[] roles)
+        public Boolean CheckPermissions(Int32 accountId, String powerName)
         {
-            throw new NotImplementedException();
+
+            var powerSpecification = SpecificationFactory.Create<Power>(power => power.PowerIdentity == powerName);
+
+            var powersIds = QueryFactory.Create<Power>().Find(powerSpecification).Select(power => power.Id);
+
+            var accountInfo = GetAccountInfoService(accountId);
+
+            var isPermission = accountInfo.AccountRoles.Any(role => role.Role.CheckPower(powersIds));
+
+            return isPermission;
         }
     }
 }

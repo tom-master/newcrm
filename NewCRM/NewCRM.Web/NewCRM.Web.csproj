@@ -138,7 +138,6 @@
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Filter\ErrorFilterAttribute.cs" />
-    <Compile Include="Filter\PermissionsFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
