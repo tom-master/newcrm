@@ -135,7 +135,7 @@
 
             openDetailIframe2 = function (url) {
                 ZENG.msgbox.show('正在载入中，请稍后...', 6, 100000);
-                $('#detailIframe iframe').attr('src', url).load(function () {
+                $('#detailIframe iframe').attr('src', url).on('load', function () {
                     ZENG.msgbox._hide();
                     $('#detailIframe').animate({
                         'left': '60px',

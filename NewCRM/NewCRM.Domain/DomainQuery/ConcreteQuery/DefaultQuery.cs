@@ -76,7 +76,7 @@ namespace NewCRM.Domain.DomainQuery.ConcreteQuery
         /// <returns></returns>
         public IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount) where T : DomainModelBase, IAggregationRoot
         {
-            var query = QueryProvider.Query(specification).PageBy(pageIndex, pageSize, specification.OrderBy).Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            var query = QueryProvider.Query(specification).PageBy(pageIndex, pageSize, specification.OrderBy);
 
             totalCount = query.Count();
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NewCRM.Domain.Entitys.Security
@@ -71,7 +72,6 @@ namespace NewCRM.Domain.Entitys.Security
             return RemovePower(powers.Select(p => p.Id).ToArray());
         }
 
-
         /// <summary>
         /// 移除角色权限
         /// </summary>
@@ -91,7 +91,7 @@ namespace NewCRM.Domain.Entitys.Security
 
             foreach (var powerId in powerIds)
             {
-                Powers.FirstOrDefault(p => p.PowerId == powerId )?.Remove();
+                Powers.FirstOrDefault(p => p.PowerId == powerId)?.Remove();
             }
             return this;
         }
@@ -110,6 +110,22 @@ namespace NewCRM.Domain.Entitys.Security
             }
 
             IsDeleted = true;
+        }
+
+
+        /// <summary>
+        /// 检查权限是否存在
+        /// </summary>
+        /// <param name="userRoleIds"></param>
+        /// <returns></returns>
+        public Boolean CheckPower(IEnumerable<Int32> userRoleIds)
+        {
+            if (!userRoleIds.Any())
+            {
+                throw new ArgumentException($"用户的所拥有的角色中不存在权限");
+            }
+
+            return Powers.Any(power => userRoleIds.Contains(power.PowerId));
         }
 
         #endregion

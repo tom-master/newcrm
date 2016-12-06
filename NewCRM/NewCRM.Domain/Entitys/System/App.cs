@@ -116,8 +116,9 @@ namespace NewCRM.Domain.Entitys.System
         /// </summary>
         public AppStyle AppStyle { get; private set; }
 
-
         public virtual ICollection<AppStar> AppStars { get; private set; }
+
+        public virtual ICollection<AppRole> AppRoles { get; private set; }
 
         /// <summary>
         /// app类型

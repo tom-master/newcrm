@@ -58,6 +58,7 @@
     <Compile Include="Entitys\Security\SecurityExtension\PowerExtension.cs" />
     <Compile Include="Entitys\Security\SecurityExtension\RoleExtension.cs" />
     <Compile Include="Entitys\System\App.cs" />
+    <Compile Include="Entitys\System\AppRole.cs" />
     <Compile Include="Entitys\System\SystemExtension\AppExtension.cs" />
     <Compile Include="Entitys\System\AppStar.cs" />
     <Compile Include="Entitys\System\SystemExtension\AppStarExtension.cs" />

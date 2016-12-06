@@ -42,6 +42,8 @@ namespace NewCRM.Repository.DataBaseProvider
 
         public DbSet<RolePower> RolePowers { get; set; }
 
+        public DbSet<AppRole> AppRoles { get; set; }
+
         public DbSet<AppStar> AppStars { get; set; }
 
 

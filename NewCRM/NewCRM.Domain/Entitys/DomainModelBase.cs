@@ -23,7 +23,7 @@ namespace NewCRM.Domain.Entitys
         public Boolean IsDeleted { get; protected set; }
 
         [DataType(DataType.DateTime)]
-        public DateTime AddTime { get; } = DateTime.Now;
+        public DateTime AddTime { get; protected set; } = DateTime.Now;
 
         #endregion
     }

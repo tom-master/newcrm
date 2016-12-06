@@ -18,7 +18,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
             return source.OrderByDesc(sort).Skip((pageIndex - 1) * pageSize).Take(pageSize);
         }
 
-        public static IOrderedQueryable<TSource> OrderByDesc<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, Object>> keySelector)
+        private static IOrderedQueryable<TSource> OrderByDesc<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, Object>> keySelector)
         {
             if (source == null)
             {
