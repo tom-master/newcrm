@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NewCRM.Domain.Entitys.Security;
 
@@ -66,14 +67,14 @@ namespace NewCRM.Domain.Entitys.Agent
         /// 添加用户角色
         /// </summary>
         /// <param name="roleIds"></param>
-        public Account AddRole(params Int32[] roleIds)
+        public Account AddRole(IEnumerable<Int32> roleIds)
         {
             if (roleIds == null)
             {
                 throw new ArgumentNullException($"{nameof(roleIds)}:不能为空");
             }
 
-            if (roleIds.Length <= 0)
+            if (roleIds.Any())
             {
                 throw new ArgumentOutOfRangeException($"{nameof(roleIds)}:不能为0");
             }
@@ -91,13 +92,13 @@ namespace NewCRM.Domain.Entitys.Agent
         /// </summary>
         /// <param name="roleIds"></param>
         /// <returns></returns>
-        public Account RemoveRole(params Int32[] roleIds)
+        public Account RemoveRole(IEnumerable<Int32> roleIds)
         {
             if (roleIds == null)
             {
                 throw new ArgumentNullException($"{nameof(roleIds)}:不能为空");
             }
-            if (roleIds.Length <= 0)
+            if (!roleIds.Any())
             {
                 throw new ArgumentOutOfRangeException($"{nameof(roleIds)}:不能为0");
             }

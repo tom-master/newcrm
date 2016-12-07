@@ -34,7 +34,7 @@ namespace NewCRM.Domain.Entitys.Security
         /// </summary>
         /// <param name="powers"></param>
         /// <returns></returns>
-        public Role AddPower(params Power[] powers)
+        public Role AddPower(IEnumerable<Power> powers)
         {
             return AddPower(powers.Select(p => p.Id).ToArray());
         }
@@ -44,13 +44,13 @@ namespace NewCRM.Domain.Entitys.Security
         /// </summary>
         /// <param name="powerIds"></param>
         /// <returns></returns>
-        public Role AddPower(params Int32[] powerIds)
+        public Role AddPower(IEnumerable<Int32> powerIds)
         {
             if (powerIds == null)
             {
                 throw new ArgumentNullException($"{nameof(powerIds)}不能为空");
             }
-            if (powerIds.Length <= 0)
+            if (!powerIds.Any())
             {
                 throw new ArgumentNullException($"{nameof(powerIds)}不能为0");
             }
@@ -67,7 +67,7 @@ namespace NewCRM.Domain.Entitys.Security
         /// </summary>
         /// <param name="powers"></param>
         /// <returns></returns>
-        public Role RemovePower(params Power[] powers)
+        public Role RemovePower(IEnumerable<Power> powers)
         {
             return RemovePower(powers.Select(p => p.Id).ToArray());
         }
@@ -77,14 +77,14 @@ namespace NewCRM.Domain.Entitys.Security
         /// </summary>
         /// <param name="powerIds"></param>
         /// <returns></returns>
-        public Role RemovePower(params Int32[] powerIds)
+        public Role RemovePower(IEnumerable<Int32> powerIds)
         {
             if (powerIds == null)
             {
                 throw new ArgumentNullException($"{nameof(powerIds)}不能为空");
             }
 
-            if (powerIds.Length <= 0)
+            if (!powerIds.Any())
             {
                 throw new ArgumentNullException($"{nameof(powerIds)}不能为0");
             }
@@ -126,21 +126,21 @@ namespace NewCRM.Domain.Entitys.Security
             }
 
             return powerIds.Any(powerId =>
-             {
-                 var internalPower = Powers.FirstOrDefault(power => power.PowerId == powerId);
+            {
+                var internalPower = Powers.FirstOrDefault(power => power.PowerId == powerId);
 
-                 if (internalPower == null)
-                 {
-                     return false;
-                 }
+                if (internalPower == null)
+                {
+                    return false;
+                }
 
-                 if (internalPower.Power.ParentId == null)
-                 {
-                     return true;
-                 }
+                if (internalPower.Power.ParentId == null)
+                {
+                    return true;
+                }
 
-                 return internalPower.PowerId == powerId;
-             });
+                return internalPower.PowerId == powerId;
+            });
 
         }
 

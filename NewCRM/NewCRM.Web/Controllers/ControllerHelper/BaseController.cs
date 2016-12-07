@@ -38,27 +38,32 @@ namespace NewCRM.Web.Controllers.ControllerHelper
         /// </summary>
         protected static ConfigDto AccountConfig { get; set; }
 
+        /// <summary>
+        /// 权限判断
+        /// </summary>
+        /// <param name="filterContext"></param>
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
 
             var controllerName = filterContext.RequestContext.RouteData.Values["controller"].ToString();
 
-            if (controllerName == "Index")
+            if (controllerName == "App")
             {
-                return;
-            }
+                var actionName = filterContext.RequestContext.RouteData.Values["action"].ToString();
 
-            var actionName = filterContext.RequestContext.RouteData.Values["action"].ToString();
+                var isPermission = SecurityApplicationServices.CheckPermissions(Account.Id, actionName);
 
-            var isPermission = SecurityApplicationServices.CheckPermissions(Account.Id, actionName);
-
-            if (!isPermission)
-            {
-                filterContext.Result = new JsonResult
+                if (!isPermission)
                 {
-                    ContentEncoding = Encoding.UTF8,
-                    Data = new { js = @"<script>setTimeout(function(){window.top.ZENG.msgbox.show('对不起，您没有访问的权限！', 5,3000);},0)</script>" }
-                };
+                    filterContext.Result = new JsonResult
+                    {
+                        ContentEncoding = Encoding.UTF8,
+                        Data = new
+                        {
+                            js = @"<script>setTimeout(function(){window.top.ZENG.msgbox.show('对不起，您没有访问的权限！', 5,3000);},0)</script>"
+                        }
+                    };
+                }
             }
         }
     }

@@ -13,6 +13,7 @@ namespace NewCRM.Domain.Entitys.System
             {
                 throw new ArgumentNullException($"{nameof(member)}不能为空");
             }
+
             Members.Add(member);
         }
 
@@ -22,6 +23,7 @@ namespace NewCRM.Domain.Entitys.System
             {
                 throw new ArgumentNullException($"{nameof(memberId)}不能为0");
             }
+
             Members.Where(member => member.Id == memberId).ToList().ForEach(m => { m.Remove(); });
         }
 
