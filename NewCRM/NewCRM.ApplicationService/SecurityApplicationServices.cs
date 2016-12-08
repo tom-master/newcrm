@@ -5,7 +5,6 @@ using System.Linq;
 using NewCRM.Application.Interface;
 using NewCRM.Application.Services.Services;
 using NewCRM.Domain.DomainSpecification;
-using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.Security;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;

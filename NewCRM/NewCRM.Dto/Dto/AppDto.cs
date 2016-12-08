@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace NewCRM.Dto.Dto
 {
@@ -9,16 +10,19 @@ namespace NewCRM.Dto.Dto
         /// <summary>
         /// 名称
         /// </summary>
+        [Required, StringLength(10)]
         public String Name { get; set; }
 
         /// <summary>
         /// 图标地址
         /// </summary>
+        [Required]
         public String IconUrl { get; set; }
 
         /// <summary>
         /// 备注
         /// </summary>
+        [StringLength(30)]
         public String Remark { get; set; }
 
         /// <summary>
@@ -64,8 +68,9 @@ namespace NewCRM.Dto.Dto
         /// <summary>
         /// app分类
         /// </summary>
+        [Required, StringLength(10)]
         public String AppType { get; set; }
-        
+
         public String AddTime { get; set; }
 
         public Boolean IsResize { get; set; }

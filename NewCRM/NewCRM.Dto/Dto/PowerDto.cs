@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace NewCRM.Dto.Dto
 {
     public sealed class PowerDto : BaseDto
     {
+        [Required, StringLength(20)]
         public String Name { get; set; }
 
+        [Required, StringLength(20)]
         public String PowerIdentity { get; set; }
 
+        [StringLength(20)]
         public String Remark { get; set; }
     }
 }

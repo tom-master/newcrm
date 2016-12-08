@@ -1,4 +1,7 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Reflection;
 using NewCRM.Infrastructure.CommonTools.CustemException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
@@ -20,6 +23,56 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
             {
                 throw ThrowComponentException($"参数 {nameof(vaildateParameter)} 为空引发异常。");
             }
+
+            #region 判断如果需要验证的参数是复杂类型的话 获取应用在类型的属性上的特性，并判断
+
+            //判断如果需要验证的参数是复杂类型的话 获取应用在类型的属性上的特性，并判断
+            if (!(vaildateParameter is String))
+            {
+                var instance = vaildateParameter;
+
+                var propertys = instance.GetType().GetProperties();
+
+                foreach (var propertyInfo in propertys)
+                {
+                    var propertyAttributes = propertyInfo.GetCustomAttributes().ToArray();
+
+                    if (!propertyAttributes.Any())
+                    {
+                        continue;
+                    }
+
+                    foreach (var attribute in propertyAttributes)
+                    {
+                        var value = propertyInfo.GetValue(instance);
+
+                        if (attribute.GetType() == typeof(RequiredAttribute))
+                        {
+                            if ((value + "").Length <= 0)
+                            {
+                                var internalField = propertyInfo.Name;
+
+                                throw new ArgumentException($"字段:{internalField}值不能为空");
+                            }
+                        }
+
+                        if (attribute.GetType() == typeof(StringLengthAttribute))
+                        {
+                            var contentLength = ((StringLengthAttribute)attribute).MaximumLength;
+
+                            if (((String)value).Length > contentLength)
+                            {
+                                var internalField = propertyInfo.Name;
+
+                                throw new ArgumentException($"字段:{internalField}值长度不能超过:{contentLength}");
+                            }
+                        }
+                    }
+                }
+            }
+
+            #endregion
+
             return this;
         }
 

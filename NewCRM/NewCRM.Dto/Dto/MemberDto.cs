@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace NewCRM.Dto.Dto
 {
@@ -29,16 +30,19 @@ namespace NewCRM.Dto.Dto
         /// <summary>
         /// 名称
         /// </summary>
+        [Required]
         public String Name { get; set; }
 
         /// <summary>
         /// 图标地址
         /// </summary>
+        [Required]
         public String IconUrl { get; set; }
 
         /// <summary>
         /// app地址
         /// </summary>
+        [Required]
         public String AppUrl { get; set; }
 
         /// <summary>
@@ -90,6 +94,7 @@ namespace NewCRM.Dto.Dto
         /// <summary>
         /// 成员类型
         /// </summary>
+        [Required]
         public String MemberType { get; set; }
 
         #endregion
