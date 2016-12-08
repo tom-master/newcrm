@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace NewCRM.Domain.Entitys.Security
@@ -34,7 +33,7 @@ namespace NewCRM.Domain.Entitys.Security
         /// </summary>
         /// <param name="powers"></param>
         /// <returns></returns>
-        public Role AddPower(IEnumerable<Power> powers)
+        public Role AddPower(params Power[] powers)
         {
             return AddPower(powers.Select(p => p.Id).ToArray());
         }
@@ -44,7 +43,7 @@ namespace NewCRM.Domain.Entitys.Security
         /// </summary>
         /// <param name="powerIds"></param>
         /// <returns></returns>
-        public Role AddPower(IEnumerable<Int32> powerIds)
+        public Role AddPower(params Int32[] powerIds)
         {
             if (powerIds == null)
             {
@@ -67,7 +66,7 @@ namespace NewCRM.Domain.Entitys.Security
         /// </summary>
         /// <param name="powers"></param>
         /// <returns></returns>
-        public Role RemovePower(IEnumerable<Power> powers)
+        public Role RemovePower(params Power[] powers)
         {
             return RemovePower(powers.Select(p => p.Id).ToArray());
         }
@@ -77,7 +76,7 @@ namespace NewCRM.Domain.Entitys.Security
         /// </summary>
         /// <param name="powerIds"></param>
         /// <returns></returns>
-        public Role RemovePower(IEnumerable<Int32> powerIds)
+        public Role RemovePower(params Int32[] powerIds)
         {
             if (powerIds == null)
             {
@@ -118,7 +117,7 @@ namespace NewCRM.Domain.Entitys.Security
         /// </summary>
         /// <param name="powerIds"></param>
         /// <returns></returns>
-        public Boolean CheckPower(IEnumerable<Int32> powerIds)
+        public Boolean CheckPower(params Int32[] powerIds)
         {
             if (!powerIds.Any())
             {
@@ -129,17 +128,7 @@ namespace NewCRM.Domain.Entitys.Security
             {
                 var internalPower = Powers.FirstOrDefault(power => power.PowerId == powerId);
 
-                if (internalPower == null)
-                {
-                    return false;
-                }
-
-                if (internalPower.Power.ParentId == null)
-                {
-                    return true;
-                }
-
-                return internalPower.PowerId == powerId;
+                return internalPower?.PowerId == powerId;
             });
 
         }

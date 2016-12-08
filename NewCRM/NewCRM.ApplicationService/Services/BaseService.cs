@@ -41,7 +41,7 @@ namespace NewCRM.Application.Services.Services
         /// 查询工厂
         /// </summary>
         [Import]
-        protected QueryFactory QueryFactory { get; set; }
+        protected IQuery Query { get; set; }
 
         /// <summary>
         /// 规约工厂
@@ -61,7 +61,7 @@ namespace NewCRM.Application.Services.Services
         /// <returns></returns>
         internal Account GetAccountInfoService(Int32 accountId)
         {
-            return QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId));
+            return Query.FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId));
         }
     }
 }

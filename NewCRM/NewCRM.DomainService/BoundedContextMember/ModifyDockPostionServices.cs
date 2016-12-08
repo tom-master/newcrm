@@ -23,17 +23,17 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             {
                 if (dockPostion == DockPostion.None)
                 {
-                    var deskResult = QueryFactory.Create<Desk>().FindOne(SpecificationFactory.Create<Desk>(desk => desk.DeskNumber == accountResult.Config.DefaultDeskNumber));
+                    var deskResult = Query.FindOne(FilterFactory.Create<Desk>(desk => desk.DeskNumber == accountResult.Config.DefaultDeskNumber));
 
                     var dockMembers = deskResult.Members.Where(member => member.IsOnDock).ToList();
 
                     if (dockMembers.Any())
                     {
-                        dockMembers.ToList().ForEach(
-                        f =>
+                        dockMembers.ForEach(f =>
                         {
                             f.OutDock();
                         });
+
                         Repository.Create<Desk>().Update(deskResult);
                     }
 

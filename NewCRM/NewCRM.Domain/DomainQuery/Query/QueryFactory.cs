@@ -1,9 +1,10 @@
-﻿using NewCRM.Domain.Entitys;
-
-namespace NewCRM.Domain.DomainQuery.Query
+﻿namespace NewCRM.Domain.DomainQuery.Query
 {
     public abstract class QueryFactory
     {
-        public abstract IQuery Create<T>() where T : DomainModelBase, IAggregationRoot;
+        /// <summary>
+        /// 创建一个查询
+        /// </summary>
+        public abstract IQuery CreateQuery { get; }
     }
 }

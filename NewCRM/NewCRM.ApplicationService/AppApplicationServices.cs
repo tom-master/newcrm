@@ -170,14 +170,14 @@ namespace NewCRM.Application.Services
 
         public List<AppTypeDto> GetAppTypes()
         {
-            return QueryFactory.Create<AppType>().Find(SpecificationFactory.Create<AppType>()).ConvertToDtos<AppType, AppTypeDto>().ToList();
+            return Query.Find(SpecificationFactory.Create<AppType>()).ConvertToDtos<AppType, AppTypeDto>().ToList();
         }
 
         public TodayRecommendAppDto GetTodayRecommend(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
 
-            var topApp = QueryFactory.Create<App>().Find(SpecificationFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release).OrderByDescending(app => app.UseCount)).Select(app => new
+            var topApp = Query.Find(SpecificationFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release).OrderByDescending(app => app.UseCount)).Select(app => new
             {
                 app.UseCount,
                 AppStars = CountAppStars(app),
@@ -216,7 +216,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var accountApps = QueryFactory.Create<App>().Find(SpecificationFactory.Create<App>(app => app.AccountId == accountId));
+            var accountApps = Query.Find(SpecificationFactory.Create<App>(app => app.AccountId == accountId));
 
             var accountDevAppCount = accountApps.Count();
 
@@ -274,7 +274,7 @@ namespace NewCRM.Application.Services
 
             #endregion
 
-            var appDtoResult = QueryFactory.Create<App>().PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
+            var appDtoResult = Query.PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
             {
                 app.AppTypeId,
                 app.AccountId,
@@ -301,7 +301,7 @@ namespace NewCRM.Application.Services
 
             var specification = SpecificationFactory.Create<App>(app => app.Id == appId);
 
-            var appResult = QueryFactory.Create<App>().FindOne(specification);
+            var appResult = Query.FindOne(specification);
 
             return DtoConfiguration.ConvertDynamicToDto<AppDto>(new
             {
@@ -466,7 +466,7 @@ namespace NewCRM.Application.Services
 
             #endregion
 
-            return QueryFactory.Create<App>().PageBy(specification, pageIndex, pageSize, out totalCount).Select(app => new
+            return Query.PageBy(specification, pageIndex, pageSize, out totalCount).Select(app => new
             {
                 app.Name,
                 app.AppStyle,

@@ -11,7 +11,9 @@ namespace NewCRM.Domain.DomainQuery.ConcreteQuery
         [Import]
         private IQuery Query { get; set; }
 
-        public override IQuery Create<T>() => Query;
-
+        /// <summary>
+        /// 创建一个查询
+        /// </summary>
+        public override IQuery CreateQuery => Query;
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using NewCRM.Application.Interface;
 using NewCRM.Application.Services.Services;
 using NewCRM.Domain.DomainSpecification;
+using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.Security;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
@@ -21,7 +22,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(roleId);
 
-            var roleResult = QueryFactory.Create<Role>().FindOne(SpecificationFactory.Create<Role>(role => role.Id == roleId));
+            var roleResult = Query.FindOne(SpecificationFactory.Create<Role>(role => role.Id == roleId));
 
             if (roleResult == null)
             {
@@ -57,7 +58,7 @@ namespace NewCRM.Application.Services
 
             var role = roleDto.ConvertToModel<RoleDto, Role>();
 
-            var roleResult = QueryFactory.Create<Role>().FindOne(SpecificationFactory.Create<Role>(internalRole => internalRole.Id == role.Id));
+            var roleResult = Query.FindOne(SpecificationFactory.Create<Role>(internalRole => internalRole.Id == role.Id));
 
             if (roleResult == null)
             {
@@ -73,7 +74,7 @@ namespace NewCRM.Application.Services
 
         public List<RoleDto> GetAllRoles()
         {
-            return QueryFactory.Create<Role>().Find(SpecificationFactory.Create<Role>()).Select(role => new
+            return Query.Find(SpecificationFactory.Create<Role>()).Select(role => new
             {
                 role.Name,
                 role.Id
@@ -85,7 +86,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(roleId);
 
-            var roleResult = QueryFactory.Create<Role>().FindOne(SpecificationFactory.Create<Role>(role => role.Id == roleId));
+            var roleResult = Query.FindOne(SpecificationFactory.Create<Role>(role => role.Id == roleId));
 
             if (roleResult == null)
             {
@@ -106,7 +107,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(roleId).Validate(powerIds);
 
-            var roleResult = QueryFactory.Create<Role>().FindOne(SpecificationFactory.Create<Role>(role => role.Id == roleId));
+            var roleResult = Query.FindOne(SpecificationFactory.Create<Role>(role => role.Id == roleId));
 
             if (roleResult == null)
             {
@@ -133,7 +134,7 @@ namespace NewCRM.Application.Services
                 roleSpecification.And(role => role.Name.Contains(roleName));
             }
 
-            return QueryFactory.Create<Role>().PageBy(roleSpecification, pageIndex, pageSize, out totalCount).Select(s => new
+            return Query.PageBy(roleSpecification, pageIndex, pageSize, out totalCount).Select(s => new
             {
                 s.Name,
                 s.Id,
@@ -148,7 +149,7 @@ namespace NewCRM.Application.Services
 
         public List<PowerDto> GetAllPowers()
         {
-            return QueryFactory.Create<Power>().Find(SpecificationFactory.Create<Power>()).Select(power => new
+            return Query.Find(SpecificationFactory.Create<Power>()).Select(power => new
             {
                 power.Name,
                 power.Id,
@@ -172,7 +173,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(powerId);
 
-            var powerResult = QueryFactory.Create<Power>().FindOne(SpecificationFactory.Create<Power>());
+            var powerResult = Query.FindOne(SpecificationFactory.Create<Power>());
 
             if (powerResult == null)
             {
@@ -189,7 +190,7 @@ namespace NewCRM.Application.Services
 
             var power = powerDto.ConvertToModel<PowerDto, Power>();
 
-            var powerResult = QueryFactory.Create<Power>().FindOne(SpecificationFactory.Create<Power>(p => p.Id == power.Id));
+            var powerResult = Query.FindOne(SpecificationFactory.Create<Power>(p => p.Id == power.Id));
 
             if (powerResult == null)
             {
@@ -209,7 +210,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(powerId);
 
-            var powerResult = QueryFactory.Create<Power>().FindOne(SpecificationFactory.Create<Power>(power => power.Id == powerId));
+            var powerResult = Query.FindOne(SpecificationFactory.Create<Power>(power => power.Id == powerId));
 
             if (powerResult == null)
             {
@@ -234,25 +235,22 @@ namespace NewCRM.Application.Services
                 powerSpecification.And(power => power.Name.Contains(powerName));
             }
 
-            return QueryFactory.Create<Power>().PageBy(powerSpecification, pageIndex, pageSize, out totalCount)
+            return Query.PageBy(powerSpecification, pageIndex, pageSize, out totalCount)
                 .ConvertToDtos<Power, PowerDto>().ToList();
 
         }
 
         #endregion
 
-        public Boolean CheckPermissions(Int32 accountId, String powerName)
+        public Boolean CheckPermissions(String powerName, params Int32[] roleIds)
         {
+            var powersIds = Query.Find(SpecificationFactory.Create<Power>(power => power.PowerIdentity == powerName)).Select(power => power.Id).ToArray();
 
-            var powerSpecification = SpecificationFactory.Create<Power>(power => power.PowerIdentity == powerName);
+            var roles = Query.Find(SpecificationFactory.Create<Role>(role => roleIds.Contains(role.Id))).ToArray();
 
-            var powersIds = QueryFactory.Create<Power>().Find(powerSpecification).Select(power => power.Id);
+            var isParentPermission = roles.Any(role => role.Powers.Any(power => power.Power.ParentId == null));
 
-            var accountInfo = GetAccountInfoService(accountId);
-
-            var isPermission = accountInfo.AccountRoles.Any(role => role.Role.CheckPower(powersIds));
-
-            return isPermission;
+            return isParentPermission || roles.Any(role => role.CheckPower(powersIds));
         }
     }
 }

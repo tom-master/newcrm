@@ -67,7 +67,7 @@ namespace NewCRM.Domain.Entitys.Agent
         /// 添加用户角色
         /// </summary>
         /// <param name="roleIds"></param>
-        public Account AddRole(IEnumerable<Int32> roleIds)
+        public Account AddRole(params Int32[] roleIds)
         {
             if (roleIds == null)
             {
@@ -92,7 +92,7 @@ namespace NewCRM.Domain.Entitys.Agent
         /// </summary>
         /// <param name="roleIds"></param>
         /// <returns></returns>
-        public Account RemoveRole(IEnumerable<Int32> roleIds)
+        public Account RemoveRole(params Int32[] roleIds)
         {
             if (roleIds == null)
             {

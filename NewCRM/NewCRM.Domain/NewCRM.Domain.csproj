@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainQuery\ConcreteQuery\DefaultQuery.cs" />
+    <Compile Include="DomainQuery\Query\IQuery.cs" />
     <Compile Include="Entitys\Agent\AccountExtension\TitleExtension.cs" />
     <Compile Include="Entitys\Agent\Title.cs" />
     <Compile Include="Entitys\Agent\Account.cs" />
@@ -67,10 +69,6 @@
     <Compile Include="Entitys\System\Desk.cs" />
     <Compile Include="Entitys\System\SystemExtension\DeskExtension.cs" />
     <Compile Include="Entitys\System\SystemExtension\MemberExtension.cs" />
-    <Compile Include="DomainQuery\ConcreteQuery\DefaultQuery.cs" />
-    <Compile Include="DomainQuery\ConcreteQuery\DefaultQueryFactory.cs" />
-    <Compile Include="DomainQuery\Query\IQuery.cs" />
-    <Compile Include="DomainQuery\Query\QueryFactory.cs" />
     <Compile Include="DomainSpecification\ConcreteSpecification\DefaultSpecification.cs" />
     <Compile Include="DomainSpecification\ConcreteSpecification\DefaultSpecificationFactory.cs" />
     <Compile Include="DomainSpecification\Specification.cs" />

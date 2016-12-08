@@ -84,7 +84,7 @@ namespace NewCRM.Application.Services
                 }
             }
 
-            return QueryFactory.Create<Account>().PageBy(specification, pageIndex, pageSize, out totalCount).Select(account => new
+            return Query.PageBy(specification, pageIndex, pageSize, out totalCount).Select(account => new
             {
                 account.Id,
                 AccountType = account.IsAdmin ? "2" /*管理员*/ : "1" /*用户*/,
@@ -146,7 +146,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountName);
 
-            return QueryFactory.Create<Account>().Find(SpecificationFactory.Create<Account>(account => account.Name == accountName)).Any();
+            return Query.Find(SpecificationFactory.Create<Account>(account => account.Name == accountName)).Any();
 
         }
 
@@ -156,7 +156,7 @@ namespace NewCRM.Application.Services
 
             var account = accountDto.ConvertToModel<AccountDto, Account>();
 
-            var accountResult = QueryFactory.Create<Account>().FindOne(SpecificationFactory.Create<Account>(internalAccount => internalAccount.Id == account.Id));
+            var accountResult = Query.FindOne(SpecificationFactory.Create<Account>(internalAccount => internalAccount.Id == account.Id));
 
             if (accountResult == null)
             {

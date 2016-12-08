@@ -27,13 +27,13 @@ namespace NewCRM.Domain.Services.Service
         /// </summary>
 
         [Import]
-        protected QueryFactory QueryFactory { get; set; }
+        protected IQuery Query { get; set; }
 
         /// <summary>
         /// 规约工厂
         /// </summary>
         [Import]
-        protected SpecificationFactory SpecificationFactory { get; set; }
+        protected SpecificationFactory FilterFactory { get; set; }
 
         /// <summary>
         /// 获取一个用户
@@ -43,8 +43,7 @@ namespace NewCRM.Domain.Services.Service
         protected Account GetAccountInfoService(Int32 accountId)
         {
 
-            var accountResult = QueryFactory.Create<Account>()
-                .FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId));
+            var accountResult = Query.FindOne(FilterFactory.Create<Account>(account => account.Id == accountId));
 
             if (accountResult == null)
             {

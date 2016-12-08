@@ -180,7 +180,7 @@ namespace NewCRM.Dto
             return Mapper.Map<TModel>(source);
         }
 
-        public static IEnumerable<TModel> ConvertToModel<TDto, TModel>(this IList<TDto> source)
+        public static IEnumerable<TModel> ConvertToModels<TDto, TModel>(this IEnumerable<TDto> source)
             where TDto : BaseDto
             where TModel : DomainModelBase
         {

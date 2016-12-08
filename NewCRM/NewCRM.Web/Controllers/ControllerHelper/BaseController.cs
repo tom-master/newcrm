@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using NewCRM.Application.Interface;
@@ -47,23 +48,26 @@ namespace NewCRM.Web.Controllers.ControllerHelper
 
             var controllerName = filterContext.RequestContext.RouteData.Values["controller"].ToString();
 
-            if (controllerName == "App")
+            if (controllerName != "App")
             {
-                var actionName = filterContext.RequestContext.RouteData.Values["action"].ToString();
+                return;
+            }
 
-                var isPermission = SecurityApplicationServices.CheckPermissions(Account.Id, actionName);
+            var actionName = filterContext.RequestContext.RouteData.Values["action"].ToString();
 
-                if (!isPermission)
+            var isPermission = SecurityApplicationServices.CheckPermissions(actionName, Account.Roles.Select(role => role.Id).ToArray());
+
+            if (!isPermission)
+            {
+                filterContext.Result = new JsonResult
                 {
-                    filterContext.Result = new JsonResult
+                    ContentEncoding = Encoding.UTF8,
+                    Data = new
                     {
-                        ContentEncoding = Encoding.UTF8,
-                        Data = new
-                        {
-                            js = @"<script>setTimeout(function(){window.top.ZENG.msgbox.show('对不起，您没有访问的权限！', 5,3000);},0)</script>"
-                        }
-                    };
-                }
+                        js = @"<script>setTimeout(function(){window.top.ZENG.msgbox.show('对不起，您没有访问的权限！', 5,3000);},0)</script>"
+                    },
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
             }
         }
     }
