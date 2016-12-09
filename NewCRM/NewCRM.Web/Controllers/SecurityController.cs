@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Web.Mvc;
 using NewCRM.Dto.Dto;
-using NewCRM.Infrastructure.CommonTools.CustemException;
+using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers

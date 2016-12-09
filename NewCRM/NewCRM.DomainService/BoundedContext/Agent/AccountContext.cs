@@ -7,7 +7,7 @@ using NewCRM.Domain.Interface.BoundedContext.Agent;
 using NewCRM.Domain.Interface.BoundedContextMember;
 using NewCRM.Domain.Services.Service;
 using NewCRM.Infrastructure.CommonTools;
-using NewCRM.Infrastructure.CommonTools.CustemException;
+using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Services.BoundedContext.Agent
 {

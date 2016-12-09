@@ -10,7 +10,8 @@ using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
-using NewCRM.Infrastructure.CommonTools.CustemException;
+using NewCRM.Infrastructure.CommonTools.CustomException;
+
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IAccountApplicationServices))]

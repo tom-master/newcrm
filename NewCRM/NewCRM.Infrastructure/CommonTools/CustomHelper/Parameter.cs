@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
-using NewCRM.Infrastructure.CommonTools.CustemException;
+using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Infrastructure.CommonTools.CustomHelper
@@ -24,48 +24,50 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
                 throw ThrowComponentException($"参数 {nameof(vaildateParameter)} 为空引发异常。");
             }
 
+            if (vaildateParameter is String)
+            {
+                return this;
+            }
+
             #region 判断如果需要验证的参数是复杂类型的话 获取应用在类型的属性上的特性，并判断
 
             //判断如果需要验证的参数是复杂类型的话 获取应用在类型的属性上的特性，并判断
-            if (!(vaildateParameter is String))
+            var instance = vaildateParameter;
+
+            var propertys = instance.GetType().GetProperties();
+
+            foreach (var propertyInfo in propertys)
             {
-                var instance = vaildateParameter;
+                var propertyAttributes = propertyInfo.GetCustomAttributes().ToArray();
 
-                var propertys = instance.GetType().GetProperties();
-
-                foreach (var propertyInfo in propertys)
+                if (!propertyAttributes.Any())
                 {
-                    var propertyAttributes = propertyInfo.GetCustomAttributes().ToArray();
+                    continue;
+                }
 
-                    if (!propertyAttributes.Any())
+                foreach (var attribute in propertyAttributes)
+                {
+                    var value = propertyInfo.GetValue(instance);
+
+                    if (attribute.GetType() == typeof(RequiredAttribute))
                     {
-                        continue;
+                        if ((value + "").Length <= 0)
+                        {
+                            var internalField = propertyInfo.Name;
+
+                            throw new ArgumentException($"字段:{internalField}值不能为空");
+                        }
                     }
 
-                    foreach (var attribute in propertyAttributes)
+                    if (attribute.GetType() == typeof(StringLengthAttribute))
                     {
-                        var value = propertyInfo.GetValue(instance);
+                        var contentLength = ((StringLengthAttribute)attribute).MaximumLength;
 
-                        if (attribute.GetType() == typeof(RequiredAttribute))
+                        if (((String)value).Length > contentLength)
                         {
-                            if ((value + "").Length <= 0)
-                            {
-                                var internalField = propertyInfo.Name;
+                            var internalField = propertyInfo.Name;
 
-                                throw new ArgumentException($"字段:{internalField}值不能为空");
-                            }
-                        }
-
-                        if (attribute.GetType() == typeof(StringLengthAttribute))
-                        {
-                            var contentLength = ((StringLengthAttribute)attribute).MaximumLength;
-
-                            if (((String)value).Length > contentLength)
-                            {
-                                var internalField = propertyInfo.Name;
-
-                                throw new ArgumentException($"字段:{internalField}值长度不能超过:{contentLength}");
-                            }
+                            throw new ArgumentException($"字段:{internalField}值长度不能超过:{contentLength}");
                         }
                     }
                 }
@@ -84,14 +86,17 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
         public Parameter Validate(ValueType parameter, Boolean canZero = false)
         {
             Type type = parameter.GetType();
+
             if (type.IsValueType && type.IsNumeric())
             {
                 Boolean flag = !canZero ? parameter.CastTo(0.0) <= 0.0 : parameter.CastTo(0.0) < 0.0;
+
                 if (flag)
                 {
                     throw ThrowComponentException($"参数 {parameter.GetType().Name} 不在有效范围内引发异常。具体信息请查看系统日志。", new ArgumentOutOfRangeException(parameter.GetType().Name));
                 }
             }
+
             return this;
         }
 
@@ -100,7 +105,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
         /// </summary>
         /// <param name="msg"> 自定义异常消息 </param>
         /// <param name="e"> 实际引发异常的异常实例 </param>
-        private static ComponentException ThrowComponentException(String msg, Exception e = null)
+        private static ComponentException ThrowComponentException(String msg, Exception e = default(Exception))
         {
             if (String.IsNullOrEmpty(msg) && e != null)
             {
@@ -110,6 +115,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
             {
                 msg = "未知组件异常，详情请查看日志信息。";
             }
+
             return e == null ? new ComponentException($"组件异常：{msg}") : new ComponentException($"组件异常：{msg}", e);
         }
 

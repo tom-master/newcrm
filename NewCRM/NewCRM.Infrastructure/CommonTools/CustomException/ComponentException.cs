@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace NewCRM.Infrastructure.CommonTools.CustemException
+namespace NewCRM.Infrastructure.CommonTools.CustomException
 {
     /// <summary>
     /// 组件异常类

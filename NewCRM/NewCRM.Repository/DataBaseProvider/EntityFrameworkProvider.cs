@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using NewCRM.Domain.Entitys;
 using NewCRM.Domain.Repositories;
 using NewCRM.Domain.UnitWork;
-using NewCRM.Infrastructure.CommonTools.CustemException;
+using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
 using NewCRM.Repository.UnitOfWorkProvide;
 

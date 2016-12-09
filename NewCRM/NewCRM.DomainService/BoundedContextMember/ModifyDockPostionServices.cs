@@ -6,7 +6,7 @@ using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContextMember;
 using NewCRM.Domain.Services.Service;
 using NewCRM.Domain.ValueObject;
-using NewCRM.Infrastructure.CommonTools.CustemException;
+using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {

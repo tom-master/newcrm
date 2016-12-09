@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using NewCRM.Infrastructure.CommonTools.CustemException;
+using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Infrastructure.CommonTools
 {

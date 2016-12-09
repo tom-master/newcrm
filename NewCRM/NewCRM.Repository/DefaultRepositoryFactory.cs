@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using NewCRM.Domain.Factory;
 using NewCRM.Domain.Repositories;
-using NewCRM.Infrastructure.CommonTools.CustemException;
+using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Repository
 {

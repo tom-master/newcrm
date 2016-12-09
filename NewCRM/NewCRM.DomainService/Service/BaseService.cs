@@ -6,7 +6,7 @@ using NewCRM.Domain.DomainSpecification.Factory;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Factory;
-using NewCRM.Infrastructure.CommonTools.CustemException;
+using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Services.Service
 {

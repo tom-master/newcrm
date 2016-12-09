@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace NewCRM.Infrastructure.CommonTools.CustemException
+namespace NewCRM.Infrastructure.CommonTools.CustomException
 {
     /// <summary>
     ///     异常信息封装类

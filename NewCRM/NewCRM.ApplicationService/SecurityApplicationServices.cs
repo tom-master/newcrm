@@ -8,7 +8,7 @@ using NewCRM.Domain.DomainSpecification;
 using NewCRM.Domain.Entitys.Security;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
-using NewCRM.Infrastructure.CommonTools.CustemException;
+using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Application.Services
 {

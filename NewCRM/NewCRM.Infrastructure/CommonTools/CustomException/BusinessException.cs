@@ -1,46 +1,40 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace NewCRM.Infrastructure.CommonTools.CustemException
+namespace NewCRM.Infrastructure.CommonTools.CustomException
 {
     /// <summary>
-    ///     仓储实现异常类
+    ///     数据访问层异常类，用于封装业务逻辑层引发的异常，以供 UI 层抓取
     /// </summary>
     [Serializable]
-    public class RepositoryException : Exception
+    public class BusinessException : Exception
     {
         /// <summary>
         ///     实体化一个类的新实例
         /// </summary>
-        public RepositoryException() { }
+        public BusinessException() { }
 
         /// <summary>
         ///     使用异常消息实例化一个类的新实例
         /// </summary>
         /// <param name="message">异常消息</param>
-        public RepositoryException(String message)
-            : base(message)
-        {
-            new ExceptionMessage(this, message, true);
-        }
+        public BusinessException(String message)
+            : base(message) { }
 
         /// <summary>
         ///     使用异常消息与一个内部异常实例化一个类的新实例
         /// </summary>
         /// <param name="message">异常消息</param>
-        /// <param name="inner">用于封装在DalException内部的异常实例</param>
-        public RepositoryException(String message, Exception inner)
-            : base(message, inner)
-        {
-            new ExceptionMessage(inner, message, true);
-        }
+        /// <param name="inner">用于封装在BllException内部的异常实例</param>
+        public BusinessException(String message, Exception inner)
+            : base(message, inner) { }
 
         /// <summary>
         ///     使用可序列化数据实例化一个类的新实例
         /// </summary>
         /// <param name="info">保存序列化对象数据的对象。</param>
         /// <param name="context">有关源或目标的上下文信息。</param>
-        protected RepositoryException(SerializationInfo info, StreamingContext context)
+        protected BusinessException(SerializationInfo info, StreamingContext context)
             : base(info, context) { }
     }
 }
