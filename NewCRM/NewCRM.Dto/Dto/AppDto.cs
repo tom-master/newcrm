@@ -68,8 +68,8 @@ namespace NewCRM.Dto.Dto
         /// <summary>
         /// app分类
         /// </summary>
-        [Required, StringLength(10)]
-        public String AppType { get; set; }
+      
+        public String AppTypeName { get; set; }
 
         public String AddTime { get; set; }
 

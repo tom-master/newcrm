@@ -501,6 +501,15 @@ namespace NewCRM.Application.Services
             UnitOfWork.Commit();
         }
 
+        public void DeleteAppType(Int32 appTypeId)
+        {
+            ValidateParameter.Validate(appTypeId);
+
+            AppContext.ModifyAppTypeServices.DeleteAppType(appTypeId);
+
+            UnitOfWork.Commit();
+        }
+
         #region private method
 
         // <summary>

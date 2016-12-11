@@ -10,5 +10,8 @@ namespace NewCRM.Domain.Interface.BoundedContext.App
 
         [Import]
         IModifyAppInfoServices ModifyAppInfoServices { get; set; }
+
+        [Import]
+        IModifyAppTypeServices ModifyAppTypeServices { get; set; }
     }
 }

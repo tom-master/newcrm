@@ -83,6 +83,13 @@ namespace NewCRM.Web.Controllers
             return View(appResult);
         }
 
+
+        public ActionResult AppTypes()
+        {
+
+            return View();
+        }
+
         #endregion
 
         /// <summary>
@@ -200,6 +207,29 @@ namespace NewCRM.Web.Controllers
             {
                 success = 1
             });
+        }
+
+
+
+        public ActionResult GetAllAppTypes(Int32 pageIndex, Int32 pageSize, String searchText)
+        {
+            var appTypes = AppApplicationServices.GetAppTypes().Where(appType => searchText.Length == 0 || appType.Name.Contains(searchText)).OrderByDescending(d => d.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+
+            return Json(new
+            {
+                totalCount = appTypes.Count,
+                appTypes
+            }, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+        public ActionResult DeleteAppType(Int32 appTypeId)
+        {
+
+            AppApplicationServices.DeleteAppType(appTypeId);
+
+            return Json(new { sucess = 1 });
         }
 
         #region private method

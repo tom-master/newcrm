@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using NewCRM.Domain.Interface.BoundedContext.App;
 using NewCRM.Domain.Interface.BoundedContextMember;
 
@@ -12,5 +13,8 @@ namespace NewCRM.Domain.Services.BoundedContext.App
 
         [Import]
         public IModifyAppInfoServices ModifyAppInfoServices { get; set; }
+
+        [Import]
+        public IModifyAppTypeServices ModifyAppTypeServices { get; set; }
     }
 }
