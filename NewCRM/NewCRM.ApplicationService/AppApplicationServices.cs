@@ -201,7 +201,7 @@ namespace NewCRM.Application.Services
 
             return DtoConfiguration.ConvertDynamicToDto<TodayRecommendAppDto>(new
             {
-                AppId = topApp.Id,
+                Id = topApp.Id,
                 topApp.Name,
                 topApp.UseCount,
                 AppIcon = topApp.IconUrl,
