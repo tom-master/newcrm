@@ -35,7 +35,6 @@ namespace NewCRM.Repository
                 if (repositoryType == null)
                 {
                     throw new RepositoryException($"{nameof(repositoryType)}:为空");
-
                 }
 
                 var newRepositoryInstance = RepositoryFactory.FirstOrDefault(w => w.GetType().FullName == repositoryType.FullName) as IRepository<T>;
