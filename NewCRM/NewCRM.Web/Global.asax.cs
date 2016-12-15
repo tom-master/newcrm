@@ -16,20 +16,6 @@ namespace NewCRM.Web
     {
         protected void Application_Start()
         {
-            //Dictionary<String, IEnumerable<String>> powers = new Dictionary<String, IEnumerable<String>>();
-
-            //var internalAssembly = Assembly.GetExecutingAssembly().GetTypes().Where(type => type.IsSubclassOf(typeof(BaseController)));
-
-            //foreach (var type in internalAssembly)
-            //{
-            //    var internalMethods = type.GetMethods().Where(w => w.ReturnType == typeof(ActionResult)).ToList().Select(method => method.Name);
-
-            //    powers.Add(type.Name, internalMethods);
-            //}
-
-            //var a = JsonConvert.SerializeObject(powers);
-
-
             AreaRegistration.RegisterAllAreas();
 
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

@@ -86,7 +86,6 @@ namespace NewCRM.Web.Controllers
 
         public ActionResult AppTypes()
         {
-
             return View();
         }
 
