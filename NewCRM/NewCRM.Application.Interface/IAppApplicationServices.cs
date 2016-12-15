@@ -155,6 +155,19 @@ namespace NewCRM.Application.Interface
         /// <param name="appTypeId"></param>
         void DeleteAppType(Int32 appTypeId);
 
+        /// <summary>
+        /// 创建新的app类型
+        /// </summary>
+        /// <param name="appTypeDto"></param>
+        void CreateNewAppType(AppTypeDto appTypeDto);
+
+        /// <summary>
+        /// 修改app类型
+        /// </summary>
+        /// <param name="appTypeDto"></param>
+        /// <param name="appTypeId"></param>
+        void ModifyAppType(AppTypeDto appTypeDto,Int32 appTypeId);
+
         #endregion
     }
 }

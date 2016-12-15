@@ -43,9 +43,11 @@
         });
 
     openDetailIframe = function (url) {
+        debugger 
         ZENG.msgbox.show('正在载入中，请稍后...', 6, 8000);
         $('#detailIframe iframe')
             .attr('src', url).on('load', function () {
+                debugger
                 $('body').css('overflow', 'hidden');
                 ZENG.msgbox._hide();
                 $('#detailIframe')

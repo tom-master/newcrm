@@ -10,7 +10,7 @@ namespace NewCrm.InfrastructureTest
         [TestMethod]
         public void TestMethod1()
         {
-            //var a = PasswordUtil.CreateDbPassword("admin123");
+            var a = PasswordUtil.CreateDbPassword("admin");
         }
     }
 }

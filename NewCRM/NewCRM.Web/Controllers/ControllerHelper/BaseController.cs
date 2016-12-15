@@ -57,18 +57,33 @@ namespace NewCRM.Web.Controllers.ControllerHelper
 
             var isPermission = SecurityApplicationServices.CheckPermissions(actionName, Account.Roles.Select(role => role.Id).ToArray());
 
-            if (!isPermission)
-            {
-                filterContext.Result = new JsonResult
-                {
-                    ContentEncoding = Encoding.UTF8,
-                    Data = new
-                    {
-                        js = @"<script>setTimeout(function(){window.top.ZENG.msgbox.show('对不起，您没有访问的权限！', 5,3000);},0)</script>"
-                    },
-                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
-                };
-            }
+            //if (!isPermission)
+            //{
+            //    var notPermissionMessage = @"<script>setTimeout(function(){window.top.ZENG.msgbox.show('对不起，您没有访问的权限！', 5,3000);},0)</script>";
+
+            //    var isAjaxRequest = filterContext.RequestContext.HttpContext.Request.IsAjaxRequest();
+
+            //    if (!isAjaxRequest)
+            //    {
+            //        filterContext.Result = new ContentResult
+            //        {
+            //            ContentEncoding = Encoding.UTF8,
+            //            Content = notPermissionMessage
+            //        };
+            //    }
+            //    else
+            //    {
+            //        filterContext.Result = new JsonResult
+            //        {
+            //            ContentEncoding = Encoding.UTF8,
+            //            Data = new
+            //            {
+            //                js = notPermissionMessage
+            //            },
+            //            JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            //        };
+            //    }
+            //}
         }
     }
 }

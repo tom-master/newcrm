@@ -1,81 +1,34 @@
-﻿@using NewCRM.Dto.Dto
-
-
+﻿@model NewCRM.Dto.Dto.AppTypeDto
 @{
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
-
-    var roleResult = ViewData["RoleResult"] as RoleDto;
-
-    if (roleResult == null)
-    {
-        roleResult = new RoleDto();
-    }
 }
 
-<form action="@Url.Action("NewRole","Security")?roleId=@Request["roleId"]" method="post" id="form" name="form">
-    @*<input type="hidden" id="roleId" name="roleId" value="@Request["roleId"]" />*@
+<form action="@Url.Action("NewAppType","App")?appTypeId=@Request["appTypeId"]" method="post" name="form" id="form">
+    <input type="hidden" name="ac" value="edit">
     <div class="creatbox">
-        <div class="middle" style="overflow: hidden; position: inherit; bottom: 0px;">
+        <div class="middle">
+            <p class="detile-title">
+                <strong>编辑类目</strong>
+            </p>
             <div class="input-label">
-                <label class="label-text">角色名称：</label>
+                <label class="label-text">类目名称：</label>
                 <div class="label-box form-inline control-group">
                     @{
-                        if (roleResult.Name == null)
+                        if (Model != null)
                         {
                             <text>
-                                <input type="text" class="text" name="val_roleName" id="val_roleName" value="" datatype="*" nullmsg="请输入角色标识" />
+                                  <input type="text" name="val_name" value="@Model.Name" datatype="*" nullmsg="请输入类目名称">
                             </text>
                         }
                         else
                         {
                             <text>
-                                <input type="text"  class="text" name="val_roleName" id="val_roleName" value="@roleResult.Name" datatype="*" nullmsg="请输入角色标识" />
+                                <input type="text" name="val_name" value="" datatype="*" nullmsg="请输入类目名称">
                             </text>
                         }
                     }
 
                     <span class="help-inline"></span>
-                </div>
-            </div>
-            <div class="input-label">
-                <label class="label-text">角色标识：</label>
-                <div class="label-box form-inline control-group">
-
-                    @{
-                        if (roleResult.RoleIdentity == null)
-                        {
-                            <text>
-                                <input type="text" class="text" name="val_roleIdentity" id="val_roleIdentity" value="" datatype="*" nullmsg="请输入角色名称" />
-                            </text>
-                        }
-                        else
-                        {
-                            <text>
-                                <input type="text" disabled="disabled" class="text" name="val_roleIdentity" id="val_roleIdentity" value="@roleResult.RoleIdentity" datatype="*" nullmsg="请输入角色名称" />
-                            </text>
-                        }
-                    }
-
-
-                    <span class="help-inline"></span>
-                </div>
-            </div>
-            <div class="input-label">
-                <label class="label-text">角色描述：</label>
-                <div class="label-box form-inline control-group">
-
-                    @{
-                        if (roleResult.Remark == null)
-                        {<text>
-                        <textarea class="textarea" name="val_roleRemark" id="val_roleRemark" style="width: 300px; height: 100px; margin-bottom: 10px"></textarea>
-                        </text>
-                        }
-                        else
-                        {<text>
-                        <textarea class="textarea" name="val_roleRemark" id="val_roleRemark" style="width: 300px; height: 100px; margin-bottom: 10px">@roleResult.Remark</textarea>
-                        </text>
-                        }
-                    }
                 </div>
             </div>
         </div>
@@ -83,23 +36,26 @@
     <div class="bottom-bar">
         <div class="con">
             <a class="btn btn-primary fr" id="btn-submit" href="javascript:;"><i class="icon-white icon-ok"></i> 确定</a>
-            <a class="btn fr" href="javascript:window.parent.closeDetailIframe();" style="margin-right: 10px"><i class="icon-chevron-up"></i> 返回角色列表</a>
+            <a class="btn fr" href="javascript:window.parent.closeDetailIframe();" style="margin-right:10px"><i class="icon-chevron-up"></i> 返回类目列表</a>
         </div>
     </div>
 </form>
 @section ChildrenScript
-{
+  {
     <script>
         $(function () {
             $('#form').Validform({
                 btnSubmit: '#btn-submit',
                 postonce: false,
                 showAllError: true,
+                //msg：提示信息;
+                //o:{obj:*,type:*,curform:*}, obj指向的是当前验证的表单元素（或表单对象），type指示提示的状态，值为1、2、3、4， 1：正在检测/提交数据，2：通过验证，3：验证失败，4：提示ignore状态, curform为当前form对象;
+                //cssctl:内置的提示信息样式控制函数，该函数需传入两个参数：显示提示信息的对象 和 当前提示的状态（既形参o中的type）;
                 tiptype: function (msg, o) {
-                    if (!o.obj.is('form')) { //验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
+                    if (!o.obj.is('form')) {//验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
                         var B = o.obj.parents('.control-group');
                         var T = B.children('.help-inline');
-                        if (o.type === 2) {
+                        if (o.type == 2) {
                             B.removeClass('error');
                             T.text('');
                         } else {
@@ -147,10 +103,11 @@
                                 });
                             }
                         }
-                    } 
+                    }
                 }
             });
         });
     </script>
+
 }
 

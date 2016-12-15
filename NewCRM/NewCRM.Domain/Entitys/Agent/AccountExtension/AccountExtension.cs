@@ -74,7 +74,7 @@ namespace NewCRM.Domain.Entitys.Agent
                 throw new ArgumentNullException($"{nameof(roleIds)}:不能为空");
             }
 
-            if (roleIds.Any())
+            if (!roleIds.Any())
             {
                 throw new ArgumentOutOfRangeException($"{nameof(roleIds)}:不能为0");
             }

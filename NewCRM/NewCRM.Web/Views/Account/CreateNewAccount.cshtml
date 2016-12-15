@@ -26,13 +26,13 @@
                         if (accountResult.Name == null)
                         {
                             <text>
-                                <input type="text" name="val_accountname" datatype="s4-12" ajaxurl="@Url.Action("CheckAccountNameExist", "Account")" nullmsg="请输入用户名" errormsg="用户名长度为4-12个字符">
+                                <input type="text"  name="val_accountname" datatype="s4-12" ajaxurl="@Url.Action("CheckAccountNameExist", "Account")" nullmsg="请输入用户名" errormsg="用户名长度为4-12个字符">
                             </text>
                         }
                         else
                         {
                             <text>
-                                @accountResult.Name
+                                <input type="text" readonly="readonly"  name="val_accountname" datatype="s4-12" value="@accountResult.Name" >
                             </text>
                         }
                     }
@@ -65,12 +65,12 @@
                 <label class="label-text">用户类型：</label>
                 <div class="label-box form-inline">
                     <label class="radio" style="margin-right: 10px">
-                        <input type="radio" name="val_type" value="1" @{ if (accountResult.AccountType == null) { <text> checked="checked" </text>        } else { if (Int32.Parse(accountResult.AccountType) == 1) { <text> checked="checked" </text>             } }  }>用户
+                        <input type="radio" name="val_type" value="1" @{ if (accountResult.AccountType == null) { <text> checked="checked" </text>         } else { if (Int32.Parse(accountResult.AccountType) == 1) { <text> checked="checked" </text>              } }  }>用户
                     </label>
 
 
                     <label class="radio" style="margin-right:10px">
-                        <input type="radio" name="val_type" value="2" @{ if (accountResult.AccountType != null) { if (Int32.Parse(accountResult.AccountType) == 2) { <text> checked="checked" </text>             } }  }>管理员
+                        <input type="radio" name="val_type" value="2" @{ if (accountResult.AccountType != null) { if (Int32.Parse(accountResult.AccountType) == 2) { <text> checked="checked" </text>              } }  }>管理员
                     </label>
                 </div>
             </div>

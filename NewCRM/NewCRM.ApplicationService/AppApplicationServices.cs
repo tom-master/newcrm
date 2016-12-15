@@ -170,14 +170,14 @@ namespace NewCRM.Application.Services
 
         public List<AppTypeDto> GetAppTypes()
         {
-            return Query.Find(SpecificationFactory.Create<AppType>()).ConvertToDtos<AppType, AppTypeDto>().ToList();
+            return Query.Find(FilterFactory.Create<AppType>()).ConvertToDtos<AppType, AppTypeDto>().ToList();
         }
 
         public TodayRecommendAppDto GetTodayRecommend(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
 
-            var topApp = Query.Find(SpecificationFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release).OrderByDescending(app => app.UseCount)).Select(app => new
+            var topApp = Query.Find(FilterFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release && app.IsRecommand)).Select(app => new
             {
                 app.UseCount,
                 AppStars = CountAppStars(app),
@@ -187,6 +187,11 @@ namespace NewCRM.Application.Services
                 app.Remark,
                 app.AppStyle
             }).FirstOrDefault();
+
+            if (topApp == null)
+            {
+                return new TodayRecommendAppDto();
+            }
 
             var accountResult = GetAccountInfoService(accountId);
 
@@ -216,7 +221,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var accountApps = Query.Find(SpecificationFactory.Create<App>(app => app.AccountId == accountId));
+            var accountApps = Query.Find(FilterFactory.Create<App>(app => app.AccountId == accountId));
 
             var accountDevAppCount = accountApps.Count();
 
@@ -230,7 +235,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
 
-            var appSpecification = SpecificationFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release);
+            var appSpecification = FilterFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release);
 
             #region 条件筛选
 
@@ -299,7 +304,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(appId);
 
-            var specification = SpecificationFactory.Create<App>(app => app.Id == appId);
+            var specification = FilterFactory.Create<App>(app => app.Id == appId);
 
             var appResult = Query.FindOne(specification);
 
@@ -393,7 +398,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(appName).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
 
-            var specification = SpecificationFactory.Create<App>();
+            var specification = FilterFactory.Create<App>();
 
             #region 条件筛选
 
@@ -508,6 +513,30 @@ namespace NewCRM.Application.Services
             AppContext.ModifyAppTypeServices.DeleteAppType(appTypeId);
 
             UnitOfWork.Commit();
+        }
+
+        public void CreateNewAppType(AppTypeDto appTypeDto)
+        {
+            var appType = appTypeDto.ConvertToModel<AppTypeDto, AppType>();
+
+            Repository.Create<AppType>().Add(new AppType(appType.Name));
+
+            UnitOfWork.Commit();
+
+        }
+
+        public void ModifyAppType(AppTypeDto appTypeDto, Int32 appTypeId)
+        {
+            var internalAppTypeFilter = FilterFactory.Create<AppType>(appType => appType.Id == appTypeId);
+
+            var internalAppType = Query.FindOne(internalAppTypeFilter);
+
+            internalAppType.ModifyAppTypeName(appTypeDto.Name);
+
+            Repository.Create<AppType>().Update(internalAppType);
+
+            UnitOfWork.Commit();
+
         }
 
         #region private method

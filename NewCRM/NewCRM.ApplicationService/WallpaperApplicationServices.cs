@@ -20,7 +20,7 @@ namespace NewCRM.Application.Services
     [Export(typeof(IWallpaperApplicationServices))]
     internal class WallpaperApplicationServices : BaseService, IWallpaperApplicationServices
     {
-        public List<WallpaperDto> GetWallpaper() => Query.Find(SpecificationFactory.Create<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
+        public List<WallpaperDto> GetWallpaper() => Query.Find(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
 
 
         public void ModifyWallpaperMode(Int32 accountId, String newMode)
@@ -43,7 +43,7 @@ namespace NewCRM.Application.Services
 
             var wallpaper = wallpaperDto.ConvertToModel<WallpaperDto, Wallpaper>();
 
-            var wallPaperCount = Query.Find(SpecificationFactory.Create<Wallpaper>(w => w.AccountId == wallpaper.AccountId)).Count();
+            var wallPaperCount = Query.Find(FilterFactory.Create<Wallpaper>(w => w.AccountId == wallpaper.AccountId)).Count();
 
             if (wallPaperCount == 6)
             {
@@ -63,7 +63,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            return Query.Find(SpecificationFactory.Create<Wallpaper>(wallpaper => wallpaper.AccountId == accountId)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
+            return Query.Find(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.AccountId == accountId)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
 
         }
 
@@ -114,7 +114,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(md5);
 
-            return Query.FindOne(SpecificationFactory.Create<Wallpaper>(wallpaper => wallpaper.Md5 == md5)).ConvertToDto<Wallpaper, WallpaperDto>();
+            return Query.FindOne(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Md5 == md5)).ConvertToDto<Wallpaper, WallpaperDto>();
 
         }
     }

@@ -67,7 +67,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountName).Validate(pageIndex).Validate(pageSize);
 
-            var specification = SpecificationFactory.Create<Account>(account => (accountName + "").Length == 0 || account.Name.Contains(accountName));
+            var specification = FilterFactory.Create<Account>(account => (accountName + "").Length == 0 || account.Name.Contains(accountName));
 
             AccountType internalAccountType;
 
@@ -147,7 +147,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountName);
 
-            return Query.Find(SpecificationFactory.Create<Account>(account => account.Name == accountName)).Any();
+            return Query.Find(FilterFactory.Create<Account>(account => account.Name == accountName)).Any();
 
         }
 
@@ -157,7 +157,7 @@ namespace NewCRM.Application.Services
 
             var account = accountDto.ConvertToModel<AccountDto, Account>();
 
-            var accountResult = Query.FindOne(SpecificationFactory.Create<Account>(internalAccount => internalAccount.Id == account.Id));
+            var accountResult = Query.FindOne(FilterFactory.Create<Account>(internalAccount => internalAccount.Id == account.Id));
 
             if (accountResult == null)
             {

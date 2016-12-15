@@ -47,7 +47,7 @@ namespace NewCRM.Application.Services.Services
         /// 规约工厂
         /// </summary>
         [Import]
-        protected SpecificationFactory SpecificationFactory { get; set; }
+        protected SpecificationFactory FilterFactory { get; set; }
 
         /// <summary>
         /// 参数验证
@@ -61,7 +61,7 @@ namespace NewCRM.Application.Services.Services
         /// <returns></returns>
         internal Account GetAccountInfoService(Int32 accountId)
         {
-            return Query.FindOne(SpecificationFactory.Create<Account>(account => account.Id == accountId));
+            return Query.FindOne(FilterFactory.Create<Account>(account => account.Id == accountId));
         }
     }
 }

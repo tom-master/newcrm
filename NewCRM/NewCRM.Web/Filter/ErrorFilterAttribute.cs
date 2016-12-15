@@ -9,7 +9,7 @@ namespace NewCRM.Web.Filter
     {
         public override void OnException(ExceptionContext filterContext)
         {
-            filterContext.ExceptionHandled = false;
+            filterContext.ExceptionHandled = true;
 
             String exceptionMessage;
 

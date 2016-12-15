@@ -73,7 +73,7 @@
                 <p>我开发的应用：<font style="font-weight:bold">@accountApp.Item1</font> 个</p>
                 <p>未发布的应用：<font style="font-weight:bold">@accountApp.Item2</font> 个</p>
                 <div class="text-center">
-                    <a href="javascript:openDetailIframe2('@Url.Action("AccountAppManage", "App")');" class="btn btn-primary">管理我的应用</a> 
+                    <a href="javascript:openDetailIframe2('@Url.Action("AccountAppManage", "App")');" class="btn btn-primary">管理我的应用</a>
                     <a href="javascript:openDetailIframe2('@Url.Action("AccountAppManage","App")?appId=0');" class="btn btn-danger">开发新应用</a>
                 </div>
             </div>
@@ -134,6 +134,9 @@
             getPageList(0);
 
             openDetailIframe2 = function (url) {
+
+
+                
                 ZENG.msgbox.show('正在载入中，请稍后...', 6, 100000);
                 $('#detailIframe iframe').attr('src', url).on('load', function () {
                     ZENG.msgbox._hide();
@@ -254,7 +257,7 @@
             $('#pagination').pagination(parseInt($('#pagination_setting').attr('count')), {
                 current_page: current_page,
                 items_per_page: 5,
-                num_display_entries:3,
+                num_display_entries: 3,
                 num_edge_entries: 1,
                 callback: getPageList,
                 prev_text: '上一页',

@@ -99,7 +99,10 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// app类型Id
         /// </summary>
-        public Int32 AppTypeId { get; set; }
+        public Int32 AppTypeId { get; private set; }
+
+
+        public Boolean IsRecommand { get; private set; }
 
         /// <summary>
         /// 审核状态
@@ -199,6 +202,8 @@ namespace NewCRM.Domain.Entitys.System
             AppReleaseState = AppReleaseState.UnRelease;
             UseCount = 0;
             AppStars = new List<AppStar>();
+
+            IsRecommand = false;
         }
 
         public App()

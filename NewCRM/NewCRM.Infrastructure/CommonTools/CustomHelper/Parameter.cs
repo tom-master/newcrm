@@ -51,11 +51,14 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
 
                     if (attribute.GetType() == typeof(RequiredAttribute))
                     {
-                        if ((value + "").Length <= 0)
+                        if (!((RequiredAttribute)attribute).AllowEmptyStrings)
                         {
-                            var internalField = propertyInfo.Name;
+                            if ((value + "").Length <= 0)
+                            {
+                                var internalField = propertyInfo.Name;
 
-                            throw new ArgumentException($"字段:{internalField}值不能为空");
+                                throw new ArgumentException($"字段:{internalField}值不能为空");
+                            }
                         }
                     }
 
@@ -63,7 +66,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
                     {
                         var contentLength = ((StringLengthAttribute)attribute).MaximumLength;
 
-                        if (((String)value).Length > contentLength)
+                        if ((value + "").Length > contentLength)
                         {
                             var internalField = propertyInfo.Name;
 
