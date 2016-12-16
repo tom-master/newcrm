@@ -54,7 +54,7 @@
                     }
                 }
 
-                <em style="margin-left:10px">所属分类：</em>@Model.AppType
+                <em style="margin-left:10px">所属分类：</em>@Model.AppTypeName
                 <em style="margin-left:10px">发布时间：</em>@Model.AddTime
             </h5>
             <div class="app-text breakword">@Model.Remark</div>
@@ -97,7 +97,7 @@
                 var num = $(this).attr('num');
                 if (!isNaN(num) && /^[1-5]$/.test(num)) {
                     if (window.parent.parent.HROS.base.checkLogin()) {
-                        $.post('@Url.Action("ModifyAppStart", "App")',
+                        $.post('@Url.Action("ModifyAppStart", "AppMarket")',
                             { appId: '@Model.Id', starCount: num },
                             function (responseText) {
                                 if (typeof responseText.success !== 'undefined') {

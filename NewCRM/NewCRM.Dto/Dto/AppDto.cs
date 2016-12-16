@@ -85,6 +85,8 @@ namespace NewCRM.Dto.Dto
 
         public Int32 Height { get; set; }
 
+        public Boolean IsRecommand { get; set; }
+
         #endregion
     }
 }

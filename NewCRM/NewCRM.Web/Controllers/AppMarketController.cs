@@ -10,7 +10,7 @@ using NewCRM.Web.Controllers.ControllerHelper;
 namespace NewCRM.Web.Controllers
 {
     [Export]
-    public class AppController : BaseController
+    public class AppMarketController : BaseController
     {
         #region 页面
 
@@ -20,7 +20,7 @@ namespace NewCRM.Web.Controllers
         /// 应用市场
         /// </summary>
         /// <returns></returns>
-        public ActionResult AppMarket()
+        public ActionResult Index()
         {
 
             ViewData["AppTypes"] = AppApplicationServices.GetAppTypes();
@@ -87,36 +87,6 @@ namespace NewCRM.Web.Controllers
 
         #endregion
 
-        #region 类目管理
-
-        /// <summary>
-        /// 类目管理
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult AppTypes()
-        {
-
-            return View();
-        }
-
-        /// <summary>
-        /// 创建新的类目
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult CreateNewAppType(Int32 appTypeId = 0)
-        {
-            AppTypeDto appTypeDto = null;
-
-            if (appTypeId != 0)
-            {
-                appTypeDto = AppApplicationServices.GetAppTypes().FirstOrDefault(appType => appType.Id == appTypeId);
-            }
-
-            return View(appTypeDto);
-        }
-
-        #endregion
-
         #endregion
 
         /// <summary>
@@ -169,18 +139,18 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 获取开发者（用户）的app
         /// </summary>
-        /// <param name="appName"></param>
+        /// <param name="searchText"></param>
         /// <param name="appTypeId"></param>
         /// <param name="appStyleId"></param>
         /// <param name="appState"></param>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public ActionResult GetAccountAllApps(String appName, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize)
+        public ActionResult GetAccountAllApps(String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize)
         {
             Int32 totalCount;
 
-            var appResults = AppApplicationServices.GetAccountAllApps(Account.Id, appName, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
+            var appResults = AppApplicationServices.GetAccountAllApps(Account.Id, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
 
             return Json(new
             {
@@ -222,6 +192,11 @@ namespace NewCRM.Web.Controllers
             return Json(new { msg = "请上传一个图片" });
         }
 
+        /// <summary>
+        /// 创建新的app
+        /// </summary>
+        /// <param name="forms"></param>
+        /// <returns></returns>
         public ActionResult CreateNewApp(FormCollection forms)
         {
             var appDto = WrapperAppDto(forms);
@@ -235,42 +210,6 @@ namespace NewCRM.Web.Controllers
                 success = 1
             });
         }
-
-        public ActionResult GetAllAppTypes(Int32 pageIndex, Int32 pageSize, String searchText)
-        {
-            var appTypes = AppApplicationServices.GetAppTypes().Where(appType => searchText.Length == 0 || appType.Name.Contains(searchText)).OrderByDescending(d => d.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-
-            return Json(new
-            {
-                totalCount = appTypes.Count,
-                appTypes
-            }, JsonRequestBehavior.AllowGet);
-
-        }
-
-        public ActionResult DeleteAppType(Int32 appTypeId)
-        {
-            AppApplicationServices.DeleteAppType(appTypeId);
-
-            return Json(new { sucess = 1 });
-        }
-
-        public ActionResult NewAppType(FormCollection forms, Int32 appTypeId = 0)
-        {
-            var appTypeDto = WrapperAppTypeDto(forms);
-
-            if (appTypeId == 0)
-            {
-                AppApplicationServices.CreateNewAppType(appTypeDto);
-            }
-            else
-            {
-                AppApplicationServices.ModifyAppType(appTypeDto, appTypeId);
-            }
-
-            return Json(new { success = 1 });
-        }
-
 
         #region private method
         /// <summary>
@@ -306,26 +245,6 @@ namespace NewCRM.Web.Controllers
             return appDto;
         }
 
-        /// <summary>
-        /// 封装从页面传入的forms表单到AppTypeDto类型
-        /// </summary>
-        /// <param name="forms"></param>
-        /// <returns></returns>
-        private static AppTypeDto WrapperAppTypeDto(FormCollection forms)
-        {
-            var appTypeDto = new AppTypeDto
-            {
-                Name = forms["val_name"]
-            };
-
-            if ((forms["id"] + "").Length > 0)
-            {
-                appTypeDto.Id = Int32.Parse(forms["id"]);
-            }
-
-            return appTypeDto;
-
-        }
         #endregion
     }
 }

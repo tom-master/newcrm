@@ -122,7 +122,7 @@ namespace NewCRM.Application.Interface
         /// 获取开发者（用户）的app
         /// </summary>
         /// <param name="accountId"></param>
-        /// <param name="appName"></param>
+        /// <param name="searchText"></param>
         /// <param name="appTypeId"></param>
         /// <param name="appStyleId"></param>
         /// <param name="appState"></param>
@@ -132,7 +132,7 @@ namespace NewCRM.Application.Interface
         /// <returns></returns>
 
         List<AppDto> GetAccountAllApps(
-            Int32 accountId, String appName, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex,
+            Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex,
             Int32 pageSize,
             out Int32 totalCount);
 
@@ -166,7 +166,25 @@ namespace NewCRM.Application.Interface
         /// </summary>
         /// <param name="appTypeDto"></param>
         /// <param name="appTypeId"></param>
-        void ModifyAppType(AppTypeDto appTypeDto,Int32 appTypeId);
+        void ModifyAppType(AppTypeDto appTypeDto, Int32 appTypeId);
+
+        /// <summary>
+        /// app审核通过
+        /// </summary>
+        /// <param name="appId"></param>
+        void Pass(Int32 appId);
+
+        /// <summary>
+        /// app审核不通过
+        /// </summary>
+        /// <param name="appId"></param>
+        void Deny(Int32 appId);
+
+        /// <summary>
+        /// 设置今日推荐app
+        /// </summary>
+        /// <param name="appId"></param>
+        void SetTodayRecommandApp(Int32 appId);
 
         #endregion
     }

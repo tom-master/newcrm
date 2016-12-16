@@ -327,6 +327,7 @@ namespace NewCRM.Application.Services
                 appResult.Width,
                 appResult.Height,
                 appResult.AppAuditState,
+                appResult.AppReleaseState,
                 appResult.AppTypeId
             });
 
@@ -394,18 +395,24 @@ namespace NewCRM.Application.Services
 
         }
 
-        public List<AppDto> GetAccountAllApps(Int32 accountId, String appName, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+        public List<AppDto> GetAccountAllApps(Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
-            ValidateParameter.Validate(accountId).Validate(appName).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
+            ValidateParameter.Validate(accountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
 
             var specification = FilterFactory.Create<App>();
 
             #region 条件筛选
 
-            //应用名称
-            if ((appName + "").Length > 0)
+            if (accountId != 0)
             {
-                specification.And(app => app.Name.Contains(appName));
+                specification.And(app => app.AccountId == accountId);
+            }
+
+
+            //应用名称
+            if ((searchText + "").Length > 0)
+            {
+                specification.And(app => app.Name.Contains(searchText));
             }
 
             //应用所属类型
@@ -475,10 +482,12 @@ namespace NewCRM.Application.Services
             {
                 app.Name,
                 app.AppStyle,
-                AppType = app.AppType.Name,
+                AppTypeName = app.AppType.Name,
                 app.UseCount,
                 app.Id,
-                app.IconUrl
+                app.IconUrl,
+                app.AppAuditState,
+                app.IsRecommand
             }).ConvertDynamicToDtos<AppDto>().ToList();
 
         }
@@ -539,6 +548,53 @@ namespace NewCRM.Application.Services
 
         }
 
+        public void Pass(Int32 appId)
+        {
+            var appDto = GetApp(appId);
+
+            var app = appDto.ConvertToModel<AppDto, App>();
+
+            app.Pass();
+
+            Repository.Create<App>().Update(app);
+
+            UnitOfWork.Commit();
+        }
+
+        public void Deny(Int32 appId)
+        {
+            var appDto = GetApp(appId);
+
+            var app = appDto.ConvertToModel<AppDto, App>();
+
+            app.Deny();
+
+            Repository.Create<App>().Update(app);
+
+            UnitOfWork.Commit();
+        }
+
+        public void SetTodayRecommandApp(Int32 appId)
+        {
+            //取消之前的今日推荐
+            var beforeRecommandApp = Query.FindOne(FilterFactory.Create<App>(app => app.IsRecommand));
+
+            beforeRecommandApp.CancelTodayRecommandApp();
+
+            Repository.Create<App>().Update(beforeRecommandApp);
+
+            //重新设置今日推荐
+            var afterRecommandApp = Query.FindOne(FilterFactory.Create<App>(app => app.Id == appId));
+
+            afterRecommandApp.SetTodayRecommandApp();
+
+            Repository.Create<App>().Update(afterRecommandApp);
+
+            UnitOfWork.Commit();
+
+
+        }
+
         #region private method
 
         // <summary>
@@ -559,3 +615,4 @@ namespace NewCRM.Application.Services
         #endregion
     }
 }
+

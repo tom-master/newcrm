@@ -173,7 +173,8 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(dto => dto.AppTypeName, app => app.MapFrom(w => w.AppType.Name))
                 .ForMember(dto => dto.AddTime, app => app.MapFrom(w => w.AddTime.ToString("yyyy-MM-dd")))
                 .ForMember(dto => dto.AppAuditState, app => app.MapFrom(w => (Int32)w.AppAuditState))
-                .ForMember(dto => dto.AppReleaseState, app => app.MapFrom(w => (Int32)w.AppReleaseState));
+                .ForMember(dto => dto.AppReleaseState, app => app.MapFrom(w => (Int32)w.AppReleaseState))
+                .ForMember(dto => dto.IsRecommand, app => app.MapFrom(w =>w.IsRecommand));
         }
     }
 

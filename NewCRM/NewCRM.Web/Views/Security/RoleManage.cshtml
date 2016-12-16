@@ -4,8 +4,7 @@
 @section ChildrenCss
 {
     <style>
-        body
-        {
+        body {
             margin: 10px 10px 0;
         }
     </style>
@@ -27,11 +26,11 @@
             </td>
         </tr>
         <tr class="sep-row"><td colspan="100"></td></tr>
-    <tr class="col-name">
-        <th style="width:35%">角色标识</th>
-        <th style="width: 35%">角色名称</th>
-        <th style="width: 35%">操作</th>
-    </tr>
+        <tr class="col-name">
+            <th style="width:35%">角色标识</th>
+            <th style="width: 35%">角色名称</th>
+            <th style="width: 35%">操作</th>
+        </tr>
         <tr class="sep-row"><td colspan="100"></td></tr>
     </thead>
     <tbody class="list-con"></tbody>
@@ -70,7 +69,7 @@
     <script>
         $(function () {
             //加载列表
-            getPageList(0);
+            getPageList(1);
             //删除
             $('.list-con').on('click', '.do-del', function () {
                 var roleId = $(this).attr('data-roleid');
@@ -82,7 +81,7 @@
                         $.post('@Url.Action("RemoveRole", "Security")', { roleId: roleId }, function (responseText) {
                             if (typeof responseText.success !== 'undefined') {
                                 setTimeout(function () {
-                                    getPageList(0);
+                                    $('#pagination').trigger('currentPage');
                                 }, 1000);
                                 ZENG.msgbox.show('移除成功', 4, 3000);
                             }
@@ -93,7 +92,7 @@
             });
             //搜索
             $('a[menu=search]').click(function () {
-                getPageList(0);
+                getPageList(1);
             });
         });
 
@@ -113,7 +112,7 @@
             ZENG.msgbox.show('正在加载中，请稍后...', 6, 8000);
             $.get('@Url.Action("GetAllRoles", "Security")', {
                 roleName: $('#roleName').val(),
-                pageIndex: current_page === 0 ? 1 : current_page + 1,
+                pageIndex: current_page,
                 pageSize: 5
             }, function (responseText) {
                 ZENG.msgbox._hide();

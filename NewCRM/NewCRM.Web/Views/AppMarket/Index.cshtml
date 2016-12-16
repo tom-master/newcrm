@@ -36,7 +36,7 @@
 
             <h3>今日推荐</h3>
             <div class="commend-container">
-                <a href="javascript:openDetailIframe2('@Url.Action("AppDetail","App")?appId=@todayRecommendApp.Id');">
+                <a href="javascript:openDetailIframe2('@Url.Action("AppDetail","AppMarket")?appId=@todayRecommendApp.Id');">
                     <img src="@todayRecommendApp.AppIcon" alt="@todayRecommendApp.Name">
                 </a>
             </div>
@@ -73,8 +73,8 @@
                 <p>我开发的应用：<font style="font-weight:bold">@accountApp.Item1</font> 个</p>
                 <p>未发布的应用：<font style="font-weight:bold">@accountApp.Item2</font> 个</p>
                 <div class="text-center">
-                    <a href="javascript:openDetailIframe2('@Url.Action("AccountAppManage", "App")');" class="btn btn-primary">管理我的应用</a>
-                    <a href="javascript:openDetailIframe2('@Url.Action("AccountAppManage","App")?appId=0');" class="btn btn-danger">开发新应用</a>
+                    <a href="javascript:openDetailIframe2('@Url.Action("AccountAppManage", "AppMarket")');" class="btn btn-primary">管理我的应用</a>
+                    <a href="javascript:openDetailIframe2('@Url.Action("AccountAppManage","AppMarket")?appId=0');" class="btn btn-danger">开发新应用</a>
                 </div>
             </div>
         </div>
@@ -108,10 +108,10 @@
     <script id="li-template" type="text/x-handlebars-template">
         {{#each apps}}
         <li>
-            <a href="javascript:openDetailIframe2('@Url.Action("AppDetail","App")?appId={{Id}}');">
+            <a href="javascript:openDetailIframe2('@Url.Action("AppDetail","AppMarket")?appId={{Id}}');">
                 <img src="{{IconUrl}}">
             </a>
-            <a href="javascript:openDetailIframe2('@Url.Action("AppDetail","App")?appId={{Id}}');" class="app-name">{{Name}}</a>
+            <a href="javascript:openDetailIframe2('@Url.Action("AppDetail","AppMarket")?appId={{Id}}');" class="app-name">{{Name}}</a>
             <span class="app-desc"></span>
             <span class="star-box">
                 <i style="width:{{scoreWidth StartCount}}%;"></i>
@@ -131,12 +131,12 @@
     <script>
         $(function () {
             //加载列表
-            getPageList(0);
+            getPageList(1);
 
             openDetailIframe2 = function (url) {
 
 
-                
+
                 ZENG.msgbox.show('正在载入中，请稍后...', 6, 100000);
                 $('#detailIframe iframe').attr('src', url).on('load', function () {
                     ZENG.msgbox._hide();
@@ -164,13 +164,13 @@
                 $('#appType').val($(this).attr('value'));
                 $('.app-list-box .title li').removeClass('active').eq(0).addClass('active');
                 $('#order').val(1);
-                getPageList(0);
+                getPageList(1);
             });
             $('.app-list-box .title li').click(function () {
                 $('.app-list-box .title li').removeClass('focus');
                 $(this).addClass('focus');
                 $('#order').val($(this).attr('value'));
-                getPageList(0);
+                getPageList(1);
             });
             //搜索
             $('#searchText').on('keydown', function (e) {
@@ -183,11 +183,11 @@
                 $('.sub-nav ul li').removeClass('active').eq(0).addClass('active');
                 $('#appType').val(0);
                 $('#order').val(1);
-                getPageList(0);
+                getPageList(1);
             });
             $('#searchTextRemove').click(function () {
                 $('#searchText').val('');
-                getPageList(0);
+                getPageList(1);
             });
             //添加，删除，打开应用
             $('.app-list').on('click', '.btn-add-s', function () {
@@ -270,11 +270,11 @@
             var orderId = $('#order').val() === '' ? 1 : parseInt($('#order').val());
 
 
-            $.get('@Url.Action("GetAllApps", "App")', {
+            $.get('@Url.Action("GetAllApps", "AppMarket")', {
                 appTypeId: appTypeId,
                 orderId: orderId,
                 searchText: $('#searchText').val(),
-                pageIndex: current_page === 0 ? 1 : current_page + 1,
+                pageIndex: current_page,
                 pageSize: 5
             }, function (responseText) {
                 var liTemplate = Handlebars.compile($("#li-template").html());

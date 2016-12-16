@@ -6,7 +6,7 @@
         <label>类目名称：</label>
         <input type="text" name="searchText" id="searchText" class="span2">
         <a class="btn" menu="search" href="javascript:;" style="margin-left:10px"><i class="icon-search"></i> 搜索</a>
-        <a class="btn btn-primary fr" href="javascript:openDetailIframe('@Url.Action("CreateNewAppType","App")');"><i class="icon-white icon-plus"></i> 创建新类目</a>
+        <a class="btn btn-primary fr" href="javascript:openDetailIframe('@Url.Action("CreateNewAppType","AppTypes")');"><i class="icon-white icon-plus"></i> 创建新类目</a>
     </div>
 </div>
 <table class="list-table">
@@ -47,7 +47,7 @@
                 {{Name}}
             </td>
             <td>
-                <a href="javascript:openDetailIframe('@Url.Action("CreateNewAppType","App")?appTypeId={{Id}}');" class="btn btn-link">编辑</a>
+                <a href="javascript:openDetailIframe('@Url.Action("CreateNewAppType","AppTypes")?appTypeId={{Id}}');" class="btn btn-link">编辑</a>
                 <a href="javascript:;" class="btn btn-link do-del" categoryid="{{Id}}">删除</a>
             </td>
         </tr>
@@ -56,23 +56,23 @@
 
 
     <script>
-        $(function() {
+        $(function () {
             //加载列表
-            getPageList(0);
+            getPageList(1);
             //删除
-            $('.list-con').on('click', '.do-del', function() {
+            $('.list-con').on('click', '.do-del', function () {
                 var categoryid = $(this).attr('categoryid');
                 var name = $(this).parent().prev().text();
                 $.dialog({
                     id: 'ajaxedit',
                     content: '删除 “' + name + '” 类目时，会将该类目下的所有应用归类到「未分类」类目下，是否继续？',
-                    ok: function() {
+                    ok: function () {
                         $.ajax({
                             type: 'POST',
-                            url: '@Url.Action("DeleteAppType", "App")',
+                            url: '@Url.Action("DeleteAppType", "AppTypes")',
                             data: { appTypeId: categoryid },
-                            success: function(msg) {
-                                getPageList(0);
+                            success: function (msg) {
+                                $('#pagination').trigger('currentPage');
                             }
                         });
                     },
@@ -80,8 +80,8 @@
                 });
             });
             //搜索
-            $('a[menu=search]').click(function() {
-                getPageList(0);
+            $('a[menu=search]').click(function () {
+                getPageList(1);
             });
         });
 
@@ -98,11 +98,11 @@
         }
 
         function getPageList(current_page) {
-            $.get('@Url.Action("GetAllAppTypes", "App")', {
-                pageIndex: current_page === 0 ? 1 : current_page + 1,
+            $.get('@Url.Action("GetAllAppTypes", "AppTypes")', {
+                pageIndex: current_page,
                 pageSize: 10,
                 searchText: $('#searchText').val()
-            }, function(responseText) {
+            }, function (responseText) {
 
                 var template = Handlebars.compile($('#li-template').html());
 

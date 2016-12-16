@@ -87,7 +87,7 @@
     <script>
         $(function () {
             //加载列表
-            getPageList(0);
+            getPageList(1);
             //删除
             $('.list-con').on('click', '.do-del', function () {
                 var memberid = $(this).attr('memberid');
@@ -110,7 +110,7 @@
             });
             //搜索
             $('a[menu=search]').click(function () {
-                getPageList(0);
+                getPageList(1);
             });
         });
 
@@ -131,7 +131,7 @@
             $.get('@Url.Action("GetAllAccounts", "Account")', {
                 accountName: $('#accountName').val(),
                 accountType: $('#accountType').val(),
-                pageIndex: current_page === 0 ? 1 : current_page + 1,
+                pageIndex: current_page,
                 pageSize: 5
             }, function (responseText) {
                 ZENG.msgbox._hide();

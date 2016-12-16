@@ -325,6 +325,28 @@ namespace NewCRM.Domain.Entitys.System
             return this;
         }
 
+        /// <summary>
+        /// 设置今日推荐
+        /// </summary>
+        /// <returns></returns>
+        public App SetTodayRecommandApp()
+        {
+            IsRecommand = true;
+
+            return this;
+        }
+
+        /// <summary>
+        /// 取消今日推荐
+        /// </summary>
+        /// <returns></returns>
+        public App CancelTodayRecommandApp()
+        {
+            IsRecommand = false;
+
+            return this;
+        }
+
         public void Remove()
         {
             IsDeleted = true;
