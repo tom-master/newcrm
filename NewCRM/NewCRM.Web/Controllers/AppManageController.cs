@@ -12,6 +12,9 @@ namespace NewCRM.Web.Controllers
     [Export]
     public class AppManageController : BaseController
     {
+
+        #region 页面
+
         // GET: AppManage
         public ActionResult Index()
         {
@@ -19,10 +22,12 @@ namespace NewCRM.Web.Controllers
 
             ViewData["AppStyles"] = AppApplicationServices.GetAllAppStyles().ToList();
 
-            ViewData["AppStates"] = AppApplicationServices.GetAllAppStates().Where(w=>w.Name== "未审核" || w.Name== "已发布").ToList();
+            ViewData["AppStates"] = AppApplicationServices.GetAllAppStates().Where(w => w.Name == "未审核" || w.Name == "已发布").ToList();
 
             return View();
         }
+
+        #endregion
 
 
         public ActionResult AppAudit(Int32 appId)
@@ -40,7 +45,6 @@ namespace NewCRM.Web.Controllers
             return View(appResult);
         }
 
-
         public ActionResult GetAllApps(String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize)
         {
             Int32 totalCount;
@@ -53,7 +57,6 @@ namespace NewCRM.Web.Controllers
                 totalCount
             }, JsonRequestBehavior.AllowGet);
         }
-
 
         public ActionResult Pass(Int32 appId)
         {
@@ -86,6 +89,13 @@ namespace NewCRM.Web.Controllers
                 {
                     success = 1
                 });
+        }
+
+        public ActionResult DeleteApp(Int32 appId)
+        {
+            AppApplicationServices.RemoveApp(appId);
+
+            return Json(new { sucess = 1 });
         }
     }
 }

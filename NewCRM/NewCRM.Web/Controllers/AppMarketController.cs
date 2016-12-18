@@ -211,6 +211,13 @@ namespace NewCRM.Web.Controllers
             });
         }
 
+        public ActionResult ReleaseApp(Int32 appId)
+        {
+            AppApplicationServices.ReleaseApp(appId);
+
+            return Json(new { success = 1 });
+        }
+
         #region private method
         /// <summary>
         /// 封装从页面传入的forms表单到AppDto类型

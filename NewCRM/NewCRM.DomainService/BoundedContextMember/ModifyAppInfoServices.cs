@@ -50,11 +50,11 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                 .ModifyIsFlash(app.IsFlash)
                 .ModifyAppRemake(app.Remark);
 
-            if (app.AppAuditState == AppAuditState.UnAuditState)//未审核
+            if (app.AppAuditState == AppAuditState.Wait)//未审核
             {
                 appResult.DontSentAudit();
             }
-            else if (app.AppAuditState == AppAuditState.Wait)
+            else if (app.AppAuditState == AppAuditState.UnAuditState)
             {
                 appResult.SentAudit();
             }

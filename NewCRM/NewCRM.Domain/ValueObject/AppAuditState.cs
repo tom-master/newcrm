@@ -7,7 +7,7 @@ namespace NewCRM.Domain.ValueObject
     /// </summary>
     public enum AppAuditState
     {
-        [Description("审核中")]
+        [Description("暂不审核")]
         Wait = 1,
         [Description("通过")]
         Pass = 2,

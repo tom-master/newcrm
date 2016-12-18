@@ -54,7 +54,6 @@
             </select>
             <label style="margin-left:10px">状态：</label>
             <select name="appState" id="appState" style="width: 140px">
-                <option value="0">全部</option>
                 @{
                     foreach (var appState in (List<AppStateDto>)ViewData["AppStates"])
                     {
@@ -128,7 +127,11 @@
                     <a href="javascript:;" class="btn btn-link do-recommend" appid="{{Id}}">设为今日推荐</a>
                 {{/recommand}}
                 <a href="javascript:openDetailIframe('@Url.Action("AccountAppManageInfo", "AppMarket")?appId={{Id}}');" class="btn btn-link">查看详情</a>
-                <a href="javascript:;" class="btn btn-link do-del" appid="{{Id}}">删除</a>
+                
+                {{#creater IsCreater true}}
+                    <a href="javascript:;" class="btn btn-link do-del" appid="{{Id}}">删除</a>
+                {{/creater}}
+                 
             </td>
             {{/compare}}
         </tr>
@@ -239,6 +242,15 @@
                 }
             });
 
+            Handlebars.registerHelper("creater", function (v1, v2, options) {
+                if (v1 === v2) {
+                    //满足添加继续执行
+                    return options.fn(this);
+                } else {
+                    //不满足条件执行{{else}}部分
+                    return options.inverse(this);
+                }
+            });
         }
     </script>
 }

@@ -142,7 +142,7 @@
             $('html').css({ 'overflow-y': 'hidden' });
 
             //加载列表
-            getPageList(1);
+            getPageList(0);
             //删除
             $('.list-con').on('click', '.do-del', function () {
                 var appid = $(this).attr('appid');
@@ -164,14 +164,14 @@
             });
             //搜索
             $('a[menu=search]').click(function () {
-                getPageList(1);
+                getPageList(0);
             });
         });
 
         function initPagination(current_page) {
             $('#pagination').pagination(parseInt($('#pagination_setting').attr('count')), {
                 current_page: current_page,
-                items_per_page: parseInt($('#pagination_setting').attr('per')),
+                items_per_page: 4,
                 num_display_entries: 9,
                 num_edge_entries: 2,
                 callback: getPageList,
@@ -180,11 +180,11 @@
             });
         }
 
-      
+
 
         function getPageList(current_page) {
             var $appStates = $('#appState').find("option:selected");
-            
+
             var appStateResult = '';
             if (parseInt($appStates.attr('value')) !== 0) {
                 appStateResult = $appStates.attr('data-type') + ',' + $appStates.attr('value');
@@ -196,7 +196,7 @@
                 appTypeId: $('#appType').find("option:selected").attr('value'),
                 appStyleId: $('#appStyle').find("option:selected").attr('value'),
                 appState: appStateResult,
-                pageIndex: current_page,
+                pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 4
             }, function (responseText) {
                 ZENG.msgbox.hide();

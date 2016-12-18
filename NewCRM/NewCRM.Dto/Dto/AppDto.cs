@@ -68,7 +68,6 @@ namespace NewCRM.Dto.Dto
         /// <summary>
         /// app分类
         /// </summary>
-      
         public String AppTypeName { get; set; }
 
         public String AddTime { get; set; }
@@ -86,6 +85,8 @@ namespace NewCRM.Dto.Dto
         public Int32 Height { get; set; }
 
         public Boolean IsRecommand { get; set; }
+
+        public Boolean IsCreater { get; set; }
 
         #endregion
     }

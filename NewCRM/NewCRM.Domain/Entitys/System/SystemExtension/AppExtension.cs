@@ -110,7 +110,7 @@ namespace NewCRM.Domain.Entitys.System
         /// <returns></returns>
         public App DontSentAudit()
         {
-            AppAuditState = AppAuditState.UnAuditState;
+            AppAuditState = AppAuditState.Wait;
             return this;
         }
 
@@ -120,7 +120,7 @@ namespace NewCRM.Domain.Entitys.System
         /// <returns></returns>
         public App SentAudit()
         {
-            AppAuditState = AppAuditState.Wait;
+            AppAuditState = AppAuditState.UnAuditState;
             return this;
         }
 

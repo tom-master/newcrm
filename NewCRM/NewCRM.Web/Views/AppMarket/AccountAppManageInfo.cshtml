@@ -6,7 +6,7 @@
 @{
     if (Model != null)
     {
-        if ((Int32)ViewData["AppState"] == 2 || (Int32)ViewData["AppState"] == 1)
+        if ((Int32)ViewData["AppState"] == 2)
         {
             <text>
                 @Html.Partial("~/Views/AppMarket/AccountAppManageDetail.cshtml", Model)
@@ -224,12 +224,12 @@
                         id: 'del',
                         content: '确认审核通过该应用？',
                         ok: function () {
-                            $.post('@Url.Action("Pass","AppManage")', { appId: appid }, function(responseText) {
+                            $.post('@Url.Action("Pass","AppManage")', { appId: appid }, function (responseText) {
                                 window.parent.closeDetailIframe(function () {
                                     window.parent.$('#pagination').trigger('currentPage');
                                 });
                             });
-                           
+
                         },
                         cancel: true
                     });
@@ -238,9 +238,25 @@
                     var appid = $(this).attr('appid');
                     $.dialog({
                         id: 'del',
-                        content: document.getElementById('unpassinfo'),
+                        content: '确认不通过该应用？',
                         ok: function () {
                             $.post('@Url.Action("Deny","AppManage")', { appId: appid }, function (responseText) {
+                                window.parent.closeDetailIframe(function () {
+                                    window.parent.$('#pagination').trigger('currentPage');
+                                });
+                            });
+                        },
+                        cancel: true
+                    });
+                });
+
+                $('#btn-release').on('click', function () {
+                    var appid = $(this).attr('appid');
+                    $.dialog({
+                        id: 'del',
+                        content: '确认发布该应用？',
+                        ok: function () {
+                            $.post('@Url.Action("ReleaseApp", "AppMarket")', { appId: appid }, function (responseText) {
                                 window.parent.closeDetailIframe(function () {
                                     window.parent.$('#pagination').trigger('currentPage');
                                 });

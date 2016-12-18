@@ -130,7 +130,6 @@ namespace NewCRM.Application.Interface
         /// <param name="pageSize"></param>
         /// <param name="totalCount"></param>
         /// <returns></returns>
-
         List<AppDto> GetAccountAllApps(
             Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex,
             Int32 pageSize,
@@ -153,7 +152,7 @@ namespace NewCRM.Application.Interface
         /// 删除指定的应用类型
         /// </summary>
         /// <param name="appTypeId"></param>
-        void DeleteAppType(Int32 appTypeId);
+        void RemoveAppType(Int32 appTypeId);
 
         /// <summary>
         /// 创建新的app类型
@@ -185,6 +184,18 @@ namespace NewCRM.Application.Interface
         /// </summary>
         /// <param name="appId"></param>
         void SetTodayRecommandApp(Int32 appId);
+
+        /// <summary>
+        /// 移除app
+        /// </summary>
+        /// <param name="appId"></param>
+        void RemoveApp(Int32 appId);
+
+        /// <summary>
+        /// 发布应用
+        /// </summary>
+        /// <param name="appId"></param>
+        void ReleaseApp(Int32 appId);
 
         #endregion
     }

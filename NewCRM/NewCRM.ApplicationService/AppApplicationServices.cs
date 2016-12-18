@@ -315,7 +315,7 @@ namespace NewCRM.Application.Services
                 appResult.Remark,
                 appResult.UseCount,
                 StartCount = CountAppStars(appResult),
-                AppType = appResult.AppType.Name,
+                AppTypeName = appResult.AppType.Name,
                 appResult.AddTime,
                 appResult.AccountId,
                 appResult.Id,
@@ -487,7 +487,8 @@ namespace NewCRM.Application.Services
                 app.Id,
                 app.IconUrl,
                 app.AppAuditState,
-                app.IsRecommand
+                app.IsRecommand,
+                IsCreater = app.AccountId == accountId
             }).ConvertDynamicToDtos<AppDto>().ToList();
 
         }
@@ -515,7 +516,7 @@ namespace NewCRM.Application.Services
             UnitOfWork.Commit();
         }
 
-        public void DeleteAppType(Int32 appTypeId)
+        public void RemoveAppType(Int32 appTypeId)
         {
             ValidateParameter.Validate(appTypeId);
 
@@ -593,6 +594,33 @@ namespace NewCRM.Application.Services
             UnitOfWork.Commit();
 
 
+        }
+
+        public void RemoveApp(Int32 appId)
+        {
+            var internalApp = Query.FindOne(FilterFactory.Create<App>(app => app.Id == appId));
+
+            if (internalApp.AppStars.Any())
+            {
+                internalApp.AppStars.ToList().ForEach(appStar => appStar.RemoveStar());
+            }
+
+            internalApp.Remove();
+
+            Repository.Create<App>().Update(internalApp);
+
+            UnitOfWork.Commit();
+        }
+
+        public void ReleaseApp(Int32 appId)
+        {
+            var internalApp = Query.FindOne(FilterFactory.Create<App>(app => app.Id == appId));
+
+            internalApp.Release();
+
+            Repository.Create<App>().Update(internalApp);
+
+            UnitOfWork.Commit();
         }
 
         #region private method

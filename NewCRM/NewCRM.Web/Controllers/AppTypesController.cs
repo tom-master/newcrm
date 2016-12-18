@@ -56,7 +56,7 @@ namespace NewCRM.Web.Controllers
 
         public ActionResult DeleteAppType(Int32 appTypeId)
         {
-            AppApplicationServices.DeleteAppType(appTypeId);
+            AppApplicationServices.RemoveAppType(appTypeId);
 
             return Json(new { sucess = 1 });
         }
