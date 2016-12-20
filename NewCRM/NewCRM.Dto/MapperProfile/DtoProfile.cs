@@ -22,11 +22,11 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(dto => dto.Roles, account => account.MapFrom(u => u.AccountRoles.Select(s => new RoleDto
                 {
                     Id = s.RoleId,
-                    Name=s.Role.Name,
+                    Name = s.Role.Name,
                     RoleIdentity = s.Role.RoleIdentity,
-                    Powers = s.Role.Powers.Select(power=>new PowerDto
+                    Powers = s.Role.Powers.Select(power => new PowerDto
                     {
-                        Id =power.Id
+                        Id = power.Id
                     }).ToList()
                 }).ToList()));
         }
@@ -134,6 +134,37 @@ namespace NewCRM.Dto.MapperProfile
         }
     }
 
+    internal class MemberDtoToMemberProfile : Profile
+    {
+        public MemberDtoToMemberProfile()
+        {
+            CreateMap<MemberDto, Member>()
+             .ForMember(member => member.Id, dto => dto.MapFrom(w => w.Id))
+             .ForMember(member => member.AppId, dto => dto.MapFrom(w => w.AppId))
+             .ForMember(member => member.Width, dto => dto.MapFrom(w => w.Width))
+             .ForMember(member => member.Height, dto => dto.MapFrom(w => w.Height))
+             .ForMember(member => member.FolderId, dto => dto.MapFrom(w => w.FolderId))
+             .ForMember(member => member.Name, dto => dto.MapFrom(w => w.Name))
+             .ForMember(member => member.IconUrl, dto => dto.MapFrom(w => w.IconUrl))
+             .ForMember(member => member.MemberType, dto => dto.MapFrom(w => EnumOp.ConvertEnum(typeof(MemberType), w.MemberType)))
+
+             .ForMember(member => member.IsOnDock, dto => dto.MapFrom(w => w.IsOnDock))
+             .ForMember(member => member.IsMax, dto => dto.MapFrom(w => w.IsMax))
+             .ForMember(member => member.IsFull, dto => dto.MapFrom(w => w.IsFull))
+             .ForMember(member => member.IsSetbar, dto => dto.MapFrom(w => w.IsSetbar))
+             .ForMember(member => member.IsOpenMax, dto => dto.MapFrom(w => w.IsOpenMax))
+             .ForMember(member => member.IsLock, dto => dto.MapFrom(w => w.IsLock))
+             .ForMember(member => member.IsFlash, dto => dto.MapFrom(w => w.IsFlash))
+             .ForMember(member => member.IsDraw, dto => dto.MapFrom(w => w.IsDraw))
+             .ForMember(member => member.IsResize, dto => dto.MapFrom(w => w.IsResize))
+
+             .ForMember(member => member.AppUrl, dto => dto.MapFrom(w => w.AppUrl));
+        }
+    }
+
+
+
+
     internal class AppTypeToAppTypeDtoProfile : Profile
     {
         public AppTypeToAppTypeDtoProfile()
@@ -174,7 +205,7 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(dto => dto.AddTime, app => app.MapFrom(w => w.AddTime.ToString("yyyy-MM-dd")))
                 .ForMember(dto => dto.AppAuditState, app => app.MapFrom(w => (Int32)w.AppAuditState))
                 .ForMember(dto => dto.AppReleaseState, app => app.MapFrom(w => (Int32)w.AppReleaseState))
-                .ForMember(dto => dto.IsRecommand, app => app.MapFrom(w =>w.IsRecommand));
+                .ForMember(dto => dto.IsRecommand, app => app.MapFrom(w => w.IsRecommand));
         }
     }
 

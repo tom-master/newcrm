@@ -47,6 +47,9 @@ namespace NewCRM.Dto
                 d.CreateMap<Member, MemberDto>();
                 d.AddProfile<MemberToMemberDtoProfile>();
 
+                d.CreateMap<MemberDto, Member>();
+                d.AddProfile<MemberDtoToMemberProfile>();
+
                 //AppType
                 d.CreateMap<AppType, AppTypeDto>();
                 d.AddProfile<AppTypeToAppTypeDtoProfile>();

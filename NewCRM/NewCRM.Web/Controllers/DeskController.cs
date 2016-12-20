@@ -87,7 +87,8 @@ namespace NewCRM.Web.Controllers
                 Height = Int32.Parse(forms["val_height"]),
                 IsResize = Int32.Parse(forms["val_isresize"]) == 1,
                 IsOpenMax = Int32.Parse(forms["val_isopenmax"]) == 1,
-                IsFlash = Int32.Parse(forms["val_isflash"]) == 1
+                IsFlash = Int32.Parse(forms["val_isflash"]) == 1,
+                MemberType = forms["membertype"]
             };
 
             DeskApplicationServices.ModifyMemberInfo(Account.Id, memberDto);

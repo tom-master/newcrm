@@ -267,7 +267,7 @@ namespace NewCRM.Application.Services
 
                 case 3:
                     {
-                        appSpecification.OrderByDescending(app => app.AppStars.Count);
+                        appSpecification.OrderByDescending(app => app.AppStars.Sum(s => s.StartNum) * 1.0);
                         break;
                     }
             }

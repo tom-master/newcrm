@@ -89,9 +89,10 @@ namespace NewCRM.Application.Services
             {
                 account.Id,
                 AccountType = account.IsAdmin ? "2" /*管理员*/ : "1" /*用户*/,
-                account.Name
+                account.Name,
+                account.Config.AccountFace
             }).ConvertDynamicToDtos<AccountDto>().ToList();
-          
+
         }
 
         public AccountDto GetAccount(Int32 accountId)
@@ -163,7 +164,7 @@ namespace NewCRM.Application.Services
             {
                 throw new BusinessException($"用户{account.Name}可能已被禁用或删除");
             }
-            
+
             if ((account.LoginPassword + "").Length > 0)
             {
                 var newPassword = PasswordUtil.CreateDbPassword(account.LoginPassword);

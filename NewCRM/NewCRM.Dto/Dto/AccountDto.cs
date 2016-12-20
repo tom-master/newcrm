@@ -29,6 +29,8 @@ namespace NewCRM.Dto.Dto
         [Required, StringLength(3)]
         public String AccountType { get; set; }
 
+        public String AccountFace { get; set; }
+
 
         /// <summary>
         /// 用户角色Id

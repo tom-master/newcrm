@@ -178,7 +178,7 @@
         function initPagination(current_page) {
             $('#pagination').pagination(parseInt($('#pagination_setting').attr('count')), {
                 current_page: current_page,
-                items_per_page: 4,
+                items_per_page: 7,
                 num_display_entries: 9,
                 num_edge_entries: 2,
                 callback: getPageList,
@@ -203,7 +203,7 @@
                 appStyleId: $('#appStyle').find("option:selected").attr('value'),
                 appState: appStateResult,
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
-                pageSize: 4
+                pageSize: 7
             }, function(responseText) {
 
                 ZENG.msgbox.hide();

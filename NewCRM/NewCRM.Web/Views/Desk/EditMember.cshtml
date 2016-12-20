@@ -9,6 +9,7 @@
 
 <form action="@Url.Action("ModifyMemberInfo","Desk")" method="post" name="form" id="form">
     <input type="hidden" name="id" value="@Model.Id">
+    <input type="hidden" name="membertype" value="@Model.MemberType" />
     <div class="creatbox">
         <div class="middle">
             <div class="input-label">

@@ -42,7 +42,7 @@ namespace NewCRM.Dto.Dto
         /// <summary>
         /// app地址
         /// </summary>
-        [Required]
+        [Required(AllowEmptyStrings = true)]
         public String AppUrl { get; set; }
 
         /// <summary>
