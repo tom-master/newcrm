@@ -75,5 +75,34 @@ namespace NewCRM.Application.Interface
         /// </summary>
         /// <param name="account"></param>
         void ModifyAccount(AccountDto account);
+
+        /// <summary>
+        /// 修改账户头像
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="newFace"></param>
+        void ModifyAccountFace(Int32 accountId, String newFace);
+
+        /// <summary>
+        /// 检查密码
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="oldAccountPassword"></param>
+        /// <returns></returns>
+        Boolean CheckPassword(Int32 accountId, String oldAccountPassword);
+
+        /// <summary>
+        /// 修改账户密码
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="newPassword"></param>
+        void ModifyPassword(Int32 accountId, String newPassword);
+
+        /// <summary>
+        /// 修改锁屏密码
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="newScreenPassword"></param>
+        void ModifyLockScreenPassword(Int32 accountId, String newScreenPassword);
     }
 }

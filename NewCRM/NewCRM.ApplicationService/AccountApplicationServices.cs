@@ -148,7 +148,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountName);
 
-            return Query.Find(FilterFactory.Create<Account>(account => account.Name == accountName)).Any();
+            return !Query.Find(FilterFactory.Create<Account>(account => account.Name == accountName)).Any();
 
         }
 
@@ -227,6 +227,46 @@ namespace NewCRM.Application.Services
             }
 
             accountResult.Disable();
+
+            Repository.Create<Account>().Update(accountResult);
+
+            UnitOfWork.Commit();
+        }
+
+        public void ModifyAccountFace(Int32 accountId, String newFace)
+        {
+            var account = GetAccountInfoService(accountId);
+
+            account.Config.ModifyAccountFace(newFace);
+
+            Repository.Create<Account>().Update(account);
+
+            UnitOfWork.Commit();
+        }
+
+        public Boolean CheckPassword(Int32 accountId, String oldAccountPassword)
+        {
+            var accountResult = GetAccountInfoService(accountId);
+
+            return PasswordUtil.ComparePasswords(accountResult.LoginPassword, oldAccountPassword);
+        }
+
+        public void ModifyPassword(Int32 accountId, String newPassword)
+        {
+            var accountResult = GetAccountInfoService(accountId);
+
+            accountResult.ModifyPassword(PasswordUtil.CreateDbPassword(newPassword));
+
+            Repository.Create<Account>().Update(accountResult);
+
+            UnitOfWork.Commit();
+        }
+
+        public void ModifyLockScreenPassword(Int32 accountId, String newScreenPassword)
+        {
+            var accountResult = GetAccountInfoService(accountId);
+
+            accountResult.ModifyLockScreenPassword(PasswordUtil.CreateDbPassword(newScreenPassword));
 
             Repository.Create<Account>().Update(accountResult);
 

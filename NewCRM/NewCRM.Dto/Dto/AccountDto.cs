@@ -9,7 +9,7 @@ namespace NewCRM.Dto.Dto
         /// <summary>
         /// 用户名
         /// </summary>
-        [Required]
+        [Required(AllowEmptyStrings =true)]
         public String Name { get; set; }
 
         /// <summary>
@@ -23,10 +23,13 @@ namespace NewCRM.Dto.Dto
         [Required(AllowEmptyStrings = true)]
         public String Password { get; set; }
 
+        [Required(AllowEmptyStrings =true)]
+        public String LockScreenPassword { get; set; }
+
         /// <summary>
         /// 用户类型
         /// </summary>
-        [Required, StringLength(3)]
+        [Required(AllowEmptyStrings =true), StringLength(3)]
         public String AccountType { get; set; }
 
         public String AccountFace { get; set; }
@@ -36,5 +39,9 @@ namespace NewCRM.Dto.Dto
         /// 用户角色Id
         /// </summary>
         public List<RoleDto> Roles { get; set; }
+
+        public String AddTime { get; set; }
+
+        public String LastLoginTime { get; set; }
     }
 }

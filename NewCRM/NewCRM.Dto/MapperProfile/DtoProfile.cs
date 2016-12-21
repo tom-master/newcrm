@@ -19,6 +19,8 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(dto => dto.Id, account => account.MapFrom(u => u.Id))
                 .ForMember(dto => dto.AccountType, account => account.MapFrom(u => u.IsAdmin ? "管理员" : "用户"))
                 .ForMember(dto => dto.Password, account => account.MapFrom(u => u.LoginPassword))
+                .ForMember(dto => dto.AddTime, account => account.MapFrom(u => u.AddTime.ToString("yyyy-MM-dd HH:mm:ss")))
+                .ForMember(dto => dto.LastLoginTime, account => account.MapFrom(u => u.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")))
                 .ForMember(dto => dto.Roles, account => account.MapFrom(u => u.AccountRoles.Select(s => new RoleDto
                 {
                     Id = s.RoleId,

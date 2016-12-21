@@ -1,0 +1,23 @@
+﻿@using NewCRM.Dto.Dto
+@model AccountDto
+
+
+<div class="input-label">
+    <label class="label-text">用户名：</label>
+    <div class="label-box form-inline">@Model.Name</div>
+</div>
+<div class="input-label">
+    <label class="label-text">注册时间：</label>
+    <div class="label-box form-inline">@Model.AddTime</div>
+</div>
+<div class="input-label">
+    <label class="label-text">最近一次登录时间：</label>
+    <div class="label-box form-inline">
+        @Model.LastLoginTime
+        <a href="security.php" class="btn btn-link">如果不是你登录的，请及时修改密码</a>
+    </div>
+</div>
+<div class="input-label">
+    <label class="label-text">最近一次登录IP：</label>
+    <div class="label-box form-inline">安拉胡阿克巴</div>
+</div>

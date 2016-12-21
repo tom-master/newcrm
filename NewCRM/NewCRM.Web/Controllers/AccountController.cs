@@ -18,10 +18,11 @@ namespace NewCRM.Web.Controllers
             return View();
         }
 
+
         public ActionResult CreateNewAccount(Int32 accountId = 0)
         {
             if (accountId != 0)
-            { 
+            {
                 ViewData["Account"] = AccountApplicationServices.GetAccount(accountId);
             }
 
@@ -61,13 +62,11 @@ namespace NewCRM.Web.Controllers
             return Json(new { success = 1 });
         }
 
-
-
         public ActionResult CheckAccountNameExist(String param)
         {
-            var value = AccountApplicationServices.CheckAccountNameExist(param) ? 'y' : 'n';
+            var result = AccountApplicationServices.CheckAccountNameExist(param);
 
-            return Json(new { status = value });
+            return Json(result ? new { status = "y", info = "" } : new { status = "n", info = "用户名已存在" });
         }
 
         #region private method
