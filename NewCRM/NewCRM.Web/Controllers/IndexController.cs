@@ -90,10 +90,10 @@ namespace NewCRM.Web.Controllers
             return Json(new { data = skinName }, JsonRequestBehavior.AllowGet);
         }
 
-        ///// <summary>
-        ///// 初始化壁纸
-        ///// </summary>
-        ///// <returns></returns>
+        /// <summary>
+        /// 初始化壁纸
+        /// </summary>
+        /// <returns></returns>
         public ActionResult GetWallpaper()
         {
             var config = AccountApplicationServices.GetConfig(Account.Id);
@@ -111,10 +111,10 @@ namespace NewCRM.Web.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-        ///// <summary>
-        ///// 初始化应用码头
-        ///// </summary>
-        ///// <returns></returns>
+        /// <summary>
+        /// 初始化应用码头
+        /// </summary>
+        /// <returns></returns>
         public ActionResult GetDockPos()
         {
             var dockPos = AccountConfig.DockPosition;
@@ -122,10 +122,10 @@ namespace NewCRM.Web.Controllers
             return Json(new { data = dockPos }, JsonRequestBehavior.AllowGet);
         }
 
-        ///// <summary>
-        ///// 获取我的应用
-        ///// </summary>
-        ///// <returns></returns>
+        /// <summary>
+        /// 获取我的应用
+        /// </summary>
+        /// <returns></returns>
         public ActionResult GetAccountDeskMembers()
         {
             var app = AppApplicationServices.GetAccountDeskMembers(Account.Id);
@@ -133,21 +133,21 @@ namespace NewCRM.Web.Controllers
             return Json(new { app }, JsonRequestBehavior.AllowGet);
         }
 
-        ///// <summary>
-        ///// 获取用户头像
-        ///// </summary>
-        ///// <returns></returns>
+        /// <summary>
+        /// 获取用户头像
+        /// </summary>
+        /// <returns></returns>
         public ActionResult GetAccountFace()
         {
             return Json(new { data = AccountConfig.AccountFace }, JsonRequestBehavior.AllowGet);
         }
 
-        ///// <summary>
-        ///// 创建一个窗口
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <param name="type"></param>
-        ///// <returns></returns>
+        /// <summary>
+        /// 创建一个窗口
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public ActionResult CreateWindow(Int32 id = 0, String type = "")
         {
             var internalMemberResult = type == "folder" ? DeskApplicationServices.GetMember(Account.Id, id, true) : DeskApplicationServices.GetMember(Account.Id, id);

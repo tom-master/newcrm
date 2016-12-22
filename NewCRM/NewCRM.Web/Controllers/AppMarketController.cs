@@ -211,6 +211,11 @@ namespace NewCRM.Web.Controllers
             });
         }
 
+        /// <summary>
+        /// 审核通过后发布app
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <returns></returns>
         public ActionResult ReleaseApp(Int32 appId)
         {
             AppApplicationServices.ReleaseApp(appId);

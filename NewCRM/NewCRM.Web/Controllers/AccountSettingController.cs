@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Configuration;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
-using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
@@ -15,12 +10,17 @@ namespace NewCRM.Web.Controllers
     [Export]
     public class AccountSettingController : BaseController
     {
+        #region 页面
         public ActionResult Index()
         {
             return View(Account);
         }
+        #endregion
 
-
+        /// <summary>
+        ///上传账户头像
+        /// </summary>
+        /// <returns></returns>
         public ActionResult UploadFace()
         {
             if (Request.Files.Count != 0)
@@ -39,7 +39,11 @@ namespace NewCRM.Web.Controllers
             return Json(new { msg = "请上传一个图片" });
         }
 
-
+        /// <summary>
+        /// 修改账户登陆密码
+        /// </summary>
+        /// <param name="forms"></param>
+        /// <returns></returns>
         public ActionResult ModifyAccountPassword(FormCollection forms)
         {
             AccountApplicationServices.ModifyPassword(Account.Id, forms["password"]);
@@ -50,6 +54,11 @@ namespace NewCRM.Web.Controllers
             });
         }
 
+        /// <summary>
+        /// 修改锁屏密码
+        /// </summary>
+        /// <param name="forms"></param>
+        /// <returns></returns>
         public ActionResult ModifyLockScreenPassword(FormCollection forms)
         {
             AccountApplicationServices.ModifyLockScreenPassword(Account.Id, forms["lockpassword"]);
@@ -60,7 +69,11 @@ namespace NewCRM.Web.Controllers
             });
         }
 
-
+        /// <summary>
+        /// 检查旧密码和输入的密码是否一致
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
         public ActionResult CheckPassword(String param)
         {
 

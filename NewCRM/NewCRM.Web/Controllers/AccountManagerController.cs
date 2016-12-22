@@ -10,14 +10,13 @@ using NewCRM.Web.Controllers.ControllerHelper;
 namespace NewCRM.Web.Controllers
 {
     [Export]
-    public class AccountController : BaseController
+    public class AccountManagerController : BaseController
     {
         #region 页面
-        public ActionResult AccountManage()
+        public ActionResult Index()
         {
             return View();
         }
-
 
         public ActionResult CreateNewAccount(Int32 accountId = 0)
         {
@@ -33,6 +32,14 @@ namespace NewCRM.Web.Controllers
 
         #endregion
 
+        /// <summary>
+        /// 获取所有账户
+        /// </summary>
+        /// <param name="accountName"></param>
+        /// <param name="accountType"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         public ActionResult GetAllAccounts(String accountName, String accountType, Int32 pageIndex, Int32 pageSize)
         {
             Int32 totalCount;
@@ -46,6 +53,12 @@ namespace NewCRM.Web.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// 创建新账户
+        /// </summary>
+        /// <param name="forms"></param>
+        /// <param name="accountId"></param>
+        /// <returns></returns>
         public ActionResult NewAccount(FormCollection forms, Int32 accountId)
         {
             var accountDto = WapperAccountDto(forms);
@@ -62,6 +75,11 @@ namespace NewCRM.Web.Controllers
             return Json(new { success = 1 });
         }
 
+        /// <summary>
+        /// 检查账户名是否已经存在
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
         public ActionResult CheckAccountNameExist(String param)
         {
             var result = AccountApplicationServices.CheckAccountNameExist(param);

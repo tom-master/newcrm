@@ -42,6 +42,13 @@ namespace NewCRM.Web.Controllers
 
         #endregion
 
+        /// <summary>
+        /// 获取所有app类型
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="searchText"></param>
+        /// <returns></returns>
         public ActionResult GetAllAppTypes(Int32 pageIndex, Int32 pageSize, String searchText)
         {
             var appTypes = AppApplicationServices.GetAppTypes().Where(appType => searchText.Length == 0 || appType.Name.Contains(searchText)).OrderByDescending(d => d.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
@@ -54,6 +61,11 @@ namespace NewCRM.Web.Controllers
 
         }
 
+        /// <summary>
+        /// 删除app类型
+        /// </summary>
+        /// <param name="appTypeId"></param>
+        /// <returns></returns>
         public ActionResult DeleteAppType(Int32 appTypeId)
         {
             AppApplicationServices.RemoveAppType(appTypeId);
@@ -61,6 +73,12 @@ namespace NewCRM.Web.Controllers
             return Json(new { sucess = 1 });
         }
 
+        /// <summary>
+        /// 创建新的app类型
+        /// </summary>
+        /// <param name="forms"></param>
+        /// <param name="appTypeId"></param>
+        /// <returns></returns>
         public ActionResult NewAppType(FormCollection forms, Int32 appTypeId = 0)
         {
             var appTypeDto = WrapperAppTypeDto(forms);
@@ -76,6 +94,8 @@ namespace NewCRM.Web.Controllers
 
             return Json(new { success = 1 });
         }
+
+        #region private method
 
         /// <summary>
         /// 封装从页面传入的forms表单到AppTypeDto类型
@@ -97,5 +117,7 @@ namespace NewCRM.Web.Controllers
             return appTypeDto;
 
         }
+
+        #endregion
     }
 }

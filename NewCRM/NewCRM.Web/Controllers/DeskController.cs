@@ -11,7 +11,7 @@ namespace NewCRM.Web.Controllers
     [Export]
     public class DeskController : BaseController
     {
-
+        #region 页面
 
         // GET: Desks
         public ActionResult EditMember(Int32 memberId)
@@ -20,6 +20,10 @@ namespace NewCRM.Web.Controllers
 
             return View(memberResult);
         }
+
+        #endregion
+
+
 
         /// <summary>
         /// 桌面元素移动

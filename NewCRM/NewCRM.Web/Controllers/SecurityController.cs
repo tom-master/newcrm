@@ -71,6 +71,13 @@ namespace NewCRM.Web.Controllers
 
         #region 角色
 
+        /// <summary>
+        /// 获取所有的角色
+        /// </summary>
+        /// <param name="roleName"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         public ActionResult GetAllRoles(String roleName, Int32 pageIndex, Int32 pageSize)
         {
             var totalCount = 0;
@@ -80,6 +87,11 @@ namespace NewCRM.Web.Controllers
             return Json(new { roles, totalCount }, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// 移除角色
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
         public ActionResult RemoveRole(Int32 roleId)
         {
             SecurityApplicationServices.RemoveRole(roleId);
@@ -90,6 +102,12 @@ namespace NewCRM.Web.Controllers
             });
         }
 
+        /// <summary>
+        /// 添加角色
+        /// </summary>
+        /// <param name="forms"></param>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
         public ActionResult NewRole(FormCollection forms, Int32 roleId = 0)
         {
             if (roleId != 0)
@@ -107,6 +125,11 @@ namespace NewCRM.Web.Controllers
             });
         }
 
+        /// <summary>
+        /// 将权限附加到角色中
+        /// </summary>
+        /// <param name="forms"></param>
+        /// <returns></returns>
         public ActionResult AddPowerToRole(FormCollection forms)
         {
             Int32[] powerIds;

@@ -130,7 +130,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountSettingController.cs" />
-    <Compile Include="Controllers\AppManageController.cs" />
+    <Compile Include="Controllers\AppManagerController.cs" />
     <Compile Include="Controllers\AppMarketController.cs" />
     <Compile Include="Controllers\AppTypesController.cs" />
     <Compile Include="Controllers\ControllerHelper\BaseController.cs" />
@@ -139,7 +139,7 @@
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\DeskOptionsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AccountManagerController.cs" />
     <Compile Include="Filter\ErrorFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -762,8 +762,8 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
     <Content Include="Views\AppTypes\Index.cshtml" />
     <Content Include="Views\AppTypes\CreateNewAppType.cshtml" />
-    <Content Include="Views\AppManage\Index.cshtml" />
-    <Content Include="Views\AppManage\AppAudit.cshtml" />
+    <Content Include="Views\AppManager\Index.cshtml" />
+    <Content Include="Views\AppManager\AppAudit.cshtml" />
     <Content Include="Views\AccountSetting\Index.cshtml" />
     <Content Include="Views\AccountSetting\BaseInfo.cshtml" />
     <Content Include="Views\AccountSetting\ModifyFace.cshtml" />
@@ -771,8 +771,8 @@
     <None Include="Views\Security\CreateNewPower.cshtml" />
     <None Include="Views\Security\CreateNewRole.cshtml" />
     <None Include="Views\Security\PowerManage.cshtml" />
-    <Content Include="Views\Account\AccountManage.cshtml" />
-    <Content Include="Views\Account\CreateNewAccount.cshtml" />
+    <Content Include="Views\AccountManager\Index.cshtml" />
+    <Content Include="Views\AccountManager\CreateNewAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

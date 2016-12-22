@@ -164,7 +164,7 @@
             }).on('click', '.do-recommend', function() {
                 var appid = $(this).attr('appid');
 
-                $.post('@Url.Action("Recommend", "AppManage")', { appId: appid }, function(responseText) {
+                $.post('@Url.Action("Recommend", "AppManager")', { appId: appid }, function(responseText) {
                     $('#pagination').trigger('currentPage');
                 });
                 
@@ -196,7 +196,7 @@
                 appStateResult = $appStates.attr('data-type') + ',' + $appStates.attr('value');
             }
 
-            $.get('@Url.Action("GetAllApps", "AppManage")',
+            $.get('@Url.Action("GetAllApps", "AppManager")',
             {
                 searchText: $('#appName').val(),
                 appTypeId: $('#appType').find("option:selected").attr('value'),

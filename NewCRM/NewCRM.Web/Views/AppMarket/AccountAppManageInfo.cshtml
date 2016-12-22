@@ -18,7 +18,7 @@
             if ((Int32)ViewData["AppState"] == 4 || (Int32)ViewData["AppState"] == 3)
             {
                 <text>
-                    @Html.Partial("~/Views/AppManage/AppAudit.cshtml", Model)
+                    @Html.Partial("~/Views/AppManager/AppAudit.cshtml", Model)
                 </text>
             }
             else
@@ -224,7 +224,7 @@
                         id: 'del',
                         content: '确认审核通过该应用？',
                         ok: function () {
-                            $.post('@Url.Action("Pass","AppManage")', { appId: appid }, function (responseText) {
+                            $.post('@Url.Action("Pass","AppManager")', { appId: appid }, function (responseText) {
                                 window.parent.closeDetailIframe(function () {
                                     window.parent.$('#pagination').trigger('currentPage');
                                 });
@@ -240,7 +240,7 @@
                         id: 'del',
                         content: '确认不通过该应用？',
                         ok: function () {
-                            $.post('@Url.Action("Deny","AppManage")', { appId: appid }, function (responseText) {
+                            $.post('@Url.Action("Deny","AppManager")', { appId: appid }, function (responseText) {
                                 window.parent.closeDetailIframe(function () {
                                     window.parent.$('#pagination').trigger('currentPage');
                                 });

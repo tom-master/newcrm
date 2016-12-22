@@ -10,7 +10,7 @@ using NewCRM.Web.Controllers.ControllerHelper;
 namespace NewCRM.Web.Controllers
 {
     [Export]
-    public class AppManageController : BaseController
+    public class AppManagerController : BaseController
     {
 
         #region 页面
@@ -26,8 +26,6 @@ namespace NewCRM.Web.Controllers
 
             return View();
         }
-
-        #endregion
 
 
         public ActionResult AppAudit(Int32 appId)
@@ -45,6 +43,18 @@ namespace NewCRM.Web.Controllers
             return View(appResult);
         }
 
+        #endregion
+
+        /// <summary>
+        /// 获取所有的app
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <param name="appTypeId"></param>
+        /// <param name="appStyleId"></param>
+        /// <param name="appState"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         public ActionResult GetAllApps(String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize)
         {
             Int32 totalCount;
@@ -58,6 +68,11 @@ namespace NewCRM.Web.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// app审核通过
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <returns></returns>
         public ActionResult Pass(Int32 appId)
         {
             AppApplicationServices.Pass(appId);
@@ -69,6 +84,11 @@ namespace NewCRM.Web.Controllers
                 });
         }
 
+        /// <summary>
+        /// app审核不通过
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <returns></returns>
         public ActionResult Deny(Int32 appId)
         {
             AppApplicationServices.Deny(appId);
@@ -80,6 +100,11 @@ namespace NewCRM.Web.Controllers
                 });
         }
 
+        /// <summary>
+        /// 设置app为今日推荐
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <returns></returns>
         public ActionResult Recommend(Int32 appId)
         {
             AppApplicationServices.SetTodayRecommandApp(appId);
@@ -91,6 +116,11 @@ namespace NewCRM.Web.Controllers
                 });
         }
 
+        /// <summary>
+        /// 删除app
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <returns></returns>
         public ActionResult DeleteApp(Int32 appId)
         {
             AppApplicationServices.RemoveApp(appId);
