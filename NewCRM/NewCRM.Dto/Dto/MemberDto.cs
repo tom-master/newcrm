@@ -97,6 +97,8 @@ namespace NewCRM.Dto.Dto
         [Required]
         public String MemberType { get; set; }
 
+        public Int32 DeskId { get; set; }
+
         #endregion
     }
 }

@@ -8,14 +8,16 @@ namespace NewCRM.Domain.Entitys.System
 
         public Int32 AppId { get; private set; }
 
+        public virtual App App { get; set; }
+
         public Double StartNum { get; private set; }
 
-        public AppStar(Int32 accountId, Double startNum)
+        public AppStar(Int32 accountId, Double startNum):this()
         {
             AccountId = accountId;
             StartNum = startNum;
         }
 
-        public AppStar() { }
+        public AppStar() { AddTime = DateTime.Now; }
     }
 }

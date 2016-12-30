@@ -20,7 +20,10 @@ namespace NewCRM.Application.Services
     [Export(typeof(IWallpaperApplicationServices))]
     internal class WallpaperApplicationServices : BaseService, IWallpaperApplicationServices
     {
-        public List<WallpaperDto> GetWallpaper() => Query.Find(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
+        public List<WallpaperDto> GetWallpaper()
+        {
+            return Query.Find(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
+        }
 
 
         public void ModifyWallpaperMode(Int32 accountId, String newMode)
@@ -28,6 +31,8 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId).Validate(newMode);
 
             WallpaperContext.ModifyWallpaperServices.ModifyWallpaperMode(accountId, newMode);
+
+            UnitOfWork.Commit();
         }
 
         public void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId)
@@ -35,6 +40,8 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId).Validate(newWallpaperId);
 
             WallpaperContext.ModifyWallpaperServices.ModifyWallpaper(accountId, newWallpaperId);
+
+            UnitOfWork.Commit();
         }
 
         public Tuple<Int32, String> AddWallpaper(WallpaperDto wallpaperDto)
@@ -72,6 +79,8 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId).Validate(wallpaperId);
 
             WallpaperContext.ModifyWallpaperServices.RemoveWallpaper(accountId, wallpaperId);
+
+            UnitOfWork.Commit();
         }
 
         public async Task<Tuple<Int32, String>> AddWebWallpaper(Int32 accountId, String url)
@@ -104,6 +113,8 @@ namespace NewCRM.Application.Services
                     Md5 = wallpaperMd5,
                     ShortUrl = url
                 });
+
+                UnitOfWork.Commit();
 
                 return new Tuple<Int32, String>(wallpaperResult.Item1, wallpaperResult.Item2);
             }

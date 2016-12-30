@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
 using NewCRM.Domain.Entitys;
@@ -9,14 +10,14 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
 using NewCRM.Repository.UnitOfWorkProvide;
 
-namespace NewCRM.Repository.DataBaseProvider
+namespace NewCRM.Repository.DataBaseProvider.EF
 {
     /// <summary>
     /// EntityFramework仓储操作基类
     /// </summary>
     /// <typeparam name="T">动态实体类型</typeparam>
-    public abstract class EntityFrameworkProvider<T> : InternalImportUnitOfWork
-        , IRepository<T> where T : DomainModelBase, IAggregationRoot
+    public abstract class EntityFrameworkProvider<T> :
+       IRepository<T> where T : DomainModelBase, IAggregationRoot
     {
         private readonly Parameter _vaildateParameter;
 
@@ -27,6 +28,13 @@ namespace NewCRM.Repository.DataBaseProvider
 
 
         #region 属性
+
+
+        /// <summary>
+        /// 获取 仓储上下文的实例
+        /// </summary>
+        [Import]
+        protected IUnitOfWork UnitOfWork { get; set; }
 
         /// <summary>
         /// 获取 EntityFramework的数据仓储上下文

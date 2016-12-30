@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Linq;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContextMember;
 using NewCRM.Domain.Services.Service;
@@ -13,9 +14,9 @@ namespace NewCRM.Domain.Services.BoundedContextMember
     {
         public void Install(Int32 accountId, Int32 appId, Int32 deskNum)
         {
-            var accountResult = GetAccountInfoService(accountId);
+            var desks = GetDesks(accountId);
 
-            var realDeskId = GetRealDeskIdService(deskNum, accountResult.Config);
+            var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskNum).Id;
 
             var appResult = Query.FindOne(FilterFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release && app.Id == appId));
 
@@ -26,7 +27,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
             var newMember = new Member(appResult.Name, appResult.IconUrl, appResult.AppUrl, appResult.Id, appResult.Width, appResult.Height, appResult.IsLock, appResult.IsMax, appResult.IsFull, appResult.IsSetbar, appResult.IsOpenMax, appResult.IsFlash, appResult.IsDraw, appResult.IsResize);
 
-            foreach (var desk in accountResult.Config.Desks)
+            foreach (var desk in desks)
             {
                 if (desk.Id != realDeskId)
                 {

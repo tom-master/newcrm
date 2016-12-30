@@ -13,9 +13,9 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void MemberInDock(Int32 accountId, Int32 memberId)
         {
-            var accountConfig = GetAccountInfoService(accountId).Config;
+            var desks = GetDesks(accountId);
 
-            foreach (var desk in accountConfig.Desks)
+            foreach (var desk in desks)
             {
                 var memberResult = InternalDeskMember(memberId, desk);
 
@@ -32,11 +32,11 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void MemberOutDock(Int32 accountId, Int32 memberId, Int32 deskId)
         {
-            var accountConfig = GetAccountInfoService(accountId).Config;
+            var desks = GetDesks(accountId);
 
-            var realDeskId = GetRealDeskIdService(deskId, accountConfig);
+            var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
 
-            foreach (var desk in accountConfig.Desks)
+            foreach (var desk in desks)
             {
                 var memberResult = InternalDeskMember(memberId, desk);
 
@@ -53,9 +53,9 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void DockToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
         {
-            var configResult = GetAccountInfoService(accountId).Config;
+            var desks = GetDesks(accountId);
 
-            var desk = configResult.Desks.FirstOrDefault(c => c.DeskNumber == configResult.DefaultDeskNumber);
+            var desk = desks.FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
 
             InternalDeskMember(memberId, desk).OutDock().InFolder(folderId);
 
@@ -64,9 +64,9 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void FolderToDock(Int32 accountId, Int32 memberId)
         {
-            var configResult = GetAccountInfoService(accountId).Config;
+            var desks = GetDesks(accountId);
 
-            var desk = configResult.Desks.FirstOrDefault(c => c.DeskNumber == configResult.DefaultDeskNumber);
+            var desk = desks.FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
 
             InternalDeskMember(memberId, desk).InDock().OutFolder();
 
@@ -75,9 +75,9 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void DeskToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
         {
-            var accountConfig = GetAccountInfoService(accountId).Config;
+            var desks = GetDesks(accountId);
 
-            foreach (var desk in accountConfig.Desks)
+            foreach (var desk in desks)
             {
                 var memberResult = InternalDeskMember(memberId, desk);
 
@@ -94,11 +94,11 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void FolderToDesk(Int32 accountId, Int32 memberId, Int32 deskId)
         {
-            var accountConfig = GetAccountInfoService(accountId).Config;
+            var desks = GetDesks(accountId);
 
-            var realDeskId = GetRealDeskIdService(deskId, accountConfig);
+            var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
 
-            foreach (var desk in accountConfig.Desks)
+            foreach (var desk in desks)
             {
                 var memberResult = InternalDeskMember(memberId, desk);
 
@@ -122,9 +122,9 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void FolderToOtherFolder(Int32 accountId, Int32 memberId, Int32 folderId)
         {
-            var configResult = GetAccountInfoService(accountId).Config;
+            var desks = GetDesks(accountId);
 
-            var desk = configResult.Desks.FirstOrDefault(c => c.DeskNumber == configResult.DefaultDeskNumber);
+            var desk = desks.FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
 
             InternalDeskMember(memberId, desk).OutFolder().InFolder(folderId);
 
@@ -134,11 +134,12 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void DeskToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId)
         {
-            var accountConfig = GetAccountInfoService(accountId).Config;
+            var desks = GetDesks(accountId);
 
-            var realDeskId = GetRealDeskIdService(deskId, accountConfig);
+            var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
 
-            foreach (var desk in accountConfig.Desks)
+
+            foreach (var desk in desks)
             {
                 var memberResult = InternalDeskMember(memberId, desk);
 

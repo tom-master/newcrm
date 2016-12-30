@@ -39,6 +39,10 @@
       <HintPath>..\packages\EntityFramework.DynamicFilters.2.5.0\lib\net40\EntityFramework.DynamicFilters.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EntityFramework.Extended, Version=6.0.0.0, Culture=neutral, PublicKeyToken=05b7e29bdd433584, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.Extended.6.1.0.168\lib\net45\EntityFramework.Extended.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
@@ -46,11 +50,20 @@
     <Reference Include="NewCRM.Infrastructure">
       <HintPath>..\NewCRM.Infrastructure\bin\Debug\NewCRM.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StackExchange.Redis, Version=1.1.608.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackExchange.Redis.1.1.608\lib\net45\StackExchange.Redis.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -76,10 +89,13 @@
     </EmbeddedResource>
   </ItemGroup>-->
   <ItemGroup>
+    <Compile Include="DataBaseProvider\Redis\ICacheQueryProvider.cs" />
+    <Compile Include="DataBaseProvider\Redis\RedisConnectionHelp.cs" />
+    <Compile Include="DataBaseProvider\Redis\QueryProvider.cs" />
     <Compile Include="DefaultRepositoryFactory.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="DataBaseProvider\NewCrmBackSite.cs" />
-    <Compile Include="DataBaseProvider\QueryProvider.cs" />
+    <Compile Include="DataBaseProvider\EF\NewCrmBackSite.cs" />
+    <Compile Include="DataBaseProvider\EF\QueryProvider.cs" />
     <Compile Include="RepositoryImpl\Agent\TitleRepository.cs" />
     <Compile Include="RepositoryImpl\Agent\AccountRepository.cs" />
     <Compile Include="RepositoryImpl\Security\PowerRepository.cs" />
@@ -90,7 +106,7 @@
     <Compile Include="RepositoryImpl\System\LogRepository.cs" />
     <Compile Include="RepositoryImpl\System\OnlineRepository.cs" />
     <Compile Include="RepositoryImpl\System\WallpaperRepository.cs" />
-    <Compile Include="DataBaseProvider\EntityFrameworkProvider.cs" />
+    <Compile Include="DataBaseProvider\EF\EntityFrameworkProvider.cs" />
     <Compile Include="UnitOfWorkProvide\EFUnitOfWorkContext.cs" />
     <Compile Include="UnitOfWorkProvide\UnitOfWorkContextBase.cs" />
     <Compile Include="UnitOfWorkProvide\UnitOfWorkContextExtensions.cs" />

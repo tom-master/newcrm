@@ -94,7 +94,9 @@ namespace NewCRM.Domain.Entitys.System
         /// </summary>
         public Boolean IsResize { get; private set; }
 
-        public Int32 DeskId { get; set; }
+        public Int32 DeskId { get; private set; }
+        
+        public virtual Desk Desk { get; set; }
 
         /// <summary>
         /// 成员类型
@@ -136,7 +138,7 @@ namespace NewCRM.Domain.Entitys.System
             Boolean isOpenMax = default(Boolean),
             Boolean isFlash = default(Boolean),
             Boolean isDraw = default(Boolean),
-            Boolean isResize = default(Boolean))
+            Boolean isResize = default(Boolean)):this()
         {
             AppId = appId;
             Width = width > 800 ? 800 : width;
@@ -153,9 +155,10 @@ namespace NewCRM.Domain.Entitys.System
             IconUrl = iconUrl;
             AppUrl = appUrl;
             MemberType = appId == 0 ? MemberType.Folder : MemberType.App;
+
         }
 
-        public Member(String name, String iconUrl, Int32 appId)
+        public Member(String name, String iconUrl, Int32 appId):this()
         {
             AppId = appId;
             Width = 800;
@@ -168,7 +171,7 @@ namespace NewCRM.Domain.Entitys.System
         }
         public Member()
         {
-
+            AddTime = DateTime.Now;
         }
         #endregion
 

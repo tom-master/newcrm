@@ -59,7 +59,7 @@ namespace NewCRM.Web.Controllers
         {
             Int32 totalCount;
 
-            var appResults = AppApplicationServices.GetAccountAllApps(0, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
+            var appResults = AppApplicationServices.GetAccountAllApps(searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
 
             return Json(new
             {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Net;
 using NewCRM.Domain.Entitys.Agent;
@@ -14,6 +15,10 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
     [Export(typeof(IAccountContext))]
     internal class AccountContext : BaseService, IAccountContext
     {
+        [Import(typeof(Func<Int32, Account>))]
+        public Func<Int32, Account> Func { get; set; }
+
+
         [Import]
         public IModifyDeskMemberPostionServices ModifyAccountConfigServices { get; set; }
 
@@ -45,7 +50,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
 
         public void Logout(Int32 accountId)
         {
-            var accountResult = GetAccountInfoService(accountId);
+            var accountResult = Func(accountId);
 
             if (!accountResult.IsOnline)
             {
@@ -79,6 +84,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
 
         }
 
+     
         #endregion
     }
 }

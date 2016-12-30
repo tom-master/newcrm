@@ -13,9 +13,9 @@ namespace NewCRM.Domain.Services.BoundedContextMember
     {
         public void ModifyFolderInfo(String memberName, String memberIcon, Int32 memberId, Int32 accountId)
         {
-            var accountConfig = GetAccountInfoService(accountId).Config;
+            var desks = GetDesks(accountId);
 
-            foreach (var desk in accountConfig.Desks)
+            foreach (var desk in desks)
             {
                 var memberResult = InternalDeskMember(memberId, desk);
 
@@ -33,9 +33,9 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void ModifyMemberInfo(Int32 accountId, Member member)
         {
-            var accountResult = GetAccountInfoService(accountId);
+            var desks = GetDesks(accountId);
 
-            foreach (var desk in accountResult.Config.Desks)
+            foreach (var desk in desks)
             {
                 var memberResult = InternalDeskMember(member.Id, desk);
 
@@ -59,11 +59,11 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void RemoveMember(Int32 accountId, Int32 memberId)
         {
-            var accountConfig = GetAccountInfoService(accountId).Config;
+            var desks = GetDesks(accountId);
 
             App appResult = null;
 
-            foreach (var desk in accountConfig.Desks)
+            foreach (var desk in desks)
             {
                 var memberResult = InternalDeskMember(memberId, desk);
 
@@ -72,7 +72,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                     if (memberResult.MemberType == MemberType.Folder)
                     {
                         //移除文件夹中的内容
-                        foreach (var desk1 in accountConfig.Desks)
+                        foreach (var desk1 in desks)
                         {
                             desk1.Members.Where(d => d.FolderId == memberId).ToList().ForEach(m => m.Remove());
                         }

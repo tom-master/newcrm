@@ -121,7 +121,7 @@ namespace NewCRM.Domain.Entitys.System
 
         public virtual ICollection<AppStar> AppStars { get; private set; }
 
-        public virtual ICollection<AppRole> AppRoles { get; private set; }
+       // public virtual ICollection<AppRole> AppRoles { get; private set; }
 
         /// <summary>
         /// app类型
@@ -170,7 +170,7 @@ namespace NewCRM.Domain.Entitys.System
             Boolean isOpenMax = default(Boolean),
             Boolean isFlash = default(Boolean),
             Boolean isDraw = default(Boolean),
-            Boolean isResize = default(Boolean))
+            Boolean isResize = default(Boolean)):this()
         {
             Name = name;
             IconUrl = iconUrl;
@@ -202,13 +202,13 @@ namespace NewCRM.Domain.Entitys.System
             AppReleaseState = AppReleaseState.UnRelease;
             UseCount = 0;
             AppStars = new List<AppStar>();
-
+           // AppRoles = new List<AppRole>();
             IsRecommand = false;
         }
 
         public App()
         {
-
+            AddTime = DateTime.Now;
         }
         #endregion
     }

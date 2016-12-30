@@ -6,6 +6,7 @@ using NewCRM.Domain.Entitys.Security;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto.Dto;
+using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Dto.MapperProfile
 {
@@ -21,15 +22,16 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(dto => dto.Password, account => account.MapFrom(u => u.LoginPassword))
                 .ForMember(dto => dto.AddTime, account => account.MapFrom(u => u.AddTime.ToString("yyyy-MM-dd HH:mm:ss")))
                 .ForMember(dto => dto.LastLoginTime, account => account.MapFrom(u => u.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")))
+                .ForMember(dto => dto.LastModifyTime, account => account.MapFrom(u => u.LastModifyTime.ToString("yyyy-MM-dd HH:mm:ss")))
                 .ForMember(dto => dto.Roles, account => account.MapFrom(u => u.AccountRoles.Select(s => new RoleDto
                 {
-                    Id = s.RoleId,
-                    Name = s.Role.Name,
-                    RoleIdentity = s.Role.RoleIdentity,
-                    Powers = s.Role.Powers.Select(power => new PowerDto
-                    {
-                        Id = power.Id
-                    }).ToList()
+                    //Id = s.RoleId,
+                    //Name = s.Role.Name,
+                    //RoleIdentity = s.Role.RoleIdentity,
+                    //Powers = s.Role.Powers.Select(power => new PowerDto
+                    //{
+                    //    Id = power.Id
+                    //}).ToList()
                 }).ToList()));
         }
     }
@@ -43,7 +45,7 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(account => account.Name, dto => dto.MapFrom(d => d.Name))
                 .ForMember(account => account.Id, dto => dto.MapFrom(d => d.Id))
                 .ForMember(account => account.LoginPassword, dto => dto.MapFrom(d => d.Password))
-                .ForMember(account => account.IsAdmin, dto => dto.MapFrom(d => Int32.Parse(d.AccountType) == 2))
+                .ForMember(account => account.IsAdmin, dto => dto.MapFrom(d => d.AccountType == "管理员"))
                 .ForMember(account => account.AccountRoles, dto => dto.MapFrom(d => d.Roles));
         }
     }
@@ -66,12 +68,12 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(dto => dto.WallpaperWidth, config => config.MapFrom(c => c.Wallpaper.Width))
                 .ForMember(dto => dto.WallpaperHeigth, config => config.MapFrom(c => c.Wallpaper.Height))
                 .ForMember(dto => dto.WallpaperSource, config => config.MapFrom(c => c.Wallpaper.Source))
-                .ForMember(dto => dto.WallpaperMode, config => config.MapFrom(c => c.WallpaperMode))
-                .ForMember(dto => dto.Desks, account => account.MapFrom(u => u.Desks.Select(s => new DeskDto
-                {
-                    DeskNumber = s.DeskNumber,
-                    Id = s.Id
-                })));
+                .ForMember(dto => dto.WallpaperMode, config => config.MapFrom(c => c.WallpaperMode));
+            //.ForMember(dto => dto.Desks, account => account.MapFrom(u => u.Desks.Select(s => new DeskDto
+            //{
+            //    DeskNumber = s.DeskNumber,
+            //    Id = s.Id
+            //})));
 
         }
     }
@@ -132,7 +134,8 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(dto => dto.IsDraw, member => member.MapFrom(w => w.IsDraw))
                 .ForMember(dto => dto.IsResize, member => member.MapFrom(w => w.IsResize))
 
-                .ForMember(dto => dto.AppUrl, member => member.MapFrom(w => w.AppUrl));
+                .ForMember(dto => dto.AppUrl, member => member.MapFrom(w => w.AppUrl))
+                .ForMember(dto => dto.DeskId, member => member.MapFrom(w => w.DeskId));
         }
     }
 
@@ -160,12 +163,11 @@ namespace NewCRM.Dto.MapperProfile
              .ForMember(member => member.IsDraw, dto => dto.MapFrom(w => w.IsDraw))
              .ForMember(member => member.IsResize, dto => dto.MapFrom(w => w.IsResize))
 
-             .ForMember(member => member.AppUrl, dto => dto.MapFrom(w => w.AppUrl));
+             .ForMember(member => member.AppUrl, dto => dto.MapFrom(w => w.AppUrl))
+
+            .ForMember(member => member.DeskId, dto => dto.MapFrom(w => w.DeskId));
         }
     }
-
-
-
 
     internal class AppTypeToAppTypeDtoProfile : Profile
     {
@@ -248,7 +250,7 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(dto => dto.RoleIdentity, role => role.MapFrom(r => r.RoleIdentity))
                 .ForMember(dto => dto.Remark, role => role.MapFrom(r => r.Remark))
                 .ForMember(dto => dto.Id, role => role.MapFrom(r => r.Id))
-                .ForMember(dto => dto.Powers, role => role.MapFrom(r => r.Powers.Select(s => s.PowerId)));
+               /* .ForMember(dto => dto.Powers, role => role.MapFrom(r => r.Powers.Select(s => s.PowerId)))*/;
         }
     }
 
@@ -304,6 +306,28 @@ namespace NewCRM.Dto.MapperProfile
         {
             CreateMap<AccountRole, RoleDto>()
                 .ForMember(dto => dto.Id, accountRole => accountRole.MapFrom(role => role.RoleId));
+        }
+    }
+
+    internal class DeskToDeskDtoProfile : Profile
+    {
+        public DeskToDeskDtoProfile()
+        {
+            CreateMap<Desk, DeskDto>().ForMember(dto => dto.Id, desk => desk.MapFrom(d => d.Id))
+                .ForMember(dto => dto.DeskNumber, desk => desk.MapFrom(d => d.DeskNumber))
+                .ForMember(dto => dto.Members, desk => desk.MapFrom(d => d.Members))
+                .ForMember(dto => dto.AccountId, desk => desk.MapFrom(d => d.AccountId));
+        }
+    }
+
+    internal class DeskDtoToDeskProfile : Profile
+    {
+        public DeskDtoToDeskProfile()
+        {
+            CreateMap<DeskDto, Desk>().ForMember(desk => desk.Id, dto => dto.MapFrom(d => d.Id))
+                .ForMember(desk => desk.DeskNumber, dto => dto.MapFrom(d => d.DeskNumber))
+                .ForMember(desk => desk.Members, dto => dto.MapFrom(d => d.Members))
+                .ForMember(desk => desk.AccountId, dto => dto.MapFrom(d => d.AccountId));
         }
     }
 

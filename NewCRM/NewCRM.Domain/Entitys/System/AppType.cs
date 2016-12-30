@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace NewCRM.Domain.Entitys.System
 {
-    [Description("应用类型"),Serializable]
+    [Description("应用类型"), Serializable]
     public partial class AppType : DomainModelBase, IAggregationRoot
     {
         #region public proptery
@@ -16,6 +17,10 @@ namespace NewCRM.Domain.Entitys.System
         /// 备注
         /// </summary>
         public String Remark { get; private set; }
+
+
+        public virtual ICollection<App> Apps { get; set; }
+
         #endregion
 
         #region ctor
@@ -24,7 +29,7 @@ namespace NewCRM.Domain.Entitys.System
         /// </summary>
         /// <param name="name"></param>
         /// <param name="remark"></param>
-        public AppType(String name, String remark = default(String))
+        public AppType(String name, String remark = default(String)):this()
         {
             Name = name;
             Remark = remark;
@@ -32,7 +37,7 @@ namespace NewCRM.Domain.Entitys.System
 
         public AppType()
         {
-
+            AddTime = DateTime.Now;
         }
         #endregion
 

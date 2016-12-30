@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace NewCRM.Domain.Entitys.Agent
@@ -18,6 +19,9 @@ namespace NewCRM.Domain.Entitys.Agent
         /// </summary>
         public String Remark { get; private set; }
 
+
+        public virtual ICollection<Account> Accounts { get; set; }
+
         #endregion
 
         #region ctor
@@ -26,7 +30,7 @@ namespace NewCRM.Domain.Entitys.Agent
         /// </summary>
         /// <param name="name"></param>
         /// <param name="remark"></param>
-        public Title(String name, String remark = default(String))
+        public Title(String name, String remark = default(String)):this()
         {
             Name = name;
             Remark = remark; 
@@ -34,7 +38,7 @@ namespace NewCRM.Domain.Entitys.Agent
 
         public Title()
         {
-
+            AddTime = DateTime.Now;
         }
 
         #endregion

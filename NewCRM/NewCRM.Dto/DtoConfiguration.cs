@@ -78,6 +78,13 @@ namespace NewCRM.Dto
                 d.CreateMap<PowerDto, Power>();
                 d.AddProfile<PowerDtoToPowerProfile>();
 
+                //Desk
+                d.CreateMap<Desk, DeskDto>();
+                d.AddProfile<DeskToDeskDtoProfile>();
+
+                d.CreateMap<DeskDto, Desk>();
+                d.AddProfile<DeskDtoToDeskProfile>();
+
             });
 
             #region Member
@@ -188,6 +195,14 @@ namespace NewCRM.Dto
             where TModel : DomainModelBase
         {
             return Mapper.Map<IEnumerable<TModel>>(source);
+        }
+
+
+        public static TModel ConvertToModel<TDto, TModel>(this TDto source,TModel tt)
+             where TDto : BaseDto
+             where TModel : DomainModelBase
+        {
+            return Mapper.Map<TDto, TModel>(source, tt);
         }
 
         #endregion

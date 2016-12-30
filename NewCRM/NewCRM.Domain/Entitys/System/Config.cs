@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Domain.Entitys.System
@@ -60,13 +61,7 @@ namespace NewCRM.Domain.Entitys.System
         /// </summary>
         public virtual Wallpaper Wallpaper { get; private set; }
 
-        /// <summary>
-        /// 桌面
-        /// </summary>
-        public virtual ICollection<Desk> Desks { get; private set; }
-
         public  Int32 WallpaperId { get; set; }
-
 
         #endregion
 
@@ -82,9 +77,12 @@ namespace NewCRM.Domain.Entitys.System
             AppSize = 48;
             AppVerticalSpacing = 50;
             AppHorizontalSpacing = 50;
-            DefaultDeskNumber = 1; 
-
+            DefaultDeskNumber = 1;
+            AddTime = DateTime.Now;
         }
+
+
+       
         #endregion
     }
 }

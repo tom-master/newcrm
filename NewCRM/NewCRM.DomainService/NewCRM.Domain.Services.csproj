@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoundedContextMember\CreateNewFolder.cs" />
     <Compile Include="BoundedContextMember\ModifyAppTypeServices.cs" />
     <Compile Include="BoundedContext\App\AppContext.cs" />
     <Compile Include="BoundedContext\Desk\DeskContext.cs" />

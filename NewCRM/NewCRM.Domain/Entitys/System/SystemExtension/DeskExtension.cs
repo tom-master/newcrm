@@ -7,7 +7,7 @@ namespace NewCRM.Domain.Entitys.System
     {
         #region public method
 
-        public void AddMember(Member member)
+        public Desk AddMember(Member member)
         {
             if (member == null)
             {
@@ -15,6 +15,8 @@ namespace NewCRM.Domain.Entitys.System
             }
 
             Members.Add(member);
+
+            return this;
         }
 
         public void RemoveMember(Int32 memberId)

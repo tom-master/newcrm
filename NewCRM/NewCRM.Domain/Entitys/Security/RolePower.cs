@@ -18,13 +18,13 @@ namespace NewCRM.Domain.Entitys.Security
 
         #region ctor
 
-        public RolePower(Int32 roleId, Int32 powerId)
+        public RolePower(Int32 roleId, Int32 powerId):this()
         {
             RoleId = roleId;
             PowerId = powerId;
         }
 
-        public RolePower() { }
+        public RolePower() { AddTime = DateTime.Now; }
 
         /// <summary>
         /// 移除角色权限

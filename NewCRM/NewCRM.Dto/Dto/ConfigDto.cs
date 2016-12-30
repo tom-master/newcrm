@@ -79,10 +79,5 @@ namespace NewCRM.Dto.Dto
         [Required, StringLength(10)]
         public String WallpaperMode { get; set; }
 
-
-        /// <summary>
-        /// 桌面
-        /// </summary>
-        public List<DeskDto> Desks { get; set; }
     }
 }

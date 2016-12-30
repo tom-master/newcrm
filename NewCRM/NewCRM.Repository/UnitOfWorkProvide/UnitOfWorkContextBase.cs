@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
+using System.Threading;
 using NewCRM.Domain.Entitys;
 using NewCRM.Domain.UnitWork;
+using NewCRM.Repository.DataBaseProvider.Redis;
+using Newtonsoft.Json;
 
 namespace NewCRM.Repository.UnitOfWorkProvide
 {
@@ -14,6 +18,10 @@ namespace NewCRM.Repository.UnitOfWorkProvide
     /// </summary>
     public abstract class UnitOfWorkContextBase : IUnitOfWorkContext
     {
+
+        [Import]
+
+        private ICacheQueryProvider _cacheQueryProvider;
 
         /// <summary>
         /// 获取 当前使用的数据访问上下文对象
@@ -25,6 +33,24 @@ namespace NewCRM.Repository.UnitOfWorkProvide
         /// </summary>
         public Boolean IsCommitted { get; private set; }
 
+        private delegate void CacheNew();
+
+        private event CacheNew OnCacheNew;
+
+        private Boolean _isCacheNew = default(Boolean);
+
+
+        private void InternanCacheNew()
+        {
+            var temp = Interlocked.CompareExchange(ref OnCacheNew, null, null);
+
+            if (temp != null)
+            {
+                temp();
+            }
+        }
+
+
         /// <summary>
         ///     提交当前单元操作的结果
         /// </summary>
@@ -32,18 +58,29 @@ namespace NewCRM.Repository.UnitOfWorkProvide
         /// <returns></returns>
         public Int32 Commit(Boolean validateOnSaveEnabled = true)
         {
+
             if (IsCommitted)
             {
                 return 0;
             }
+
             try
             {
+
                 Int32 result = Context.SaveChanges(validateOnSaveEnabled);
+
                 IsCommitted = true;
+
+                if (_isCacheNew)
+                {
+                    InternanCacheNew();
+                }
+
                 return result;
             }
             catch (DbUpdateException e)
             {
+                Rollback();
                 if (e.InnerException != null && e.InnerException.InnerException is SqlException)
                 {
                     SqlException sqlEx = e.InnerException.InnerException as SqlException;
@@ -95,7 +132,17 @@ namespace NewCRM.Repository.UnitOfWorkProvide
             {
                 Context.Entry(entity).State = EntityState.Added;
             }
+
+
             IsCommitted = false;
+
+            _isCacheNew = true;
+
+            OnCacheNew += () =>
+            {
+                //SetCache(entity);
+            };
+
         }
 
         /// <summary>
@@ -113,6 +160,8 @@ namespace NewCRM.Repository.UnitOfWorkProvide
                 {
                     RegisterNew<T, TKey>(entity);
                 }
+
+
             }
             finally
             {
@@ -129,7 +178,20 @@ namespace NewCRM.Repository.UnitOfWorkProvide
         public void RegisterModified<T, TKey>(T entity) where T : DomainModelBase
         {
             Context.Update<T, TKey>(entity);
+
+
             IsCommitted = false;
+
+            var key = $"NewCRM:{typeof(T).Name}:{entity.Id}";
+
+            if (_cacheQueryProvider.KeyExists(key))
+            {
+                _cacheQueryProvider.KeyDelete(key);
+            }
+
+            entity.LastModifyTime = DateTime.Now;
+
+            // SetCache(entity);
         }
 
         /// <summary>
@@ -179,8 +241,13 @@ namespace NewCRM.Repository.UnitOfWorkProvide
             }
 
         }
+
+        private void SetCache<T>(T entity) where T : DomainModelBase
+        {
+            _cacheQueryProvider.StringSet($"NewCRM:{typeof(T).Name}:{entity.Id}", JsonConvert.SerializeObject(entity, Formatting.Indented, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            }));
+        }
     }
-
-
-   
 }

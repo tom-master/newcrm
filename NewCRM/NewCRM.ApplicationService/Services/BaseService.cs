@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using NewCRM.Domain.DomainQuery.Query;
 using NewCRM.Domain.DomainSpecification.Factory;
 using NewCRM.Domain.Entitys.Agent;
+using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Factory;
 using NewCRM.Domain.Interface.BoundedContext.Agent;
 using NewCRM.Domain.Interface.BoundedContext.App;
@@ -13,8 +15,7 @@ using NewCRM.Infrastructure.CommonTools.CustomHelper;
 
 namespace NewCRM.Application.Services.Services
 {
-
-    internal abstract class BaseService
+    internal class BaseService
     {
         [Import]
         protected IUnitOfWork UnitOfWork { get; set; }
@@ -59,9 +60,17 @@ namespace NewCRM.Application.Services.Services
         /// </summary>
         /// <param name="accountId"></param>
         /// <returns></returns>
-        internal Account GetAccountInfoService(Int32 accountId)
+        [Export(typeof(Func<Int32, Account>))]
+        public Account GetAccountInfoService(Int32 accountId)
         {
-            return Query.FindOne(FilterFactory.Create<Account>(account => account.Id == accountId));
+            return Query.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
+        }
+
+
+        [Export(typeof(Func<Int32, IEnumerable<Desk>>))]
+        protected IEnumerable<Desk> GetDesks(Int32 accountId)
+        {
+            return Query.Find(FilterFactory.Create((Desk d) => d.AccountId == accountId));
         }
     }
 }

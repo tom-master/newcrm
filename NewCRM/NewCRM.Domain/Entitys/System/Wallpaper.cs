@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using NewCRM.Domain.ValueObject;
 
@@ -51,6 +52,9 @@ namespace NewCRM.Domain.Entitys.System
         /// </summary>
         public String Md5 { get; private set; }
 
+
+        public virtual ICollection<Config> Configs { get; set; }
+
         #endregion
 
         #region ctor
@@ -66,7 +70,7 @@ namespace NewCRM.Domain.Entitys.System
         /// <param name="md5"></param>
         /// <param name="accountId"></param>
         /// <param name="wallpaperSource"></param>
-        public Wallpaper(String title, String url, String description, Int32 width, Int32 height, String md5, Int32 accountId = default(Int32), WallpaperSource wallpaperSource = default(WallpaperSource))
+        public Wallpaper(String title, String url, String description, Int32 width, Int32 height, String md5, Int32 accountId = default(Int32), WallpaperSource wallpaperSource = default(WallpaperSource)) : this()
         {
             Title = title;
             Url = url;
@@ -78,7 +82,7 @@ namespace NewCRM.Domain.Entitys.System
             Md5 = md5;
         }
 
-        public Wallpaper() { }
+        public Wallpaper() { AddTime = DateTime.Now; }
 
 
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using NewCRM.Domain.Entitys.Security;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.ValueObject;
 
@@ -81,7 +82,7 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <param name="name"></param>
         /// <param name="password"></param>
         /// <param name="accountType"></param>
-        public Account(String name, String password, AccountType accountType = default(AccountType))
+        public Account(String name, String password, AccountType accountType = default(AccountType)):this()
         {
             Name = name;
             LoginPassword = password;
@@ -95,7 +96,7 @@ namespace NewCRM.Domain.Entitys.Agent
         }
         public Account()
         {
-
+            AddTime = DateTime.Now;
         }
         #endregion
     }

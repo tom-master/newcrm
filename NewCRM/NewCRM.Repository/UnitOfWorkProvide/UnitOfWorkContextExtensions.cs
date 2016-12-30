@@ -8,7 +8,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 using NewCRM.Domain.Entitys;
 
-
 namespace NewCRM.Repository.UnitOfWorkProvide
 {
     /// <summary>
@@ -27,19 +26,24 @@ namespace NewCRM.Repository.UnitOfWorkProvide
                 try
                 {
                     DbEntityEntry<T> entry = dbContext.Entry(entity);
+                    
                     if (entry.State == EntityState.Detached)
                     {
                         dbSet.Attach(entity);
+
                         entry.State = EntityState.Modified;
                     }
                 }
                 catch (InvalidOperationException)
                 {
                     T oldEntity = dbSet.Find(entity.Id);
+
                     dbContext.Entry(oldEntity).CurrentValues.SetValues(entity);
                 }
             }
         }
+
+
 
         internal static void Update<T, TKey>(this DbContext dbContext, Expression<Func<T, Object>> propertyExpression, params T[] entities)
             where T : DomainModelBase
@@ -57,6 +61,7 @@ namespace NewCRM.Repository.UnitOfWorkProvide
                     foreach (var memberInfo in memberInfos)
                     {
                         entry.Property(memberInfo.Name).IsModified = true;
+
                     }
                 }
                 catch (InvalidOperationException)

@@ -1,28 +1,37 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Linq.Expressions;
 using NewCRM.Domain.DomainSpecification;
 using NewCRM.Domain.Entitys;
 using NewCRM.Domain.Repositories;
 using NewCRM.Domain.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Repository.UnitOfWorkProvide;
+using NewCRM.Repository.DataBaseProvider.Redis;
 
-namespace NewCRM.Repository.DataBaseProvider
+namespace NewCRM.Repository.DataBaseProvider.EF
 {
     /// <summary>
     /// 提供查询
     /// </summary>
     [Export(typeof(IDomainModelQueryProvider))]
-    internal class QueryProvider : InternalImportUnitOfWork, IDomainModelQueryProvider
+    internal class QueryProvider : IDomainModelQueryProvider
     {
+        [Import]
+        private ICacheQueryProvider _cacheQueryProvider;
+
         #region 仓储上下文的实例
 
 
         #endregion
 
         #region 属性
+
+        /// <summary>
+        /// 获取 仓储上下文的实例
+        /// </summary>
+        [Import]
+        protected IUnitOfWork UnitOfWork { get; set; }
 
         /// <summary>
         ///     获取 EntityFramework的数据仓储上下文
@@ -42,6 +51,8 @@ namespace NewCRM.Repository.DataBaseProvider
             }
         }
 
+        #endregion
+
         /// <summary>
         /// 查询
         /// </summary>
@@ -53,12 +64,21 @@ namespace NewCRM.Repository.DataBaseProvider
             return EfContext.Set<T, Int32>().Where(specification.Expression);
         }
 
-        public IQueryable<dynamic> Query<T>(Specification<T> selector, Expression<Func<T, dynamic>> selectorField) where T : DomainModelBase, IAggregationRoot
+        public T Query<T>(T entity) where T : DomainModelBase, IAggregationRoot
         {
-            return EfContext.Set<T, Int32>().Where(selector.Expression).Select(selectorField);
+
+            var key = $"NewCRM:{typeof(T).Name}:{entity.Id}";
+
+            var cacheValue = _cacheQueryProvider.StringGet<T>(key);
+
+            if (cacheValue == null)
+            {
+                var value = EfContext.Set<T, Int32>().FirstOrDefault(t => t.Id == entity.Id);
+
+                _cacheQueryProvider.StringSet(key, value);
+            }
+
+            return cacheValue;
         }
-
-        #endregion
-
     }
 }

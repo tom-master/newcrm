@@ -2,7 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using JsonNet.PrivateSettersContractResolvers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NewCRM.Domain.Entitys.Agent;
+using NewCRM.Domain.Entitys.System;
+using Newtonsoft.Json;
 
 namespace NewCRM.Repository.Test
 {
@@ -10,27 +16,84 @@ namespace NewCRM.Repository.Test
     public class UnitTest1
     {
 
+
+
         [TestMethod]
         public void TestMethod1()
         {
-            //IDictionary<String, String> cacheDictionary = new Dictionary<String, String>();
+            GetTypeClass<Desk>();
+        }
 
-            //for (int i = 0; i < 1000000; i++)
+        public T GetTypeClass<T>() where T : new()
+        {
+            T Tclass = new T();  //实例化一个 T 类对象
+                                 //获取该类类型  
+            System.Type t = Tclass.GetType();
+
+            //得到所有属性
+            System.Reflection.PropertyInfo[] propertyInfos = t.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).ToArray();
+
+            var a = propertyInfos.Where(w => w.GetAccessors(true).Any(ww => ww.IsVirtual));
+
+            //foreach (var propertyInfo in propertyInfos)
             //{
-            //    cacheDictionary.Add(new KeyValuePair<String, String>(Guid.NewGuid().ToString(), i.ToString()));
+            //    foreach (var methodInfo in propertyInfo.GetAccessors(true))
+            //    {
+            //        if (methodInfo.IsVirtual)
+            //        {
+            //            var a = propertyInfo;
+            //        }
+            //    }
             //}
 
-            //Stopwatch watch = new Stopwatch();
-
-            //watch.Start();
-
-            //var a = cacheDictionary.Where(w => w.Key.Contains("1")).ToList();
-
-            //watch.Stop();
-
-            //String time = watch.ElapsedMilliseconds.ToString();
-
+            return default(T);
         }
     }
+
+    public class AgentClass
+    {
+        public int agentID
+        {
+            get;
+            private set;
+        }
+        public int level
+        {
+            get;
+            private set;
+        }
+        public int blood
+        {
+            get;
+            private set;
+        }
+        public byte moveSpeed
+        {
+            get;
+            private set;
+        }
+        public int power
+        {
+            get;
+            private set;
+        }
+        public float attackInterval
+        {
+            get;
+            private set;
+        }
+        public byte characterType
+        {
+            get;
+            private set;
+        }
+        public byte campType
+        {
+            get;
+            private set;
+        }
+    }
+
+
 }
 

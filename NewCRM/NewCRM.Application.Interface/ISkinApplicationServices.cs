@@ -17,6 +17,6 @@ namespace NewCRM.Application.Interface
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="newSkin"></param>
-        void ModifySkin(Int32 accountId, String newSkin);
+        void ModifySkin(String newSkin);
     }
 }

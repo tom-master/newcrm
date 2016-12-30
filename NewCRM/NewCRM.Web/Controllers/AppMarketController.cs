@@ -25,11 +25,11 @@ namespace NewCRM.Web.Controllers
 
             ViewData["AppTypes"] = AppApplicationServices.GetAppTypes();
 
-            ViewData["TodayRecommendApp"] = AppApplicationServices.GetTodayRecommend(Account.Id);
+            ViewData["TodayRecommendApp"] = AppApplicationServices.GetTodayRecommend();
 
             ViewData["AccountName"] = Account.Name;
 
-            ViewData["AccountApp"] = AppApplicationServices.GetAccountDevelopAppCountAndNotReleaseAppCount(Account.Id);
+            ViewData["AccountApp"] = AppApplicationServices.GetAccountDevelopAppCountAndNotReleaseAppCount();
 
             return View();
         }
@@ -41,7 +41,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult AppDetail(Int32 appId)
         {
-            ViewData["IsInstallApp"] = AppApplicationServices.IsInstallApp(Account.Id, appId);
+            ViewData["IsInstallApp"] = AppApplicationServices.IsInstallApp(appId);
 
             ViewData["AccountName"] = Account.Name;
 
@@ -102,7 +102,7 @@ namespace NewCRM.Web.Controllers
         {
             Int32 totalCount;
 
-            var appResults = AppApplicationServices.GetAllApps(Account.Id, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
+            var appResults = AppApplicationServices.GetAllApps(appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
 
             return Json(new
             {
@@ -120,7 +120,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult ModifyAppStart(Int32 appId, Int32 starCount)
         {
 
-            AppApplicationServices.ModifyAppStar(Account.Id, appId, starCount);
+            AppApplicationServices.ModifyAppStar(appId, starCount);
             return Json(new { success = 1 });
         }
 
@@ -132,7 +132,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult InstallApp(Int32 appId, Int32 deskNum)
         {
-            AppApplicationServices.InstallApp(Account.Id, appId, deskNum);
+            AppApplicationServices.InstallApp(appId, deskNum);
             return Json(new { success = 1 });
         }
 
@@ -150,7 +150,7 @@ namespace NewCRM.Web.Controllers
         {
             Int32 totalCount;
 
-            var appResults = AppApplicationServices.GetAccountAllApps(Account.Id, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
+            var appResults = AppApplicationServices.GetAccountAllApps(searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
 
             return Json(new
             {
@@ -167,7 +167,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult ModifyAppInfo(FormCollection forms)
         {
             var appDto = WrapperAppDto(forms);
-            AppApplicationServices.ModifyAccountAppInfo(Account.Id, appDto);
+            AppApplicationServices.ModifyAccountAppInfo(appDto);
 
             return Json(new { success = 1 });
         }

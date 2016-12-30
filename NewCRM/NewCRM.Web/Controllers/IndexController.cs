@@ -1,6 +1,7 @@
 ﻿using NewCRM.Web.Controllers.ControllerHelper;
 using System;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -23,11 +24,11 @@ namespace NewCRM.Web.Controllers
 
             if (Request.Cookies["Account"] != null)
             {
-                AccountConfig = AccountApplicationServices.GetConfig(Int32.Parse(Request.Cookies["Account"].Value));
-
                 ViewData["Account"] = Account;
 
-                ViewData["AccountConfig"] = AccountConfig;
+                ViewData["AccountConfig"] = AccountConfig = AccountApplicationServices.GetConfig();
+
+                ViewData["Desks"] = Desks = AccountApplicationServices.GetDesks();
 
                 return View();
             }
@@ -96,7 +97,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult GetWallpaper()
         {
-            var config = AccountApplicationServices.GetConfig(Account.Id);
+            var config = AccountConfig;
 
             return Json(new
             {
@@ -128,7 +129,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult GetAccountDeskMembers()
         {
-            var app = AppApplicationServices.GetAccountDeskMembers(Account.Id);
+            var app = AppApplicationServices.GetAccountDeskMembers();
 
             return Json(new { app }, JsonRequestBehavior.AllowGet);
         }
@@ -150,7 +151,11 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult CreateWindow(Int32 id = 0, String type = "")
         {
-            var internalMemberResult = type == "folder" ? DeskApplicationServices.GetMember(Account.Id, id, true) : DeskApplicationServices.GetMember(Account.Id, id);
+            var members = Desks.SelectMany((a, b) => a.Members);
+
+
+            var internalMemberResult = type == "folder" ? DeskApplicationServices.GetMember(id, true)
+                : DeskApplicationServices.GetMember(id);
 
             return Json(new
             {

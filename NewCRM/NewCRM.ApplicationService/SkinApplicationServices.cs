@@ -7,12 +7,25 @@ using System.Text.RegularExpressions;
 using NewCRM.Application.Interface;
 using NewCRM.Application.Services.Services;
 using NewCRM.Domain.Entitys.Agent;
+using NewCRM.Dto.Dto;
 
 namespace NewCRM.Application.Services
 {
     [Export(typeof(ISkinApplicationServices))]
     internal class SkinApplicationServices : BaseService, ISkinApplicationServices
     {
+        private readonly Int32 _accountId;
+
+        [ImportingConstructor]
+        public SkinApplicationServices([Import(typeof(AccountDto))] AccountDto account)
+        {
+            if (account != null)
+            {
+                _accountId = account.Id;
+            }
+        }
+
+
         public IDictionary<String, dynamic> GetAllSkin(String skinPath)
         {
             ValidateParameter.Validate(skinPath);
@@ -31,14 +44,14 @@ namespace NewCRM.Application.Services
             });
 
             return dataDictionary;
-             
+
         }
 
-        public void ModifySkin(Int32 accountId, String newSkin)
+        public void ModifySkin(String newSkin)
         {
-            ValidateParameter.Validate(accountId).Validate(newSkin);
+            ValidateParameter.Validate(_accountId).Validate(newSkin);
 
-            var accountResult = GetAccountInfoService(accountId);
+            var accountResult = GetAccountInfoService(_accountId);
 
             accountResult.Config.ModifySkin(newSkin);
 

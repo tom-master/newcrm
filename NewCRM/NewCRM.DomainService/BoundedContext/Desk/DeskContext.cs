@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using NewCRM.Domain.Interface.BoundedContext.Desk;
 using NewCRM.Domain.Interface.BoundedContextMember;
 
@@ -15,5 +16,10 @@ namespace NewCRM.Domain.Services.BoundedContext.Desk
 
         [Import]
         public IModifyDockPostionServices ModifyDockPostionServices { get; set; }
+
+        [Import]
+        public ICreateNewFolder CreateNewFolder { get; set; }
+
+      
     }
 }

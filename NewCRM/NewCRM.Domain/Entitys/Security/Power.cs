@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace NewCRM.Domain.Entitys.Security
@@ -25,6 +26,8 @@ namespace NewCRM.Domain.Entitys.Security
         /// </summary>
         public Int32? ParentId { get; private set; }
 
+
+
         #endregion
 
         #region ctor
@@ -36,7 +39,7 @@ namespace NewCRM.Domain.Entitys.Security
         /// <param name="powerIdentity"></param>
         /// <param name="remark"></param>
         /// <param name="parentId"></param>
-        public Power(String name, String powerIdentity, String remark = default(String), Int32? parentId = null)
+        public Power(String name, String powerIdentity, String remark = default(String), Int32? parentId = null):this()
         {
             Name = name;
 
@@ -48,7 +51,7 @@ namespace NewCRM.Domain.Entitys.Security
         }
         public Power()
         {
-
+            AddTime = DateTime.Now;
         }
         #endregion
 

@@ -18,13 +18,13 @@ namespace NewCRM.Domain.Entitys.Agent
 
         #region ctor
 
-        public AccountRole(Int32 accountId, Int32 roleId)
+        public AccountRole(Int32 accountId, Int32 roleId):this()
         {
             AccountId = accountId;
             RoleId = roleId;
         }
 
-        public AccountRole() { }
+        public AccountRole() { AddTime = DateTime.Now; }
 
         public void Remove()
         {

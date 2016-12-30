@@ -13,7 +13,6 @@ namespace NewCRM.Web.Controllers
     public class DeskOptionsController : BaseController
     {
 
-
         #region 页面
 
         // //// GET: PlatformSetting
@@ -185,7 +184,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifySkin(String skin = "")
         {
-            SkinApplicationServices.ModifySkin(Account.Id, skin);
+            SkinApplicationServices.ModifySkin(skin);
 
             return Json(new { success = 1 });
         }
@@ -197,7 +196,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyDefaultDesk(Int32 deskNum)
         {
-            DeskApplicationServices.ModifyDefaultDeskNumber(Account.Id, deskNum);
+            DeskApplicationServices.ModifyDefaultDeskNumber(deskNum);
 
             return Json(new { success = 1 });
         }
@@ -209,7 +208,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyAppXy(String appXy)
         {
-            AppApplicationServices.ModifyAppDirection(Account.Id, appXy);
+            AppApplicationServices.ModifyAppDirection(appXy);
 
             return Json(new { success = 1 });
         }
@@ -221,7 +220,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyAppSize(Int32 appSize)
         {
-            AppApplicationServices.ModifyAppIconSize(Account.Id, appSize);
+            AppApplicationServices.ModifyAppIconSize(appSize);
 
             return Json(new { success = 1 });
         }
@@ -233,7 +232,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyAppVertical(Int32 appVertical)
         {
-            AppApplicationServices.ModifyAppVerticalSpacing(Account.Id, appVertical);
+            AppApplicationServices.ModifyAppVerticalSpacing(appVertical);
 
             return Json(new { success = 1 });
         }
@@ -245,7 +244,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyAppHorizontal(Int32 appHorizontal)
         {
-            AppApplicationServices.ModifyAppHorizontalSpacing(Account.Id, appHorizontal);
+            AppApplicationServices.ModifyAppHorizontalSpacing(appHorizontal);
 
             return Json(new { success = 1 });
         }
@@ -258,7 +257,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyDockPosition(String pos = "", Int32 deskNum = 0)
         {
-            DeskApplicationServices.ModifyDockPosition(Account.Id, deskNum, pos);
+            DeskApplicationServices.ModifyDockPosition(deskNum, pos);
 
             return Json(new { success = 1 });
         }

@@ -26,13 +26,13 @@ namespace NewCRM.Domain.Entitys.System
         /// </summary>
         /// <param name="ipAddress"></param>
         /// <param name="accountId"></param>
-        public Online(String ipAddress, Int32 accountId)
+        public Online(String ipAddress, Int32 accountId):this()
         {
             IpAddress = ipAddress;
             AccountId = accountId;
         }
 
-        public Online() { }
+        public Online() { AddTime = DateTime.Now; }
 
 
         #endregion

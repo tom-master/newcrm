@@ -18,26 +18,26 @@ namespace NewCRM.Application.Interface
         /// 用户登出
         /// </summary>
         /// <param name="accountId"></param>
-        void Logout(Int32 accountId);
+        void Logout();
 
         /// <summary>
         /// 用户启用
         /// </summary>
         /// <param name="accountId"></param>
-        void Enable(Int32 accountId);
+        void Enable();
 
         /// <summary>
         /// 用户禁用
         /// </summary>
         /// <param name="accountId"></param>
-        void Disable(Int32 accountId);
+        void Disable();
 
         /// <summary>
         /// 获取登陆用户的配置文件
         /// </summary>
         /// <param name="accountId"></param>
         /// <returns></returns>
-        ConfigDto GetConfig(Int32 accountId);
+        ConfigDto GetConfig();
 
         /// <summary>
         /// 获取全部的用户
@@ -55,7 +55,7 @@ namespace NewCRM.Application.Interface
         /// </summary>
         /// <param name="accountId"></param>
         /// <returns></returns>
-        AccountDto GetAccount(Int32 accountId);
+        AccountDto GetAccount();
 
         /// <summary>
         /// 添加新的用户
@@ -81,7 +81,7 @@ namespace NewCRM.Application.Interface
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="newFace"></param>
-        void ModifyAccountFace(Int32 accountId, String newFace);
+        void ModifyAccountFace(String newFace);
 
         /// <summary>
         /// 检查密码
@@ -89,20 +89,22 @@ namespace NewCRM.Application.Interface
         /// <param name="accountId"></param>
         /// <param name="oldAccountPassword"></param>
         /// <returns></returns>
-        Boolean CheckPassword(Int32 accountId, String oldAccountPassword);
+        Boolean CheckPassword(String oldAccountPassword);
 
         /// <summary>
         /// 修改账户密码
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="newPassword"></param>
-        void ModifyPassword(Int32 accountId, String newPassword);
+        void ModifyPassword(String newPassword);
 
         /// <summary>
         /// 修改锁屏密码
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="newScreenPassword"></param>
-        void ModifyLockScreenPassword(Int32 accountId, String newScreenPassword);
+        void ModifyLockScreenPassword(String newScreenPassword);
+
+        IEnumerable<DeskDto> GetDesks();
     }
 }

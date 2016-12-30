@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using System.Web.Mvc;
 using NewCRM.Application.Interface;
 using NewCRM.Dto.Dto;
-
 namespace NewCRM.Web.Controllers.ControllerHelper
 {
 
@@ -32,12 +32,16 @@ namespace NewCRM.Web.Controllers.ControllerHelper
         /// <summary>
         /// 当前登陆的账户
         /// </summary>
+        [Export(typeof(AccountDto))]
         protected static AccountDto Account { get; set; }
+
 
         /// <summary>
         /// 当前用户的配置
         /// </summary>
         protected static ConfigDto AccountConfig { get; set; }
+
+        protected static IEnumerable<DeskDto> Desks { get; set; }
 
         /// <summary>
         /// 权限判断

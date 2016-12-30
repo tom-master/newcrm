@@ -12,35 +12,35 @@ namespace NewCRM.Application.Interface
         /// </summary>
         /// <param name="accountId"></param>
         /// <returns></returns>
-        IDictionary<String, IList<dynamic>> GetAccountDeskMembers(Int32 accountId);
+        IDictionary<String, IList<dynamic>> GetAccountDeskMembers();
 
         /// <summary>
         /// 修改app排列方向
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="direction"></param>
-        void ModifyAppDirection(Int32 accountId, String direction);
+        void ModifyAppDirection(String direction);
 
         /// <summary>
         /// 修改app图标大小
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="newSize"></param>
-        void ModifyAppIconSize(Int32 accountId, Int32 newSize);
+        void ModifyAppIconSize(Int32 newSize);
 
         /// <summary>
         /// 修改app垂直间距
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="newSize"></param>
-        void ModifyAppVerticalSpacing(Int32 accountId, Int32 newSize);
+        void ModifyAppVerticalSpacing(Int32 newSize);
 
         /// <summary>
         /// 修改app水平间距
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="newSize"></param>
-        void ModifyAppHorizontalSpacing(Int32 accountId, Int32 newSize);
+        void ModifyAppHorizontalSpacing(Int32 newSize);
 
         /// <summary>
         /// 获取所有的app类型
@@ -52,14 +52,14 @@ namespace NewCRM.Application.Interface
         /// 获取今日推荐
         /// </summary>
         /// <returns></returns>
-        TodayRecommendAppDto GetTodayRecommend(Int32 accountId);
+        TodayRecommendAppDto GetTodayRecommend();
 
         /// <summary>
         /// 获取用户开发的app和未发布的app
         /// </summary>
         /// <param name="accountId"></param>
         /// <returns></returns>
-        Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount(Int32 accountId);
+        Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount();
 
         /// <summary>
         /// 获取所有的app
@@ -72,7 +72,7 @@ namespace NewCRM.Application.Interface
         /// <param name="pageSize"></param>
         /// <param name="totalCount"></param>
         /// <returns></returns>
-        List<AppDto> GetAllApps(Int32 accountId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
+        List<AppDto> GetAllApps(Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
 
         /// <summary>
         /// 根据appId获取App
@@ -87,7 +87,7 @@ namespace NewCRM.Application.Interface
         /// <param name="accountId"></param>
         /// <param name="appId"></param>
         /// <param name="starCount"></param>
-        void ModifyAppStar(Int32 accountId, Int32 appId, Int32 starCount);
+        void ModifyAppStar(Int32 appId, Int32 starCount);
 
         /// <summary>
         /// 安装app
@@ -95,7 +95,7 @@ namespace NewCRM.Application.Interface
         /// <param name="accountId"></param>
         /// <param name="appId"></param>
         /// <param name="deskNum"></param>
-        void InstallApp(Int32 accountId, Int32 appId, Int32 deskNum);
+        void InstallApp(Int32 appId, Int32 deskNum);
 
         /// <summary>
         /// 当前用户是否安装了这个app
@@ -103,7 +103,7 @@ namespace NewCRM.Application.Interface
         /// <param name="accountId"></param>
         /// <param name="appId"></param>
         /// <returns></returns>
-        Boolean IsInstallApp(Int32 accountId, Int32 appId);
+        Boolean IsInstallApp(Int32 appId);
 
         /// <summary>
         /// 获取所有的app样式
@@ -131,7 +131,7 @@ namespace NewCRM.Application.Interface
         /// <param name="totalCount"></param>
         /// <returns></returns>
         List<AppDto> GetAccountAllApps(
-            Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex,
+             String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex,
             Int32 pageSize,
             out Int32 totalCount);
 
@@ -140,7 +140,7 @@ namespace NewCRM.Application.Interface
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="appDto"></param>
-        void ModifyAccountAppInfo(Int32 accountId, AppDto appDto);
+        void ModifyAccountAppInfo(AppDto appDto);
 
         /// <summary>
         /// 开发者（用户）创建新的app
@@ -196,6 +196,7 @@ namespace NewCRM.Application.Interface
         /// </summary>
         /// <param name="appId"></param>
         void ReleaseApp(Int32 appId);
+ 
 
         #endregion
     }

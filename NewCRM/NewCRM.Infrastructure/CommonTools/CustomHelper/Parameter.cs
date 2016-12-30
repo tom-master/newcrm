@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
@@ -25,6 +26,11 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
             }
 
             if (vaildateParameter is String)
+            {
+                return this;
+            }
+
+            if (vaildateParameter.GetType().IsAssignableToGenericType(typeof(IEnumerable<>)))
             {
                 return this;
             }

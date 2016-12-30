@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Interface.BoundedContextMember;
@@ -23,5 +24,6 @@ namespace NewCRM.Domain.Interface.BoundedContext.Agent
         /// </summary>
         /// <param name="accountId"></param>
         void Logout(Int32 accountId);
+
     }
 }

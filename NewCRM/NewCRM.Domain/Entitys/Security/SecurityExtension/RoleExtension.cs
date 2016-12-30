@@ -130,7 +130,6 @@ namespace NewCRM.Domain.Entitys.Security
 
                 return internalPower?.PowerId == powerId;
             });
-
         }
 
         #endregion

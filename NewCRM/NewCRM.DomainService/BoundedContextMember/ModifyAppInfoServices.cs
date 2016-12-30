@@ -15,9 +15,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void ModifyAppStar(Int32 accountId, Int32 appId, Int32 starCount)
         {
-            var accountResult = GetAccountInfoService(accountId);
-
-            if (!accountResult.Config.Desks.Any(desk => desk.Members.Any(member => member.AppId == appId)))
+            if (!Query.Find(FilterFactory.Create<Desk>(d => d.Members.Any(m => m.AppId == appId) && d.AccountId == accountId)).Any())
             {
                 throw new BusinessException($"请安装这个应用后再打分");
             }

@@ -12,13 +12,17 @@ namespace NewCRM.Domain.Services.BoundedContextMember
     [Export(typeof(IModifyWallpaperServices))]
     internal class ModifyWallpaperServices : BaseService, IModifyWallpaperServices
     {
+        [Import(typeof(Func<Int32, Account>))]
+        public Func<Int32, Account> Func { get; set; }
+
+
         public void ModifyWallpaperMode(Int32 accountId, String newMode)
         {
             WallpaperMode wallpaperMode;
 
             if (Enum.TryParse(newMode, true, out wallpaperMode))
             {
-                var accountResult = GetAccountInfoService(accountId);
+                var accountResult = Func(accountId);
 
                 accountResult.Config.ModifyDisplayMode(wallpaperMode);
 
@@ -32,7 +36,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId)
         {
-            var accountResult = GetAccountInfoService(accountId);
+            var accountResult = Func(accountId);
 
             var wallpaperResult = Query.FindOne(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Id == newWallpaperId));
 
@@ -43,7 +47,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
         {
-            var accountResult = GetAccountInfoService(accountId);
+            var accountResult = Func(accountId);
 
             if (accountResult.Config.Wallpaper.Id == wallpaperId)
             {

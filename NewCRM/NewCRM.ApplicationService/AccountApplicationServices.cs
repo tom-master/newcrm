@@ -6,6 +6,7 @@ using NewCRM.Application.Interface;
 using NewCRM.Application.Services.Services;
 using NewCRM.Domain.DomainSpecification;
 using NewCRM.Domain.Entitys.Agent;
+using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
@@ -17,6 +18,18 @@ namespace NewCRM.Application.Services
     [Export(typeof(IAccountApplicationServices))]
     internal class AccountApplicationServices : BaseService, IAccountApplicationServices
     {
+        private readonly Int32 _accountId;
+
+        [ImportingConstructor]
+        public AccountApplicationServices([Import(typeof(AccountDto))] AccountDto account)
+        {
+            if (account != null)
+            {
+                _accountId = account.Id;
+            }
+           
+        }
+
         public AccountDto Login(String accountName, String password)
         {
             ValidateParameter.Validate(accountName).Validate(password);
@@ -29,11 +42,11 @@ namespace NewCRM.Application.Services
 
         }
 
-        public ConfigDto GetConfig(Int32 accountId)
+        public ConfigDto GetConfig()
         {
-            ValidateParameter.Validate(accountId);
+            ValidateParameter.Validate(_accountId);
 
-            var accountResult = GetAccountInfoService(accountId);
+            var accountResult = GetAccountInfoService(_accountId);
 
             if (accountResult == null)
             {
@@ -44,7 +57,6 @@ namespace NewCRM.Application.Services
 
             return DtoConfiguration.ConvertDynamicToDto<ConfigDto>(new
             {
-                accountConfig.Desks,
                 accountConfig.Id,
                 accountConfig.Skin,
                 accountConfig.AccountFace,
@@ -95,11 +107,11 @@ namespace NewCRM.Application.Services
 
         }
 
-        public AccountDto GetAccount(Int32 accountId)
+        public AccountDto GetAccount()
         {
-            ValidateParameter.Validate(accountId);
+            ValidateParameter.Validate(_accountId);
 
-            var accountResult = GetAccountInfoService(accountId);
+            var accountResult = GetAccountInfoService(_accountId);
 
             if (accountResult == null)
             {
@@ -112,17 +124,17 @@ namespace NewCRM.Application.Services
                 accountResult.Name,
                 Password = accountResult.LoginPassword,
                 AccountType = accountResult.IsAdmin ? "2" : "1",
-                Roles = accountResult.AccountRoles.Select(s => new
-                {
-                    Id = s.RoleId
-                })
+                //Roles = accountResult.AccountRoles.Select(s => new
+                //{
+                //    Id = s.RoleId
+                //})
             });
 
         }
 
         public void AddNewAccount(AccountDto accountDto)
         {
-            ValidateParameter.Validate(accountDto);
+            ValidateParameter.Validate(_accountId);
 
             var account = accountDto.ConvertToModel<AccountDto, Account>();
 
@@ -141,6 +153,15 @@ namespace NewCRM.Application.Services
 
             Repository.Create<Account>().Add(internalNewAccount);
 
+            IList<Desk> desks = new List<Desk>();
+
+            for (int i = 1; i <= 5; i++)
+            {
+                desks.Add(new Desk(i, internalNewAccount.Id));
+            }
+
+            Repository.Create<Desk>().Add(desks);
+
             UnitOfWork.Commit();
         }
 
@@ -154,7 +175,7 @@ namespace NewCRM.Application.Services
 
         public void ModifyAccount(AccountDto accountDto)
         {
-            ValidateParameter.Validate(accountDto);
+            ValidateParameter.Validate(_accountId);
 
             var account = accountDto.ConvertToModel<AccountDto, Account>();
 
@@ -187,20 +208,20 @@ namespace NewCRM.Application.Services
 
         }
 
-        public void Logout(Int32 accountId)
+        public void Logout()
         {
-            ValidateParameter.Validate(accountId);
+            ValidateParameter.Validate(_accountId);
 
-            AccountContext.Logout(accountId);
+            AccountContext.Logout(_accountId);
 
             UnitOfWork.Commit();
         }
 
-        public void Enable(Int32 accountId)
+        public void Enable()
         {
-            ValidateParameter.Validate(accountId);
+            ValidateParameter.Validate(_accountId);
 
-            var accountResult = GetAccountInfoService(accountId);
+            var accountResult = GetAccountInfoService(_accountId);
 
             if (accountResult == null)
             {
@@ -215,11 +236,11 @@ namespace NewCRM.Application.Services
 
         }
 
-        public void Disable(Int32 accountId)
+        public void Disable()
         {
-            ValidateParameter.Validate(accountId);
+            ValidateParameter.Validate(_accountId);
 
-            var accountResult = GetAccountInfoService(accountId);
+            var accountResult = GetAccountInfoService(_accountId);
 
             if (accountResult == null)
             {
@@ -233,9 +254,11 @@ namespace NewCRM.Application.Services
             UnitOfWork.Commit();
         }
 
-        public void ModifyAccountFace(Int32 accountId, String newFace)
+        public void ModifyAccountFace(String newFace)
         {
-            var account = GetAccountInfoService(accountId);
+            ValidateParameter.Validate(_accountId).Validate(newFace);
+
+            var account = GetAccountInfoService(_accountId);
 
             account.Config.ModifyAccountFace(newFace);
 
@@ -244,16 +267,20 @@ namespace NewCRM.Application.Services
             UnitOfWork.Commit();
         }
 
-        public Boolean CheckPassword(Int32 accountId, String oldAccountPassword)
+        public Boolean CheckPassword(String oldAccountPassword)
         {
-            var accountResult = GetAccountInfoService(accountId);
+            ValidateParameter.Validate(_accountId).Validate(oldAccountPassword);
+
+            var accountResult = GetAccountInfoService(_accountId);
 
             return PasswordUtil.ComparePasswords(accountResult.LoginPassword, oldAccountPassword);
         }
 
-        public void ModifyPassword(Int32 accountId, String newPassword)
+        public void ModifyPassword(String newPassword)
         {
-            var accountResult = GetAccountInfoService(accountId);
+            ValidateParameter.Validate(_accountId).Validate(newPassword);
+
+            var accountResult = GetAccountInfoService(_accountId);
 
             accountResult.ModifyPassword(PasswordUtil.CreateDbPassword(newPassword));
 
@@ -262,15 +289,29 @@ namespace NewCRM.Application.Services
             UnitOfWork.Commit();
         }
 
-        public void ModifyLockScreenPassword(Int32 accountId, String newScreenPassword)
+        public void ModifyLockScreenPassword(String newScreenPassword)
         {
-            var accountResult = GetAccountInfoService(accountId);
+            ValidateParameter.Validate(_accountId).Validate(newScreenPassword);
+
+            var accountResult = GetAccountInfoService(_accountId);
 
             accountResult.ModifyLockScreenPassword(PasswordUtil.CreateDbPassword(newScreenPassword));
 
             Repository.Create<Account>().Update(accountResult);
 
             UnitOfWork.Commit();
+        }
+
+
+        public IEnumerable<DeskDto> GetDesks()
+        {
+            ValidateParameter.Validate(_accountId);
+
+            var filter = FilterFactory.Create<Desk>(d => d.AccountId == _accountId);
+
+            var desks = Query.Find(filter);
+
+            return desks.ConvertToDtos<Desk, DeskDto>();
         }
     }
 }

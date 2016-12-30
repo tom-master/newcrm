@@ -1,19 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.DomainQuery.Query;
 using NewCRM.Domain.DomainSpecification.Factory;
-using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Factory;
-using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Services.Service
 {
     /// <summary>
     /// 基础服务实现
     /// </summary>
-    internal abstract class BaseService
+    internal class BaseService
     {
 
         /// <summary>
@@ -25,7 +24,6 @@ namespace NewCRM.Domain.Services.Service
         /// <summary>
         /// 查询工厂
         /// </summary>
-
         [Import]
         protected IQuery Query { get; set; }
 
@@ -35,38 +33,14 @@ namespace NewCRM.Domain.Services.Service
         [Import]
         protected SpecificationFactory FilterFactory { get; set; }
 
-        /// <summary>
-        /// 获取一个用户
-        /// </summary>
-        /// <param name="accountId"></param>
-        /// <returns></returns>
-        protected Account GetAccountInfoService(Int32 accountId)
+
+        [Import(typeof(Func<Int32, IEnumerable<Desk>>))]
+        protected Func<Int32, IEnumerable<Desk>> GetDesks { get; set; }
+
+
+        protected Member InternalDeskMember(Int32 memberId, Desk desk)
         {
-
-            var accountResult = Query.FindOne(FilterFactory.Create<Account>(account => account.Id == accountId));
-
-            if (accountResult == null)
-            {
-                throw new BusinessException("该用户可能不存在");
-            }
-
-            return accountResult;
-
+            return desk.Members.FirstOrDefault(member => member.Id == memberId);
         }
-
-        /// <summary>
-        /// 获取真实的桌面Id
-        /// </summary>
-        /// <param name="deskId"></param>
-        /// <param name="accountConfig"></param>
-        /// <returns></returns>
-        protected Int32 GetRealDeskIdService(Int32 deskId, Config accountConfig)
-        {
-            var internalDesk = accountConfig.Desks.FirstOrDefault(desk => desk.DeskNumber == deskId);
-
-            return internalDesk?.Id ?? 0;
-        }
-
-        protected Member InternalDeskMember(Int32 memberId, Desk desk) => desk.Members.FirstOrDefault(member => member.Id == memberId);
     }
 }

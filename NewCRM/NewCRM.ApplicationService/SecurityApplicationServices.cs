@@ -97,7 +97,7 @@ namespace NewCRM.Application.Services
                 roleResult.Name,
                 roleResult.RoleIdentity,
                 roleResult.Remark,
-                Powers = roleResult.Powers.Select(s => new { Id = s.PowerId })
+                Powers = roleResult.Powers.Select(s => new {/* Id = s.PowerId */})
             });
 
         }
@@ -247,7 +247,7 @@ namespace NewCRM.Application.Services
 
             var roles = Query.Find(FilterFactory.Create<Role>(role => roleIds.Contains(role.Id))).ToArray();
 
-            var isParentPermission = roles.Any(role => role.Powers.Any(power => power.Power.ParentId == null));
+            var isParentPermission = roles.Any(role => role.Powers.Any(power =>true/* power.Power.ParentId == null*/));
 
             return isParentPermission || roles.Any(role => role.CheckPower(powersIds));
         }

@@ -7,6 +7,8 @@
 
     var accountConfig = ViewData["AccountConfig"] as ConfigDto;
 
+    var desks = ViewData["Desks"] as IList<DeskDto>;
+
 
 }
 @section ParentCss{
@@ -20,7 +22,7 @@
     </div>
     <div id="desk">
         @{
-            foreach (var desk in accountConfig.Desks)
+            foreach (var desk in desks)
             {
                 <text>
                     <div id="desk-@desk.DeskNumber" class="desktop-container">
@@ -52,7 +54,7 @@
                         @{
 
 
-                            foreach (var desk in accountConfig.Desks)
+                            foreach (var desk in desks)
                             {
                                 var deskIndex = desk.DeskNumber;
                                 <text>
@@ -112,8 +114,8 @@
     <div class="amg_line_x"></div>
     <div id="amg_folder_container">
         @{
-            var width = 100 / accountConfig.Desks.Count;
-            for (var i = 1; i <= accountConfig.Desks.Count; i++)
+            var width = 100 / desks.Count;
+            for (var i = 1; i <= desks.Count; i++)
             {
                 if (i == 1)
                 {
@@ -163,7 +165,7 @@
             HROS.CONFIG.desk = parseInt(@accountConfig.DefaultDeskNumber);
             HROS.CONFIG.appHorizontalSpacing = '@accountConfig.AppHorizontalSpacing';
             HROS.CONFIG.appVerticalSpacing = '@accountConfig.AppVerticalSpacing';
-            HROS.CONFIG.deskCount = parseInt('@accountConfig.Desks.Count');
+            HROS.CONFIG.deskCount = parseInt('@desks.Count');
             HROS.base.init();
         });
 

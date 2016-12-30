@@ -22,7 +22,7 @@ namespace NewCRM.Web.Controllers
         {
             if (accountId != 0)
             {
-                ViewData["Account"] = AccountApplicationServices.GetAccount(accountId);
+                ViewData["Account"] = AccountApplicationServices.GetAccount();
             }
 
             ViewData["Roles"] = SecurityApplicationServices.GetAllRoles();

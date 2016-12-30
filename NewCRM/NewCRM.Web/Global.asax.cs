@@ -26,6 +26,8 @@ namespace NewCRM.Web
 
             var catalog = new AggregateCatalog();
 
+            catalog.Catalogs.Add(new AssemblyCatalog(@"E:\NewCRM\NewCRM\NewCRM.Web\bin\NewCRM.Web.dll"));
+
             catalog.Catalogs.Add(new AssemblyCatalog(@"E:\NewCRM\NewCRM\NewCRM.Application.Interface\bin\Debug\NewCRM.Application.Interface.dll"));
 
             catalog.Catalogs.Add(new AssemblyCatalog(@"E:\NewCRM\NewCRM\NewCRM.ApplicationService\bin\Debug\NewCRM.Application.Services.dll"));
@@ -37,8 +39,6 @@ namespace NewCRM.Web
             catalog.Catalogs.Add(new AssemblyCatalog(@"E:\NewCRM\NewCRM\NewCRM.DomainService\bin\Debug\NewCRM.Domain.Services.dll"));
 
             catalog.Catalogs.Add(new AssemblyCatalog(@"E:\NewCRM\NewCRM\NewCRM.Repository\bin\Debug\NewCRM.Repository.dll"));
-
-            catalog.Catalogs.Add(new AssemblyCatalog(@"E:\NewCRM\NewCRM\NewCRM.Web\bin\NewCRM.Web.dll"));
 
             var container = new CompositionContainer(catalog);
 
