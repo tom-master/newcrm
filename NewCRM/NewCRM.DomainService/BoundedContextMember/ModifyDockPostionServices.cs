@@ -13,13 +13,10 @@ namespace NewCRM.Domain.Services.BoundedContextMember
     [Export(typeof(IModifyDockPostionServices))]
     internal sealed class ModifyDockPostionServices : BaseService, IModifyDockPostionServices
     {
-        [Import(typeof(Func<Int32, Account>))]
-        public Func<Int32, Account> Func { get; set; }
 
-
-        public void ModifyDockPosition(Int32 accountId, Int32 defaultDeskNumber, String newPosition)
+        public void ModifyDockPosition(Int32 defaultDeskNumber, String newPosition)
         {
-            var accountResult = Func(accountId);
+            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
 
             DockPostion dockPostion;
 

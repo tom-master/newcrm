@@ -8,7 +8,7 @@ using NewCRM.Dto.Dto;
 namespace NewCRM.Web.Controllers.ControllerHelper
 {
 
-    public abstract class BaseController : Controller
+    public class BaseController : Controller
     {
         [Import]
         protected IAppApplicationServices AppApplicationServices { get; set; }
@@ -32,16 +32,27 @@ namespace NewCRM.Web.Controllers.ControllerHelper
         /// <summary>
         /// 当前登陆的账户
         /// </summary>
-        [Export(typeof(AccountDto))]
         protected static AccountDto Account { get; set; }
 
+        [Export(typeof(Int32))]
+        protected Int32 AccountId
+        {
+            get
+            {
+                if (Account != null)
+                {
+                    return Account.Id;
+                }
+                return 0;
+            }
+        }
 
         /// <summary>
         /// 当前用户的配置
         /// </summary>
         protected static ConfigDto AccountConfig { get; set; }
 
-        protected static IEnumerable<DeskDto> Desks { get; set; }
+        //protected static IEnumerable<DeskDto> Desks { get; set; }
 
         /// <summary>
         /// 权限判断

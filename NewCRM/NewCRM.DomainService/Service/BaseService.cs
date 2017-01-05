@@ -33,14 +33,15 @@ namespace NewCRM.Domain.Services.Service
         [Import]
         protected SpecificationFactory FilterFactory { get; set; }
 
-
-        [Import(typeof(Func<Int32, IEnumerable<Desk>>))]
-        protected Func<Int32, IEnumerable<Desk>> GetDesks { get; set; }
+ 
 
 
         protected Member InternalDeskMember(Int32 memberId, Desk desk)
         {
             return desk.Members.FirstOrDefault(member => member.Id == memberId);
         }
+
+        [Export(typeof(Int32))]
+        protected Int32 AccountId { get; set; }
     }
 }

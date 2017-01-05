@@ -9,14 +9,14 @@ namespace NewCRM.Domain.Interface.BoundedContextMember
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="newMode"></param>
-        void ModifyWallpaperMode(Int32 accountId, String newMode);
+        void ModifyWallpaperMode(String newMode);
 
         /// <summary>
         /// 更换壁纸
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="newWallpaperId"></param>
-        void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId);
+        void ModifyWallpaper(Int32 newWallpaperId);
 
 
         /// <summary>
@@ -24,6 +24,6 @@ namespace NewCRM.Domain.Interface.BoundedContextMember
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="wallpaperId"></param>
-        void RemoveWallpaper(Int32 accountId, Int32 wallpaperId);
+        void RemoveWallpaper(Int32 wallpaperId);
     }
 }

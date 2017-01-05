@@ -17,6 +17,58 @@ namespace NewCRM.Application.Services
     {
         #region Role
 
+        public List<RoleDto> GetAllRoles()
+        {
+            return Query.Find(FilterFactory.Create<Role>()).Select(role => new
+            {
+                role.Name,
+                role.Id
+            }).ConvertDynamicToDtos<RoleDto>().ToList();
+
+        }
+
+        public RoleDto GetRole(Int32 roleId)
+        {
+            ValidateParameter.Validate(roleId);
+
+            var roleResult = Query.FindOne(FilterFactory.Create<Role>(role => role.Id == roleId));
+
+            if (roleResult == null)
+            {
+                throw new BusinessException($"角色可能已被删除，请刷新后再试");
+            }
+
+            return DtoConfiguration.ConvertDynamicToDto<RoleDto>(new
+            {
+                roleResult.Name,
+                roleResult.RoleIdentity,
+                roleResult.Remark,
+                Powers = roleResult.Powers.Select(s => new {/* Id = s.PowerId */})
+            });
+
+        }
+
+        public List<RoleDto> GetAllRoles(String roleName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+        {
+            ValidateParameter.Validate(roleName).Validate(pageIndex).Validate(pageIndex);
+
+            var roleSpecification = FilterFactory.Create<Role>();
+
+            if ((roleName + "").Length > 0)
+            {
+                roleSpecification.And(role => role.Name.Contains(roleName));
+            }
+
+            return Query.PageBy(roleSpecification, pageIndex, pageSize, out totalCount).Select(s => new
+            {
+                s.Name,
+                s.Id,
+                s.RoleIdentity
+            }).ConvertDynamicToDtos<RoleDto>().ToList();
+
+        }
+
+
         public void RemoveRole(Int32 roleId)
         {
             ValidateParameter.Validate(roleId);
@@ -71,37 +123,6 @@ namespace NewCRM.Application.Services
             UnitOfWork.Commit();
         }
 
-        public List<RoleDto> GetAllRoles()
-        {
-            return Query.Find(FilterFactory.Create<Role>()).Select(role => new
-            {
-                role.Name,
-                role.Id
-            }).ConvertDynamicToDtos<RoleDto>().ToList();
-
-        }
-
-        public RoleDto GetRole(Int32 roleId)
-        {
-            ValidateParameter.Validate(roleId);
-
-            var roleResult = Query.FindOne(FilterFactory.Create<Role>(role => role.Id == roleId));
-
-            if (roleResult == null)
-            {
-                throw new BusinessException($"角色可能已被删除，请刷新后再试");
-            }
-
-            return DtoConfiguration.ConvertDynamicToDto<RoleDto>(new
-            {
-                roleResult.Name,
-                roleResult.RoleIdentity,
-                roleResult.Remark,
-                Powers = roleResult.Powers.Select(s => new {/* Id = s.PowerId */})
-            });
-
-        }
-
         public void AddPowerToCurrentRole(Int32 roleId, IEnumerable<Int32> powerIds)
         {
             ValidateParameter.Validate(roleId).Validate(powerIds);
@@ -122,26 +143,6 @@ namespace NewCRM.Application.Services
             UnitOfWork.Commit();
         }
 
-        public List<RoleDto> GetAllRoles(String roleName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
-        {
-            ValidateParameter.Validate(roleName).Validate(pageIndex).Validate(pageIndex);
-
-            var roleSpecification = FilterFactory.Create<Role>();
-
-            if ((roleName + "").Length > 0)
-            {
-                roleSpecification.And(role => role.Name.Contains(roleName));
-            }
-
-            return Query.PageBy(roleSpecification, pageIndex, pageSize, out totalCount).Select(s => new
-            {
-                s.Name,
-                s.Id,
-                s.RoleIdentity
-            }).ConvertDynamicToDtos<RoleDto>().ToList();
-
-        }
-
         #endregion
 
         #region Power
@@ -157,15 +158,20 @@ namespace NewCRM.Application.Services
 
         }
 
-        public void AddNewPower(PowerDto powerDto)
+        public List<PowerDto> GetAllPowers(String powerName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
-            ValidateParameter.Validate(powerDto);
+            ValidateParameter.Validate(powerName).Validate(pageIndex).Validate(pageSize);
 
-            var power = powerDto.ConvertToModel<PowerDto, Power>();
+            var powerSpecification = FilterFactory.Create<Power>();
 
-            Repository.Create<Power>().Add(power);
+            if ((powerName + "").Length > 0)
+            {
+                powerSpecification.And(power => power.Name.Contains(powerName));
+            }
 
-            UnitOfWork.Commit();
+            return Query.PageBy(powerSpecification, pageIndex, pageSize, out totalCount)
+                .ConvertToDtos<Power, PowerDto>().ToList();
+
         }
 
         public PowerDto GetPower(Int32 powerId)
@@ -181,6 +187,17 @@ namespace NewCRM.Application.Services
 
             return powerResult.ConvertToDto<Power, PowerDto>();
 
+        }
+
+        public void AddNewPower(PowerDto powerDto)
+        {
+            ValidateParameter.Validate(powerDto);
+
+            var power = powerDto.ConvertToModel<PowerDto, Power>();
+
+            Repository.Create<Power>().Add(power);
+
+            UnitOfWork.Commit();
         }
 
         public void ModifyPower(PowerDto powerDto)
@@ -221,22 +238,6 @@ namespace NewCRM.Application.Services
             Repository.Create<Power>().Update(powerResult);
 
             UnitOfWork.Commit();
-        }
-
-        public List<PowerDto> GetAllPowers(String powerName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
-        {
-            ValidateParameter.Validate(powerName).Validate(pageIndex).Validate(pageSize);
-
-            var powerSpecification = FilterFactory.Create<Power>();
-
-            if ((powerName + "").Length > 0)
-            {
-                powerSpecification.And(power => power.Name.Contains(powerName));
-            }
-
-            return Query.PageBy(powerSpecification, pageIndex, pageSize, out totalCount)
-                .ConvertToDtos<Power, PowerDto>().ToList();
-
         }
 
         #endregion

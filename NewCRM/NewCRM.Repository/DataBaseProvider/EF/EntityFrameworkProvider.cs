@@ -8,7 +8,9 @@ using NewCRM.Domain.Repositories;
 using NewCRM.Domain.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
+using NewCRM.Repository.DataBaseProvider.Redis;
 using NewCRM.Repository.UnitOfWorkProvide;
+using Newtonsoft.Json;
 
 namespace NewCRM.Repository.DataBaseProvider.EF
 {
@@ -21,11 +23,13 @@ namespace NewCRM.Repository.DataBaseProvider.EF
     {
         private readonly Parameter _vaildateParameter;
 
+        [Import]
+        private ICacheQueryProvider _cacheQueryProvider;
+
         protected EntityFrameworkProvider()
         {
             _vaildateParameter = new Parameter();
         }
-
 
         #region 属性
 
@@ -67,6 +71,11 @@ namespace NewCRM.Repository.DataBaseProvider.EF
         {
             _vaildateParameter.Validate(entity);
             EfContext.RegisterNew<T, Int32>(entity);
+
+            EfContext.OnCacheCreate += (sender, e) =>
+            {
+                SetOrUpdateCache(entity);
+            };
         }
 
         /// <summary>
@@ -149,6 +158,11 @@ namespace NewCRM.Repository.DataBaseProvider.EF
         {
             _vaildateParameter.Validate(entity);
             EfContext.RegisterModified<T, Int32>(entity);
+
+            EfContext.OnCacheModify += (sender, e) =>
+            {
+                SetOrUpdateCache(entity);
+            };
         }
 
         /// <summary>
@@ -164,6 +178,21 @@ namespace NewCRM.Repository.DataBaseProvider.EF
             EfContext.RegisterModified<T, Int32>(propertyExpression, entity);
         }
         #endregion
+
+        private void SetOrUpdateCache(T entity)
+        {
+            var key = entity.KeyGenerator();
+
+            if (_cacheQueryProvider.KeyExists(key))
+            {
+                _cacheQueryProvider.KeyDelete(key);
+            }
+
+            _cacheQueryProvider.StringSet(key, JsonConvert.SerializeObject(entity, Formatting.Indented, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            }));
+        }
 
     }
 }

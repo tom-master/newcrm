@@ -6,6 +6,9 @@ namespace NewCRM.Application.Interface
 {
     public interface IAccountApplicationServices
     {
+        #region  have return value
+
+
         /// <summary>
         /// 用户登陆
         /// </summary>
@@ -15,27 +18,8 @@ namespace NewCRM.Application.Interface
         AccountDto Login(String accountName, String password);
 
         /// <summary>
-        /// 用户登出
-        /// </summary>
-        /// <param name="accountId"></param>
-        void Logout();
-
-        /// <summary>
-        /// 用户启用
-        /// </summary>
-        /// <param name="accountId"></param>
-        void Enable();
-
-        /// <summary>
-        /// 用户禁用
-        /// </summary>
-        /// <param name="accountId"></param>
-        void Disable();
-
-        /// <summary>
         /// 获取登陆用户的配置文件
         /// </summary>
-        /// <param name="accountId"></param>
         /// <returns></returns>
         ConfigDto GetConfig();
 
@@ -53,15 +37,8 @@ namespace NewCRM.Application.Interface
         /// <summary>
         /// 根据用户id获取用户
         /// </summary>
-        /// <param name="accountId"></param>
         /// <returns></returns>
         AccountDto GetAccount();
-
-        /// <summary>
-        /// 添加新的用户
-        /// </summary>
-        /// <param name="account"></param>
-        void AddNewAccount(AccountDto account);
 
         /// <summary>
         /// 验证相同的用户名是否存在
@@ -69,6 +46,37 @@ namespace NewCRM.Application.Interface
         /// <param name="accountName"></param>
         /// <returns></returns>
         Boolean CheckAccountNameExist(String accountName);
+
+        /// <summary>
+        /// 检查密码
+        /// </summary>
+        /// <param name="oldAccountPassword"></param>
+        /// <returns></returns>
+        Boolean CheckPassword(String oldAccountPassword);
+
+        /// <summary>
+        /// 获取桌面
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<DeskDto> GetDesks();
+        #endregion
+
+        #region not have return value
+
+
+
+
+        /// <summary>
+        /// 修改账户密码
+        /// </summary>
+        /// <param name="newPassword"></param>
+        void ModifyPassword(String newPassword);
+
+        /// <summary>
+        /// 修改锁屏密码
+        /// </summary>
+        /// <param name="newScreenPassword"></param>
+        void ModifyLockScreenPassword(String newScreenPassword);
 
         /// <summary>
         /// 修改用户
@@ -79,32 +87,34 @@ namespace NewCRM.Application.Interface
         /// <summary>
         /// 修改账户头像
         /// </summary>
-        /// <param name="accountId"></param>
+
         /// <param name="newFace"></param>
         void ModifyAccountFace(String newFace);
 
         /// <summary>
-        /// 检查密码
+        /// 添加新的用户
         /// </summary>
-        /// <param name="accountId"></param>
-        /// <param name="oldAccountPassword"></param>
-        /// <returns></returns>
-        Boolean CheckPassword(String oldAccountPassword);
+        /// <param name="account"></param>
+        void AddNewAccount(AccountDto account);
+        /// <summary>
+        /// 用户登出
+        /// </summary>
+
+        void Logout();
 
         /// <summary>
-        /// 修改账户密码
+        /// 用户启用
         /// </summary>
-        /// <param name="accountId"></param>
-        /// <param name="newPassword"></param>
-        void ModifyPassword(String newPassword);
+
+        void Enable();
 
         /// <summary>
-        /// 修改锁屏密码
+        /// 用户禁用
         /// </summary>
-        /// <param name="accountId"></param>
-        /// <param name="newScreenPassword"></param>
-        void ModifyLockScreenPassword(String newScreenPassword);
 
-        IEnumerable<DeskDto> GetDesks();
+        void Disable();
+
+        #endregion
+
     }
 }

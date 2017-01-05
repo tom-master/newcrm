@@ -89,6 +89,8 @@
     </EmbeddedResource>
   </ItemGroup>-->
   <ItemGroup>
+    <Compile Include="DataBaseProvider\EF\Event\ICacheCreateEvent.cs" />
+    <Compile Include="DataBaseProvider\EF\Event\ICacheModifyEvent.cs" />
     <Compile Include="DataBaseProvider\Redis\ICacheQueryProvider.cs" />
     <Compile Include="DataBaseProvider\Redis\RedisConnectionHelp.cs" />
     <Compile Include="DataBaseProvider\Redis\QueryProvider.cs" />

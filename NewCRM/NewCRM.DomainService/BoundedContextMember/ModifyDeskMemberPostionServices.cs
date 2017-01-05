@@ -11,9 +11,9 @@ namespace NewCRM.Domain.Services.BoundedContextMember
     internal sealed class ModifyDeskMemberPostionServices : BaseService, IModifyDeskMemberPostionServices
     {
 
-        public void MemberInDock(Int32 accountId, Int32 memberId)
+        public void MemberInDock(Int32 memberId)
         {
-            var desks = GetDesks(accountId);
+            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
 
             foreach (var desk in desks)
             {
@@ -30,9 +30,9 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             }
         }
 
-        public void MemberOutDock(Int32 accountId, Int32 memberId, Int32 deskId)
+        public void MemberOutDock(Int32 memberId, Int32 deskId)
         {
-            var desks = GetDesks(accountId);
+            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
 
             var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
 
@@ -51,31 +51,31 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             }
         }
 
-        public void DockToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
+        public void DockToFolder(Int32 memberId, Int32 folderId)
         {
-            var desks = GetDesks(accountId);
+            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
 
-            var desk = desks.FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
+            var deskResult = desks.FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
 
-            InternalDeskMember(memberId, desk).OutDock().InFolder(folderId);
+            InternalDeskMember(memberId, deskResult).OutDock().InFolder(folderId);
 
-            Repository.Create<Desk>().Update(desk);
+            Repository.Create<Desk>().Update(deskResult);
         }
 
-        public void FolderToDock(Int32 accountId, Int32 memberId)
+        public void FolderToDock(Int32 memberId)
         {
-            var desks = GetDesks(accountId);
+            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
 
-            var desk = desks.FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
+            var deskResult = desks.FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
 
-            InternalDeskMember(memberId, desk).InDock().OutFolder();
+            InternalDeskMember(memberId, deskResult).InDock().OutFolder();
 
-            Repository.Create<Desk>().Update(desk);
+            Repository.Create<Desk>().Update(deskResult);
         }
 
-        public void DeskToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
+        public void DeskToFolder(Int32 memberId, Int32 folderId)
         {
-            var desks = GetDesks(accountId);
+            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
 
             foreach (var desk in desks)
             {
@@ -92,9 +92,9 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             }
         }
 
-        public void FolderToDesk(Int32 accountId, Int32 memberId, Int32 deskId)
+        public void FolderToDesk(Int32 memberId, Int32 deskId)
         {
-            var desks = GetDesks(accountId);
+            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
 
             var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
 
@@ -120,21 +120,21 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             }
         }
 
-        public void FolderToOtherFolder(Int32 accountId, Int32 memberId, Int32 folderId)
+        public void FolderToOtherFolder(Int32 memberId, Int32 folderId)
         {
-            var desks = GetDesks(accountId);
+            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
 
-            var desk = desks.FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
+            var deskResult = desks.FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
 
-            InternalDeskMember(memberId, desk).OutFolder().InFolder(folderId);
+            InternalDeskMember(memberId, deskResult).OutFolder().InFolder(folderId);
 
-            Repository.Create<Desk>().Update(desk);
+            Repository.Create<Desk>().Update(deskResult);
 
         }
 
-        public void DeskToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId)
+        public void DeskToOtherDesk(Int32 memberId, Int32 deskId)
         {
-            var desks = GetDesks(accountId);
+            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
 
             var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
 

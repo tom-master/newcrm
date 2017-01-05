@@ -352,6 +352,13 @@ namespace NewCRM.Domain.Entitys.System
             IsDeleted = true;
         }
 
+
+
+        public override String KeyGenerator()
+        {
+            return $"NewCRM:{GetType().Name}:{Id}";
+        }
+
         #endregion
     }
 }

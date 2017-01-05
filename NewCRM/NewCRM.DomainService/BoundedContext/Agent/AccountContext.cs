@@ -15,8 +15,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
     [Export(typeof(IAccountContext))]
     internal class AccountContext : BaseService, IAccountContext
     {
-        [Import(typeof(Func<Int32, Account>))]
-        public Func<Int32, Account> Func { get; set; }
+
 
 
         [Import]
@@ -50,7 +49,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
 
         public void Logout(Int32 accountId)
         {
-            var accountResult = Func(accountId);
+            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
 
             if (!accountResult.IsOnline)
             {
@@ -84,7 +83,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
 
         }
 
-     
+
         #endregion
     }
 }

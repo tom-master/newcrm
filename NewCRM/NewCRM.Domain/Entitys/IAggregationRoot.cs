@@ -1,6 +1,8 @@
-﻿namespace NewCRM.Domain.Entitys
+﻿using NewCRM.Domain.KeyGenerators;
+
+namespace NewCRM.Domain.Entitys
 {
-    public interface IAggregationRoot
+    public interface IAggregationRoot 
     {
     }
 }

@@ -48,16 +48,6 @@ namespace NewCRM.Domain.Entitys.Agent
         public Boolean IsAdmin { get; private set; }
 
         /// <summary>
-        /// 职称id
-        /// </summary>
-        public Int32 TitleId { get; private set; }
-
-        /// <summary>
-        /// 用户id
-        /// </summary>
-        public Int32 ConfigId { get; private set; }
-
-        /// <summary>
         /// 职称
         /// </summary>
         public virtual Title Title { get; private set; }

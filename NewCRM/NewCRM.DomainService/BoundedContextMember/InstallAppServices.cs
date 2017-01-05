@@ -12,9 +12,9 @@ namespace NewCRM.Domain.Services.BoundedContextMember
     [Export(typeof(IInstallAppServices))]
     internal sealed class InstallAppServices : BaseService, IInstallAppServices
     {
-        public void Install(Int32 accountId, Int32 appId, Int32 deskNum)
+        public void Install(Int32 appId, Int32 deskNum)
         {
-            var desks = GetDesks(accountId);
+            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
 
             var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskNum).Id;
 

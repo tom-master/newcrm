@@ -943,7 +943,10 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
 
         private String ConvertJson<T>(T value)
         {
-            String result = value is String ? value.ToString() : JsonConvert.SerializeObject(value);
+            String result = value is String ? value.ToString() : JsonConvert.SerializeObject(value, Formatting.Indented, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
             return result;
         }
 

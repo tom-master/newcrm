@@ -93,15 +93,14 @@ namespace NewCRM.Domain.Entitys.System
         /// 是否可以拉伸
         /// </summary>
         public Boolean IsResize { get; private set; }
-
-        public Int32 DeskId { get; private set; }
         
-        public virtual Desk Desk { get; set; }
 
         /// <summary>
         /// 成员类型
         /// </summary>
         public MemberType MemberType { get; private set; }
+
+        public Int32 DeskId { get; set; }
 
         #endregion
 

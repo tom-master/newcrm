@@ -75,9 +75,13 @@
     <Compile Include="DomainSpecification\ParameterVisitor.cs" />
     <Compile Include="DomainSpecification\SpecificationExtensions.cs" />
     <Compile Include="DomainSpecification\Factory\SpecificationFactory.cs" />
+    <Compile Include="Entitys\System\SystemExtension\OnlineExtension.cs" />
+    <Compile Include="Entitys\System\SystemExtension\WallpaperExtension.cs" />
     <Compile Include="Factory\Domain\ConcreteFactory\DefaultDomainFactory.cs" />
     <Compile Include="Factory\Domain\DomainFactory.cs" />
     <Compile Include="Factory\RepositoryFactory.cs" />
+    <Compile Include="KeyGenerators\RedisKeyGenerator.cs" />
+    <Compile Include="KeyGenerators\IKeyGenerator.cs" />
     <Compile Include="Repositories\IDomainModelQueryProvider.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\IRepository\Agent\ITitleRepository.cs" />

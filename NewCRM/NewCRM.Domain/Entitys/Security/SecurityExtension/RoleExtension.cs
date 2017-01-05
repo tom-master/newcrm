@@ -132,6 +132,13 @@ namespace NewCRM.Domain.Entitys.Security
             });
         }
 
+
+
+        public override String KeyGenerator()
+        {
+            return $"NewCRM:{GetType().Name}:{Id}";
+        }
+
         #endregion
     }
 }

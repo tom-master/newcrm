@@ -205,7 +205,7 @@ namespace NewCRM.Dto.MapperProfile
                                    (w.AppStars.Count * 1.0) : 0.0))
                 .ForMember(dto => dto.AccountId, app => app.MapFrom(w => w.AccountId))
                 .ForMember(dto => dto.AppStyle, app => app.MapFrom(w => (Int32)w.AppStyle))
-                .ForMember(dto => dto.AppTypeName, app => app.MapFrom(w => w.AppType.Name))
+                //.ForMember(dto => dto.AppTypeName, app => app.MapFrom(w => w.AppType.Name))
                 .ForMember(dto => dto.AddTime, app => app.MapFrom(w => w.AddTime.ToString("yyyy-MM-dd")))
                 .ForMember(dto => dto.AppAuditState, app => app.MapFrom(w => (Int32)w.AppAuditState))
                 .ForMember(dto => dto.AppReleaseState, app => app.MapFrom(w => (Int32)w.AppReleaseState))

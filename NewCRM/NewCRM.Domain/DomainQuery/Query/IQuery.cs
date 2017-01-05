@@ -26,6 +26,8 @@ namespace NewCRM.Domain.DomainQuery.Query
         /// <returns></returns>
         IEnumerable<T> Find<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot;
 
+        IEnumerable<T> Find<T>(T key) where T : DomainModelBase, IAggregationRoot;
+
         /// <summary>
         /// 分页
         /// </summary>

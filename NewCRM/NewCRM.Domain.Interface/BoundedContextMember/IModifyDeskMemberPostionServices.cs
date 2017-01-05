@@ -9,7 +9,7 @@ namespace NewCRM.Domain.Interface.BoundedContextMember
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="memberId"></param>
-        void MemberInDock(Int32 accountId, Int32 memberId);
+        void MemberInDock(Int32 memberId);
 
         /// <summary>
         /// 桌面成员移出码头中
@@ -17,7 +17,7 @@ namespace NewCRM.Domain.Interface.BoundedContextMember
         /// <param name="accountId"></param>
         /// <param name="memberId"></param>
         /// <param name="deskId"></param>
-        void MemberOutDock(Int32 accountId, Int32 memberId, Int32 deskId);
+        void MemberOutDock(Int32 memberId, Int32 deskId);
 
         /// <summary>
         /// 成员从码头移动到文件夹中
@@ -25,14 +25,14 @@ namespace NewCRM.Domain.Interface.BoundedContextMember
         /// <param name="accountId"></param>
         /// <param name="memberId"></param>
         /// <param name="folderId"></param>
-        void DockToFolder(Int32 accountId, Int32 memberId, Int32 folderId);
+        void DockToFolder(Int32 memberId, Int32 folderId);
 
         /// <summary>
         /// 成员从文件夹中移动到码头
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="memberId"></param>
-        void FolderToDock(Int32 accountId, Int32 memberId);
+        void FolderToDock(Int32 memberId);
 
         /// <summary>
         /// 成员从桌面中移动到文件夹
@@ -40,7 +40,7 @@ namespace NewCRM.Domain.Interface.BoundedContextMember
         /// <param name="accountId"></param>
         /// <param name="memberId"></param>
         /// <param name="folderId"></param>
-        void DeskToFolder(Int32 accountId, Int32 memberId, Int32 folderId);
+        void DeskToFolder(Int32 memberId, Int32 folderId);
 
         /// <summary>
         /// 成员从文件夹移动到桌面
@@ -48,7 +48,7 @@ namespace NewCRM.Domain.Interface.BoundedContextMember
         /// <param name="accountId"></param>
         /// <param name="memberId"></param>
         /// <param name="deskId"></param>
-        void FolderToDesk(Int32 accountId, Int32 memberId, Int32 deskId);
+        void FolderToDesk(Int32 memberId, Int32 deskId);
 
         /// <summary>
         /// 成员从文件夹移动到另一个文件夹
@@ -56,7 +56,7 @@ namespace NewCRM.Domain.Interface.BoundedContextMember
         /// <param name="accountId"></param>
         /// <param name="memberId"></param>
         /// <param name="folderId"></param>
-        void FolderToOtherFolder(Int32 accountId, Int32 memberId, Int32 folderId);
+        void FolderToOtherFolder(Int32 memberId, Int32 folderId);
 
         /// <summary>
         /// 成员从桌面移动到另一个桌面
@@ -64,7 +64,7 @@ namespace NewCRM.Domain.Interface.BoundedContextMember
         /// <param name="accountId"></param>
         /// <param name="memberId"></param>
         /// <param name="deskId"></param>
-        void DeskToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId);
+        void DeskToOtherDesk(Int32 memberId, Int32 deskId);
 
     }
 }

@@ -6,6 +6,8 @@ namespace NewCRM.Application.Interface
 {
     public interface ISecurityApplicationServices
     {
+        #region have return value
+
         /// <summary>
         /// 获取全部的角色
         /// </summary>
@@ -15,12 +17,6 @@ namespace NewCRM.Application.Interface
         /// <param name="totalCount"></param>
         /// <returns></returns>
         List<RoleDto> GetAllRoles(String roleName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
-
-        /// <summary>
-        /// 移除角色
-        /// </summary>
-        /// <param name="roleId"></param>
-        void RemoveRole(Int32 roleId);
 
         /// <summary>
         /// 获取所有的权限
@@ -36,12 +32,6 @@ namespace NewCRM.Application.Interface
         RoleDto GetRole(Int32 roleId);
 
         /// <summary>
-        /// 创建新权限
-        /// </summary>
-        /// <param name="power"></param>
-        void AddNewPower(PowerDto power);
-
-        /// <summary>
         /// 获取所有的权限
         /// </summary>
         /// <param name="powerName"></param>
@@ -51,13 +41,30 @@ namespace NewCRM.Application.Interface
         /// <returns></returns>
         List<PowerDto> GetAllPowers(String powerName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
 
-
         /// <summary>
         /// 根据powerId获取权限信息
         /// </summary>
         /// <param name="powerId"></param>
         /// <returns></returns>
         PowerDto GetPower(Int32 powerId);
+
+        /// <summary>
+        /// 获取全部角色
+        /// </summary>
+        /// <returns></returns>
+        List<RoleDto> GetAllRoles();
+
+        /// <summary>
+        /// 检查用户权限
+        /// </summary>
+        /// <param name="powerName"></param>
+        /// <param name="roleIds"></param>
+        /// <returns></returns>
+        Boolean CheckPermissions(String powerName, params Int32[] roleIds);
+
+        #endregion
+
+        #region not have return value
 
         /// <summary>
         /// 修改权限信息
@@ -91,17 +98,17 @@ namespace NewCRM.Application.Interface
         void AddPowerToCurrentRole(Int32 roleId, IEnumerable<Int32> powerIds);
 
         /// <summary>
-        /// 获取全部角色
+        /// 创建新权限
         /// </summary>
-        /// <returns></returns>
-        List<RoleDto> GetAllRoles();
+        /// <param name="power"></param>
+        void AddNewPower(PowerDto power);
 
         /// <summary>
-        /// 检查用户权限
+        /// 移除角色
         /// </summary>
-        /// <param name="powerName"></param>
-        /// <param name="roleIds"></param>
-        /// <returns></returns>
-        Boolean CheckPermissions(String powerName, params Int32[] roleIds);
+        /// <param name="roleId"></param>
+        void RemoveRole(Int32 roleId);
+
+        #endregion
     }
 }

@@ -23,6 +23,11 @@ namespace NewCRM.Domain.Entitys.Agent
             IsDeleted = true;
         }
 
+        public override String KeyGenerator()
+        {
+            return $"NewCRM:{GetType().Name}:{Id}";
+        }
+
         #endregion
     }
 }

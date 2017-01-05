@@ -29,6 +29,8 @@ namespace NewCRM.Domain.Entitys.System
 
 
         public Desk() { AddTime = DateTime.Now; }
+
+
         #endregion
 
 

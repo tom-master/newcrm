@@ -10,6 +10,6 @@ namespace NewCRM.Domain.Interface.BoundedContextMember
         /// <param name="accountId"></param>
         /// <param name="defaultDeskNumber"></param>
         /// <param name="newPosition"></param>
-        void ModifyDockPosition(Int32 accountId, Int32 defaultDeskNumber, String newPosition);
+        void ModifyDockPosition(Int32 defaultDeskNumber, String newPosition);
     }
 }

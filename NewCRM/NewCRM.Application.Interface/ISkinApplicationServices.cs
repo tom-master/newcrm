@@ -15,7 +15,6 @@ namespace NewCRM.Application.Interface
         /// <summary>
         /// 修改默认显示的皮肤
         /// </summary>
-        /// <param name="accountId"></param>
         /// <param name="newSkin"></param>
         void ModifySkin(String newSkin);
     }

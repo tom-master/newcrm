@@ -3,8 +3,8 @@ using System.ComponentModel;
 
 namespace NewCRM.Domain.Entitys.System
 {
-    [Description("在线人数"),Serializable]
-    public  class Online : DomainModelBase, IAggregationRoot
+    [Description("在线人数"), Serializable]
+    public partial class Online : DomainModelBase, IAggregationRoot
     {
         #region public property
 
@@ -26,7 +26,7 @@ namespace NewCRM.Domain.Entitys.System
         /// </summary>
         /// <param name="ipAddress"></param>
         /// <param name="accountId"></param>
-        public Online(String ipAddress, Int32 accountId):this()
+        public Online(String ipAddress, Int32 accountId) : this()
         {
             IpAddress = ipAddress;
             AccountId = accountId;

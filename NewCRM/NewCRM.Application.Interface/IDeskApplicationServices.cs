@@ -5,7 +5,21 @@ namespace NewCRM.Application.Interface
 {
     public interface IDeskApplicationServices
     {
-        #region desk
+        #region have return value
+
+
+        /// <summary>
+        /// 根据用户id获取桌面的成员
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="memberId"></param>
+        /// <param name="isFolder"></param>
+        /// <returns></returns>
+        MemberDto GetMember(Int32 memberId, Boolean isFolder = default(Boolean));
+
+        #endregion
+
+        #region not have return value
 
         /// <summary>
         /// 修改默认显示的桌面
@@ -21,15 +35,6 @@ namespace NewCRM.Application.Interface
         /// <param name="defaultDeskNumber"></param>
         /// <param name="newPosition"></param>
         void ModifyDockPosition(Int32 defaultDeskNumber, String newPosition);
-
-        /// <summary>
-        /// 根据用户id获取桌面的成员
-        /// </summary>
-        /// <param name="accountId"></param>
-        /// <param name="memberId"></param>
-        /// <param name="isFolder"></param>
-        /// <returns></returns>
-        MemberDto GetMember(Int32 memberId, Boolean isFolder = default(Boolean));
 
         /// <summary>
         /// 桌面成员移动到码头中
@@ -116,6 +121,12 @@ namespace NewCRM.Application.Interface
         /// <param name="member"></param>
         void ModifyMemberInfo(MemberDto member);
 
+        /// <summary>
+        /// 创建新的文件夹
+        /// </summary>
+        /// <param name="folderName"></param>
+        /// <param name="folderImg"></param>
+        /// <param name="deskId"></param>
         void CreateNewFolder(String folderName, String folderImg, Int32 deskId);
 
         #endregion

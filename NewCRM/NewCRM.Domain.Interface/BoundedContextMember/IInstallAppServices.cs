@@ -10,6 +10,6 @@ namespace NewCRM.Domain.Interface.BoundedContextMember
         /// <param name="accountId"></param>
         /// <param name="appId"></param>
         /// <param name="deskNum"></param>
-        void Install(Int32 accountId, Int32 appId, Int32 deskNum);
+        void Install(Int32 appId, Int32 deskNum);
     }
 }

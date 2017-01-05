@@ -12,5 +12,6 @@ namespace NewCRM.Repository.RepositoryImpl.Agent
     public class AccountRepository : EntityFrameworkProvider<Account>
         , IAccountRepository
     {
+        
     }
 }

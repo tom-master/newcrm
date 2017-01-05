@@ -17,22 +17,12 @@ namespace NewCRM.Application.Services
     [Export(typeof(IAppApplicationServices))]
     internal class AppApplicationServices : BaseService, IAppApplicationServices
     {
-        private readonly Int32 _accountId;
-
-        [ImportingConstructor]
-        public AppApplicationServices([Import(typeof(AccountDto))] AccountDto account)
-        {
-            if (account != null)
-            {
-                _accountId = account.Id;
-            }
-        }
 
         public IDictionary<String, IList<dynamic>> GetAccountDeskMembers()
         {
-            ValidateParameter.Validate(_accountId);
+            ValidateParameter.Validate(AccountId);
 
-            var desks = GetDesks(_accountId);
+            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId)).Where(w => w.Members.Any());
 
             IDictionary<String, IList<dynamic>> deskDictionary = new Dictionary<String, IList<dynamic>>();
 
@@ -107,70 +97,6 @@ namespace NewCRM.Application.Services
 
         }
 
-        public void ModifyAppDirection(String direction)
-        {
-            ValidateParameter.Validate(_accountId).Validate(direction);
-
-            var accountResult = GetAccountInfoService(_accountId);
-
-            if (direction.ToLower() == "x")
-            {
-                accountResult.Config.ModifyAppDirectionToX();
-            }
-            else if (direction.ToLower() == "y")
-            {
-                accountResult.Config.ModifyAppDirectionToY();
-            }
-            else
-            {
-                throw new BusinessException($"未能识别的App排列方向:{direction.ToLower()}");
-            }
-
-            Repository.Create<Account>().Update(accountResult);
-
-            UnitOfWork.Commit();
-
-        }
-
-        public void ModifyAppIconSize(Int32 newSize)
-        {
-            ValidateParameter.Validate(_accountId).Validate(newSize);
-
-            var accountResult = GetAccountInfoService(_accountId);
-
-            accountResult.Config.ModifyDisplayIconLength(newSize);
-
-            Repository.Create<Account>().Update(accountResult);
-
-            UnitOfWork.Commit();
-        }
-
-        public void ModifyAppVerticalSpacing(Int32 newSize)
-        {
-            ValidateParameter.Validate(_accountId).Validate(newSize);
-
-            var accountResult = GetAccountInfoService(_accountId);
-
-            accountResult.Config.ModifyAppVerticalSpacingLength(newSize);
-
-            Repository.Create<Account>().Update(accountResult);
-
-            UnitOfWork.Commit();
-        }
-
-        public void ModifyAppHorizontalSpacing(Int32 newSize)
-        {
-            ValidateParameter.Validate(_accountId).Validate(newSize);
-
-            var accountResult = GetAccountInfoService(_accountId);
-
-            accountResult.Config.ModifyAppHorizontalSpacingLength(newSize);
-
-            Repository.Create<Account>().Update(accountResult);
-
-            UnitOfWork.Commit();
-        }
-
         public List<AppTypeDto> GetAppTypes()
         {
             return Query.Find(FilterFactory.Create<AppType>()).ConvertToDtos<AppType, AppTypeDto>().ToList();
@@ -178,7 +104,6 @@ namespace NewCRM.Application.Services
 
         public TodayRecommendAppDto GetTodayRecommend()
         {
-            ValidateParameter.Validate(_accountId);
 
             var topApp = Query.Find(FilterFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release && app.IsRecommand)).Select(app => new
             {
@@ -196,20 +121,20 @@ namespace NewCRM.Application.Services
                 return new TodayRecommendAppDto();
             }
 
-            var accountResult = GetAccountInfoService(_accountId);
+            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
 
             if (accountResult == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
             }
 
-            var accountDesks = GetDesks(_accountId);
+            var accountDesks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
 
             var isInstall = accountDesks.Any(accountDesk => accountDesk.Members.Any(member => member.AppId == topApp.Id));
 
             return DtoConfiguration.ConvertDynamicToDto<TodayRecommendAppDto>(new
             {
-                Id = topApp.Id,
+                topApp.Id,
                 topApp.Name,
                 topApp.UseCount,
                 AppIcon = topApp.IconUrl,
@@ -222,9 +147,7 @@ namespace NewCRM.Application.Services
 
         public Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount()
         {
-            ValidateParameter.Validate(_accountId);
-
-            var accountApps = Query.Find(FilterFactory.Create<App>(app => app.AccountId == _accountId));
+            var accountApps = Query.Find(FilterFactory.Create<App>(app => app.AccountId == AccountId));
 
             var accountDevAppCount = accountApps.Count();
 
@@ -236,7 +159,7 @@ namespace NewCRM.Application.Services
 
         public List<AppDto> GetAllApps(Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
-            ValidateParameter.Validate(_accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
+            ValidateParameter.Validate(AccountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
 
             var appSpecification = FilterFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release);
 
@@ -250,7 +173,7 @@ namespace NewCRM.Application.Services
             {
                 if (appTypeId == -1)//用户制作的app
                 {
-                    appSpecification.And(app => app.AccountId == _accountId);
+                    appSpecification.And(app => app.AccountId == AccountId);
                 }
             }
 
@@ -282,6 +205,10 @@ namespace NewCRM.Application.Services
 
             #endregion
 
+
+            var appTypes = GetAllAppStyles();
+
+
             var appDtoResult = Query.PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
             {
                 app.AppTypeId,
@@ -293,7 +220,7 @@ namespace NewCRM.Application.Services
                 app.IconUrl,
                 app.Remark,
                 app.AppStyle,
-                AppType = app.AppType.Name,
+                AppType = appTypes.FirstOrDefault(appType => appType.Id == app.AppTypeId),
                 app.Id
             }).ConvertDynamicToDtos<AppDto>().ToList();
 
@@ -311,6 +238,9 @@ namespace NewCRM.Application.Services
 
             var appResult = Query.FindOne(specification);
 
+
+            var appTypes = GetAllAppStyles();
+
             return DtoConfiguration.ConvertDynamicToDto<AppDto>(new
             {
                 appResult.Name,
@@ -318,7 +248,7 @@ namespace NewCRM.Application.Services
                 appResult.Remark,
                 appResult.UseCount,
                 StartCount = CountAppStars(appResult),
-                AppTypeName = appResult.AppType.Name,
+                AppTypeName = appTypes.FirstOrDefault(appType => appType.Id == appResult.AppTypeId),
                 appResult.AddTime,
                 appResult.AccountId,
                 appResult.Id,
@@ -336,29 +266,11 @@ namespace NewCRM.Application.Services
 
         }
 
-        public void ModifyAppStar(Int32 appId, Int32 starCount)
-        {
-            ValidateParameter.Validate(_accountId).Validate(appId).Validate(starCount, true);
-
-            AppContext.ModifyAppInfoServices.ModifyAppStar(_accountId, appId, starCount);
-
-            UnitOfWork.Commit();
-        }
-
-        public void InstallApp(Int32 appId, Int32 deskNum)
-        {
-            ValidateParameter.Validate(_accountId).Validate(appId).Validate(deskNum);
-
-            AppContext.InstallAppServices.Install(_accountId, appId, deskNum);
-
-            UnitOfWork.Commit();
-        }
-
         public Boolean IsInstallApp(Int32 appId)
         {
-            ValidateParameter.Validate(_accountId).Validate(appId);
+            ValidateParameter.Validate(appId);
 
-            return GetDesks(_accountId).Any(desk => desk.Members.Any(member => member.AppId == appId));
+            return Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId)).Any(desk => desk.Members.Any(member => member.AppId == appId));
         }
 
         public IEnumerable<AppStyleDto> GetAllAppStyles()
@@ -398,15 +310,15 @@ namespace NewCRM.Application.Services
 
         public List<AppDto> GetAccountAllApps(String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
-            ValidateParameter.Validate(_accountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
+            ValidateParameter.Validate(AccountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
 
             var specification = FilterFactory.Create<App>();
 
             #region 条件筛选
 
-            if (_accountId != 0)
+            if (AccountId != 0)
             {
-                specification.And(app => app.AccountId == _accountId);
+                specification.And(app => app.AccountId == AccountId);
             }
 
 
@@ -479,26 +391,110 @@ namespace NewCRM.Application.Services
 
             #endregion
 
+            var appTypes = GetAppTypes();
+
             return Query.PageBy(specification, pageIndex, pageSize, out totalCount).Select(app => new
             {
                 app.Name,
                 app.AppStyle,
-                AppTypeName = app.AppType.Name,
+                AppTypeName = appTypes.FirstOrDefault(appType => appType.Id == app.AppTypeId),
                 app.UseCount,
                 app.Id,
                 app.IconUrl,
                 app.AppAuditState,
                 app.IsRecommand,
-                IsCreater = app.AccountId == _accountId
+                IsCreater = app.AccountId == AccountId
             }).ConvertDynamicToDtos<AppDto>().ToList();
 
         }
 
+        public void ModifyAppDirection(String direction)
+        {
+            ValidateParameter.Validate(direction);
+
+            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+
+            if (direction.ToLower() == "x")
+            {
+                accountResult.Config.ModifyAppDirectionToX();
+            }
+            else if (direction.ToLower() == "y")
+            {
+                accountResult.Config.ModifyAppDirectionToY();
+            }
+            else
+            {
+                throw new BusinessException($"未能识别的App排列方向:{direction.ToLower()}");
+            }
+
+            Repository.Create<Account>().Update(accountResult);
+
+            UnitOfWork.Commit();
+
+        }
+
+        public void ModifyAppIconSize(Int32 newSize)
+        {
+            ValidateParameter.Validate(newSize);
+
+            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+
+            accountResult.Config.ModifyDisplayIconLength(newSize);
+
+            Repository.Create<Account>().Update(accountResult);
+
+            UnitOfWork.Commit();
+        }
+
+        public void ModifyAppVerticalSpacing(Int32 newSize)
+        {
+            ValidateParameter.Validate(newSize);
+
+            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+
+            accountResult.Config.ModifyAppVerticalSpacingLength(newSize);
+
+            Repository.Create<Account>().Update(accountResult);
+
+            UnitOfWork.Commit();
+        }
+
+        public void ModifyAppHorizontalSpacing(Int32 newSize)
+        {
+            ValidateParameter.Validate(newSize);
+
+            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+
+            accountResult.Config.ModifyAppHorizontalSpacingLength(newSize);
+
+            Repository.Create<Account>().Update(accountResult);
+
+            UnitOfWork.Commit();
+        }
+
+        public void ModifyAppStar(Int32 appId, Int32 starCount)
+        {
+            ValidateParameter.Validate(appId).Validate(starCount, true);
+
+            AppContext.ModifyAppInfoServices.ModifyAppStar(AccountId, appId, starCount);
+
+            UnitOfWork.Commit();
+        }
+
+        public void InstallApp(Int32 appId, Int32 deskNum)
+        {
+            ValidateParameter.Validate(appId).Validate(deskNum);
+
+            AppContext.InstallAppServices.Install(appId, deskNum);
+
+            UnitOfWork.Commit();
+        }
+      
         public void ModifyAccountAppInfo(AppDto appDto)
         {
-            ValidateParameter.Validate(_accountId).Validate(appDto);
+            ValidateParameter.Validate(appDto);
 
-            AppContext.ModifyAppInfoServices.ModifyAccountAppInfo(_accountId, appDto.ConvertToModel<AppDto, App>());
+            AppContext.ModifyAppInfoServices.ModifyAccountAppInfo(AccountId, appDto.ConvertToModel<AppDto, App>());
 
             UnitOfWork.Commit();
         }

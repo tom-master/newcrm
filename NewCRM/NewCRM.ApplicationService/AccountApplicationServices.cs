@@ -18,18 +18,6 @@ namespace NewCRM.Application.Services
     [Export(typeof(IAccountApplicationServices))]
     internal class AccountApplicationServices : BaseService, IAccountApplicationServices
     {
-        private readonly Int32 _accountId;
-
-        [ImportingConstructor]
-        public AccountApplicationServices([Import(typeof(AccountDto))] AccountDto account)
-        {
-            if (account != null)
-            {
-                _accountId = account.Id;
-            }
-           
-        }
-
         public AccountDto Login(String accountName, String password)
         {
             ValidateParameter.Validate(accountName).Validate(password);
@@ -44,9 +32,8 @@ namespace NewCRM.Application.Services
 
         public ConfigDto GetConfig()
         {
-            ValidateParameter.Validate(_accountId);
 
-            var accountResult = GetAccountInfoService(_accountId);
+            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
 
             if (accountResult == null)
             {
@@ -109,33 +96,43 @@ namespace NewCRM.Application.Services
 
         public AccountDto GetAccount()
         {
-            ValidateParameter.Validate(_accountId);
-
-            var accountResult = GetAccountInfoService(_accountId);
+            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
 
             if (accountResult == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
             }
 
-            return DtoConfiguration.ConvertDynamicToDto<AccountDto>(new
-            {
-                accountResult.Id,
-                accountResult.Name,
-                Password = accountResult.LoginPassword,
-                AccountType = accountResult.IsAdmin ? "2" : "1",
-                //Roles = accountResult.AccountRoles.Select(s => new
-                //{
-                //    Id = s.RoleId
-                //})
-            });
+            return accountResult.ConvertToDto<Account, AccountDto>();
 
         }
 
+        public Boolean CheckAccountNameExist(String accountName)
+        {
+            ValidateParameter.Validate(accountName);
+
+            return !Query.Find(FilterFactory.Create<Account>(account => account.Name == accountName)).Any();
+
+        }
+
+        public Boolean CheckPassword(String oldAccountPassword)
+        {
+            ValidateParameter.Validate(oldAccountPassword);
+
+            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+
+            return PasswordUtil.ComparePasswords(accountResult.LoginPassword, oldAccountPassword);
+        }
+
+        public IEnumerable<DeskDto> GetDesks()
+        {
+            return Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId)).ConvertToDtos<Desk, DeskDto>();
+        }
+
+
+
         public void AddNewAccount(AccountDto accountDto)
         {
-            ValidateParameter.Validate(_accountId);
-
             var account = accountDto.ConvertToModel<AccountDto, Account>();
 
             AccountType accountType;
@@ -165,18 +162,8 @@ namespace NewCRM.Application.Services
             UnitOfWork.Commit();
         }
 
-        public Boolean CheckAccountNameExist(String accountName)
-        {
-            ValidateParameter.Validate(accountName);
-
-            return !Query.Find(FilterFactory.Create<Account>(account => account.Name == accountName)).Any();
-
-        }
-
         public void ModifyAccount(AccountDto accountDto)
         {
-            ValidateParameter.Validate(_accountId);
-
             var account = accountDto.ConvertToModel<AccountDto, Account>();
 
             var accountResult = Query.FindOne(FilterFactory.Create<Account>(internalAccount => internalAccount.Id == account.Id));
@@ -210,18 +197,14 @@ namespace NewCRM.Application.Services
 
         public void Logout()
         {
-            ValidateParameter.Validate(_accountId);
-
-            AccountContext.Logout(_accountId);
+            AccountContext.Logout(AccountId);
 
             UnitOfWork.Commit();
         }
 
         public void Enable()
         {
-            ValidateParameter.Validate(_accountId);
-
-            var accountResult = GetAccountInfoService(_accountId);
+            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
 
             if (accountResult == null)
             {
@@ -238,9 +221,7 @@ namespace NewCRM.Application.Services
 
         public void Disable()
         {
-            ValidateParameter.Validate(_accountId);
-
-            var accountResult = GetAccountInfoService(_accountId);
+            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
 
             if (accountResult == null)
             {
@@ -256,31 +237,22 @@ namespace NewCRM.Application.Services
 
         public void ModifyAccountFace(String newFace)
         {
-            ValidateParameter.Validate(_accountId).Validate(newFace);
+            ValidateParameter.Validate(newFace);
 
-            var account = GetAccountInfoService(_accountId);
+            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
 
-            account.Config.ModifyAccountFace(newFace);
+            accountResult.Config.ModifyAccountFace(newFace);
 
-            Repository.Create<Account>().Update(account);
+            Repository.Create<Account>().Update(accountResult);
 
             UnitOfWork.Commit();
         }
 
-        public Boolean CheckPassword(String oldAccountPassword)
-        {
-            ValidateParameter.Validate(_accountId).Validate(oldAccountPassword);
-
-            var accountResult = GetAccountInfoService(_accountId);
-
-            return PasswordUtil.ComparePasswords(accountResult.LoginPassword, oldAccountPassword);
-        }
-
         public void ModifyPassword(String newPassword)
         {
-            ValidateParameter.Validate(_accountId).Validate(newPassword);
+            ValidateParameter.Validate(newPassword);
 
-            var accountResult = GetAccountInfoService(_accountId);
+            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
 
             accountResult.ModifyPassword(PasswordUtil.CreateDbPassword(newPassword));
 
@@ -291,9 +263,9 @@ namespace NewCRM.Application.Services
 
         public void ModifyLockScreenPassword(String newScreenPassword)
         {
-            ValidateParameter.Validate(_accountId).Validate(newScreenPassword);
+            ValidateParameter.Validate(newScreenPassword);
 
-            var accountResult = GetAccountInfoService(_accountId);
+            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
 
             accountResult.ModifyLockScreenPassword(PasswordUtil.CreateDbPassword(newScreenPassword));
 
@@ -303,15 +275,5 @@ namespace NewCRM.Application.Services
         }
 
 
-        public IEnumerable<DeskDto> GetDesks()
-        {
-            ValidateParameter.Validate(_accountId);
-
-            var filter = FilterFactory.Create<Desk>(d => d.AccountId == _accountId);
-
-            var desks = Query.Find(filter);
-
-            return desks.ConvertToDtos<Desk, DeskDto>();
-        }
     }
 }

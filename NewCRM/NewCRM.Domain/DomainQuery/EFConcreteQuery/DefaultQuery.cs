@@ -61,5 +61,10 @@ namespace NewCRM.Domain.DomainQuery.EFConcreteQuery
         {
             return QueryProvider.Query(key);
         }
+
+        public IEnumerable<T> Find<T>(T key) where T : DomainModelBase, IAggregationRoot
+        {
+            return QueryProvider.Querys(key);
+        }
     }
 }

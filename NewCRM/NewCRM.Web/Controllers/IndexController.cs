@@ -24,11 +24,11 @@ namespace NewCRM.Web.Controllers
 
             if (Request.Cookies["Account"] != null)
             {
-                ViewData["Account"] = Account;
+                ViewData["Account"] = Account = AccountApplicationServices.GetAccount();
 
                 ViewData["AccountConfig"] = AccountConfig = AccountApplicationServices.GetConfig();
 
-                ViewData["Desks"] = Desks = AccountApplicationServices.GetDesks();
+                ViewData["Desks"] = /*Desks =*/ AccountApplicationServices.GetDesks();
 
                 return View();
             }
@@ -151,8 +151,6 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult CreateWindow(Int32 id = 0, String type = "")
         {
-            var members = Desks.SelectMany((a, b) => a.Members);
-
 
             var internalMemberResult = type == "folder" ? DeskApplicationServices.GetMember(id, true)
                 : DeskApplicationServices.GetMember(id);

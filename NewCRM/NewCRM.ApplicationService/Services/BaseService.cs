@@ -11,12 +11,17 @@ using NewCRM.Domain.Interface.BoundedContext.App;
 using NewCRM.Domain.Interface.BoundedContext.Desk;
 using NewCRM.Domain.Interface.BoundedContext.Wallpaper;
 using NewCRM.Domain.UnitWork;
+using NewCRM.Dto;
+using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
 
 namespace NewCRM.Application.Services.Services
 {
     internal class BaseService
     {
+        [Import(typeof(Int32))]
+        protected Int32 AccountId { get; set; }
+
         [Import]
         protected IUnitOfWork UnitOfWork { get; set; }
 
@@ -54,23 +59,5 @@ namespace NewCRM.Application.Services.Services
         /// 参数验证
         /// </summary>
         protected static Parameter ValidateParameter => new Parameter();
-
-        /// <summary>
-        /// 获取登陆的账户
-        /// </summary>
-        /// <param name="accountId"></param>
-        /// <returns></returns>
-        [Export(typeof(Func<Int32, Account>))]
-        public Account GetAccountInfoService(Int32 accountId)
-        {
-            return Query.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-        }
-
-
-        [Export(typeof(Func<Int32, IEnumerable<Desk>>))]
-        protected IEnumerable<Desk> GetDesks(Int32 accountId)
-        {
-            return Query.Find(FilterFactory.Create((Desk d) => d.AccountId == accountId));
-        }
     }
 }

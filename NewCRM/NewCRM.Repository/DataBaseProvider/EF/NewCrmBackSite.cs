@@ -59,14 +59,12 @@ namespace NewCRM.Repository.DataBaseProvider.EF
             modelBuilder.Entity<Account>()
                 .HasRequired(a => a.Title)
                 .WithMany(t => t.Accounts)
-                .HasForeignKey(a => a.TitleId).WillCascadeOnDelete(false);
+                .Map(m => m.MapKey("TitleId"));
 
             modelBuilder.Entity<Account>()
                 .HasRequired(a => a.Config)
                 .WithMany()
-                .HasForeignKey(a => a.ConfigId);
-
-
+                .Map(m => m.MapKey("ConfigId"));
 
             //modelBuilder.Entity<Account>()
             //    .HasMany(a => a.AccountRoles)
@@ -77,7 +75,7 @@ namespace NewCRM.Repository.DataBaseProvider.EF
             //Config
             modelBuilder.Entity<Config>()
                 .HasRequired(c => c.Wallpaper)
-                .WithMany(w => w.Configs).HasForeignKey(c => c.WallpaperId);
+                .WithMany(w => w.Configs).Map(m => m.MapKey("WallpaperId"));
 
             ////Role
             //modelBuilder.Entity<Role>()
@@ -88,18 +86,7 @@ namespace NewCRM.Repository.DataBaseProvider.EF
             //App
             modelBuilder.Entity<App>()
                 .HasMany(a => a.AppStars)
-                .WithRequired(a => a.App)
-                .HasForeignKey(a => a.AppId);
-
-            modelBuilder.Entity<App>()
-                .HasRequired(a => a.AppType)
-                .WithMany(a => a.Apps)
-                .HasForeignKey(a => a.AppTypeId);
-
-            //Desk
-            modelBuilder.Entity<Desk>()
-                .HasMany(d => d.Members)
-                .WithRequired(m => m.Desk).HasForeignKey(m => m.DeskId);
+                .WithRequired(a => a.App).Map(m => m.MapKey("AppId"));
 
 
             base.OnModelCreating(modelBuilder);

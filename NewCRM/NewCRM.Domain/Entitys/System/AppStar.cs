@@ -6,7 +6,6 @@ namespace NewCRM.Domain.Entitys.System
     {
         public Int32 AccountId { get; private set; }
 
-        public Int32 AppId { get; private set; }
 
         public virtual App App { get; set; }
 

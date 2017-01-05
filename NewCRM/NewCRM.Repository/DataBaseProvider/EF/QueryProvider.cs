@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.DomainSpecification;
@@ -66,8 +67,7 @@ namespace NewCRM.Repository.DataBaseProvider.EF
 
         public T Query<T>(T entity) where T : DomainModelBase, IAggregationRoot
         {
-
-            var key = $"NewCRM:{typeof(T).Name}:{entity.Id}";
+            var key = entity.KeyGenerator();
 
             var cacheValue = _cacheQueryProvider.StringGet<T>(key);
 
@@ -75,7 +75,40 @@ namespace NewCRM.Repository.DataBaseProvider.EF
             {
                 var value = EfContext.Set<T, Int32>().FirstOrDefault(t => t.Id == entity.Id);
 
+                if (_cacheQueryProvider.KeyExists(key))
+                {
+                    _cacheQueryProvider.KeyDelete(key);
+                }
+
                 _cacheQueryProvider.StringSet(key, value);
+
+                return value;
+            }
+
+            return cacheValue;
+        }
+
+        public IEnumerable<T> Querys<T>(T entity) where T : DomainModelBase, IAggregationRoot
+        {
+            var key = entity.KeyGenerator();
+
+            var cacheValue = _cacheQueryProvider.ListRange<T>(key);
+
+            if (cacheValue == null|| !cacheValue.Any())
+            {
+                var value = EfContext.Set<T, Int32>().Where(t => true).ToList();
+
+                if (_cacheQueryProvider.KeyExists(key))
+                {
+                    _cacheQueryProvider.KeyDelete(key);
+                }
+
+                foreach (var v in value)
+                {
+                    _cacheQueryProvider.ListRightPush(key, v);
+                }
+
+                return value;
             }
 
             return cacheValue;

@@ -11,21 +11,18 @@ namespace NewCRM.Domain.Interface.BoundedContextMember
         /// <param name="memberName"></param>
         /// <param name="memberIcon"></param>
         /// <param name="memberId"></param>
-        /// <param name="accountId"></param>
-        void ModifyFolderInfo(String memberName, String memberIcon, Int32 memberId, Int32 accountId);
+        void ModifyFolderInfo(String memberName, String memberIcon, Int32 memberId);
 
         /// <summary>
         /// 修改成员信息
         /// </summary>
-        /// <param name="accountId"></param>
         /// <param name="member"></param>
-        void ModifyMemberInfo(Int32 accountId, Member member);
+        void ModifyMemberInfo(Member member);
 
         /// <summary>
         /// 移除用户的桌面app成员
         /// </summary>
-        /// <param name="accountId"></param>
         /// <param name="memberId"></param>
-        void RemoveMember(Int32 accountId, Int32 memberId);
+        void RemoveMember(Int32 memberId);
     }
 }

@@ -96,11 +96,7 @@ namespace NewCRM.Domain.Entitys.System
         /// </summary>
         public Int32 AccountId { get; private set; }
 
-        /// <summary>
-        /// app类型Id
-        /// </summary>
-        public Int32 AppTypeId { get; private set; }
-
+        public Int32 AppTypeId { get; set; }
 
         public Boolean IsRecommand { get; private set; }
 
@@ -123,12 +119,7 @@ namespace NewCRM.Domain.Entitys.System
 
        // public virtual ICollection<AppRole> AppRoles { get; private set; }
 
-        /// <summary>
-        /// app类型
-        /// </summary>
-        public virtual AppType AppType { get; private set; }
-
-
+  
 
         #endregion
 
@@ -205,6 +196,7 @@ namespace NewCRM.Domain.Entitys.System
            // AppRoles = new List<AppRole>();
             IsRecommand = false;
         }
+
 
         public App()
         {

@@ -61,7 +61,6 @@ namespace NewCRM.Domain.Entitys.System
         /// </summary>
         public virtual Wallpaper Wallpaper { get; private set; }
 
-        public  Int32 WallpaperId { get; set; }
 
         #endregion
 

@@ -14,18 +14,6 @@ namespace NewCRM.Application.Services
     [Export(typeof(ISkinApplicationServices))]
     internal class SkinApplicationServices : BaseService, ISkinApplicationServices
     {
-        private readonly Int32 _accountId;
-
-        [ImportingConstructor]
-        public SkinApplicationServices([Import(typeof(AccountDto))] AccountDto account)
-        {
-            if (account != null)
-            {
-                _accountId = account.Id;
-            }
-        }
-
-
         public IDictionary<String, dynamic> GetAllSkin(String skinPath)
         {
             ValidateParameter.Validate(skinPath);
@@ -49,9 +37,9 @@ namespace NewCRM.Application.Services
 
         public void ModifySkin(String newSkin)
         {
-            ValidateParameter.Validate(_accountId).Validate(newSkin);
+            ValidateParameter.Validate(newSkin);
 
-            var accountResult = GetAccountInfoService(_accountId);
+            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
 
             accountResult.Config.ModifySkin(newSkin);
 

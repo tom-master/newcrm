@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using NewCRM.Domain.KeyGenerators;
 
 namespace NewCRM.Domain.Entitys
 {
     [Serializable]
-    public abstract class DomainModelBase
+    public abstract class DomainModelBase : RedisKeyGenerator
     {
         #region ctor
 
@@ -22,11 +24,11 @@ namespace NewCRM.Domain.Entitys
 
         public Boolean IsDeleted { get; protected set; }
 
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.DateTime),DefaultValue(typeof(DateTime))]
         public DateTime AddTime { get; protected set; }
 
-        [DataType(DataType.DateTime)]
-        public DateTime LastModifyTime { get; set; }=DateTime.Now;
+        [DataType(DataType.DateTime), DefaultValue(typeof(DateTime))]
+        public DateTime LastModifyTime { get; set; } = DateTime.Parse($"{DateTime.Now:yyyy-MM-dd HH:mm:ss}");
 
         #endregion
     }

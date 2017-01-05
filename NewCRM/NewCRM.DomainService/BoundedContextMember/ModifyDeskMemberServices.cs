@@ -11,9 +11,9 @@ namespace NewCRM.Domain.Services.BoundedContextMember
     [Export(typeof(IModifyDeskMemberServices))]
     internal sealed class ModifyDeskMemberServices : BaseService, IModifyDeskMemberServices
     {
-        public void ModifyFolderInfo(String memberName, String memberIcon, Int32 memberId, Int32 accountId)
+        public void ModifyFolderInfo(String memberName, String memberIcon, Int32 memberId)
         {
-            var desks = GetDesks(accountId);
+            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
 
             foreach (var desk in desks)
             {
@@ -31,9 +31,9 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         }
 
-        public void ModifyMemberInfo(Int32 accountId, Member member)
+        public void ModifyMemberInfo(Member member)
         {
-            var desks = GetDesks(accountId);
+            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
 
             foreach (var desk in desks)
             {
@@ -57,9 +57,9 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         }
 
-        public void RemoveMember(Int32 accountId, Int32 memberId)
+        public void RemoveMember(Int32 memberId)
         {
-            var desks = GetDesks(accountId);
+            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
 
             App appResult = null;
 
@@ -83,7 +83,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
                         appResult.SubtractUseCount();
 
-                        appResult.SubtractStar(accountId);
+                        appResult.SubtractStar(AccountId);
 
                     }
 

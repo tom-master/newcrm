@@ -25,25 +25,6 @@ namespace NewCRM.Application.Services
             return Query.Find(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
         }
 
-
-        public void ModifyWallpaperMode(Int32 accountId, String newMode)
-        {
-            ValidateParameter.Validate(accountId).Validate(newMode);
-
-            WallpaperContext.ModifyWallpaperServices.ModifyWallpaperMode(accountId, newMode);
-
-            UnitOfWork.Commit();
-        }
-
-        public void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId)
-        {
-            ValidateParameter.Validate(accountId).Validate(newWallpaperId);
-
-            WallpaperContext.ModifyWallpaperServices.ModifyWallpaper(accountId, newWallpaperId);
-
-            UnitOfWork.Commit();
-        }
-
         public Tuple<Int32, String> AddWallpaper(WallpaperDto wallpaperDto)
         {
             ValidateParameter.Validate(wallpaperDto);
@@ -72,15 +53,6 @@ namespace NewCRM.Application.Services
 
             return Query.Find(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.AccountId == accountId)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
 
-        }
-
-        public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
-        {
-            ValidateParameter.Validate(accountId).Validate(wallpaperId);
-
-            WallpaperContext.ModifyWallpaperServices.RemoveWallpaper(accountId, wallpaperId);
-
-            UnitOfWork.Commit();
         }
 
         public async Task<Tuple<Int32, String>> AddWebWallpaper(Int32 accountId, String url)
@@ -128,5 +100,33 @@ namespace NewCRM.Application.Services
             return Query.FindOne(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Md5 == md5)).ConvertToDto<Wallpaper, WallpaperDto>();
 
         }
+
+        public void ModifyWallpaperMode(Int32 accountId, String newMode)
+        {
+            ValidateParameter.Validate(accountId).Validate(newMode);
+
+            WallpaperContext.ModifyWallpaperServices.ModifyWallpaperMode(newMode);
+
+            UnitOfWork.Commit();
+        }
+
+        public void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId)
+        {
+            ValidateParameter.Validate(accountId).Validate(newWallpaperId);
+
+            WallpaperContext.ModifyWallpaperServices.ModifyWallpaper(newWallpaperId);
+
+            UnitOfWork.Commit();
+        }
+
+        public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
+        {
+            ValidateParameter.Validate(accountId).Validate(wallpaperId);
+
+            WallpaperContext.ModifyWallpaperServices.RemoveWallpaper(wallpaperId);
+
+            UnitOfWork.Commit();
+        }
+
     }
 }
