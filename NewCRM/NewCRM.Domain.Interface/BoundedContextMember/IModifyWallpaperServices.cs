@@ -7,14 +7,12 @@ namespace NewCRM.Domain.Interface.BoundedContextMember
         /// <summary>
         /// 修改壁纸的显示模式
         /// </summary>
-        /// <param name="accountId"></param>
         /// <param name="newMode"></param>
         void ModifyWallpaperMode(String newMode);
 
         /// <summary>
         /// 更换壁纸
         /// </summary>
-        /// <param name="accountId"></param>
         /// <param name="newWallpaperId"></param>
         void ModifyWallpaper(Int32 newWallpaperId);
 
@@ -22,7 +20,6 @@ namespace NewCRM.Domain.Interface.BoundedContextMember
         /// <summary>
         /// 根据用户id删除壁纸
         /// </summary>
-        /// <param name="accountId"></param>
         /// <param name="wallpaperId"></param>
         void RemoveWallpaper(Int32 wallpaperId);
     }

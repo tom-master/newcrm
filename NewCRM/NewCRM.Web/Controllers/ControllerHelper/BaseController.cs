@@ -34,16 +34,12 @@ namespace NewCRM.Web.Controllers.ControllerHelper
         /// </summary>
         protected static AccountDto Account { get; set; }
 
-        [Export(typeof(Int32))]
+        [Export("AccountId", typeof(Int32))]
         protected Int32 AccountId
         {
             get
             {
-                if (Account != null)
-                {
-                    return Account.Id;
-                }
-                return 0;
+                return Account != null ? Account.Id : 1;
             }
         }
 

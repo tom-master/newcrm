@@ -22,7 +22,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(AccountId);
 
-            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId)).Where(w => w.Members.Any());
+            var desks = Query.Find((Desk desk) => desk.AccountId == AccountId).Where(w => w.Members.Any());
 
             IDictionary<String, IList<dynamic>> deskDictionary = new Dictionary<String, IList<dynamic>>();
 
@@ -476,7 +476,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(appId).Validate(starCount, true);
 
-            AppContext.ModifyAppInfoServices.ModifyAppStar(AccountId, appId, starCount);
+            AppContext.ModifyAppInfoServices.ModifyAppStar(appId, starCount);
 
             UnitOfWork.Commit();
         }
@@ -489,12 +489,12 @@ namespace NewCRM.Application.Services
 
             UnitOfWork.Commit();
         }
-      
+
         public void ModifyAccountAppInfo(AppDto appDto)
         {
             ValidateParameter.Validate(appDto);
 
-            AppContext.ModifyAppInfoServices.ModifyAccountAppInfo(AccountId, appDto.ConvertToModel<AppDto, App>());
+            AppContext.ModifyAppInfoServices.ModifyAccountAppInfo(appDto.ConvertToModel<AppDto, App>());
 
             UnitOfWork.Commit();
         }

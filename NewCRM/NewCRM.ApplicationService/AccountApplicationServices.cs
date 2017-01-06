@@ -33,7 +33,7 @@ namespace NewCRM.Application.Services
         public ConfigDto GetConfig()
         {
 
-            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+            var accountResult = Query.FindOne((Account account) => account.Id == AccountId);
 
             if (accountResult == null)
             {
@@ -96,7 +96,7 @@ namespace NewCRM.Application.Services
 
         public AccountDto GetAccount()
         {
-            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+            var accountResult = Query.FindOne((Account account) => account.Id == AccountId);
 
             if (accountResult == null)
             {
@@ -126,7 +126,7 @@ namespace NewCRM.Application.Services
 
         public IEnumerable<DeskDto> GetDesks()
         {
-            return Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId)).ConvertToDtos<Desk, DeskDto>();
+            return Query.Find((Desk desk) => desk.AccountId == AccountId).ConvertToDtos<Desk, DeskDto>();
         }
 
 

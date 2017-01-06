@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using NewCRM.Domain.DomainSpecification;
 using NewCRM.Domain.Entitys;
 using NewCRM.Domain.Repositories;
@@ -65,15 +67,15 @@ namespace NewCRM.Repository.DataBaseProvider.EF
             return EfContext.Set<T, Int32>().Where(specification.Expression);
         }
 
-        public T Query<T>(T entity) where T : DomainModelBase, IAggregationRoot
+        public T Query<T>(Expression<Func<T, Boolean>> entity) where T : DomainModelBase, IAggregationRoot
         {
-            var key = entity.KeyGenerator();
+            var key = BuilderRedisKey(entity);
 
             var cacheValue = _cacheQueryProvider.StringGet<T>(key);
 
             if (cacheValue == null)
             {
-                var value = EfContext.Set<T, Int32>().FirstOrDefault(t => t.Id == entity.Id);
+                var value = EfContext.Set<T, Int32>().FirstOrDefault(entity);
 
                 if (_cacheQueryProvider.KeyExists(key))
                 {
@@ -88,15 +90,17 @@ namespace NewCRM.Repository.DataBaseProvider.EF
             return cacheValue;
         }
 
-        public IEnumerable<T> Querys<T>(T entity) where T : DomainModelBase, IAggregationRoot
+        public IEnumerable<T> Querys<T>(Expression<Func<T, Boolean>> entity) where T : DomainModelBase, IAggregationRoot
         {
-            var key = entity.KeyGenerator();
+            var key = BuilderRedisKey(entity);
 
             var cacheValue = _cacheQueryProvider.ListRange<T>(key);
 
-            if (cacheValue == null|| !cacheValue.Any())
+            if (cacheValue == null || !cacheValue.Any())
             {
-                var value = EfContext.Set<T, Int32>().Where(t => true).ToList();
+                IList<T> value = null;
+
+                value = EfContext.Set<T, Int32>().Where(entity).ToList();
 
                 if (_cacheQueryProvider.KeyExists(key))
                 {
@@ -112,6 +116,41 @@ namespace NewCRM.Repository.DataBaseProvider.EF
             }
 
             return cacheValue;
+        }
+
+
+        private static String BuilderRedisKey<T>(Expression<Func<T, Boolean>> expression)
+        {
+            var binaryExpression = (BinaryExpression)expression.Body;
+
+            var leftMember = (MemberExpression)binaryExpression.Left;
+
+            var leftMemberName = leftMember.Member.Name;
+
+            var rightMember = (MemberExpression)binaryExpression.Right;
+
+            Expression rightMemberExpression = rightMember.Expression;
+
+            Object returnValue;
+
+            if (rightMemberExpression is MemberExpression)
+            {
+                var internalRightMemberExpression = (MemberExpression)rightMemberExpression;
+
+                var field = internalRightMemberExpression.Type.GetProperty(rightMember.Member.Name, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+
+                returnValue = field.GetValue(((ConstantExpression)internalRightMemberExpression.Expression).Value);
+            }
+            else
+            {
+                var internalRightMemberExpression = (ConstantExpression)rightMemberExpression;
+
+                var field = internalRightMemberExpression.Type.GetProperty(rightMember.Member.Name,BindingFlags.Instance|BindingFlags.NonPublic);
+
+                returnValue = field.GetValue(internalRightMemberExpression.Value);
+            }
+
+            return $"NewCRM:{typeof(T).Name}:{returnValue}";
         }
     }
 }

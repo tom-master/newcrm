@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Linq.Expressions;
 using NewCRM.Domain.DomainQuery.Query;
 using NewCRM.Domain.DomainSpecification;
 using NewCRM.Domain.Entitys;
@@ -57,12 +58,12 @@ namespace NewCRM.Domain.DomainQuery.EFConcreteQuery
             return query.PageBy(pageIndex, pageSize, specification.OrderBy).ToList();
         }
 
-        public T FindOne<T>(T key) where T : DomainModelBase, IAggregationRoot
+        public T FindOne<T>(Expression<Func<T, Boolean>> key) where T : DomainModelBase, IAggregationRoot
         {
             return QueryProvider.Query(key);
         }
 
-        public IEnumerable<T> Find<T>(T key) where T : DomainModelBase, IAggregationRoot
+        public IEnumerable<T> Find<T>(Expression<Func<T,Boolean>> key ) where T : DomainModelBase, IAggregationRoot
         {
             return QueryProvider.Querys(key);
         }

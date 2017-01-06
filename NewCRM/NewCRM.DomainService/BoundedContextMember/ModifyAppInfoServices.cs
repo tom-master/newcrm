@@ -13,23 +13,23 @@ namespace NewCRM.Domain.Services.BoundedContextMember
     internal class ModifyAppInfoServices : BaseService, IModifyAppInfoServices
     {
 
-        public void ModifyAppStar(Int32 accountId, Int32 appId, Int32 starCount)
+        public void ModifyAppStar(Int32 appId, Int32 starCount)
         {
-            if (!Query.Find(FilterFactory.Create<Desk>(d => d.Members.Any(m => m.AppId == appId) && d.AccountId == accountId)).Any())
+            if (!Query.Find(FilterFactory.Create<Desk>(d => d.Members.Any(m => m.AppId == appId) && d.AccountId == AccountId)).Any())
             {
                 throw new BusinessException($"请安装这个应用后再打分");
             }
 
             var appResult = Query.FindOne(FilterFactory.Create<App>(app => app.Id == appId));
 
-            appResult.AddStar(accountId, starCount);
+            appResult.AddStar(AccountId, starCount);
 
             Repository.Create<App>().Update(appResult);
         }
 
-        public void ModifyAccountAppInfo(Int32 accountId, App app)
+        public void ModifyAccountAppInfo(App app)
         {
-            var appResult = Query.FindOne(FilterFactory.Create<App>(internalApp => internalApp.Id == app.Id && internalApp.AccountId == accountId));
+            var appResult = Query.FindOne(FilterFactory.Create<App>(internalApp => internalApp.Id == app.Id && internalApp.AccountId == AccountId));
 
             if (appResult == null)
             {

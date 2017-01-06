@@ -24,7 +24,7 @@ namespace NewCRM.Web.Controllers
 
             if (Request.Cookies["Account"] != null)
             {
-                ViewData["Account"] = Account = AccountApplicationServices.GetAccount();
+                ViewData["Account"] = AccountApplicationServices.GetAccount();
 
                 ViewData["AccountConfig"] = AccountConfig = AccountApplicationServices.GetConfig();
 
