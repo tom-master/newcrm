@@ -25,7 +25,7 @@ namespace NewCRM.Domain.Entitys.Agent
 
         public override String KeyGenerator()
         {
-            return $"NewCRM:{GetType().Name}:{Id}";
+            return $"NewCRM:{nameof(Title)}:{Id}";
         }
 
         #endregion

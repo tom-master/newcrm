@@ -356,7 +356,7 @@ namespace NewCRM.Domain.Entitys.System
 
         public override String KeyGenerator()
         {
-            return $"NewCRM:{GetType().Name}:{Id}";
+            return $"NewCRM:{nameof(App)}:{Id}";
         }
 
         #endregion

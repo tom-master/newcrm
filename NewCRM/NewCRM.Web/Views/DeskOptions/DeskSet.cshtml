@@ -2,6 +2,8 @@
 @{
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
     var accountConfig = ViewData["AccountConfig"] as ConfigDto;
+
+    var desks = ViewData["Desks"] as IList<DeskDto>;
 }
  
 <div class="title">默认桌面(登录后默认显示)</div>
@@ -9,7 +11,7 @@
     <label class="label-text">默认显示：</label>
     <div class="label-box form-inline control-group">
         @{
-            for (int i = 1; i <= accountConfig.Desks.Count; i++)
+            for (int i = 1; i <= desks.Count; i++)
             {<text>
             <label class="radio" style="margin-right: 10px">
                 <input type="radio" name="desk" value="@i" @{ if (i == accountConfig.DefaultDeskNumber) { <text> checked="checked" </text>     } }>第@{@i}桌面

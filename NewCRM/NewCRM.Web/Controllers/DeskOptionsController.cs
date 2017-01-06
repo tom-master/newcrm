@@ -57,6 +57,9 @@ namespace NewCRM.Web.Controllers
         {
             ViewData["AccountConfig"] = AccountConfig;
 
+
+            ViewData["Desks"] = AccountApplicationServices.GetDesks();
+
             return View();
         }
         #endregion
