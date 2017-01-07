@@ -7,11 +7,5 @@
       <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
       <jdbc-url>jdbc:sqlserver://localhost:1433;databaseName=NewCrmBackSite</jdbc-url>
     </data-source>
-    <data-source source="LOCAL" name="SQL Server (Microsoft) - OrderDatabase@localhost" uuid="7f3677fb-c83e-49d3-b5ce-831544bcaaf2">
-      <driver-ref>sqlserver.ms</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
-      <jdbc-url>jdbc:sqlserver://localhost:1433;databaseName=OrderDatabase</jdbc-url>
-    </data-source>
   </component>
 </project>

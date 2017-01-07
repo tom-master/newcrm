@@ -49,7 +49,7 @@ namespace NewCRM.Domain.Entitys.Security
 
         public override String KeyGenerator()
         {
-            return $"NewCRM:{nameof(Power)}:{Id}";
+            return $"NewCRM:{nameof(Power)}:Id:{Id}";
         }
 
         #endregion

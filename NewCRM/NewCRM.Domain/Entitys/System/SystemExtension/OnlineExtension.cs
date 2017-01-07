@@ -10,7 +10,7 @@ namespace NewCRM.Domain.Entitys.System
     {
         public override String KeyGenerator()
         {
-            return $"NewCRM:{nameof(Online)}:{Id}";
+            return $"NewCRM:{nameof(Online)}:Id:{Id}";
         }
     }
 }

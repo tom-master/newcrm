@@ -55,6 +55,7 @@
     <Compile Include="CommonTools\CustomException\ExceptionMessage.cs" />
     <Compile Include="CommonTools\CustomException\RepositoryException.cs" />
     <Compile Include="CommonTools\CustomExtension\EnumExtensions.cs" />
+    <Compile Include="CommonTools\CustomExtension\ExpressionExtension.cs" />
     <Compile Include="CommonTools\CustomExtension\ObjectExtensions.cs" />
     <Compile Include="CommonTools\CustomExtension\PropertySortCondition.cs" />
     <Compile Include="CommonTools\CustomExtension\QueryExtensions.cs" />

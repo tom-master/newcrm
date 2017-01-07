@@ -13,7 +13,7 @@ namespace NewCRM.Application.Interface
         /// </summary>
         
         /// <returns></returns>
-        IDictionary<String, IList<dynamic>> GetAccountDeskMembers();
+        IDictionary<String, IList<dynamic>> GetAccountDeskMembers(Int32 deskId);
 
         /// <summary>
         /// 获取所有的app类型

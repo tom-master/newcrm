@@ -32,7 +32,7 @@ namespace NewCRM.Domain.Entitys.System
 
         public override String KeyGenerator()
         {
-            return $"NewCRM:{nameof(Desk)}:{AccountId}";
+            return $"NewCRM:{nameof(Desk)}:AccountId:{AccountId}:Id:{Id}";
         }
 
 

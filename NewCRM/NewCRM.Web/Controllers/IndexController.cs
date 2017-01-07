@@ -127,9 +127,9 @@ namespace NewCRM.Web.Controllers
         /// 获取我的应用
         /// </summary>
         /// <returns></returns>
-        public ActionResult GetAccountDeskMembers()
+        public ActionResult GetAccountDeskMembers(Int32 deskId)
         {
-            var app = AppApplicationServices.GetAccountDeskMembers();
+            var app = AppApplicationServices.GetAccountDeskMembers(deskId);
 
             return Json(new { app }, JsonRequestBehavior.AllowGet);
         }

@@ -93,7 +93,7 @@
     <Compile Include="DataBaseProvider\EF\Event\ICacheModifyEvent.cs" />
     <Compile Include="DataBaseProvider\Redis\ICacheQueryProvider.cs" />
     <Compile Include="DataBaseProvider\Redis\RedisConnectionHelp.cs" />
-    <Compile Include="DataBaseProvider\Redis\QueryProvider.cs" />
+    <Compile Include="DataBaseProvider\Redis\InternalQueryProvider.cs" />
     <Compile Include="DefaultRepositoryFactory.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="DataBaseProvider\EF\NewCrmBackSite.cs" />

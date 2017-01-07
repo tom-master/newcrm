@@ -11,15 +11,5 @@
       <user-name>sa</user-name>
       <resolve-scope>NewCrmBackSite:*</resolve-scope>
     </data-source>
-    <data-source name="SQL Server (Microsoft) - OrderDatabase@localhost" uuid="7f3677fb-c83e-49d3-b5ce-831544bcaaf2">
-      <database-info product="Microsoft SQL Server" version="12.00.4232" jdbc-version="4.0" driver-name="Microsoft JDBC Driver 4.0 for SQL Server" driver-version="4.0.2206.100">
-        <extra-name-characters>$#@</extra-name-characters>
-        <identifier-quote-string>&quot;</identifier-quote-string>
-      </database-info>
-      <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
-      <secret-storage>master_key</secret-storage>
-      <user-name>sa</user-name>
-      <resolve-scope>OrderDatabase:*</resolve-scope>
-    </data-source>
   </component>
 </project>

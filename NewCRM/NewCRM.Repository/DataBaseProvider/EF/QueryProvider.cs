@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
+using System.Text;
 using NewCRM.Domain.DomainSpecification;
 using NewCRM.Domain.Entitys;
 using NewCRM.Domain.Repositories;
 using NewCRM.Domain.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustomException;
+using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewCRM.Repository.UnitOfWorkProvide;
 using NewCRM.Repository.DataBaseProvider.Redis;
 
@@ -69,20 +70,21 @@ namespace NewCRM.Repository.DataBaseProvider.EF
 
         public T Query<T>(Expression<Func<T, Boolean>> entity) where T : DomainModelBase, IAggregationRoot
         {
-            var key = BuilderRedisKey(entity);
 
-            var cacheValue = _cacheQueryProvider.StringGet<T>(key);
+            String internalKey = entity.GeneratorRedisKey<T>();
+
+            var cacheValue = _cacheQueryProvider.StringGet<T>(internalKey);
 
             if (cacheValue == null)
             {
                 var value = EfContext.Set<T, Int32>().FirstOrDefault(entity);
 
-                if (_cacheQueryProvider.KeyExists(key))
+                if (_cacheQueryProvider.KeyExists(internalKey))
                 {
-                    _cacheQueryProvider.KeyDelete(key);
+                    _cacheQueryProvider.KeyDelete(internalKey);
                 }
 
-                _cacheQueryProvider.StringSet(key, value);
+                _cacheQueryProvider.StringSet(internalKey, value);
 
                 return value;
             }
@@ -92,24 +94,22 @@ namespace NewCRM.Repository.DataBaseProvider.EF
 
         public IEnumerable<T> Querys<T>(Expression<Func<T, Boolean>> entity) where T : DomainModelBase, IAggregationRoot
         {
-            var key = BuilderRedisKey(entity);
+            String internalKey = entity.GeneratorRedisKey<T>();
 
-            var cacheValue = _cacheQueryProvider.ListRange<T>(key);
+            var cacheValue = _cacheQueryProvider.ListRange<T>(internalKey);
 
             if (cacheValue == null || !cacheValue.Any())
             {
-                IList<T> value = null;
+                IList<T> value = EfContext.Set<T, Int32>().Where(entity).ToList();
 
-                value = EfContext.Set<T, Int32>().Where(entity).ToList();
-
-                if (_cacheQueryProvider.KeyExists(key))
+                if (_cacheQueryProvider.KeyExists(internalKey))
                 {
-                    _cacheQueryProvider.KeyDelete(key);
+                    _cacheQueryProvider.KeyDelete(internalKey);
                 }
 
                 foreach (var v in value)
                 {
-                    _cacheQueryProvider.ListRightPush(key, v);
+                    _cacheQueryProvider.ListRightPush(internalKey, v);
                 }
 
                 return value;
@@ -119,38 +119,6 @@ namespace NewCRM.Repository.DataBaseProvider.EF
         }
 
 
-        private static String BuilderRedisKey<T>(Expression<Func<T, Boolean>> expression)
-        {
-            var binaryExpression = (BinaryExpression)expression.Body;
 
-            var leftMember = (MemberExpression)binaryExpression.Left;
-
-            var leftMemberName = leftMember.Member.Name;
-
-            var rightMember = (MemberExpression)binaryExpression.Right;
-
-            Expression rightMemberExpression = rightMember.Expression;
-
-            Object returnValue;
-
-            if (rightMemberExpression is MemberExpression)
-            {
-                var internalRightMemberExpression = (MemberExpression)rightMemberExpression;
-
-                var field = internalRightMemberExpression.Type.GetProperty(rightMember.Member.Name, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-
-                returnValue = field.GetValue(((ConstantExpression)internalRightMemberExpression.Expression).Value);
-            }
-            else
-            {
-                var internalRightMemberExpression = (ConstantExpression)rightMemberExpression;
-
-                var field = internalRightMemberExpression.Type.GetProperty(rightMember.Member.Name,BindingFlags.Instance|BindingFlags.NonPublic);
-
-                returnValue = field.GetValue(internalRightMemberExpression.Value);
-            }
-
-            return $"NewCRM:{typeof(T).Name}:{returnValue}";
-        }
     }
 }

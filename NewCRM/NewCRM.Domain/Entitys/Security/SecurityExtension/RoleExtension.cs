@@ -136,7 +136,7 @@ namespace NewCRM.Domain.Entitys.Security
 
         public override String KeyGenerator()
         {
-            return $"NewCRM:{nameof(Role)}:{Id}";
+            return $"NewCRM:{nameof(Role)}:Id:{Id}";
         }
 
         #endregion

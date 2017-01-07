@@ -10,7 +10,7 @@ namespace NewCRM.Domain.Entitys.System
     {
         public override String KeyGenerator()
         {
-            return $"NewCRM:{nameof(Wallpaper)}:{Id}";
+            return $"NewCRM:{nameof(Wallpaper)}:Id:{Id}";
         }
     }
 }

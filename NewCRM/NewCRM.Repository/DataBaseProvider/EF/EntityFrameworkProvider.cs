@@ -11,6 +11,7 @@ using NewCRM.Infrastructure.CommonTools.CustomHelper;
 using NewCRM.Repository.DataBaseProvider.Redis;
 using NewCRM.Repository.UnitOfWorkProvide;
 using Newtonsoft.Json;
+using StackExchange.Redis;
 
 namespace NewCRM.Repository.DataBaseProvider.EF
 {
@@ -18,8 +19,7 @@ namespace NewCRM.Repository.DataBaseProvider.EF
     /// EntityFramework仓储操作基类
     /// </summary>
     /// <typeparam name="T">动态实体类型</typeparam>
-    public abstract class EntityFrameworkProvider<T> :
-       IRepository<T> where T : DomainModelBase, IAggregationRoot
+    public abstract class EntityFrameworkProvider<T> : IRepository<T> where T : DomainModelBase, IAggregationRoot
     {
         private readonly Parameter _vaildateParameter;
 
@@ -32,7 +32,6 @@ namespace NewCRM.Repository.DataBaseProvider.EF
         }
 
         #region 属性
-
 
         /// <summary>
         /// 获取 仓储上下文的实例
@@ -183,15 +182,24 @@ namespace NewCRM.Repository.DataBaseProvider.EF
         {
             var key = entity.KeyGenerator();
 
-            if (_cacheQueryProvider.KeyExists(key))
+            if (_cacheQueryProvider.GetKeyType(key) == RedisType.String)
             {
-                _cacheQueryProvider.KeyDelete(key);
-            }
+                if (_cacheQueryProvider.KeyExists(key))
+                {
+                    _cacheQueryProvider.KeyDelete(key);
+                }
 
-            _cacheQueryProvider.StringSet(key, JsonConvert.SerializeObject(entity, Formatting.Indented, new JsonSerializerSettings
+                _cacheQueryProvider.StringSet(key, entity);
+            }
+            else if (_cacheQueryProvider.GetKeyType(key) == RedisType.List)
             {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            }));
+                if (_cacheQueryProvider.KeyExists(key))
+                {
+                    _cacheQueryProvider.KeyDelete(key);
+                }
+
+                _cacheQueryProvider.ListRightPush(key, entity);
+            }
         }
 
     }

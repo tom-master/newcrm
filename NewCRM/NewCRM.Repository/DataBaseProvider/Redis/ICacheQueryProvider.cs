@@ -536,7 +536,6 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
 
         Boolean KeyDelete(String key);
 
-
         /// <summary>
         /// 删除多个key
         /// </summary>
@@ -559,7 +558,6 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
         /// <returns></returns>
         Boolean KeyRename(String key, String newKey);
 
-
         /// <summary>
         /// 设置Key的时间
         /// </summary>
@@ -567,6 +565,9 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
         /// <param name="expiry"></param>
         /// <returns></returns>
         Boolean KeyExpire(String key, TimeSpan? expiry = default(TimeSpan?));
+
+        RedisType GetKeyType(String key);
+
 
     }
 

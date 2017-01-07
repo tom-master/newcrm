@@ -14,7 +14,7 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
     /// <summary>
     /// Redis操作
     /// </summary>
-    internal class QueryProvider : ICacheQueryProvider
+    internal class InternalQueryProvider : ICacheQueryProvider
     {
         private Int32 DbNum { get; }
         private readonly ConnectionMultiplexer _conn;
@@ -22,17 +22,17 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
 
         #region 构造函数
 
-        public QueryProvider() : this(0, null)
+        public InternalQueryProvider() : this(0, null)
         {
 
         }
 
-        public QueryProvider(Int32 dbNum = 0)
+        public InternalQueryProvider(Int32 dbNum = 0)
                 : this(dbNum, null)
         {
         }
 
-        public QueryProvider(Int32 dbNum, String readWriteHosts)
+        public InternalQueryProvider(Int32 dbNum, String readWriteHosts)
         {
             DbNum = dbNum;
             _conn =
@@ -981,6 +981,15 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
         {
             ContractResolver = new PrivateSetterContractResolver()
         };
+
+        public RedisType GetKeyType(String key)
+        {
+            key = AddSysCustomKey(key);
+            
+            var keyType = Do(db => db.KeyType(key));
+
+            return keyType;
+        }
     }
 
 }
