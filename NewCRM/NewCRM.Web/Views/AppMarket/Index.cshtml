@@ -134,9 +134,6 @@
             getPageList(0);
 
             openDetailIframe2 = function (url) {
-
-
-
                 ZENG.msgbox.show('正在载入中，请稍后...', 6, 100000);
                 $('#detailIframe iframe').attr('src', url).on('load', function () {
                     ZENG.msgbox._hide();
@@ -268,12 +265,13 @@
         function getPageList(current_page) {
             var appTypeId = $('#appType').val() === '' ? 0 : parseInt($('#appType').val());
             var orderId = $('#order').val() === '' ? 1 : parseInt($('#order').val());
-
+            
+            var outSideSearchText = '@Request["searchText"]';
 
             $.get('@Url.Action("GetAllApps", "AppMarket")', {
                 appTypeId: appTypeId,
                 orderId: orderId,
-                searchText: $('#searchText').val(),
+                searchText: outSideSearchText === '' ? $('#searchText').val() : outSideSearchText,
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 5
             }, function (responseText) {

@@ -99,7 +99,7 @@ namespace NewCRM.Application.Services
 
         public List<AppTypeDto> GetAppTypes()
         {
-            return Query.Find(FilterFactory.Create<AppType>()).ConvertToDtos<AppType, AppTypeDto>().ToList();
+            return Query.Find((AppType appType) => true).ConvertToDtos<AppType, AppTypeDto>().ToList();
         }
 
         public TodayRecommendAppDto GetTodayRecommend()
@@ -206,7 +206,7 @@ namespace NewCRM.Application.Services
             #endregion
 
 
-            var appTypes = GetAllAppStyles();
+            var appTypes = GetAppTypes();
 
 
             var appDtoResult = Query.PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
@@ -220,7 +220,7 @@ namespace NewCRM.Application.Services
                 app.IconUrl,
                 app.Remark,
                 app.AppStyle,
-                AppType = appTypes.FirstOrDefault(appType => appType.Id == app.AppTypeId),
+                AppType = appTypes.FirstOrDefault(appType => appType.Id == app.AppTypeId).Name,
                 app.Id
             }).ConvertDynamicToDtos<AppDto>().ToList();
 
@@ -239,7 +239,7 @@ namespace NewCRM.Application.Services
             var appResult = Query.FindOne(specification);
 
 
-            var appTypes = GetAllAppStyles();
+            var appTypes = GetAppTypes();
 
             return DtoConfiguration.ConvertDynamicToDto<AppDto>(new
             {
@@ -248,7 +248,7 @@ namespace NewCRM.Application.Services
                 appResult.Remark,
                 appResult.UseCount,
                 StartCount = CountAppStars(appResult),
-                AppTypeName = appTypes.FirstOrDefault(appType => appType.Id == appResult.AppTypeId),
+                AppTypeName = appTypes.FirstOrDefault(appType => appType.Id == appResult.AppTypeId).Name,
                 appResult.AddTime,
                 appResult.AccountId,
                 appResult.Id,
@@ -397,7 +397,7 @@ namespace NewCRM.Application.Services
             {
                 app.Name,
                 app.AppStyle,
-                AppTypeName = appTypes.FirstOrDefault(appType => appType.Id == app.AppTypeId),
+                AppTypeName = appTypes.FirstOrDefault(appType => appType.Id == app.AppTypeId).Name,
                 app.UseCount,
                 app.Id,
                 app.IconUrl,
@@ -405,6 +405,27 @@ namespace NewCRM.Application.Services
                 app.IsRecommand,
                 IsCreater = app.AccountId == AccountId
             }).ConvertDynamicToDtos<AppDto>().ToList();
+
+        }
+
+        public List<AppDto> GetSystemApp(params Int32[] appIds)
+        {
+
+            var filter = FilterFactory.Create((App app) => app.IsSystem);
+
+            if (appIds.Any())
+            {
+                filter.And(app=>appIds.Contains(app.Id));
+            }
+
+            var appResult = Query.Find(filter);
+
+            return appResult.Select(app => new AppDto
+            {
+                Id = app.Id,
+                Name = app.Name,
+                IconUrl = app.IconUrl
+            }).ToList();
 
         }
 
@@ -636,6 +657,8 @@ namespace NewCRM.Application.Services
         // <summary> <param name="app"></param>
         // <summary> <returns></returns>
         private static Double CountAppStars(App app) => app.AppStars.Any() ? (app.AppStars.Sum(s => s.StartNum) * 1.0) / (app.AppStars.Count * 1.0) : 0.0;
+
+
 
         #endregion
     }

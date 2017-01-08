@@ -137,6 +137,9 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
                     }
                 case ExpressionType.Parameter:
                 case ExpressionType.Constant:
+                    {
+                        return expression;
+                    }
                 case ExpressionType.TypeIs:
                 default:
                     throw new Exception(String.Format("Unhandled expression type: '{0}'", expression.NodeType));

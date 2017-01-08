@@ -57,7 +57,6 @@
     <Compile Include="Entitys\DomainModelBase.cs" />
     <Compile Include="Entitys\IAggregationRoot.cs" />
     <Compile Include="Entitys\Security\RolePower.cs" />
-    <Compile Include="Entitys\Security\SecurityExtension\PowerExtension.cs" />
     <Compile Include="Entitys\Security\SecurityExtension\RoleExtension.cs" />
     <Compile Include="Entitys\System\App.cs" />
     <Compile Include="Entitys\System\AppRole.cs" />
@@ -86,7 +85,6 @@
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\IRepository\Agent\ITitleRepository.cs" />
     <Compile Include="Repositories\IRepository\Agent\IAccountRepository.cs" />
-    <Compile Include="Repositories\IRepository\Security\IPowerRepository.cs" />
     <Compile Include="Repositories\IRepository\Security\IRoleRepository.cs" />
     <Compile Include="Repositories\IRepository\System\IAppRepository.cs" />
     <Compile Include="Repositories\IRepository\System\IAppTypeRepository.cs" />
@@ -114,7 +112,6 @@
     <Compile Include="ValueObject\WallpaperMode.cs" />
     <Compile Include="ValueObject\WallpaperSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Entitys\Security\Power.cs" />
     <Compile Include="Entitys\Security\Role.cs" />
   </ItemGroup>
   <ItemGroup>

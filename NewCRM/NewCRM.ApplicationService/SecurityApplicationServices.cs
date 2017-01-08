@@ -43,7 +43,7 @@ namespace NewCRM.Application.Services
                 roleResult.Name,
                 roleResult.RoleIdentity,
                 roleResult.Remark,
-                Powers = roleResult.Powers.Select(s => new {/* Id = s.PowerId */})
+                Powers = roleResult.Powers.Select(s => new { Id = s.AppId})
             });
 
         }
@@ -144,113 +144,18 @@ namespace NewCRM.Application.Services
         }
 
         #endregion
-
-        #region Power
-
-        public List<PowerDto> GetAllPowers()
-        {
-            return Query.Find(FilterFactory.Create<Power>()).Select(power => new
-            {
-                power.Name,
-                power.Id,
-                power.PowerIdentity
-            }).ConvertDynamicToDtos<PowerDto>().ToList();
-
-        }
-
-        public List<PowerDto> GetAllPowers(String powerName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
-        {
-            ValidateParameter.Validate(powerName).Validate(pageIndex).Validate(pageSize);
-
-            var powerSpecification = FilterFactory.Create<Power>();
-
-            if ((powerName + "").Length > 0)
-            {
-                powerSpecification.And(power => power.Name.Contains(powerName));
-            }
-
-            return Query.PageBy(powerSpecification, pageIndex, pageSize, out totalCount)
-                .ConvertToDtos<Power, PowerDto>().ToList();
-
-        }
-
-        public PowerDto GetPower(Int32 powerId)
-        {
-            ValidateParameter.Validate(powerId);
-
-            var powerResult = Query.FindOne(FilterFactory.Create<Power>());
-
-            if (powerResult == null)
-            {
-                throw new BusinessException($"该权限可能已被删除，请刷新后再试");
-            }
-
-            return powerResult.ConvertToDto<Power, PowerDto>();
-
-        }
-
-        public void AddNewPower(PowerDto powerDto)
-        {
-            ValidateParameter.Validate(powerDto);
-
-            var power = powerDto.ConvertToModel<PowerDto, Power>();
-
-            Repository.Create<Power>().Add(power);
-
-            UnitOfWork.Commit();
-        }
-
-        public void ModifyPower(PowerDto powerDto)
-        {
-            ValidateParameter.Validate(powerDto);
-
-            var power = powerDto.ConvertToModel<PowerDto, Power>();
-
-            var powerResult = Query.FindOne(FilterFactory.Create<Power>(p => p.Id == power.Id));
-
-            if (powerResult == null)
-            {
-                throw new BusinessException("该权限可能已被删除，请刷新后再试");
-            }
-
-            powerResult.ModifyPowerIdentity(power.PowerIdentity);
-
-            powerResult.ModifyPowerName(power.Name);
-
-            Repository.Create<Power>().Update(powerResult);
-
-            UnitOfWork.Commit();
-        }
-
-        public void RemovePower(Int32 powerId)
-        {
-            ValidateParameter.Validate(powerId);
-
-            var powerResult = Query.FindOne(FilterFactory.Create<Power>(power => power.Id == powerId));
-
-            if (powerResult == null)
-            {
-                throw new BusinessException("该权限可能已被删除，请刷新后再试");
-            }
-
-            powerResult.Remove();
-
-            Repository.Create<Power>().Update(powerResult);
-
-            UnitOfWork.Commit();
-        }
-
-        #endregion
-
+        
         public Boolean CheckPermissions(String powerName, params Int32[] roleIds)
         {
-            var powersIds = Query.Find(FilterFactory.Create<Power>(power => power.PowerIdentity == powerName)).Select(power => power.Id).ToArray();
+            //var powersIds = Query.Find(FilterFactory.Create<Power>(power => power.PowerIdentity == powerName)).Select(power => power.Id).ToArray();
 
-            var roles = Query.Find(FilterFactory.Create<Role>(role => roleIds.Contains(role.Id))).ToArray();
+            //var roles = Query.Find(FilterFactory.Create<Role>(role => roleIds.Contains(role.Id))).ToArray();
 
-            var isParentPermission = roles.Any(role => role.Powers.Any(power =>true/* power.Power.ParentId == null*/));
+            //var isParentPermission = roles.Any(role => role.Powers.Any(power =>true/* power.Power.ParentId == null*/));
 
-            return isParentPermission || roles.Any(role => role.CheckPower(powersIds));
+            //return isParentPermission || roles.Any(role => role.CheckPower(powersIds));
+
+            return false;
         }
     }
 }

@@ -14,7 +14,7 @@
             for (int i = 1; i <= desks.Count; i++)
             {<text>
             <label class="radio" style="margin-right: 10px">
-                <input type="radio" name="desk" value="@i" @{ if (i == accountConfig.DefaultDeskNumber) { <text> checked="checked" </text>     } }>第@{@i}桌面
+                <input type="radio" name="desk" data-realdeskid="@desks[i-1].Id" value="@i" @{ if (i == accountConfig.DefaultDeskNumber) { <text> checked="checked" </text>     } }>第@{@i}桌面
             </label>
             </text>
     }
@@ -102,6 +102,9 @@
             $('input[name="desk"]').change(function () {
                 var desk = $('input[name="desk"]:checked').val();
                 window.parent.HROS.deskTop.updateDefaultDesk(desk);
+
+                HROS.CONFIG.realDeskId = $('input[name="desk"]').attr('data-realdeskid');
+
             });
             $('input[name="appxy"]').change(function () {
                 var xy = $('input[name="appxy"]:checked').val();

@@ -10,8 +10,5 @@ namespace NewCRM.Dto.Dto
 
         [Required, StringLength(20)]
         public String PowerIdentity { get; set; }
-
-        [StringLength(20)]
-        public String Remark { get; set; }
     }
 }

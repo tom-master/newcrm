@@ -34,12 +34,16 @@ namespace NewCRM.Web.Controllers
 
         public ActionResult AttachmentPower(Int32 roleId = 0)
         {
+            RoleDto role = new RoleDto();
+
             if (roleId != 0)
             {
-                ViewData["RolePowerResult"] = SecurityApplicationServices.GetRole(roleId);
+                role = SecurityApplicationServices.GetRole(roleId);
+
+                ViewData["RolePowerResult"] = role;
             }
 
-            var adminApps = SecurityApplicationServices.GetAllPowers().GroupBy(g => g.PowerIdentity).ToList();
+            var adminApps = AppApplicationServices.GetSystemApp(role.Powers.Select(s => s.Id).ToArray());
 
             return View(adminApps);
         }
@@ -48,18 +52,9 @@ namespace NewCRM.Web.Controllers
 
         #region 权限
 
-        public ActionResult PowerManage()
+        public ActionResult AddSystemAppGotoPower()
         {
-            return View();
-        }
-
-
-        public ActionResult CreateNewPower(Int32 powerId = 0)
-        {
-            if (powerId != 0)
-            {
-                ViewData["PowerResult"] = SecurityApplicationServices.GetPower(powerId);
-            }
+            ViewData["SystemApp"] = AppApplicationServices.GetSystemApp();
 
             return View();
         }
@@ -118,7 +113,7 @@ namespace NewCRM.Web.Controllers
             {
                 SecurityApplicationServices.AddNewRole(WapperRoleDto(forms));
             }
-            
+
             return Json(new
             {
                 success = 1
@@ -134,9 +129,9 @@ namespace NewCRM.Web.Controllers
         {
             Int32[] powerIds;
 
-            if ((forms["val_powerIds"] + "").Length > 0)
+            if ((forms["val_apps_id"] + "").Length > 0)
             {
-                powerIds = forms["val_powerIds"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
+                powerIds = forms["val_apps_id"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
             }
             else
             {
@@ -148,62 +143,24 @@ namespace NewCRM.Web.Controllers
             return Json(new { success = 1 });
         }
 
-        #endregion
-
-        #region 权限
-
-        /// <summary>
-        /// 新建权限
-        /// </summary>
-        /// <param name="forms"></param>
-        /// <param name="powerId"></param>
-        /// <returns></returns>
-        public ActionResult NewPower(FormCollection forms, Int32 powerId = 0)
+        public ActionResult SelectSystemApp(String appIds = "")
         {
-            if (powerId != 0)
-            {
-                SecurityApplicationServices.ModifyPower(WapperPowerDto(forms));
-            }
-            else
-            {
-                SecurityApplicationServices.AddNewPower(WapperPowerDto(forms));
-            }
+            var internalAppIds = appIds.Split(new[]
+             {
+                    ','
+             }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
 
-            return Json(new { success = 1 });
-        }
-
-        /// <summary>
-        /// 过去全部的权限
-        /// </summary>
-        /// <param name="powerName"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        public ActionResult GetAllPowers(String powerName, Int32 pageIndex, Int32 pageSize)
-        {
-            Int32 totalCount = 0;
-
-            var powers = SecurityApplicationServices.GetAllPowers(powerName, pageIndex, pageSize, out totalCount);
-
-            return Json(new { powers, totalCount }, JsonRequestBehavior.AllowGet);
-        }
-
-        /// <summary>
-        /// 删除权限
-        /// </summary>
-        /// <param name="powerId"></param>
-        /// <returns></returns>
-        public ActionResult RemovePower(Int32 powerId)
-        {
-            SecurityApplicationServices.RemovePower(powerId);
+            var apps = AppApplicationServices.GetSystemApp(internalAppIds);
 
             return Json(new
             {
-                success = 1
-            });
+                apps
+            }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
+
+
 
         #region private method
 
@@ -220,7 +177,6 @@ namespace NewCRM.Web.Controllers
             {
                 PowerIdentity = forms["val_powerIdentity"],
                 Name = forms["val_powerName"],
-                Remark = forms["val_remark"],
                 Id = powerId
             };
 

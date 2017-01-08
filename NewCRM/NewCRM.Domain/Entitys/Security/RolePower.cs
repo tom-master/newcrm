@@ -9,19 +9,17 @@ namespace NewCRM.Domain.Entitys.Security
 
         public Int32 RoleId { get; private set; }
 
-        public Int32 PowerId { get; private set; }
-
-        public virtual Power Power { get; private set; }
+        public Int32 AppId { get; private set; }
 
         #endregion
 
 
         #region ctor
 
-        public RolePower(Int32 roleId, Int32 powerId):this()
+        public RolePower(Int32 roleId, Int32 appId) : this()
         {
             RoleId = roleId;
-            PowerId = powerId;
+            AppId = appId;
         }
 
         public RolePower() { AddTime = DateTime.Now; }

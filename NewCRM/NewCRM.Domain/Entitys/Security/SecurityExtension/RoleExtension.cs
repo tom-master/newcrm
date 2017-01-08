@@ -28,15 +28,7 @@ namespace NewCRM.Domain.Entitys.Security
             return this;
         }
 
-        /// <summary>
-        /// 为角色添加权限
-        /// </summary>
-        /// <param name="powers"></param>
-        /// <returns></returns>
-        public Role AddPower(params Power[] powers)
-        {
-            return AddPower(powers.Select(p => p.Id).ToArray());
-        }
+
 
         /// <summary>
         /// 为角色添加权限
@@ -61,15 +53,7 @@ namespace NewCRM.Domain.Entitys.Security
             return this;
         }
 
-        /// <summary>
-        /// 移除角色权限
-        /// </summary>
-        /// <param name="powers"></param>
-        /// <returns></returns>
-        public Role RemovePower(params Power[] powers)
-        {
-            return RemovePower(powers.Select(p => p.Id).ToArray());
-        }
+
 
         /// <summary>
         /// 移除角色权限
@@ -90,7 +74,7 @@ namespace NewCRM.Domain.Entitys.Security
 
             foreach (var powerId in powerIds)
             {
-                Powers.FirstOrDefault(p => p.PowerId == powerId)?.Remove();
+                Powers.FirstOrDefault(p => p.AppId == powerId)?.Remove();
             }
             return this;
         }
@@ -115,20 +99,20 @@ namespace NewCRM.Domain.Entitys.Security
         /// <summary>
         /// 检查权限是否存在
         /// </summary>
-        /// <param name="powerIds"></param>
+        /// <param name="appIds"></param>
         /// <returns></returns>
-        public Boolean CheckPower(params Int32[] powerIds)
+        public Boolean CheckPower(params Int32[] appIds)
         {
-            if (!powerIds.Any())
+            if (!appIds.Any())
             {
                 throw new ArgumentException($"对不起，您没有访问的权限！");
             }
 
-            return powerIds.Any(powerId =>
+            return appIds.Any(appId =>
             {
-                var internalPower = Powers.FirstOrDefault(power => power.PowerId == powerId);
+                var internalPower = Powers.FirstOrDefault(power => power.AppId == appId);
 
-                return internalPower?.PowerId == powerId;
+                return internalPower?.AppId == appId;
             });
         }
 

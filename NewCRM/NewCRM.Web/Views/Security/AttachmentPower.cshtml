@@ -1,5 +1,5 @@
 ﻿@using NewCRM.Dto.Dto
-@model List<IGrouping<String, PowerDto>>
+@model IList<AppDto>
 @{
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
 
@@ -35,44 +35,24 @@
                     <span class="help-inline"></span>
                 </div>
             </div>
-            <div>
-                <table class="list-table">
-                    <thead>
-                        <tr class="sep-row"><td colspan="100"></td></tr>
-                        <tr class="col-name">
-                            <th style="width: 20%">权限标识</th>
-                            <th style="width: 80%">权限名称</th>
-                        </tr>
-                        <tr class="sep-row"><td colspan="100"></td></tr>
-                    </thead>
-                    <tbody class="list-con">
+            <div class="input-label">
+                <label class="label-text">专属应用：</label>
+                <div class="label-box form-inline control-group">
+                    <div class="permissions_apps">
                         @{
-                            foreach (var groupingDto in Model)
+                            foreach (var appDto in Model)
                             {
-                                var groupKey = groupingDto.Key;
-                                <text>
-                                    <tr class="list-bd">
-                                        <td>@groupKey</td>
-                                        <td>
-                                            @{
-                                                foreach (var powerDto in groupingDto)
-                                                {
-                                                    <text>
-                                                        <label style="float: left; margin-left: 10px;">
-                                                            <input class="checkbox" type="checkbox"
-                                                                   @{if (rolePowerResult.Powers.Any()) { if (rolePowerResult.Powers.Any(power => power.Id == powerDto.Id)) { <text> checked="checked" </text>  } } } name="@powerDto.Name" onclick="selectorPower();" id="@powerDto.Id" /> @powerDto.Name
-                                                            </label>
-                                                    </text>
-    }
-                                            }
-                                        </td>
-                                    </tr>
-                                </text>
-    }
+                                <div class="app" appid="@appDto.Id">
+                                    <img src="@appDto.IconUrl" alt="@appDto.Name" title="@appDto.Name">
+                                    <span class="del">删</span>
+                                </div>
+                            }
                         }
-                    </tbody>
-                </table>
-                <input type="hidden" name="val_powerIds" id="powerIds" value="" />
+                    </div>
+                    <a class="btn" href="javascript:;" menu="addapps">添加应用</a>
+                    <input type="hidden" name="val_apps_id" id="val_apps_id" value="@String.Join(",",Model.Select(s=>s.Id))" datatype="*" nullmsg="请选择专属应用">
+                    <span class="help-inline"></span>
+                </div>
             </div>
         </div>
     </div>
@@ -87,13 +67,13 @@
 {
     <script>
         $(function () {
-            selectorPower();
+
             $('#form').Validform({
                 btnSubmit: '#btn-submit',
                 postonce: false,
                 showAllError: true,
                 tiptype: function (msg, o) {
-                    if (!o.obj.is('form')) {//验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
+                    if (!o.obj.is('form')) { //验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
                         var B = o.obj.parents('.control-group');
                         var T = B.children('.help-inline');
                         if (o.type === 2) {
@@ -149,17 +129,55 @@
 
                 }
             });
+
+            //添加应用
+            $('a[menu=addapps]').click(function () {
+                $.dialog.data('appsid', $('#val_apps_id').val());
+                $.dialog.open('/Security/AddSystemAppGotoPower', {
+                    id: 'alert_addapps',
+                    title: '添加应用',
+                    resize: false,
+                    width: 360,
+                    height: 300,
+                    ok: function () {
+                        $('#val_apps_id').val($.dialog.data('appsid')).focusout();
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Security/SelectSystemApp',
+                            data: { appIds: $.dialog.data('appsid') },
+                            success: function (responseText) {
+                                 
+                                var msg = "";
+                                for (var i = 0; i < responseText.apps.length; i++) {
+                                    msg += '<div class="app" appid="' + responseText.apps[i].Id + '">' +
+                                            ' <img src="' + responseText.apps[i].IconUrl + '" alt="' + responseText.apps[i].Name + '" title="' + responseText.apps[i].Name + '">' +
+                                            '<span class="del">删</span>' +
+                                            '</div>';
+                                }
+
+                                $('.permissions_apps').html(msg);
+                            }
+                        });
+                    },
+                    cancel: true
+                });
+            });
+            //删除应用
+            $('.permissions_apps').on('click', '.app .del', function () {
+                var appid = $(this).parent().attr('appid');
+                var appsid = $('#val_apps_id').val().split(',');
+                var newappsid = [];
+                for (var i = 0, j = 0; i < appsid.length; i++) {
+                    if (appsid[i] != appid) {
+                        newappsid[j] = appsid[i];
+                        j++;
+                    }
+                }
+                $('#val_apps_id').val(newappsid.join(',')).focusout();
+                $(this).parent().remove();
+            });
         });
 
-        function selectorPower() {
-            $('#powerIds').val('');
-            var ids = '';
-            $.each($('.list-table').find('input:checked'), function (k, v) {
-                ids += $(v).attr('id') + ',';
-            });
-
-            $('#powerIds').val(ids);
-        }
     </script>
 }
 

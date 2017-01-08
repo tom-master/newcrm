@@ -18,8 +18,7 @@ namespace NewCRM.Repository.DataBaseProvider.EF
         public DbSet<Title> Titles { get; set; }
 
         public DbSet<Account> Accounts { get; set; }
-
-        public DbSet<Power> Powers { get; set; }
+        
 
         public DbSet<Role> Roles { get; set; }
 

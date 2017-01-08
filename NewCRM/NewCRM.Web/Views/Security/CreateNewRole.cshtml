@@ -60,24 +60,7 @@
                     <span class="help-inline"></span>
                 </div>
             </div>
-            <div class="input-label">
-                <label class="label-text">角色描述：</label>
-                <div class="label-box form-inline control-group">
-
-                    @{
-                        if (roleResult.Remark == null)
-                        {<text>
-                        <textarea class="textarea" name="val_roleRemark" id="val_roleRemark" style="width: 300px; height: 100px; margin-bottom: 10px"></textarea>
-                        </text>
-                        }
-                        else
-                        {<text>
-                        <textarea class="textarea" name="val_roleRemark" id="val_roleRemark" style="width: 300px; height: 100px; margin-bottom: 10px">@roleResult.Remark</textarea>
-                        </text>
-                        }
-                    }
-                </div>
-            </div>
+            
         </div>
     </div>
     <div class="bottom-bar">
@@ -150,6 +133,7 @@
                     } 
                 }
             });
+
         });
     </script>
 }

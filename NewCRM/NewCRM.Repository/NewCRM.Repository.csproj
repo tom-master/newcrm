@@ -100,7 +100,6 @@
     <Compile Include="DataBaseProvider\EF\QueryProvider.cs" />
     <Compile Include="RepositoryImpl\Agent\TitleRepository.cs" />
     <Compile Include="RepositoryImpl\Agent\AccountRepository.cs" />
-    <Compile Include="RepositoryImpl\Security\PowerRepository.cs" />
     <Compile Include="RepositoryImpl\Security\RoleRepository.cs" />
     <Compile Include="RepositoryImpl\System\AppRepository.cs" />
     <Compile Include="RepositoryImpl\System\AppTypeRepository.cs" />

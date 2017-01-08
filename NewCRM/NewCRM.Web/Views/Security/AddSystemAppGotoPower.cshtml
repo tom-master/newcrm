@@ -1,17 +1,22 @@
-﻿@{
+﻿@using NewCRM.Dto.Dto
+@{
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
+
+    var apps = ViewData["SystemApp"] as IList<AppDto>;
+
 }
 
-@model List<NewCRM.Dto.Dto.RoleDto>
-<div >
-    <table class="list-table" style="text-align: center">
-        <thead>
-            <tr class="toolbar">
-                <td style="width: 50%">权限名称</td>
-                <td style="width: 50%">权限标识</td>
-            </tr>
-        </thead>
-    </table>
+<div class="alert_addapps">
+    @{
+        foreach (var appDto in apps)
+        {
+            <div class="app" title="@appDto.Name" appid="@appDto.Id">
+                <img src="@appDto.IconUrl" alt="@appDto.Name" title="@appDto.Name">
+                <div class="name">@appDto.Name</div>
+                <span class="selected"></span>
+            </div>
+        }
+    }
 </div>
 <input type="hidden" id="value_1">
 
@@ -32,6 +37,7 @@
                 });
             }
             $('.app').click(function () {
+                
                 if ($(this).hasClass('act')) {
                     var appsid = $('#value_1').val().split(',');
                     var newappsid = [];
@@ -57,5 +63,4 @@
             });
         });
     </script>
-
 }

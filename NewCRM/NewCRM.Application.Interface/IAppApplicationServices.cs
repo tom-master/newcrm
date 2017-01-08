@@ -11,7 +11,6 @@ namespace NewCRM.Application.Interface
         /// <summary>
         /// 获取用户桌面的成员
         /// </summary>
-        
         /// <returns></returns>
         IDictionary<String, IList<dynamic>> GetAccountDeskMembers(Int32 deskId);
 
@@ -71,7 +70,6 @@ namespace NewCRM.Application.Interface
         /// <returns></returns>
         IEnumerable<AppStateDto> GetAllAppStates();
 
-
         /// <summary>
         /// 获取开发者（用户）的app
         /// </summary>
@@ -87,6 +85,13 @@ namespace NewCRM.Application.Interface
              String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex,
             Int32 pageSize,
             out Int32 totalCount);
+
+        /// <summary>
+        /// 获取系统app
+        /// </summary>
+        /// <returns></returns>
+        List<AppDto>GetSystemApp(params Int32[] appIds);
+
         #endregion
 
         #region not have return value

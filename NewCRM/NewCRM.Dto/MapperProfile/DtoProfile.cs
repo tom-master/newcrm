@@ -250,7 +250,7 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(dto => dto.RoleIdentity, role => role.MapFrom(r => r.RoleIdentity))
                 .ForMember(dto => dto.Remark, role => role.MapFrom(r => r.Remark))
                 .ForMember(dto => dto.Id, role => role.MapFrom(r => r.Id))
-               /* .ForMember(dto => dto.Powers, role => role.MapFrom(r => r.Powers.Select(s => s.PowerId)))*/;
+                .ForMember(dto => dto.Powers, role => role.MapFrom(r => r.Powers.Select(s => s.AppId)));
         }
     }
 
@@ -267,29 +267,6 @@ namespace NewCRM.Dto.MapperProfile
         }
     }
 
-    internal class PowerToPowerDtoProfile : Profile
-    {
-        public PowerToPowerDtoProfile()
-        {
-            CreateMap<Power, PowerDto>()
-                .ForMember(dto => dto.Name, power => power.MapFrom(r => r.Name))
-                .ForMember(dto => dto.PowerIdentity, power => power.MapFrom(r => r.PowerIdentity))
-                .ForMember(dto => dto.Remark, power => power.MapFrom(r => r.Remark))
-                .ForMember(dto => dto.Id, power => power.MapFrom(r => r.Id));
-        }
-    }
-
-    internal class PowerDtoToPowerProfile : Profile
-    {
-        public PowerDtoToPowerProfile()
-        {
-            CreateMap<PowerDto, Power>()
-                .ForMember(power => power.Name, dto => dto.MapFrom(r => r.Name))
-                .ForMember(power => power.PowerIdentity, dto => dto.MapFrom(r => r.PowerIdentity))
-                .ForMember(power => power.Remark, dto => dto.MapFrom(r => r.Remark))
-                .ForMember(power => power.Id, dto => dto.MapFrom(r => r.Id));
-        }
-    }
 
     internal class RoleDtoToAccountRoleProfile : Profile
     {
