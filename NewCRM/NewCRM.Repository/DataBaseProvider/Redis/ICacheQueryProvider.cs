@@ -345,6 +345,8 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
         /// <returns></returns>
         List<T> ListRange<T>(String key);
 
+        List<T> ListRange<T>(String key, Int32 start, Int32 end);
+
 
         /// <summary>
         /// 入队

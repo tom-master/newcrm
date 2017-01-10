@@ -70,7 +70,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyWallpaperDisplayModel(String wallPaperShowType = "")
         {
-            WallpaperApplicationServices.ModifyWallpaperMode(Account.Id, wallPaperShowType);
+            WallpaperApplicationServices.ModifyWallpaperMode(AccountId, wallPaperShowType);
 
             return Json(new { success = 1 });
         }
@@ -82,7 +82,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyWallpaper(Int32 wallpaperId)
         {
-            WallpaperApplicationServices.ModifyWallpaper(Account.Id, wallpaperId);
+            WallpaperApplicationServices.ModifyWallpaper(AccountId, wallpaperId);
 
             return Json(new { success = 1 });
         }
@@ -93,7 +93,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult GetAllUploadWallPaper()
         {
-            var wallPapers = WallpaperApplicationServices.GetUploadWallpaper(Account.Id);
+            var wallPapers = WallpaperApplicationServices.GetUploadWallpaper(AccountId);
 
             return Json(new { wallPapers }, JsonRequestBehavior.AllowGet);
         }
@@ -105,7 +105,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult DeleteWallPaper(Int32 wallPaperId = 0)
         {
-            WallpaperApplicationServices.RemoveWallpaper(Account.Id, wallPaperId);
+            WallpaperApplicationServices.RemoveWallpaper(AccountId, wallPaperId);
 
             return Json(new { success = 1 });
         }
@@ -142,7 +142,7 @@ namespace NewCRM.Web.Controllers
                         Source = "Upload",
                         Title = fileUpLoad.OldFileName,
                         Url = fileUpLoad.FilePath + fileUpLoad.OldFileName,
-                        AccountId = Account.Id,
+                        AccountId = AccountId,
                         Width = fileUpLoad.FileWidth,
                         Md5 = imgNd5,
                         ShortUrl = shortUrl
@@ -162,7 +162,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public async Task<ActionResult> WebWallPaper(String webUrl = "")
         {
-            var webWallpaperResult = WallpaperApplicationServices.AddWebWallpaper(Account.Id, webUrl);
+            var webWallpaperResult = WallpaperApplicationServices.AddWebWallpaper(AccountId, webUrl);
             return Json(new { data = await webWallpaperResult });
         }
 

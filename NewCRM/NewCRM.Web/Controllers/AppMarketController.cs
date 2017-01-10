@@ -27,7 +27,7 @@ namespace NewCRM.Web.Controllers
 
             ViewData["TodayRecommendApp"] = AppApplicationServices.GetTodayRecommend();
 
-            ViewData["AccountName"] = Account.Name;
+            ViewData["AccountName"] = AccountName;
 
             ViewData["AccountApp"] = AppApplicationServices.GetAccountDevelopAppCountAndNotReleaseAppCount();
 
@@ -43,7 +43,7 @@ namespace NewCRM.Web.Controllers
         {
             ViewData["IsInstallApp"] = AppApplicationServices.IsInstallApp(appId);
 
-            ViewData["AccountName"] = Account.Name;
+            ViewData["AccountName"] = AccountName;
 
             var singleAppResult = AppApplicationServices.GetApp(appId);
 
@@ -201,7 +201,7 @@ namespace NewCRM.Web.Controllers
         {
             var appDto = WrapperAppDto(forms);
 
-            appDto.AccountId = Account.Id;
+            appDto.AccountId = AccountId;
 
             AppApplicationServices.CreateNewApp(appDto);
 

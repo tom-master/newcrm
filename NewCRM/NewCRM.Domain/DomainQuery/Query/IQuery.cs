@@ -38,6 +38,7 @@ namespace NewCRM.Domain.DomainQuery.Query
         /// <param name="totalCount">总条数</param>
         /// <returns></returns>
         IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount) where T : DomainModelBase, IAggregationRoot;
+        IEnumerable<T> PageBy<T>(Expression<Func<T, Boolean>> key, out Int32 totalCount, Int32 pageIndex, Int32 pageSize) where T : DomainModelBase, IAggregationRoot;
 
     }
 }

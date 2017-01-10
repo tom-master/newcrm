@@ -13,7 +13,7 @@ namespace NewCRM.Web.Controllers
         #region 页面
         public ActionResult Index()
         {
-            return View(Account);
+            return View(AccountApplicationServices.GetAccount());
         }
         #endregion
 

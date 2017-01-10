@@ -22,7 +22,7 @@ namespace NewCRM.Web.Controllers
         {
             if (accountId != 0)
             {
-                ViewData["Account"] = AccountApplicationServices.GetAccount();
+                ViewData["Account"] = AccountApplicationServices.GetAccount(accountId);
             }
 
             ViewData["Roles"] = SecurityApplicationServices.GetAllRoles();
@@ -92,12 +92,12 @@ namespace NewCRM.Web.Controllers
         private static AccountDto WapperAccountDto(FormCollection forms)
         {
             Int32 accountId = 0;
-            if ((forms["accountId"] + "").Length > 0)
+            if ((forms["id"] + "").Length > 0)
             {
-                accountId = Int32.Parse(forms["accountId"]);
+                accountId = Int32.Parse(forms["id"]);
             }
 
-            List<RoleDto> roleIds;
+            List<RoleDto> roleIds = new List<RoleDto>();
 
             if ((forms["val_roleIds"] + "").Length > 0)
             {
@@ -106,17 +106,13 @@ namespace NewCRM.Web.Controllers
                     Id = Int32.Parse(role)
                 }).ToList();
             }
-            else
-            {
-                throw new BusinessException("所选的角色列表不能为空");
-            }
 
             return new AccountDto
             {
                 Id = accountId,
                 Name = forms["val_accountname"],
                 Password = forms["val_password"],
-                AccountType = forms["val_type"],
+                IsAdmin = Int32.Parse(forms["val_type"])==1,
                 Roles = roleIds
             };
         }

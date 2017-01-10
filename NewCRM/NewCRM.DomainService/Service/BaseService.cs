@@ -38,7 +38,9 @@ namespace NewCRM.Domain.Services.Service
             return desk.Members.FirstOrDefault(member => member.Id == memberId);
         }
 
+
         [Import("AccountId", typeof(Int32))]
         protected Int32 AccountId { get; set; }
+
     }
 }

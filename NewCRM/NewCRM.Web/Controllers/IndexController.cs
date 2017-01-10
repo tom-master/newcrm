@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 
 namespace NewCRM.Web.Controllers
 {
@@ -28,46 +29,15 @@ namespace NewCRM.Web.Controllers
 
                 ViewData["AccountConfig"] = AccountConfig = AccountApplicationServices.GetConfig();
 
-                ViewData["Desks"] = /*Desks =*/ AccountApplicationServices.GetDesks();
+                ViewData["Desks"] = AccountApplicationServices.GetDesks();
 
                 return View();
             }
 
-            return RedirectToAction("Login", "Index");
-        }
-
-        /// <summary>
-        /// 登陆页
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult Login()
-        {
-            return View();
+            return RedirectToAction("Index", "Login");
         }
 
         #endregion
-
-        /// <summary>
-        /// 登陆
-        /// </summary>
-        /// <param name="accountName"></param>
-        /// <param name="passWord"></param>
-        /// <param name="isRememberPasswrod"></param>
-        /// <returns></returns>
-        public ActionResult Landing(String accountName, String passWord, Boolean isRememberPasswrod = false)
-        {
-            var accountResult = AccountApplicationServices.Login(accountName, passWord);
-
-            Response.SetCookie(new HttpCookie("Account")
-            {
-                Value = accountResult.Id.ToString(),
-                Expires = isRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddMinutes(30)
-            });
-
-            Account = accountResult;
-
-            return Json(new { success = 1 });
-        }
 
         /// <summary>
         /// 账户登出

@@ -517,6 +517,16 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
             });
         }
 
+        public List<T> ListRange<T>(String key, Int32 start, Int32 end)
+        {
+            key = AddSysCustomKey(key);
+            return Do(redis =>
+            {
+                var values = redis.ListRange(key, start, end);
+                return ConvetList<T>(values);
+            });
+        }
+
         /// <summary>
         /// 入队
         /// </summary>
@@ -938,6 +948,9 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
         private T Do<T>(Func<IDatabase, T> func)
         {
             var database = _conn.GetDatabase(DbNum);
+
+
+
             return func(database);
         }
 
@@ -985,11 +998,13 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
         public RedisType GetKeyType(String key)
         {
             key = AddSysCustomKey(key);
-            
+
             var keyType = Do(db => db.KeyType(key));
 
             return keyType;
         }
+
+
     }
 
 }

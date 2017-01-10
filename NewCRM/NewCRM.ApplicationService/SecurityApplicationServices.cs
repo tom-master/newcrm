@@ -43,7 +43,7 @@ namespace NewCRM.Application.Services
                 roleResult.Name,
                 roleResult.RoleIdentity,
                 roleResult.Remark,
-                Powers = roleResult.Powers.Select(s => new { Id = s.AppId})
+                Powers = roleResult.Powers.Select(s => new { Id = s.AppId })
             });
 
         }
@@ -144,18 +144,13 @@ namespace NewCRM.Application.Services
         }
 
         #endregion
-        
-        public Boolean CheckPermissions(String powerName, params Int32[] roleIds)
+
+        public Boolean CheckPermissions(Int32 accessAppId, params Int32[] roleIds)
         {
-            //var powersIds = Query.Find(FilterFactory.Create<Power>(power => power.PowerIdentity == powerName)).Select(power => power.Id).ToArray();
+            var roles = Query.Find(FilterFactory.Create<Role>(role => roleIds.Contains(role.Id))).ToArray();
 
-            //var roles = Query.Find(FilterFactory.Create<Role>(role => roleIds.Contains(role.Id))).ToArray();
+            return roles.Any(role => role.CheckPower(accessAppId));
 
-            //var isParentPermission = roles.Any(role => role.Powers.Any(power =>true/* power.Power.ParentId == null*/));
-
-            //return isParentPermission || roles.Any(role => role.CheckPower(powersIds));
-
-            return false;
         }
     }
 }

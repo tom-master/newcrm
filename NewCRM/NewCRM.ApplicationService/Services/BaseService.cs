@@ -19,6 +19,8 @@ namespace NewCRM.Application.Services.Services
 {
     internal class BaseService
     {
+
+
         [Import("AccountId", typeof(Int32))]
         protected Int32 AccountId { get; set; }
 

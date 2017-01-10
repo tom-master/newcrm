@@ -160,29 +160,8 @@ namespace NewCRM.Web.Controllers
 
         #endregion
 
-
-
         #region private method
-
-        private static PowerDto WapperPowerDto(FormCollection forms)
-        {
-            Int32 powerId = 0;
-
-            if ((forms["powerId"] + "").Length > 0)
-            {
-                powerId = Int32.Parse(forms["powerId"]);
-            }
-
-            return new PowerDto
-            {
-                PowerIdentity = forms["val_powerIdentity"],
-                Name = forms["val_powerName"],
-                Id = powerId
-            };
-
-        }
-
-
+        
         private static RoleDto WapperRoleDto(FormCollection forms)
         {
             Int32 roleId = 0;

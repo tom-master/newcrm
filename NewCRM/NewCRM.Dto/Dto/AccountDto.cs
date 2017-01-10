@@ -30,7 +30,7 @@ namespace NewCRM.Dto.Dto
         /// 用户类型
         /// </summary>
         [Required(AllowEmptyStrings = true), StringLength(3)]
-        public String AccountType { get; set; }
+        public Boolean IsAdmin { get; set; }
 
         public String AccountFace { get; set; }
 

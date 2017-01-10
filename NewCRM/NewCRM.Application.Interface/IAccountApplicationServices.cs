@@ -38,7 +38,7 @@ namespace NewCRM.Application.Interface
         /// 根据用户id获取用户
         /// </summary>
         /// <returns></returns>
-        AccountDto GetAccount();
+        AccountDto GetAccount(Int32 accountId=0);
 
         /// <summary>
         /// 验证相同的用户名是否存在

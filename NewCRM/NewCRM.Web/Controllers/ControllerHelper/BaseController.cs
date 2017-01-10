@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using NewCRM.Application.Interface;
 using NewCRM.Dto.Dto;
+using Newtonsoft.Json;
+
 namespace NewCRM.Web.Controllers.ControllerHelper
 {
 
     public class BaseController : Controller
     {
+
         [Import]
         protected IAppApplicationServices AppApplicationServices { get; set; }
 
@@ -29,26 +33,16 @@ namespace NewCRM.Web.Controllers.ControllerHelper
         protected ISecurityApplicationServices SecurityApplicationServices { get; set; }
 
 
-        /// <summary>
-        /// 当前登陆的账户
-        /// </summary>
-        protected static AccountDto Account { get; set; }
-
         [Export("AccountId", typeof(Int32))]
-        protected Int32 AccountId
-        {
-            get
-            {
-                return Account != null ? Account.Id : 1;
-            }
-        }
+        protected static Int32 AccountId { get; set; }
+
+        protected static String AccountName { get; set; }
 
         /// <summary>
         /// 当前用户的配置
         /// </summary>
         protected static ConfigDto AccountConfig { get; set; }
 
-        //protected static IEnumerable<DeskDto> Desks { get; set; }
 
         /// <summary>
         /// 权限判断
@@ -57,44 +51,51 @@ namespace NewCRM.Web.Controllers.ControllerHelper
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
 
-            var controllerName = filterContext.RequestContext.RouteData.Values["controller"].ToString();
-
-            if (controllerName != "App")
+            if (AccountId == 0)
             {
                 return;
             }
 
             var actionName = filterContext.RequestContext.RouteData.Values["action"].ToString();
 
-            var isPermission = SecurityApplicationServices.CheckPermissions(actionName, Account.Roles.Select(role => role.Id).ToArray());
+            if (actionName != "CreateWindow")
+            {
+                return;
+            }
 
-            //if (!isPermission)
-            //{
-            //    var notPermissionMessage = @"<script>setTimeout(function(){window.top.ZENG.msgbox.show('对不起，您没有访问的权限！', 5,3000);},0)</script>";
+            var account = AccountApplicationServices.GetAccount();
 
-            //    var isAjaxRequest = filterContext.RequestContext.HttpContext.Request.IsAjaxRequest();
+            var appId = Int32.Parse(filterContext.RequestContext.HttpContext.Request.Form["id"]);
 
-            //    if (!isAjaxRequest)
-            //    {
-            //        filterContext.Result = new ContentResult
-            //        {
-            //            ContentEncoding = Encoding.UTF8,
-            //            Content = notPermissionMessage
-            //        };
-            //    }
-            //    else
-            //    {
-            //        filterContext.Result = new JsonResult
-            //        {
-            //            ContentEncoding = Encoding.UTF8,
-            //            Data = new
-            //            {
-            //                js = notPermissionMessage
-            //            },
-            //            JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            //        };
-            //    }
-            //}
+            var isPermission = SecurityApplicationServices.CheckPermissions(appId, account.Roles.Select(role => role.Id).ToArray());
+
+            if (!isPermission)
+            {
+                var notPermissionMessage = @"<script>setTimeout(function(){window.top.ZENG.msgbox.show('对不起，您没有访问的权限！', 5,3000);},0)</script>";
+
+                var isAjaxRequest = filterContext.RequestContext.HttpContext.Request.IsAjaxRequest();
+
+                if (!isAjaxRequest)
+                {
+                    filterContext.Result = new ContentResult
+                    {
+                        ContentEncoding = Encoding.UTF8,
+                        Content = notPermissionMessage
+                    };
+                }
+                else
+                {
+                    filterContext.Result = new JsonResult
+                    {
+                        ContentEncoding = Encoding.UTF8,
+                        Data = new
+                        {
+                            js = notPermissionMessage
+                        },
+                        JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                    };
+                }
+            }
         }
     }
 }

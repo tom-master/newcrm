@@ -94,9 +94,18 @@ namespace NewCRM.Application.Services
 
         }
 
-        public AccountDto GetAccount()
+        public AccountDto GetAccount(Int32 accountId = 0)
         {
-            var accountResult = Query.FindOne((Account account) => account.Id == AccountId);
+            Account accountResult = null;
+            if (accountId == 0)
+            {
+                accountResult = Query.FindOne((Account account) => account.Id == AccountId);
+            }
+            else
+            {
+                accountResult = Query.FindOne((Account account) => account.Id == accountId);
+            }
+
 
             if (accountResult == null)
             {

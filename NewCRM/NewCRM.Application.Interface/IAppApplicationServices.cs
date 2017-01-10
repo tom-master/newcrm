@@ -90,7 +90,9 @@ namespace NewCRM.Application.Interface
         /// 获取系统app
         /// </summary>
         /// <returns></returns>
-        List<AppDto>GetSystemApp(params Int32[] appIds);
+        List<AppDto> GetSystemApp(IEnumerable<Int32> appIds);
+
+        List<AppDto> GetSystemApp();
 
         #endregion
 
@@ -99,7 +101,7 @@ namespace NewCRM.Application.Interface
         /// <summary>
         /// 修改开发者（用户）的app信息
         /// </summary>
-        
+
         /// <param name="appDto"></param>
         void ModifyAccountAppInfo(AppDto appDto);
 
@@ -161,7 +163,7 @@ namespace NewCRM.Application.Interface
         /// <summary>
         /// app打分
         /// </summary>
-        
+
         /// <param name="appId"></param>
         /// <param name="starCount"></param>
         void ModifyAppStar(Int32 appId, Int32 starCount);
@@ -169,7 +171,7 @@ namespace NewCRM.Application.Interface
         /// <summary>
         /// 安装app
         /// </summary>
-        
+
         /// <param name="appId"></param>
         /// <param name="deskNum"></param>
         void InstallApp(Int32 appId, Int32 deskNum);
@@ -177,28 +179,28 @@ namespace NewCRM.Application.Interface
         /// <summary>
         /// 修改app排列方向
         /// </summary>
-        
+
         /// <param name="direction"></param>
         void ModifyAppDirection(String direction);
 
         /// <summary>
         /// 修改app图标大小
         /// </summary>
-        
+
         /// <param name="newSize"></param>
         void ModifyAppIconSize(Int32 newSize);
 
         /// <summary>
         /// 修改app垂直间距
         /// </summary>
-        
+
         /// <param name="newSize"></param>
         void ModifyAppVerticalSpacing(Int32 newSize);
 
         /// <summary>
         /// 修改app水平间距
         /// </summary>
-        
+
         /// <param name="newSize"></param>
         void ModifyAppHorizontalSpacing(Int32 newSize);
 

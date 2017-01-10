@@ -18,20 +18,20 @@ namespace NewCRM.Dto.MapperProfile
             CreateMap<Account, AccountDto>()
                 .ForMember(dto => dto.Name, account => account.MapFrom(u => u.Name))
                 .ForMember(dto => dto.Id, account => account.MapFrom(u => u.Id))
-                .ForMember(dto => dto.AccountType, account => account.MapFrom(u => u.IsAdmin ? "管理员" : "用户"))
+                .ForMember(dto => dto.IsAdmin, account => account.MapFrom(u => u.IsAdmin ))
                 .ForMember(dto => dto.Password, account => account.MapFrom(u => u.LoginPassword))
                 .ForMember(dto => dto.AddTime, account => account.MapFrom(u => u.AddTime.ToString("yyyy-MM-dd HH:mm:ss")))
                 .ForMember(dto => dto.LastLoginTime, account => account.MapFrom(u => u.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")))
                 .ForMember(dto => dto.LastModifyTime, account => account.MapFrom(u => u.LastModifyTime.ToString("yyyy-MM-dd HH:mm:ss")))
                 .ForMember(dto => dto.Roles, account => account.MapFrom(u => u.AccountRoles.Select(s => new RoleDto
                 {
-                    //Id = s.RoleId,
-                    //Name = s.Role.Name,
-                    //RoleIdentity = s.Role.RoleIdentity,
-                    //Powers = s.Role.Powers.Select(power => new PowerDto
-                    //{
-                    //    Id = power.Id
-                    //}).ToList()
+                    Id = s.RoleId,
+                    Name = s.Role.Name,
+                    RoleIdentity = s.Role.RoleIdentity,
+                    Powers = s.Role.Powers.Select(power => new PowerDto
+                    {
+                        Id = power.AppId
+                    }).ToList()
                 }).ToList()));
         }
     }
@@ -45,7 +45,7 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(account => account.Name, dto => dto.MapFrom(d => d.Name))
                 .ForMember(account => account.Id, dto => dto.MapFrom(d => d.Id))
                 .ForMember(account => account.LoginPassword, dto => dto.MapFrom(d => d.Password))
-                .ForMember(account => account.IsAdmin, dto => dto.MapFrom(d => d.AccountType == "管理员"))
+                .ForMember(account => account.IsAdmin, dto => dto.MapFrom(d => d.IsAdmin))
                 .ForMember(account => account.AccountRoles, dto => dto.MapFrom(d => d.Roles));
         }
     }

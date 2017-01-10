@@ -12,8 +12,10 @@
     }
 }
 
-<form action="@Url.Action("NewAccount", "Account")" method="post" name="form" id="form">
-    <input type="hidden" name="accountId" value="@Request["accountId"]">
+<form action="@Url.Action("NewAccount", "AccountManager")?accountId=@Request["accountId"]" method="post" name="form" id="form">
+    
+    <input type="hidden" name="id" value="@Request["accountId"]">
+
     <div class="creatbox">
         <div class="middle">
             <p class="detile-title">
@@ -26,13 +28,13 @@
                         if (accountResult.Name == null)
                         {
                             <text>
-                                <input type="text"  name="val_accountname" datatype="s4-12" ajaxurl="@Url.Action("CheckAccountNameExist", "Account")" nullmsg="请输入用户名" errormsg="用户名长度为4-12个字符">
+                                <input type="text" name="val_accountname" datatype="s4-12" ajaxurl="@Url.Action("CheckAccountNameExist", "AccountManager")" nullmsg="请输入用户名" errormsg="用户名长度为4-12个字符">
                             </text>
                         }
                         else
                         {
                             <text>
-                                <input type="text" readonly="readonly"  name="val_accountname" datatype="s4-12" value="@accountResult.Name" >
+                                <input type="text" readonly="readonly" name="val_accountname" datatype="s4-12" value="@accountResult.Name">
                             </text>
                         }
                     }
@@ -47,7 +49,7 @@
                         if (accountResult.Password == null)
                         {
                             <text>
-                                <input type="password" name="val_password" datatype="*" nullmsg="请输入用户密码" />
+                                <input type="password" name="val_password" datatype="*" nullmsg="请输入用户密码"/>
                                 <span class="help-inline"></span>
                             </text>
                         }
@@ -65,28 +67,34 @@
                 <label class="label-text">用户类型：</label>
                 <div class="label-box form-inline">
                     <label class="radio" style="margin-right: 10px">
-                        <input type="radio" name="val_type" value="1" @{ if (accountResult.AccountType == null) { <text> checked="checked" </text>         } else { if (Int32.Parse(accountResult.AccountType) == 1) { <text> checked="checked" </text>              } }  }>用户
+                        <input type="radio" name="val_type" value="1" @{
+                                                                          if (accountResult.IsAdmin)
+                                                                          {
+                                                                              <text> checked="checked" </text>
+                                                                          }
+                                                                      }>用户
                     </label>
 
-
-                    <label class="radio" style="margin-right:10px">
-                        <input type="radio" name="val_type" value="2" @{ if (accountResult.AccountType != null) { if (Int32.Parse(accountResult.AccountType) == 2) { <text> checked="checked" </text>              } }  }>管理员
+                    <label class="radio" style="margin-right: 10px">
+                        <input type="radio" name="val_type" value="2" @{
+                                                                          if (accountResult.IsAdmin)
+                                                                          {
+                                                                              <text> checked="checked" </text>
+                                                                          }
+                                                                      }>管理员
                     </label>
                 </div>
             </div>
             <div class="input-label input-label-permission @{
-        if (accountResult.AccountType != null)
-        {
-            if (Int32.Parse(accountResult.AccountType) == 1)
-            {
-                <text> hide </text>
-            }
-        }
-        else
-        {
-            <text> hide </text>
-        }
-    }">
+                                                               if (!accountResult.IsAdmin)
+                                                               {
+                                                                   <text> hide </text>
+                                                               }
+                                                               else
+                                                               {
+                                                                   <text> show </text>
+                                                               }
+                                                           }">
                 <label class="label-text">用户角色：</label>
                 <div class="label-box form-inline">
                     @{
@@ -110,7 +118,7 @@
                             }
                         }
                     }
-                    <input type="hidden" name="val_roleIds" id="roleIds" value="" />
+                    <input type="hidden" name="val_roleIds" id="roleIds" value=""/>
                     <span class="help-inline"></span>
                 </div>
             </div>
@@ -119,7 +127,7 @@
     <div class="bottom-bar">
         <div class="con">
             <a class="btn btn-primary fr" id="btn-submit" href="javascript:;"><i class="icon-white icon-ok"></i> 确定</a>
-            <a class="btn fr" href="javascript:window.parent.closeDetailIframe();" style="margin-right:10px"><i class="icon-chevron-up"></i> 返回用户列表</a>
+            <a class="btn fr" href="javascript:window.parent.closeDetailIframe();" style="margin-right: 10px"><i class="icon-chevron-up"></i> 返回用户列表</a>
         </div>
     </div>
 </form>
@@ -135,7 +143,7 @@
                 //o:{obj:*,type:*,curform:*}, obj指向的是当前验证的表单元素（或表单对象），type指示提示的状态，值为1、2、3、4， 1：正在检测/提交数据，2：通过验证，3：验证失败，4：提示ignore状态, curform为当前form对象;
                 //cssctl:内置的提示信息样式控制函数，该函数需传入两个参数：显示提示信息的对象 和 当前提示的状态（既形参o中的type）;
                 tiptype: function (msg, o) {
-                    debugger 
+
                     if (!o.obj.is('form')) {//验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
                         var B = o.obj.parents('.control-group');
                         var T = B.children('.help-inline');
@@ -153,7 +161,7 @@
                     if (typeof responseText.js !== 'undefined') {
                         $('body').append(responseText.js);
                     } else {
-                        if ($('input[name="accountId"]').val() !== '') {
+                        if ($('input[name="id"]').val() !== '') {
                             if (typeof responseText.success !== 'undefined') {
                                 $.dialog({
                                     id: 'ajaxedit',
@@ -197,22 +205,8 @@
                     $('.input-label-permission').slideUp();
                 }
             });
-            checkboxMax();
-            $('input[name="val_permission_id"]').change(function () {
-                checkboxMax();
-            });
+
         });
-        function checkboxMax() {
-            //if ($('input[name="val_permission_id"]').filter(':checked').length >= 1) {
-            //    $('input[name="val_permission_id"]').not(':checked').each(function () {
-            //        $(this).prop('disabled', true);
-            //    });
-            //} else {
-            //    $('input[name="val_permission_id"]').not(':checked').each(function () {
-            //        $(this).prop('disabled', false);
-            //    });
-            //}
-        }
 
         function selectorPower() {
             $('#roleIds').val('');

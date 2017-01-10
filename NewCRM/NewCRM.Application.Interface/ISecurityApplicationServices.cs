@@ -24,7 +24,7 @@ namespace NewCRM.Application.Interface
         /// <param name="roleId"></param>
         /// <returns></returns>
         RoleDto GetRole(Int32 roleId);
-        
+
         /// <summary>
         /// 获取全部角色
         /// </summary>
@@ -34,15 +34,15 @@ namespace NewCRM.Application.Interface
         /// <summary>
         /// 检查用户权限
         /// </summary>
-        /// <param name="powerName"></param>
+        /// <param name="accessAppId"></param>
         /// <param name="roleIds"></param>
         /// <returns></returns>
-        Boolean CheckPermissions(String powerName, params Int32[] roleIds);
+        Boolean CheckPermissions(Int32 accessAppId, params Int32[] roleIds);
 
         #endregion
 
         #region not have return value
-        
+
         /// <summary>
         /// 新建角色
         /// </summary>
@@ -61,7 +61,7 @@ namespace NewCRM.Application.Interface
         /// <param name="roleId"></param>
         /// <param name="powerIds"></param>
         void AddPowerToCurrentRole(Int32 roleId, IEnumerable<Int32> powerIds);
-        
+
         /// <summary>
         /// 移除角色
         /// </summary>

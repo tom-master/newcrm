@@ -78,11 +78,12 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
                 case ExpressionType.GreaterThanOrEqual:
                 case ExpressionType.Equal:
                     {
+
                         var equalExpression = (BinaryExpression)expression;
 
                         Parse((MemberExpression)equalExpression.Left, ref key);
 
-                        Parse((MemberExpression)equalExpression.Right, ref key);
+                        Parse(equalExpression.Right, ref key);
 
                         return expression;
                     }
@@ -141,6 +142,14 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
                         return expression;
                     }
                 case ExpressionType.TypeIs:
+                case ExpressionType.Invoke:
+                    {
+                        var exp = (InvocationExpression)expression;
+
+                        Parse((MemberExpression)exp.Expression, ref key);
+
+                        return expression;
+                    }
                 default:
                     throw new Exception(String.Format("Unhandled expression type: '{0}'", expression.NodeType));
             }

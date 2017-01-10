@@ -58,14 +58,24 @@ namespace NewCRM.Domain.DomainQuery.EFConcreteQuery
             return query.PageBy(pageIndex, pageSize, specification.OrderBy).ToList();
         }
 
+
+        #region redis cache
+
         public T FindOne<T>(Expression<Func<T, Boolean>> key) where T : DomainModelBase, IAggregationRoot
         {
             return QueryProvider.Query(key);
         }
 
-        public IEnumerable<T> Find<T>(Expression<Func<T,Boolean>> key ) where T : DomainModelBase, IAggregationRoot
+        public IEnumerable<T> Find<T>(Expression<Func<T, Boolean>> key) where T : DomainModelBase, IAggregationRoot
         {
             return QueryProvider.Querys(key);
         }
+
+        public IEnumerable<T> PageBy<T>(Expression<Func<T, Boolean>> key, out Int32 totalCount, Int32 pageIndex, Int32 pageSize) where T : DomainModelBase, IAggregationRoot
+        {
+            return QueryProvider.QueryPages(key, out totalCount, pageIndex, pageSize);
+        }
+
+        #endregion
     }
 }

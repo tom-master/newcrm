@@ -118,7 +118,34 @@ namespace NewCRM.Repository.DataBaseProvider.EF
             return cacheValue;
         }
 
+        public IEnumerable<T> QueryPages<T>(Expression<Func<T, Boolean>> entity, out Int32 totalCount, Int32 pageIndex, Int32 pageSize) where T : DomainModelBase, IAggregationRoot
+        {
+            String internalKey = entity.GeneratorRedisKey<T>();
 
+            Int32 internalStart = (pageIndex - 1) * pageSize, internalEnd = (pageSize + internalStart) - 1;
 
+            var cacheValue = _cacheQueryProvider.ListRange<T>(internalKey, internalStart, internalEnd);
+
+            totalCount = (Int32)_cacheQueryProvider.ListLength(internalKey);
+
+            if (cacheValue == null || !cacheValue.Any())
+            {
+                IList<T> value = EfContext.Set<T, Int32>().Where(entity).ToList();
+
+                if (_cacheQueryProvider.KeyExists(internalKey))
+                {
+                    _cacheQueryProvider.KeyDelete(internalKey);
+                }
+
+                foreach (var v in value)
+                {
+                    _cacheQueryProvider.ListRightPush(internalKey, v);
+                }
+
+                return value;
+            }
+
+            return cacheValue;
+        }
     }
 }

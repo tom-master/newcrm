@@ -136,6 +136,7 @@
     <Compile Include="Controllers\ControllerHelper\BaseController.cs" />
     <Compile Include="Controllers\DeskController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\DeskOptionsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
@@ -798,7 +799,7 @@
     <Content Include="Views\DeskOptions\SystemWallPaper.cshtml" />
     <Content Include="Views\Desk\EditMember.cshtml" />
     <Content Include="Views\Index\Desktop.cshtml" />
-    <Content Include="Views\Index\Login.cshtml" />
+    <None Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutApps.cshtml" />
     <Content Include="Views\Shared\_LayoutRoot.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />

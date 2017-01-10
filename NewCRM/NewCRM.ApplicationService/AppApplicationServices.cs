@@ -408,17 +408,22 @@ namespace NewCRM.Application.Services
 
         }
 
-        public List<AppDto> GetSystemApp(params Int32[] appIds)
+        public List<AppDto> GetSystemApp(IEnumerable<Int32> appIds)
         {
+            var appResult = Query.Find(FilterFactory.Create((App app) => app.IsSystem && appIds.Contains(app.Id)));
 
-            var filter = FilterFactory.Create((App app) => app.IsSystem);
-
-            if (appIds.Any())
+            return appResult.Select(app => new AppDto
             {
-                filter.And(app=>appIds.Contains(app.Id));
-            }
+                Id = app.Id,
+                Name = app.Name,
+                IconUrl = app.IconUrl
+            }).ToList();
 
-            var appResult = Query.Find(filter);
+        }
+
+        public List<AppDto> GetSystemApp()
+        {
+            var appResult = Query.Find(FilterFactory.Create((App app) => app.IsSystem));
 
             return appResult.Select(app => new AppDto
             {
