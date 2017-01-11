@@ -191,14 +191,18 @@ namespace NewCRM.Repository.DataBaseProvider.EF
 
                 _cacheQueryProvider.StringSet(key, entity);
             }
-            else if (_cacheQueryProvider.GetKeyType(key) == RedisType.List)
+            else
             {
-                if (_cacheQueryProvider.KeyExists(key))
-                {
-                    _cacheQueryProvider.KeyDelete(key);
-                }
 
-                _cacheQueryProvider.ListRightPush(key, entity);
+                if (_cacheQueryProvider.GetKeyType(key) == RedisType.List)
+                {
+                    if (_cacheQueryProvider.KeyExists(key))
+                    {
+                        _cacheQueryProvider.KeyDelete(key);
+                    }
+
+                    _cacheQueryProvider.ListRightPush(key, entity);
+                }
             }
         }
 

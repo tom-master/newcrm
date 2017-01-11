@@ -100,19 +100,19 @@ namespace NewCRM.Repository.DataBaseProvider.EF
 
             if (cacheValue == null || !cacheValue.Any())
             {
-                IList<T> value = EfContext.Set<T, Int32>().Where(entity).ToList();
+                IList<T> values = EfContext.Set<T, Int32>().Where(entity).ToList();
 
                 if (_cacheQueryProvider.KeyExists(internalKey))
                 {
                     _cacheQueryProvider.KeyDelete(internalKey);
                 }
 
-                foreach (var v in value)
+                foreach (var value in values)
                 {
-                    _cacheQueryProvider.ListRightPush(internalKey, v);
+                    _cacheQueryProvider.ListRightPush(internalKey, value);
                 }
 
-                return value;
+                return values;
             }
 
             return cacheValue;

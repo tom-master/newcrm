@@ -18,7 +18,7 @@ namespace NewCRM.Application.Services
     internal class AppApplicationServices : BaseService, IAppApplicationServices
     {
 
-        public IDictionary<String, IList<dynamic>> GetAccountDeskMembers(Int32 deskId)
+        public IDictionary<String, IList<dynamic>> GetDeskMembers(Int32 deskId)
         {
             ValidateParameter.Validate(AccountId);
 

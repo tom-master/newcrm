@@ -5,6 +5,8 @@ namespace NewCRM.Domain.Entitys.System
 {
     public partial class Desk
     {
+        public Int32 NextDeskId { get; private set; }
+
         #region public method
 
         public Desk AddMember(Member member)
@@ -17,6 +19,11 @@ namespace NewCRM.Domain.Entitys.System
             Members.Add(member);
 
             return this;
+        }
+
+        public void SetMemberMoveToDeskId(Int32 nextDeskId)
+        {
+            NextDeskId = nextDeskId;
         }
 
         public void RemoveMember(Int32 memberId)

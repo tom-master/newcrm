@@ -10,22 +10,11 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
     public static class ExpressionExtension
     {
 
-        private static readonly IDictionary<String, StringBuilder> _keyCache = new Dictionary<String, StringBuilder>();
-
         public static String GeneratorRedisKey<T>(this Expression expression)
         {
             StringBuilder key = new StringBuilder($"NewCRM:{typeof(T).Name}:");
 
-            String expressionKey = expression.ToString();
-
-            if (_keyCache.ContainsKey(expressionKey))
-            {
-                return _keyCache[expressionKey].ToString().TrimEnd(':');
-            }
-
             Parse(expression, ref key);
-
-            _keyCache.Add(new KeyValuePair<String, StringBuilder>(expressionKey, key));
 
             return key.ToString().TrimEnd(':');
 

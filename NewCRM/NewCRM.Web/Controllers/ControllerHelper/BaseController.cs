@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using NewCRM.Application.Interface;
 using NewCRM.Dto.Dto;
-using Newtonsoft.Json;
 
 namespace NewCRM.Web.Controllers.ControllerHelper
 {
@@ -59,6 +57,12 @@ namespace NewCRM.Web.Controllers.ControllerHelper
             var actionName = filterContext.RequestContext.RouteData.Values["action"].ToString();
 
             if (actionName != "CreateWindow")
+            {
+                return;
+            }
+
+            //文件夹
+            if (filterContext.RequestContext.HttpContext.Request.Form["type"] == "folder")
             {
                 return;
             }

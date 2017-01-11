@@ -9,10 +9,10 @@ namespace NewCRM.Application.Interface
         #region have return value
 
         /// <summary>
-        /// 获取用户桌面的成员
+        /// 获取桌面的成员
         /// </summary>
         /// <returns></returns>
-        IDictionary<String, IList<dynamic>> GetAccountDeskMembers(Int32 deskId);
+        IDictionary<String, IList<dynamic>> GetDeskMembers(Int32 deskId);
 
         /// <summary>
         /// 获取所有的app类型

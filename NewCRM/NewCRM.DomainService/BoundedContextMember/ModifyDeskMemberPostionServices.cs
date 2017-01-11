@@ -23,6 +23,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                 {
                     memberResult.InDock();
 
+
                     Repository.Create<Desk>().Update(desk);
 
                     break;
@@ -138,16 +139,23 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
             var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
 
-
             foreach (var desk in desks)
             {
                 var memberResult = InternalDeskMember(memberId, desk);
 
                 if (memberResult != null)
                 {
-                    memberResult.ToOtherDesk(realDeskId);
+                    //memberResult.ToOtherDesk(realDeskId);
+
+                    var nextDesk = Query.FindOne(FilterFactory.Create((Desk deskd) => deskd.AccountId == AccountId && deskd.Id == realDeskId));
+
+                    nextDesk.AddMember(memberResult);
+
+                    //desk.SetMemberMoveToDeskId(realDeskId);
 
                     Repository.Create<Desk>().Update(desk);
+
+                    Repository.Create<Desk>().Update(nextDesk);
 
                     break;
                 }

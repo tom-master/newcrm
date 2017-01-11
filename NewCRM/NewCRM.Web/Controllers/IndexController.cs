@@ -99,7 +99,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult GetAccountDeskMembers(Int32 deskId)
         {
-            var app = AppApplicationServices.GetAccountDeskMembers(deskId);
+            var app = AppApplicationServices.GetDeskMembers(deskId);
 
             return Json(new { app }, JsonRequestBehavior.AllowGet);
         }
