@@ -7,7 +7,7 @@ using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export]
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class AccountSettingController : BaseController
     {
         #region 页面

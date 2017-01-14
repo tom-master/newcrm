@@ -9,7 +9,7 @@ using NewCRM.Dto.Dto;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export]
+    [Export,PartCreationPolicy(CreationPolicy.NonShared)]
     public class IndexController : BaseController
     {
 

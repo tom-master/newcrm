@@ -8,7 +8,7 @@ using NewCRM.Infrastructure.CommonTools;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export]
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class DeskController : BaseController
     {
         #region 页面

@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export]
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class LoginController : BaseController
     {
         // GET: Login
