@@ -66,5 +66,12 @@ namespace NewCRM.Domain.Interface.BoundedContextMember
         /// <param name="deskId"></param>
         void DeskToOtherDesk(Int32 memberId, Int32 deskId);
 
+        /// <summary>
+        /// 成员从码头移动到桌面
+        /// </summary>
+        /// <param name="memberId"></param>
+        /// <param name="deskId"></param>
+        void DockToOtherDesk(Int32 memberId, Int32 deskId);
+
     }
 }

@@ -54,11 +54,6 @@ namespace NewCRM.Application.Interface
         /// <returns></returns>
         Boolean CheckPassword(String oldAccountPassword);
 
-        /// <summary>
-        /// 获取桌面
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<DeskDto> GetDesks();
         #endregion
 
         #region not have return value

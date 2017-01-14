@@ -129,6 +129,8 @@ namespace NewCRM.Application.Interface
         /// <param name="deskId"></param>
         void CreateNewFolder(String folderName, String folderImg, Int32 deskId);
 
+        void DockToOtherDesk(Int32 memberId, Int32 deskId);
+
         #endregion
     }
 }

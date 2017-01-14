@@ -18,11 +18,11 @@ namespace NewCRM.Application.Services
     internal class AppApplicationServices : BaseService, IAppApplicationServices
     {
 
-        public IDictionary<String, IList<dynamic>> GetDeskMembers(Int32 deskId)
+        public IDictionary<String, IList<dynamic>> GetDeskMembers(/*Int32 deskId*/)
         {
             ValidateParameter.Validate(AccountId);
 
-            var desks = Query.Find((Desk desk) => desk.AccountId == AccountId && desk.Id == deskId);
+            var desks = Query.Find((Desk desk) => desk.AccountId == AccountId /*&& desk.Id == deskId*/);
 
             IDictionary<String, IList<dynamic>> deskDictionary = new Dictionary<String, IList<dynamic>>();
 

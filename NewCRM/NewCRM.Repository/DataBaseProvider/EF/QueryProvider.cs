@@ -109,7 +109,7 @@ namespace NewCRM.Repository.DataBaseProvider.EF
 
                 foreach (var value in values)
                 {
-                    _cacheQueryProvider.ListRightPush(internalKey, value);
+                    _cacheQueryProvider.ListRightPush(value.KeyGenerator(), value);
                 }
 
                 return values;

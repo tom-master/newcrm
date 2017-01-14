@@ -37,9 +37,14 @@ namespace NewCRM.Domain.Entitys.System
         public Int32 AppHorizontalSpacing { get; private set; }
 
         /// <summary>
-        /// 默认桌面
+        /// 默认桌面编号
         /// </summary>
         public Int32 DefaultDeskNumber { get; private set; }
+
+        /// <summary>
+        /// 默认桌面数量
+        /// </summary>
+        public Int32 DefaultDeskCount { get; private set; }
 
         /// <summary>
         /// 壁纸的展示模式
@@ -55,6 +60,11 @@ namespace NewCRM.Domain.Entitys.System
         /// 码头位置
         /// </summary>
         public DockPostion DockPosition { get; private set; }
+
+        /// <summary>
+        /// 账户所拥有的桌面的Id
+        /// </summary>
+        public String DeskIds { get; private set; }
 
         /// <summary>
         /// 壁纸
@@ -77,11 +87,12 @@ namespace NewCRM.Domain.Entitys.System
             AppVerticalSpacing = 50;
             AppHorizontalSpacing = 50;
             DefaultDeskNumber = 1;
+            DefaultDeskCount = 5;
             AddTime = DateTime.Now;
         }
 
 
-       
+
         #endregion
     }
 }

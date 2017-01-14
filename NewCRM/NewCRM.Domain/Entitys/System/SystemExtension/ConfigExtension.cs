@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Domain.Entitys.System
 {
     public partial class Config
     {
-     
+
 
         #region public method
         /// <summary>
@@ -18,7 +19,7 @@ namespace NewCRM.Domain.Entitys.System
             WallpaperMode = wallpaperMode;
             return this;
         }
-        
+
 
         /// <summary>
         /// 修改应用的排列方向
@@ -120,7 +121,42 @@ namespace NewCRM.Domain.Entitys.System
             {
                 throw new ArgumentException("设置的默认显示桌面号不能超出当前所有可用的桌面总数");
             }
+
             DefaultDeskNumber = deskNumber;
+
+            return this;
+        }
+
+
+        /// <summary>
+        /// 更新默认桌面数
+        /// </summary>
+        /// <param name="deskNumber"></param>
+        public Config ModifyDefaultDeskCount(Int32 deskNumber)
+        {
+            if ((DefaultDeskCount + deskNumber) > _maxDeskNumber)
+            {
+                throw new ArgumentException("设置的默认显示桌面号不能超出当前所有可用的桌面总数");
+            }
+
+            DefaultDeskCount += deskNumber;
+
+            return this;
+        }
+
+        /// <summary>
+        /// 设置账户拥有的桌面Id
+        /// </summary>
+        /// <param name="deskIds"></param>
+        /// <returns></returns>
+        public Config SetDeskIds(Int32[] deskIds)
+        {
+            if (!deskIds.Any())
+            {
+                throw new ArgumentException("账户拥有的桌面Id不能为空");
+            }
+
+            DeskIds =String.Join(",", deskIds);
 
             return this;
         }
@@ -133,7 +169,7 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 每个用户最多能有10个桌面
         /// </summary>
-        private static readonly Int32 _maxDeskNumber = 5;
+        private static readonly Int32 _maxDeskNumber = 10;
 
 
 

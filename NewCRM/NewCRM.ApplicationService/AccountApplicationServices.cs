@@ -42,7 +42,7 @@ namespace NewCRM.Application.Services
 
             var accountConfig = accountResult.Config;
 
-            return DtoConfiguration.ConvertDynamicToDto<ConfigDto>(new
+            return DtoConfiguration.ConvertDynamicToDto<ConfigDto>(new 
             {
                 accountConfig.Id,
                 accountConfig.Skin,
@@ -51,6 +51,8 @@ namespace NewCRM.Application.Services
                 accountConfig.AppVerticalSpacing,
                 accountConfig.AppHorizontalSpacing,
                 accountConfig.DefaultDeskNumber,
+                accountConfig.DefaultDeskCount,
+                DeskIds= accountConfig.DeskIds.Split(',').Select(Int32.Parse).ToArray(),
                 AppXy = accountConfig.AppXy.ToString().ToLower(),
                 DockPosition = accountConfig.DockPosition.ToString().ToLower(),
                 WallpaperUrl = accountConfig.Wallpaper.Url,
@@ -133,13 +135,6 @@ namespace NewCRM.Application.Services
             return PasswordUtil.ComparePasswords(accountResult.LoginPassword, oldAccountPassword);
         }
 
-        public IEnumerable<DeskDto> GetDesks()
-        {
-            return Query.Find((Desk desk) => desk.AccountId == AccountId).ConvertToDtos<Desk, DeskDto>();
-        }
-
-
-
         public void AddNewAccount(AccountDto accountDto)
         {
             var account = accountDto.ConvertToModel<AccountDto, Account>();
@@ -161,10 +156,12 @@ namespace NewCRM.Application.Services
 
             IList<Desk> desks = new List<Desk>();
 
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= internalNewAccount.Config.DefaultDeskCount; i++)
             {
                 desks.Add(new Desk(i, internalNewAccount.Id));
             }
+
+            internalNewAccount.Config.SetDeskIds(desks.Select(s => s.Id).ToArray());
 
             Repository.Create<Desk>().Add(desks);
 

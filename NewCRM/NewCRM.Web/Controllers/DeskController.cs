@@ -57,6 +57,9 @@ namespace NewCRM.Web.Controllers
                 case "desk-desk":
                     DeskApplicationServices.DeskToOtherDesk(memberId, to);
                     break;
+                case "dock-otherdesk":
+                    DeskApplicationServices.DockToOtherDesk(memberId, to);
+                    break;
             }
             return Json(new { success = 1 });
         }
@@ -137,7 +140,7 @@ namespace NewCRM.Web.Controllers
 
         public ActionResult CreateNewFolder(String folderName, String folderImg, Int32 deskId)
         {
-            DeskApplicationServices.CreateNewFolder(folderName,folderImg,deskId);
+            DeskApplicationServices.CreateNewFolder(folderName, folderImg, deskId);
             return Json(new { success = 1 });
         }
     }

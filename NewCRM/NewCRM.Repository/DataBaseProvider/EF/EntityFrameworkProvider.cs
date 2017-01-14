@@ -201,7 +201,7 @@ namespace NewCRM.Repository.DataBaseProvider.EF
                         _cacheQueryProvider.KeyDelete(key);
                     }
 
-                    _cacheQueryProvider.ListRightPush(key, entity);
+                   // _cacheQueryProvider.ListRightPush(key, entity);
                 }
             }
         }

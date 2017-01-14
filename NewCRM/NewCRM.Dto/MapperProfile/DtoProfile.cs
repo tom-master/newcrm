@@ -68,7 +68,9 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(dto => dto.WallpaperWidth, config => config.MapFrom(c => c.Wallpaper.Width))
                 .ForMember(dto => dto.WallpaperHeigth, config => config.MapFrom(c => c.Wallpaper.Height))
                 .ForMember(dto => dto.WallpaperSource, config => config.MapFrom(c => c.Wallpaper.Source))
-                .ForMember(dto => dto.WallpaperMode, config => config.MapFrom(c => c.WallpaperMode));
+                .ForMember(dto => dto.WallpaperMode, config => config.MapFrom(c => c.WallpaperMode))
+                .ForMember(dto => dto.DefaultDeskCount, config => config.MapFrom(c => c.DefaultDeskCount))
+                .ForMember(dto => dto.DeskIds, config => config.MapFrom(c => c.DeskIds.Split(',').Select(Int32.Parse)));
             //.ForMember(dto => dto.Desks, account => account.MapFrom(u => u.Desks.Select(s => new DeskDto
             //{
             //    DeskNumber = s.DeskNumber,

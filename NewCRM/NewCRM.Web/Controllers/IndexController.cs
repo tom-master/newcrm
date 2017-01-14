@@ -29,7 +29,7 @@ namespace NewCRM.Web.Controllers
 
                 ViewData["AccountConfig"] = AccountConfig = AccountApplicationServices.GetConfig();
 
-                ViewData["Desks"] = AccountApplicationServices.GetDesks();
+                ViewData["Desks"] = new Tuple<Int32,Int32[]>(AccountConfig.DefaultDeskCount,AccountConfig.DeskIds);
 
                 return View();
             }
@@ -97,9 +97,9 @@ namespace NewCRM.Web.Controllers
         /// 获取我的应用
         /// </summary>
         /// <returns></returns>
-        public ActionResult GetAccountDeskMembers(Int32 deskId)
+        public ActionResult GetAccountDeskMembers(/*Int32 deskId*/)
         {
-            var app = AppApplicationServices.GetDeskMembers(deskId);
+            var app = AppApplicationServices.GetDeskMembers(/*deskId*/);
 
             return Json(new { app }, JsonRequestBehavior.AllowGet);
         }

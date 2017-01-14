@@ -175,5 +175,14 @@ namespace NewCRM.Application.Services
 
             UnitOfWork.Commit();
         }
+
+        public void DockToOtherDesk(Int32 memberId, Int32 deskId)
+        {
+            ValidateParameter.Validate(memberId).Validate(deskId);
+
+            AccountContext.ModifyAccountConfigServices.DockToOtherDesk(memberId, deskId);
+
+            UnitOfWork.Commit();
+        }
     }
 }

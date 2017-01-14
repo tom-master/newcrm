@@ -5,7 +5,6 @@ namespace NewCRM.Domain.Entitys.System
 {
     public partial class Desk
     {
-        public Int32 NextDeskId { get; private set; }
 
         #region public method
 
@@ -21,11 +20,6 @@ namespace NewCRM.Domain.Entitys.System
             return this;
         }
 
-        public void SetMemberMoveToDeskId(Int32 nextDeskId)
-        {
-            NextDeskId = nextDeskId;
-        }
-
         public void RemoveMember(Int32 memberId)
         {
             if (memberId <= 0)
@@ -39,7 +33,9 @@ namespace NewCRM.Domain.Entitys.System
 
         public override String KeyGenerator()
         {
-            return $"NewCRM:{nameof(Desk)}:AccountId:{AccountId}:Id:{Id}";
+            //return $"NewCRM:{nameof(Desk)}:AccountId:{AccountId}:Id:{Id}";
+
+            return $"NewCRM:{nameof(Desk)}:AccountId:{AccountId}";
         }
 
 
