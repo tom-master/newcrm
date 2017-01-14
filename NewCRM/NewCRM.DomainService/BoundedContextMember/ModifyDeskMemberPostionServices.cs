@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
@@ -13,16 +14,15 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void MemberInDock(Int32 memberId)
         {
-            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
+            var desks = GetDesks();
 
             foreach (var desk in desks)
             {
-                var memberResult = InternalDeskMember(memberId, desk);
+                var member = GetMember(memberId, desk);
 
-                if (memberResult != null)
+                if (member != null)
                 {
-                    memberResult.InDock();
-
+                    member.InDock();
 
                     Repository.Create<Desk>().Update(desk);
 
@@ -33,17 +33,17 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void MemberOutDock(Int32 memberId, Int32 deskId)
         {
-            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
+            var desks = GetDesks();
 
             var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
 
             foreach (var desk in desks)
             {
-                var memberResult = InternalDeskMember(memberId, desk);
+                var member = GetMember(memberId, desk);
 
-                if (memberResult != null)
+                if (member != null)
                 {
-                    memberResult.OutDock().ToOtherDesk(realDeskId);
+                    member.OutDock().ToOtherDesk(realDeskId);
 
                     Repository.Create<Desk>().Update(desk);
 
@@ -54,37 +54,37 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void DockToFolder(Int32 memberId, Int32 folderId)
         {
-            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
+            var desks = GetDesks();
 
             var deskResult = desks.FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
 
-            InternalDeskMember(memberId, deskResult).OutDock().InFolder(folderId);
+            GetMember(memberId, deskResult).OutDock().InFolder(folderId);
 
             Repository.Create<Desk>().Update(deskResult);
         }
 
         public void FolderToDock(Int32 memberId)
         {
-            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
+            var desks = GetDesks();
 
             var deskResult = desks.FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
 
-            InternalDeskMember(memberId, deskResult).InDock().OutFolder();
+            GetMember(memberId, deskResult).InDock().OutFolder();
 
             Repository.Create<Desk>().Update(deskResult);
         }
 
         public void DeskToFolder(Int32 memberId, Int32 folderId)
         {
-            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
+            var desks = GetDesks();
 
             foreach (var desk in desks)
             {
-                var memberResult = InternalDeskMember(memberId, desk);
+                var member = GetMember(memberId, desk);
 
-                if (memberResult != null)
+                if (member != null)
                 {
-                    memberResult.InFolder(folderId);
+                    member.InFolder(folderId);
 
                     Repository.Create<Desk>().Update(desk);
 
@@ -95,41 +95,38 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void FolderToDesk(Int32 memberId, Int32 deskId)
         {
-            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
+            var desks = GetDesks();
 
             var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
 
             foreach (var desk in desks)
             {
-                var memberResult = InternalDeskMember(memberId, desk);
+                var member = GetMember(memberId, desk);
 
-                if (memberResult != null)
+                if (member != null)
                 {
-                    if (memberResult.DeskId == realDeskId)
+                    if (member.DeskId == realDeskId)
                     {
-                        memberResult.OutFolder();
+                        member.OutFolder();
                     }
                     else
                     {
-                        memberResult.OutFolder().ToOtherDesk(realDeskId);
+                        member.OutFolder().ToOtherDesk(realDeskId);
                     }
 
                     Repository.Create<Desk>().Update(desk);
-
-                 
 
                     break;
                 }
             }
         }
 
+
         public void FolderToOtherFolder(Int32 memberId, Int32 folderId)
         {
-            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
+            var deskResult = GetDesks().FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
 
-            var deskResult = desks.FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
-
-            InternalDeskMember(memberId, deskResult).OutFolder().InFolder(folderId);
+            GetMember(memberId, deskResult).OutFolder().InFolder(folderId);
 
             Repository.Create<Desk>().Update(deskResult);
 
@@ -137,19 +134,23 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void DeskToOtherDesk(Int32 memberId, Int32 deskId)
         {
-            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
+            var desks = GetDesks();
+
+            var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
 
             foreach (var desk in desks)
             {
-                var memberResult = InternalDeskMember(memberId, desk);
+                var member = GetMember(memberId, desk);
 
-                if (memberResult != null)
+                if (member != null)
                 {
 
-                    if (memberResult.IsOnDock)
+                    if (member.IsOnDock)
                     {
-                        memberResult.OutDock();
+                        member.OutDock();
                     }
+
+                    member.ToOtherDesk(realDeskId);
 
                     Repository.Create<Desk>().Update(desk);
 
@@ -160,15 +161,17 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void DockToOtherDesk(Int32 memberId, Int32 deskId)
         {
-            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
+            var desks = GetDesks();
+
+            var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
 
             foreach (var desk in desks)
             {
-                var memberResult = InternalDeskMember(memberId, desk);
+                var member = GetMember(memberId, desk);
 
-                if (memberResult != null)
+                if (member != null)
                 {
-                    memberResult.OutDock();
+                    member.OutDock().ToOtherDesk(realDeskId);
 
                     Repository.Create<Desk>().Update(desk);
 

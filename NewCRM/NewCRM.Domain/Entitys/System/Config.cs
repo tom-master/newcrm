@@ -62,11 +62,6 @@ namespace NewCRM.Domain.Entitys.System
         public DockPostion DockPosition { get; private set; }
 
         /// <summary>
-        /// 账户所拥有的桌面的Id
-        /// </summary>
-        public String DeskIds { get; private set; }
-
-        /// <summary>
         /// 壁纸
         /// </summary>
         public virtual Wallpaper Wallpaper { get; private set; }

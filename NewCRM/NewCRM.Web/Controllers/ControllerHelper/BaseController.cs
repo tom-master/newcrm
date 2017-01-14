@@ -31,10 +31,12 @@ namespace NewCRM.Web.Controllers.ControllerHelper
         protected ISecurityApplicationServices SecurityApplicationServices { get; set; }
 
 
-        [Export("AccountId", typeof(Int32))]
+        [Export("AccountId")]
         protected static Int32 AccountId { get; set; }
 
         protected static String AccountName { get; set; }
+
+        protected static Boolean IsAdmin { get; set; }
 
         /// <summary>
         /// 当前用户的配置

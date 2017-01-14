@@ -57,11 +57,7 @@ namespace NewCRM.Web.Controllers
         {
             ViewData["AccountConfig"] = AccountConfig;
 
-            ViewData["Desks"] = new
-            {
-                DeskCount = AccountConfig.DefaultDeskCount,
-                DeskIds = AccountConfig.DeskIds
-            };
+            ViewData["Desks"] = AccountConfig.DefaultDeskCount;
 
             return View();
         }

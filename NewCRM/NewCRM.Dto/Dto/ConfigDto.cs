@@ -80,12 +80,6 @@ namespace NewCRM.Dto.Dto
         public String WallpaperMode { get; set; }
 
         /// <summary>
-        /// 账户所拥有的桌面的Id
-        /// </summary>
-        public Int32[] DeskIds { get;  set; }
-
-
-        /// <summary>
         /// 默认桌面数量
         /// </summary>
         public Int32 DefaultDeskCount { get; private set; }

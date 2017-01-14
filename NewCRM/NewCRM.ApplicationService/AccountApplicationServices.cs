@@ -52,7 +52,6 @@ namespace NewCRM.Application.Services
                 accountConfig.AppHorizontalSpacing,
                 accountConfig.DefaultDeskNumber,
                 accountConfig.DefaultDeskCount,
-                DeskIds= accountConfig.DeskIds.Split(',').Select(Int32.Parse).ToArray(),
                 AppXy = accountConfig.AppXy.ToString().ToLower(),
                 DockPosition = accountConfig.DockPosition.ToString().ToLower(),
                 WallpaperUrl = accountConfig.Wallpaper.Url,
@@ -160,8 +159,6 @@ namespace NewCRM.Application.Services
             {
                 desks.Add(new Desk(i, internalNewAccount.Id));
             }
-
-            internalNewAccount.Config.SetDeskIds(desks.Select(s => s.Id).ToArray());
 
             Repository.Create<Desk>().Add(desks);
 

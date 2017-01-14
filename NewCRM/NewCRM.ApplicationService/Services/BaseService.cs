@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using NewCRM.Domain.DomainQuery.Query;
 using NewCRM.Domain.DomainSpecification.Factory;
-using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Factory;
 using NewCRM.Domain.Interface.BoundedContext.Agent;
@@ -11,8 +10,6 @@ using NewCRM.Domain.Interface.BoundedContext.App;
 using NewCRM.Domain.Interface.BoundedContext.Desk;
 using NewCRM.Domain.Interface.BoundedContext.Wallpaper;
 using NewCRM.Domain.UnitWork;
-using NewCRM.Dto;
-using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
 
 namespace NewCRM.Application.Services.Services
@@ -21,7 +18,7 @@ namespace NewCRM.Application.Services.Services
     {
 
 
-        [Import("AccountId", typeof(Int32))]
+        [Import("AccountId")]
         protected Int32 AccountId { get; set; }
 
         [Import]
@@ -61,5 +58,8 @@ namespace NewCRM.Application.Services.Services
         /// 参数验证
         /// </summary>
         protected static Parameter ValidateParameter => new Parameter();
+
+        [Import("Desks", typeof(Func<IList<Desk>>))]
+        protected Func<IList<Desk>> GetDesks { get; set; }
     }
 }

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using NewCRM.Application.Interface;
 using NewCRM.Web.Controllers.ControllerHelper;
 using Newtonsoft.Json;
 
@@ -36,8 +33,8 @@ namespace NewCRM.Web.Controllers
                 Expires = isRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddMinutes(30)
             });
 
-            AccountId = accountResult.Id;
-            AccountName = accountResult.Name;
+            //AccountId = accountResult.Id;
+            //AccountName = accountResult.Name;
 
             return Json(new { success = 1 });
         }

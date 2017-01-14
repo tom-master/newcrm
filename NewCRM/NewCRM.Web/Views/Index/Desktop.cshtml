@@ -7,7 +7,7 @@
 
     var accountConfig = ViewData["AccountConfig"] as ConfigDto;
 
-    var desks = ViewData["Desks"] as Tuple<Int32, Int32[]>;
+    var desks = (Int32)ViewData["Desks"];
 
 
 }
@@ -22,10 +22,10 @@
     </div>
     <div id="desk">
         @{
-            for (int i = 1; i <= desks.Item1; i++)
+            for (int i = 1; i <= desks; i++)
             {
                 <text>
-                    <div id="desk-@i" data-realdeskid="@desks.Item2[i-1]" class="desktop-container">
+                    <div id="desk-@i" class="desktop-container">
                         <div class="desktop-apps-container"></div>
                         <div class="scrollbar scrollbar-x"></div>
                         <div class="scrollbar scrollbar-y"></div>
@@ -55,11 +55,11 @@
                     </div>
                     <div class="dock-pagination">
                         @{
-                            for (int i = 1; i <= desks.Item1; i++)
+                            for (int i = 1; i <= desks; i++)
                             {
                                 
                                 <text>
-                                    <a class="pagination pagination-@i" data-realdeskid="@desks.Item2[i-1]" href="javascript:void(0);" index="@i" title="切换至桌面@{@i}，快捷键：Ctrl + @i">
+                                    <a class="pagination pagination-@i" href="javascript:void(0);" index="@i" title="切换至桌面@{@i}，快捷键：Ctrl + @i">
                                         <span class="pagination-icon-bg"></span>
                                         <span class="pagination-icon pagination-icon-@i">@i</span>
                                     </a>
@@ -117,8 +117,8 @@
     <div class="amg_line_x"></div>
     <div id="amg_folder_container">
         @{
-            var width = 100 / desks.Item1;
-            for (var i = 1; i <= desks.Item1; i++)
+            var width = 100 / desks;
+            for (var i = 1; i <= desks; i++)
             {
                 if (i == 1)
                 {
@@ -168,7 +168,7 @@
             HROS.CONFIG.desk = parseInt(@accountConfig.DefaultDeskNumber);
             HROS.CONFIG.appHorizontalSpacing = '@accountConfig.AppHorizontalSpacing';
             HROS.CONFIG.appVerticalSpacing = '@accountConfig.AppVerticalSpacing';
-            HROS.CONFIG.deskCount = parseInt('@desks.Item1');
+            HROS.CONFIG.deskCount = parseInt('@desks');
             HROS.base.init();
         });
 

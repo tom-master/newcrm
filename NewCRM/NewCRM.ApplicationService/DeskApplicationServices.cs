@@ -20,7 +20,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(memberId);
 
-            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
+            var desks = GetDesks();
 
             foreach (var desk in desks)
             {
@@ -108,7 +108,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(memberId).Validate(folderId);
 
-            AccountContext.ModifyAccountConfigServices.DeskToFolder( memberId, folderId);
+            AccountContext.ModifyAccountConfigServices.DeskToFolder(memberId, folderId);
 
             UnitOfWork.Commit();
         }

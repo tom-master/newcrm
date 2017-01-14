@@ -13,11 +13,10 @@ namespace NewCRM.Domain.Services.BoundedContextMember
     {
         public void ModifyFolderInfo(String memberName, String memberIcon, Int32 memberId)
         {
-            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
 
-            foreach (var desk in desks)
+            foreach (var desk in GetDesks())
             {
-                var memberResult = InternalDeskMember(memberId, desk);
+                var memberResult = GetMember(memberId, desk);
 
                 if (memberResult != null)
                 {
@@ -33,11 +32,9 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void ModifyMemberInfo(Member member)
         {
-            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
-
-            foreach (var desk in desks)
+            foreach (var desk in GetDesks())
             {
-                var memberResult = InternalDeskMember(member.Id, desk);
+                var memberResult = GetMember(member.Id, desk);
 
                 if (memberResult != null)
                 {
@@ -59,13 +56,13 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void RemoveMember(Int32 memberId)
         {
-            var desks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
+            var desks = GetDesks();
 
             App appResult = null;
 
             foreach (var desk in desks)
             {
-                var memberResult = InternalDeskMember(memberId, desk);
+                var memberResult = GetMember(memberId, desk);
 
                 if (memberResult != null)
                 {

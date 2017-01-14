@@ -128,7 +128,7 @@ namespace NewCRM.Application.Services
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
             }
 
-            var accountDesks = Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
+            var accountDesks = GetDesks();
 
             var isInstall = accountDesks.Any(accountDesk => accountDesk.Members.Any(member => member.AppId == topApp.Id));
 

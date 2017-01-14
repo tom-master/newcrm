@@ -144,23 +144,6 @@ namespace NewCRM.Domain.Entitys.System
             return this;
         }
 
-        /// <summary>
-        /// 设置账户拥有的桌面Id
-        /// </summary>
-        /// <param name="deskIds"></param>
-        /// <returns></returns>
-        public Config SetDeskIds(Int32[] deskIds)
-        {
-            if (!deskIds.Any())
-            {
-                throw new ArgumentException("账户拥有的桌面Id不能为空");
-            }
-
-            DeskIds =String.Join(",", deskIds);
-
-            return this;
-        }
-
         public void Remove()
         {
             IsDeleted = true;

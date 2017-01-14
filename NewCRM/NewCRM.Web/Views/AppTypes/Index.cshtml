@@ -58,7 +58,7 @@
     <script>
         $(function () {
             //加载列表
-            getPageList(1);
+            getPageList(0);
             //删除
             $('.list-con').on('click', '.do-del', function () {
                 var categoryid = $(this).attr('categoryid');
@@ -81,7 +81,7 @@
             });
             //搜索
             $('a[menu=search]').click(function () {
-                getPageList(1);
+                getPageList(0);
             });
         });
 
@@ -99,7 +99,7 @@
 
         function getPageList(current_page) {
             $.get('@Url.Action("GetAllAppTypes", "AppTypes")', {
-                pageIndex: current_page,
+                pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 10,
                 searchText: $('#searchText').val()
             }, function (responseText) {

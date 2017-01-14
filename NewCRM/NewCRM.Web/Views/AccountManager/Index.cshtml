@@ -22,22 +22,22 @@
 
 <div class="well well-small" style="margin-bottom:10px">
     <div class="form-inline">
-        <label>用户名：</label>
+        <label>账户名：</label>
         <input type="text" name="accountName" id="accountName" class="span2">
-        <label style="margin-left:10px">用户类型：</label>
+        <label style="margin-left:10px">账户类型：</label>
         <select name="accountType" id="accountType" style="width: 150px">
             <option value="">全部</option>
-            <option value="user">用户</option>
+            <option value="user">账户</option>
             <option value="admin">管理员</option>
         </select>
         <a class="btn" menu="search" href="javascript:;" style="margin-left:10px"><i class="icon-search"></i> 搜索</a>
-        <a class="btn btn-primary fr" href="javascript:openDetailIframe('@Url.Action("CreateNewAccount", "AccountManager")');"><i class="icon-white icon-plus"></i> 添加新用户</a>
+        <a class="btn btn-primary fr" href="javascript:openDetailIframe('@Url.Action("CreateNewAccount", "AccountManager")');"><i class="icon-white icon-plus"></i> 添加新账户</a>
     </div>
 </div>
 <table class="list-table">
     <thead>
         <tr class="col-name">
-            <th>用户名</th>
+            <th>账户名</th>
             <th style="width: 100px">类型</th>
             <th style="width: 150px">操作</th>
         </tr>
@@ -94,7 +94,7 @@
                 var name = $(this).parent().prev().text();
                 art.dialog({
                     id: 'edit',
-                    content: '确定要删除 “' + name + '” 该用户么？',
+                    content: '确定要删除 “' + name + '” 该账户么？',
                     ok: function() {
                         $.ajax({
                             type: 'POST',
@@ -148,7 +148,7 @@
 
         Handlebars.registerHelper('convertAccountType', function(accountType) {
             if (accountType === 1) {
-                return '用户';
+                return '账户';
             } else {
                 return '管理员';
             }

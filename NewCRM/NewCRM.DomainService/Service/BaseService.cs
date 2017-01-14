@@ -33,13 +33,30 @@ namespace NewCRM.Domain.Services.Service
         [Import]
         protected SpecificationFactory FilterFactory { get; set; }
 
-        protected Member InternalDeskMember(Int32 memberId, Desk desk)
+        /// <summary>
+        /// 获取桌面成员
+        /// </summary>
+        /// <param name="memberId"></param>
+        /// <param name="desk"></param>
+        /// <returns></returns>
+        protected Member GetMember(Int32 memberId, Desk desk)
         {
             return desk.Members.FirstOrDefault(member => member.Id == memberId);
         }
 
+        /// <summary>
+        /// 获取当前账户下所有桌面
+        /// </summary>
+        /// <returns></returns>
+        [Export("Desks", typeof(Func<IList<Desk>>))]
+        protected IList<Desk> GetDesks()
+        {
+            return Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId)).ToList();
 
-        [Import("AccountId", typeof(Int32))]
+        }
+
+
+        [Import("AccountId")]
         protected Int32 AccountId { get; set; }
 
     }

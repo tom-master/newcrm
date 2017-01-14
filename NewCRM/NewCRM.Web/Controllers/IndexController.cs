@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using NewCRM.Dto.Dto;
 
 namespace NewCRM.Web.Controllers
 {
@@ -25,11 +26,19 @@ namespace NewCRM.Web.Controllers
 
             if (Request.Cookies["Account"] != null)
             {
-                ViewData["Account"] = AccountApplicationServices.GetAccount();
+                var account = JsonConvert.DeserializeObject<AccountDto>(Request.Cookies["Account"].Value);
+
+                AccountId = account.Id;
+
+                AccountName = account.Name;
+
+                IsAdmin = account.IsAdmin;
+
+                ViewData["Account"] = account;
 
                 ViewData["AccountConfig"] = AccountConfig = AccountApplicationServices.GetConfig();
 
-                ViewData["Desks"] = new Tuple<Int32,Int32[]>(AccountConfig.DefaultDeskCount,AccountConfig.DeskIds);
+                ViewData["Desks"] = AccountConfig.DefaultDeskCount;
 
                 return View();
             }
