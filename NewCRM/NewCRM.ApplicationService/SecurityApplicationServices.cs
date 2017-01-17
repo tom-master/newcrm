@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Application.Interface;
 using NewCRM.Application.Services.Services;
@@ -12,7 +11,6 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Application.Services
 {
-    [Export(typeof(ISecurityApplicationServices))]
     internal class SecurityApplicationServices : BaseService, ISecurityApplicationServices
     {
         #region Role

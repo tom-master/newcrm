@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Globalization;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NewCRM.Domain.Entitys.Agent;
-using NewCRM.Domain.ValueObject;
-using Newtonsoft.Json;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace NewCRM.Domain.Test
 {

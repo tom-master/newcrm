@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.ComponentModel.Composition.Hosting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace NewCRM.DomainServiceTest
 {

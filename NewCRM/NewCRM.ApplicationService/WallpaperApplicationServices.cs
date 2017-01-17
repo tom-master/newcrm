@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -9,6 +8,7 @@ using System.Threading.Tasks;
 using NewCRM.Application.Interface;
 using NewCRM.Application.Services.Services;
 using NewCRM.Domain.Entitys.System;
+using NewCRM.Domain.Interface.BoundedContext.Wallpaper;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
@@ -17,9 +17,19 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Application.Services
 {
-    [Export(typeof(IWallpaperApplicationServices))]
     internal class WallpaperApplicationServices : BaseService, IWallpaperApplicationServices
     {
+
+        private readonly IWallpaperContext _wallpaperContext;
+
+
+        public WallpaperApplicationServices(IWallpaperContext wallpaperContext)
+        {
+            _wallpaperContext = wallpaperContext;
+        }
+
+
+
         public List<WallpaperDto> GetWallpaper()
         {
             return Query.Find(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
@@ -105,7 +115,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(newMode);
 
-            WallpaperContext.ModifyWallpaperServices.ModifyWallpaperMode(newMode);
+            _wallpaperContext.ModifyWallpaperServices.ModifyWallpaperMode(newMode);
 
             UnitOfWork.Commit();
         }
@@ -114,7 +124,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(newWallpaperId);
 
-            WallpaperContext.ModifyWallpaperServices.ModifyWallpaper(newWallpaperId);
+            _wallpaperContext.ModifyWallpaperServices.ModifyWallpaper(newWallpaperId);
 
             UnitOfWork.Commit();
         }
@@ -123,7 +133,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(wallpaperId);
 
-            WallpaperContext.ModifyWallpaperServices.RemoveWallpaper(wallpaperId);
+            _wallpaperContext.ModifyWallpaperServices.RemoveWallpaper(wallpaperId);
 
             UnitOfWork.Commit();
         }

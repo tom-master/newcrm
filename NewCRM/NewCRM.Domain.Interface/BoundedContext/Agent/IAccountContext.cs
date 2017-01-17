@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Interface.BoundedContextMember;
 
@@ -8,7 +6,6 @@ namespace NewCRM.Domain.Interface.BoundedContext.Agent
 {
     public interface IAccountContext
     {
-        [Import]
         IModifyDeskMemberPostionServices ModifyAccountConfigServices { get; set; }
 
         /// <summary>

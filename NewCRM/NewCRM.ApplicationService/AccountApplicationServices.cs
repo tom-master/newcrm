@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Application.Interface;
 using NewCRM.Application.Services.Services;
 using NewCRM.Domain.DomainSpecification;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
+using NewCRM.Domain.Interface.BoundedContext.Agent;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
@@ -15,14 +15,22 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Application.Services
 {
-    [Export(typeof(IAccountApplicationServices))]
     internal class AccountApplicationServices : BaseService, IAccountApplicationServices
     {
+        private readonly IAccountContext _accountContext;
+
+        public AccountApplicationServices(IAccountContext accountContext)
+        {
+            _accountContext = accountContext;
+        }
+
+
+
         public AccountDto Login(String accountName, String password)
         {
             ValidateParameter.Validate(accountName).Validate(password);
 
-            var account = AccountContext.Validate(accountName, password).ConvertToDto<Account, AccountDto>();
+            var account = _accountContext.Validate(accountName, password).ConvertToDto<Account, AccountDto>();
 
             UnitOfWork.Commit();
 
@@ -42,7 +50,7 @@ namespace NewCRM.Application.Services
 
             var accountConfig = accountResult.Config;
 
-            return DtoConfiguration.ConvertDynamicToDto<ConfigDto>(new 
+            return DtoConfiguration.ConvertDynamicToDto<ConfigDto>(new
             {
                 accountConfig.Id,
                 accountConfig.Skin,
@@ -200,7 +208,7 @@ namespace NewCRM.Application.Services
 
         public void Logout()
         {
-            AccountContext.Logout(AccountId);
+            _accountContext.Logout(AccountId);
 
             UnitOfWork.Commit();
         }

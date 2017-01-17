@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Net;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
@@ -12,13 +10,9 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Services.BoundedContext.Agent
 {
-    [Export(typeof(IAccountContext))]
     internal class AccountContext : BaseService, IAccountContext
     {
 
-
-
-        [Import]
         public IModifyDeskMemberPostionServices ModifyAccountConfigServices { get; set; }
 
         public Account Validate(String accountName, String password)

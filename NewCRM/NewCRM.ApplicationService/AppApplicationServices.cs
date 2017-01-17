@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Application.Interface;
 using NewCRM.Application.Services.Services;
 using NewCRM.Domain.DomainSpecification;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
+using NewCRM.Domain.Interface.BoundedContext.App;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
@@ -14,9 +14,16 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Application.Services
 {
-    [Export(typeof(IAppApplicationServices))]
     internal class AppApplicationServices : BaseService, IAppApplicationServices
     {
+
+        private readonly IAppContext _appContext;
+
+
+        public AppApplicationServices(IAppContext appContext)
+        {
+            _appContext = appContext;
+        }
 
         public IDictionary<String, IList<dynamic>> GetDeskMembers(/*Int32 deskId*/)
         {
@@ -502,7 +509,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(appId).Validate(starCount, true);
 
-            AppContext.ModifyAppInfoServices.ModifyAppStar(appId, starCount);
+            _appContext.ModifyAppInfoServices.ModifyAppStar(appId, starCount);
 
             UnitOfWork.Commit();
         }
@@ -511,7 +518,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(appId).Validate(deskNum);
 
-            AppContext.InstallAppServices.Install(appId, deskNum);
+            _appContext.InstallAppServices.Install(appId, deskNum);
 
             UnitOfWork.Commit();
         }
@@ -520,7 +527,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(appDto);
 
-            AppContext.ModifyAppInfoServices.ModifyAccountAppInfo(appDto.ConvertToModel<AppDto, App>());
+            _appContext.ModifyAppInfoServices.ModifyAccountAppInfo(appDto.ConvertToModel<AppDto, App>());
 
             UnitOfWork.Commit();
         }
@@ -543,7 +550,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(appTypeId);
 
-            AppContext.ModifyAppTypeServices.DeleteAppType(appTypeId);
+            _appContext.ModifyAppTypeServices.DeleteAppType(appTypeId);
 
             UnitOfWork.Commit();
         }

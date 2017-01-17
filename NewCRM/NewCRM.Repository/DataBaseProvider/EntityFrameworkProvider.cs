@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
 using NewCRM.Domain.Entitys;
@@ -10,10 +9,9 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
 using NewCRM.Repository.DataBaseProvider.Redis;
 using NewCRM.Repository.UnitOfWorkProvide;
-using Newtonsoft.Json;
 using StackExchange.Redis;
 
-namespace NewCRM.Repository.DataBaseProvider.EF
+namespace NewCRM.Repository.DataBaseProvider
 {
     /// <summary>
     /// EntityFramework仓储操作基类
@@ -23,7 +21,6 @@ namespace NewCRM.Repository.DataBaseProvider.EF
     {
         private readonly Parameter _vaildateParameter;
 
-        [Import]
         private ICacheQueryProvider _cacheQueryProvider;
 
         protected EntityFrameworkProvider()
@@ -36,7 +33,6 @@ namespace NewCRM.Repository.DataBaseProvider.EF
         /// <summary>
         /// 获取 仓储上下文的实例
         /// </summary>
-        [Import]
         protected IUnitOfWork UnitOfWork { get; set; }
 
         /// <summary>

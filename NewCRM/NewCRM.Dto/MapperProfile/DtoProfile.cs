@@ -6,7 +6,6 @@ using NewCRM.Domain.Entitys.Security;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto.Dto;
-using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Dto.MapperProfile
 {

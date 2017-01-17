@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContextMember;
@@ -9,7 +8,6 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-    [Export(typeof(IModifyWallpaperServices))]
     internal class ModifyWallpaperServices : BaseService, IModifyWallpaperServices
     {
 

@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 using JsonNet.PrivateSettersContractResolvers;
-using NewCRM.Domain.Repositories;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
 namespace NewCRM.Repository.DataBaseProvider.Redis
 {
-    [Export(typeof(ICacheQueryProvider))]
     /// <summary>
     /// Redis操作
     /// </summary>

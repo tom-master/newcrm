@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
 using NewCRM.Domain.DomainQuery.Query;
@@ -9,14 +8,14 @@ using NewCRM.Domain.Entitys;
 using NewCRM.Domain.Repositories;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
-namespace NewCRM.Domain.DomainQuery.EFConcreteQuery
+namespace NewCRM.Domain.Factory.DomainQuery.EFConcreteQuery
 {
 
-    [Export(typeof(IQuery))]
     internal class DefaultQuery : IQuery
     {
-        [Import]
         private IDomainModelQueryProvider QueryProvider { get; set; }
+
+        #region entity framework
 
         /// <summary>
         /// 查找并返回单个对象
@@ -58,6 +57,7 @@ namespace NewCRM.Domain.DomainQuery.EFConcreteQuery
             return query.PageBy(pageIndex, pageSize, specification.OrderBy).ToList();
         }
 
+        #endregion
 
         #region redis cache
 

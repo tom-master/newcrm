@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NewCRM.Application.Interface;
 using NewCRM.Application.Services.Services;
 using NewCRM.Domain.Entitys.Agent;
-using NewCRM.Dto.Dto;
 
 namespace NewCRM.Application.Services
 {
-    [Export(typeof(ISkinApplicationServices))]
     internal class SkinApplicationServices : BaseService, ISkinApplicationServices
     {
         public IDictionary<String, dynamic> GetAllSkin(String skinPath)

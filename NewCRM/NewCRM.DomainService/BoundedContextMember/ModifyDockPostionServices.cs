@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
@@ -10,7 +9,6 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-    [Export(typeof(IModifyDockPostionServices))]
     internal sealed class ModifyDockPostionServices : BaseService, IModifyDockPostionServices
     {
 

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContextMember;
@@ -8,7 +6,6 @@ using NewCRM.Domain.Services.Service;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-    [Export(typeof(IModifyDeskMemberPostionServices))]
     internal sealed class ModifyDeskMemberPostionServices : BaseService, IModifyDeskMemberPostionServices
     {
 

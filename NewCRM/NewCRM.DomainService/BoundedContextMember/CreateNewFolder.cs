@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContextMember;
 using NewCRM.Domain.Services.Service;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-    [Export(typeof(ICreateNewFolder))]
     internal class CreateNewFolder : BaseService, ICreateNewFolder
     {
         public void NewFolder(Int32 deskId, String folderName, String folderImg)

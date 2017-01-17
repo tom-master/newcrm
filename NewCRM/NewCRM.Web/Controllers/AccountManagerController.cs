@@ -1,17 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Web.Mvc;
+using NewCRM.Application.Interface;
 using NewCRM.Dto.Dto;
-using NewCRM.Infrastructure.CommonTools.CustomException;
-using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class AccountManagerController : BaseController
+    public class AccountManagerController : Controller
     {
+
+        private readonly IAccountApplicationServices _accountApplicationServices;
+
+        private readonly ISecurityApplicationServices _securityApplicationServices;
+
+
+        public AccountManagerController(IAccountApplicationServices accountApplicationServices, ISecurityApplicationServices securityApplicationServices)
+        {
+            _accountApplicationServices = accountApplicationServices;
+
+            _securityApplicationServices = securityApplicationServices;
+        }
+
         #region 页面
         public ActionResult Index()
         {
@@ -22,10 +32,10 @@ namespace NewCRM.Web.Controllers
         {
             if (accountId != 0)
             {
-                ViewData["Account"] = AccountApplicationServices.GetAccount(accountId);
+                ViewData["Account"] = _accountApplicationServices.GetAccount(accountId);
             }
 
-            ViewData["Roles"] = SecurityApplicationServices.GetAllRoles();
+            ViewData["Roles"] = _securityApplicationServices.GetAllRoles();
 
             return View();
         }
@@ -44,7 +54,7 @@ namespace NewCRM.Web.Controllers
         {
             Int32 totalCount;
 
-            var accounts = AccountApplicationServices.GetAccounts(accountName, accountType, pageIndex, pageSize, out totalCount);
+            var accounts = _accountApplicationServices.GetAccounts(accountName, accountType, pageIndex, pageSize, out totalCount);
 
             return Json(new
             {
@@ -65,11 +75,11 @@ namespace NewCRM.Web.Controllers
 
             if (accountId == 0)
             {
-                AccountApplicationServices.AddNewAccount(accountDto);
+                _accountApplicationServices.AddNewAccount(accountDto);
             }
             else
             {
-                AccountApplicationServices.ModifyAccount(accountDto);
+                _accountApplicationServices.ModifyAccount(accountDto);
             }
 
             return Json(new { success = 1 });
@@ -82,7 +92,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult CheckAccountNameExist(String param)
         {
-            var result = AccountApplicationServices.CheckAccountNameExist(param);
+            var result = _accountApplicationServices.CheckAccountNameExist(param);
 
             return Json(result ? new { status = "y", info = "" } : new { status = "n", info = "用户名已存在" });
         }
@@ -112,7 +122,7 @@ namespace NewCRM.Web.Controllers
                 Id = accountId,
                 Name = forms["val_accountname"],
                 Password = forms["val_password"],
-                IsAdmin = Int32.Parse(forms["val_type"])==1,
+                IsAdmin = Int32.Parse(forms["val_type"]) == 1,
                 Roles = roleIds
             };
         }

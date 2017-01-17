@@ -1,17 +1,26 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
+using NewCRM.Application.Interface;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
-using NewCRM.Web.Controllers.ControllerHelper;
+using Newtonsoft.Json;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class AppMarketController : BaseController
+    public class AppMarketController : Controller
     {
+
+        private readonly IAppApplicationServices _appApplicationServices;
+
+        public AppMarketController(IAppApplicationServices appApplicationServices)
+        {
+            _appApplicationServices = appApplicationServices;
+
+        }
+
+
         #region 页面
 
         #region 应用市场
@@ -22,14 +31,20 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
+            if (JsonConvert.DeserializeObject<AccountDto>(Request.Cookies["Account"].Value).IsAdmin)
+            {
+                ViewData["AppTypes"] = _appApplicationServices.GetAppTypes();
+            }
+            else
+            {
+                ViewData["AppTypes"] = _appApplicationServices.GetAppTypes().Where(w => w.Name != "系统");
+            }
 
-            ViewData["AppTypes"] = AppApplicationServices.GetAppTypes();
+            ViewData["TodayRecommendApp"] = _appApplicationServices.GetTodayRecommend();
 
-            ViewData["TodayRecommendApp"] = AppApplicationServices.GetTodayRecommend();
+            ViewData["AccountName"] = JsonConvert.DeserializeObject<AccountDto>(Request.Cookies["Account"].Value);
 
-            ViewData["AccountName"] = AccountName;
-
-            ViewData["AccountApp"] = AppApplicationServices.GetAccountDevelopAppCountAndNotReleaseAppCount();
+            ViewData["AccountApp"] = _appApplicationServices.GetAccountDevelopAppCountAndNotReleaseAppCount();
 
             return View();
         }
@@ -41,11 +56,11 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult AppDetail(Int32 appId)
         {
-            ViewData["IsInstallApp"] = AppApplicationServices.IsInstallApp(appId);
+            ViewData["IsInstallApp"] = _appApplicationServices.IsInstallApp(appId);
 
-            ViewData["AccountName"] = AccountName;
+            ViewData["AccountName"] = JsonConvert.DeserializeObject<AccountDto>(Request.Cookies["Account"].Value).Name;
 
-            var singleAppResult = AppApplicationServices.GetApp(appId);
+            var singleAppResult = _appApplicationServices.GetApp(appId);
 
             return View(singleAppResult);
         }
@@ -56,11 +71,11 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult AccountAppManage()
         {
-            ViewData["AppTypes"] = AppApplicationServices.GetAppTypes();
+            ViewData["AppTypes"] = _appApplicationServices.GetAppTypes();
 
-            ViewData["AppStyles"] = AppApplicationServices.GetAllAppStyles().ToList();
+            ViewData["AppStyles"] = _appApplicationServices.GetAllAppStyles().ToList();
 
-            ViewData["AppStates"] = AppApplicationServices.GetAllAppStates().ToList();
+            ViewData["AppStates"] = _appApplicationServices.GetAllAppStates().ToList();
 
             return View();
         }
@@ -75,12 +90,12 @@ namespace NewCRM.Web.Controllers
             AppDto appResult = null;
             if (appId != 0)// 如果appId为0则是新创建app
             {
-                appResult = AppApplicationServices.GetApp(appId);
+                appResult = _appApplicationServices.GetApp(appId);
 
                 ViewData["AppState"] = appResult.AppAuditState;
             }
 
-            ViewData["AppTypes"] = AppApplicationServices.GetAppTypes();
+            ViewData["AppTypes"] = _appApplicationServices.GetAppTypes();
 
             return View(appResult);
         }
@@ -102,7 +117,7 @@ namespace NewCRM.Web.Controllers
         {
             Int32 totalCount;
 
-            var appResults = AppApplicationServices.GetAllApps(appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
+            var appResults = _appApplicationServices.GetAllApps(appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
 
             return Json(new
             {
@@ -120,7 +135,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult ModifyAppStart(Int32 appId, Int32 starCount)
         {
 
-            AppApplicationServices.ModifyAppStar(appId, starCount);
+            _appApplicationServices.ModifyAppStar(appId, starCount);
             return Json(new { success = 1 });
         }
 
@@ -132,7 +147,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult InstallApp(Int32 appId, Int32 deskNum)
         {
-            AppApplicationServices.InstallApp(appId, deskNum);
+            _appApplicationServices.InstallApp(appId, deskNum);
             return Json(new { success = 1 });
         }
 
@@ -150,7 +165,7 @@ namespace NewCRM.Web.Controllers
         {
             Int32 totalCount;
 
-            var appResults = AppApplicationServices.GetAccountAllApps(searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
+            var appResults = _appApplicationServices.GetAccountAllApps(searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
 
             return Json(new
             {
@@ -167,7 +182,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult ModifyAppInfo(FormCollection forms)
         {
             var appDto = WrapperAppDto(forms);
-            AppApplicationServices.ModifyAccountAppInfo(appDto);
+            _appApplicationServices.ModifyAccountAppInfo(appDto);
 
             return Json(new { success = 1 });
         }
@@ -201,9 +216,9 @@ namespace NewCRM.Web.Controllers
         {
             var appDto = WrapperAppDto(forms);
 
-            appDto.AccountId = AccountId;
+            appDto.AccountId = JsonConvert.DeserializeObject<AccountDto>(Request.Cookies["Account"].Value).Id;
 
-            AppApplicationServices.CreateNewApp(appDto);
+            _appApplicationServices.CreateNewApp(appDto);
 
             return Json(new
             {
@@ -218,7 +233,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ReleaseApp(Int32 appId)
         {
-            AppApplicationServices.ReleaseApp(appId);
+            _appApplicationServices.ReleaseApp(appId);
 
             return Json(new { success = 1 });
         }

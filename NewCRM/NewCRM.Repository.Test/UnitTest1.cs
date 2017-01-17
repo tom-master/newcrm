@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Linq.Expressions;
+﻿using System.Linq;
 using System.Reflection;
-using JsonNet.PrivateSettersContractResolvers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
-using Newtonsoft.Json;
 
 namespace NewCRM.Repository.Test
 {

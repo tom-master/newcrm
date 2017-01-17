@@ -1,10 +1,11 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Application.Interface;
 using NewCRM.Application.Services.Services;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
+using NewCRM.Domain.Interface.BoundedContext.Agent;
+using NewCRM.Domain.Interface.BoundedContext.Desk;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
@@ -12,9 +13,21 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Application.Services
 {
-    [Export(typeof(IDeskApplicationServices))]
     internal class DeskApplicationServices : BaseService, IDeskApplicationServices
     {
+
+        private readonly IDeskContext _deskContext;
+
+        private readonly IAccountContext _accountContext;
+
+
+        public DeskApplicationServices(IDeskContext deskContext, IAccountContext accountContext)
+        {
+            _deskContext = deskContext;
+
+            _accountContext = accountContext;
+        }
+
 
         public MemberDto GetMember(Int32 memberId, Boolean isFolder = default(Boolean))
         {
@@ -63,7 +76,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(defaultDeskNumber).Validate(newPosition);
 
-            DeskContext.ModifyDockPostionServices.ModifyDockPosition(defaultDeskNumber, newPosition);
+            _deskContext.ModifyDockPostionServices.ModifyDockPosition(defaultDeskNumber, newPosition);
 
             UnitOfWork.Commit();
         }
@@ -72,7 +85,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(memberId);
 
-            AccountContext.ModifyAccountConfigServices.MemberInDock(memberId);
+            _accountContext.ModifyAccountConfigServices.MemberInDock(memberId);
 
             UnitOfWork.Commit();
         }
@@ -81,7 +94,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(memberId);
 
-            AccountContext.ModifyAccountConfigServices.MemberOutDock(memberId, deskId);
+            _accountContext.ModifyAccountConfigServices.MemberOutDock(memberId, deskId);
 
             UnitOfWork.Commit();
         }
@@ -90,7 +103,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(memberId).Validate(folderId);
 
-            AccountContext.ModifyAccountConfigServices.DockToFolder(memberId, folderId);
+            _accountContext.ModifyAccountConfigServices.DockToFolder(memberId, folderId);
 
             UnitOfWork.Commit();
         }
@@ -99,7 +112,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(memberId);
 
-            AccountContext.ModifyAccountConfigServices.FolderToDock(memberId);
+            _accountContext.ModifyAccountConfigServices.FolderToDock(memberId);
 
             UnitOfWork.Commit();
         }
@@ -108,7 +121,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(memberId).Validate(folderId);
 
-            AccountContext.ModifyAccountConfigServices.DeskToFolder(memberId, folderId);
+            _accountContext.ModifyAccountConfigServices.DeskToFolder(memberId, folderId);
 
             UnitOfWork.Commit();
         }
@@ -117,7 +130,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(memberId).Validate(deskId);
 
-            AccountContext.ModifyAccountConfigServices.FolderToDesk(memberId, deskId);
+            _accountContext.ModifyAccountConfigServices.FolderToDesk(memberId, deskId);
 
             UnitOfWork.Commit();
         }
@@ -126,7 +139,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(memberId).Validate(folderId);
 
-            AccountContext.ModifyAccountConfigServices.FolderToOtherFolder(memberId, folderId);
+            _accountContext.ModifyAccountConfigServices.FolderToOtherFolder(memberId, folderId);
 
             UnitOfWork.Commit();
         }
@@ -135,7 +148,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(memberId).Validate(deskId);
 
-            AccountContext.ModifyAccountConfigServices.DeskToOtherDesk(memberId, deskId);
+            _accountContext.ModifyAccountConfigServices.DeskToOtherDesk(memberId, deskId);
 
             UnitOfWork.Commit();
         }
@@ -144,7 +157,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(memberName).Validate(memberIcon).Validate(memberId);
 
-            DeskContext.ModifyDeskMemberServices.ModifyFolderInfo(memberName, memberIcon, memberId);
+            _deskContext.ModifyDeskMemberServices.ModifyFolderInfo(memberName, memberIcon, memberId);
 
             UnitOfWork.Commit();
         }
@@ -153,7 +166,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(memberId);
 
-            DeskContext.ModifyDeskMemberServices.RemoveMember(memberId);
+            _deskContext.ModifyDeskMemberServices.RemoveMember(memberId);
 
             UnitOfWork.Commit();
         }
@@ -162,7 +175,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(member);
 
-            DeskContext.ModifyDeskMemberServices.ModifyMemberInfo(member.ConvertToModel<MemberDto, Member>());
+            _deskContext.ModifyDeskMemberServices.ModifyMemberInfo(member.ConvertToModel<MemberDto, Member>());
 
             UnitOfWork.Commit();
         }
@@ -171,7 +184,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(folderName).Validate(folderImg).Validate(deskId);
 
-            DeskContext.CreateNewFolder.NewFolder(deskId, folderName, folderImg);
+            _deskContext.CreateNewFolder.NewFolder(deskId, folderName, folderImg);
 
             UnitOfWork.Commit();
         }
@@ -180,7 +193,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(memberId).Validate(deskId);
 
-            AccountContext.ModifyAccountConfigServices.DockToOtherDesk(memberId, deskId);
+            _accountContext.ModifyAccountConfigServices.DockToOtherDesk(memberId, deskId);
 
             UnitOfWork.Commit();
         }

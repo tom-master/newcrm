@@ -78,26 +78,22 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Configuration\Account\Imp\" />
-    <Folder Include="Configuration\Security\Imp\" />
-    <Folder Include="Configuration\System\Imp\" />
-  </ItemGroup>
+  <ItemGroup />
   <!--<ItemGroup>
     <EmbeddedResource Include="Migrations\201606051122318_InitialCreate.resx">
       <DependentUpon>201606051122318_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>-->
   <ItemGroup>
-    <Compile Include="DataBaseProvider\EF\Event\ICacheCreateEvent.cs" />
-    <Compile Include="DataBaseProvider\EF\Event\ICacheModifyEvent.cs" />
+    <Compile Include="DataBaseProvider\Event\ICacheCreateEvent.cs" />
+    <Compile Include="DataBaseProvider\Event\ICacheModifyEvent.cs" />
     <Compile Include="DataBaseProvider\Redis\ICacheQueryProvider.cs" />
     <Compile Include="DataBaseProvider\Redis\RedisConnectionHelp.cs" />
     <Compile Include="DataBaseProvider\Redis\InternalQueryProvider.cs" />
     <Compile Include="DefaultRepositoryFactory.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="DataBaseProvider\EF\NewCrmBackSite.cs" />
-    <Compile Include="DataBaseProvider\EF\QueryProvider.cs" />
+    <Compile Include="DataBaseProvider\NewCrmBackSite.cs" />
+    <Compile Include="DataBaseProvider\QueryProvider.cs" />
     <Compile Include="RepositoryImpl\Agent\TitleRepository.cs" />
     <Compile Include="RepositoryImpl\Agent\AccountRepository.cs" />
     <Compile Include="RepositoryImpl\Security\RoleRepository.cs" />
@@ -107,7 +103,7 @@
     <Compile Include="RepositoryImpl\System\LogRepository.cs" />
     <Compile Include="RepositoryImpl\System\OnlineRepository.cs" />
     <Compile Include="RepositoryImpl\System\WallpaperRepository.cs" />
-    <Compile Include="DataBaseProvider\EF\EntityFrameworkProvider.cs" />
+    <Compile Include="DataBaseProvider\EntityFrameworkProvider.cs" />
     <Compile Include="UnitOfWorkProvide\EFUnitOfWorkContext.cs" />
     <Compile Include="UnitOfWorkProvide\UnitOfWorkContextBase.cs" />
     <Compile Include="UnitOfWorkProvide\UnitOfWorkContextExtensions.cs" />

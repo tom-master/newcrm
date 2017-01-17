@@ -1,17 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using NewCRM.Application.Interface;
 using NewCRM.Dto.Dto;
-using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class AppTypesController : BaseController
+    public class AppTypesController : Controller
     {
+
+        private readonly IAppApplicationServices _appApplicationServices;
+
+        public AppTypesController(IAppApplicationServices appApplicationServices)
+        {
+            _appApplicationServices = appApplicationServices;
+
+        }
+
         #region 类目管理
 
         /// <summary>
@@ -34,7 +39,7 @@ namespace NewCRM.Web.Controllers
 
             if (appTypeId != 0)
             {
-                appTypeDto = AppApplicationServices.GetAppTypes().FirstOrDefault(appType => appType.Id == appTypeId);
+                appTypeDto = _appApplicationServices.GetAppTypes().FirstOrDefault(appType => appType.Id == appTypeId);
             }
 
             return View(appTypeDto);
@@ -51,7 +56,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult GetAllAppTypes(Int32 pageIndex, Int32 pageSize, String searchText)
         {
-            var appTypes = AppApplicationServices.GetAppTypes().Where(appType => searchText.Length == 0 || appType.Name.Contains(searchText)).OrderByDescending(d => d.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            var appTypes = _appApplicationServices.GetAppTypes().Where(appType => searchText.Length == 0 || appType.Name.Contains(searchText)).OrderByDescending(d => d.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
 
             return Json(new
             {
@@ -68,7 +73,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult DeleteAppType(Int32 appTypeId)
         {
-            AppApplicationServices.RemoveAppType(appTypeId);
+            _appApplicationServices.RemoveAppType(appTypeId);
 
             return Json(new { sucess = 1 });
         }
@@ -85,11 +90,11 @@ namespace NewCRM.Web.Controllers
 
             if (appTypeId == 0)
             {
-                AppApplicationServices.CreateNewAppType(appTypeDto);
+                _appApplicationServices.CreateNewAppType(appTypeDto);
             }
             else
             {
-                AppApplicationServices.ModifyAppType(appTypeDto, appTypeId);
+                _appApplicationServices.ModifyAppType(appTypeDto, appTypeId);
             }
 
             return Json(new { success = 1 });

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.DomainQuery.Query;
 using NewCRM.Domain.DomainSpecification.Factory;
@@ -14,23 +13,19 @@ namespace NewCRM.Domain.Services.Service
     /// </summary>
     internal class BaseService
     {
-
         /// <summary>
         /// 获取仓储工厂
         /// </summary>
-        [Import]
         protected RepositoryFactory Repository { get; set; }
 
         /// <summary>
         /// 查询工厂
         /// </summary>
-        [Import]
         protected IQuery Query { get; set; }
 
         /// <summary>
         /// 规约工厂
         /// </summary>
-        [Import]
         protected SpecificationFactory FilterFactory { get; set; }
 
         /// <summary>
@@ -48,15 +43,12 @@ namespace NewCRM.Domain.Services.Service
         /// 获取当前账户下所有桌面
         /// </summary>
         /// <returns></returns>
-        [Export("Desks", typeof(Func<IList<Desk>>))]
         protected IList<Desk> GetDesks()
         {
             return Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId)).ToList();
-
         }
 
 
-        [Import("AccountId")]
         protected Int32 AccountId { get; set; }
 
     }

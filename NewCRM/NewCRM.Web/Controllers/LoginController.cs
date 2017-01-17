@@ -1,15 +1,23 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using System.Web;
 using System.Web.Mvc;
-using NewCRM.Web.Controllers.ControllerHelper;
+using NewCRM.Application.Interface;
 using Newtonsoft.Json;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class LoginController : BaseController
+    public class LoginController : Controller
     {
+        private readonly IAccountApplicationServices _accountApplicationServices;
+
+        public LoginController(IAccountApplicationServices accountApplicationServices)
+        {
+            _accountApplicationServices = accountApplicationServices;
+        }
+
+
+
+
         // GET: Login
         public ActionResult Index()
         {
@@ -25,16 +33,13 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult Landing(String accountName, String passWord, Boolean isRememberPasswrod = false)
         {
-            var accountResult = AccountApplicationServices.Login(accountName, passWord);
+            var account = _accountApplicationServices.Login(accountName, passWord);
 
             Response.SetCookie(new HttpCookie("Account")
             {
-                Value = JsonConvert.SerializeObject(accountResult),
+                Value = JsonConvert.SerializeObject(account),
                 Expires = isRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddMinutes(30)
             });
-
-            //AccountId = accountResult.Id;
-            //AccountName = accountResult.Name;
 
             return Json(new { success = 1 });
         }
