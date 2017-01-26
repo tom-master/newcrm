@@ -9,14 +9,21 @@ using NewCRM.Application.Interface;
 
 namespace NewCRM.Web.Filter
 {
-    [Export(typeof(IAuthorizationFilter))]
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class AuthFilter : IAuthorizationFilter
     {
-        [Import]
-        protected IAccountApplicationServices AccountApplicationServices { get; set; }
+        private readonly IAccountApplicationServices _accountApplicationServices;
 
-        [Import]
-        protected ISecurityApplicationServices SecurityApplicationServices { get; set; }
+        private readonly ISecurityApplicationServices _securityApplicationServices;
+
+        public AuthFilter() { }
+
+        public AuthFilter(IAccountApplicationServices accountApplicationServices, ISecurityApplicationServices securityApplicationServices)
+        {
+            _accountApplicationServices = accountApplicationServices;
+
+            _securityApplicationServices = securityApplicationServices;
+        }
 
         public void OnAuthorization(AuthorizationContext filterContext)
         {
@@ -39,11 +46,11 @@ namespace NewCRM.Web.Filter
                 return;
             }
 
-            var account = AccountApplicationServices.GetAccount();
+            var account = _accountApplicationServices.GetAccount();
 
             var appId = Int32.Parse(filterContext.RequestContext.HttpContext.Request.Form["id"]);
 
-            var isPermission = SecurityApplicationServices.CheckPermissions(appId, account.Roles.Select(role => role.Id).ToArray());
+            var isPermission = _securityApplicationServices.CheckPermissions(appId, account.Roles.Select(role => role.Id).ToArray());
 
             if (!isPermission)
             {

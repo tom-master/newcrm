@@ -379,8 +379,6 @@ namespace NewCRM.Application.Services
 
         }
 
-
-
         public List<AppDto> GetSystemApp(IEnumerable<Int32> appIds = default(IEnumerable<Int32>))
         {
             var filter = BaseContext.FilterFactory.Create((App app) => app.IsSystem);

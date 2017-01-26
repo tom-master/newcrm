@@ -39,8 +39,6 @@ namespace NewCRM.Web
             container.ComposeParts(this);
 
             DependencyResolver.SetResolver(new DependencySolver(container.Catalog));
-
-
         }
     }
 }
