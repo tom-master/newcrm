@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using NewCRM.Domain.Entitys.Security;
 
 namespace NewCRM.Domain.Entitys.Agent

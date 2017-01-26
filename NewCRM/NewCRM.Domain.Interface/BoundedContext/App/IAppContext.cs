@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.Composition;
-using NewCRM.Domain.Interface.BoundedContextMember;
+﻿using NewCRM.Domain.Interface.BoundedContextMember;
 
 namespace NewCRM.Domain.Interface.BoundedContext.App
 {

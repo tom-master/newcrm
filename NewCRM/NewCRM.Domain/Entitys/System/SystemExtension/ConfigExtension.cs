@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Domain.Entitys.System

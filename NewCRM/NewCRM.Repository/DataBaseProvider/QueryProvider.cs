@@ -1,27 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using NewCRM.Domain.DomainSpecification;
 using NewCRM.Domain.Entitys;
 using NewCRM.Domain.Repositories;
 using NewCRM.Domain.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
-using NewCRM.Repository.UnitOfWorkProvide;
 using NewCRM.Repository.DataBaseProvider.Redis;
+using NewCRM.Repository.UnitOfWorkProvide;
 
-namespace NewCRM.Repository.DataBaseProvider.EF
+namespace NewCRM.Repository.DataBaseProvider
 {
     /// <summary>
     /// 提供查询
     /// </summary>
-    [Export(typeof(IDomainModelQueryProvider))]
     internal class QueryProvider : IDomainModelQueryProvider
     {
-        [Import]
         private ICacheQueryProvider _cacheQueryProvider;
 
         #region 仓储上下文的实例
@@ -34,7 +30,6 @@ namespace NewCRM.Repository.DataBaseProvider.EF
         /// <summary>
         /// 获取 仓储上下文的实例
         /// </summary>
-        [Import]
         protected IUnitOfWork UnitOfWork { get; set; }
 
         /// <summary>
@@ -57,6 +52,8 @@ namespace NewCRM.Repository.DataBaseProvider.EF
 
         #endregion
 
+        #region entity framework
+
         /// <summary>
         /// 查询
         /// </summary>
@@ -67,6 +64,10 @@ namespace NewCRM.Repository.DataBaseProvider.EF
         {
             return EfContext.Set<T, Int32>().Where(specification.Expression);
         }
+
+        #endregion
+
+        #region redis cache
 
         public T Query<T>(Expression<Func<T, Boolean>> entity) where T : DomainModelBase, IAggregationRoot
         {
@@ -147,5 +148,7 @@ namespace NewCRM.Repository.DataBaseProvider.EF
 
             return cacheValue;
         }
+
+        #endregion
     }
 }

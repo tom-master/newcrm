@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Web.Mvc;
 using NewCRM.Application.Interface;
 using NewCRM.Dto.Dto;
-using NewCRM.Infrastructure.CommonTools.CustomException;
-using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class AccountManagerController : BaseController
+    public class AccountManagerController : Controller
     {
 
         private readonly IAccountApplicationServices _accountApplicationServices;
@@ -129,7 +125,7 @@ namespace NewCRM.Web.Controllers
                 Id = accountId,
                 Name = forms["val_accountname"],
                 Password = forms["val_password"],
-                IsAdmin = Int32.Parse(forms["val_type"])==1,
+                IsAdmin = Int32.Parse(forms["val_type"]) == 1,
                 Roles = roleIds
             };
         }

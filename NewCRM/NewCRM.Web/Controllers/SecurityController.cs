@@ -1,16 +1,13 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Web.Mvc;
 using NewCRM.Application.Interface;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomException;
-using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class SecurityController : BaseController
+    public class SecurityController : Controller
     {
 
         private readonly ISecurityApplicationServices _securityApplicationServices;

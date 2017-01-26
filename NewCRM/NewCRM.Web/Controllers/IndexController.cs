@@ -1,5 +1,4 @@
-﻿using NewCRM.Web.Controllers.ControllerHelper;
-using System;
+﻿using System;
 using System.ComponentModel.Composition;
 using System.Web;
 using System.Web.Mvc;
@@ -43,7 +42,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult Desktop()
         {
             ViewBag.Title = "桌面";
-
+            
             if (Request.Cookies["Account"] != null)
             {
                 ViewData["Account"] = JsonConvert.DeserializeObject<AccountDto>(Request.Cookies["Account"].Value);

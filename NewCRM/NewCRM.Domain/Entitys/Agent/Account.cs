@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using NewCRM.Domain.Entitys.Security;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.ValueObject;
 

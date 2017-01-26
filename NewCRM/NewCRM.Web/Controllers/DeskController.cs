@@ -1,16 +1,13 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using System.Configuration;
 using System.Web.Mvc;
 using NewCRM.Application.Interface;
 using NewCRM.Dto.Dto;
-using NewCRM.Web.Controllers.ControllerHelper;
 using NewCRM.Infrastructure.CommonTools;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class DeskController : BaseController
+    public class DeskController : Controller
     {
         private readonly IDeskApplicationServices _deskApplicationServices;
 

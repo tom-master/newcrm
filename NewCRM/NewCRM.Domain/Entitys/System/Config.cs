@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Domain.Entitys.System

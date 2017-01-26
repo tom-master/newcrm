@@ -77,8 +77,8 @@
     <Compile Include="DomainSpecification\Factory\SpecificationFactory.cs" />
     <Compile Include="Entitys\System\SystemExtension\OnlineExtension.cs" />
     <Compile Include="Entitys\System\SystemExtension\WallpaperExtension.cs" />
-    <Compile Include="Factory\Domain\ConcreteFactory\DefaultDomainFactory.cs" />
-    <Compile Include="Factory\Domain\DomainFactory.cs" />
+    <Compile Include="Factory\DomainCreate\ConcreteFactory\DefaultDomainFactory.cs" />
+    <Compile Include="Factory\DomainCreate\DomainFactory.cs" />
     <Compile Include="Factory\RepositoryFactory.cs" />
     <Compile Include="KeyGenerators\RedisKeyGenerator.cs" />
     <Compile Include="KeyGenerators\IKeyGenerator.cs" />
@@ -93,7 +93,6 @@
     <Compile Include="Repositories\IRepository\System\ILogRepository.cs" />
     <Compile Include="Repositories\IRepository\System\IOnlineRepository.cs" />
     <Compile Include="Repositories\IRepository\System\IWallpaperRepository.cs" />
-    <Compile Include="UnitWork\InternalImportUnitOfWork.cs" />
     <Compile Include="UnitWork\IUnitOfWork.cs" />
     <Compile Include="UnitWork\IUnitOfWorkContext.cs" />
     <Compile Include="ValueObject\AppAuditState.cs" />
@@ -121,11 +120,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\IRepository\Agent\Impl\" />
-    <Folder Include="Repositories\IRepository\Security\Impl\" />
-    <Folder Include="Repositories\IRepository\System\Impl\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\NewCRM.Infrastructure\NewCRM.Infrastructure.csproj">
       <Project>{457EE31D-B485-4D98-A0A2-1FF2F58123D9}</Project>

@@ -4,12 +4,11 @@ using System.Linq;
 using System.Web.Mvc;
 using NewCRM.Application.Interface;
 using NewCRM.Dto.Dto;
-using NewCRM.Web.Controllers.ControllerHelper;
+using NewCRM.Application.Interface;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class AppManagerController : BaseController
+    public class AppManagerController : Controller
     {
 
         private readonly IAppApplicationServices _appApplicationServices;
@@ -85,11 +84,10 @@ namespace NewCRM.Web.Controllers
         {
             _appApplicationServices.Pass(appId);
 
-            return Json(
-                new
-                {
-                    success = 1
-                });
+            return Json(new
+            {
+                success = 1
+            });
         }
 
         /// <summary>

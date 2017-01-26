@@ -1,17 +1,15 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using NewCRM.Application.Interface;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
-using NewCRM.Web.Controllers.ControllerHelper;
+using Newtonsoft.Json;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class AppMarketController : BaseController
+    public class AppMarketController : Controller
     {
         private readonly IAppApplicationServices _appApplicationServices;
 

@@ -1,15 +1,12 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using System.Configuration;
 using System.Web.Mvc;
 using NewCRM.Application.Interface;
 using NewCRM.Infrastructure.CommonTools;
-using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class AccountSettingController : BaseController
+    public class AccountSettingController :  Controller
     {
 
         private readonly IAccountApplicationServices _accountApplicationServices;

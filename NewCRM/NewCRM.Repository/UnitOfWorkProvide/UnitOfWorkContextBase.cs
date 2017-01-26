@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using System.Data.SqlClient;
 using System.Linq.Expressions;
 using System.Threading;
 using NewCRM.Domain.Entitys;
 using NewCRM.Domain.UnitWork;
-using NewCRM.Repository.DataBaseProvider.EF.Event;
-using NewCRM.Repository.DataBaseProvider.Redis;
-using Newtonsoft.Json;
+using NewCRM.Repository.DataBaseProvider.Event;
 
 namespace NewCRM.Repository.UnitOfWorkProvide
 {

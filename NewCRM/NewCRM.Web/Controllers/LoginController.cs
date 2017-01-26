@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using System.Web;
 using System.Web.Mvc;
 using NewCRM.Application.Interface;
@@ -9,8 +8,7 @@ using Newtonsoft.Json;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class LoginController : BaseController
+    public class LoginController : Controller
     {
         private readonly IAccountApplicationServices _accountApplicationServices;
 

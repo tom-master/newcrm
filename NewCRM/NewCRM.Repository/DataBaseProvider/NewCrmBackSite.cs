@@ -1,14 +1,12 @@
-﻿using System.ComponentModel.Composition;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using EntityFramework.DynamicFilters;
 using NewCRM.Domain.Entitys;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.Security;
 using NewCRM.Domain.Entitys.System;
 
-namespace NewCRM.Repository.DataBaseProvider.EF
+namespace NewCRM.Repository.DataBaseProvider
 {
-    [Export(typeof(DbContext))]
     public sealed class NewCrmBackSite : DbContext
     {
         public NewCrmBackSite() : base("name=NewCrm")

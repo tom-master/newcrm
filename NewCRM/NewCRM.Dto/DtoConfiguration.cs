@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using AutoMapper.Configuration;
 using NewCRM.Domain.Entitys;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.Security;

@@ -1,17 +1,15 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using System.Configuration;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using NewCRM.Application.Interface;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
-using NewCRM.Web.Controllers.ControllerHelper;
+using Newtonsoft.Json;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class DeskOptionsController : BaseController
+    public class DeskOptionsController : Controller
     {
 
         private readonly IWallpaperApplicationServices _wallpaperApplicationServices;
