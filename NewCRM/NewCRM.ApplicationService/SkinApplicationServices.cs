@@ -5,18 +5,20 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NewCRM.Application.Interface;
-using NewCRM.Application.Services.Services;
+using NewCRM.Domain;
 using NewCRM.Domain.Entitys.Agent;
-using NewCRM.Dto.Dto;
 
 namespace NewCRM.Application.Services
 {
     [Export(typeof(ISkinApplicationServices))]
-    internal class SkinApplicationServices : BaseService, ISkinApplicationServices
+    internal class SkinApplicationServices : ISkinApplicationServices
     {
+        [Import]
+        public BaseServiceContext BaseContext { get; set; }
+
         public IDictionary<String, dynamic> GetAllSkin(String skinPath)
         {
-            ValidateParameter.Validate(skinPath);
+            BaseContext.ValidateParameter.Validate(skinPath);
 
             IDictionary<String, dynamic> dataDictionary = new Dictionary<String, dynamic>();
 
@@ -37,15 +39,15 @@ namespace NewCRM.Application.Services
 
         public void ModifySkin(String newSkin)
         {
-            ValidateParameter.Validate(newSkin);
+            BaseContext.ValidateParameter.Validate(newSkin);
 
-            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+            var accountResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create((Account account) => account.Id == BaseContext.GetAccountId()));
 
             accountResult.Config.ModifySkin(newSkin);
 
-            Repository.Create<Account>().Update(accountResult);
+            BaseContext.Repository.Create<Account>().Update(accountResult);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
 
         #region private method

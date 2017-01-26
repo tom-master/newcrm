@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using NewCRM.Application.Interface;
 using NewCRM.Dto.Dto;
 using NewCRM.Web.Controllers.ControllerHelper;
 
@@ -13,16 +12,25 @@ namespace NewCRM.Web.Controllers
     public class AppManagerController : BaseController
     {
 
+        private readonly IAppApplicationServices _appApplicationServices;
+
+        [ImportingConstructor]
+        public AppManagerController(IAppApplicationServices appApplicationServices)
+        {
+            _appApplicationServices = appApplicationServices;
+        }
+
+
         #region 页面
 
         // GET: AppManage
         public ActionResult Index()
         {
-            ViewData["AppTypes"] = AppApplicationServices.GetAppTypes();
+            ViewData["AppTypes"] = _appApplicationServices.GetAppTypes();
 
-            ViewData["AppStyles"] = AppApplicationServices.GetAllAppStyles().ToList();
+            ViewData["AppStyles"] = _appApplicationServices.GetAllAppStyles().ToList();
 
-            ViewData["AppStates"] = AppApplicationServices.GetAllAppStates().Where(w => w.Name == "未审核" || w.Name == "已发布").ToList();
+            ViewData["AppStates"] = _appApplicationServices.GetAllAppStates().Where(w => w.Name == "未审核" || w.Name == "已发布").ToList();
 
             return View();
         }
@@ -33,12 +41,12 @@ namespace NewCRM.Web.Controllers
             AppDto appResult = null;
             if (appId != 0)// 如果appId为0则是新创建app
             {
-                appResult = AppApplicationServices.GetApp(appId);
+                appResult = _appApplicationServices.GetApp(appId);
 
                 ViewData["AppState"] = appResult.AppAuditState;
             }
 
-            ViewData["AppTypes"] = AppApplicationServices.GetAppTypes();
+            ViewData["AppTypes"] = _appApplicationServices.GetAppTypes();
 
             return View(appResult);
         }
@@ -59,7 +67,7 @@ namespace NewCRM.Web.Controllers
         {
             Int32 totalCount;
 
-            var appResults = AppApplicationServices.GetAccountAllApps(searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
+            var appResults = _appApplicationServices.GetAllApps(appTypeId, 0, searchText, pageIndex, pageSize, out totalCount);
 
             return Json(new
             {
@@ -75,7 +83,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult Pass(Int32 appId)
         {
-            AppApplicationServices.Pass(appId);
+            _appApplicationServices.Pass(appId);
 
             return Json(
                 new
@@ -91,7 +99,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult Deny(Int32 appId)
         {
-            AppApplicationServices.Deny(appId);
+            _appApplicationServices.Deny(appId);
 
             return Json(
                 new
@@ -107,7 +115,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult Recommend(Int32 appId)
         {
-            AppApplicationServices.SetTodayRecommandApp(appId);
+            _appApplicationServices.SetTodayRecommandApp(appId);
 
             return Json(
                 new
@@ -123,7 +131,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult DeleteApp(Int32 appId)
         {
-            AppApplicationServices.RemoveApp(appId);
+            _appApplicationServices.RemoveApp(appId);
 
             return Json(new { sucess = 1 });
         }

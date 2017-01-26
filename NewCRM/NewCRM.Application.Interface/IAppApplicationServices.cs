@@ -12,7 +12,7 @@ namespace NewCRM.Application.Interface
         /// 获取桌面的成员
         /// </summary>
         /// <returns></returns>
-        IDictionary<String, IList<dynamic>> GetDeskMembers(/*Int32 deskId*/);
+        IDictionary<String, IList<dynamic>> GetDeskMembers();
 
         /// <summary>
         /// 获取所有的app类型
@@ -41,8 +41,11 @@ namespace NewCRM.Application.Interface
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <param name="totalCount"></param>
+        /// <param name="accountId"></param>
+        /// <param name="appStyleId"></param>
+        /// <param name="appState"></param>
         /// <returns></returns>
-        List<AppDto> GetAllApps(Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
+        List<AppDto> GetAllApps(Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount, Int32 accountId = default(Int32), Int32 appStyleId = default(Int32), String appState = default(String));
 
         /// <summary>
         /// 根据appId获取App
@@ -71,28 +74,11 @@ namespace NewCRM.Application.Interface
         IEnumerable<AppStateDto> GetAllAppStates();
 
         /// <summary>
-        /// 获取开发者（用户）的app
-        /// </summary>
-        /// <param name="searchText"></param>
-        /// <param name="appTypeId"></param>
-        /// <param name="appStyleId"></param>
-        /// <param name="appState"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="totalCount"></param>
-        /// <returns></returns>
-        List<AppDto> GetAccountAllApps(
-             String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex,
-            Int32 pageSize,
-            out Int32 totalCount);
-
-        /// <summary>
         /// 获取系统app
         /// </summary>
+        /// <param name="appIds"></param>
         /// <returns></returns>
-        List<AppDto> GetSystemApp(IEnumerable<Int32> appIds);
-
-        List<AppDto> GetSystemApp();
+        List<AppDto> GetSystemApp(IEnumerable<Int32> appIds = default(IEnumerable<Int32>));
 
         #endregion
 
@@ -101,7 +87,6 @@ namespace NewCRM.Application.Interface
         /// <summary>
         /// 修改开发者（用户）的app信息
         /// </summary>
-
         /// <param name="appDto"></param>
         void ModifyAccountAppInfo(AppDto appDto);
 
@@ -179,28 +164,24 @@ namespace NewCRM.Application.Interface
         /// <summary>
         /// 修改app排列方向
         /// </summary>
-
         /// <param name="direction"></param>
         void ModifyAppDirection(String direction);
 
         /// <summary>
         /// 修改app图标大小
         /// </summary>
-
         /// <param name="newSize"></param>
         void ModifyAppIconSize(Int32 newSize);
 
         /// <summary>
         /// 修改app垂直间距
         /// </summary>
-
         /// <param name="newSize"></param>
         void ModifyAppVerticalSpacing(Int32 newSize);
 
         /// <summary>
         /// 修改app水平间距
         /// </summary>
-
         /// <param name="newSize"></param>
         void ModifyAppHorizontalSpacing(Int32 newSize);
 

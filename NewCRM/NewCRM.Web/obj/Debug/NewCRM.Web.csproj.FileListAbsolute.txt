@@ -99,3 +99,7 @@ E:\NewCRM\NewCRM\NewCRM.Web\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
 E:\NewCRM\NewCRM\NewCRM.Web\bin\zh-Hans\System.Web.Optimization.resources.dll
 E:\NewCRM\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.dll
 E:\NewCRM\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.pdb
+E:\NewCRM\NewCRM\NewCRM.Web\bin\Autofac.dll
+E:\NewCRM\NewCRM\NewCRM.Web\bin\Autofac.Integration.Mvc.dll
+E:\NewCRM\NewCRM\NewCRM.Web\bin\Autofac.xml
+E:\NewCRM\NewCRM\NewCRM.Web\bin\Autofac.Integration.Mvc.xml

@@ -3,33 +3,36 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContextMember;
-using NewCRM.Domain.Services.Service;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     [Export(typeof(IModifyAppInfoServices))]
-    internal class ModifyAppInfoServices : BaseService, IModifyAppInfoServices
+    internal class ModifyAppInfoServices : IModifyAppInfoServices
     {
+
+        [Import]
+        public BaseServiceContext BaseContext { get; set; }
+
 
         public void ModifyAppStar(Int32 appId, Int32 starCount)
         {
-            if (!Query.Find(FilterFactory.Create<Desk>(d => d.Members.Any(m => m.AppId == appId) && d.AccountId == AccountId)).Any())
+            if (!BaseContext.Query.Find(BaseContext.FilterFactory.Create<Desk>(d => d.Members.Any(m => m.AppId == appId) && d.AccountId == BaseContext.GetAccountId())).Any())
             {
                 throw new BusinessException($"请安装这个应用后再打分");
             }
 
-            var appResult = Query.FindOne(FilterFactory.Create<App>(app => app.Id == appId));
+            var appResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create<App>(app => app.Id == appId));
 
-            appResult.AddStar(AccountId, starCount);
+            appResult.AddStar(BaseContext.GetAccountId(), starCount);
 
-            Repository.Create<App>().Update(appResult);
+            BaseContext.Repository.Create<App>().Update(appResult);
         }
 
         public void ModifyAccountAppInfo(App app)
         {
-            var appResult = Query.FindOne(FilterFactory.Create<App>(internalApp => internalApp.Id == app.Id && internalApp.AccountId == AccountId));
+            var appResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create<App>(internalApp => internalApp.Id == app.Id && internalApp.AccountId == BaseContext.GetAccountId()));
 
             if (appResult == null)
             {
@@ -57,8 +60,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                 appResult.SentAudit();
             }
 
-            Repository.Create<App>().Update(appResult);
-
+            BaseContext.Repository.Create<App>().Update(appResult);
         }
     }
 }

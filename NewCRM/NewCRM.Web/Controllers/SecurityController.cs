@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Web.Mvc;
+using NewCRM.Application.Interface;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Web.Controllers.ControllerHelper;
@@ -11,6 +12,20 @@ namespace NewCRM.Web.Controllers
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class SecurityController : BaseController
     {
+
+        private readonly ISecurityApplicationServices _securityApplicationServices;
+
+        private readonly IAppApplicationServices _appApplicationServices;
+
+        [ImportingConstructor]
+        public SecurityController(ISecurityApplicationServices securityApplicationServices,
+            IAppApplicationServices appApplicationServices)
+        {
+            _securityApplicationServices = securityApplicationServices;
+
+            _appApplicationServices = appApplicationServices;
+        }
+
 
         #region 页面
 
@@ -26,7 +41,7 @@ namespace NewCRM.Web.Controllers
         {
             if (roleId != 0)
             {
-                ViewData["RoleResult"] = SecurityApplicationServices.GetRole(roleId);
+                ViewData["RoleResult"] = _securityApplicationServices.GetRole(roleId);
             }
 
             return View();
@@ -38,12 +53,12 @@ namespace NewCRM.Web.Controllers
 
             if (roleId != 0)
             {
-                role = SecurityApplicationServices.GetRole(roleId);
+                role = _securityApplicationServices.GetRole(roleId);
 
                 ViewData["RolePowerResult"] = role;
             }
 
-            var adminApps = AppApplicationServices.GetSystemApp(role.Powers.Select(s => s.Id).ToArray());
+            var adminApps = _appApplicationServices.GetSystemApp(role.Powers.Select(s => s.Id).ToArray());
 
             return View(adminApps);
         }
@@ -54,7 +69,7 @@ namespace NewCRM.Web.Controllers
 
         public ActionResult AddSystemAppGotoPower()
         {
-            ViewData["SystemApp"] = AppApplicationServices.GetSystemApp();
+            ViewData["SystemApp"] = _appApplicationServices.GetSystemApp();
 
             return View();
         }
@@ -77,7 +92,7 @@ namespace NewCRM.Web.Controllers
         {
             var totalCount = 0;
 
-            var roles = SecurityApplicationServices.GetAllRoles(roleName, pageIndex, pageSize, out totalCount);
+            var roles = _securityApplicationServices.GetAllRoles(roleName, pageIndex, pageSize, out totalCount);
 
             return Json(new { roles, totalCount }, JsonRequestBehavior.AllowGet);
         }
@@ -89,7 +104,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult RemoveRole(Int32 roleId)
         {
-            SecurityApplicationServices.RemoveRole(roleId);
+            _securityApplicationServices.RemoveRole(roleId);
 
             return Json(new
             {
@@ -107,11 +122,11 @@ namespace NewCRM.Web.Controllers
         {
             if (roleId != 0)
             {
-                SecurityApplicationServices.ModifyRole(WapperRoleDto(forms));
+                _securityApplicationServices.ModifyRole(WapperRoleDto(forms));
             }
             else
             {
-                SecurityApplicationServices.AddNewRole(WapperRoleDto(forms));
+                _securityApplicationServices.AddNewRole(WapperRoleDto(forms));
             }
 
             return Json(new
@@ -138,7 +153,7 @@ namespace NewCRM.Web.Controllers
                 throw new BusinessException("所选的权限列表不能为空");
             }
 
-            SecurityApplicationServices.AddPowerToCurrentRole(Int32.Parse(forms["val_roleId"]), powerIds);
+            _securityApplicationServices.AddPowerToCurrentRole(Int32.Parse(forms["val_roleId"]), powerIds);
 
             return Json(new { success = 1 });
         }
@@ -150,7 +165,7 @@ namespace NewCRM.Web.Controllers
                     ','
              }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
 
-            var apps = AppApplicationServices.GetSystemApp(internalAppIds);
+            var apps = _appApplicationServices.GetSystemApp(internalAppIds);
 
             return Json(new
             {

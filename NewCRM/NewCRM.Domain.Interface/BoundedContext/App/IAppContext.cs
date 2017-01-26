@@ -5,13 +5,6 @@ namespace NewCRM.Domain.Interface.BoundedContext.App
 {
     public interface IAppContext
     {
-        [Import]
-        IInstallAppServices InstallAppServices { get; set; }
 
-        [Import]
-        IModifyAppInfoServices ModifyAppInfoServices { get; set; }
-
-        [Import]
-        IModifyAppTypeServices ModifyAppTypeServices { get; set; }
     }
 }

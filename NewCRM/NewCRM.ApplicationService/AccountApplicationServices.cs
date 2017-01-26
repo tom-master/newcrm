@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Application.Interface;
-using NewCRM.Application.Services.Services;
+using NewCRM.Domain;
 using NewCRM.Domain.DomainSpecification;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
+using NewCRM.Domain.Interface.BoundedContext.Agent;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
@@ -16,15 +17,26 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IAccountApplicationServices))]
-    internal class AccountApplicationServices : BaseService, IAccountApplicationServices
+    internal class AccountApplicationServices : IAccountApplicationServices
     {
+        [Import]
+        private BaseServiceContext BaseContext { get; set; }
+
+        private readonly IAccountContext _accountContext;
+
+        [ImportingConstructor]
+        public AccountApplicationServices(IAccountContext accountContext)
+        {
+            _accountContext = accountContext;
+        }
+
         public AccountDto Login(String accountName, String password)
         {
-            ValidateParameter.Validate(accountName).Validate(password);
+            BaseContext.ValidateParameter.Validate(accountName).Validate(password);
 
-            var account = AccountContext.Validate(accountName, password).ConvertToDto<Account, AccountDto>();
+            var account = _accountContext.Validate(accountName, password).ConvertToDto<Account, AccountDto>();
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
 
             return account;
 
@@ -32,8 +44,7 @@ namespace NewCRM.Application.Services
 
         public ConfigDto GetConfig()
         {
-
-            var accountResult = Query.FindOne((Account account) => account.Id == AccountId);
+            var accountResult = BaseContext.Query.FindOne((Account account) => account.Id == BaseContext.GetAccountId());
 
             if (accountResult == null)
             {
@@ -42,7 +53,7 @@ namespace NewCRM.Application.Services
 
             var accountConfig = accountResult.Config;
 
-            return DtoConfiguration.ConvertDynamicToDto<ConfigDto>(new 
+            return DtoConfiguration.ConvertDynamicToDto<ConfigDto>(new
             {
                 accountConfig.Id,
                 accountConfig.Skin,
@@ -65,9 +76,9 @@ namespace NewCRM.Application.Services
 
         public List<AccountDto> GetAccounts(String accountName, String accountType, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
-            ValidateParameter.Validate(accountName).Validate(pageIndex).Validate(pageSize);
+            BaseContext.ValidateParameter.Validate(accountName).Validate(pageIndex).Validate(pageSize);
 
-            var specification = FilterFactory.Create<Account>(account => (accountName + "").Length == 0 || account.Name.Contains(accountName));
+            var specification = BaseContext.FilterFactory.Create<Account>(account => (accountName + "").Length == 0 || account.Name.Contains(accountName));
 
             AccountType internalAccountType;
 
@@ -85,7 +96,7 @@ namespace NewCRM.Application.Services
                 }
             }
 
-            return Query.PageBy(specification, pageIndex, pageSize, out totalCount).Select(account => new
+            return BaseContext.Query.PageBy(specification, pageIndex, pageSize, out totalCount).Select(account => new
             {
                 account.Id,
                 AccountType = account.IsAdmin ? "2" /*管理员*/ : "1" /*用户*/,
@@ -95,18 +106,10 @@ namespace NewCRM.Application.Services
 
         }
 
-        public AccountDto GetAccount(Int32 accountId = 0)
+        public AccountDto GetAccount(Int32 accountId = default(Int32))
         {
-            Account accountResult = null;
-            if (accountId == 0)
-            {
-                accountResult = Query.FindOne((Account account) => account.Id == AccountId);
-            }
-            else
-            {
-                accountResult = Query.FindOne((Account account) => account.Id == accountId);
-            }
 
+            Account accountResult = BaseContext.Query.FindOne((Account account) => account.Id == (accountId == default(Int32) ? BaseContext.GetAccountId() : accountId));
 
             if (accountResult == null)
             {
@@ -119,17 +122,17 @@ namespace NewCRM.Application.Services
 
         public Boolean CheckAccountNameExist(String accountName)
         {
-            ValidateParameter.Validate(accountName);
+            BaseContext.ValidateParameter.Validate(accountName);
 
-            return !Query.Find(FilterFactory.Create<Account>(account => account.Name == accountName)).Any();
+            return !BaseContext.Query.Find(BaseContext.FilterFactory.Create<Account>(account => account.Name == accountName)).Any();
 
         }
 
         public Boolean CheckPassword(String oldAccountPassword)
         {
-            ValidateParameter.Validate(oldAccountPassword);
+            BaseContext.ValidateParameter.Validate(oldAccountPassword);
 
-            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+            var accountResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create((Account account) => account.Id == BaseContext.GetAccountId()));
 
             return PasswordUtil.ComparePasswords(accountResult.LoginPassword, oldAccountPassword);
         }
@@ -151,7 +154,7 @@ namespace NewCRM.Application.Services
 
             internalNewAccount.AddRole(account.AccountRoles.Select(role => role.RoleId).ToArray());
 
-            Repository.Create<Account>().Add(internalNewAccount);
+            BaseContext.Repository.Create<Account>().Add(internalNewAccount);
 
             IList<Desk> desks = new List<Desk>();
 
@@ -160,16 +163,16 @@ namespace NewCRM.Application.Services
                 desks.Add(new Desk(i, internalNewAccount.Id));
             }
 
-            Repository.Create<Desk>().Add(desks);
+            BaseContext.Repository.Create<Desk>().Add(desks);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
 
         public void ModifyAccount(AccountDto accountDto)
         {
             var account = accountDto.ConvertToModel<AccountDto, Account>();
 
-            var accountResult = Query.FindOne(FilterFactory.Create<Account>(internalAccount => internalAccount.Id == account.Id));
+            var accountResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create<Account>(internalAccount => internalAccount.Id == account.Id));
 
             if (accountResult == null)
             {
@@ -192,22 +195,22 @@ namespace NewCRM.Application.Services
 
             accountResult.AddRole(account.AccountRoles.Select(role => role.RoleId).ToArray());
 
-            Repository.Create<Account>().Update(accountResult);
+            BaseContext.Repository.Create<Account>().Update(accountResult);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
 
         }
 
         public void Logout()
         {
-            AccountContext.Logout(AccountId);
+            _accountContext.Logout(BaseContext.GetAccountId());
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
 
         public void Enable()
         {
-            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+            var accountResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create((Account account) => account.Id == BaseContext.GetAccountId()));
 
             if (accountResult == null)
             {
@@ -216,15 +219,15 @@ namespace NewCRM.Application.Services
 
             accountResult.Enable();
 
-            Repository.Create<Account>().Update(accountResult);
+            BaseContext.Repository.Create<Account>().Update(accountResult);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
 
         }
 
         public void Disable()
         {
-            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+            var accountResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create((Account account) => account.Id == BaseContext.GetAccountId()));
 
             if (accountResult == null)
             {
@@ -233,48 +236,48 @@ namespace NewCRM.Application.Services
 
             accountResult.Disable();
 
-            Repository.Create<Account>().Update(accountResult);
+            BaseContext.Repository.Create<Account>().Update(accountResult);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
 
         public void ModifyAccountFace(String newFace)
         {
-            ValidateParameter.Validate(newFace);
+            BaseContext.ValidateParameter.Validate(newFace);
 
-            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+            var accountResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create((Account account) => account.Id == BaseContext.GetAccountId()));
 
             accountResult.Config.ModifyAccountFace(newFace);
 
-            Repository.Create<Account>().Update(accountResult);
+            BaseContext.Repository.Create<Account>().Update(accountResult);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
 
         public void ModifyPassword(String newPassword)
         {
-            ValidateParameter.Validate(newPassword);
+            BaseContext.ValidateParameter.Validate(newPassword);
 
-            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+            var accountResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create((Account account) => account.Id == BaseContext.GetAccountId()));
 
             accountResult.ModifyPassword(PasswordUtil.CreateDbPassword(newPassword));
 
-            Repository.Create<Account>().Update(accountResult);
+            BaseContext.Repository.Create<Account>().Update(accountResult);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
 
         public void ModifyLockScreenPassword(String newScreenPassword)
         {
-            ValidateParameter.Validate(newScreenPassword);
+            BaseContext.ValidateParameter.Validate(newScreenPassword);
 
-            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+            var accountResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create((Account account) => account.Id == BaseContext.GetAccountId()));
 
             accountResult.ModifyLockScreenPassword(PasswordUtil.CreateDbPassword(newScreenPassword));
 
-            Repository.Create<Account>().Update(accountResult);
+            BaseContext.Repository.Create<Account>().Update(accountResult);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
 
 

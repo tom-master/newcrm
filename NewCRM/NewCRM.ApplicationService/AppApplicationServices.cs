@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Application.Interface;
-using NewCRM.Application.Services.Services;
+using NewCRM.Domain;
 using NewCRM.Domain.DomainSpecification;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
+using NewCRM.Domain.Interface.BoundedContextMember;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
@@ -15,14 +16,32 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IAppApplicationServices))]
-    internal class AppApplicationServices : BaseService, IAppApplicationServices
+    internal class AppApplicationServices : IAppApplicationServices
     {
+        [Import]
+        private BaseServiceContext BaseContext { get; set; }
 
-        public IDictionary<String, IList<dynamic>> GetDeskMembers(/*Int32 deskId*/)
+        private readonly IInstallAppServices _installAppServices;
+
+        private readonly IModifyAppInfoServices _modifyAppInfoServices;
+
+        private readonly IModifyAppTypeServices _modifyAppTypeServices;
+
+        [ImportingConstructor]
+        public AppApplicationServices(IInstallAppServices installAppServices,
+            IModifyAppInfoServices modifyAppInfoServices,
+            IModifyAppTypeServices modifyAppTypeServices)
         {
-            ValidateParameter.Validate(AccountId);
+            _installAppServices = installAppServices;
 
-            var desks = Query.Find((Desk desk) => desk.AccountId == AccountId /*&& desk.Id == deskId*/);
+            _modifyAppInfoServices = modifyAppInfoServices;
+
+            _modifyAppTypeServices = modifyAppTypeServices;
+        }
+
+        public IDictionary<String, IList<dynamic>> GetDeskMembers()
+        {
+            var desks = BaseContext.Query.Find((Desk desk) => desk.AccountId == BaseContext.GetAccountId());
 
             IDictionary<String, IList<dynamic>> deskDictionary = new Dictionary<String, IList<dynamic>>();
 
@@ -99,13 +118,13 @@ namespace NewCRM.Application.Services
 
         public List<AppTypeDto> GetAppTypes()
         {
-            return Query.Find((AppType appType) => true).ConvertToDtos<AppType, AppTypeDto>().ToList();
+            return BaseContext.Query.Find((AppType appType) => true).ConvertToDtos<AppType, AppTypeDto>().ToList();
         }
 
         public TodayRecommendAppDto GetTodayRecommend()
         {
 
-            var topApp = Query.Find(FilterFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release && app.IsRecommand)).Select(app => new
+            var topApp = BaseContext.Query.Find(BaseContext.FilterFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release && app.IsRecommand)).Select(app => new
             {
                 app.UseCount,
                 AppStars = CountAppStars(app),
@@ -121,16 +140,7 @@ namespace NewCRM.Application.Services
                 return new TodayRecommendAppDto();
             }
 
-            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
-
-            if (accountResult == null)
-            {
-                throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
-            }
-
-            var accountDesks = GetDesks();
-
-            var isInstall = accountDesks.Any(accountDesk => accountDesk.Members.Any(member => member.AppId == topApp.Id));
+            var members = BaseContext.Query.Find((Desk desk) => desk.AccountId == BaseContext.GetAccountId()).SelectMany((a, b) => a.Members);
 
             return DtoConfiguration.ConvertDynamicToDto<TodayRecommendAppDto>(new
             {
@@ -139,7 +149,7 @@ namespace NewCRM.Application.Services
                 topApp.UseCount,
                 AppIcon = topApp.IconUrl,
                 StartCount = topApp.AppStars,
-                IsInstall = isInstall,
+                IsInstall = members.Any(member => member.AppId == topApp.Id),
                 topApp.Remark,
                 Style = topApp.AppStyle.ToString().ToLower()
             });
@@ -147,9 +157,9 @@ namespace NewCRM.Application.Services
 
         public Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount()
         {
-            var accountApps = Query.Find(FilterFactory.Create<App>(app => app.AccountId == AccountId));
+            var accountApps = BaseContext.Query.Find(BaseContext.FilterFactory.Create<App>(app => app.AccountId == BaseContext.GetAccountId())).ToArray();
 
-            var accountDevAppCount = accountApps.Count();
+            var accountDevAppCount = accountApps.Length;
 
             var accountUnReleaseAppCount = accountApps.Count(app => app.AppReleaseState == AppReleaseState.UnRelease);
 
@@ -157,11 +167,11 @@ namespace NewCRM.Application.Services
 
         }
 
-        public List<AppDto> GetAllApps(Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+        public List<AppDto> GetAllApps(Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount, Int32 accountId = default(Int32), Int32 appStyleId = default(Int32), String appState = default(String))
         {
-            ValidateParameter.Validate(AccountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
+            BaseContext.ValidateParameter.Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
 
-            var appSpecification = FilterFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release);
+            var appSpecification = BaseContext.FilterFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release);
 
             #region 条件筛选
 
@@ -173,7 +183,68 @@ namespace NewCRM.Application.Services
             {
                 if (appTypeId == -1)//用户制作的app
                 {
-                    appSpecification.And(app => app.AccountId == AccountId);
+                    appSpecification.And(app => app.AccountId == BaseContext.GetAccountId());
+                }
+            }
+
+            //应用所属类型
+            if (appTypeId != default(Int32))
+            {
+                appSpecification.And(app => app.AppTypeId == appTypeId);
+            }
+
+            //应用样式
+            if (appStyleId != default(Int32))
+            {
+                var enumConst = Enum.GetName(typeof(AppStyle), 1);
+
+                AppStyle appStyle;
+
+                if (Enum.TryParse(enumConst, true, out appStyle))
+                {
+                    appSpecification.And(app => app.AppStyle == appStyle);
+                }
+                else
+                {
+                    throw new BusinessException($"无法识别的应用样式：{enumConst}");
+                }
+            }
+
+            if (appState != default(String))
+            {
+                //app发布状态
+                var stats = appState.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                if (stats[0] == "AppReleaseState")
+                {
+                    var enumConst = Enum.GetName(typeof(AppReleaseState), Int32.Parse(stats[1]));
+
+                    AppReleaseState appReleaseState;
+
+                    if (Enum.TryParse(enumConst, true, out appReleaseState))
+                    {
+                        appSpecification.And(app => app.AppReleaseState == appReleaseState);
+                    }
+                    else
+                    {
+                        throw new BusinessException($"无法识别的应用状态：{enumConst}");
+                    }
+                }
+
+                //app应用审核状态
+                if (stats[0] == "AppAuditState")
+                {
+                    var enumConst = Enum.GetName(typeof(AppAuditState), Int32.Parse(stats[1]));
+
+                    AppAuditState appAuditState;
+
+                    if (Enum.TryParse(enumConst, true, out appAuditState))
+                    {
+                        appSpecification.And(app => app.AppAuditState == appAuditState);
+                    }
+                    else
+                    {
+                        throw new BusinessException($"无法识别的应用审核状态{enumConst}");
+                    }
                 }
             }
 
@@ -205,11 +276,9 @@ namespace NewCRM.Application.Services
 
             #endregion
 
-
             var appTypes = GetAppTypes();
 
-
-            var appDtoResult = Query.PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
+            var appDtoResult = BaseContext.Query.PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
             {
                 app.AppTypeId,
                 app.AccountId,
@@ -232,11 +301,11 @@ namespace NewCRM.Application.Services
 
         public AppDto GetApp(Int32 appId)
         {
-            ValidateParameter.Validate(appId);
+            BaseContext.ValidateParameter.Validate(appId);
 
-            var specification = FilterFactory.Create<App>(app => app.Id == appId);
+            var specification = BaseContext.FilterFactory.Create<App>(app => app.Id == appId);
 
-            var appResult = Query.FindOne(specification);
+            var appResult = BaseContext.Query.FindOne(specification);
 
 
             var appTypes = GetAppTypes();
@@ -268,9 +337,11 @@ namespace NewCRM.Application.Services
 
         public Boolean IsInstallApp(Int32 appId)
         {
-            ValidateParameter.Validate(appId);
+            BaseContext.ValidateParameter.Validate(appId);
 
-            return Query.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId)).Any(desk => desk.Members.Any(member => member.AppId == appId));
+            var members = BaseContext.Query.Find(BaseContext.FilterFactory.Create((Desk desk) => desk.AccountId == BaseContext.GetAccountId())).SelectMany((a, b) => a.Members);
+
+            return members.Any(member => member.AppId == appId);
         }
 
         public IEnumerable<AppStyleDto> GetAllAppStyles()
@@ -308,109 +379,18 @@ namespace NewCRM.Application.Services
 
         }
 
-        public List<AppDto> GetAccountAllApps(String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+
+
+        public List<AppDto> GetSystemApp(IEnumerable<Int32> appIds = default(IEnumerable<Int32>))
         {
-            ValidateParameter.Validate(AccountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
+            var filter = BaseContext.FilterFactory.Create((App app) => app.IsSystem);
 
-            var specification = FilterFactory.Create<App>();
-
-            #region 条件筛选
-
-            if (AccountId != 0)
+            if (appIds != null)
             {
-                specification.And(app => app.AccountId == AccountId);
+                filter.And(app => appIds.Contains(app.Id));
             }
 
-
-            //应用名称
-            if ((searchText + "").Length > 0)
-            {
-                specification.And(app => app.Name.Contains(searchText));
-            }
-
-            //应用所属类型
-            if (appTypeId != 0)
-            {
-                specification.And(app => app.AppTypeId == appTypeId);
-            }
-
-            //应用样式
-            if (appStyleId != 0)
-            {
-                var enumConst = Enum.GetName(typeof(AppStyle), 1);
-
-                AppStyle appStyle;
-
-                if (Enum.TryParse(enumConst, true, out appStyle))
-                {
-                    specification.And(app => app.AppStyle == appStyle);
-                }
-                else
-                {
-                    throw new BusinessException($"无法识别的应用样式：{enumConst}");
-                }
-            }
-
-            if ((appState + "").Length > 0)
-            {
-                //app发布状态
-                var stats = appState.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                if (stats[0] == "AppReleaseState")
-                {
-                    var enumConst = Enum.GetName(typeof(AppReleaseState), Int32.Parse(stats[1]));
-
-                    AppReleaseState appReleaseState;
-
-                    if (Enum.TryParse(enumConst, true, out appReleaseState))
-                    {
-                        specification.And(app => app.AppReleaseState == appReleaseState);
-                    }
-                    else
-                    {
-                        throw new BusinessException($"无法识别的应用状态：{enumConst}");
-                    }
-                }
-
-                //app应用审核状态
-                if (stats[0] == "AppAuditState")
-                {
-                    var enumConst = Enum.GetName(typeof(AppAuditState), Int32.Parse(stats[1]));
-
-                    AppAuditState appAuditState;
-
-                    if (Enum.TryParse(enumConst, true, out appAuditState))
-                    {
-                        specification.And(app => app.AppAuditState == appAuditState);
-                    }
-                    else
-                    {
-                        throw new BusinessException($"无法识别的应用审核状态{enumConst}");
-                    }
-                }
-            }
-
-            #endregion
-
-            var appTypes = GetAppTypes();
-
-            return Query.PageBy(specification, pageIndex, pageSize, out totalCount).Select(app => new
-            {
-                app.Name,
-                app.AppStyle,
-                AppTypeName = appTypes.FirstOrDefault(appType => appType.Id == app.AppTypeId).Name,
-                app.UseCount,
-                app.Id,
-                app.IconUrl,
-                app.AppAuditState,
-                app.IsRecommand,
-                IsCreater = app.AccountId == AccountId
-            }).ConvertDynamicToDtos<AppDto>().ToList();
-
-        }
-
-        public List<AppDto> GetSystemApp(IEnumerable<Int32> appIds)
-        {
-            var appResult = Query.Find(FilterFactory.Create((App app) => app.IsSystem && appIds.Contains(app.Id)));
+            var appResult = BaseContext.Query.Find(filter);
 
             return appResult.Select(app => new AppDto
             {
@@ -418,27 +398,13 @@ namespace NewCRM.Application.Services
                 Name = app.Name,
                 IconUrl = app.IconUrl
             }).ToList();
-
-        }
-
-        public List<AppDto> GetSystemApp()
-        {
-            var appResult = Query.Find(FilterFactory.Create((App app) => app.IsSystem));
-
-            return appResult.Select(app => new AppDto
-            {
-                Id = app.Id,
-                Name = app.Name,
-                IconUrl = app.IconUrl
-            }).ToList();
-
         }
 
         public void ModifyAppDirection(String direction)
         {
-            ValidateParameter.Validate(direction);
+            BaseContext.ValidateParameter.Validate(direction);
 
-            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+            var accountResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create((Account account) => account.Id == BaseContext.GetAccountId()));
 
             if (direction.ToLower() == "x")
             {
@@ -453,122 +419,122 @@ namespace NewCRM.Application.Services
                 throw new BusinessException($"未能识别的App排列方向:{direction.ToLower()}");
             }
 
-            Repository.Create<Account>().Update(accountResult);
+            BaseContext.Repository.Create<Account>().Update(accountResult);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
 
         }
 
         public void ModifyAppIconSize(Int32 newSize)
         {
-            ValidateParameter.Validate(newSize);
+            BaseContext.ValidateParameter.Validate(newSize);
 
-            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+            var accountResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create((Account account) => account.Id == BaseContext.GetAccountId()));
 
             accountResult.Config.ModifyDisplayIconLength(newSize);
 
-            Repository.Create<Account>().Update(accountResult);
+            BaseContext.Repository.Create<Account>().Update(accountResult);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
 
         public void ModifyAppVerticalSpacing(Int32 newSize)
         {
-            ValidateParameter.Validate(newSize);
+            BaseContext.ValidateParameter.Validate(newSize);
 
-            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+            var accountResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create((Account account) => account.Id == BaseContext.GetAccountId()));
 
             accountResult.Config.ModifyAppVerticalSpacingLength(newSize);
 
-            Repository.Create<Account>().Update(accountResult);
+            BaseContext.Repository.Create<Account>().Update(accountResult);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
 
         public void ModifyAppHorizontalSpacing(Int32 newSize)
         {
-            ValidateParameter.Validate(newSize);
+            BaseContext.ValidateParameter.Validate(newSize);
 
-            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+            var accountResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create((Account account) => account.Id == BaseContext.GetAccountId()));
 
             accountResult.Config.ModifyAppHorizontalSpacingLength(newSize);
 
-            Repository.Create<Account>().Update(accountResult);
+            BaseContext.Repository.Create<Account>().Update(accountResult);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
 
         public void ModifyAppStar(Int32 appId, Int32 starCount)
         {
-            ValidateParameter.Validate(appId).Validate(starCount, true);
+            BaseContext.ValidateParameter.Validate(appId).Validate(starCount, true);
 
-            AppContext.ModifyAppInfoServices.ModifyAppStar(appId, starCount);
+            _modifyAppInfoServices.ModifyAppStar(appId, starCount);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
 
         public void InstallApp(Int32 appId, Int32 deskNum)
         {
-            ValidateParameter.Validate(appId).Validate(deskNum);
+            BaseContext.ValidateParameter.Validate(appId).Validate(deskNum);
 
-            AppContext.InstallAppServices.Install(appId, deskNum);
+            _installAppServices.Install(appId, deskNum);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
 
         public void ModifyAccountAppInfo(AppDto appDto)
         {
-            ValidateParameter.Validate(appDto);
+            BaseContext.ValidateParameter.Validate(appDto);
 
-            AppContext.ModifyAppInfoServices.ModifyAccountAppInfo(appDto.ConvertToModel<AppDto, App>());
+            _modifyAppInfoServices.ModifyAccountAppInfo(appDto.ConvertToModel<AppDto, App>());
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
 
         public void CreateNewApp(AppDto appDto)
         {
-            ValidateParameter.Validate(appDto);
+            BaseContext.ValidateParameter.Validate(appDto);
 
             var app = appDto.ConvertToModel<AppDto, App>();
 
             var internalApp = new App(app.Name, app.IconUrl, app.AppUrl, app.Width, app.Height, app.AppTypeId, app.AppAuditState, app.AppStyle, app.AccountId,
                 app.Remark, app.IsMax, app.IsFull, app.IsSetbar, app.IsOpenMax, app.IsFlash, app.IsDraw, app.IsResize);
 
-            Repository.Create<App>().Add(internalApp);
+            BaseContext.Repository.Create<App>().Add(internalApp);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
 
         public void RemoveAppType(Int32 appTypeId)
         {
-            ValidateParameter.Validate(appTypeId);
+            BaseContext.ValidateParameter.Validate(appTypeId);
 
-            AppContext.ModifyAppTypeServices.DeleteAppType(appTypeId);
+            _modifyAppTypeServices.DeleteAppType(appTypeId);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
 
         public void CreateNewAppType(AppTypeDto appTypeDto)
         {
             var appType = appTypeDto.ConvertToModel<AppTypeDto, AppType>();
 
-            Repository.Create<AppType>().Add(new AppType(appType.Name));
+            BaseContext.Repository.Create<AppType>().Add(new AppType(appType.Name));
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
 
         }
 
         public void ModifyAppType(AppTypeDto appTypeDto, Int32 appTypeId)
         {
-            var internalAppTypeFilter = FilterFactory.Create<AppType>(appType => appType.Id == appTypeId);
+            var internalAppTypeFilter = BaseContext.FilterFactory.Create<AppType>(appType => appType.Id == appTypeId);
 
-            var internalAppType = Query.FindOne(internalAppTypeFilter);
+            var internalAppType = BaseContext.Query.FindOne(internalAppTypeFilter);
 
             internalAppType.ModifyAppTypeName(appTypeDto.Name);
 
-            Repository.Create<AppType>().Update(internalAppType);
+            BaseContext.Repository.Create<AppType>().Update(internalAppType);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
 
         }
 
@@ -580,9 +546,9 @@ namespace NewCRM.Application.Services
 
             app.Pass();
 
-            Repository.Create<App>().Update(app);
+            BaseContext.Repository.Create<App>().Update(app);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
 
         public void Deny(Int32 appId)
@@ -593,35 +559,35 @@ namespace NewCRM.Application.Services
 
             app.Deny();
 
-            Repository.Create<App>().Update(app);
+            BaseContext.Repository.Create<App>().Update(app);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
 
         public void SetTodayRecommandApp(Int32 appId)
         {
             //取消之前的今日推荐
-            var beforeRecommandApp = Query.FindOne(FilterFactory.Create<App>(app => app.IsRecommand));
+            var beforeRecommandApp = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create<App>(app => app.IsRecommand));
 
             beforeRecommandApp.CancelTodayRecommandApp();
 
-            Repository.Create<App>().Update(beforeRecommandApp);
+            BaseContext.Repository.Create<App>().Update(beforeRecommandApp);
 
             //重新设置今日推荐
-            var afterRecommandApp = Query.FindOne(FilterFactory.Create<App>(app => app.Id == appId));
+            var afterRecommandApp = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create<App>(app => app.Id == appId));
 
             afterRecommandApp.SetTodayRecommandApp();
 
-            Repository.Create<App>().Update(afterRecommandApp);
+            BaseContext.Repository.Create<App>().Update(afterRecommandApp);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
 
 
         }
 
         public void RemoveApp(Int32 appId)
         {
-            var internalApp = Query.FindOne(FilterFactory.Create<App>(app => app.Id == appId));
+            var internalApp = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create<App>(app => app.Id == appId));
 
             if (internalApp.AppStars.Any())
             {
@@ -630,20 +596,20 @@ namespace NewCRM.Application.Services
 
             internalApp.Remove();
 
-            Repository.Create<App>().Update(internalApp);
+            BaseContext.Repository.Create<App>().Update(internalApp);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
 
         public void ReleaseApp(Int32 appId)
         {
-            var internalApp = Query.FindOne(FilterFactory.Create<App>(app => app.Id == appId));
+            var internalApp = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create<App>(app => app.Id == appId));
 
             internalApp.Release();
 
-            Repository.Create<App>().Update(internalApp);
+            BaseContext.Repository.Create<App>().Update(internalApp);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
 
         #region private method
@@ -655,15 +621,12 @@ namespace NewCRM.Application.Services
         // <summary> <returns></returns>
         private static IEnumerable<dynamic> GetEnumDescriptions(Type enumType) => enumType.GetFields().Where(field => field.CustomAttributes.Any()).Select(s => new { s.CustomAttributes.ToArray()[0].ConstructorArguments[0].Value, Id = s.GetRawConstantValue(), Type = enumType.Name }).Cast<dynamic>().ToList();
 
-
         // <summary> <summary>
         // <summary> 计算app的星级
         // <summary> </summary>
         // <summary> <param name="app"></param>
         // <summary> <returns></returns>
         private static Double CountAppStars(App app) => app.AppStars.Any() ? (app.AppStars.Sum(s => s.StartNum) * 1.0) / (app.AppStars.Count * 1.0) : 0.0;
-
-
 
         #endregion
     }

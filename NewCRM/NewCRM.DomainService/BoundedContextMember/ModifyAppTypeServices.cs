@@ -1,20 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System; 
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContextMember;
-using NewCRM.Domain.Services.Service;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     [Export(typeof(IModifyAppTypeServices))]
-    internal sealed class ModifyAppTypeServices : BaseService, IModifyAppTypeServices
+    internal sealed class ModifyAppTypeServices : IModifyAppTypeServices
     {
+
+        [Import]
+        public BaseServiceContext BaseContext { get; set; }
+
         public void DeleteAppType(Int32 appTypeId)
         {
 
-            var apps = Query.Find(FilterFactory.Create<App>(app => app.AppTypeId == appTypeId)).ToList();
+            var apps = BaseContext.Query.Find(BaseContext.FilterFactory.Create<App>(app => app.AppTypeId == appTypeId)).ToList();
             if (apps.Any())
             {
                 apps.ForEach(app =>
@@ -23,7 +25,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                 });
             }
 
-            var internalAppType = Query.FindOne(FilterFactory.Create<AppType>(appType => appType.Id == appTypeId));
+            var internalAppType = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create<AppType>(appType => appType.Id == appTypeId));
 
             internalAppType.Remove();
 

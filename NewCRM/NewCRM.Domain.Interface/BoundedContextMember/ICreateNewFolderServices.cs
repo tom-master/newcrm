@@ -7,7 +7,7 @@ using NewCRM.Domain.Entitys.System;
 
 namespace NewCRM.Domain.Interface.BoundedContextMember
 {
-    public interface ICreateNewFolder
+    public interface ICreateNewFolderServices
     {
         void NewFolder(Int32 deskId, String folderName, String folderImg);
     }

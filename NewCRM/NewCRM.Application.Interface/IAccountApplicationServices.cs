@@ -20,6 +20,7 @@ namespace NewCRM.Application.Interface
         /// <summary>
         /// 获取登陆用户的配置文件
         /// </summary>
+        /// <param name="accountId"></param>
         /// <returns></returns>
         ConfigDto GetConfig();
 
@@ -38,7 +39,7 @@ namespace NewCRM.Application.Interface
         /// 根据用户id获取用户
         /// </summary>
         /// <returns></returns>
-        AccountDto GetAccount(Int32 accountId=0);
+        AccountDto GetAccount(Int32 accountId = default(Int32));
 
         /// <summary>
         /// 验证相同的用户名是否存在
@@ -48,7 +49,7 @@ namespace NewCRM.Application.Interface
         Boolean CheckAccountNameExist(String accountName);
 
         /// <summary>
-        /// 检查密码
+        ///  检查密码
         /// </summary>
         /// <param name="oldAccountPassword"></param>
         /// <returns></returns>
@@ -57,9 +58,6 @@ namespace NewCRM.Application.Interface
         #endregion
 
         #region not have return value
-
-
-
 
         /// <summary>
         /// 修改账户密码
@@ -82,7 +80,6 @@ namespace NewCRM.Application.Interface
         /// <summary>
         /// 修改账户头像
         /// </summary>
-
         /// <param name="newFace"></param>
         void ModifyAccountFace(String newFace);
 

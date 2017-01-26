@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -135,7 +136,9 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
                     {
                         var exp = (InvocationExpression)expression;
 
-                        Parse((MemberExpression)exp.Expression, ref key);
+                        var value = Expression.Lambda(Expression.Invoke(exp.Expression, exp.Arguments)).Compile().DynamicInvoke();
+
+                        key.Append($"{value}:");
 
                         return expression;
                     }
@@ -143,5 +146,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
                     throw new Exception(String.Format("Unhandled expression type: '{0}'", expression.NodeType));
             }
         }
+
+
     }
 }

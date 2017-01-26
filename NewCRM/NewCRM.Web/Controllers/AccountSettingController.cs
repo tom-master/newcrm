@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Configuration;
 using System.Web.Mvc;
+using NewCRM.Application.Interface;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Web.Controllers.ControllerHelper;
 
@@ -10,10 +11,23 @@ namespace NewCRM.Web.Controllers
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class AccountSettingController : BaseController
     {
+
+        private readonly IAccountApplicationServices _accountApplicationServices;
+
+        [ImportingConstructor]
+        public AccountSettingController(IAccountApplicationServices accountApplicationServices)
+        {
+            _accountApplicationServices = accountApplicationServices;
+
+        }
+
+
+
+
         #region 页面
         public ActionResult Index()
         {
-            return View(AccountApplicationServices.GetAccount());
+            return View(_accountApplicationServices.GetAccount(AccountDto.Id));
         }
         #endregion
 
@@ -30,7 +44,7 @@ namespace NewCRM.Web.Controllers
                 var fileUpLoadHelper = new FileUpLoadHelper(ConfigurationManager.AppSettings["UploadIconPath"], false, true);
                 if (fileUpLoadHelper.SaveFile(icon))
                 {
-                    AccountApplicationServices.ModifyAccountFace(fileUpLoadHelper.FilePath + fileUpLoadHelper.NewFileName);
+                    _accountApplicationServices.ModifyAccountFace(fileUpLoadHelper.FilePath + fileUpLoadHelper.NewFileName);
 
                     return Json(new { success = true, msg = "" });
                 }
@@ -46,7 +60,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyAccountPassword(FormCollection forms)
         {
-            AccountApplicationServices.ModifyPassword(forms["password"]);
+            _accountApplicationServices.ModifyPassword(forms["password"]);
 
             return Json(new
             {
@@ -61,7 +75,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyLockScreenPassword(FormCollection forms)
         {
-            AccountApplicationServices.ModifyLockScreenPassword(forms["lockpassword"]);
+            _accountApplicationServices.ModifyLockScreenPassword(forms["lockpassword"]);
 
             return Json(new
             {
@@ -77,7 +91,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult CheckPassword(String param)
         {
 
-            var result = AccountApplicationServices.CheckPassword(param);
+            var result = _accountApplicationServices.CheckPassword(param);
 
             return Json(
                 result ? new

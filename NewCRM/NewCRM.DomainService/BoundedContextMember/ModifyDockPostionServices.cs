@@ -4,19 +4,21 @@ using System.Linq;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContextMember;
-using NewCRM.Domain.Services.Service;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     [Export(typeof(IModifyDockPostionServices))]
-    internal sealed class ModifyDockPostionServices : BaseService, IModifyDockPostionServices
+    internal sealed class ModifyDockPostionServices : IModifyDockPostionServices
     {
+
+        [Import]
+        public BaseServiceContext BaseContext { get; set; }
 
         public void ModifyDockPosition(Int32 defaultDeskNumber, String newPosition)
         {
-            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+            var accountResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create((Account account) => account.Id == BaseContext.GetAccountId()));
 
             DockPostion dockPostion;
 
@@ -24,7 +26,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             {
                 if (dockPostion == DockPostion.None)
                 {
-                    var deskResult = Query.FindOne(FilterFactory.Create<Desk>(desk => desk.DeskNumber == accountResult.Config.DefaultDeskNumber));
+                    var deskResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create<Desk>(desk => desk.DeskNumber == accountResult.Config.DefaultDeskNumber));
 
                     var dockMembers = deskResult.Members.Where(member => member.IsOnDock).ToList();
 
@@ -35,7 +37,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                             f.OutDock();
                         });
 
-                        Repository.Create<Desk>().Update(deskResult);
+                        BaseContext.Repository.Create<Desk>().Update(deskResult);
                     }
 
                     accountResult.Config.ModifyDockPostion(dockPostion);
@@ -52,7 +54,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
             accountResult.Config.ModifyDefaultDesk(defaultDeskNumber);
 
-            Repository.Create<Account>().Update(accountResult);
+            BaseContext.Repository.Create<Account>().Update(accountResult);
 
         }
     }

@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseServiceContext.cs" />
     <Compile Include="DomainQuery\EFConcreteQuery\DefaultQuery.cs" />
     <Compile Include="DomainQuery\Query\IQuery.cs" />
     <Compile Include="Entitys\Agent\AccountExtension\TitleExtension.cs" />

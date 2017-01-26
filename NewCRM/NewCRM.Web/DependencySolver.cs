@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
 namespace NewCRM.Web
 {
-    public sealed class MefDependencySolver : IDependencyResolver
+    public class DependencySolver : IDependencyResolver
     {
         private readonly ComposablePartCatalog _catalog;
-        private const String _httpContextKey = "MefContainerKey";
+        private const String HttpContextKey = "MefContainerKey";
 
-        public MefDependencySolver(ComposablePartCatalog catalog)
+        public DependencySolver(ComposablePartCatalog catalog)
         {
             _catalog = catalog;
         }
@@ -22,15 +23,12 @@ namespace NewCRM.Web
         {
             get
             {
-                if (!HttpContext.Current.Items.Contains(_httpContextKey))
+                if (!HttpContext.Current.Items.Contains(HttpContextKey))
                 {
-                    HttpContext.Current.Items.Add(_httpContextKey, new CompositionContainer(_catalog));
+                    HttpContext.Current.Items.Add(HttpContextKey, new CompositionContainer(_catalog));
                 }
-
-                CompositionContainer container = (CompositionContainer)HttpContext.Current.Items[_httpContextKey];
-
+                CompositionContainer container = (CompositionContainer)HttpContext.Current.Items[HttpContextKey];
                 HttpContext.Current.Application["Container"] = container;
-
                 return container;
             }
         }
@@ -39,15 +37,15 @@ namespace NewCRM.Web
 
         public Object GetService(Type serviceType)
         {
-            String contractName = AttributedModelServices.GetContractName(serviceType);
-
-            return Container.GetExportedValueOrDefault<Object>(contractName);
+            string contractName = AttributedModelServices.GetContractName(serviceType);
+            return Container.GetExportedValueOrDefault<object>(contractName);
         }
 
         public IEnumerable<Object> GetServices(Type serviceType)
         {
             return Container.GetExportedValues<Object>(serviceType.FullName);
         }
+
 
         #endregion
     }

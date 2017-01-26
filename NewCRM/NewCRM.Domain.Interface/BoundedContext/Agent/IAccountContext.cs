@@ -8,8 +8,7 @@ namespace NewCRM.Domain.Interface.BoundedContext.Agent
 {
     public interface IAccountContext
     {
-        [Import]
-        IModifyDeskMemberPostionServices ModifyAccountConfigServices { get; set; }
+     
 
         /// <summary>
         /// 验证用户是否合法

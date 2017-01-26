@@ -7,8 +7,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using NewCRM.Application.Interface;
-using NewCRM.Application.Services.Services;
+using NewCRM.Domain;
 using NewCRM.Domain.Entitys.System;
+using NewCRM.Domain.Interface.BoundedContextMember;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
@@ -18,29 +19,41 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IWallpaperApplicationServices))]
-    internal class WallpaperApplicationServices : BaseService, IWallpaperApplicationServices
+    internal class WallpaperApplicationServices :  IWallpaperApplicationServices
     {
+
+        [Import]
+        public BaseServiceContext BaseContext { get; set; }
+
+        private readonly IModifyWallpaperServices _modifyWallpaperServices;
+
+        [ImportingConstructor]
+        public WallpaperApplicationServices(IModifyWallpaperServices modifyWallpaperServices)
+        {
+            _modifyWallpaperServices = modifyWallpaperServices;
+        }
+
         public List<WallpaperDto> GetWallpaper()
         {
-            return Query.Find(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
+            return  BaseContext.Query.Find(BaseContext.FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
         }
 
         public Tuple<Int32, String> AddWallpaper(WallpaperDto wallpaperDto)
         {
-            ValidateParameter.Validate(wallpaperDto);
+            BaseContext.ValidateParameter.Validate(wallpaperDto);
 
             var wallpaper = wallpaperDto.ConvertToModel<WallpaperDto, Wallpaper>();
 
-            var wallPaperCount = Query.Find(FilterFactory.Create<Wallpaper>(w => w.AccountId == wallpaper.AccountId)).Count();
+            var wallPaperCount = BaseContext.Query.Find(BaseContext.FilterFactory.Create<Wallpaper>(w => w.AccountId == wallpaper.AccountId)).Count();
 
             if (wallPaperCount == 6)
             {
                 throw new BusinessException($"最多只能上传6张壁纸");
             }
 
-            Repository.Create<Wallpaper>().Add(wallpaper);
+            BaseContext.Repository.Create<Wallpaper>().Add(wallpaper);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
 
             return new Tuple<Int32, String>(wallpaper.Id, wallpaper.ShortUrl);
 
@@ -49,9 +62,9 @@ namespace NewCRM.Application.Services
 
         public List<WallpaperDto> GetUploadWallpaper(Int32 accountId)
         {
-            ValidateParameter.Validate(accountId);
+            BaseContext.ValidateParameter.Validate(accountId);
 
-            return Query.Find(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.AccountId == accountId)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
+            return BaseContext.Query.Find(BaseContext.FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.AccountId == accountId)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
 
         }
 
@@ -86,7 +99,7 @@ namespace NewCRM.Application.Services
                     ShortUrl = url
                 });
 
-                UnitOfWork.Commit();
+                BaseContext.UnitOfWork.Commit();
 
                 return new Tuple<Int32, String>(wallpaperResult.Item1, wallpaperResult.Item2);
             }
@@ -95,38 +108,37 @@ namespace NewCRM.Application.Services
 
         public WallpaperDto GetUploadWallpaper(String md5)
         {
-            ValidateParameter.Validate(md5);
+            BaseContext.ValidateParameter.Validate(md5);
 
-            return Query.FindOne(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Md5 == md5)).ConvertToDto<Wallpaper, WallpaperDto>();
+            return BaseContext.Query.FindOne(BaseContext.FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Md5 == md5)).ConvertToDto<Wallpaper, WallpaperDto>();
 
         }
 
         public void ModifyWallpaperMode(Int32 accountId, String newMode)
         {
-            ValidateParameter.Validate(accountId).Validate(newMode);
+            BaseContext.ValidateParameter.Validate(accountId).Validate(newMode);
 
-            WallpaperContext.ModifyWallpaperServices.ModifyWallpaperMode(newMode);
+            _modifyWallpaperServices.ModifyWallpaperMode(newMode);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
 
         public void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId)
         {
-            ValidateParameter.Validate(accountId).Validate(newWallpaperId);
+            BaseContext.ValidateParameter.Validate(accountId).Validate(newWallpaperId);
 
-            WallpaperContext.ModifyWallpaperServices.ModifyWallpaper(newWallpaperId);
+            _modifyWallpaperServices.ModifyWallpaper(newWallpaperId);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
 
         public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
         {
-            ValidateParameter.Validate(accountId).Validate(wallpaperId);
+            BaseContext.ValidateParameter.Validate(accountId).Validate(wallpaperId);
 
-            WallpaperContext.ModifyWallpaperServices.RemoveWallpaper(wallpaperId);
+            _modifyWallpaperServices.RemoveWallpaper(wallpaperId);
 
-            UnitOfWork.Commit();
+            BaseContext.UnitOfWork.Commit();
         }
-
     }
 }

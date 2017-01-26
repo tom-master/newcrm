@@ -10,8 +10,6 @@ namespace NewCRM.Domain.Interface.BoundedContext.Wallpaper
 {
     public interface IWallpaperContext
     {
-        [Import]
-        IModifyWallpaperServices ModifyWallpaperServices { get; set; }
-
+      
     }
 }

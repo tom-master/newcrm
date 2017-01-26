@@ -1,31 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Net;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContext.Agent;
-using NewCRM.Domain.Interface.BoundedContextMember;
-using NewCRM.Domain.Services.Service;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Services.BoundedContext.Agent
 {
     [Export(typeof(IAccountContext))]
-    internal class AccountContext : BaseService, IAccountContext
+    internal class AccountContext : IAccountContext
     {
-
-
-
         [Import]
-        public IModifyDeskMemberPostionServices ModifyAccountConfigServices { get; set; }
+        public BaseServiceContext BaseContext { get; set; }
 
         public Account Validate(String accountName, String password)
         {
-            var specification = FilterFactory.Create<Account>(account => account.Name == accountName);
+            var specification = BaseContext.FilterFactory.Create<Account>(account => account.Name == accountName);
 
-            var accountResult = Query.FindOne(specification);
+            var accountResult = BaseContext.Query.FindOne(specification);
 
             if (accountResult == null)
             {
@@ -39,9 +33,9 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
 
             accountResult.Online();
 
-            Repository.Create<Account>().Update(accountResult);
+            BaseContext.Repository.Create<Account>().Update(accountResult);
 
-            Repository.Create<Online>().Add(new Online(GetCurrentIpAddress(), accountResult.Id));
+            BaseContext.Repository.Create<Online>().Add(new Online(GetCurrentIpAddress(), accountResult.Id));
 
             return accountResult;
 
@@ -49,7 +43,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
 
         public void Logout(Int32 accountId)
         {
-            var accountResult = Query.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
+            var accountResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create((Account account) => account.Id == accountId));
 
             if (!accountResult.IsOnline)
             {
@@ -57,7 +51,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
             }
             accountResult.Offline();
 
-            Repository.Create<Account>().Update(accountResult);
+            BaseContext.Repository.Create<Account>().Update(accountResult);
 
             ModifyOnlineState(accountId);
         }
@@ -70,19 +64,17 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
         /// <returns></returns>
         private String GetCurrentIpAddress() => (Dns.GetHostEntry(Dns.GetHostName()).AddressList[0]).ToString();
 
-
         /// <summary>
         /// 修改在线状态
         /// </summary>
         /// <param name="accountId"></param>
         private void ModifyOnlineState(Int32 accountId)
         {
-            var onlineResult = Query.FindOne(FilterFactory.Create<Online>(online => online.AccountId == accountId));
+            var onlineResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create<Online>(online => online.AccountId == accountId));
 
-            Repository.Create<Online>().Remove(onlineResult);
+            BaseContext.Repository.Create<Online>().Remove(onlineResult);
 
         }
-
 
         #endregion
     }

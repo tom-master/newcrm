@@ -4,13 +4,15 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContextMember;
-using NewCRM.Domain.Services.Service;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     [Export(typeof(IModifyDeskMemberPostionServices))]
-    internal sealed class ModifyDeskMemberPostionServices : BaseService, IModifyDeskMemberPostionServices
+    internal sealed class ModifyDeskMemberPostionServices : IModifyDeskMemberPostionServices
     {
+
+        [Import]
+        public BaseServiceContext BaseContext { get; set; }
 
         public void MemberInDock(Int32 memberId)
         {
@@ -18,17 +20,22 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
             foreach (var desk in desks)
             {
-                var member = GetMember(memberId, desk);
+                var member = BaseContext.GetMember(memberId, desk);
 
                 if (member != null)
                 {
                     member.InDock();
 
-                    Repository.Create<Desk>().Update(desk);
+                    BaseContext.Repository.Create<Desk>().Update(desk);
 
                     break;
                 }
             }
+        }
+
+        private IEnumerable<Desk> GetDesks()
+        {
+            return BaseContext.Query.Find((Desk desk) => desk.AccountId == BaseContext.GetAccountId());
         }
 
         public void MemberOutDock(Int32 memberId, Int32 deskId)
@@ -39,13 +46,13 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
             foreach (var desk in desks)
             {
-                var member = GetMember(memberId, desk);
+                var member = BaseContext.GetMember(memberId, desk);
 
                 if (member != null)
                 {
                     member.OutDock().ToOtherDesk(realDeskId);
 
-                    Repository.Create<Desk>().Update(desk);
+                    BaseContext.Repository.Create<Desk>().Update(desk);
 
                     break;
                 }
@@ -58,9 +65,9 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
             var deskResult = desks.FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
 
-            GetMember(memberId, deskResult).OutDock().InFolder(folderId);
+            BaseContext.GetMember(memberId, deskResult).OutDock().InFolder(folderId);
 
-            Repository.Create<Desk>().Update(deskResult);
+            BaseContext.Repository.Create<Desk>().Update(deskResult);
         }
 
         public void FolderToDock(Int32 memberId)
@@ -69,9 +76,9 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
             var deskResult = desks.FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
 
-            GetMember(memberId, deskResult).InDock().OutFolder();
+            BaseContext.GetMember(memberId, deskResult).InDock().OutFolder();
 
-            Repository.Create<Desk>().Update(deskResult);
+            BaseContext.Repository.Create<Desk>().Update(deskResult);
         }
 
         public void DeskToFolder(Int32 memberId, Int32 folderId)
@@ -80,13 +87,13 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
             foreach (var desk in desks)
             {
-                var member = GetMember(memberId, desk);
+                var member = BaseContext.GetMember(memberId, desk);
 
                 if (member != null)
                 {
                     member.InFolder(folderId);
 
-                    Repository.Create<Desk>().Update(desk);
+                    BaseContext.Repository.Create<Desk>().Update(desk);
 
                     break;
                 }
@@ -101,7 +108,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
             foreach (var desk in desks)
             {
-                var member = GetMember(memberId, desk);
+                var member = BaseContext.GetMember(memberId, desk);
 
                 if (member != null)
                 {
@@ -114,21 +121,20 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                         member.OutFolder().ToOtherDesk(realDeskId);
                     }
 
-                    Repository.Create<Desk>().Update(desk);
+                    BaseContext.Repository.Create<Desk>().Update(desk);
 
                     break;
                 }
             }
         }
 
-
         public void FolderToOtherFolder(Int32 memberId, Int32 folderId)
         {
             var deskResult = GetDesks().FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
 
-            GetMember(memberId, deskResult).OutFolder().InFolder(folderId);
+            BaseContext.GetMember(memberId, deskResult).OutFolder().InFolder(folderId);
 
-            Repository.Create<Desk>().Update(deskResult);
+            BaseContext.Repository.Create<Desk>().Update(deskResult);
 
         }
 
@@ -140,7 +146,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
             foreach (var desk in desks)
             {
-                var member = GetMember(memberId, desk);
+                var member = BaseContext.GetMember(memberId, desk);
 
                 if (member != null)
                 {
@@ -152,7 +158,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
                     member.ToOtherDesk(realDeskId);
 
-                    Repository.Create<Desk>().Update(desk);
+                    BaseContext.Repository.Create<Desk>().Update(desk);
 
                     break;
                 }
@@ -167,13 +173,13 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
             foreach (var desk in desks)
             {
-                var member = GetMember(memberId, desk);
+                var member = BaseContext.GetMember(memberId, desk);
 
                 if (member != null)
                 {
                     member.OutDock().ToOtherDesk(realDeskId);
 
-                    Repository.Create<Desk>().Update(desk);
+                    BaseContext.Repository.Create<Desk>().Update(desk);
 
                     break;
                 }

@@ -1,28 +1,32 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContextMember;
-using NewCRM.Domain.Services.Service;
 using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     [Export(typeof(IModifyDeskMemberServices))]
-    internal sealed class ModifyDeskMemberServices : BaseService, IModifyDeskMemberServices
+    internal sealed class ModifyDeskMemberServices : IModifyDeskMemberServices
     {
+
+        [Import]
+        public BaseServiceContext BaseContext { get; set; }
+
         public void ModifyFolderInfo(String memberName, String memberIcon, Int32 memberId)
         {
 
             foreach (var desk in GetDesks())
             {
-                var memberResult = GetMember(memberId, desk);
+                var memberResult = BaseContext.GetMember(memberId, desk);
 
                 if (memberResult != null)
                 {
                     memberResult.ModifyName(memberName).ModifyIcon(memberIcon);
 
-                    Repository.Create<Desk>().Update(desk);
+                    BaseContext.Repository.Create<Desk>().Update(desk);
 
                     break;
                 }
@@ -34,7 +38,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         {
             foreach (var desk in GetDesks())
             {
-                var memberResult = GetMember(member.Id, desk);
+                var memberResult = BaseContext.GetMember(member.Id, desk);
 
                 if (memberResult != null)
                 {
@@ -46,7 +50,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                     .ModifyIsOpenMax(member.IsOpenMax)
                     .ModifyIsFlash(member.IsFlash);
 
-                    Repository.Create<Desk>().Update(desk);
+                    BaseContext.Repository.Create<Desk>().Update(desk);
 
                     break;
                 }
@@ -56,13 +60,13 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         public void RemoveMember(Int32 memberId)
         {
-            var desks = GetDesks();
+            var desks =GetDesks();
 
             App appResult = null;
 
             foreach (var desk in desks)
             {
-                var memberResult = GetMember(memberId, desk);
+                var memberResult = BaseContext.GetMember(memberId, desk);
 
                 if (memberResult != null)
                 {
@@ -76,21 +80,21 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                     }
                     else
                     {
-                        appResult = Query.FindOne(FilterFactory.Create<App>(app => app.Id == memberResult.AppId));
+                        appResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create<App>(app => app.Id == memberResult.AppId));
 
                         appResult.SubtractUseCount();
 
-                        appResult.SubtractStar(AccountId);
+                        appResult.SubtractStar(BaseContext.GetAccountId());
 
                     }
 
                     memberResult.Remove();
 
-                    Repository.Create<Desk>().Update(desk);
+                    BaseContext.Repository.Create<Desk>().Update(desk);
 
                     if (appResult != null)
                     {
-                        Repository.Create<App>().Update(appResult);
+                        BaseContext.Repository.Create<App>().Update(appResult);
                     }
                     break;
                 }
@@ -98,5 +102,9 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
         }
 
+        private IEnumerable<Desk> GetDesks()
+        {
+            return BaseContext.Query.Find((Desk desk) => desk.AccountId == BaseContext.GetAccountId());
+        }
     }
 }

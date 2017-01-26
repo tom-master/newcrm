@@ -51,7 +51,6 @@
   <ItemGroup>
     <Compile Include="AccountApplicationServices.cs" />
     <Compile Include="AppApplicationServices.cs" />
-    <Compile Include="Services\BaseService.cs" />
     <Compile Include="DeskApplicationServices.cs" />
     <Compile Include="SecurityApplicationServices.cs" />
     <Compile Include="SkinApplicationServices.cs" />

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
-using System.Linq;
-using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using NewCRM.Web.Controllers.ControllerHelper;
-using Newtonsoft.Json;
 
 namespace NewCRM.Web
 {
@@ -19,7 +13,7 @@ namespace NewCRM.Web
             AreaRegistration.RegisterAllAreas();
 
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-             
+
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             BundleConfig.RegisterBundles(BundleTable.Bundles);
@@ -40,11 +34,12 @@ namespace NewCRM.Web
 
             catalog.Catalogs.Add(new AssemblyCatalog(@"E:\NewCRM\NewCRM\NewCRM.Repository\bin\Debug\NewCRM.Repository.dll"));
 
-            var container = new CompositionContainer(catalog);
+            var container = new CompositionContainer(catalog, true);
 
             container.ComposeParts(this);
 
-            DependencyResolver.SetResolver(new MefDependencySolver(container.Catalog));
+            DependencyResolver.SetResolver(new DependencySolver(container.Catalog));
+
 
         }
     }
