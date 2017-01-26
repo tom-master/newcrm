@@ -37,8 +37,10 @@ namespace NewCRM.Web
 
         public Object GetService(Type serviceType)
         {
-            string contractName = AttributedModelServices.GetContractName(serviceType);
-            return Container.GetExportedValueOrDefault<object>(contractName);
+            String contractName = AttributedModelServices.GetContractName(serviceType);
+
+            return Container.GetExportedValueOrDefault<Object>(contractName);
+
         }
 
         public IEnumerable<Object> GetServices(Type serviceType)

@@ -1,6 +1,5 @@
 ﻿using System;
 using NewCRM.Domain.Entitys.Agent;
-using NewCRM.Domain.Interface.BoundedContextMember;
 
 namespace NewCRM.Domain.Interface.BoundedContext.Agent
 {

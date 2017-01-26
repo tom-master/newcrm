@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 using JsonNet.PrivateSettersContractResolvers;
@@ -11,6 +12,7 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
     /// <summary>
     /// Redis操作
     /// </summary>
+    [Export(typeof(ICacheQueryProvider))]
     internal class InternalQueryProvider : ICacheQueryProvider
     {
         private Int32 DbNum { get; }

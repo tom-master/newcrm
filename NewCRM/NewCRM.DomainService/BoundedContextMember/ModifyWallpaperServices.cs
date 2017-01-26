@@ -9,7 +9,7 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     [Export(typeof(IModifyWallpaperServices))]
-    internal class ModifyWallpaperServices :   IModifyWallpaperServices
+    internal sealed class ModifyWallpaperServices :   IModifyWallpaperServices
     {
         [Import]
         public BaseServiceContext BaseContext { get; set; }

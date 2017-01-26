@@ -9,7 +9,7 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     [Export(typeof(IModifyAppInfoServices))]
-    internal class ModifyAppInfoServices : IModifyAppInfoServices
+    internal sealed class ModifyAppInfoServices : IModifyAppInfoServices
     {
 
         [Import]

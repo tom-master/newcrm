@@ -69,8 +69,6 @@ namespace NewCRM.Dto
                 d.CreateMap<RoleDto, Role>();
                 d.AddProfile<RoleDtoToRoleProfile>();
 
-              
-
                 //Desk
                 d.CreateMap<Desk, DeskDto>();
                 d.AddProfile<DeskToDeskDtoProfile>();

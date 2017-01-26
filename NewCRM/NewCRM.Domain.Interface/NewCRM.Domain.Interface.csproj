@@ -44,8 +44,6 @@
   <ItemGroup>
     <Compile Include="BoundedContextMember\ICreateNewFolderServices.cs" />
     <Compile Include="BoundedContextMember\IModifyAppTypeServices.cs" />
-    <Compile Include="BoundedContext\App\IAppContext.cs" />
-    <Compile Include="BoundedContext\Desk\IDeskContext.cs" />
     <Compile Include="BoundedContextMember\IInstallAppServices.cs" />
     <Compile Include="BoundedContextMember\IModifyDeskMemberServices.cs" />
     <Compile Include="BoundedContextMember\IModifyDeskMemberPostionServices.cs" />
@@ -54,7 +52,6 @@
     <Compile Include="BoundedContextMember\IModifyDockPostionServices.cs" />
     <Compile Include="BoundedContextMember\IModifyWallpaperServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BoundedContext\Wallpaper\IWallpaperContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NewCRM.Domain\NewCRM.Domain.csproj">

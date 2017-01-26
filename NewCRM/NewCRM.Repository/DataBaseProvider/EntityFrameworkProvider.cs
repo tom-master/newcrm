@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
 using NewCRM.Domain.Entitys;
@@ -21,6 +22,7 @@ namespace NewCRM.Repository.DataBaseProvider
     {
         private readonly Parameter _vaildateParameter;
 
+        [Import]
         private ICacheQueryProvider _cacheQueryProvider;
 
         protected EntityFrameworkProvider()
@@ -33,6 +35,7 @@ namespace NewCRM.Repository.DataBaseProvider
         /// <summary>
         /// 获取 仓储上下文的实例
         /// </summary>
+        [Import]
         protected IUnitOfWork UnitOfWork { get; set; }
 
         /// <summary>
@@ -189,15 +192,12 @@ namespace NewCRM.Repository.DataBaseProvider
             }
             else
             {
-
                 if (_cacheQueryProvider.GetKeyType(key) == RedisType.List)
                 {
                     if (_cacheQueryProvider.KeyExists(key))
                     {
                         _cacheQueryProvider.KeyDelete(key);
                     }
-
-                   // _cacheQueryProvider.ListRightPush(key, entity);
                 }
             }
         }

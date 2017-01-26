@@ -1,6 +1,4 @@
-﻿using NewCRM.Domain.Factory.Domain;
-
-namespace NewCRM.Domain.Factory.DomainCreate.ConcreteFactory
+﻿namespace NewCRM.Domain.Factory.DomainCreate.ConcreteFactory
 {
     public sealed class DefaultDomainFactory : DomainFactory
     {

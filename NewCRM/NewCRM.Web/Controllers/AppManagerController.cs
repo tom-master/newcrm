@@ -3,12 +3,12 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Web.Mvc;
 using NewCRM.Application.Interface;
-using NewCRM.Dto.Dto;
-using NewCRM.Application.Interface;
+using NewCRM.Dto.Dto; 
 using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class AppManagerController : BaseController
     {
 

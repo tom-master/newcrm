@@ -9,7 +9,6 @@ namespace NewCRM.Domain.Services.BoundedContextMember
     [Export(typeof(IModifyAppTypeServices))]
     internal sealed class ModifyAppTypeServices : IModifyAppTypeServices
     {
-
         [Import]
         public BaseServiceContext BaseContext { get; set; }
 

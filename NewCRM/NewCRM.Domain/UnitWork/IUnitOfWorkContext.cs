@@ -41,7 +41,7 @@ namespace NewCRM.Domain.UnitWork
         /// <typeparam name="TKey">主键类型</typeparam>
         /// <param name="propertyExpression">属性表达式，包含要更新的实体属性</param>
         /// <param name="entity">附带新值的实体信息，必须包含主键</param>
-        void RegisterModified<TEntity, TKey>(Expression<Func<TEntity, object>> propertyExpression, TEntity entity) where TEntity : DomainModelBase;
+        void RegisterModified<TEntity, TKey>(Expression<Func<TEntity, Object>> propertyExpression, TEntity entity) where TEntity : DomainModelBase;
 
         /// <summary>
         ///   注册一个删除的对象到仓储上下文中

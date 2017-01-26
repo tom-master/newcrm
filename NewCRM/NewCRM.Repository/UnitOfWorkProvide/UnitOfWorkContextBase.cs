@@ -220,14 +220,5 @@ namespace NewCRM.Repository.UnitOfWorkProvide
             }
         }
 
-
-
-        //private void SetCache<T>(T entity) where T : DomainModelBase
-        //{
-        //    _cacheQueryProvider.StringSet($"NewCRM:{typeof(T).Name}:{entity.Id}", JsonConvert.SerializeObject(entity, Formatting.Indented, new JsonSerializerSettings
-        //    {
-        //        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-        //    }));
-        //}
     }
 }

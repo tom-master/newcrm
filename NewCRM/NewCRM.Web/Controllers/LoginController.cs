@@ -3,12 +3,12 @@ using System.ComponentModel.Composition;
 using System.Web;
 using System.Web.Mvc;
 using NewCRM.Application.Interface;
-using NewCRM.Dto.Dto;
 using NewCRM.Web.Controllers.ControllerHelper;
 using Newtonsoft.Json;
 
 namespace NewCRM.Web.Controllers
 {
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class LoginController : BaseController
     {
         private readonly IAccountApplicationServices _accountApplicationServices;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
 using NewCRM.Domain.DomainSpecification;
@@ -16,24 +17,25 @@ namespace NewCRM.Repository.DataBaseProvider
     /// <summary>
     /// 提供查询
     /// </summary>
+    [Export(typeof(IDomainModelQueryProvider))]
     internal class QueryProvider : IDomainModelQueryProvider
     {
+        [Import]
         private ICacheQueryProvider _cacheQueryProvider;
 
-        #region 仓储上下文的实例
 
-
-        #endregion
+        #region entity framework
 
         #region 属性
 
         /// <summary>
         /// 获取 仓储上下文的实例
         /// </summary>
+        [Import]
         protected IUnitOfWork UnitOfWork { get; set; }
 
         /// <summary>
-        ///     获取 EntityFramework的数据仓储上下文
+        ///获取 EntityFramework的数据仓储上下文
         /// </summary>
         private UnitOfWorkContextBase EfContext
         {
@@ -52,7 +54,6 @@ namespace NewCRM.Repository.DataBaseProvider
 
         #endregion
 
-        #region entity framework
 
         /// <summary>
         /// 查询

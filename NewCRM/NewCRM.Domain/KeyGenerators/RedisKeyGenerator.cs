@@ -8,6 +8,5 @@ namespace NewCRM.Domain.KeyGenerators
         {
             throw new NotImplementedException();
         }
-        
     }
 }

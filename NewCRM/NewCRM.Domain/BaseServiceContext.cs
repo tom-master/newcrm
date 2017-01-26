@@ -30,12 +30,16 @@ namespace NewCRM.Domain
         /// </summary>
         [Import]
         public SpecificationFactory FilterFactory { get; set; }
+
         /// <summary>
         /// 仓储工厂
         /// </summary>
         [Import]
         public RepositoryFactory Repository { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Import("GetAccountId", typeof(Func<Int32>))]
         public Func<Int32> GetAccountId { get; set; }
 

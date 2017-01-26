@@ -11,7 +11,7 @@ namespace NewCRM.Domain.DomainSpecification.ConcreteSpecification
     /// <typeparam name="T"></typeparam>
     internal class DefaultSpecification<T> : Specification<T> where T : DomainModelBase, IAggregationRoot
     {
-        public override Expression<Func<T, Boolean>> Expression { get; internal set; }
+        public  override Expression<Func<T, Boolean>> Expression { get; internal set; }
 
         public sealed override Expression<Func<T, Object>> OrderBy
         {
@@ -25,10 +25,7 @@ namespace NewCRM.Domain.DomainSpecification.ConcreteSpecification
             OrderBy = t => t.Id;
         }
 
-        public DefaultSpecification() : this(T => true)
-        {
-
-        }
+        public DefaultSpecification() : this(T => true){}
 
         public override void AddOrderByExpression(Expression<Func<T, Object>> expression)
         {

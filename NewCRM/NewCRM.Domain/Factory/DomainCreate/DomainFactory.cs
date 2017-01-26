@@ -1,6 +1,6 @@
 ﻿using NewCRM.Domain.Entitys;
 
-namespace NewCRM.Domain.Factory.Domain
+namespace NewCRM.Domain.Factory.DomainCreate
 {
     public abstract class DomainFactory
     {

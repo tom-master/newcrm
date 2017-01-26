@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 
 namespace NewCRM.Web.Controllers
 {
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class DeskOptionsController : BaseController
     {
 

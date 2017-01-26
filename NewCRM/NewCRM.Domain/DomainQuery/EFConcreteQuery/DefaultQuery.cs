@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
 using NewCRM.Domain.DomainQuery.Query;
@@ -10,9 +11,10 @@ using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Domain.DomainQuery.EFConcreteQuery
 {
-
+    [Export(typeof(IQuery))]
     internal class DefaultQuery : IQuery
     {
+        [Import]
         private IDomainModelQueryProvider QueryProvider { get; set; }
 
         #region entity framework

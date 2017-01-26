@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.ComponentModel.Composition;
+using System.Data.Entity;
 using EntityFramework.DynamicFilters;
 using NewCRM.Domain.Entitys;
 using NewCRM.Domain.Entitys.Agent;
@@ -7,6 +8,7 @@ using NewCRM.Domain.Entitys.System;
 
 namespace NewCRM.Repository.DataBaseProvider
 {
+    [Export(typeof(DbContext))]
     public sealed class NewCrmBackSite : DbContext
     {
         public NewCrmBackSite() : base("name=NewCrm")
@@ -17,7 +19,6 @@ namespace NewCRM.Repository.DataBaseProvider
 
         public DbSet<Account> Accounts { get; set; }
         
-
         public DbSet<Role> Roles { get; set; }
 
         public DbSet<App> Apps { get; set; }
