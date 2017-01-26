@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Web.Mvc;
 using NewCRM.Application.Interface;
 using NewCRM.Dto.Dto;
+using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
-    public class AccountManagerController : Controller
+    public class AccountManagerController : BaseController
     {
 
         private readonly IAccountApplicationServices _accountApplicationServices;

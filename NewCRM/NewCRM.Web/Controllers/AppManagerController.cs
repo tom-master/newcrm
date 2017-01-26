@@ -5,10 +5,11 @@ using System.Web.Mvc;
 using NewCRM.Application.Interface;
 using NewCRM.Dto.Dto;
 using NewCRM.Application.Interface;
+using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
-    public class AppManagerController : Controller
+    public class AppManagerController : BaseController
     {
 
         private readonly IAppApplicationServices _appApplicationServices;
