@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.ComponentModel.Composition;
+using System.Linq;
+using System.Web.Mvc;
 using NewCRM.Web.Filter;
 
 namespace NewCRM.Web
@@ -11,7 +13,7 @@ namespace NewCRM.Web
 
             filters.Add(new ErrorFilterAttribute());
 
-            filters.Add(new AuthFilter());
+            filters.Add(new AuthFilterAttribute());
 
         }
     }

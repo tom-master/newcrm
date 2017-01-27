@@ -5,9 +5,9 @@ using System.Web.Mvc;
 
 namespace NewCRM.Web.Filter
 {
-    public sealed class ErrorFilterAttribute : HandleErrorAttribute
+    public sealed class ErrorFilterAttribute : FilterAttribute, IExceptionFilter
     {
-        public override void OnException(ExceptionContext filterContext)
+        public void OnException(ExceptionContext filterContext)
         {
             filterContext.ExceptionHandled = true;
 

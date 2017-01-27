@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -37,8 +38,9 @@ namespace NewCRM.Web
             var container = new CompositionContainer(catalog, true);
 
             container.ComposeParts(this);
-
+            
             DependencyResolver.SetResolver(new DependencySolver(container.Catalog));
+
         }
     }
 }

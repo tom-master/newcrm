@@ -12,7 +12,7 @@ namespace NewCRM.Web
     public class DependencySolver : IDependencyResolver
     {
         private readonly ComposablePartCatalog _catalog;
-        private const String HttpContextKey = "MefContainerKey";
+        private const String _httpContextKey = "MefContainerKey";
 
         public DependencySolver(ComposablePartCatalog catalog)
         {
@@ -23,11 +23,11 @@ namespace NewCRM.Web
         {
             get
             {
-                if (!HttpContext.Current.Items.Contains(HttpContextKey))
+                if (!HttpContext.Current.Items.Contains(_httpContextKey))
                 {
-                    HttpContext.Current.Items.Add(HttpContextKey, new CompositionContainer(_catalog));
+                    HttpContext.Current.Items.Add(_httpContextKey, new CompositionContainer(_catalog));
                 }
-                CompositionContainer container = (CompositionContainer)HttpContext.Current.Items[HttpContextKey];
+                CompositionContainer container = (CompositionContainer)HttpContext.Current.Items[_httpContextKey];
                 HttpContext.Current.Application["Container"] = container;
                 return container;
             }
@@ -38,7 +38,7 @@ namespace NewCRM.Web
         public Object GetService(Type serviceType)
         {
             String contractName = AttributedModelServices.GetContractName(serviceType);
-
+            
             return Container.GetExportedValueOrDefault<Object>(contractName);
 
         }
