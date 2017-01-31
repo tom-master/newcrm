@@ -13,6 +13,7 @@ using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
+using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Application.Services
 {
@@ -79,20 +80,12 @@ namespace NewCRM.Application.Services
 
             var specification = FilterFactory.Create<Account>(account => (accountName + "").Length == 0 || account.Name.Contains(accountName));
 
-            AccountType internalAccountType;
-
             if ((accountType + "").Length > 0)
             {
-                var enumConst = Enum.GetName(typeof(AccountType), accountType);
+                var isAdmin = (EnumExtensions.ParseToEnum<AccountType>(Int32.Parse(accountType)) == AccountType.Admin);
 
-                if (Enum.TryParse(enumConst, true, out internalAccountType))
-                {
-                    specification.And(account => account.IsAdmin == (internalAccountType == AccountType.Admin));
-                }
-                else
-                {
-                    throw new BusinessException($"用户类型{accountType}不是有效的类型");
-                }
+                specification.And(account => account.IsAdmin == isAdmin);
+
             }
 
             return DatabaseQuery.PageBy(specification, pageIndex, pageSize, out totalCount).Select(account => new
@@ -109,6 +102,7 @@ namespace NewCRM.Application.Services
         {
 
             Account accountResult;
+
             if (accountId == default(Int32))
             {
                 accountResult = CacheQuery.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
@@ -148,14 +142,7 @@ namespace NewCRM.Application.Services
         {
             var account = accountDto.ConvertToModel<AccountDto, Account>();
 
-            AccountType accountType;
-
-            var enumConst = Enum.GetName(typeof(AccountType), account.IsAdmin ? "2"/*管理员*/ : "1"/*用户*/);
-
-            if (!Enum.TryParse(enumConst, true, out accountType))
-            {
-                throw new BusinessException($"类型{enumConst}不是有效的枚举类型");
-            }
+            var accountType = EnumExtensions.ParseToEnum<AccountType>(account.IsAdmin ? 2 /*管理员*/ : 1 /*用户*/);
 
             var internalNewAccount = new Account(account.Name, PasswordUtil.CreateDbPassword(account.LoginPassword), accountType);
 
@@ -165,7 +152,7 @@ namespace NewCRM.Application.Services
 
             IList<Desk> desks = new List<Desk>();
 
-            for (int i = 1; i <= internalNewAccount.Config.DefaultDeskCount; i++)
+            for (var i = 1; i <= internalNewAccount.Config.DefaultDeskCount; i++)
             {
                 desks.Add(new Desk(i, internalNewAccount.Id));
             }
@@ -189,6 +176,7 @@ namespace NewCRM.Application.Services
             if ((account.LoginPassword + "").Length > 0)
             {
                 var newPassword = PasswordUtil.CreateDbPassword(account.LoginPassword);
+
                 accountResult.ModifyPassword(newPassword);
             }
 

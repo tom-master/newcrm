@@ -53,8 +53,6 @@ namespace NewCRM.Application.Services
             UnitOfWork.Commit();
 
             return new Tuple<Int32, String>(wallpaper.Id, wallpaper.ShortUrl);
-
-
         }
 
         public List<WallpaperDto> GetUploadWallpaper(Int32 accountId)

@@ -12,6 +12,7 @@ using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomException;
+using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Application.Services
 {
@@ -194,55 +195,31 @@ namespace NewCRM.Application.Services
             //应用样式
             if (appStyleId != default(Int32))
             {
-                var enumConst = Enum.GetName(typeof(AppStyle), 1);
 
-                AppStyle appStyle;
+                var appStyle = EnumExtensions.ParseToEnum<AppStyle>(1);
 
-                if (Enum.TryParse(enumConst, true, out appStyle))
-                {
-                    appSpecification.And(app => app.AppStyle == appStyle);
-                }
-                else
-                {
-                    throw new BusinessException($"无法识别的应用样式：{enumConst}");
-                }
+                appSpecification.And(app => app.AppStyle == appStyle);
+
             }
 
             if (appState != default(String))
             {
                 //app发布状态
                 var stats = appState.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
                 if (stats[0] == "AppReleaseState")
                 {
-                    var enumConst = Enum.GetName(typeof(AppReleaseState), Int32.Parse(stats[1]));
+                    var appReleaseState = EnumExtensions.ParseToEnum<AppReleaseState>(Int32.Parse(stats[1]));
 
-                    AppReleaseState appReleaseState;
-
-                    if (Enum.TryParse(enumConst, true, out appReleaseState))
-                    {
-                        appSpecification.And(app => app.AppReleaseState == appReleaseState);
-                    }
-                    else
-                    {
-                        throw new BusinessException($"无法识别的应用状态：{enumConst}");
-                    }
+                    appSpecification.And(app => app.AppReleaseState == appReleaseState);
                 }
 
                 //app应用审核状态
                 if (stats[0] == "AppAuditState")
                 {
-                    var enumConst = Enum.GetName(typeof(AppAuditState), Int32.Parse(stats[1]));
+                    var appAuditState = EnumExtensions.ParseToEnum<AppAuditState>(Int32.Parse(stats[1]));
 
-                    AppAuditState appAuditState;
-
-                    if (Enum.TryParse(enumConst, true, out appAuditState))
-                    {
-                        appSpecification.And(app => app.AppAuditState == appAuditState);
-                    }
-                    else
-                    {
-                        throw new BusinessException($"无法识别的应用审核状态{enumConst}");
-                    }
+                    appSpecification.And(app => app.AppAuditState == appAuditState);
                 }
             }
 

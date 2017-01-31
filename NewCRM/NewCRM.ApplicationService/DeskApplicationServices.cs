@@ -61,6 +61,7 @@ namespace NewCRM.Application.Services
                 else
                 {
                     var appMember = members.FirstOrDefault(member => member.AppId == memberId && member.MemberType == MemberType.App);
+
                     if (appMember != null)
                     {
                         return appMember.ConvertToDto<Member, MemberDto>();

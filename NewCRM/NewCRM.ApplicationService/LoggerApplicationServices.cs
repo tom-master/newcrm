@@ -10,6 +10,7 @@ using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomException;
+using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Application.Services
 {
@@ -33,16 +34,9 @@ namespace NewCRM.Application.Services
 
         public IList<LogDto> GetAllLog(Int32 logLevel, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
-            var enumConst = Enum.GetName(typeof(LogLevel), 1);
+            var internalLogLevel = EnumExtensions.ParseToEnum<LogLevel>(logLevel);
 
-            LogLevel internalLogLevel;
-
-            if (Enum.TryParse(enumConst, true, out internalLogLevel))
-            {
-                return _query.PageBy(FilterFactory.Create((Log log) => log.LogLevelEnum == internalLogLevel), pageIndex, pageSize, out totalCount).ConvertToDtos<Log, LogDto>().ToList();
-            }
-
-            throw new BusinessException($"无法识别的日志等级：{enumConst}");
+            return _query.PageBy(FilterFactory.Create((Log log) => log.LogLevelEnum == internalLogLevel), pageIndex, pageSize, out totalCount).ConvertToDtos<Log, LogDto>().ToList();
         }
     }
 }

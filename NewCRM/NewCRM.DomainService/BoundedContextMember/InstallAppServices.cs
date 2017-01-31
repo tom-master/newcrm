@@ -11,8 +11,6 @@ namespace NewCRM.Domain.Services.BoundedContextMember
     [Export(typeof(IInstallAppServices))]
     internal sealed class InstallAppServices : BaseServiceContext, IInstallAppServices
     {
-
-
         public void Install(Int32 appId, Int32 deskNum)
         {
             var desks = CacheQuery.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
