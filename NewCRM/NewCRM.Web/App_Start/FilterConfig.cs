@@ -11,9 +11,9 @@ namespace NewCRM.Web
         {
             filters.Add(new HandleErrorAttribute());
 
-            filters.Add(new ErrorFilterAttribute());
+            filters.Add(new ErrorFilter());
 
-            filters.Add(new AuthFilterAttribute());
+            filters.Add(new AuthFilter());
 
         }
     }

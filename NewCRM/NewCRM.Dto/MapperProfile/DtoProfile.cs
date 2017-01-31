@@ -17,7 +17,7 @@ namespace NewCRM.Dto.MapperProfile
             CreateMap<Account, AccountDto>()
                 .ForMember(dto => dto.Name, account => account.MapFrom(u => u.Name))
                 .ForMember(dto => dto.Id, account => account.MapFrom(u => u.Id))
-                .ForMember(dto => dto.IsAdmin, account => account.MapFrom(u => u.IsAdmin ))
+                .ForMember(dto => dto.IsAdmin, account => account.MapFrom(u => u.IsAdmin))
                 .ForMember(dto => dto.Password, account => account.MapFrom(u => u.LoginPassword))
                 .ForMember(dto => dto.AddTime, account => account.MapFrom(u => u.AddTime.ToString("yyyy-MM-dd HH:mm:ss")))
                 .ForMember(dto => dto.LastLoginTime, account => account.MapFrom(u => u.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")))
@@ -307,6 +307,37 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(desk => desk.AccountId, dto => dto.MapFrom(d => d.AccountId));
         }
     }
+
+    internal class LogDtoToLogProfile : Profile
+    {
+        public LogDtoToLogProfile()
+        {
+            CreateMap<LogDto, Log>()
+                .ForMember(log => log.Id, dto => dto.MapFrom(d => d.Id))
+                .ForMember(log => log.LogLevelEnum, dto => dto.MapFrom(d => EnumOp.ConvertEnum(typeof(LogLevel), d.LogLevelEnum)))
+                .ForMember(log => log.Controller, dto => dto.MapFrom(d => d.Controller))
+                .ForMember(log => log.Action, dto => dto.MapFrom(d => d.Action))
+                .ForMember(log => log.ExceptionMessage, dto => dto.MapFrom(d => d.ExceptionMessage))
+                .ForMember(log => log.Track, dto => dto.MapFrom(d => d.Track))
+                .ForMember(log => log.AccountId, dto => dto.MapFrom(d => d.AccountId));
+        }
+    }
+
+    internal class LogToLogDtoProfile : Profile
+    {
+        public LogToLogDtoProfile()
+        {
+            CreateMap<Log, LogDto>()
+                .ForMember(dto => dto.Id, log => log.MapFrom(d => d.Id))
+                .ForMember(dto => dto.LogLevelEnum, log => log.MapFrom(d => (Int32)d.LogLevelEnum))
+                .ForMember(dto => dto.Controller, log => log.MapFrom(d => d.Controller))
+                .ForMember(dto => dto.Action, log => log.MapFrom(d => d.Action))
+                .ForMember(dto => dto.ExceptionMessage, log => log.MapFrom(d => d.ExceptionMessage))
+                .ForMember(dto => dto.Track, log => log.MapFrom(d => d.Track))
+                .ForMember(dto => dto.AccountId, log => log.MapFrom(d => d.AccountId));
+        }
+    }
+
 
     internal static class EnumOp
     {

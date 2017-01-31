@@ -9,30 +9,26 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     [Export(typeof(IModifyAppInfoServices))]
-    internal sealed class ModifyAppInfoServices : IModifyAppInfoServices
+    internal sealed class ModifyAppInfoServices : BaseServiceContext, IModifyAppInfoServices
     {
-
-        [Import]
-        public BaseServiceContext BaseContext { get; set; }
-
 
         public void ModifyAppStar(Int32 appId, Int32 starCount)
         {
-            if (!BaseContext.Query.Find(BaseContext.FilterFactory.Create<Desk>(d => d.Members.Any(m => m.AppId == appId) && d.AccountId == BaseContext.GetAccountId())).Any())
+            if (!DatabaseQuery.Find(FilterFactory.Create<Desk>(d => d.Members.Any(m => m.AppId == appId) && d.AccountId == AccountId)).Any())
             {
                 throw new BusinessException($"请安装这个应用后再打分");
             }
 
-            var appResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create<App>(app => app.Id == appId));
+            var appResult = DatabaseQuery.FindOne(FilterFactory.Create<App>(app => app.Id == appId));
 
-            appResult.AddStar(BaseContext.GetAccountId(), starCount);
+            appResult.AddStar(AccountId, starCount);
 
-            BaseContext.Repository.Create<App>().Update(appResult);
+            Repository.Create<App>().Update(appResult);
         }
 
         public void ModifyAccountAppInfo(App app)
         {
-            var appResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create<App>(internalApp => internalApp.Id == app.Id && internalApp.AccountId == BaseContext.GetAccountId()));
+            var appResult = DatabaseQuery.FindOne(FilterFactory.Create<App>(internalApp => internalApp.Id == app.Id && internalApp.AccountId == AccountId));
 
             if (appResult == null)
             {
@@ -60,7 +56,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                 appResult.SentAudit();
             }
 
-            BaseContext.Repository.Create<App>().Update(appResult);
+            Repository.Create<App>().Update(appResult);
         }
     }
 }

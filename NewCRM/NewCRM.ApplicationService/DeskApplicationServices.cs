@@ -14,10 +14,8 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(IDeskApplicationServices))]
-    internal class DeskApplicationServices : IDeskApplicationServices
+    internal class DeskApplicationServices : BaseServiceContext, IDeskApplicationServices
     {
-        [Import]
-        public BaseServiceContext BaseContext { get; set; }
 
         private readonly IModifyDeskMemberServices _modifyDeskMemberServices;
 
@@ -44,9 +42,9 @@ namespace NewCRM.Application.Services
 
         public MemberDto GetMember(Int32 memberId, Boolean isFolder = default(Boolean))
         {
-            BaseContext.ValidateParameter.Validate(memberId);
+            ValidateParameter.Validate(memberId);
 
-            var desks = BaseContext.Query.Find((Desk desk) => desk.AccountId == BaseContext.GetAccountId());
+            var desks = CacheQuery.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
 
             foreach (var desk in desks)
             {
@@ -74,141 +72,141 @@ namespace NewCRM.Application.Services
 
         public void ModifyDefaultDeskNumber(Int32 newDefaultDeskNumber)
         {
-            BaseContext.ValidateParameter.Validate(newDefaultDeskNumber);
+            ValidateParameter.Validate(newDefaultDeskNumber);
 
-            var accountResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create((Account account) => account.Id == BaseContext.GetAccountId()));
+            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
 
             accountResult.Config.ModifyDefaultDesk(newDefaultDeskNumber);
 
-            BaseContext.Repository.Create<Account>().Update(accountResult);
+            Repository.Create<Account>().Update(accountResult);
 
-            BaseContext.UnitOfWork.Commit();
+            UnitOfWork.Commit();
         }
 
         public void ModifyDockPosition(Int32 defaultDeskNumber, String newPosition)
         {
-            BaseContext.ValidateParameter.Validate(defaultDeskNumber).Validate(newPosition);
+            ValidateParameter.Validate(defaultDeskNumber).Validate(newPosition);
 
             _modifyDockPostionServices.ModifyDockPosition(defaultDeskNumber, newPosition);
 
-            BaseContext.UnitOfWork.Commit();
+            UnitOfWork.Commit();
         }
 
         public void MemberInDock(Int32 memberId)
         {
-            BaseContext.ValidateParameter.Validate(memberId);
+            ValidateParameter.Validate(memberId);
 
             _modifyDeskMemberPostionServices.MemberInDock(memberId);
 
-            BaseContext.UnitOfWork.Commit();
+            UnitOfWork.Commit();
         }
 
         public void MemberOutDock(Int32 memberId, Int32 deskId)
         {
-            BaseContext.ValidateParameter.Validate(memberId);
+            ValidateParameter.Validate(memberId);
 
             _modifyDeskMemberPostionServices.MemberOutDock(memberId, deskId);
 
-            BaseContext.UnitOfWork.Commit();
+            UnitOfWork.Commit();
         }
 
         public void DockToFolder(Int32 memberId, Int32 folderId)
         {
-            BaseContext.ValidateParameter.Validate(memberId).Validate(folderId);
+            ValidateParameter.Validate(memberId).Validate(folderId);
 
             _modifyDeskMemberPostionServices.DockToFolder(memberId, folderId);
 
-            BaseContext.UnitOfWork.Commit();
+            UnitOfWork.Commit();
         }
 
         public void FolderToDock(Int32 memberId)
         {
-            BaseContext.ValidateParameter.Validate(memberId);
+            ValidateParameter.Validate(memberId);
 
             _modifyDeskMemberPostionServices.FolderToDock(memberId);
 
-            BaseContext.UnitOfWork.Commit();
+            UnitOfWork.Commit();
         }
 
         public void DeskToFolder(Int32 memberId, Int32 folderId)
         {
-            BaseContext.ValidateParameter.Validate(memberId).Validate(folderId);
+            ValidateParameter.Validate(memberId).Validate(folderId);
 
             _modifyDeskMemberPostionServices.DeskToFolder(memberId, folderId);
 
-            BaseContext.UnitOfWork.Commit();
+            UnitOfWork.Commit();
         }
 
         public void FolderToDesk(Int32 memberId, Int32 deskId)
         {
-            BaseContext.ValidateParameter.Validate(memberId).Validate(deskId);
+            ValidateParameter.Validate(memberId).Validate(deskId);
 
             _modifyDeskMemberPostionServices.FolderToDesk(memberId, deskId);
 
-            BaseContext.UnitOfWork.Commit();
+            UnitOfWork.Commit();
         }
 
         public void FolderToOtherFolder(Int32 memberId, Int32 folderId)
         {
-            BaseContext.ValidateParameter.Validate(memberId).Validate(folderId);
+            ValidateParameter.Validate(memberId).Validate(folderId);
 
             _modifyDeskMemberPostionServices.FolderToOtherFolder(memberId, folderId);
 
-            BaseContext.UnitOfWork.Commit();
+            UnitOfWork.Commit();
         }
 
         public void DeskToOtherDesk(Int32 memberId, Int32 deskId)
         {
-            BaseContext.ValidateParameter.Validate(memberId).Validate(deskId);
+            ValidateParameter.Validate(memberId).Validate(deskId);
 
             _modifyDeskMemberPostionServices.DeskToOtherDesk(memberId, deskId);
 
-            BaseContext.UnitOfWork.Commit();
+            UnitOfWork.Commit();
         }
 
         public void ModifyFolderInfo(String memberName, String memberIcon, Int32 memberId)
         {
-            BaseContext.ValidateParameter.Validate(memberName).Validate(memberIcon).Validate(memberId);
+            ValidateParameter.Validate(memberName).Validate(memberIcon).Validate(memberId);
 
             _modifyDeskMemberServices.ModifyFolderInfo(memberName, memberIcon, memberId);
 
-            BaseContext.UnitOfWork.Commit();
+            UnitOfWork.Commit();
         }
 
         public void RemoveMember(Int32 memberId)
         {
-            BaseContext.ValidateParameter.Validate(memberId);
+            ValidateParameter.Validate(memberId);
 
             _modifyDeskMemberServices.RemoveMember(memberId);
 
-            BaseContext.UnitOfWork.Commit();
+            UnitOfWork.Commit();
         }
 
         public void ModifyMemberInfo(MemberDto member)
         {
-            BaseContext.ValidateParameter.Validate(member);
+            ValidateParameter.Validate(member);
 
             _modifyDeskMemberServices.ModifyMemberInfo(member.ConvertToModel<MemberDto, Member>());
 
-            BaseContext.UnitOfWork.Commit();
+            UnitOfWork.Commit();
         }
 
         public void CreateNewFolder(String folderName, String folderImg, Int32 deskId)
         {
-            BaseContext.ValidateParameter.Validate(folderName).Validate(folderImg).Validate(deskId);
+            ValidateParameter.Validate(folderName).Validate(folderImg).Validate(deskId);
 
             _createNewFolderServices.NewFolder(deskId, folderName, folderImg);
 
-            BaseContext.UnitOfWork.Commit();
+            UnitOfWork.Commit();
         }
 
         public void DockToOtherDesk(Int32 memberId, Int32 deskId)
         {
-            BaseContext.ValidateParameter.Validate(memberId).Validate(deskId);
+            ValidateParameter.Validate(memberId).Validate(deskId);
 
             _modifyDeskMemberPostionServices.DockToOtherDesk(memberId, deskId);
 
-            BaseContext.UnitOfWork.Commit();
+            UnitOfWork.Commit();
         }
     }
 }

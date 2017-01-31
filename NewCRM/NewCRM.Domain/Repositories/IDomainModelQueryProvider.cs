@@ -10,11 +10,5 @@ namespace NewCRM.Domain.Repositories
     public interface IDomainModelQueryProvider
     {
         IQueryable<T> Query<T>(Specification<T> selector) where T : DomainModelBase, IAggregationRoot;
-
-        T Query<T>(Expression<Func<T, Boolean>> entity) where T : DomainModelBase, IAggregationRoot;
-
-        IEnumerable<T> Querys<T>(Expression<Func<T, Boolean>> entity) where T : DomainModelBase, IAggregationRoot;
-
-        IEnumerable<T> QueryPages<T>(Expression<Func<T, Boolean>> entity, out Int32 totalCount, Int32 pageIndex, Int32 pageSize) where T : DomainModelBase, IAggregationRoot;
     }
 }

@@ -9,10 +9,11 @@ using NewCRM.Domain.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
 using NewCRM.Repository.DataBaseProvider.Redis;
+using NewCRM.Repository.DataBaseProvider.Redis.InternalHelper;
 using NewCRM.Repository.UnitOfWorkProvide;
 using StackExchange.Redis;
 
-namespace NewCRM.Repository.DataBaseProvider
+namespace NewCRM.Repository.DataBaseProvider.EF
 {
     /// <summary>
     /// EntityFramework仓储操作基类

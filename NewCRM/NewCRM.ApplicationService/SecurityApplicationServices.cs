@@ -13,17 +13,14 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(ISecurityApplicationServices))]
-    internal class SecurityApplicationServices : ISecurityApplicationServices
+    internal class SecurityApplicationServices : BaseServiceContext, ISecurityApplicationServices
     {
-
-        [Import]
-        public BaseServiceContext BaseContext { get; set; }
-
+         
         #region Role
 
         public List<RoleDto> GetAllRoles()
         {
-            return BaseContext.Query.Find(BaseContext.FilterFactory.Create<Role>()).Select(role => new
+            return DatabaseQuery.Find(FilterFactory.Create<Role>()).Select(role => new
             {
                 role.Name,
                 role.Id
@@ -33,9 +30,9 @@ namespace NewCRM.Application.Services
 
         public RoleDto GetRole(Int32 roleId)
         {
-            BaseContext.ValidateParameter.Validate(roleId);
+            ValidateParameter.Validate(roleId);
 
-            var roleResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create<Role>(role => role.Id == roleId));
+            var roleResult = DatabaseQuery.FindOne(FilterFactory.Create<Role>(role => role.Id == roleId));
 
             if (roleResult == null)
             {
@@ -54,16 +51,16 @@ namespace NewCRM.Application.Services
 
         public List<RoleDto> GetAllRoles(String roleName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
-            BaseContext.ValidateParameter.Validate(roleName).Validate(pageIndex).Validate(pageIndex);
+            ValidateParameter.Validate(roleName).Validate(pageIndex).Validate(pageIndex);
 
-            var roleSpecification = BaseContext.FilterFactory.Create<Role>();
+            var roleSpecification = FilterFactory.Create<Role>();
 
             if ((roleName + "").Length > 0)
             {
                 roleSpecification.And(role => role.Name.Contains(roleName));
             }
 
-            return BaseContext.Query.PageBy(roleSpecification, pageIndex, pageSize, out totalCount).Select(s => new
+            return DatabaseQuery.PageBy(roleSpecification, pageIndex, pageSize, out totalCount).Select(s => new
             {
                 s.Name,
                 s.Id,
@@ -75,9 +72,9 @@ namespace NewCRM.Application.Services
 
         public void RemoveRole(Int32 roleId)
         {
-            BaseContext.ValidateParameter.Validate(roleId);
+            ValidateParameter.Validate(roleId);
 
-            var roleResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create<Role>(role => role.Id == roleId));
+            var roleResult = DatabaseQuery.FindOne(FilterFactory.Create<Role>(role => role.Id == roleId));
 
             if (roleResult == null)
             {
@@ -91,29 +88,29 @@ namespace NewCRM.Application.Services
 
             roleResult.Remove();
 
-            BaseContext.Repository.Create<Role>().Update(roleResult);
+            Repository.Create<Role>().Update(roleResult);
 
-            BaseContext.UnitOfWork.Commit();
+            UnitOfWork.Commit();
         }
 
         public void AddNewRole(RoleDto roleDto)
         {
-            BaseContext.ValidateParameter.Validate(roleDto);
+            ValidateParameter.Validate(roleDto);
 
             var role = roleDto.ConvertToModel<RoleDto, Role>();
 
-            BaseContext.Repository.Create<Role>().Add(role);
+            Repository.Create<Role>().Add(role);
 
-            BaseContext.UnitOfWork.Commit();
+            UnitOfWork.Commit();
         }
 
         public void ModifyRole(RoleDto roleDto)
         {
-            BaseContext.ValidateParameter.Validate(roleDto);
+            ValidateParameter.Validate(roleDto);
 
             var role = roleDto.ConvertToModel<RoleDto, Role>();
 
-            var roleResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create<Role>(internalRole => internalRole.Id == role.Id));
+            var roleResult = DatabaseQuery.FindOne(FilterFactory.Create<Role>(internalRole => internalRole.Id == role.Id));
 
             if (roleResult == null)
             {
@@ -122,16 +119,16 @@ namespace NewCRM.Application.Services
 
             roleResult.ModifyRoleName(role.Name).ModifyRoleIdentity(role.RoleIdentity);
 
-            BaseContext.Repository.Create<Role>().Update(roleResult);
+            Repository.Create<Role>().Update(roleResult);
 
-            BaseContext.UnitOfWork.Commit();
+            UnitOfWork.Commit();
         }
 
         public void AddPowerToCurrentRole(Int32 roleId, IEnumerable<Int32> powerIds)
         {
-            BaseContext.ValidateParameter.Validate(roleId).Validate(powerIds);
+            ValidateParameter.Validate(roleId).Validate(powerIds);
 
-            var roleResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create<Role>(role => role.Id == roleId));
+            var roleResult = DatabaseQuery.FindOne(FilterFactory.Create<Role>(role => role.Id == roleId));
 
             if (roleResult == null)
             {
@@ -142,16 +139,16 @@ namespace NewCRM.Application.Services
 
             roleResult.AddPower(powerIds.ToArray());
 
-            BaseContext.Repository.Create<Role>().Update(roleResult);
+            Repository.Create<Role>().Update(roleResult);
 
-            BaseContext.UnitOfWork.Commit();
+            UnitOfWork.Commit();
         }
 
         #endregion
 
         public Boolean CheckPermissions(Int32 accessAppId, params Int32[] roleIds)
         {
-            var roles = BaseContext.Query.Find(BaseContext.FilterFactory.Create<Role>(role => roleIds.Contains(role.Id))).ToArray();
+            var roles = DatabaseQuery.Find(FilterFactory.Create<Role>(role => roleIds.Contains(role.Id))).ToArray();
 
             return roles.Any(role => role.CheckPower(accessAppId));
 

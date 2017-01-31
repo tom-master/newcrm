@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -52,7 +50,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
                 case ExpressionType.And:
                 case ExpressionType.AndAlso:
                     {
-                        var binary = expression as BinaryExpression;
+                        var binary = (BinaryExpression)expression;
 
                         Parse(binary.Left, ref key);
 
@@ -88,9 +86,9 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
                 case ExpressionType.Call:
                 case ExpressionType.Lambda:
                     {
-                        var Lambda = expression as LambdaExpression;
+                        var lambda = (LambdaExpression)expression;
 
-                        return Parse(Lambda.Body, ref key);
+                        return Parse(lambda.Body, ref key);
                     }
                 case ExpressionType.MemberAccess:
                     {
@@ -142,8 +140,26 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
 
                         return expression;
                     }
+                case ExpressionType.Conditional:
+                    {
+                        var exp = (ConditionalExpression)expression;
+
+                        var isEqual = (Boolean)Expression.Lambda((BinaryExpression)exp.Test).Compile().DynamicInvoke();
+
+                        if (isEqual)
+                        {
+                            Parse(exp.IfTrue, ref key);
+
+                        }
+                        else
+                        {
+                            Parse(exp.IfFalse, ref key);
+                        }
+
+                        return expression;
+                    }
                 default:
-                    throw new Exception(String.Format("Unhandled expression type: '{0}'", expression.NodeType));
+                    throw new Exception($"Unhandled expression type: '{expression.NodeType}'");
             }
         }
 

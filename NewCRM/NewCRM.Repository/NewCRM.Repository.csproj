@@ -70,6 +70,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="XYY.MongoService, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\XYY.MongoService.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -87,13 +91,15 @@
   <ItemGroup>
     <Compile Include="DataBaseProvider\Event\ICacheCreateEvent.cs" />
     <Compile Include="DataBaseProvider\Event\ICacheModifyEvent.cs" />
-    <Compile Include="DataBaseProvider\Redis\ICacheQueryProvider.cs" />
-    <Compile Include="DataBaseProvider\Redis\RedisConnectionHelp.cs" />
-    <Compile Include="DataBaseProvider\Redis\InternalQueryProvider.cs" />
+    <Compile Include="DataBaseProvider\Mongodb\InternalDefaultQueryProvider.cs" />
+    <Compile Include="DataBaseProvider\Redis\QueryProviderFormCache.cs" />
+    <Compile Include="DataBaseProvider\Redis\InternalHelper\ICacheQueryProvider.cs" />
+    <Compile Include="DataBaseProvider\Redis\InternalHelper\RedisConnectionHelp.cs" />
+    <Compile Include="DataBaseProvider\Redis\InternalHelper\InternalDefaultQueryProvider.cs" />
     <Compile Include="DefaultRepositoryFactory.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="DataBaseProvider\NewCrmBackSite.cs" />
-    <Compile Include="DataBaseProvider\QueryProvider.cs" />
+    <Compile Include="DataBaseProvider\EF\NewCrmBackSite.cs" />
+    <Compile Include="DataBaseProvider\EF\QueryProvider.cs" />
     <Compile Include="RepositoryImpl\Agent\TitleRepository.cs" />
     <Compile Include="RepositoryImpl\Agent\AccountRepository.cs" />
     <Compile Include="RepositoryImpl\Security\RoleRepository.cs" />
@@ -103,7 +109,7 @@
     <Compile Include="RepositoryImpl\System\LogRepository.cs" />
     <Compile Include="RepositoryImpl\System\OnlineRepository.cs" />
     <Compile Include="RepositoryImpl\System\WallpaperRepository.cs" />
-    <Compile Include="DataBaseProvider\EntityFrameworkProvider.cs" />
+    <Compile Include="DataBaseProvider\EF\EntityFrameworkProvider.cs" />
     <Compile Include="UnitOfWorkProvide\EFUnitOfWorkContext.cs" />
     <Compile Include="UnitOfWorkProvide\UnitOfWorkContextBase.cs" />
     <Compile Include="UnitOfWorkProvide\UnitOfWorkContextExtensions.cs" />

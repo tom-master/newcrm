@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Web.Mvc;
 using NewCRM.Application.Interface;
-using NewCRM.Dto.Dto; 
+using NewCRM.Dto.Dto;
 using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
@@ -67,7 +67,7 @@ namespace NewCRM.Web.Controllers
         {
             Int32 totalCount;
 
-            var appResults = _appApplicationServices.GetAllApps(appTypeId, 0, searchText, pageIndex, pageSize, out totalCount);
+            var appResults = _appApplicationServices.GetAllApps(appTypeId, searchText, pageIndex, pageSize, out totalCount,0,0,appStyleId,appState);
 
             return Json(new
             {

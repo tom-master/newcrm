@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Configuration;
 using StackExchange.Redis;
 
-namespace NewCRM.Repository.DataBaseProvider.Redis
+namespace NewCRM.Repository.DataBaseProvider.Redis.InternalHelper
 {
     /// <summary>
     /// ConnectionMultiplexer对象管理帮助类

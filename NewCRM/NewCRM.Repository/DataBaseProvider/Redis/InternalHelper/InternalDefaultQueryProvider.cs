@@ -7,13 +7,13 @@ using JsonNet.PrivateSettersContractResolvers;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
-namespace NewCRM.Repository.DataBaseProvider.Redis
+namespace NewCRM.Repository.DataBaseProvider.Redis.InternalHelper
 {
     /// <summary>
     /// Redis操作
     /// </summary>
     [Export(typeof(ICacheQueryProvider))]
-    internal class InternalQueryProvider : ICacheQueryProvider
+    internal class InternalDefaultQueryProvider : ICacheQueryProvider
     {
         private Int32 DbNum { get; }
         private readonly ConnectionMultiplexer _conn;
@@ -21,17 +21,17 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
 
         #region 构造函数
 
-        public InternalQueryProvider() : this(0, null)
+        public InternalDefaultQueryProvider() : this(0, null)
         {
 
         }
 
-        public InternalQueryProvider(Int32 dbNum = 0)
+        public InternalDefaultQueryProvider(Int32 dbNum = 0)
                 : this(dbNum, null)
         {
         }
 
-        public InternalQueryProvider(Int32 dbNum, String readWriteHosts)
+        public InternalDefaultQueryProvider(Int32 dbNum, String readWriteHosts)
         {
             DbNum = dbNum;
             _conn =

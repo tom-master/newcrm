@@ -10,16 +10,13 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 namespace NewCRM.Domain.Services.BoundedContext.Agent
 {
     [Export(typeof(IAccountContext))]
-    internal class AccountContext : IAccountContext
+    internal class AccountContext : BaseServiceContext, IAccountContext
     {
-        [Import]
-        public BaseServiceContext BaseContext { get; set; }
+      
 
         public Account Validate(String accountName, String password)
         {
-            var specification = BaseContext.FilterFactory.Create<Account>(account => account.Name == accountName);
-
-            var accountResult = BaseContext.Query.FindOne(specification);
+            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create<Account>(account => account.Name == accountName));
 
             if (accountResult == null)
             {
@@ -33,9 +30,9 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
 
             accountResult.Online();
 
-            BaseContext.Repository.Create<Account>().Update(accountResult);
+            Repository.Create<Account>().Update(accountResult);
 
-            BaseContext.Repository.Create<Online>().Add(new Online(GetCurrentIpAddress(), accountResult.Id));
+            Repository.Create<Online>().Add(new Online(GetCurrentIpAddress(), accountResult.Id));
 
             return accountResult;
 
@@ -43,7 +40,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
 
         public void Logout(Int32 accountId)
         {
-            var accountResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create((Account account) => account.Id == accountId));
+            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
 
             if (!accountResult.IsOnline)
             {
@@ -51,7 +48,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
             }
             accountResult.Offline();
 
-            BaseContext.Repository.Create<Account>().Update(accountResult);
+            Repository.Create<Account>().Update(accountResult);
 
             ModifyOnlineState(accountId);
         }
@@ -70,9 +67,9 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
         /// <param name="accountId"></param>
         private void ModifyOnlineState(Int32 accountId)
         {
-            var onlineResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create<Online>(online => online.AccountId == accountId));
+            var onlineResult = DatabaseQuery.FindOne(FilterFactory.Create<Online>(online => online.AccountId == accountId));
 
-            BaseContext.Repository.Create<Online>().Remove(onlineResult);
+            Repository.Create<Online>().Remove(onlineResult);
 
         }
 

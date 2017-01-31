@@ -52,6 +52,7 @@
     <Compile Include="AccountApplicationServices.cs" />
     <Compile Include="AppApplicationServices.cs" />
     <Compile Include="DeskApplicationServices.cs" />
+    <Compile Include="LoggerApplicationServices.cs" />
     <Compile Include="SecurityApplicationServices.cs" />
     <Compile Include="SkinApplicationServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using StackExchange.Redis;
 
-namespace NewCRM.Repository.DataBaseProvider.Redis
+namespace NewCRM.Repository.DataBaseProvider.Redis.InternalHelper
 {
     public interface ICacheQueryProvider
     {

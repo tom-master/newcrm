@@ -2,29 +2,21 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Linq.Expressions;
 using NewCRM.Domain.DomainSpecification;
 using NewCRM.Domain.Entitys;
 using NewCRM.Domain.Repositories;
 using NewCRM.Domain.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
-using NewCRM.Repository.DataBaseProvider.Redis;
+using NewCRM.Repository.DataBaseProvider.Redis.InternalHelper;
 using NewCRM.Repository.UnitOfWorkProvide;
 
-namespace NewCRM.Repository.DataBaseProvider
+namespace NewCRM.Repository.DataBaseProvider.Redis
 {
-    /// <summary>
-    /// 提供查询
-    /// </summary>
-    [Export(typeof(IDomainModelQueryProvider))]
-    internal class QueryProvider : IDomainModelQueryProvider
+    [Export(typeof(IDomainModelQueryProviderFormCache))]
+    internal class QueryProviderFormCache : IDomainModelQueryProviderFormCache
     {
-        [Import]
-        private ICacheQueryProvider _cacheQueryProvider;
-
-
-        #region entity framework
+        private readonly ICacheQueryProvider _cacheQueryProvider;
 
         #region 属性
 
@@ -54,55 +46,21 @@ namespace NewCRM.Repository.DataBaseProvider
 
         #endregion
 
-
-        /// <summary>
-        /// 查询
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="specification"></param>
-        /// <returns></returns>
-        public IQueryable<T> Query<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot
+        [ImportingConstructor]
+        public QueryProviderFormCache(ICacheQueryProvider cacheQueryProvider)
         {
-            return EfContext.Set<T, Int32>().Where(specification.Expression);
+            _cacheQueryProvider = cacheQueryProvider;
         }
 
-        #endregion
-
-        #region redis cache
-
-        public T Query<T>(Expression<Func<T, Boolean>> entity) where T : DomainModelBase, IAggregationRoot
+        public IEnumerable<T> Query<T>(Specification<T> entity) where T : DomainModelBase, IAggregationRoot
         {
-
-            String internalKey = entity.GeneratorRedisKey<T>();
-
-            var cacheValue = _cacheQueryProvider.StringGet<T>(internalKey);
-
-            if (cacheValue == null)
-            {
-                var value = EfContext.Set<T, Int32>().FirstOrDefault(entity);
-
-                if (_cacheQueryProvider.KeyExists(internalKey))
-                {
-                    _cacheQueryProvider.KeyDelete(internalKey);
-                }
-
-                _cacheQueryProvider.StringSet(internalKey, value);
-
-                return value;
-            }
-
-            return cacheValue;
-        }
-
-        public IEnumerable<T> Querys<T>(Expression<Func<T, Boolean>> entity) where T : DomainModelBase, IAggregationRoot
-        {
-            String internalKey = entity.GeneratorRedisKey<T>();
+            String internalKey = entity.Expression.GeneratorRedisKey<T>();
 
             var cacheValue = _cacheQueryProvider.ListRange<T>(internalKey);
 
             if (cacheValue == null || !cacheValue.Any())
             {
-                IList<T> values = EfContext.Set<T, Int32>().Where(entity).ToList();
+                IList<T> values = EfContext.Set<T, Int32>().Where(entity.Expression).ToList();
 
                 if (_cacheQueryProvider.KeyExists(internalKey))
                 {
@@ -120,9 +78,9 @@ namespace NewCRM.Repository.DataBaseProvider
             return cacheValue;
         }
 
-        public IEnumerable<T> QueryPages<T>(Expression<Func<T, Boolean>> entity, out Int32 totalCount, Int32 pageIndex, Int32 pageSize) where T : DomainModelBase, IAggregationRoot
+        public IEnumerable<T> QueryPage<T>(Specification<T> entity, out Int32 totalCount, Int32 pageIndex, Int32 pageSize) where T : DomainModelBase, IAggregationRoot
         {
-            String internalKey = entity.GeneratorRedisKey<T>();
+            String internalKey = entity.Expression.GeneratorRedisKey<T>();
 
             Int32 internalStart = (pageIndex - 1) * pageSize, internalEnd = (pageSize + internalStart) - 1;
 
@@ -132,7 +90,7 @@ namespace NewCRM.Repository.DataBaseProvider
 
             if (cacheValue == null || !cacheValue.Any())
             {
-                IList<T> value = EfContext.Set<T, Int32>().Where(entity).ToList();
+                IList<T> value = EfContext.Set<T, Int32>().Where(entity.Expression).ToList();
 
                 if (_cacheQueryProvider.KeyExists(internalKey))
                 {
@@ -150,6 +108,5 @@ namespace NewCRM.Repository.DataBaseProvider
             return cacheValue;
         }
 
-        #endregion
     }
 }

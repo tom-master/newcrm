@@ -10,15 +10,13 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     [Export(typeof(IModifyDockPostionServices))]
-    internal sealed class ModifyDockPostionServices : IModifyDockPostionServices
+    internal sealed class ModifyDockPostionServices : BaseServiceContext, IModifyDockPostionServices
     {
 
-        [Import]
-        public BaseServiceContext BaseContext { get; set; }
 
         public void ModifyDockPosition(Int32 defaultDeskNumber, String newPosition)
         {
-            var accountResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create((Account account) => account.Id == BaseContext.GetAccountId()));
+            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
 
             DockPostion dockPostion;
 
@@ -26,7 +24,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             {
                 if (dockPostion == DockPostion.None)
                 {
-                    var deskResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create<Desk>(desk => desk.DeskNumber == accountResult.Config.DefaultDeskNumber));
+                    var deskResult = DatabaseQuery.FindOne(FilterFactory.Create<Desk>(desk => desk.DeskNumber == accountResult.Config.DefaultDeskNumber));
 
                     var dockMembers = deskResult.Members.Where(member => member.IsOnDock).ToList();
 
@@ -37,7 +35,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                             f.OutDock();
                         });
 
-                        BaseContext.Repository.Create<Desk>().Update(deskResult);
+                        Repository.Create<Desk>().Update(deskResult);
                     }
 
                     accountResult.Config.ModifyDockPostion(dockPostion);
@@ -54,7 +52,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
             accountResult.Config.ModifyDefaultDesk(defaultDeskNumber);
 
-            BaseContext.Repository.Create<Account>().Update(accountResult);
+            Repository.Create<Account>().Update(accountResult);
 
         }
     }

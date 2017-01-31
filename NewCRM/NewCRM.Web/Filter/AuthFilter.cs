@@ -7,16 +7,8 @@ using NewCRM.Application.Interface;
 
 namespace NewCRM.Web.Filter
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class AuthFilterAttribute : FilterAttribute, IAuthorizationFilter
+    public class AuthFilter : IAuthorizationFilter
     {
-        [Import]
-        private IAccountApplicationServices AccountApplicationServices { get; set; }
-
-        [Import]
-        private ISecurityApplicationServices SecurityApplicationServices { get; set; }
-
-
         public void OnAuthorization(AuthorizationContext filterContext)
         {
 
@@ -39,11 +31,11 @@ namespace NewCRM.Web.Filter
                 return;
             }
 
-            var account = AccountApplicationServices.GetAccount();
+            var account = DependencyResolver.Current.GetService<IAccountApplicationServices>().GetAccount();
 
             var appId = Int32.Parse(filterContext.RequestContext.HttpContext.Request.Form["id"]);
 
-            var isPermission = SecurityApplicationServices.CheckPermissions(appId, account.Roles.Select(role => role.Id).ToArray());
+            var isPermission = DependencyResolver.Current.GetService<ISecurityApplicationServices>().CheckPermissions(appId, account.Roles.Select(role => role.Id).ToArray());
 
             if (!isPermission)
             {

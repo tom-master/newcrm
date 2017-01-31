@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
+using NewCRM.Domain.DomainSpecification.ConcreteSpecification;
 using NewCRM.Domain.Entitys;
+using NewCRM.Domain.Entitys.Agent;
 
 namespace NewCRM.Domain.DomainSpecification
 {

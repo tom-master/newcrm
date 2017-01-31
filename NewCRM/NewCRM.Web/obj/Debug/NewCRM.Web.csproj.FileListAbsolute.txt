@@ -57,8 +57,6 @@ E:\NewCRM\NewCRM\NewCRM.Web\bin\NewCRM.Web.dll.config
 E:\NewCRM\NewCRM\NewCRM.Web\bin\NewCRM.Web.dll
 E:\NewCRM\NewCRM\NewCRM.Web\bin\NewCRM.Web.pdb
 E:\NewCRM\NewCRM\NewCRM.Web\bin\Antlr3.Runtime.dll
-E:\NewCRM\NewCRM\NewCRM.Web\bin\Autofac.dll
-E:\NewCRM\NewCRM\NewCRM.Web\bin\Autofac.Integration.Mvc.dll
 E:\NewCRM\NewCRM\NewCRM.Web\bin\EntityFramework.dll
 E:\NewCRM\NewCRM\NewCRM.Web\bin\EntityFramework.SqlServer.dll
 E:\NewCRM\NewCRM\NewCRM.Web\bin\Microsoft.Web.Infrastructure.dll
@@ -80,8 +78,6 @@ E:\NewCRM\NewCRM\NewCRM.Web\bin\NewCRM.Application.Interface.pdb
 E:\NewCRM\NewCRM\NewCRM.Web\bin\NewCRM.Dto.pdb
 E:\NewCRM\NewCRM\NewCRM.Web\bin\NewCRM.Infrastructure.pdb
 E:\NewCRM\NewCRM\NewCRM.Web\bin\Antlr3.Runtime.pdb
-E:\NewCRM\NewCRM\NewCRM.Web\bin\Autofac.xml
-E:\NewCRM\NewCRM\NewCRM.Web\bin\Autofac.Integration.Mvc.xml
 E:\NewCRM\NewCRM\NewCRM.Web\bin\EntityFramework.xml
 E:\NewCRM\NewCRM\NewCRM.Web\bin\EntityFramework.SqlServer.xml
 E:\NewCRM\NewCRM\NewCRM.Web\bin\Newtonsoft.Json.xml

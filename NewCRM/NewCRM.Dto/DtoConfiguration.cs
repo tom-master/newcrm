@@ -76,6 +76,13 @@ namespace NewCRM.Dto
                 d.CreateMap<DeskDto, Desk>();
                 d.AddProfile<DeskDtoToDeskProfile>();
 
+                //Log
+                d.CreateMap<Log, LogDto>();
+                d.AddProfile<LogToLogDtoProfile>();
+
+                d.CreateMap<LogDto, Log>();
+                d.AddProfile<LogDtoToLogProfile>();
+
             });
 
             #region Member

@@ -34,5 +34,6 @@ namespace NewCRM.Domain.DomainSpecification.ConcreteSpecification
 
         public override void ResetOrderByExpressions() => OrderBy = null;
 
+   
     }
 }

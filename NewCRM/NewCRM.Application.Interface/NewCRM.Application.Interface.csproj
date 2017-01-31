@@ -47,6 +47,7 @@
     <Compile Include="IAccountApplicationServices.cs" />
     <Compile Include="IAppApplicationServices.cs" />
     <Compile Include="IDeskApplicationServices.cs" />
+    <Compile Include="ILoggerApplicationServices.cs" />
     <Compile Include="ISecurityApplicationServices.cs" />
     <Compile Include="ISkinApplicationServices.cs" />
     <Compile Include="IWallpaperApplicationServices.cs" />

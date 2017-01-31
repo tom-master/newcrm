@@ -6,18 +6,16 @@ using NewCRM.Domain.Interface.BoundedContextMember;
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     [Export(typeof(ICreateNewFolderServices))]
-    internal class CreateNewFolderServices : ICreateNewFolderServices
+    internal class CreateNewFolderServices : BaseServiceContext, ICreateNewFolderServices
     {
-        [Import]
-        public BaseServiceContext BaseContext { get; set; }
-
+  
         public void NewFolder(Int32 deskId, String folderName, String folderImg)
         {
             var newMember = new Member(folderName, folderImg, 0);
 
-            var desk = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create((Desk d) => d.Id == deskId));
+            var desk = DatabaseQuery.FindOne(FilterFactory.Create((Desk d) => d.Id == deskId));
 
-            BaseContext.Repository.Create<Desk>().Update(desk.AddMember(newMember));
+            Repository.Create<Desk>().Update(desk.AddMember(newMember));
         }
     }
 }

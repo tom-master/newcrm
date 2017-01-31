@@ -2,26 +2,24 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Interface.BoundedContextMember; 
+using NewCRM.Domain.Interface.BoundedContextMember;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     [Export(typeof(IInstallAppServices))]
-    internal sealed class InstallAppServices : IInstallAppServices
+    internal sealed class InstallAppServices : BaseServiceContext, IInstallAppServices
     {
 
-        [Import]
-        public BaseServiceContext BaseContext { get; set; }
 
         public void Install(Int32 appId, Int32 deskNum)
         {
-            var desks = BaseContext.Query.Find((Desk desk) => desk.AccountId == BaseContext.GetAccountId());
+            var desks = CacheQuery.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
 
             var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskNum).Id;
 
-            var appResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release && app.Id == appId));
+            var appResult = DatabaseQuery.FindOne(FilterFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release && app.Id == appId));
 
             if (appResult == null)
             {
@@ -38,10 +36,10 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                 }
 
                 desk.Members.Add(newMember);
-                BaseContext.Repository.Create<Desk>().Update(desk);
+                Repository.Create<Desk>().Update(desk);
 
                 appResult.AddUseCount();
-                BaseContext.Repository.Create<App>().Update(appResult);
+                Repository.Create<App>().Update(appResult);
 
                 break;
             }

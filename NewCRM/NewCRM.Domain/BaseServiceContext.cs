@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using NewCRM.Domain.DomainQuery.Query;
@@ -20,10 +21,16 @@ namespace NewCRM.Domain
         public IUnitOfWork UnitOfWork { get; set; }
 
         /// <summary>
-        /// 查询工厂
+        /// 数据库查询
         /// </summary>
-        [Import]
-        public IQuery Query { get; set; }
+        [Import("EF", typeof(IQuery))]
+        public IQuery DatabaseQuery { get; set; }
+
+        /// <summary>
+        /// 缓存查询
+        /// </summary>
+        [Import("Redis", typeof(IQuery))]
+        public IQuery CacheQuery { get; set; }
 
         /// <summary>
         /// 规约工厂
@@ -37,11 +44,10 @@ namespace NewCRM.Domain
         [Import]
         public RepositoryFactory Repository { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
         [Import("GetAccountId", typeof(Func<Int32>))]
-        public Func<Int32> GetAccountId { get; set; }
+        private Func<Int32> GetAccountId { get; set; }
+
+        public Int32 AccountId => GetAccountId();
 
         /// <summary>
         /// 参数验证

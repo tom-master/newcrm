@@ -28,7 +28,9 @@ namespace NewCRM.Web
                     HttpContext.Current.Items.Add(_httpContextKey, new CompositionContainer(_catalog));
                 }
                 CompositionContainer container = (CompositionContainer)HttpContext.Current.Items[_httpContextKey];
+
                 HttpContext.Current.Application["Container"] = container;
+
                 return container;
             }
         }
@@ -38,9 +40,8 @@ namespace NewCRM.Web
         public Object GetService(Type serviceType)
         {
             String contractName = AttributedModelServices.GetContractName(serviceType);
-            
-            return Container.GetExportedValueOrDefault<Object>(contractName);
 
+            return Container.GetExportedValueOrDefault<Object>(contractName);
         }
 
         public IEnumerable<Object> GetServices(Type serviceType)

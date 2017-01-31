@@ -11,14 +11,12 @@ using NewCRM.Domain.Entitys.Agent;
 namespace NewCRM.Application.Services
 {
     [Export(typeof(ISkinApplicationServices))]
-    internal class SkinApplicationServices : ISkinApplicationServices
+    internal class SkinApplicationServices : BaseServiceContext, ISkinApplicationServices
     {
-        [Import]
-        public BaseServiceContext BaseContext { get; set; }
 
         public IDictionary<String, dynamic> GetAllSkin(String skinPath)
         {
-            BaseContext.ValidateParameter.Validate(skinPath);
+            ValidateParameter.Validate(skinPath);
 
             IDictionary<String, dynamic> dataDictionary = new Dictionary<String, dynamic>();
 
@@ -39,15 +37,15 @@ namespace NewCRM.Application.Services
 
         public void ModifySkin(String newSkin)
         {
-            BaseContext.ValidateParameter.Validate(newSkin);
+            ValidateParameter.Validate(newSkin);
 
-            var accountResult = BaseContext.Query.FindOne(BaseContext.FilterFactory.Create((Account account) => account.Id == BaseContext.GetAccountId()));
+            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
 
             accountResult.Config.ModifySkin(newSkin);
 
-            BaseContext.Repository.Create<Account>().Update(accountResult);
+            Repository.Create<Account>().Update(accountResult);
 
-            BaseContext.UnitOfWork.Commit();
+            UnitOfWork.Commit();
         }
 
         #region private method
