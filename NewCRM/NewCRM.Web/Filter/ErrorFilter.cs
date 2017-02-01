@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Web.Mvc;
 using NewCRM.Application.Interface;
 using NewCRM.Dto.Dto;
@@ -16,9 +17,10 @@ namespace NewCRM.Web.Filter
             {
                 Action = filterContext.RouteData.Values["action"].ToString(),
                 Controller = filterContext.RouteData.Values["controller"].ToString(),
-                ExceptionMessage = filterContext.Exception.Message,
+                ExceptionMessage = filterContext.Exception.Message.Length > 20 ? "操作失败，请查看日志" : filterContext.Exception.Message,
                 Track = filterContext.Exception.StackTrace,
-                LogLevelEnum = 4
+                LogLevelEnum = 4,
+                Id = new Random().Next(1, Int32.MaxValue)
             };
 
             DependencyResolver.Current.GetService<ILoggerApplicationServices>().AddLogger(logger);

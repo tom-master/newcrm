@@ -32,11 +32,22 @@ namespace NewCRM.Domain.DomainQuery.EFConcreteQuery
 
         public IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount) where T : DomainModelBase, IAggregationRoot
         {
-            var query = _queryProvider.Query(specification);
+            var query = _queryProvider.Query(specification).OrderByDescending(d => d.AddTime);
 
             totalCount = query.Count();
 
-            return query.Take((pageIndex - 1) * pageSize).Take(pageSize);
+            var internalPageIndex = 0;
+
+            if (((pageIndex - 1) * pageSize) == 0)
+            {
+                internalPageIndex = 5;
+            }
+            else
+            {
+                internalPageIndex = (pageIndex - 1) * pageSize;
+            }
+
+            return query.Take(internalPageIndex).Take(pageSize);
         }
     }
 }

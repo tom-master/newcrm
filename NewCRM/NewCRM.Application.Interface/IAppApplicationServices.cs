@@ -45,7 +45,21 @@ namespace NewCRM.Application.Interface
         /// <param name="appStyleId"></param>
         /// <param name="appState"></param>
         /// <returns></returns>
-        List<AppDto> GetAllApps(Int32 appTypeId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount, Int32 orderId = default(Int32), Int32 accountId = default(Int32), Int32 appStyleId = default(Int32), String appState = default(String));
+        List<AppDto> GetAllApps(Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
+
+        /// <summary>
+        /// 获取用户的app
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="searchText"></param>
+        /// <param name="appTypeId"></param>
+        /// <param name="appStyleId"></param>
+        /// <param name="appState"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="totalCount"></param>
+        /// <returns></returns>
+        List<AppDto> GetAccountAllApps(Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
 
         /// <summary>
         /// 根据appId获取App

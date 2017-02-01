@@ -186,10 +186,11 @@
             var $appStates = $('#appState').find("option:selected");
 
             var appStateResult = '';
+
             if (parseInt($appStates.attr('value')) !== 0) {
                 appStateResult = $appStates.attr('data-type') + ',' + $appStates.attr('value');
             }
-
+             
             $.get('@Url.Action("GetAccountAllApps", "AppMarket")',
             {
                 searchText: $('#appName').val(),

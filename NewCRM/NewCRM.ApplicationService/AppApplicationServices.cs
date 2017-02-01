@@ -166,60 +166,23 @@ namespace NewCRM.Application.Services
 
         }
 
-        public List<AppDto> GetAllApps(Int32 appTypeId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount, Int32 orderId = default(Int32), Int32 accountId = default(Int32), Int32 appStyleId = default(Int32), String appState = default(String))
+        public List<AppDto> GetAllApps(Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
-            ValidateParameter.Validate(orderId, true).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
+            ValidateParameter.Validate(AccountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
 
-            var appSpecification = FilterFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release);
+            var filter = FilterFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release);
 
             #region 条件筛选
 
             if (appTypeId != 0 && appTypeId != -1)//全部app
             {
-                appSpecification.And(app => app.AppTypeId == appTypeId && app.AppTypeId == appTypeId);
+                filter.And(app => app.AppTypeId == appTypeId);
             }
             else
             {
                 if (appTypeId == -1)//用户制作的app
                 {
-                    appSpecification.And(app => app.AccountId == AccountId);
-                }
-            }
-
-            //应用所属类型
-            if (appTypeId != default(Int32))
-            {
-                appSpecification.And(app => app.AppTypeId == appTypeId);
-            }
-
-            //应用样式
-            if (appStyleId != default(Int32))
-            {
-
-                var appStyle = EnumExtensions.ParseToEnum<AppStyle>(1);
-
-                appSpecification.And(app => app.AppStyle == appStyle);
-
-            }
-
-            if (appState != default(String))
-            {
-                //app发布状态
-                var stats = appState.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-                if (stats[0] == "AppReleaseState")
-                {
-                    var appReleaseState = EnumExtensions.ParseToEnum<AppReleaseState>(Int32.Parse(stats[1]));
-
-                    appSpecification.And(app => app.AppReleaseState == appReleaseState);
-                }
-
-                //app应用审核状态
-                if (stats[0] == "AppAuditState")
-                {
-                    var appAuditState = EnumExtensions.ParseToEnum<AppAuditState>(Int32.Parse(stats[1]));
-
-                    appSpecification.And(app => app.AppAuditState == appAuditState);
+                    filter.And(app => app.AccountId == AccountId);
                 }
             }
 
@@ -227,37 +190,35 @@ namespace NewCRM.Application.Services
             {
                 case 1:
                     {
-                        appSpecification.OrderByDescending(app => app.AddTime);
+                        filter.OrderByDescending(app => app.AddTime);
                         break;
                     }
 
                 case 2:
                     {
-                        appSpecification.OrderByDescending(app => app.UseCount);
+                        filter.OrderByDescending(app => app.UseCount);
                         break;
                     }
 
                 case 3:
                     {
-                        appSpecification.OrderByDescending(app => app.AppStars.Sum(s => s.StartNum) * 1.0);
-                        break;
-                    }
-                default:
-                    {
+                        filter.OrderByDescending(app => app.AppStars.Sum(s => s.StartNum) * 1.0);
                         break;
                     }
             }
 
             if ((searchText + "").Length > 0)//关键字搜索
             {
-                appSpecification.And(app => app.Name.Contains(searchText));
+                filter.And(app => app.Name.Contains(searchText));
             }
 
             #endregion
 
+
             var appTypes = GetAppTypes();
 
-            var appDtoResult = DatabaseQuery.PageBy(appSpecification, pageIndex, pageSize, out totalCount).Select(app => new
+
+            var appDtoResult = DatabaseQuery.PageBy(filter, pageIndex, pageSize, out totalCount).Select(app => new
             {
                 app.AppTypeId,
                 app.AccountId,
@@ -269,14 +230,84 @@ namespace NewCRM.Application.Services
                 app.Remark,
                 app.AppStyle,
                 AppTypeName = appTypes.FirstOrDefault(appType => appType.Id == app.AppTypeId).Name,
-                app.Id,
-                app.IsRecommand,
-                IsCreater = app.AccountId == AccountId
+                app.Id
             }).ConvertDynamicToDtos<AppDto>().ToList();
 
             appDtoResult.ForEach(appDto => appDto.IsInstall = IsInstallApp(appDto.Id));
 
             return appDtoResult;
+
+        }
+
+        public List<AppDto> GetAccountAllApps(Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+        {
+            ValidateParameter.Validate(accountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
+
+            var specification = FilterFactory.Create<App>();
+
+            #region 条件筛选
+
+            if (accountId != default(Int32))
+            {
+                specification.And(app => app.AccountId == accountId);
+            }
+
+            //应用名称
+            if ((searchText + "").Length > 0)
+            {
+                specification.And(app => app.Name.Contains(searchText));
+            }
+
+            //应用所属类型
+            if (appTypeId != 0)
+            {
+                specification.And(app => app.AppTypeId == appTypeId);
+            }
+
+            //应用样式
+            if (appStyleId != 0)
+            {
+                var appStyle = EnumExtensions.ParseToEnum<AppStyle>(appStyleId);
+
+                specification.And(app => app.AppStyle == appStyle);
+            }
+
+            if ((appState + "").Length > 0)
+            {
+                //app发布状态
+                var stats = appState.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                if (stats[0] == "AppReleaseState")
+                {
+                    var appReleaseState = EnumExtensions.ParseToEnum<AppReleaseState>(Int32.Parse(stats[1]));
+
+                    specification.And(app => app.AppReleaseState == appReleaseState);
+                }
+
+                //app应用审核状态
+                if (stats[0] == "AppAuditState")
+                {
+                    var appAuditState = EnumExtensions.ParseToEnum<AppAuditState>(Int32.Parse(stats[1]));
+
+                    specification.And(app => app.AppAuditState == appAuditState);
+                }
+            }
+
+            #endregion
+
+            var appTypes = GetAppTypes();
+
+            return DatabaseQuery.PageBy(specification, pageIndex, pageSize, out totalCount).Select(app => new
+            {
+                app.Name,
+                app.AppStyle,
+                AppTypeName = appTypes.FirstOrDefault(appType => appType.Id == app.AppTypeId).Name,
+                app.UseCount,
+                app.Id,
+                app.IconUrl,
+                app.AppAuditState,
+                app.IsRecommand,
+                IsCreater = app.AccountId == AccountId
+            }).ConvertDynamicToDtos<AppDto>().ToList();
 
         }
 

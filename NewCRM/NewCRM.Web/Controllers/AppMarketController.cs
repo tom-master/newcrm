@@ -118,7 +118,7 @@ namespace NewCRM.Web.Controllers
         {
             Int32 totalCount;
 
-            var appResults = _appApplicationServices.GetAllApps(appTypeId, searchText, pageIndex, pageSize, out totalCount, orderId);
+            var appResults = _appApplicationServices.GetAllApps(appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
 
             return Json(new
             {
@@ -166,7 +166,7 @@ namespace NewCRM.Web.Controllers
         {
             Int32 totalCount;
 
-            var appResults = _appApplicationServices.GetAllApps(appTypeId, searchText, pageIndex, pageSize, out totalCount, 0, AccountDto.Id, appStyleId, appState);
+            var appResults = _appApplicationServices.GetAccountAllApps(AccountDto.Id,searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
 
             return Json(new
             {

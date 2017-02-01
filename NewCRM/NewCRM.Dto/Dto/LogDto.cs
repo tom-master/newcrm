@@ -33,5 +33,10 @@ namespace NewCRM.Dto.Dto
         /// 用户id
         /// </summary>
         public Int32 AccountId { get; set; }
+
+        /// <summary>
+        /// 添加时间
+        /// </summary>
+        public String AddTime { get; set; }
     }
 }

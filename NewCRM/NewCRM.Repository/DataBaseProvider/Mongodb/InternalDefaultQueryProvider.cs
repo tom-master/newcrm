@@ -14,7 +14,7 @@ namespace NewCRM.Repository.DataBaseProvider.Mongodb
 
         public IQueryable<T> Query<T>(Specification<T> selector) where T : DomainModelBase, IAggregationRoot
         {
-            return _mongoServiceApi.FindAll<T>();
+            return _mongoServiceApi.FindAll<T>().Where(selector.Expression);
         }
     }
 }

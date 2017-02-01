@@ -9,7 +9,6 @@ using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
-using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Application.Services

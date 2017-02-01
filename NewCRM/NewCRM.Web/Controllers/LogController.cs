@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using NewCRM.Application.Interface;
 using NewCRM.Web.Controllers.ControllerHelper;
@@ -28,10 +25,17 @@ namespace NewCRM.Web.Controllers
         }
 
 
-        public ActionResult GetAllLog(Int32 pageIndex, Int32 pageSize)
+        public ActionResult GetAllLog(Int32 loglevel, Int32 pageIndex, Int32 pageSize)
         {
+            Int32 totalCount;
 
-            return null;
+            var logResult = _loggerApplicationServices.GetAllLog(loglevel, pageIndex, pageSize, out totalCount);
+
+            return Json(new
+            {
+                logs = logResult,
+                totalCount
+            }, JsonRequestBehavior.AllowGet);
         }
     }
 }

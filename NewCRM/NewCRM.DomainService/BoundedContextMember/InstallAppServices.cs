@@ -13,7 +13,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
     {
         public void Install(Int32 appId, Int32 deskNum)
         {
-            var desks = CacheQuery.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
+            var desks = DatabaseQuery.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
 
             var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskNum).Id;
 
