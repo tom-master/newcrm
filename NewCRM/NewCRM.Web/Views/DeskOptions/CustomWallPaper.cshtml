@@ -17,16 +17,11 @@
     <div class="fr">
         <label>显示方式：</label>
         <select name="wallpapertype" id="wallpapertype" style="width: 100px">
-            <option name="fill" value="fill" @{ if (accountConfig.WallpaperMode == "Fill")
-                { <text> selected="selected" </text>               } }>填充</option>
-            <option name="adapted" value="adapted" @{if (accountConfig.WallpaperMode == "Adapted")
-                { <text> selected="selected" </text>              }}>适应</option>
-            <option name="tile" value="tile" @{ if (accountConfig.WallpaperMode == "Tile")
-                { <text> selected="selected" </text>              } }>平铺</option>
-            <option name="draw" value="draw" @{ if (accountConfig.WallpaperMode == "Draw")
-                { <text> selected="selected" </text>              } }>拉伸</option>
-            <option name="center" value="center" @{ if (accountConfig.WallpaperMode == "Center")
-                { <text> selected="selected" </text>              } }>居中</option>
+            <option name="fill" value="fill" @{ if (accountConfig.WallpaperMode == "Fill") { <text> selected="selected" </text>                } }>填充</option>
+            <option name="adapted" value="adapted" @{if (accountConfig.WallpaperMode == "Adapted") { <text> selected="selected" </text>               }}>适应</option>
+            <option name="tile" value="tile" @{ if (accountConfig.WallpaperMode == "Tile") { <text> selected="selected" </text>               } }>平铺</option>
+            <option name="draw" value="draw" @{ if (accountConfig.WallpaperMode == "Draw") { <text> selected="selected" </text>               } }>拉伸</option>
+            <option name="center" value="center" @{ if (accountConfig.WallpaperMode == "Center") { <text> selected="selected" </text>               } }>居中</option>
         </select>
     </div>
 </div>
@@ -104,13 +99,17 @@
                 event.stopPropagation();
                 var id = $(this).parent().attr('id');
                 $.post("@Url.Action("DeleteWallPaper", "DeskOptions")", { wallPaperId: id }, function (responseText) {
-
-                    if (typeof responseText.success !== 'undefined') {
-                        ZENG.msgbox.show('壁纸移除成功', 5, 2000);
-                        $('#' + id).remove();
+                    if (typeof responseText.js !== 'undefined') {
+                        $('body').append(responseText.js);
                     } else {
-                        ZENG.msgbox.show('当前壁纸正在使用或已被删除', 5, 2000);
+                        if (typeof responseText.success !== 'undefined') {
+                            ZENG.msgbox.show('壁纸移除成功', 5, 2000);
+                            $('#' + id).remove();
+                        } else {
+                            ZENG.msgbox.show('当前壁纸正在使用或已被删除', 5, 2000);
+                        }
                     }
+
                 });
             });
 
@@ -124,13 +123,18 @@
 
         function GetAllUploadWallPaper() {
             $.get("@Url.Action("GetAllUploadWallPaper", "DeskOptions")", function (responseText) {
-                if (typeof responseText.wallPapers !== 'undefined') {
-                    var liElement = '';
-                    $.each(responseText.wallPapers, function (k, v) {
-                        liElement += '<li id="' + v.Id + '" style="background:url(' + v.ShortUrl + ')"><a href="javascript:;">删 除</a></li>';
-                    });
-                    $('.view').children('ul').append(liElement);
+                if (typeof responseText.js !== 'undefined') {
+                    $('body').append(responseText.js);
+                } else {
+                    if (typeof responseText.wallPapers !== 'undefined') {
+                        var liElement = '';
+                        $.each(responseText.wallPapers, function (k, v) {
+                            liElement += '<li id="' + v.Id + '" style="background:url(' + v.ShortUrl + ')"><a href="javascript:;">删 除</a></li>';
+                        });
+                        $('.view').children('ul').append(liElement);
+                    }
                 }
+                
             });
         }
 

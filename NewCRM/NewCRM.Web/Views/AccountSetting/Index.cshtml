@@ -154,7 +154,7 @@
             },
             ajaxPost: true,
             callback: function (data) {
-                if (data.status == 'y') {
+                if (data.status === 'y') {
                     window.parent.ZENG.msgbox.show('操作成功', 4, 2000);
                 } else {
                     window.parent.ZENG.msgbox.show('操作失败', 5, 2000);

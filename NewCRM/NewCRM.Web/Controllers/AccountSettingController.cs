@@ -94,16 +94,15 @@ namespace NewCRM.Web.Controllers
 
             var result = _accountApplicationServices.CheckPassword(param);
 
-            return Json(
-                result ? new
-                {
-                    status = "y",
-                    info = ""
-                } : new
-                {
-                    status = "n",
-                    info = "原始密码错误"
-                });
+            return Json(result ? new
+            {
+                status = "y",
+                info = ""
+            } : new
+            {
+                status = "n",
+                info = "原始密码错误"
+            });
         }
 
 

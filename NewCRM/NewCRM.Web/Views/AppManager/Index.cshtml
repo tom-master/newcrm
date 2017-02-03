@@ -20,7 +20,6 @@
     </style>
 }
 
-
 <div class="well well-small" style="margin-bottom:10px;padding-bottom:0">
     <div class="form-inline">
         <div class="control-group">
@@ -120,18 +119,18 @@
             </td>
             {{else}}
             <td>
-                
+
                 {{#recommand IsRecommand true}}
-                    <a href="javascript:;" class="btn btn-link do-recommend" appid="{{Id}}">今日推荐</a>
+                <a href="javascript:;" class="btn btn-link do-recommend" appid="{{Id}}">今日推荐</a>
                 {{else}}
-                    <a href="javascript:;" class="btn btn-link do-recommend" appid="{{Id}}">设为今日推荐</a>
+                <a href="javascript:;" class="btn btn-link do-recommend" appid="{{Id}}">设为今日推荐</a>
                 {{/recommand}}
                 <a href="javascript:openDetailIframe('@Url.Action("AccountAppManageInfo", "AppMarket")?appId={{Id}}');" class="btn btn-link">查看详情</a>
-                
+
                 {{#creater IsCreater true}}
-                    <a href="javascript:;" class="btn btn-link do-del" appid="{{Id}}">删除</a>
+                <a href="javascript:;" class="btn btn-link do-del" appid="{{Id}}">删除</a>
                 {{/creater}}
-                 
+
             </td>
             {{/compare}}
         </tr>
@@ -140,37 +139,41 @@
 
 
     <script>
-        $(function() {
+        $(function () {
             //加载列表
             getPageList(0);
             //删除，推荐
-            $('.list-con').on('click', '.do-del', function() {
+            $('.list-con').on('click', '.do-del', function () {
                 var appid = $(this).attr('appid');
                 var appname = $(this).parents('tr').children('td:nth-child(2)').text();
                 $.dialog({
                     id: 'del',
                     content: '确定要删除 “' + appname + '” 该应用么？',
-                    ok: function() {
+                    ok: function () {
                         $.ajax({
                             type: 'POST',
                             url: 'index.ajax.php',
                             data: 'ac=del&appid=' + appid
-                        }).done(function() {
+                        }).done(function () {
                             $('#pagination').trigger('currentPage');
                         });
                     },
                     cancel: true
                 });
-            }).on('click', '.do-recommend', function() {
+            }).on('click', '.do-recommend', function () {
                 var appid = $(this).attr('appid');
 
-                $.post('@Url.Action("Recommend", "AppManager")', { appId: appid }, function(responseText) {
-                    $('#pagination').trigger('currentPage');
+                $.post('@Url.Action("Recommend", "AppManager")', { appId: appid }, function (responseText) {
+                    if (typeof responseText.js !== 'undefined') {
+                        $('body').append(responseText.js);
+                    } else {
+                        $('#pagination').trigger('currentPage');
+                    }
                 });
-                
+
             });
             //搜索
-            $('a[menu=search]').click(function() {
+            $('a[menu=search]').click(function () {
                 getPageList(0);
             });
         });
@@ -204,7 +207,7 @@
                 appState: appStateResult,
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 7
-            }, function(responseText) {
+            }, function (responseText) {
 
                 ZENG.msgbox.hide();
                 var tableTemplate = Handlebars.compile($("#table-template").html());
@@ -214,7 +217,7 @@
                 initPagination(current_page);
             });
 
-            Handlebars.registerHelper('convertstyle', function(appStyle) {
+            Handlebars.registerHelper('convertstyle', function (appStyle) {
                 if (appStyle === 1) {
                     return '应用';
                 } else {
@@ -222,7 +225,7 @@
                 }
             });
 
-            Handlebars.registerHelper("compare", function(v1, v2, options) {
+            Handlebars.registerHelper("compare", function (v1, v2, options) {
                 if (v1 === v2 || v1 === 4) {
                     //满足添加继续执行
                     return options.fn(this);
@@ -232,7 +235,7 @@
                 }
             });
 
-            Handlebars.registerHelper("recommand", function(v1, v2, options) {
+            Handlebars.registerHelper("recommand", function (v1, v2, options) {
                 if (v1 === v2) {
                     //满足添加继续执行
                     return options.fn(this);

@@ -177,13 +177,18 @@
                 },
                 ajaxPost: true,
                 callback: function (responseText) {
-                    if (typeof responseText.success!=='undefined') {
-                        ZENG.msgbox.show('修改成功', 4, 2000);
-                        setTimeout(function () {
-                            window.parent.HROS.app.get();
-                            window.parent.$.dialog.list['editdialog'].close();
-                        }, 1000);
+                    if (typeof responseText.js !== 'undefined') {
+                        $('body').append(responseText.js);
+                    } else {
+                        if (typeof responseText.success !== 'undefined') {
+                            ZENG.msgbox.show('修改成功', 4, 2000);
+                            setTimeout(function () {
+                                window.parent.HROS.app.get();
+                                window.parent.$.dialog.list['editdialog'].close();
+                            }, 1000);
+                        }
                     }
+                    
                 }
             });
             $('input[name="val_isresize"]').change(function() {
