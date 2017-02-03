@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Entitys.System
 {
@@ -12,7 +13,7 @@ namespace NewCRM.Domain.Entitys.System
         {
             if (member == null)
             {
-                throw new ArgumentNullException($"{nameof(member)}不能为空");
+                throw new BusinessException($"{nameof(member)}不能为空");
             }
 
             Members.Add(member);
@@ -24,7 +25,7 @@ namespace NewCRM.Domain.Entitys.System
         {
             if (memberId <= 0)
             {
-                throw new ArgumentNullException($"{nameof(memberId)}不能为0");
+                throw new BusinessException($"{nameof(memberId)}不能为0");
             }
 
             Members.Where(member => member.Id == memberId).ToList().ForEach(m => { m.Remove(); });

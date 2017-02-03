@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Infrastructure.CommonTools.CustomExtension
 {
@@ -12,7 +13,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         {
             if (source == null)
             {
-                throw new ArgumentNullException($"{nameof(source)}不能为空");
+                throw new BusinessException($"{nameof(source)}不能为空");
             }
 
             return source.OrderByDesc(sort).Skip((pageIndex - 1) * pageSize).Take(pageSize);
@@ -22,11 +23,11 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         {
             if (source == null)
             {
-                throw new ArgumentNullException("source");
+                throw new BusinessException($"{nameof(source)}不能为空");
             }
             if (keySelector == null)
             {
-                throw new ArgumentNullException("keySelector");
+                throw new BusinessException($"{nameof(keySelector)}不能为空");
             }
 
             Expression body = keySelector.Body;

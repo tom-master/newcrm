@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Infrastructure.CommonTools
 {
@@ -68,7 +69,7 @@ namespace NewCRM.Infrastructure.CommonTools
         {
             if (array2 == null)
             {
-                throw new ArgumentNullException("array2");
+                throw new BusinessException("array2");
             }
             if (array1.Count != array2.Count)
             {

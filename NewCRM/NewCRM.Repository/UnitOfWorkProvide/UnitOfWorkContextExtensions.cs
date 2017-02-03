@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using NewCRM.Domain.Entitys;
+using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Repository.UnitOfWorkProvide
 {
@@ -17,8 +18,15 @@ namespace NewCRM.Repository.UnitOfWorkProvide
     {
         internal static void Update<T, TKey>(this DbContext dbContext, params T[] entities) where T : DomainModelBase
         {
-            if (dbContext == null) throw new ArgumentNullException($"{nameof(dbContext)}");
-            if (entities == null) throw new ArgumentNullException($"{nameof(entities)}");
+            if (dbContext == null)
+            {
+                throw new BusinessException($"{nameof(dbContext)}：不能为空");
+            }
+
+            if (entities == null)
+            {
+                throw new BusinessException($"{nameof(entities)}：不能为空");
+            }
 
             foreach (T entity in entities)
             {
@@ -26,7 +34,7 @@ namespace NewCRM.Repository.UnitOfWorkProvide
                 try
                 {
                     DbEntityEntry<T> entry = dbContext.Entry(entity);
-                    
+
                     if (entry.State == EntityState.Detached)
                     {
                         dbSet.Attach(entity);
@@ -48,9 +56,18 @@ namespace NewCRM.Repository.UnitOfWorkProvide
         internal static void Update<T, TKey>(this DbContext dbContext, Expression<Func<T, Object>> propertyExpression, params T[] entities)
             where T : DomainModelBase
         {
-            if (propertyExpression == null) throw new ArgumentNullException($"{nameof(propertyExpression)}");
-            if (entities == null) throw new ArgumentNullException($"{nameof(entities)}");
+            if (propertyExpression == null)
+            {
+                throw new BusinessException($"{nameof(propertyExpression)}：不能为空");
+            }
+
+            if (entities == null)
+            {
+                throw new BusinessException($"{nameof(entities)}：不能为空");
+            }
+
             ReadOnlyCollection<MemberInfo> memberInfos = ((dynamic)propertyExpression.Body).Members;
+
             foreach (T entity in entities)
             {
                 DbSet<T> dbSet = dbContext.Set<T>();

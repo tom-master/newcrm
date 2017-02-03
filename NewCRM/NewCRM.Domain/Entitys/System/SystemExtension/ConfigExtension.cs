@@ -104,7 +104,7 @@ namespace NewCRM.Domain.Entitys.System
         {
             if (newWallpaper == null)
             {
-                throw new ArgumentNullException($"{nameof(newWallpaper)}不能为空");
+                throw new BusinessException($"{nameof(newWallpaper)}不能为空");
             }
             Wallpaper = newWallpaper;
             return this;

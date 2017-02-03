@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Entitys.Agent
 {
@@ -55,7 +56,7 @@ namespace NewCRM.Domain.Entitys.Agent
         {
             if (newTitle == null)
             {
-                throw new ArgumentNullException($"{nameof(newTitle)}:不能为空");
+                throw new BusinessException($"{nameof(newTitle)}:不能为空");
             }
             Title = newTitle;
             return this;
@@ -69,7 +70,7 @@ namespace NewCRM.Domain.Entitys.Agent
         {
             if (roleIds == null)
             {
-                throw new ArgumentNullException($"{nameof(roleIds)}:不能为空");
+                throw new BusinessException($"{nameof(roleIds)}:不能为空");
             }
 
             if (!roleIds.Any())
@@ -94,7 +95,7 @@ namespace NewCRM.Domain.Entitys.Agent
         {
             if (roleIds == null)
             {
-                throw new ArgumentNullException($"{nameof(roleIds)}:不能为空");
+                throw new BusinessException($"{nameof(roleIds)}:不能为空");
             }
             if (!roleIds.Any())
             {

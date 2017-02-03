@@ -60,10 +60,7 @@
     <Compile Include="CommonTools\CustomExtension\PropertySortCondition.cs" />
     <Compile Include="CommonTools\CustomExtension\QueryExtensions.cs" />
     <Compile Include="CommonTools\CustomExtension\TypeExtensions.cs" />
-    <Compile Include="CommonTools\CustomHelper\DataBaseErrorType.cs" />
-    <Compile Include="CommonTools\CustomHelper\DataBaseErrorResponse.cs" />
     <Compile Include="CommonTools\CustomHelper\Parameter.cs" />
-    <Compile Include="CommonTools\CustomHelper\SerializeHepler.cs" />
     <Compile Include="CommonTools\CustomHelper\StringHelper.cs" />
     <Compile Include="CommonTools\FileHelper.cs" />
     <Compile Include="CommonTools\FileUpLoadHelper.cs" />

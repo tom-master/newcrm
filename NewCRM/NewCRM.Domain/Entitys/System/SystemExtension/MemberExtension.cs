@@ -1,4 +1,5 @@
 ﻿using System;
+using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Entitys.System
 {

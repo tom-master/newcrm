@@ -2,6 +2,7 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Infrastructure.CommonTools
 {
@@ -16,7 +17,7 @@ namespace NewCRM.Infrastructure.CommonTools
         {
             if (stream == null)
             {
-                throw new ArgumentNullException("stream is null");
+                throw new BusinessException("流不能为空");
             }
             var md5 = new MD5CryptoServiceProvider();
             md5.ComputeHash(stream);
@@ -27,7 +28,7 @@ namespace NewCRM.Infrastructure.CommonTools
             {
                 sb.Append(t.ToString("X2"));
             }
-            
+
             return sb.ToString();
         }
     }

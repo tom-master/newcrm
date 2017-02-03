@@ -40,11 +40,11 @@ namespace NewCRM.Domain.Entitys.Security
         {
             if (powerIds == null)
             {
-                throw new ArgumentNullException($"{nameof(powerIds)}不能为空");
+                throw new BusinessException($"{nameof(powerIds)}不能为空");
             }
             if (!powerIds.Any())
             {
-                throw new ArgumentNullException($"{nameof(powerIds)}不能为0");
+                throw new BusinessException($"{nameof(powerIds)}不能为0");
             }
             foreach (var powerid in powerIds)
             {
@@ -65,12 +65,12 @@ namespace NewCRM.Domain.Entitys.Security
         {
             if (powerIds == null)
             {
-                throw new ArgumentNullException($"{nameof(powerIds)}不能为空");
+                throw new BusinessException($"{nameof(powerIds)}不能为空");
             }
 
             if (!powerIds.Any())
             {
-                throw new ArgumentNullException($"{nameof(powerIds)}不能为0");
+                throw new BusinessException($"{nameof(powerIds)}不能为0");
             }
 
             foreach (var powerId in powerIds)
