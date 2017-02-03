@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Entitys.Security
 {
@@ -105,7 +106,7 @@ namespace NewCRM.Domain.Entitys.Security
         {
             if (!appIds.Any())
             {
-                throw new ArgumentException($"对不起，您没有访问的权限！");
+                throw new BusinessException($"对不起，您没有访问的权限！");
             }
 
             return appIds.Any(appId =>

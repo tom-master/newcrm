@@ -1,5 +1,6 @@
 ﻿using System;
 using NewCRM.Domain.ValueObject;
+using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Entitys.System
 {
@@ -117,7 +118,7 @@ namespace NewCRM.Domain.Entitys.System
         {
             if (deskNumber > _maxDeskNumber)
             {
-                throw new ArgumentException("设置的默认显示桌面号不能超出当前所有可用的桌面总数");
+                throw new BusinessException("设置的默认显示桌面号不能超出当前所有可用的桌面总数");
             }
 
             DefaultDeskNumber = deskNumber;
@@ -134,7 +135,7 @@ namespace NewCRM.Domain.Entitys.System
         {
             if ((DefaultDeskCount + deskNumber) > _maxDeskNumber)
             {
-                throw new ArgumentException("设置的默认显示桌面号不能超出当前所有可用的桌面总数");
+                throw new BusinessException("设置的默认显示桌面号不能超出当前所有可用的桌面总数");
             }
 
             DefaultDeskCount += deskNumber;

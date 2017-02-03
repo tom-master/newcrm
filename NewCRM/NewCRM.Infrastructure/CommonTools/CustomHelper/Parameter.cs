@@ -63,7 +63,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
                             {
                                 var internalField = propertyInfo.Name;
 
-                                throw new ArgumentException($"字段:{internalField}值不能为空");
+                                throw new BusinessException($"字段:{internalField}值不能为空");
                             }
                         }
                     }
@@ -76,7 +76,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
                         {
                             var internalField = propertyInfo.Name;
 
-                            throw new ArgumentException($"字段:{internalField}值长度不能超过:{contentLength}");
+                            throw new BusinessException($"字段:{internalField}值长度不能超过:{contentLength}");
                         }
                     }
                 }
@@ -102,7 +102,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
 
                 if (flag)
                 {
-                    throw ThrowComponentException($"参数 {parameter.GetType().Name} 不在有效范围内引发异常。具体信息请查看系统日志。", new ArgumentOutOfRangeException(parameter.GetType().Name));
+                    throw ThrowComponentException($"参数 {parameter.GetType().Name} 不在有效范围内引发异常。具体信息请查看系统日志。", new BusinessException(parameter.GetType().Name));
                 }
             }
 

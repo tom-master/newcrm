@@ -40,7 +40,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
                     msg = "未知错误。";
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(dataBaseErrorType), dataBaseErrorType, null);
+                    throw new BusinessException(nameof(dataBaseErrorType), dataBaseErrorType, null);
             }
             return msg;
         }

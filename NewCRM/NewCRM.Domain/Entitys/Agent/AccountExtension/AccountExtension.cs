@@ -74,7 +74,7 @@ namespace NewCRM.Domain.Entitys.Agent
 
             if (!roleIds.Any())
             {
-                throw new ArgumentOutOfRangeException($"{nameof(roleIds)}:不能为0");
+                throw new BusinessException($"{nameof(roleIds)}:不能为0");
             }
 
             foreach (var roleId in roleIds)
@@ -98,7 +98,7 @@ namespace NewCRM.Domain.Entitys.Agent
             }
             if (!roleIds.Any())
             {
-                throw new ArgumentOutOfRangeException($"{nameof(roleIds)}:不能为0");
+                throw new BusinessException($"{nameof(roleIds)}:不能为0");
             }
             foreach (var roleId in roleIds)
             {

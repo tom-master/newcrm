@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NewCRM.Domain.ValueObject;
+using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Entitys.System
 {
@@ -36,17 +37,17 @@ namespace NewCRM.Domain.Entitys.System
         {
             if (accountId <= 0)
             {
-                throw new ArgumentOutOfRangeException($"{nameof(accountId)}:不能为0");
+                throw new BusinessException($"{nameof(accountId)}:不能为0");
             }
 
             if (startCount <= 0)
             {
-                throw new ArgumentOutOfRangeException($"{nameof(startCount)}:不能为0");
+                throw new BusinessException($"{nameof(startCount)}:不能为0");
             }
 
             if (AppStars.Any(appStar => appStar.AccountId == accountId))
             {
-                throw new ArgumentException($"您已对这个应用打过分");
+                throw new BusinessException("您已对这个应用打过分");
             }
 
             var score = startCount * 1.0;
@@ -65,7 +66,7 @@ namespace NewCRM.Domain.Entitys.System
         {
             if (accountId <= 0)
             {
-                throw new ArgumentOutOfRangeException($"{nameof(accountId)}:不能为0");
+                throw new BusinessException($"{nameof(accountId)}:不能为0");
             }
 
             var appStar = AppStars.FirstOrDefault(star => star.AccountId == accountId);
@@ -133,7 +134,7 @@ namespace NewCRM.Domain.Entitys.System
         {
             if (width <= 0)
             {
-                throw new ArgumentOutOfRangeException($"app宽不能小于或等于0");
+                throw new BusinessException($"app宽不能小于或等于0");
             }
             Width = width;
             return this;
@@ -148,7 +149,7 @@ namespace NewCRM.Domain.Entitys.System
         {
             if (height <= 0)
             {
-                throw new ArgumentOutOfRangeException($"app的高不能小于或等于0");
+                throw new BusinessException($"app的高不能小于或等于0");
             }
 
             Height = height;
@@ -165,7 +166,7 @@ namespace NewCRM.Domain.Entitys.System
         {
             if ((newUrl + "").Length <= 0)
             {
-                throw new ArgumentOutOfRangeException($"app的url：{newUrl}不能为空");
+                throw new BusinessException($"app的url：{newUrl}不能为空");
             }
 
             AppUrl = newUrl;
@@ -181,7 +182,7 @@ namespace NewCRM.Domain.Entitys.System
         {
             if ((newIconUrl + "").Length <= 0)
             {
-                throw new ArgumentOutOfRangeException($"app的图标路径:{newIconUrl}不能为空");
+                throw new BusinessException($"app的图标路径:{newIconUrl}不能为空");
             }
 
             IconUrl = newIconUrl;
@@ -297,7 +298,7 @@ namespace NewCRM.Domain.Entitys.System
         {
             if (appTypeId <= 0)
             {
-                throw new ArgumentOutOfRangeException($"应用类型不能为空");
+                throw new BusinessException($"应用类型不能为空");
             }
             AppTypeId = appTypeId;
             return this;

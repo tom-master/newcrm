@@ -142,7 +142,7 @@ namespace NewCRM.Domain.Entitys.System
         {
             if (folderId <= 0)
             {
-                throw new ArgumentOutOfRangeException($"{nameof(folderId)}:不能为0");
+                throw new BusinessException($"{nameof(folderId)}:不能为0");
             }
             FolderId = folderId;
             return this;
@@ -194,7 +194,7 @@ namespace NewCRM.Domain.Entitys.System
         {
             if (deskId <= 0)
             {
-                throw new ArgumentOutOfRangeException($"{nameof(deskId)}:不能为0");
+                throw new BusinessException($"{nameof(deskId)}:不能为0");
             }
 
             DeskId = deskId;
