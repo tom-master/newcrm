@@ -23,6 +23,9 @@ namespace NewCRM.Dto.Dto
         [Required(AllowEmptyStrings = true)]
         public String Password { get; set; }
 
+        /// <summary>
+        /// 锁屏密码
+        /// </summary>
         [Required(AllowEmptyStrings = true)]
         public String LockScreenPassword { get; set; }
 
@@ -32,13 +35,20 @@ namespace NewCRM.Dto.Dto
         [Required(AllowEmptyStrings = true), StringLength(3)]
         public Boolean IsAdmin { get; set; }
 
+        /// <summary>
+        /// 头像
+        /// </summary>
         public String AccountFace { get; set; }
-
 
         /// <summary>
         /// 用户角色Id
         /// </summary>
         public List<RoleDto> Roles { get; set; }
+
+        /// <summary>
+        /// 是否禁用
+        /// </summary>
+        public Boolean IsDisable { get; set; }
 
         public String AddTime { get; set; }
 

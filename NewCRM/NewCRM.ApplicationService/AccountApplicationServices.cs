@@ -93,7 +93,8 @@ namespace NewCRM.Application.Services
                 account.Id,
                 AccountType = account.IsAdmin ? "2" /*管理员*/ : "1" /*用户*/,
                 account.Name,
-                account.Config.AccountFace
+                account.Config.AccountFace,
+                account.IsDisable
             }).ConvertDynamicToDtos<AccountDto>().ToList();
 
         }
@@ -203,9 +204,11 @@ namespace NewCRM.Application.Services
             UnitOfWork.Commit();
         }
 
-        public void Enable()
+        public void Enable(Int32 accountId)
         {
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+            ValidateParameter.Validate(accountId);
+
+            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
 
             if (accountResult == null)
             {
@@ -220,13 +223,15 @@ namespace NewCRM.Application.Services
 
         }
 
-        public void Disable()
+        public void Disable(Int32 accountId)
         {
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+            ValidateParameter.Validate(accountId);
 
-            if (accountResult == null)
+            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
+
+            if (accountResult.IsAdmin)
             {
-                throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
+                throw new BusinessException($"不能禁用管理员:{accountResult.Name}");
             }
 
             accountResult.Disable();
@@ -275,6 +280,18 @@ namespace NewCRM.Application.Services
             UnitOfWork.Commit();
         }
 
+        public void RemoveAccount(Int32 accountId)
+        {
+            ValidateParameter.Validate(accountId);
 
+            var internalAccount = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
+
+            if (internalAccount.IsAdmin)
+            {
+                throw new BusinessException($"不能删除管理员:{internalAccount.Name}");
+            }
+
+            internalAccount.Remove();
+        }
     }
 }

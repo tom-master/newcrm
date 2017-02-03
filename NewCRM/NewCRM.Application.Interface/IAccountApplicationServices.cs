@@ -88,23 +88,26 @@ namespace NewCRM.Application.Interface
         /// </summary>
         /// <param name="account"></param>
         void AddNewAccount(AccountDto account);
+
         /// <summary>
         /// 用户登出
         /// </summary>
-
         void Logout();
 
         /// <summary>
         /// 用户启用
         /// </summary>
-
-        void Enable();
+        void Enable(Int32 accountId);
 
         /// <summary>
         /// 用户禁用
         /// </summary>
+        void Disable(Int32 accountId);
 
-        void Disable();
+        /// <summary>
+        /// 删除账户
+        /// </summary>
+        void RemoveAccount(Int32 accountId);
 
         #endregion
 

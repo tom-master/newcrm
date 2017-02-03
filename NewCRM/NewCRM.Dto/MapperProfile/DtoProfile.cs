@@ -45,7 +45,8 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(account => account.Id, dto => dto.MapFrom(d => d.Id))
                 .ForMember(account => account.LoginPassword, dto => dto.MapFrom(d => d.Password))
                 .ForMember(account => account.IsAdmin, dto => dto.MapFrom(d => d.IsAdmin))
-                .ForMember(account => account.AccountRoles, dto => dto.MapFrom(d => d.Roles));
+                .ForMember(account => account.AccountRoles, dto => dto.MapFrom(d => d.Roles))
+                .ForMember(dto => dto.IsDisable, account => account.MapFrom(u => u.IsDisable));
         }
     }
 

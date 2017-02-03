@@ -127,9 +127,9 @@
                 {{/recommand}}
                 <a href="javascript:openDetailIframe('@Url.Action("AccountAppManageInfo", "AppMarket")?appId={{Id}}');" class="btn btn-link">查看详情</a>
 
-                {{#creater IsCreater true}}
+                {{#if IsCreater}}
                 <a href="javascript:;" class="btn btn-link do-del" appid="{{Id}}">删除</a>
-                {{/creater}}
+                {{/if}}
 
             </td>
             {{/compare}}
@@ -150,12 +150,14 @@
                     id: 'del',
                     content: '确定要删除 “' + appname + '” 该应用么？',
                     ok: function () {
-                        $.ajax({
-                            type: 'POST',
-                            url: 'index.ajax.php',
-                            data: 'ac=del&appid=' + appid
-                        }).done(function () {
-                            $('#pagination').trigger('currentPage');
+                        $.post('@Url.Action("RemoveApp", "AppManager")', {
+                            appId: appid
+                        }, function (responseText) {
+                            if (typeof responseText.js !== 'undefined') {
+                                $('body').append(responseText.js);
+                            } else {
+                                $('#pagination').trigger('currentPage');
+                            }
                         });
                     },
                     cancel: true
@@ -236,16 +238,6 @@
             });
 
             Handlebars.registerHelper("recommand", function (v1, v2, options) {
-                if (v1 === v2) {
-                    //满足添加继续执行
-                    return options.fn(this);
-                } else {
-                    //不满足条件执行{{else}}部分
-                    return options.inverse(this);
-                }
-            });
-
-            Handlebars.registerHelper("creater", function (v1, v2, options) {
                 if (v1 === v2) {
                     //满足添加继续执行
                     return options.fn(this);

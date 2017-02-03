@@ -597,6 +597,8 @@ namespace NewCRM.Application.Services
 
         public void RemoveApp(Int32 appId)
         {
+            ValidateParameter.Validate(appId);
+
             var internalApp = DatabaseQuery.FindOne(FilterFactory.Create<App>(app => app.Id == appId));
 
             if (internalApp.AppStars.Any())

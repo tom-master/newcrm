@@ -67,14 +67,14 @@
                     id: 'ajaxedit',
                     content: '删除 “' + name + '” 类目时，会将该类目下的所有应用归类到「未分类」类目下，是否继续？',
                     ok: function () {
-                        $.ajax({
-                            type: 'POST',
-                            url: '@Url.Action("DeleteAppType", "AppTypes")',
-                            data: { appTypeId: categoryid },
-                            success: function (msg) {
-                                $('#pagination').trigger('currentPage');
-                            }
-                        });
+                        $.post('@Url.Action("DeleteAppType", "AppTypes")', { appTypeId: categoryid },
+                            function(responseText) {
+                                if (typeof responseText.js !== 'undefined') {
+                                    $('body').append(responseText.js);
+                                } else {
+                                    $('#pagination').trigger('currentPage');
+                                }
+                            });
                     },
                     cancel: true
                 });

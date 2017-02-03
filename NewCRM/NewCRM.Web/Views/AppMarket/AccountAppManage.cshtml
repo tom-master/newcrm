@@ -133,37 +133,39 @@
             <td>{{UseCount}}</td>
             <td>
                 <a href="javascript:openDetailIframe('@Url.Action("AccountAppManageInfo", "AppMarket")?appId={{Id}}');" class="btn btn-mini btn-link">详情</a>
+                <a href="javascript:;" class="btn btn-link do-del" appId="{{Id}}">删除</a>
             </td>
+             
         </tr>
         {{/each}}
     </script>
     <script>
-        $(function () {
+        $(function() {
             $('html').css({ 'overflow-y': 'hidden' });
 
             //加载列表
             getPageList(0);
             //删除
-            $('.list-con').on('click', '.do-del', function () {
-                var appid = $(this).attr('appid');
+            $('.list-con').on('click', '.do-del', function() {
+                var appId = $(this).attr('appId');
                 var appname = $(this).parents('tr').children('td:first-child').text();
                 $.dialog({
                     id: 'del',
                     content: '确定要删除 “' + appname + '” 该应用么？',
-                    ok: function () {
-                        $.ajax({
-                            type: 'POST',
-                            url: 'myapp.ajax.php',
-                            data: 'ac=del&appid=' + appid
-                        }).done(function () {
-                            $('#pagination').trigger('currentPage');
+                    ok: function() {
+                        $.post('@Url.Action("RemoveApp", "AppMarket")', { appId: appId }, function (responseText) {
+                            if (typeof responseText.js!=='undefined') {
+                                $('body').append(responseText.js);
+                            } else {
+                                $('#pagination').trigger('currentPage');
+                            }
                         });
                     },
                     cancel: true
                 });
             });
             //搜索
-            $('a[menu=search]').click(function () {
+            $('a[menu=search]').click(function() {
                 getPageList(0);
             });
         });
@@ -181,7 +183,6 @@
         }
 
 
-
         function getPageList(current_page) {
             var $appStates = $('#appState').find("option:selected");
 
@@ -190,7 +191,7 @@
             if (parseInt($appStates.attr('value')) !== 0) {
                 appStateResult = $appStates.attr('data-type') + ',' + $appStates.attr('value');
             }
-             
+
             $.get('@Url.Action("GetAccountAllApps", "AppMarket")',
             {
                 searchText: $('#appName').val(),
@@ -199,7 +200,7 @@
                 appState: appStateResult,
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 4
-            }, function (responseText) {
+            }, function(responseText) {
                 ZENG.msgbox.hide();
                 var tableTemplate = Handlebars.compile($("#table-template").html());
                 $('.list-con').html(tableTemplate(responseText));
@@ -208,7 +209,7 @@
                 initPagination(current_page);
             });
 
-            Handlebars.registerHelper('convertstyle', function (appStyle) {
+            Handlebars.registerHelper('convertstyle', function(appStyle) {
                 if (appStyle === 1) {
                     return '应用';
                 } else {

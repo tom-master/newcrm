@@ -165,7 +165,7 @@ namespace NewCRM.Web.Controllers
         {
             Int32 totalCount;
 
-            var appResults = _appApplicationServices.GetAccountAllApps(AccountDto.Id,searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
+            var appResults = _appApplicationServices.GetAccountAllApps(AccountDto.Id, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
 
             return Json(new
             {
@@ -236,6 +236,21 @@ namespace NewCRM.Web.Controllers
             _appApplicationServices.ReleaseApp(appId);
 
             return Json(new { success = 1 });
+        }
+
+        /// <summary>
+        /// 删除用户开发
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <returns></returns>
+        public ActionResult RemoveApp(Int32 appId)
+        {
+            _appApplicationServices.RemoveApp(appId);
+
+            return Json(new
+            {
+                success = 1
+            });
         }
 
         #region private method

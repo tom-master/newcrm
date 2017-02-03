@@ -128,7 +128,7 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <param name="appId"></param>
         /// <returns></returns>
-        public ActionResult DeleteApp(Int32 appId)
+        public ActionResult RemoveApp(Int32 appId)
         {
             _appApplicationServices.RemoveApp(appId);
 

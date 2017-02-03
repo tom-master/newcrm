@@ -9,7 +9,7 @@ using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export,PartCreationPolicy(CreationPolicy.NonShared)]
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class AccountManagerController : BaseController
     {
 
@@ -25,8 +25,6 @@ namespace NewCRM.Web.Controllers
 
             _securityApplicationServices = securityApplicationServices;
         }
-
-
 
         #region 页面
         public ActionResult Index()
@@ -101,6 +99,33 @@ namespace NewCRM.Web.Controllers
             var result = _accountApplicationServices.CheckAccountNameExist(param);
 
             return Json(result ? new { status = "y", info = "" } : new { status = "n", info = "用户名已存在" });
+        }
+
+        public ActionResult RemoveAccount(Int32 accountId)
+        {
+            _accountApplicationServices.RemoveAccount(accountId);
+
+            return Json(new
+            {
+                success = 1
+            });
+        }
+
+        public ActionResult ChangeAccountDisableStatus(Int32 accountId, String isDisable)
+        {
+            if (Boolean.Parse(isDisable))
+            {
+                _accountApplicationServices.Disable(accountId);
+            }
+            else
+            {
+                _accountApplicationServices.Enable(accountId);
+            }
+
+            return Json(new
+            {
+                success = 1
+            });
         }
 
         #region private method
