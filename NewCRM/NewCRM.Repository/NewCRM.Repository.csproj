@@ -89,8 +89,8 @@
     </EmbeddedResource>
   </ItemGroup>-->
   <ItemGroup>
-    <Compile Include="DataBaseProvider\Event\ICacheCreateEvent.cs" />
-    <Compile Include="DataBaseProvider\Event\ICacheModifyEvent.cs" />
+    <Compile Include="DataBaseProvider\Redis\CacheEvent\ICacheCreateEvent.cs" />
+    <Compile Include="DataBaseProvider\Redis\CacheEvent\ICacheModifyEvent.cs" />
     <Compile Include="DataBaseProvider\Mongodb\InternalDefaultQueryProvider.cs" />
     <Compile Include="DataBaseProvider\Redis\QueryProviderFormCache.cs" />
     <Compile Include="DataBaseProvider\Redis\InternalHelper\ICacheQueryProvider.cs" />

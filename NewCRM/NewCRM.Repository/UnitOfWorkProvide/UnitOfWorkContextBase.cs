@@ -6,7 +6,8 @@ using System.Linq.Expressions;
 using System.Threading;
 using NewCRM.Domain.Entitys;
 using NewCRM.Domain.UnitWork;
-using NewCRM.Repository.DataBaseProvider.Event;
+using NewCRM.Repository.DataBaseProvider.CacheEvent;
+using NewCRM.Repository.DataBaseProvider.Redis.CacheEvent;
 
 namespace NewCRM.Repository.UnitOfWorkProvide
 {

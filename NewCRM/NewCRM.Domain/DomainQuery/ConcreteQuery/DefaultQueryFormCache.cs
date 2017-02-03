@@ -7,7 +7,7 @@ using NewCRM.Domain.DomainSpecification;
 using NewCRM.Domain.Entitys;
 using NewCRM.Domain.Repositories;
 
-namespace NewCRM.Domain.DomainQuery.EFConcreteQuery
+namespace NewCRM.Domain.DomainQuery.ConcreteQuery
 {
     [Export("Redis",typeof(IQuery))]
     internal class DefaultQueryFormCache : IQuery

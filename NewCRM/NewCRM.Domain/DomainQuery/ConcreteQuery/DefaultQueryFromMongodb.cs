@@ -7,7 +7,7 @@ using NewCRM.Domain.DomainSpecification;
 using NewCRM.Domain.Entitys;
 using NewCRM.Domain.Repositories;
 
-namespace NewCRM.Domain.DomainQuery.EFConcreteQuery
+namespace NewCRM.Domain.DomainQuery.ConcreteQuery
 {
     [Export("Mongodb", typeof(IQuery))]
     internal class DefaultQueryFromMongodb : IQuery

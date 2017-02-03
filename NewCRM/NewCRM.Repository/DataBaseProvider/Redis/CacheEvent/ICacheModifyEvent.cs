@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NewCRM.Repository.DataBaseProvider.Event
+namespace NewCRM.Repository.DataBaseProvider.CacheEvent
 {
     internal interface ICacheModifyEvent
     {
