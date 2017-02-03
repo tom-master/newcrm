@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using NewCRM.Domain.Entitys;
 
-namespace NewCRM.Domain.DomainSpecification.ConcreteSpecification
+namespace NewCRM.Domain.Factory.DomainSpecification.ConcreteSpecification
 {
 
     /// <summary>

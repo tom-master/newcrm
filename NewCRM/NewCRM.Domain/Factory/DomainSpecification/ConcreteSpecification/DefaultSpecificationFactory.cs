@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq.Expressions;
-using NewCRM.Domain.DomainSpecification.Factory;
+using NewCRM.Domain.Factory.DomainSpecification.Factory;
 
-namespace NewCRM.Domain.DomainSpecification.ConcreteSpecification
+namespace NewCRM.Domain.Factory.DomainSpecification.ConcreteSpecification
 {
     /// <summary>
     /// 默认规约工厂

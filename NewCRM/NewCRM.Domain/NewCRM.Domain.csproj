@@ -48,10 +48,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseServiceContext.cs" />
-    <Compile Include="DomainQuery\ConcreteQuery\DefaultQueryFormCache.cs" />
-    <Compile Include="DomainQuery\ConcreteQuery\DefaultQuery.cs" />
-    <Compile Include="DomainQuery\ConcreteQuery\DefaultQueryFromMongodb.cs" />
-    <Compile Include="DomainQuery\Query\IQuery.cs" />
+    <Compile Include="Factory\DomainQuery\ConcreteQuery\DefaultQueryFormCache.cs" />
+    <Compile Include="Factory\DomainQuery\ConcreteQuery\DefaultQuery.cs" />
+    <Compile Include="Factory\DomainQuery\ConcreteQuery\DefaultQueryFromMongodb.cs" />
+    <Compile Include="Factory\DomainQuery\Query\IQuery.cs" />
     <Compile Include="Entitys\Agent\AccountExtension\TitleExtension.cs" />
     <Compile Include="Entitys\Agent\Title.cs" />
     <Compile Include="Entitys\Agent\Account.cs" />
@@ -71,12 +71,12 @@
     <Compile Include="Entitys\System\Desk.cs" />
     <Compile Include="Entitys\System\SystemExtension\DeskExtension.cs" />
     <Compile Include="Entitys\System\SystemExtension\MemberExtension.cs" />
-    <Compile Include="DomainSpecification\ConcreteSpecification\DefaultSpecification.cs" />
-    <Compile Include="DomainSpecification\ConcreteSpecification\DefaultSpecificationFactory.cs" />
-    <Compile Include="DomainSpecification\Specification.cs" />
-    <Compile Include="DomainSpecification\ParameterVisitor.cs" />
-    <Compile Include="DomainSpecification\SpecificationExtensions.cs" />
-    <Compile Include="DomainSpecification\Factory\SpecificationFactory.cs" />
+    <Compile Include="Factory\DomainSpecification\ConcreteSpecification\DefaultSpecification.cs" />
+    <Compile Include="Factory\DomainSpecification\ConcreteSpecification\DefaultSpecificationFactory.cs" />
+    <Compile Include="Factory\DomainSpecification\Specification.cs" />
+    <Compile Include="Factory\DomainSpecification\ParameterVisitor.cs" />
+    <Compile Include="Factory\DomainSpecification\SpecificationExtensions.cs" />
+    <Compile Include="Factory\DomainSpecification\Factory\SpecificationFactory.cs" />
     <Compile Include="Entitys\System\SystemExtension\OnlineExtension.cs" />
     <Compile Include="Entitys\System\SystemExtension\WallpaperExtension.cs" />
     <Compile Include="Factory\DomainCreate\ConcreteFactory\DefaultDomainFactory.cs" />

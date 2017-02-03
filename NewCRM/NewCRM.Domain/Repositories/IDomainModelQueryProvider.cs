@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using NewCRM.Domain.DomainSpecification;
+﻿using System.Linq;
 using NewCRM.Domain.Entitys;
+using NewCRM.Domain.Factory.DomainSpecification;
 
 namespace NewCRM.Domain.Repositories
 {

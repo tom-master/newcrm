@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using NewCRM.Domain.Entitys;
 
-namespace NewCRM.Domain.DomainSpecification.Factory
+namespace NewCRM.Domain.Factory.DomainSpecification.Factory
 {
     /// <summary>
     /// 抽象规约工厂

@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using NewCRM.Domain.DomainQuery.Query;
-using NewCRM.Domain.DomainSpecification.Factory;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Factory;
+using NewCRM.Domain.Factory.DomainQuery.Query;
+using NewCRM.Domain.Factory.DomainSpecification.Factory;
 using NewCRM.Domain.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
 

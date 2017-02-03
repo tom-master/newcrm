@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using NewCRM.Domain.DomainSpecification;
 using NewCRM.Domain.Entitys;
+using NewCRM.Domain.Factory.DomainSpecification;
 
-namespace NewCRM.Domain.DomainQuery.Query
+namespace NewCRM.Domain.Factory.DomainQuery.Query
 {
     public interface IQuery
     {
@@ -16,8 +15,6 @@ namespace NewCRM.Domain.DomainQuery.Query
         /// <returns></returns>
         T FindOne<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot;
 
-        T FindOne<T>(Expression<Func<T, Boolean>> key) where T : DomainModelBase, IAggregationRoot;
-
         /// <summary>
         /// 查找并返回集合
         /// </summary>
@@ -25,8 +22,6 @@ namespace NewCRM.Domain.DomainQuery.Query
         /// <param name="specification">规约对象</param>
         /// <returns></returns>
         IEnumerable<T> Find<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot;
-
-        IEnumerable<T> Find<T>(Expression<Func<T, Boolean>> key) where T : DomainModelBase, IAggregationRoot;
 
         /// <summary>
         /// 分页
@@ -38,7 +33,6 @@ namespace NewCRM.Domain.DomainQuery.Query
         /// <param name="totalCount">总条数</param>
         /// <returns></returns>
         IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount) where T : DomainModelBase, IAggregationRoot;
-        IEnumerable<T> PageBy<T>(Expression<Func<T, Boolean>> key, out Int32 totalCount, Int32 pageIndex, Int32 pageSize) where T : DomainModelBase, IAggregationRoot;
 
     }
 }

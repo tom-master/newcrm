@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using NewCRM.Domain.DomainSpecification;
 using NewCRM.Domain.Entitys;
+using NewCRM.Domain.Factory.DomainSpecification;
 
 namespace NewCRM.Domain.Repositories
 {

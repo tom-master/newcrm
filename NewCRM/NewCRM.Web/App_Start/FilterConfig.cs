@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.Composition;
-using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using NewCRM.Web.Filter;
 
 namespace NewCRM.Web

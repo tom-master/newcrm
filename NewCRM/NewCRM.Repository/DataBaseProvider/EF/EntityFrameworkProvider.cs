@@ -8,7 +8,6 @@ using NewCRM.Domain.Repositories;
 using NewCRM.Domain.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
-using NewCRM.Repository.DataBaseProvider.Redis;
 using NewCRM.Repository.DataBaseProvider.Redis.InternalHelper;
 using NewCRM.Repository.UnitOfWorkProvide;
 using StackExchange.Redis;

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
-using NewCRM.Domain.DomainSpecification;
 using NewCRM.Domain.Entitys;
+using NewCRM.Domain.Factory.DomainSpecification;
 using NewCRM.Domain.Repositories;
 using NewCRM.Domain.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustomException;
