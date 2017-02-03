@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
 using System.Web.Mvc;
 using NewCRM.Application.Interface;
@@ -20,7 +21,8 @@ namespace NewCRM.Web.Filter
                 ExceptionMessage = filterContext.Exception.Message.Length > 20 ? "操作失败，请查看日志" : filterContext.Exception.Message,
                 Track = filterContext.Exception.StackTrace,
                 LogLevelEnum = 4,
-                Id = new Random().Next(1, Int32.MaxValue)
+                Id = new Random().Next(1, Int32.MaxValue),
+                AddTime = DateTime.Now.ToString(CultureInfo.CurrentCulture)
             };
 
             DependencyResolver.Current.GetService<ILoggerApplicationServices>().AddLogger(logger);

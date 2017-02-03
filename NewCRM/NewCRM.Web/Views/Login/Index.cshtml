@@ -44,7 +44,7 @@
                     },
                     function (responseText) {
                         if (typeof responseText.js !== 'undefined') {
-                            alert("密码错误");
+                            $('body').append(responseText.js);
                             setTimeout(function () {
                                 location.href = '@Url.Action("Index","Login")';
                             }, 3000);
