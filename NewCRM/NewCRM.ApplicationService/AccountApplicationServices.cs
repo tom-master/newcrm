@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Linq.Expressions;
 using NewCRM.Application.Interface;
 using NewCRM.Domain;
 using NewCRM.Domain.Entitys.Agent;
@@ -78,17 +79,16 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountName).Validate(pageIndex).Validate(pageSize);
 
-            var specification = FilterFactory.Create<Account>(account => (accountName + "").Length == 0 || account.Name.Contains(accountName));
+            var filter = FilterFactory.Create<Account>(account => (accountName + "").Length == 0 || account.Name.Contains(accountName));
 
             if ((accountType + "").Length > 0)
             {
                 var isAdmin = (EnumExtensions.ParseToEnum<AccountType>(Int32.Parse(accountType)) == AccountType.Admin);
 
-                specification.And(account => account.IsAdmin == isAdmin);
-
+                filter.And(account => account.IsAdmin == isAdmin);
             }
 
-            return DatabaseQuery.PageBy(specification, pageIndex, pageSize, out totalCount).Select(account => new
+            return DatabaseQuery.PageBy(filter, pageIndex, pageSize, out totalCount).Select(account => new
             {
                 account.Id,
                 AccountType = account.IsAdmin ? "2" /*管理员*/ : "1" /*用户*/,
@@ -103,6 +103,8 @@ namespace NewCRM.Application.Services
         {
 
             Account accountResult;
+
+          
 
             if (accountId == default(Int32))
             {
@@ -147,7 +149,7 @@ namespace NewCRM.Application.Services
 
             var internalNewAccount = new Account(account.Name, PasswordUtil.CreateDbPassword(account.LoginPassword), accountType);
 
-            internalNewAccount.AddRole(account.AccountRoles.Select(role => role.RoleId).ToArray());
+            internalNewAccount.AddRole(account.Roles.Select(role => role.RoleId).ToArray());
 
             Repository.Create<Account>().Add(internalNewAccount);
 
@@ -181,15 +183,15 @@ namespace NewCRM.Application.Services
                 accountResult.ModifyPassword(newPassword);
             }
 
-            if (accountResult.AccountRoles.Any())
+            if (accountResult.Roles.Any())
             {
-                accountResult.AccountRoles.ToList().ForEach(role =>
+                accountResult.Roles.ToList().ForEach(role =>
                 {
                     role.Remove();
                 });
             }
 
-            accountResult.AddRole(account.AccountRoles.Select(role => role.RoleId).ToArray());
+            accountResult.AddRole(account.Roles.Select(role => role.RoleId).ToArray());
 
             Repository.Create<Account>().Update(accountResult);
 

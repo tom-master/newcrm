@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
+using NewCRM.Domain.Factory.DomainSpecification;
+using NewCRM.Domain.Factory.DomainSpecification.ConcreteSpecification;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Entitys.Agent
@@ -80,7 +83,7 @@ namespace NewCRM.Domain.Entitys.Agent
 
             foreach (var roleId in roleIds)
             {
-                AccountRoles.Add(new AccountRole(Id, roleId));
+                Roles.Add(new AccountRole(Id, roleId));
             }
 
             return this;
@@ -103,7 +106,7 @@ namespace NewCRM.Domain.Entitys.Agent
             }
             foreach (var roleId in roleIds)
             {
-                AccountRoles.FirstOrDefault(r => r.Id == roleId).Remove();
+                Roles.FirstOrDefault(r => r.Id == roleId).Remove();
             }
             return this;
         }
@@ -152,5 +155,6 @@ namespace NewCRM.Domain.Entitys.Agent
         }
 
         #endregion
+
     }
 }

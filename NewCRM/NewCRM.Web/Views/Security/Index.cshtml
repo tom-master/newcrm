@@ -116,13 +116,10 @@
                 pageSize: 5
             }, function (responseText) {
                 ZENG.msgbox._hide();
-
                 var tableTemplate = Handlebars.compile($("#table-template").html());
                 $('.list-con').html(tableTemplate(responseText));
-
                 $('#pagination_setting').attr('count', responseText.totalCount);
                 $('.list-count').text(responseText.totalCount);
-
                 initPagination(current_page);
             });
         }

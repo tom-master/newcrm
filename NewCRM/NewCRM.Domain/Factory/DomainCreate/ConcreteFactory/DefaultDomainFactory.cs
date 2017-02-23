@@ -1,5 +1,10 @@
-﻿namespace NewCRM.Domain.Factory.DomainCreate.ConcreteFactory
+﻿using System;
+using System.ComponentModel.Composition;
+
+namespace NewCRM.Domain.Factory.DomainCreate.ConcreteFactory
 {
+
+    [Export(typeof(DomainFactory))]
     public sealed class DefaultDomainFactory : DomainFactory
     {
         /// <summary>
@@ -7,7 +12,7 @@
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public override T Create<T>() => new T();
+        public override T Create<T>() => Activator.CreateInstance<T>();
 
     }
 }

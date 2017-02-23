@@ -4,6 +4,6 @@ namespace NewCRM.Domain.Factory.DomainCreate
 {
     public abstract class DomainFactory
     {
-        public abstract T Create<T>() where T : DomainModelBase, IAggregationRoot, new();
+        public abstract T Create<T>() where T : DomainModelBase, IAggregationRoot;
     }
 }

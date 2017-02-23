@@ -535,7 +535,6 @@ namespace NewCRM.Repository.DataBaseProvider.Redis.InternalHelper
 
         #endregion SortedSet 有序集合
 
-
         Boolean KeyDelete(String key);
 
         /// <summary>

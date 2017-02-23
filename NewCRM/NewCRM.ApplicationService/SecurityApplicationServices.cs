@@ -15,7 +15,6 @@ namespace NewCRM.Application.Services
     [Export(typeof(ISecurityApplicationServices))]
     internal class SecurityApplicationServices : BaseServiceContext, ISecurityApplicationServices
     {
-         
         #region Role
 
         public List<RoleDto> GetAllRoles()
@@ -53,14 +52,14 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(roleName).Validate(pageIndex).Validate(pageIndex);
 
-            var roleSpecification = FilterFactory.Create<Role>();
+            var filter = FilterFactory.Create<Role>();
 
             if ((roleName + "").Length > 0)
             {
-                roleSpecification.And(role => role.Name.Contains(roleName));
+                filter.And(role => role.Name.Contains(roleName));
             }
 
-            return DatabaseQuery.PageBy(roleSpecification, pageIndex, pageSize, out totalCount).Select(s => new
+            return DatabaseQuery.PageBy(filter, pageIndex, pageSize, out totalCount).Select(s => new
             {
                 s.Name,
                 s.Id,

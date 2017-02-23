@@ -795,7 +795,7 @@
     <Content Include="Views\AppMarket\AccountAppManageDetail.cshtml" />
     <Content Include="Views\AppMarket\AccountAppManageEdit.cshtml" />
     <Content Include="Views\AppMarket\AccountAppManageInfo.cshtml" />
-    <Content Include="Views\Security\RoleManage.cshtml" />
+    <Content Include="Views\Security\Index.cshtml" />
     <Content Include="Views\DeskOptions\CustomWallPaper.cshtml" />
     <Content Include="Views\DeskOptions\DeskSet.cshtml" />
     <Content Include="Views\DeskOptions\SetSkin.cshtml" />

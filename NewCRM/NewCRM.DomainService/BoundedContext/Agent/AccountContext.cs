@@ -12,11 +12,13 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
     [Export(typeof(IAccountContext))]
     internal class AccountContext : BaseServiceContext, IAccountContext
     {
-      
-
         public Account Validate(String accountName, String password)
         {
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create<Account>(account => account.Name == accountName));
+            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create<Account>(account => account.Name == accountName),account=>new
+            {
+                account.Id,
+                account.LoginPassword
+            });
 
             if (accountResult == null)
             {

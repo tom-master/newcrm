@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using NewCRM.Domain.Entitys;
+using NewCRM.Domain.Factory.DomainSpecification.ConcreteSpecification;
 
 namespace NewCRM.Domain.Factory.DomainSpecification
 {
@@ -30,6 +31,11 @@ namespace NewCRM.Domain.Factory.DomainSpecification
         /// 重置排序表达式集合
         /// </summary>
         public abstract void ResetOrderByExpressions();
+
+        public static implicit operator Specification<T>(Func<T,Boolean> expression)
+        {
+            return new DefaultSpecification<T>();
+        }
 
     }
 }

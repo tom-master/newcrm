@@ -53,47 +53,68 @@ namespace NewCRM.Repository.UnitOfWorkProvide
 
 
 
-        internal static void Update<T, TKey>(this DbContext dbContext, Expression<Func<T, Object>> propertyExpression, params T[] entities)
+        internal static void Update<T, TKey>(this DbContext dbContext, T entity, params Expression<Func<T, Object>>[] propertyExpressions)
             where T : DomainModelBase
         {
-            if (propertyExpression == null)
+            if (propertyExpressions == null)
             {
-                throw new BusinessException($"{nameof(propertyExpression)}：不能为空");
+                throw new BusinessException($"{nameof(propertyExpressions)}：不能为空");
             }
 
-            if (entities == null)
+            if (entity == null)
             {
-                throw new BusinessException($"{nameof(entities)}：不能为空");
+                throw new BusinessException($"{nameof(entity)}：不能为空");
             }
 
-            ReadOnlyCollection<MemberInfo> memberInfos = ((dynamic)propertyExpression.Body).Members;
+            //var dbEntityEntry = dbContext.Entry(entity);
+            //if (propertyExpressions.Any())
+            //{
+            //    foreach (var property in propertyExpressions)
+            //    {
+            //        dbEntityEntry.Property(property).IsModified = true;
+            //    }
+            //}
+            //else
+            //{
+            //    foreach (var property in dbEntityEntry.OriginalValues.PropertyNames)
+            //    {
+            //        var original = dbEntityEntry.OriginalValues.GetValue<Object>(property);
+            //        var current = dbEntityEntry.CurrentValues.GetValue<Object>(property);
+            //        if (original != null && !original.Equals(current))
+            //        {
+            //            dbEntityEntry.Property(property).IsModified = true;
+            //        }
+            //    }
+            //}
 
-            foreach (T entity in entities)
-            {
-                DbSet<T> dbSet = dbContext.Set<T>();
-                try
-                {
-                    DbEntityEntry<T> entry = dbContext.Entry(entity);
-                    entry.State = EntityState.Unchanged;
-                    foreach (var memberInfo in memberInfos)
-                    {
-                        entry.Property(memberInfo.Name).IsModified = true;
+            //ReadOnlyCollection<MemberInfo> memberInfos = ((dynamic)propertyExpression.Body).Members;
 
-                    }
-                }
-                catch (InvalidOperationException)
-                {
-                    T originalEntity = dbSet.Local.Single(m => Equals(m.Id, entity.Id));
-                    ObjectContext objectContext = ((IObjectContextAdapter)dbContext).ObjectContext;
-                    ObjectStateEntry objectEntry = objectContext.ObjectStateManager.GetObjectStateEntry(originalEntity);
-                    objectEntry.ApplyCurrentValues(entity);
-                    objectEntry.ChangeState(EntityState.Unchanged);
-                    foreach (var memberInfo in memberInfos)
-                    {
-                        objectEntry.SetModifiedProperty(memberInfo.Name);
-                    }
-                }
-            }
+            //foreach (T entity in entities)
+            //{
+            //    DbSet<T> dbSet = dbContext.Set<T>();
+            //    try
+            //    {
+            //        DbEntityEntry<T> entry = dbContext.Entry(entity);
+            //        entry.State = EntityState.Unchanged;
+            //        foreach (var memberInfo in memberInfos)
+            //        {
+            //            entry.Property(memberInfo.Name).IsModified = true;
+
+            //        }
+            //    }
+            //    catch (InvalidOperationException)
+            //    {
+            //        T originalEntity = dbSet.Local.Single(m => Equals(m.Id, entity.Id));
+            //        ObjectContext objectContext = ((IObjectContextAdapter)dbContext).ObjectContext;
+            //        ObjectStateEntry objectEntry = objectContext.ObjectStateManager.GetObjectStateEntry(originalEntity);
+            //        objectEntry.ApplyCurrentValues(entity);
+            //        objectEntry.ChangeState(EntityState.Unchanged);
+            //        foreach (var memberInfo in memberInfos)
+            //        {
+            //            objectEntry.SetModifiedProperty(memberInfo.Name);
+            //        }
+            //    }
+            //}
         }
 
         internal static Int32 SaveChanges(this DbContext dbContext, Boolean validateOnSaveEnabled)

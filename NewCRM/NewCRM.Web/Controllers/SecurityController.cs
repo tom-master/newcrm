@@ -32,7 +32,7 @@ namespace NewCRM.Web.Controllers
         #region 角色
 
         // GET: SystemAuthority
-        public ActionResult RoleManage()
+        public ActionResult Index()
         {
             return View();
         }

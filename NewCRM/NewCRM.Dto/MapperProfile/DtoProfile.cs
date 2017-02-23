@@ -22,7 +22,7 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(dto => dto.AddTime, account => account.MapFrom(u => u.AddTime.ToString("yyyy-MM-dd HH:mm:ss")))
                 .ForMember(dto => dto.LastLoginTime, account => account.MapFrom(u => u.LastLoginTime.ToString("yyyy-MM-dd HH:mm:ss")))
                 .ForMember(dto => dto.LastModifyTime, account => account.MapFrom(u => u.LastModifyTime.ToString("yyyy-MM-dd HH:mm:ss")))
-                .ForMember(dto => dto.Roles, account => account.MapFrom(u => u.AccountRoles.Select(s => new RoleDto
+                .ForMember(dto => dto.Roles, account => account.MapFrom(u => u.Roles.Select(s => new RoleDto
                 {
                     Id = s.RoleId,
                     Name = s.Role.Name,
@@ -45,7 +45,7 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(account => account.Id, dto => dto.MapFrom(d => d.Id))
                 .ForMember(account => account.LoginPassword, dto => dto.MapFrom(d => d.Password))
                 .ForMember(account => account.IsAdmin, dto => dto.MapFrom(d => d.IsAdmin))
-                .ForMember(account => account.AccountRoles, dto => dto.MapFrom(d => d.Roles))
+                .ForMember(account => account.Roles, dto => dto.MapFrom(d => d.Roles))
                 .ForMember(dto => dto.IsDisable, account => account.MapFrom(u => u.IsDisable));
         }
     }

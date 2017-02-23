@@ -243,25 +243,25 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
 
-            var specification = FilterFactory.Create<App>();
+            var filter = FilterFactory.Create<App>();
 
             #region 条件筛选
 
             if (accountId != default(Int32))
             {
-                specification.And(app => app.AccountId == accountId);
+                filter.And(app => app.AccountId == accountId);
             }
 
             //应用名称
             if ((searchText + "").Length > 0)
             {
-                specification.And(app => app.Name.Contains(searchText));
+                filter.And(app => app.Name.Contains(searchText));
             }
 
             //应用所属类型
             if (appTypeId != 0)
             {
-                specification.And(app => app.AppTypeId == appTypeId);
+                filter.And(app => app.AppTypeId == appTypeId);
             }
 
             //应用样式
@@ -269,7 +269,7 @@ namespace NewCRM.Application.Services
             {
                 var appStyle = EnumExtensions.ParseToEnum<AppStyle>(appStyleId);
 
-                specification.And(app => app.AppStyle == appStyle);
+                filter.And(app => app.AppStyle == appStyle);
             }
 
             if ((appState + "").Length > 0)
@@ -280,7 +280,7 @@ namespace NewCRM.Application.Services
                 {
                     var appReleaseState = EnumExtensions.ParseToEnum<AppReleaseState>(Int32.Parse(stats[1]));
 
-                    specification.And(app => app.AppReleaseState == appReleaseState);
+                    filter.And(app => app.AppReleaseState == appReleaseState);
                 }
 
                 //app应用审核状态
@@ -288,7 +288,7 @@ namespace NewCRM.Application.Services
                 {
                     var appAuditState = EnumExtensions.ParseToEnum<AppAuditState>(Int32.Parse(stats[1]));
 
-                    specification.And(app => app.AppAuditState == appAuditState);
+                    filter.And(app => app.AppAuditState == appAuditState);
                 }
             }
 
@@ -296,7 +296,7 @@ namespace NewCRM.Application.Services
 
             var appTypes = GetAppTypes();
 
-            return DatabaseQuery.PageBy(specification, pageIndex, pageSize, out totalCount).Select(app => new
+            return DatabaseQuery.PageBy(filter, pageIndex, pageSize, out totalCount).Select(app => new
             {
                 app.Name,
                 app.AppStyle,
@@ -315,10 +315,9 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(appId);
 
-            var specification = FilterFactory.Create<App>(app => app.Id == appId);
+            var filter = FilterFactory.Create<App>(app => app.Id == appId);
 
-            var appResult = DatabaseQuery.FindOne(specification);
-
+            var appResult = DatabaseQuery.FindOne(filter);
 
             var appTypes = GetAppTypes();
 
@@ -591,7 +590,6 @@ namespace NewCRM.Application.Services
             Repository.Create<App>().Update(afterRecommandApp);
 
             UnitOfWork.Commit();
-
 
         }
 

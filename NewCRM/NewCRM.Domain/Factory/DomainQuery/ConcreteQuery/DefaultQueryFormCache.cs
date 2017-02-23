@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Linq.Expressions;
 using NewCRM.Domain.Entitys;
 using NewCRM.Domain.Factory.DomainQuery.Query;
 using NewCRM.Domain.Factory.DomainSpecification;
@@ -20,17 +21,17 @@ namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
             _domainModelQueryProviderFormCache = domainModelQueryProviderFormCache;
         }
 
-        public IEnumerable<T> Find<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot
+        public IEnumerable<T> Find<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector = default(Expression<Func<T, dynamic>>)) where T : DomainModelBase, IAggregationRoot
         {
             return _domainModelQueryProviderFormCache.Query(specification);
         }
 
-        public T FindOne<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot
+        public T FindOne<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector = default(Expression<Func<T, dynamic>>)) where T : DomainModelBase, IAggregationRoot
         {
             return _domainModelQueryProviderFormCache.Query(specification).FirstOrDefault();
         }
 
-        public IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount) where T : DomainModelBase, IAggregationRoot
+        public IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount, Expression<Func<T, dynamic>> selector = default(Expression<Func<T, dynamic>>)) where T : DomainModelBase, IAggregationRoot
         {
             return _domainModelQueryProviderFormCache.QueryPage(specification, out totalCount, pageIndex, pageSize);
         }
