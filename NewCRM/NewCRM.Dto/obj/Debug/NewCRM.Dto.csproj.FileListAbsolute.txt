@@ -32,3 +32,5 @@ E:\NewCRM\NewCRM\NewCRM.Dto\bin\Debug\Newtonsoft.Json.xml
 E:\NewCRM\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.csprojResolveAssemblyReference.cache
 E:\NewCRM\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.dll
 E:\NewCRM\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.pdb
+E:\NewCRM\NewCRM\NewCRM.Dto\bin\Debug\NewCRM.Domain.dll.config
+E:\NewCRM\NewCRM\NewCRM.Dto\bin\Debug\NewCRM.Infrastructure.dll.config

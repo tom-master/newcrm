@@ -20,3 +20,4 @@ E:\NewCRM\NewCRM\NewCRM.Domain\bin\Debug\Newtonsoft.Json.xml
 E:\NewCRM\NewCRM\NewCRM.Domain\obj\Debug\NewCRM.Domain.csprojResolveAssemblyReference.cache
 E:\NewCRM\NewCRM\NewCRM.Domain\obj\Debug\NewCRM.Domain.dll
 E:\NewCRM\NewCRM\NewCRM.Domain\obj\Debug\NewCRM.Domain.pdb
+E:\NewCRM\NewCRM\NewCRM.Domain\bin\Debug\NewCRM.Infrastructure.dll.config

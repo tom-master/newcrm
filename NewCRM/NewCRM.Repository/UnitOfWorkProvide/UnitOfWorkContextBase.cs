@@ -163,7 +163,7 @@ namespace NewCRM.Repository.UnitOfWorkProvide
         /// <param name="entity">附带新值的实体信息，必须包含主键</param>
         public void RegisterModified<T, TKey>(Expression<Func<T, Object>> propertyExpression, T entity) where T : DomainModelBase
         {
-            Context.Update<T, TKey>(propertyExpression, entity);
+          //  Context.Update<T, TKey>(propertyExpression, entity);
             IsCommitted = false;
         }
 
