@@ -12,8 +12,8 @@ using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
 {
-    [Export("EF", typeof(IQuery))]
-    internal class DefaultQuery : IQuery
+    [Export("EF", typeof(QueryBase))]
+    internal class DefaultQuery : QueryBase
     {
         private readonly IDomainModelQueryProvider _queryProvider;
 
@@ -36,7 +36,7 @@ namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
         /// <param name="specification"></param>
         /// <param name="selector"></param>
         /// <returns></returns>
-        public T FindOne<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector = default(Expression<Func<T, dynamic>>)) where T : DomainModelBase, IAggregationRoot
+        public override T FindOne<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector)
         {
             return selector == default(Expression<Func<T, dynamic>>) ? ConvertToDomain<T>(_queryProvider.Query(specification).ToList()).FirstOrDefault() : ConvertToDomain<T>(_queryProvider.Query(specification).Select(selector).ToList()).FirstOrDefault();
         }
@@ -48,7 +48,7 @@ namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
         /// <param name="specification"></param>
         /// <param name="selector"></param>
         /// <returns></returns>
-        public IEnumerable<T> Find<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector = default(Expression<Func<T, dynamic>>)) where T : DomainModelBase, IAggregationRoot
+        public override IEnumerable<T> Find<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector)
         {
             return selector == default(Expression<Func<T, dynamic>>) ? ConvertToDomain<T>(_queryProvider.Query(specification).ToList()) : ConvertToDomain<T>(_queryProvider.Query(specification).Select(selector).ToList());
         }
@@ -63,7 +63,7 @@ namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
         /// <param name="pageSize"></param>
         /// <param name="totalCount"></param>
         /// <returns></returns>
-        public IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount, Expression<Func<T, dynamic>> selector = default(Expression<Func<T, dynamic>>)) where T : DomainModelBase, IAggregationRoot
+        public override IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount, Expression<Func<T, dynamic>> selector)
         {
 
             IQueryable<T> query = _queryProvider.Query(specification);

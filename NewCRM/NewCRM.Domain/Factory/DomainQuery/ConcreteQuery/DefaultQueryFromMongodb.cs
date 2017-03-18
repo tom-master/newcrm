@@ -10,8 +10,8 @@ using NewCRM.Domain.Repositories;
 
 namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
 {
-    [Export("Mongodb", typeof(IQuery))]
-    internal class DefaultQueryFromMongodb : IQuery
+    [Export("Mongodb", typeof(QueryBase))]
+    internal class DefaultQueryFromMongodb : QueryBase
     {
         private readonly IDomainModelQueryProvider _queryProvider;
 
@@ -21,17 +21,7 @@ namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
             _queryProvider = queryProvider;
         }
 
-        public T FindOne<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector = default(Expression<Func<T, dynamic>>)) where T : DomainModelBase, IAggregationRoot
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<T> Find<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector = default(Expression<Func<T, dynamic>>)) where T : DomainModelBase, IAggregationRoot
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount, Expression<Func<T, dynamic>> selector = default(Expression<Func<T, dynamic>>)) where T : DomainModelBase, IAggregationRoot
+        public override IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount) 
         {
             var query = _queryProvider.Query(specification).OrderByDescending(d => d.AddTime);
 

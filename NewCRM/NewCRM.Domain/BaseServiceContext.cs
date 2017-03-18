@@ -22,14 +22,14 @@ namespace NewCRM.Domain
         /// <summary>
         /// 数据库查询
         /// </summary>
-        [Import("EF", typeof(IQuery))]
-        public IQuery DatabaseQuery { get; set; }
+        [Import("EF", typeof(QueryBase))]
+        public QueryBase DatabaseQuery { get; set; }
 
         /// <summary>
         /// 缓存查询
         /// </summary>
-        [Import("Redis", typeof(IQuery))]
-        public IQuery CacheQuery { get; set; }
+        [Import("Redis", typeof(QueryBase))]
+        public QueryBase CacheQuery { get; set; }
 
         /// <summary>
         /// 规约工厂

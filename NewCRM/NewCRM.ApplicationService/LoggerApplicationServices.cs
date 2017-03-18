@@ -16,10 +16,10 @@ namespace NewCRM.Application.Services
     [Export(typeof(ILoggerApplicationServices))]
     internal class LoggerApplicationServices : BaseServiceContext, ILoggerApplicationServices
     {
-        private readonly IQuery _query;
+        private readonly QueryBase _query;
 
         [ImportingConstructor]
-        public LoggerApplicationServices([Import("Mongodb", typeof(IQuery))]IQuery query)
+        public LoggerApplicationServices([Import("Mongodb", typeof(QueryBase))]QueryBase query)
         {
             _query = query;
         }

@@ -71,6 +71,7 @@
     <Compile Include="Entitys\System\Desk.cs" />
     <Compile Include="Entitys\System\SystemExtension\DeskExtension.cs" />
     <Compile Include="Entitys\System\SystemExtension\MemberExtension.cs" />
+    <Compile Include="Factory\DomainQuery\Query\QueryBase.cs" />
     <Compile Include="Factory\DomainSpecification\ConcreteSpecification\DefaultSpecification.cs" />
     <Compile Include="Factory\DomainSpecification\ConcreteSpecification\DefaultSpecificationFactory.cs" />
     <Compile Include="Factory\DomainSpecification\Specification.cs" />
