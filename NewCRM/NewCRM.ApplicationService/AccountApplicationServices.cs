@@ -104,8 +104,6 @@ namespace NewCRM.Application.Services
 
             Account accountResult;
 
-          
-
             if (accountId == default(Int32))
             {
                 accountResult = CacheQuery.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));

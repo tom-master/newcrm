@@ -17,7 +17,8 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
             var accountResult = DatabaseQuery.FindOne(FilterFactory.Create<Account>(account => account.Name == accountName),account=>new
             {
                 account.Id,
-                account.LoginPassword
+                account.LoginPassword,
+                account.Name
             });
 
             if (accountResult == null)

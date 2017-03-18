@@ -38,7 +38,7 @@ namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
         /// <returns></returns>
         public T FindOne<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector = default(Expression<Func<T, dynamic>>)) where T : DomainModelBase, IAggregationRoot
         {
-            return ConvertToDomain<T>(_queryProvider.Query(specification).Select(selector).ToList()).FirstOrDefault();
+            return selector == default(Expression<Func<T, dynamic>>) ? ConvertToDomain<T>(_queryProvider.Query(specification).ToList()).FirstOrDefault() : ConvertToDomain<T>(_queryProvider.Query(specification).Select(selector).ToList()).FirstOrDefault();
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
         /// <returns></returns>
         public IEnumerable<T> Find<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector = default(Expression<Func<T, dynamic>>)) where T : DomainModelBase, IAggregationRoot
         {
-            return ConvertToDomain<T>(_queryProvider.Query(specification).Select(selector).ToList());
+            return selector == default(Expression<Func<T, dynamic>>) ? ConvertToDomain<T>(_queryProvider.Query(specification).ToList()) : ConvertToDomain<T>(_queryProvider.Query(specification).Select(selector).ToList());
         }
 
         /// <summary>
@@ -65,11 +65,18 @@ namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
         /// <returns></returns>
         public IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount, Expression<Func<T, dynamic>> selector = default(Expression<Func<T, dynamic>>)) where T : DomainModelBase, IAggregationRoot
         {
-            var query = _queryProvider.Query(specification);
+
+            IQueryable<T> query = _queryProvider.Query(specification);
 
             totalCount = query.Count();
 
-            return query.PageBy(pageIndex, pageSize, specification.OrderBy).ToList();
+            if (selector == default(Expression<Func<T, dynamic>>))
+            {
+                return query.PageBy(pageIndex, pageSize, specification.OrderBy).ToList();
+            }
+
+            return ConvertToDomain<T>(query.PageBy(pageIndex, pageSize, specification.OrderBy).Select(selector).ToList());
+
         }
 
 

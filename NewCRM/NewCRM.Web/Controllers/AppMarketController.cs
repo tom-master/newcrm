@@ -37,7 +37,7 @@ namespace NewCRM.Web.Controllers
             }
             else
             {
-                ViewData["AppTypes"] = _appApplicationServices.GetAppTypes().Where(w => w.Name != "系统");
+                ViewData["AppTypes"] = _appApplicationServices.GetAppTypes().Where(w => w.Name != "系统").ToList();
             }
 
             ViewData["TodayRecommendApp"] = _appApplicationServices.GetTodayRecommend();
