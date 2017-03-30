@@ -68,6 +68,7 @@ namespace NewCRM.Repository.DataBaseProvider.EF
         public virtual void Add(T entity, Boolean isSave = true)
         {
             _vaildateParameter.Validate(entity);
+
             EfContext.RegisterNew<T, Int32>(entity);
 
             EfContext.OnCacheCreate += (sender, e) =>

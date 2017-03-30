@@ -36,9 +36,9 @@ namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
         /// <param name="specification"></param>
         /// <param name="selector"></param>
         /// <returns></returns>
-        public override T FindOne<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector)
+        public override T FindOne<T>(Specification<T> specification, Expression<Func<T, Object>> selector)
         {
-            return selector == default(Expression<Func<T, dynamic>>) ? ConvertToDomain<T>(_queryProvider.Query(specification).ToList()).FirstOrDefault() : ConvertToDomain<T>(_queryProvider.Query(specification).Select(selector).ToList()).FirstOrDefault();
+            return ConvertToDomain<T>(_queryProvider.Query(specification).Select(selector).ToList()).FirstOrDefault();
         }
 
         /// <summary>
@@ -48,9 +48,9 @@ namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
         /// <param name="specification"></param>
         /// <param name="selector"></param>
         /// <returns></returns>
-        public override IEnumerable<T> Find<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector)
+        public override IEnumerable<T> Find<T>(Specification<T> specification, Expression<Func<T, Object>> selector)
         {
-            return selector == default(Expression<Func<T, dynamic>>) ? ConvertToDomain<T>(_queryProvider.Query(specification).ToList()) : ConvertToDomain<T>(_queryProvider.Query(specification).Select(selector).ToList());
+            return ConvertToDomain<T>(_queryProvider.Query(specification).Select(selector).ToList());
         }
 
         /// <summary>
@@ -63,24 +63,19 @@ namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
         /// <param name="pageSize"></param>
         /// <param name="totalCount"></param>
         /// <returns></returns>
-        public override IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount, Expression<Func<T, dynamic>> selector)
+        public override IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount, Expression<Func<T, Object>> selector)
         {
 
             IQueryable<T> query = _queryProvider.Query(specification);
 
             totalCount = query.Count();
 
-            if (selector == default(Expression<Func<T, dynamic>>))
-            {
-                return query.PageBy(pageIndex, pageSize, specification.OrderBy).ToList();
-            }
-
             return ConvertToDomain<T>(query.PageBy(pageIndex, pageSize, specification.OrderBy).Select(selector).ToList());
 
         }
 
 
-        public IEnumerable<T> ConvertToDomain<T>(IEnumerable<dynamic> parameters) where T : DomainModelBase, IAggregationRoot
+        public IEnumerable<T> ConvertToDomain<T>(IEnumerable<Object> parameters) where T : DomainModelBase, IAggregationRoot
         {
             if (!parameters.Any())
             {

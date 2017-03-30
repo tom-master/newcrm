@@ -8,7 +8,7 @@ namespace NewCRM.Domain.Factory.DomainQuery.Query
 {
     public abstract class QueryBase : IQuery
     {
-        public virtual T FindOne<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector) where T : DomainModelBase, IAggregationRoot
+        public virtual T FindOne<T>(Specification<T> specification, Expression<Func<T, Object>> selector) where T : DomainModelBase, IAggregationRoot
         {
             return default(T);
         }
@@ -18,7 +18,7 @@ namespace NewCRM.Domain.Factory.DomainQuery.Query
             return default(T);
         }
 
-        public virtual IEnumerable<T> Find<T>(Specification<T> specification, Expression<Func<T, dynamic>> selector) where T : DomainModelBase, IAggregationRoot
+        public virtual IEnumerable<T> Find<T>(Specification<T> specification, Expression<Func<T, Object>> selector) where T : DomainModelBase, IAggregationRoot
         {
             return default(IEnumerable<T>);
         }
@@ -28,7 +28,7 @@ namespace NewCRM.Domain.Factory.DomainQuery.Query
             return default(IEnumerable<T>);
         }
 
-        public virtual IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount, Expression<Func<T, dynamic>> selector) where T : DomainModelBase, IAggregationRoot
+        public virtual IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount, Expression<Func<T, Object>> selector) where T : DomainModelBase, IAggregationRoot
         {
             totalCount = 0;
 

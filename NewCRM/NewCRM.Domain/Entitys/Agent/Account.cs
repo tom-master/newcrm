@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.ValueObject;
 
@@ -14,6 +15,7 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 用户名
         /// </summary>
+        [Required()]
         public String Name { get; private set; }
 
         /// <summary>

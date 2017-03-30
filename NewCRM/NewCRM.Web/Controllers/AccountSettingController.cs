@@ -18,11 +18,7 @@ namespace NewCRM.Web.Controllers
         public AccountSettingController(IAccountApplicationServices accountApplicationServices)
         {
             _accountApplicationServices = accountApplicationServices;
-
         }
-
-
-
 
         #region 页面
         public ActionResult Index()
@@ -90,7 +86,6 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult CheckPassword(String param)
         {
-
             var result = _accountApplicationServices.CheckPassword(param);
 
             return Json(result ? new
@@ -103,7 +98,5 @@ namespace NewCRM.Web.Controllers
                 info = "原始密码错误"
             });
         }
-
-
     }
 }

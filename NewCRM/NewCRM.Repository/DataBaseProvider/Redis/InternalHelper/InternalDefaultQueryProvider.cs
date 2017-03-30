@@ -1003,7 +1003,5 @@ namespace NewCRM.Repository.DataBaseProvider.Redis.InternalHelper
             return keyType;
         }
 
-
     }
-
 }

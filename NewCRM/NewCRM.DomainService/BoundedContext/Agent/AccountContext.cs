@@ -14,7 +14,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
     {
         public Account Validate(String accountName, String password)
         {
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create<Account>(account => account.Name == accountName),account=>new
+            var accountResult = DatabaseQuery.FindOne<Account>(null/*(account) => account.Name == accountName*/, account => new
             {
                 account.Id,
                 account.LoginPassword,
