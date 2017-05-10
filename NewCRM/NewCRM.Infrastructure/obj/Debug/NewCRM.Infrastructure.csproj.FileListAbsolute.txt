@@ -27,3 +27,11 @@ E:\NewCRM\NewCRM\NewCRM.Infrastructure\obj\Debug\NewCRM.Infrastructure.dll
 E:\NewCRM\NewCRM\NewCRM.Infrastructure\obj\Debug\NewCRM.Infrastructure.pdb
 E:\NewCRM\NewCRM\NewCRM.Infrastructure\bin\Debug\NewCRM.Infrastructure.dll.CodeAnalysisLog.xml
 E:\NewCRM\NewCRM\NewCRM.Infrastructure\bin\Debug\NewCRM.Infrastructure.dll.lastcodeanalysissucceeded
+C:\DEV\NewCRM-v1.0\NewCRM\NewCRM.Infrastructure\bin\Debug\NewCRM.Infrastructure.dll.config
+C:\DEV\NewCRM-v1.0\NewCRM\NewCRM.Infrastructure\bin\Debug\NewCRM.Infrastructure.dll
+C:\DEV\NewCRM-v1.0\NewCRM\NewCRM.Infrastructure\bin\Debug\NewCRM.Infrastructure.pdb
+C:\DEV\NewCRM-v1.0\NewCRM\NewCRM.Infrastructure\bin\Debug\Newtonsoft.Json.dll
+C:\DEV\NewCRM-v1.0\NewCRM\NewCRM.Infrastructure\bin\Debug\Newtonsoft.Json.xml
+C:\DEV\NewCRM-v1.0\NewCRM\NewCRM.Infrastructure\obj\Debug\NewCRM.Infrastructure.csprojResolveAssemblyReference.cache
+C:\DEV\NewCRM-v1.0\NewCRM\NewCRM.Infrastructure\obj\Debug\NewCRM.Infrastructure.dll
+C:\DEV\NewCRM-v1.0\NewCRM\NewCRM.Infrastructure\obj\Debug\NewCRM.Infrastructure.pdb

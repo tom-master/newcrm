@@ -3,7 +3,7 @@ using System.Linq;
 using NewCRM.Domain.Entitys;
 using NewCRM.Domain.Factory.DomainSpecification;
 using NewCRM.Domain.Repositories;
-using XYY.MongoService;
+using NewLibrary.Data.Mongo;
 
 namespace NewCRM.Repository.DataBaseProvider.Mongodb
 {

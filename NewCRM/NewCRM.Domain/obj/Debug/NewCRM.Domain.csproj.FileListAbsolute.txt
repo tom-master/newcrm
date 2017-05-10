@@ -21,3 +21,14 @@ E:\NewCRM\NewCRM\NewCRM.Domain\obj\Debug\NewCRM.Domain.csprojResolveAssemblyRefe
 E:\NewCRM\NewCRM\NewCRM.Domain\obj\Debug\NewCRM.Domain.dll
 E:\NewCRM\NewCRM\NewCRM.Domain\obj\Debug\NewCRM.Domain.pdb
 E:\NewCRM\NewCRM\NewCRM.Domain\bin\Debug\NewCRM.Infrastructure.dll.config
+C:\DEV\NewCRM-v1.0\NewCRM\NewCRM.Domain\bin\Debug\NewCRM.Domain.dll.config
+C:\DEV\NewCRM-v1.0\NewCRM\NewCRM.Domain\bin\Debug\NewCRM.Domain.dll
+C:\DEV\NewCRM-v1.0\NewCRM\NewCRM.Domain\bin\Debug\NewCRM.Domain.pdb
+C:\DEV\NewCRM-v1.0\NewCRM\NewCRM.Domain\bin\Debug\NewCRM.Infrastructure.dll
+C:\DEV\NewCRM-v1.0\NewCRM\NewCRM.Domain\bin\Debug\Newtonsoft.Json.dll
+C:\DEV\NewCRM-v1.0\NewCRM\NewCRM.Domain\bin\Debug\NewCRM.Infrastructure.pdb
+C:\DEV\NewCRM-v1.0\NewCRM\NewCRM.Domain\bin\Debug\NewCRM.Infrastructure.dll.config
+C:\DEV\NewCRM-v1.0\NewCRM\NewCRM.Domain\bin\Debug\Newtonsoft.Json.xml
+C:\DEV\NewCRM-v1.0\NewCRM\NewCRM.Domain\obj\Debug\NewCRM.Domain.csprojResolveAssemblyReference.cache
+C:\DEV\NewCRM-v1.0\NewCRM\NewCRM.Domain\obj\Debug\NewCRM.Domain.dll
+C:\DEV\NewCRM-v1.0\NewCRM\NewCRM.Domain\obj\Debug\NewCRM.Domain.pdb
