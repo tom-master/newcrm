@@ -252,7 +252,7 @@ namespace NewCRM.Infrastructure.CommonTools
         public FileUpLoadHelper(String filePath, Boolean isDate, Boolean isCreateNewFileName,
             Boolean isImage, Boolean isThumbnail, Int32 thumbnailWidth, Int32 thumbnailHeight, ThumbnailMode thumbnailMode,
             Boolean isWatermarkText, String watermarkText)
-        {
+        { 
             _isThumbnail = isThumbnail;
             _filePath = filePath;
             _isDate = isDate;
