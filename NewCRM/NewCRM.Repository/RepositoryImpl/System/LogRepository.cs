@@ -4,7 +4,7 @@ using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Repositories;
 using NewCRM.Domain.Repositories.IRepository.System;
 using NewCRM.Repository.DataBaseProvider.EF;
-using NewLibrary.Data.Mongo;
+using NewLib.Data.Mongodb;
 
 namespace NewCRM.Repository.RepositoryImpl.System
 {

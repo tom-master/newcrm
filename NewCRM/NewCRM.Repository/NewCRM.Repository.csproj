@@ -50,8 +50,8 @@
     <Reference Include="NewCRM.Infrastructure">
       <HintPath>..\NewCRM.Infrastructure\bin\Debug\NewCRM.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="NewLibrary.Data.Mongo">
-      <HintPath>..\..\..\MongodbServer(Official)\NewLibrary.Data.Mongo\bin\Debug\NewLibrary.Data.Mongo.dll</HintPath>
+    <Reference Include="NewLib.Data">
+      <HintPath>..\..\..\dev\MongodbServer(Official)\NewLib.Data\bin\Debug\NewLib.Data.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
