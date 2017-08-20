@@ -64,3 +64,5 @@ E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Dto\bin\Debug\Newtonsoft.Json.xml
 E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.csprojResolveAssemblyReference.cache
 E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.dll
 E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.pdb
+E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Dto\bin\Debug\NewCRM.Dto.dll.config
+E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.csproj.CoreCompileInputs.cache

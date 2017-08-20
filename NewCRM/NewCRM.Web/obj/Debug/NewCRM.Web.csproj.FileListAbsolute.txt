@@ -199,3 +199,6 @@ E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\zh-Hans\System.Web.Optimization.resourc
 E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.csprojResolveAssemblyReference.cache
 E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.dll
 E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.pdb
+E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\EntityFramework.DynamicFilters.dll
+E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Dto.dll.config
+E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.csproj.CoreCompileInputs.cache
