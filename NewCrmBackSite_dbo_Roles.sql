@@ -1,9 +1,0 @@
-USE NewCrmBackSite
-
-SELECT TOP 100 * FROM Apps
-
-
-DELETE FROM Apps WHERE Id=4
-
-
-

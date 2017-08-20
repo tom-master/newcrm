@@ -33,9 +33,9 @@ namespace NewCRM.Domain.Factory.DomainSpecification
         /// </summary>
         public abstract void ResetOrderByExpressions();
 
-        public static explicit operator Specification<T>(Expression<Func<T, Boolean>> expression)
-        {
-            return new DefaultSpecification<T>(expression);
-        }
+        //public static explicit operator Specification<T>(Expression<Func<T, Boolean>> expression)
+        //{
+        //    return new DefaultSpecification<T>(expression);
+        //}
     }
 }

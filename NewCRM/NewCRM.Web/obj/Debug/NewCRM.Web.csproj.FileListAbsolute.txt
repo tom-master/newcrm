@@ -202,3 +202,15 @@ E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.pdb
 E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\EntityFramework.DynamicFilters.dll
 E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Dto.dll.config
 E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.csproj.CoreCompileInputs.cache
+E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Repository.dll
+E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewLib.Data.dll
+E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\StackExchange.Redis.dll
+E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Nito.AsyncEx.dll
+E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Nito.AsyncEx.Enlightenment.dll
+E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Repository.pdb
+E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Repository.dll.config
+E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewLib.Data.pdb
+E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewLib.Data.dll.config
+E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\StackExchange.Redis.xml
+E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Nito.AsyncEx.xml
+E:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Nito.AsyncEx.Enlightenment.xml
