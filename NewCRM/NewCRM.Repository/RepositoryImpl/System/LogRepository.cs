@@ -8,7 +8,7 @@ using NewLib.Data.Mongodb;
 
 namespace NewCRM.Repository.RepositoryImpl.System
 {
-    [Export(typeof(IRepository<>)), PartCreationPolicy(CreationPolicy.NonShared)]
+    
     public class LogRepository : EntityFrameworkProvider<Log>, ILogRepository
     {
         private static readonly MongoServiceApi _mongodbContext = new MongoServiceApi();

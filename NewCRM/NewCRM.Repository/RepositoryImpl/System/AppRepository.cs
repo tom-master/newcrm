@@ -6,7 +6,7 @@ using NewCRM.Repository.DataBaseProvider.EF;
 
 namespace NewCRM.Repository.RepositoryImpl.System
 {
-    [Export(typeof(IRepository<>)), PartCreationPolicy(CreationPolicy.NonShared)]
+    
     public class AppRepository : EntityFrameworkProvider<App>,IAppRepository
     {
     }

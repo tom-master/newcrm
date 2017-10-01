@@ -10,7 +10,6 @@ using NewCRM.Domain.Entitys.Agent;
 
 namespace NewCRM.Application.Services
 {
-    [Export(typeof(ISkinApplicationServices))]
     internal class SkinApplicationServices : BaseServiceContext, ISkinApplicationServices
     {
 

@@ -6,7 +6,6 @@ using NewCRM.Repository.DataBaseProvider.EF;
 
 namespace NewCRM.Repository.RepositoryImpl.Agent
 {
-    [Export(typeof(IRepository<>)), PartCreationPolicy(CreationPolicy.NonShared)]
     public class AccountRepository : EntityFrameworkProvider<Account>
         , IAccountRepository
     {

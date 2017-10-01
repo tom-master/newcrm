@@ -6,7 +6,6 @@ using NewCRM.Repository.DataBaseProvider.EF;
 
 namespace NewCRM.Repository.RepositoryImpl.System
 {
-    [Export(typeof(IRepository<>)), PartCreationPolicy(CreationPolicy.NonShared)]
     public class WallpaperRepository : EntityFrameworkProvider<Wallpaper>, IWallpaperRepository
     {
 

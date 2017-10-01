@@ -12,7 +12,6 @@ namespace NewCRM.Repository.DataBaseProvider.Redis.InternalHelper
     /// <summary>
     /// Redis操作
     /// </summary>
-    [Export(typeof(ICacheQueryProvider))]
     internal class InternalDefaultQueryProvider : ICacheQueryProvider
     {
         private Int32 DbNum { get; }

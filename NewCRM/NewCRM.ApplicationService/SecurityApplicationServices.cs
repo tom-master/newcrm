@@ -12,7 +12,6 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Application.Services
 {
-    [Export(typeof(ISecurityApplicationServices))]
     internal class SecurityApplicationServices : BaseServiceContext, ISecurityApplicationServices
     {
         #region Role

@@ -8,7 +8,6 @@ using NewCRM.Domain.Entitys.System;
 
 namespace NewCRM.Repository.DataBaseProvider.EF
 {
-    [Export(typeof(DbContext))]
     public sealed class NewCrmBackSite : DbContext
     {
         public NewCrmBackSite() : base("name=NewCrm")

@@ -6,7 +6,7 @@ using NewCRM.Repository.DataBaseProvider.EF;
 
 namespace NewCRM.Repository.RepositoryImpl.Security
 {
-    [Export(typeof(IRepository<>)), PartCreationPolicy(CreationPolicy.NonShared)]
+    
     public class RoleRepository : EntityFrameworkProvider<Role>,IRoleRepository
     {
     }
