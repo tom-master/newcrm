@@ -13,13 +13,12 @@ using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Application.Services
 {
-    [Export(typeof(ILoggerApplicationServices))]
     internal class LoggerApplicationServices : BaseServiceContext, ILoggerApplicationServices
     {
         private readonly QueryBase _query;
 
-        [ImportingConstructor]
-        public LoggerApplicationServices([Import("Mongodb", typeof(QueryBase))]QueryBase query)
+        
+        public LoggerApplicationServices(QueryBase query)
         {
             _query = query;
         }

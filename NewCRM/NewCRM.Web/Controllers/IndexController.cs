@@ -9,7 +9,6 @@ using Newtonsoft.Json;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class IndexController : BaseController
     {
 
@@ -19,7 +18,7 @@ namespace NewCRM.Web.Controllers
 
         private readonly IDeskApplicationServices _deskApplicationServices;
 
-        [ImportingConstructor]
+        
         public IndexController(IAccountApplicationServices accountApplicationServices,
             IAppApplicationServices appApplicationServices,
             IDeskApplicationServices deskApplicationServices)

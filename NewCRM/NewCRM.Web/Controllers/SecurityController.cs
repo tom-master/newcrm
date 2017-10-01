@@ -9,7 +9,6 @@ using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class SecurityController : BaseController
     {
 
@@ -17,7 +16,7 @@ namespace NewCRM.Web.Controllers
 
         private readonly IAppApplicationServices _appApplicationServices;
 
-        [ImportingConstructor]
+        
         public SecurityController(ISecurityApplicationServices securityApplicationServices,
             IAppApplicationServices appApplicationServices)
         {

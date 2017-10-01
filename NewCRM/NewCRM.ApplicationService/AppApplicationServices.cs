@@ -16,7 +16,6 @@ using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Application.Services
 {
-    [Export(typeof(IAppApplicationServices))]
     internal class AppApplicationServices : BaseServiceContext, IAppApplicationServices
     {
 
@@ -26,7 +25,7 @@ namespace NewCRM.Application.Services
 
         private readonly IModifyAppTypeServices _modifyAppTypeServices;
 
-        [ImportingConstructor]
+        
         public AppApplicationServices(IInstallAppServices installAppServices,
             IModifyAppInfoServices modifyAppInfoServices,
             IModifyAppTypeServices modifyAppTypeServices)

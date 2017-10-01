@@ -9,11 +9,8 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-    [Export(typeof(IModifyDockPostionServices))]
     internal sealed class ModifyDockPostionServices : BaseServiceContext, IModifyDockPostionServices
     {
-
-
         public void ModifyDockPosition(Int32 defaultDeskNumber, String newPosition)
         {
             var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));

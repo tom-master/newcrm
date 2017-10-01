@@ -6,12 +6,11 @@ using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class LogController : BaseController
     {
         private readonly ILoggerApplicationServices _loggerApplicationServices;
 
-        [ImportingConstructor]
+        
         public LogController(ILoggerApplicationServices loggerApplicationServices)
         {
             _loggerApplicationServices = loggerApplicationServices;

@@ -13,7 +13,6 @@ using NewCRM.Repository.UnitOfWorkProvide;
 
 namespace NewCRM.Repository.DataBaseProvider.Redis
 {
-    [Export(typeof(IDomainModelQueryProviderFormCache))]
     internal class QueryProviderFormCache : IDomainModelQueryProviderFormCache
     {
         private readonly ICacheQueryProvider _cacheQueryProvider;
@@ -23,7 +22,6 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
         /// <summary>
         /// 获取 仓储上下文的实例
         /// </summary>
-        [Import]
         protected IUnitOfWork UnitOfWork { get; set; }
 
         /// <summary>
@@ -46,7 +44,7 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
 
         #endregion
 
-        [ImportingConstructor]
+        
         public QueryProviderFormCache(ICacheQueryProvider cacheQueryProvider)
         {
             _cacheQueryProvider = cacheQueryProvider;
@@ -81,33 +79,6 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
         public IEnumerable<T> QueryPage<T>(Specification<T> entity, out Int32 totalCount, Int32 pageIndex, Int32 pageSize) where T : DomainModelBase, IAggregationRoot
         {
             throw new NotSupportedException();
-
-            //String internalKey = entity.Expression.GeneratorRedisKey<T>();
-
-            //Int32 internalStart = (pageIndex - 1) * pageSize, internalEnd = (pageSize + internalStart) - 1;
-
-            //var cacheValue = _cacheQueryProvider.ListRange<T>(internalKey, internalStart, internalEnd);
-
-            //totalCount = (Int32)_cacheQueryProvider.ListLength(internalKey);
-
-            //if (cacheValue == null || !cacheValue.Any())
-            //{
-            //    IList<T> value = EfContext.Set<T, Int32>().Where(entity.Expression).ToList();
-
-            //    if (_cacheQueryProvider.KeyExists(internalKey))
-            //    {
-            //        _cacheQueryProvider.KeyDelete(internalKey);
-            //    }
-
-            //    foreach (var v in value)
-            //    {
-            //        _cacheQueryProvider.ListRightPush(internalKey, v);
-            //    }
-
-            //    return value;
-            //}
-
-            //return cacheValue;
         }
 
     }

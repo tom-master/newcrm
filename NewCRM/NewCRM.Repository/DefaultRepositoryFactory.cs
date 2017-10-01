@@ -9,10 +9,9 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Repository
 {
-    [Export(typeof(RepositoryFactory))]
+    
     internal sealed class DefaultRepositoryFactory : RepositoryFactory
     {
-        [ImportMany(typeof(IRepository<>))]
         private IEnumerable<dynamic> RepositoryFactory { get; set; }
 
         private static readonly IDictionary<String, Type> _repositoryCache = new Dictionary<String, Type>();

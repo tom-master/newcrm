@@ -10,13 +10,12 @@ using NewCRM.Domain.Repositories;
 
 namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
 {
-    [Export("Mongodb", typeof(QueryBase))]
     internal class DefaultQueryFromMongodb : QueryBase
     {
         private readonly IDomainModelQueryProvider _queryProvider;
 
-        [ImportingConstructor]
-        public DefaultQueryFromMongodb([Import("Mongodb", typeof(IDomainModelQueryProvider))]IDomainModelQueryProvider queryProvider)
+        
+        public DefaultQueryFromMongodb(IDomainModelQueryProvider queryProvider)
         {
             _queryProvider = queryProvider;
         }

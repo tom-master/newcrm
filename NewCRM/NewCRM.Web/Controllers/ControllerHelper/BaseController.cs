@@ -8,7 +8,6 @@ namespace NewCRM.Web.Controllers.ControllerHelper
     {
         protected static dynamic AccountDto { get; set; }
 
-        [Export("GetAccountId", typeof(Func<Int32>))]
         protected static Int32 GetAccountId()
         {
             return AccountDto.Id;

@@ -6,7 +6,6 @@ using NewCRM.Domain.Interface.BoundedContextMember;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-    [Export(typeof(IModifyAppTypeServices))]
     internal sealed class ModifyAppTypeServices : BaseServiceContext, IModifyAppTypeServices
     {
   

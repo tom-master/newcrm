@@ -137,7 +137,6 @@
     <Compile Include="Controllers\DeskOptionsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\AccountManagerController.cs" />
-    <Compile Include="DependencySolver.cs" />
     <Compile Include="Filter\AuthFilter.cs" />
     <Compile Include="Filter\ErrorFilter.cs" />
     <Compile Include="Global.asax.cs">

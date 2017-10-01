@@ -4,7 +4,6 @@ using System.ComponentModel.Composition;
 namespace NewCRM.Domain.Factory.DomainCreate.ConcreteFactory
 {
 
-    [Export(typeof(DomainFactory))]
     public sealed class DefaultDomainFactory : DomainFactory
     {
         /// <summary>

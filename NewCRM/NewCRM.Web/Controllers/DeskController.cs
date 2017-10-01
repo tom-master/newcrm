@@ -9,12 +9,11 @@ using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class DeskController : BaseController
     {
         private readonly IDeskApplicationServices _deskApplicationServices;
 
-        [ImportingConstructor]
+        
         public DeskController(IDeskApplicationServices deskApplicationServices)
         {
             _deskApplicationServices = deskApplicationServices;

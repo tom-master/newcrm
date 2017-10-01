@@ -5,7 +5,6 @@ using NewCRM.Domain.Interface.BoundedContextMember;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-    [Export(typeof(ICreateNewFolderServices))]
     internal class CreateNewFolderServices : BaseServiceContext, ICreateNewFolderServices
     {
   

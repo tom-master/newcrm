@@ -10,12 +10,11 @@ using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class AppMarketController : BaseController
     {
         private readonly IAppApplicationServices _appApplicationServices;
 
-        [ImportingConstructor]
+        
         public AppMarketController(IAppApplicationServices appApplicationServices)
         {
             _appApplicationServices = appApplicationServices;

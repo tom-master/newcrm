@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Linq.Expressions;
 using NewCRM.Application.Interface;
 using NewCRM.Domain;
 using NewCRM.Domain.Entitys.Agent;
@@ -18,12 +17,11 @@ using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Application.Services
 {
-    [Export(typeof(IAccountApplicationServices))]
     internal class AccountApplicationServices : BaseServiceContext, IAccountApplicationServices
     {
         private readonly IAccountContext _accountContext;
 
-        [ImportingConstructor]
+        
         public AccountApplicationServices(IAccountContext accountContext)
         {
             _accountContext = accountContext;

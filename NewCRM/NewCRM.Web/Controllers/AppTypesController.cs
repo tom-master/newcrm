@@ -8,12 +8,11 @@ using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class AppTypesController : BaseController
     {
         private readonly IAppApplicationServices _appApplicationServices;
 
-        [ImportingConstructor]
+        
         public AppTypesController(IAppApplicationServices appApplicationServices)
         {
             _appApplicationServices = appApplicationServices;

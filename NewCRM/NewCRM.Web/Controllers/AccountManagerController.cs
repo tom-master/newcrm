@@ -9,15 +9,13 @@ using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class AccountManagerController : BaseController
     {
 
         private readonly IAccountApplicationServices _accountApplicationServices;
 
         private readonly ISecurityApplicationServices _securityApplicationServices;
-
-        [ImportingConstructor]
+		 
         public AccountManagerController(IAccountApplicationServices accountApplicationServices
             , ISecurityApplicationServices securityApplicationServices)
         {

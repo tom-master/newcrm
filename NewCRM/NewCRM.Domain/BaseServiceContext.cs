@@ -10,40 +10,34 @@ using NewCRM.Infrastructure.CommonTools.CustomHelper;
 
 namespace NewCRM.Domain
 {
-    [Export(typeof(BaseServiceContext))]
+    
     public class BaseServiceContext
     {
         /// <summary>
         /// 工作单元
         /// </summary>
-        [Import]
         public IUnitOfWork UnitOfWork { get; set; }
 
         /// <summary>
         /// 数据库查询
         /// </summary>
-        [Import("EF", typeof(QueryBase))]
         public QueryBase DatabaseQuery { get; set; }
 
         /// <summary>
         /// 缓存查询
         /// </summary>
-        [Import("Redis", typeof(QueryBase))]
         public QueryBase CacheQuery { get; set; }
 
         /// <summary>
         /// 规约工厂
         /// </summary>
-        [Import]
         public SpecificationFactory FilterFactory { get; set; }
 
         /// <summary>
         /// 仓储工厂
         /// </summary>
-        [Import]
         public RepositoryFactory Repository { get; set; }
 
-        [Import("GetAccountId", typeof(Func<Int32>))]
         private Func<Int32> GetAccountId { get; set; }
 
         public Int32 AccountId => GetAccountId();

@@ -10,7 +10,6 @@ using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class DeskOptionsController : BaseController
     {
 
@@ -24,7 +23,7 @@ namespace NewCRM.Web.Controllers
 
         private readonly IAccountApplicationServices _accountApplicationServices;
 
-        [ImportingConstructor]
+        
         public DeskOptionsController(IWallpaperApplicationServices wallpaperApplicationServices,
             ISkinApplicationServices skinApplicationServices,
             IDeskApplicationServices deskApplicationServices,

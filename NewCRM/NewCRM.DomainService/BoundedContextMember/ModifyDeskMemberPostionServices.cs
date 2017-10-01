@@ -7,12 +7,8 @@ using NewCRM.Domain.Interface.BoundedContextMember;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-    [Export(typeof(IModifyDeskMemberPostionServices))]
     internal sealed class ModifyDeskMemberPostionServices : BaseServiceContext, IModifyDeskMemberPostionServices
     {
-
-
-
         public void MemberInDock(Int32 memberId)
         {
             var desks = GetDesks();

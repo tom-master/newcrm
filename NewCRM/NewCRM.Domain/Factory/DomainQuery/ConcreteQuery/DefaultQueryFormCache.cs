@@ -10,12 +10,11 @@ using NewCRM.Domain.Repositories;
 
 namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
 {
-    [Export("Redis", typeof(QueryBase))]
     internal class DefaultQueryFormCache : QueryBase
     {
         private readonly IDomainModelQueryProviderFormCache _domainModelQueryProviderFormCache;
 
-        [ImportingConstructor]
+        
         public DefaultQueryFormCache(IDomainModelQueryProviderFormCache domainModelQueryProviderFormCache)
         {
             _domainModelQueryProviderFormCache = domainModelQueryProviderFormCache;

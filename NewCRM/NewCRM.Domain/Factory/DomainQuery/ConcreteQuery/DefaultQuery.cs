@@ -12,17 +12,14 @@ using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
 {
-	[Export("EF", typeof(QueryBase))]
 	internal class DefaultQuery : QueryBase
 	{
 		private readonly IDomainModelQueryProvider _queryProvider;
 
 		private readonly DomainFactory _domainFactory;
 
-		[ImportingConstructor]
-		public DefaultQuery(
-			[Import("EF", typeof(IDomainModelQueryProvider))]IDomainModelQueryProvider queryProvider,
-			[Import(typeof(DomainFactory))] DomainFactory domainFactory)
+
+		public DefaultQuery(IDomainModelQueryProvider queryProvider, DomainFactory domainFactory)
 		{
 			_queryProvider = queryProvider;
 

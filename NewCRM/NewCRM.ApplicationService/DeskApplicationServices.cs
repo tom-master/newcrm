@@ -13,7 +13,6 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Application.Services
 {
-    [Export(typeof(IDeskApplicationServices))]
     internal class DeskApplicationServices : BaseServiceContext, IDeskApplicationServices
     {
 
@@ -25,7 +24,7 @@ namespace NewCRM.Application.Services
 
         private readonly IModifyDeskMemberPostionServices _modifyDeskMemberPostionServices;
 
-        [ImportingConstructor]
+        
         public DeskApplicationServices(IModifyDeskMemberServices modifyDeskMemberServices,
             IModifyDockPostionServices modifyDockPostionServices,
             ICreateNewFolderServices createNewFolderServices,

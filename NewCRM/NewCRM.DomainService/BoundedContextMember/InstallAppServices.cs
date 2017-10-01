@@ -8,7 +8,7 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-    [Export(typeof(IInstallAppServices))]
+    
     internal sealed class InstallAppServices : BaseServiceContext, IInstallAppServices
     {
         public void Install(Int32 appId, Int32 deskNum)

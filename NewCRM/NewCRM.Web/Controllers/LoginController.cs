@@ -8,12 +8,11 @@ using Newtonsoft.Json;
 
 namespace NewCRM.Web.Controllers
 {
-    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class LoginController : BaseController
     {
         private readonly IAccountApplicationServices _accountApplicationServices;
 
-        [ImportingConstructor]
+        
         public LoginController(IAccountApplicationServices accountApplicationServices)
         {
             _accountApplicationServices = accountApplicationServices;

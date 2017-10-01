@@ -13,12 +13,11 @@ namespace NewCRM.Repository.DataBaseProvider.EF
     /// <summary>
     /// 提供查询
     /// </summary>
-    [Export("EF", typeof(IDomainModelQueryProvider))]
     internal class QueryProvider : IDomainModelQueryProvider
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        [ImportingConstructor]
+        
         public QueryProvider(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;

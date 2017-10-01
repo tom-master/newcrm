@@ -8,7 +8,7 @@ using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-    [Export(typeof(IModifyDeskMemberServices))]
+    
     internal sealed class ModifyDeskMemberServices : BaseServiceContext, IModifyDeskMemberServices
     {
 

@@ -18,13 +18,12 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Application.Services
 {
-    [Export(typeof(IWallpaperApplicationServices))]
     internal class WallpaperApplicationServices : BaseServiceContext, IWallpaperApplicationServices
     {
 
         private readonly IModifyWallpaperServices _modifyWallpaperServices;
 
-        [ImportingConstructor]
+        
         public WallpaperApplicationServices(IModifyWallpaperServices modifyWallpaperServices)
         {
             _modifyWallpaperServices = modifyWallpaperServices;

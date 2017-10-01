@@ -9,7 +9,6 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Services.BoundedContext.Agent
 {
-    [Export(typeof(IAccountContext))]
     internal class AccountContext : BaseServiceContext, IAccountContext
     {
         public Account Validate(String accountName, String password)

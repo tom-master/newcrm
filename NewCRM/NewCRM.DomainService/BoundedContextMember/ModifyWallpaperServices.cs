@@ -8,7 +8,6 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-    [Export(typeof(IModifyWallpaperServices))]
     internal sealed class ModifyWallpaperServices : BaseServiceContext, IModifyWallpaperServices
     {
 

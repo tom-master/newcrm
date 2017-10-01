@@ -9,7 +9,6 @@ namespace NewCRM.Repository.UnitOfWorkProvide
     /// <summary>
     /// 数据单元操作类
     /// </summary> 
-    [Export(typeof(IUnitOfWork))]
     public class EfUnitOfWorkContext : UnitOfWorkContextBase
     {
         /// <summary>
@@ -17,7 +16,6 @@ namespace NewCRM.Repository.UnitOfWorkProvide
         /// </summary>
         protected override DbContext Context => EfDbContext.Value;
 
-        [Import(typeof(DbContext))]
         private Lazy<NewCrmBackSite> EfDbContext { get; set; }
 
     }
