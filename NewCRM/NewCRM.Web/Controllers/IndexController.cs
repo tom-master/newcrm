@@ -47,9 +47,9 @@ namespace NewCRM.Web.Controllers
             {
                 ViewData["Account"] = JsonConvert.DeserializeObject<AccountDto>(Request.Cookies["Account"].Value);
 
-                ViewData["AccountConfig"] = _accountApplicationServices.GetConfig();
+                ViewData["AccountConfig"] = _accountApplicationServices.GetConfig(0);
 
-                ViewData["Desks"] = _accountApplicationServices.GetConfig().DefaultDeskCount;
+                ViewData["Desks"] = _accountApplicationServices.GetConfig(0).DefaultDeskCount;
 
                 return View();
             }
@@ -76,7 +76,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult GetSkin()
         {
-            var skinName = _accountApplicationServices.GetConfig().Skin;
+            var skinName = _accountApplicationServices.GetConfig(0).Skin;
 
             return Json(new { data = skinName }, JsonRequestBehavior.AllowGet);
         }
@@ -87,7 +87,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult GetWallpaper()
         {
-            var config = _accountApplicationServices.GetConfig();
+            var config = _accountApplicationServices.GetConfig(0);
 
             return Json(new
             {
@@ -108,7 +108,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult GetDockPos()
         {
-            var dockPos = _accountApplicationServices.GetConfig().DockPosition;
+            var dockPos = _accountApplicationServices.GetConfig(0).DockPosition;
 
             return Json(new { data = dockPos }, JsonRequestBehavior.AllowGet);
         }
@@ -119,7 +119,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult GetAccountDeskMembers()
         {
-            var app = _appApplicationServices.GetDeskMembers();
+            var app = _appApplicationServices.GetDeskMembers(0);
 
             return Json(new { app }, JsonRequestBehavior.AllowGet);
         }
@@ -130,7 +130,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult GetAccountFace()
         {
-            return Json(new { data = _accountApplicationServices.GetConfig().AccountFace }, JsonRequestBehavior.AllowGet);
+            return Json(new { data = _accountApplicationServices.GetConfig(0).AccountFace }, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -142,8 +142,8 @@ namespace NewCRM.Web.Controllers
         public ActionResult CreateWindow(Int32 id = 0, String type = "")
         {
 
-            var internalMemberResult = type == "folder" ? _deskApplicationServices.GetMember(id, true)
-                 : _deskApplicationServices.GetMember(id);
+            var internalMemberResult = type == "folder" ? _deskApplicationServices.GetMember(0, id, true)
+                 : _deskApplicationServices.GetMember(0, id);
 
             return Json(new
             {

@@ -471,29 +471,29 @@ namespace NewCRM.Application.Services
 			UnitOfWork.Commit();
 		}
 
-		public void ModifyAppStar(Int32 appId, Int32 starCount)
+		public void ModifyAppStar(Int32 accountId, Int32 appId, Int32 starCount)
 		{
 			ValidateParameter.Validate(appId).Validate(starCount, true);
 
-			_modifyAppInfoServices.ModifyAppStar(appId, starCount);
+			_modifyAppInfoServices.ModifyAppStar(accountId, appId, starCount);
 
 			UnitOfWork.Commit();
 		}
 
-		public void InstallApp(Int32 appId, Int32 deskNum)
+		public void InstallApp(Int32 accountId, Int32 appId, Int32 deskNum)
 		{
 			ValidateParameter.Validate(appId).Validate(deskNum);
 
-			_installAppServices.Install(appId, deskNum);
+			_installAppServices.Install(accountId, appId, deskNum);
 
 			UnitOfWork.Commit();
 		}
 
-		public void ModifyAccountAppInfo(AppDto appDto)
+		public void ModifyAccountAppInfo(Int32 accountId, AppDto appDto)
 		{
 			ValidateParameter.Validate(appDto);
 
-			_modifyAppInfoServices.ModifyAccountAppInfo(appDto.ConvertToModel<AppDto, App>());
+			_modifyAppInfoServices.ModifyAccountAppInfo(accountId, appDto.ConvertToModel<AppDto, App>());
 
 			UnitOfWork.Commit();
 		}

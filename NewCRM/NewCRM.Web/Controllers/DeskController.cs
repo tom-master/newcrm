@@ -25,7 +25,7 @@ namespace NewCRM.Web.Controllers
         // GET: Desks
         public ActionResult EditMember(Int32 memberId)
         {
-            var memberResult = _deskApplicationServices.GetMember(memberId);
+            var memberResult = _deskApplicationServices.GetMember(0, memberId);
 
             return View(memberResult);
         }
@@ -41,31 +41,31 @@ namespace NewCRM.Web.Controllers
             switch (moveType)
             {
                 case "desk-dock": //成员从桌面移动到码头
-                    _deskApplicationServices.MemberInDock(memberId);
+                    _deskApplicationServices.MemberInDock(0, memberId);
                     break;
                 case "dock-desk": //成员从码头移动到桌面
-                    _deskApplicationServices.MemberOutDock(memberId, to);
+                    _deskApplicationServices.MemberOutDock(0, memberId, to);
                     break;
                 case "dock-folder": //成员从码头移动到桌面文件夹中
-                    _deskApplicationServices.DockToFolder(memberId, to);
+                    _deskApplicationServices.DockToFolder(0, memberId, to);
                     break;
                 case "folder-dock": //成员从文件夹移动到码头
-                    _deskApplicationServices.FolderToDock(memberId);
+                    _deskApplicationServices.FolderToDock(0, memberId);
                     break;
                 case "desk-folder": //成员从桌面移动到文件夹
-                    _deskApplicationServices.DeskToFolder(memberId, to);
+                    _deskApplicationServices.DeskToFolder(0, memberId, to);
                     break;
                 case "folder-desk": //成员从文件夹移动到桌面
-                    _deskApplicationServices.FolderToDesk(memberId, to);
+                    _deskApplicationServices.FolderToDesk(0, memberId, to);
                     break;
                 case "folder-folder": //成员从文件夹移动到另一个文件夹中
-                    _deskApplicationServices.FolderToOtherFolder(memberId, to);
+                    _deskApplicationServices.FolderToOtherFolder(0, memberId, to);
                     break;
                 case "desk-desk":
-                    _deskApplicationServices.DeskToOtherDesk(memberId, to);
+                    _deskApplicationServices.DeskToOtherDesk(0, memberId, to);
                     break;
                 case "dock-otherdesk":
-                    _deskApplicationServices.DockToOtherDesk(memberId, to);
+                    _deskApplicationServices.DockToOtherDesk(0, memberId, to);
                     break;
             }
             return Json(new { success = 1 });
@@ -80,7 +80,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyFolderInfo(String name, String icon, Int32 memberId)
         {
-            _deskApplicationServices.ModifyFolderInfo(name, icon, memberId);
+            _deskApplicationServices.ModifyFolderInfo(0, name, icon, memberId);
 
             return Json(new { success = 1 });
         }
@@ -105,7 +105,7 @@ namespace NewCRM.Web.Controllers
                 MemberType = forms["membertype"]
             };
 
-            _deskApplicationServices.ModifyMemberInfo(memberDto);
+            _deskApplicationServices.ModifyMemberInfo(0, memberDto);
 
             return Json(new { success = 1 });
         }
@@ -140,7 +140,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult UnInstallMember(Int32 memberId)
         {
-            _deskApplicationServices.RemoveMember(memberId);
+            _deskApplicationServices.RemoveMember(0, memberId);
 
             return Json(new { success = 1 });
         }

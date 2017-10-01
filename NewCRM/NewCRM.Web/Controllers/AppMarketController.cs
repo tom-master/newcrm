@@ -110,7 +110,7 @@ namespace NewCRM.Web.Controllers
 		{
 			Int32 totalCount;
 
-			var appResults = _appApplicationServices.GetAllApps(appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
+			var appResults = _appApplicationServices.GetAllApps(0, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
 
 			return Json(new
 			{
@@ -128,7 +128,7 @@ namespace NewCRM.Web.Controllers
 		public ActionResult ModifyAppStart(Int32 appId, Int32 starCount)
 		{
 
-			_appApplicationServices.ModifyAppStar(appId, starCount);
+			_appApplicationServices.ModifyAppStar(0, appId, starCount);
 			return Json(new { success = 1 });
 		}
 
@@ -140,7 +140,7 @@ namespace NewCRM.Web.Controllers
 		/// <returns></returns>
 		public ActionResult InstallApp(Int32 appId, Int32 deskNum)
 		{
-			_appApplicationServices.InstallApp(appId, deskNum);
+			_appApplicationServices.InstallApp(0, appId, deskNum);
 			return Json(new { success = 1 });
 		}
 
@@ -176,7 +176,7 @@ namespace NewCRM.Web.Controllers
 		public ActionResult ModifyAppInfo(FormCollection forms)
 		{
 			var appDto = WrapperAppDto(forms);
-			_appApplicationServices.ModifyAccountAppInfo(appDto);
+			_appApplicationServices.ModifyAccountAppInfo(0, appDto);
 
 			return Json(new { success = 1 });
 		}

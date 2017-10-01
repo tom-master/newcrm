@@ -51,7 +51,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult SystemWallPaper()
         {
-            ViewData["AccountConfig"] = _accountApplicationServices.GetConfig();
+            ViewData["AccountConfig"] = _accountApplicationServices.GetConfig(0);
 
             ViewData["Wallpapers"] = _wallpaperApplicationServices.GetWallpaper();
 
@@ -64,7 +64,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult CustomWallPaper()
         {
-            ViewData["AccountConfig"] = _accountApplicationServices.GetConfig();
+            ViewData["AccountConfig"] = _accountApplicationServices.GetConfig(0);
 
             return View();
         }
@@ -84,9 +84,9 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult DeskSet()
         {
-            ViewData["AccountConfig"] = _accountApplicationServices.GetConfig();
+            ViewData["AccountConfig"] = _accountApplicationServices.GetConfig(0);
 
-            ViewData["Desks"] = _accountApplicationServices.GetConfig().DefaultDeskCount;
+            ViewData["Desks"] = _accountApplicationServices.GetConfig(0).DefaultDeskCount;
 
             return View();
         }
@@ -207,7 +207,7 @@ namespace NewCRM.Web.Controllers
 
             var data = _skinApplicationServices.GetAllSkin(skinPath);
 
-            return Json(new { data, currentSkin = _accountApplicationServices.GetConfig().Skin });
+            return Json(new { data, currentSkin = _accountApplicationServices.GetConfig(0).Skin });
         }
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifySkin(String skin = "")
         {
-            _skinApplicationServices.ModifySkin(skin);
+            _skinApplicationServices.ModifySkin(0, skin);
 
             return Json(new { success = 1 });
         }
@@ -229,7 +229,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyDefaultDesk(Int32 deskNum)
         {
-            _deskApplicationServices.ModifyDefaultDeskNumber(deskNum);
+            _deskApplicationServices.ModifyDefaultDeskNumber(0, deskNum);
 
             return Json(new { success = 1 });
         }
@@ -241,7 +241,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyAppXy(String appXy)
         {
-            _appApplicationServices.ModifyAppDirection(appXy);
+            _appApplicationServices.ModifyAppDirection(0, appXy);
 
             return Json(new { success = 1 });
         }
@@ -253,7 +253,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyAppSize(Int32 appSize)
         {
-            _appApplicationServices.ModifyAppIconSize(appSize);
+            _appApplicationServices.ModifyAppIconSize(0, appSize);
 
             return Json(new { success = 1 });
         }
@@ -265,7 +265,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyAppVertical(Int32 appVertical)
         {
-            _appApplicationServices.ModifyAppVerticalSpacing(appVertical);
+            _appApplicationServices.ModifyAppVerticalSpacing(0, appVertical);
 
             return Json(new { success = 1 });
         }
@@ -277,7 +277,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyAppHorizontal(Int32 appHorizontal)
         {
-            _appApplicationServices.ModifyAppHorizontalSpacing(appHorizontal);
+            _appApplicationServices.ModifyAppHorizontalSpacing(0, appHorizontal);
 
             return Json(new { success = 1 });
         }
@@ -290,7 +290,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyDockPosition(String pos = "", Int32 deskNum = 0)
         {
-            _deskApplicationServices.ModifyDockPosition(deskNum, pos);
+            _deskApplicationServices.ModifyDockPosition(0, deskNum, pos);
 
             return Json(new { success = 1 });
         }

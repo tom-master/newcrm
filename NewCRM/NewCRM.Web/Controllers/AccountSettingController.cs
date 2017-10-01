@@ -39,7 +39,7 @@ namespace NewCRM.Web.Controllers
                 var fileUpLoadHelper = new FileUpLoadHelper(ConfigurationManager.AppSettings["UploadIconPath"], false, true);
                 if (fileUpLoadHelper.SaveFile(icon))
                 {
-                    _accountApplicationServices.ModifyAccountFace(fileUpLoadHelper.FilePath + fileUpLoadHelper.NewFileName);
+                    _accountApplicationServices.ModifyAccountFace(0, fileUpLoadHelper.FilePath + fileUpLoadHelper.NewFileName);
 
                     return Json(new { success = true, msg = "" });
                 }
@@ -55,7 +55,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyAccountPassword(FormCollection forms)
         {
-            _accountApplicationServices.ModifyPassword(forms["password"]);
+            _accountApplicationServices.ModifyPassword(0, forms["password"]);
 
             return Json(new
             {
@@ -70,7 +70,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult ModifyLockScreenPassword(FormCollection forms)
         {
-            _accountApplicationServices.ModifyLockScreenPassword(forms["lockpassword"]);
+            _accountApplicationServices.ModifyLockScreenPassword(0, forms["lockpassword"]);
 
             return Json(new
             {
@@ -85,7 +85,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult CheckPassword(String param)
         {
-            var result = _accountApplicationServices.CheckPassword(param);
+            var result = _accountApplicationServices.CheckPassword(0, param);
 
             return Json(result ? new
             {

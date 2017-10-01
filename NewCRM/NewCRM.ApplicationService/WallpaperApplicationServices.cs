@@ -112,7 +112,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(newMode);
 
-            _modifyWallpaperServices.ModifyWallpaperMode(newMode);
+            _modifyWallpaperServices.ModifyWallpaperMode(accountId,newMode);
 
             UnitOfWork.Commit();
         }
@@ -121,7 +121,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(newWallpaperId);
 
-            _modifyWallpaperServices.ModifyWallpaper(newWallpaperId);
+            _modifyWallpaperServices.ModifyWallpaper(accountId, newWallpaperId);
 
             UnitOfWork.Commit();
         }
@@ -130,7 +130,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(wallpaperId);
 
-            _modifyWallpaperServices.RemoveWallpaper(wallpaperId);
+            _modifyWallpaperServices.RemoveWallpaper(accountId, wallpaperId);
 
             UnitOfWork.Commit();
         }
