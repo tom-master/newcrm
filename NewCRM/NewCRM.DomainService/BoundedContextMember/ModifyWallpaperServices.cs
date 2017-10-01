@@ -8,49 +8,49 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-    internal sealed class ModifyWallpaperServices : BaseServiceContext, IModifyWallpaperServices
-    {
+	internal sealed class ModifyWallpaperServices : BaseServiceContext, IModifyWallpaperServices
+	{
 
 
-        public void ModifyWallpaperMode(String newMode)
-        {
-            WallpaperMode wallpaperMode;
+		public void ModifyWallpaperMode(Int32 accountId, String newMode)
+		{
+			WallpaperMode wallpaperMode;
 
-            if (Enum.TryParse(newMode, true, out wallpaperMode))
-            {
-                var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+			if (Enum.TryParse(newMode, true, out wallpaperMode))
+			{
+				var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
 
-                accountResult.Config.ModifyDisplayMode(wallpaperMode);
+				accountResult.Config.ModifyDisplayMode(wallpaperMode);
 
-                Repository.Create<Account>().Update(accountResult);
-            }
-            else
-            {
-                throw new BusinessException($"无法识别的壁纸显示模式:{newMode}");
-            }
-        }
+				Repository.Create<Account>().Update(accountResult);
+			}
+			else
+			{
+				throw new BusinessException($"无法识别的壁纸显示模式:{newMode}");
+			}
+		}
 
-        public void ModifyWallpaper(Int32 newWallpaperId)
-        {
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+		public void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId)
+		{
+			var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
 
-            var wallpaperResult = DatabaseQuery.FindOne(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Id == newWallpaperId));
+			var wallpaperResult = DatabaseQuery.FindOne(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Id == newWallpaperId));
 
-            accountResult.Config.ModifyWallpaper(wallpaperResult);
+			accountResult.Config.ModifyWallpaper(wallpaperResult);
 
-            Repository.Create<Account>().Update(accountResult);
-        }
+			Repository.Create<Account>().Update(accountResult);
+		}
 
-        public void RemoveWallpaper(Int32 wallpaperId)
-        {
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+		public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
+		{
+			var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
 
-            if (accountResult.Config.Wallpaper.Id == wallpaperId)
-            {
-                throw new BusinessException($"当前壁纸正在使用或已被删除");
-            }
+			if (accountResult.Config.Wallpaper.Id == wallpaperId)
+			{
+				throw new BusinessException($"当前壁纸正在使用或已被删除");
+			}
 
-            Repository.Create<Wallpaper>().Remove(wallpaper => wallpaper.Id == wallpaperId);
-        }
-    }
+			Repository.Create<Wallpaper>().Remove(wallpaper => wallpaper.Id == wallpaperId);
+		}
+	}
 }

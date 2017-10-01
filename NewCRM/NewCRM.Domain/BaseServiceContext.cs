@@ -38,10 +38,6 @@ namespace NewCRM.Domain
         /// </summary>
         public RepositoryFactory Repository { get; set; }
 
-        private Func<Int32> GetAccountId { get; set; }
-
-        public Int32 AccountId => GetAccountId();
-
         /// <summary>
         /// 参数验证
         /// </summary>

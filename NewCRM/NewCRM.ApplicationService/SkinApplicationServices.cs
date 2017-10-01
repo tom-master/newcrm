@@ -34,11 +34,11 @@ namespace NewCRM.Application.Services
 
         }
 
-        public void ModifySkin(String newSkin)
+        public void ModifySkin(Int32 accountId,String newSkin)
         {
             ValidateParameter.Validate(newSkin);
 
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
 
             accountResult.Config.ModifySkin(newSkin);
 

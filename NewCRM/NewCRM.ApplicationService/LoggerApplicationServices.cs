@@ -23,9 +23,9 @@ namespace NewCRM.Application.Services
             _query = query;
         }
 
-        public void AddLogger(LogDto log)
+        public void AddLogger(Int32 accountId,LogDto log)
         {
-            log.AccountId = AccountId;
+            log.AccountId = accountId;
 
             Repository.Create<Log>().Add(log.ConvertToModel<LogDto, Log>());
         }

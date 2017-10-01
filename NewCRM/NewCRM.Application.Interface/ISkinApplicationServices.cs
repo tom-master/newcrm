@@ -12,10 +12,11 @@ namespace NewCRM.Application.Interface
         /// <returns></returns>
         IDictionary<String, dynamic> GetAllSkin(String skinPath);
 
-        /// <summary>
-        /// 修改默认显示的皮肤
-        /// </summary>
-        /// <param name="newSkin"></param>
-        void ModifySkin(String newSkin);
+	    /// <summary>
+	    /// 修改默认显示的皮肤
+	    /// </summary>
+	    /// <param name="accountId"></param>
+	    /// <param name="newSkin"></param>
+	    void ModifySkin(Int32 accountId,String newSkin);
     }
 }

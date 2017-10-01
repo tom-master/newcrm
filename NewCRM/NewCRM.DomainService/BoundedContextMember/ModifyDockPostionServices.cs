@@ -11,9 +11,9 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 {
     internal sealed class ModifyDockPostionServices : BaseServiceContext, IModifyDockPostionServices
     {
-        public void ModifyDockPosition(Int32 defaultDeskNumber, String newPosition)
+        public void ModifyDockPosition(Int32 accountId,Int32 defaultDeskNumber, String newPosition)
         {
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
 
             DockPostion dockPostion;
 

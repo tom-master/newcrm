@@ -17,279 +17,265 @@ using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Application.Services
 {
-    internal class AccountApplicationServices : BaseServiceContext, IAccountApplicationServices
-    {
-        private readonly IAccountContext _accountContext;
+	internal class AccountApplicationServices : BaseServiceContext, IAccountApplicationServices
+	{
+		private readonly IAccountContext _accountContext;
 
-        
-        public AccountApplicationServices(IAccountContext accountContext)
-        {
-            _accountContext = accountContext;
 
-        }
+		public AccountApplicationServices(IAccountContext accountContext)
+		{
+			_accountContext = accountContext;
 
-        public AccountDto Login(String accountName, String password)
-        {
-            ValidateParameter.Validate(accountName).Validate(password);
+		}
 
-            var account = _accountContext.Validate(accountName, password).ConvertToDto<Account, AccountDto>();
+		public AccountDto Login(String accountName, String password)
+		{
+			ValidateParameter.Validate(accountName).Validate(password);
 
-            UnitOfWork.Commit();
+			var account = _accountContext.Validate(accountName, password).ConvertToDto<Account, AccountDto>();
 
-            return account;
+			UnitOfWork.Commit();
 
-        }
+			return account;
 
-        public ConfigDto GetConfig()
-        {
+		}
 
-            var accountResult = CacheQuery.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+		public ConfigDto GetConfig(Int32 accountId)
+		{
 
-            if (accountResult == null)
-            {
-                throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
-            }
+			var accountResult = CacheQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
 
-            var accountConfig = accountResult.Config;
+			if (accountResult == null)
+			{
+				throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
+			}
 
-            return DtoConfiguration.ConvertDynamicToDto<ConfigDto>(new
-            {
-                accountConfig.Id,
-                accountConfig.Skin,
-                accountConfig.AccountFace,
-                accountConfig.AppSize,
-                accountConfig.AppVerticalSpacing,
-                accountConfig.AppHorizontalSpacing,
-                accountConfig.DefaultDeskNumber,
-                accountConfig.DefaultDeskCount,
-                AppXy = accountConfig.AppXy.ToString().ToLower(),
-                DockPosition = accountConfig.DockPosition.ToString().ToLower(),
-                WallpaperUrl = accountConfig.Wallpaper.Url,
-                WallpaperWidth = accountConfig.Wallpaper.Width,
-                WallpaperHeigth = accountConfig.Wallpaper.Height,
-                WallpaperSource = accountConfig.Wallpaper.Source.ToString().ToLower(),
-                WallpaperMode = accountConfig.WallpaperMode.ToString().ToLower()
-            });
+			var accountConfig = accountResult.Config;
 
-        }
+			return DtoConfiguration.ConvertDynamicToDto<ConfigDto>(new
+			{
+				accountConfig.Id,
+				accountConfig.Skin,
+				accountConfig.AccountFace,
+				accountConfig.AppSize,
+				accountConfig.AppVerticalSpacing,
+				accountConfig.AppHorizontalSpacing,
+				accountConfig.DefaultDeskNumber,
+				accountConfig.DefaultDeskCount,
+				AppXy = accountConfig.AppXy.ToString().ToLower(),
+				DockPosition = accountConfig.DockPosition.ToString().ToLower(),
+				WallpaperUrl = accountConfig.Wallpaper.Url,
+				WallpaperWidth = accountConfig.Wallpaper.Width,
+				WallpaperHeigth = accountConfig.Wallpaper.Height,
+				WallpaperSource = accountConfig.Wallpaper.Source.ToString().ToLower(),
+				WallpaperMode = accountConfig.WallpaperMode.ToString().ToLower()
+			});
 
-        public List<AccountDto> GetAccounts(String accountName, String accountType, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
-        {
-            ValidateParameter.Validate(accountName).Validate(pageIndex).Validate(pageSize);
+		}
 
-            var filter = FilterFactory.Create<Account>(account => (accountName + "").Length == 0 || account.Name.Contains(accountName));
+		public List<AccountDto> GetAccounts(String accountName, String accountType, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+		{
+			ValidateParameter.Validate(accountName).Validate(pageIndex).Validate(pageSize);
 
-            if ((accountType + "").Length > 0)
-            {
-                var isAdmin = (EnumExtensions.ParseToEnum<AccountType>(Int32.Parse(accountType)) == AccountType.Admin);
+			var filter = FilterFactory.Create<Account>(account => (accountName + "").Length == 0 || account.Name.Contains(accountName));
 
-                filter.And(account => account.IsAdmin == isAdmin);
-            }
+			if ((accountType + "").Length > 0)
+			{
+				var isAdmin = (EnumExtensions.ParseToEnum<AccountType>(Int32.Parse(accountType)) == AccountType.Admin);
 
-            return DatabaseQuery.PageBy(filter, pageIndex, pageSize, out totalCount).Select(account => new
-            {
-                account.Id,
-                AccountType = account.IsAdmin ? "2" /*管理员*/ : "1" /*用户*/,
-                account.Name,
-                account.Config.AccountFace,
-                account.IsDisable
-            }).ConvertDynamicToDtos<AccountDto>().ToList();
+				filter.And(account => account.IsAdmin == isAdmin);
+			}
 
-        }
+			return DatabaseQuery.PageBy(filter, pageIndex, pageSize, out totalCount).Select(account => new
+			{
+				account.Id,
+				AccountType = account.IsAdmin ? "2" /*管理员*/ : "1" /*用户*/,
+				account.Name,
+				account.Config.AccountFace,
+				account.IsDisable
+			}).ConvertDynamicToDtos<AccountDto>().ToList();
 
-        public AccountDto GetAccount(Int32 accountId = default(Int32))
-        {
+		}
 
-            Account accountResult;
+		public AccountDto GetAccount(Int32 accountId = default(Int32))
+		{
+			var accountResult = CacheQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
+			if (accountResult == null)
+			{
+				throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
+			}
 
-            if (accountId == default(Int32))
-            {
-                accountResult = CacheQuery.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
-            }
-            else
-            {
-                accountResult = CacheQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            }
+			return accountResult.ConvertToDto<Account, AccountDto>();
 
-            if (accountResult == null)
-            {
-                throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
-            }
+		}
 
-            return accountResult.ConvertToDto<Account, AccountDto>();
+		public Boolean CheckAccountNameExist(String accountName)
+		{
+			ValidateParameter.Validate(accountName);
+			return !DatabaseQuery.Find(FilterFactory.Create<Account>(account => account.Name == accountName)).Any();
 
-        }
+		}
 
-        public Boolean CheckAccountNameExist(String accountName)
-        {
-            ValidateParameter.Validate(accountName);
+		public Boolean CheckPassword(Int32 accountId, String oldAccountPassword)
+		{
+			ValidateParameter.Validate(oldAccountPassword);
+			var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
+			return PasswordUtil.ComparePasswords(accountResult.LoginPassword, oldAccountPassword);
+		}
 
-            return !DatabaseQuery.Find(FilterFactory.Create<Account>(account => account.Name == accountName)).Any();
+		public void AddNewAccount(AccountDto accountDto)
+		{
+			var account = accountDto.ConvertToModel<AccountDto, Account>();
 
-        }
+			var accountType = EnumExtensions.ParseToEnum<AccountType>(account.IsAdmin ? 2 /*管理员*/ : 1 /*用户*/);
 
-        public Boolean CheckPassword(String oldAccountPassword)
-        {
-            ValidateParameter.Validate(oldAccountPassword);
+			var internalNewAccount = new Account(account.Name, PasswordUtil.CreateDbPassword(account.LoginPassword), accountType);
 
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+			internalNewAccount.AddRole(account.Roles.Select(role => role.RoleId).ToArray());
 
-            return PasswordUtil.ComparePasswords(accountResult.LoginPassword, oldAccountPassword);
-        }
+			Repository.Create<Account>().Add(internalNewAccount);
 
-        public void AddNewAccount(AccountDto accountDto)
-        {
-            var account = accountDto.ConvertToModel<AccountDto, Account>();
+			IList<Desk> desks = new List<Desk>();
 
-            var accountType = EnumExtensions.ParseToEnum<AccountType>(account.IsAdmin ? 2 /*管理员*/ : 1 /*用户*/);
+			for (var i = 1; i <= internalNewAccount.Config.DefaultDeskCount; i++)
+			{
+				desks.Add(new Desk(i, internalNewAccount.Id));
+			}
 
-            var internalNewAccount = new Account(account.Name, PasswordUtil.CreateDbPassword(account.LoginPassword), accountType);
+			Repository.Create<Desk>().Add(desks);
 
-            internalNewAccount.AddRole(account.Roles.Select(role => role.RoleId).ToArray());
+			UnitOfWork.Commit();
+		}
 
-            Repository.Create<Account>().Add(internalNewAccount);
+		public void ModifyAccount(AccountDto accountDto)
+		{
+			var account = accountDto.ConvertToModel<AccountDto, Account>();
 
-            IList<Desk> desks = new List<Desk>();
+			var accountResult = DatabaseQuery.FindOne(FilterFactory.Create<Account>(internalAccount => internalAccount.Id == account.Id));
 
-            for (var i = 1; i <= internalNewAccount.Config.DefaultDeskCount; i++)
-            {
-                desks.Add(new Desk(i, internalNewAccount.Id));
-            }
+			if (accountResult == null)
+			{
+				throw new BusinessException($"用户{account.Name}可能已被禁用或删除");
+			}
 
-            Repository.Create<Desk>().Add(desks);
+			if ((account.LoginPassword + "").Length > 0)
+			{
+				var newPassword = PasswordUtil.CreateDbPassword(account.LoginPassword);
 
-            UnitOfWork.Commit();
-        }
+				accountResult.ModifyPassword(newPassword);
+			}
 
-        public void ModifyAccount(AccountDto accountDto)
-        {
-            var account = accountDto.ConvertToModel<AccountDto, Account>();
+			if (accountResult.Roles.Any())
+			{
+				accountResult.Roles.ToList().ForEach(role =>
+				{
+					role.Remove();
+				});
+			}
 
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create<Account>(internalAccount => internalAccount.Id == account.Id));
+			accountResult.AddRole(account.Roles.Select(role => role.RoleId).ToArray());
 
-            if (accountResult == null)
-            {
-                throw new BusinessException($"用户{account.Name}可能已被禁用或删除");
-            }
+			Repository.Create<Account>().Update(accountResult);
 
-            if ((account.LoginPassword + "").Length > 0)
-            {
-                var newPassword = PasswordUtil.CreateDbPassword(account.LoginPassword);
+			UnitOfWork.Commit();
 
-                accountResult.ModifyPassword(newPassword);
-            }
+		}
 
-            if (accountResult.Roles.Any())
-            {
-                accountResult.Roles.ToList().ForEach(role =>
-                {
-                    role.Remove();
-                });
-            }
+		public void Logout(Int32 accountId)
+		{
+			_accountContext.Logout(accountId);
 
-            accountResult.AddRole(account.Roles.Select(role => role.RoleId).ToArray());
+			UnitOfWork.Commit();
+		}
 
-            Repository.Create<Account>().Update(accountResult);
+		public void Enable(Int32 accountId)
+		{
+			ValidateParameter.Validate(accountId);
 
-            UnitOfWork.Commit();
+			var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
 
-        }
+			if (accountResult == null)
+			{
+				throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
+			}
 
-        public void Logout()
-        {
-            _accountContext.Logout(AccountId);
+			accountResult.Enable();
 
-            UnitOfWork.Commit();
-        }
+			Repository.Create<Account>().Update(accountResult);
 
-        public void Enable(Int32 accountId)
-        {
-            ValidateParameter.Validate(accountId);
+			UnitOfWork.Commit();
 
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
+		}
 
-            if (accountResult == null)
-            {
-                throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
-            }
+		public void Disable(Int32 accountId)
+		{
+			ValidateParameter.Validate(accountId);
 
-            accountResult.Enable();
+			var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
 
-            Repository.Create<Account>().Update(accountResult);
+			if (accountResult.IsAdmin)
+			{
+				throw new BusinessException($"不能禁用管理员:{accountResult.Name}");
+			}
 
-            UnitOfWork.Commit();
+			accountResult.Disable();
 
-        }
+			Repository.Create<Account>().Update(accountResult);
 
-        public void Disable(Int32 accountId)
-        {
-            ValidateParameter.Validate(accountId);
+			UnitOfWork.Commit();
+		}
 
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
+		public void ModifyAccountFace(Int32 accountId,String newFace)
+		{
+			ValidateParameter.Validate(newFace);
 
-            if (accountResult.IsAdmin)
-            {
-                throw new BusinessException($"不能禁用管理员:{accountResult.Name}");
-            }
+			var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
 
-            accountResult.Disable();
+			accountResult.Config.ModifyAccountFace(newFace);
 
-            Repository.Create<Account>().Update(accountResult);
+			Repository.Create<Account>().Update(accountResult);
 
-            UnitOfWork.Commit();
-        }
+			UnitOfWork.Commit();
+		}
 
-        public void ModifyAccountFace(String newFace)
-        {
-            ValidateParameter.Validate(newFace);
+		public void ModifyPassword(Int32 accountId,String newPassword)
+		{
+			ValidateParameter.Validate(newPassword);
 
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+			var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
 
-            accountResult.Config.ModifyAccountFace(newFace);
+			accountResult.ModifyPassword(PasswordUtil.CreateDbPassword(newPassword));
 
-            Repository.Create<Account>().Update(accountResult);
+			Repository.Create<Account>().Update(accountResult);
 
-            UnitOfWork.Commit();
-        }
+			UnitOfWork.Commit();
+		}
 
-        public void ModifyPassword(String newPassword)
-        {
-            ValidateParameter.Validate(newPassword);
+		public void ModifyLockScreenPassword(Int32 accountId,String newScreenPassword)
+		{
+			ValidateParameter.Validate(newScreenPassword);
 
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+			var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
 
-            accountResult.ModifyPassword(PasswordUtil.CreateDbPassword(newPassword));
+			accountResult.ModifyLockScreenPassword(PasswordUtil.CreateDbPassword(newScreenPassword));
 
-            Repository.Create<Account>().Update(accountResult);
+			Repository.Create<Account>().Update(accountResult);
 
-            UnitOfWork.Commit();
-        }
+			UnitOfWork.Commit();
+		}
 
-        public void ModifyLockScreenPassword(String newScreenPassword)
-        {
-            ValidateParameter.Validate(newScreenPassword);
+		public void RemoveAccount(Int32 accountId)
+		{
+			ValidateParameter.Validate(accountId);
 
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == AccountId));
+			var internalAccount = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
 
-            accountResult.ModifyLockScreenPassword(PasswordUtil.CreateDbPassword(newScreenPassword));
+			if (internalAccount.IsAdmin)
+			{
+				throw new BusinessException($"不能删除管理员:{internalAccount.Name}");
+			}
 
-            Repository.Create<Account>().Update(accountResult);
-
-            UnitOfWork.Commit();
-        }
-
-        public void RemoveAccount(Int32 accountId)
-        {
-            ValidateParameter.Validate(accountId);
-
-            var internalAccount = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-
-            if (internalAccount.IsAdmin)
-            {
-                throw new BusinessException($"不能删除管理员:{internalAccount.Name}");
-            }
-
-            internalAccount.Remove();
-        }
-    }
+			internalAccount.Remove();
+		}
+	}
 }

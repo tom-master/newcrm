@@ -11,9 +11,9 @@ namespace NewCRM.Domain.Services.BoundedContextMember
     
     internal sealed class InstallAppServices : BaseServiceContext, IInstallAppServices
     {
-        public void Install(Int32 appId, Int32 deskNum)
+        public void Install(Int32 accountId,Int32 appId, Int32 deskNum)
         {
-            var desks = DatabaseQuery.Find(FilterFactory.Create((Desk desk) => desk.AccountId == AccountId));
+            var desks = DatabaseQuery.Find(FilterFactory.Create((Desk desk) => desk.AccountId == accountId));
 
             var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskNum).Id;
 
