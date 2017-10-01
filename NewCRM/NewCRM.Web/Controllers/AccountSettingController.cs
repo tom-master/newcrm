@@ -21,7 +21,8 @@ namespace NewCRM.Web.Controllers
         #region 页面
         public ActionResult Index()
         {
-            return View(_accountApplicationServices.GetAccount(AccountDto.Id));
+            //return View(_accountApplicationServices.GetAccount(AccountDto.Id));
+	        return View();
         }
         #endregion
 
