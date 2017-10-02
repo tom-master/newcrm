@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using NewCRM.Application.Interface;
 using NewCRM.Domain;
 using NewCRM.Domain.Entitys.Agent;
+using ISkinApplicationServices = NewCRM.Application.Services.Interface.ISkinApplicationServices;
 
 namespace NewCRM.Application.Services
 {

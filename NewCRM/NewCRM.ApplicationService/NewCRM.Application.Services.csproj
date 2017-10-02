@@ -52,6 +52,13 @@
     <Compile Include="AccountApplicationServices.cs" />
     <Compile Include="AppApplicationServices.cs" />
     <Compile Include="DeskApplicationServices.cs" />
+    <Compile Include="Interface\IAccountApplicationServices.cs" />
+    <Compile Include="Interface\IAppApplicationServices.cs" />
+    <Compile Include="Interface\IDeskApplicationServices.cs" />
+    <Compile Include="Interface\ILoggerApplicationServices.cs" />
+    <Compile Include="Interface\ISecurityApplicationServices.cs" />
+    <Compile Include="Interface\ISkinApplicationServices.cs" />
+    <Compile Include="Interface\IWallpaperApplicationServices.cs" />
     <Compile Include="LoggerApplicationServices.cs" />
     <Compile Include="SecurityApplicationServices.cs" />
     <Compile Include="SkinApplicationServices.cs" />
@@ -59,14 +66,6 @@
     <Compile Include="WallpaperApplicationServices.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NewCRM.Application.Interface\NewCRM.Application.Interface.csproj">
-      <Project>{BB9C76EF-E30C-46BE-96E7-C6D53F508536}</Project>
-      <Name>NewCRM.Application.Interface</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NewCRM.Domain.Interface\NewCRM.Domain.Interface.csproj">
-      <Project>{CC9D6AD9-938F-45D4-882E-B12411AA727D}</Project>
-      <Name>NewCRM.Domain.Interface</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NewCRM.Domain\NewCRM.Domain.csproj">
       <Project>{173C1046-4529-4D70-B6F5-501C61514E86}</Project>
       <Name>NewCRM.Domain</Name>

@@ -5,6 +5,7 @@ using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContextMember;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomException;
+using IModifyDockPostionServices = NewCRM.Domain.Services.Interface.IModifyDockPostionServices;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {

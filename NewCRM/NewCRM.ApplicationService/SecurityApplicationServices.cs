@@ -8,6 +8,7 @@ using NewCRM.Domain.Factory.DomainSpecification;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomException;
+using ISecurityApplicationServices = NewCRM.Application.Services.Interface.ISecurityApplicationServices;
 
 namespace NewCRM.Application.Services
 {

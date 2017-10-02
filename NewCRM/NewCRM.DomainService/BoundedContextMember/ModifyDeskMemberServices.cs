@@ -4,6 +4,7 @@ using System.Linq;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContextMember;
 using NewCRM.Domain.ValueObject;
+using IModifyDeskMemberServices = NewCRM.Domain.Services.Interface.IModifyDeskMemberServices;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {

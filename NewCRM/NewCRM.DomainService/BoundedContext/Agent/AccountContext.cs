@@ -5,6 +5,7 @@ using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContext.Agent;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
+using IAccountContext = NewCRM.Domain.Services.Interface.IAccountContext;
 
 namespace NewCRM.Domain.Services.BoundedContext.Agent
 {

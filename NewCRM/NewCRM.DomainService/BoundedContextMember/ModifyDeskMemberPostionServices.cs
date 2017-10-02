@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContextMember;
+using IModifyDeskMemberPostionServices = NewCRM.Domain.Services.Interface.IModifyDeskMemberPostionServices;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {

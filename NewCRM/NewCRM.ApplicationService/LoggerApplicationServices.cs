@@ -9,6 +9,7 @@ using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
+using ILoggerApplicationServices = NewCRM.Application.Services.Interface.ILoggerApplicationServices;
 
 namespace NewCRM.Application.Services
 {

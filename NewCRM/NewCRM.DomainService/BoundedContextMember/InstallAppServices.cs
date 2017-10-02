@@ -4,6 +4,7 @@ using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContextMember;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomException;
+using IInstallAppServices = NewCRM.Domain.Services.Interface.IInstallAppServices;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {

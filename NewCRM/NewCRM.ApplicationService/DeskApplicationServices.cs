@@ -9,6 +9,7 @@ using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomException;
+using IDeskApplicationServices = NewCRM.Application.Services.Interface.IDeskApplicationServices;
 
 namespace NewCRM.Application.Services
 {

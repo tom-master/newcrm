@@ -1,6 +1,7 @@
 ﻿using System;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContextMember;
+using ICreateNewFolderServices = NewCRM.Domain.Services.Interface.ICreateNewFolderServices;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {

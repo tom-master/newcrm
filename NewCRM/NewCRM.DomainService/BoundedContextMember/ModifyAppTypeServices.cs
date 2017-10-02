@@ -2,6 +2,7 @@
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContextMember;
+using IModifyAppTypeServices = NewCRM.Domain.Services.Interface.IModifyAppTypeServices;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {

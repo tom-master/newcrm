@@ -14,6 +14,7 @@ using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
+using IWallpaperApplicationServices = NewCRM.Application.Services.Interface.IWallpaperApplicationServices;
 
 namespace NewCRM.Application.Services
 {
