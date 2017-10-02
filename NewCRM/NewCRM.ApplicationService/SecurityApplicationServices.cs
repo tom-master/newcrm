@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NewCRM.Application.Interface;
 using NewCRM.Domain;
 using NewCRM.Domain.Entitys.Security;
 using NewCRM.Domain.Factory.DomainSpecification;

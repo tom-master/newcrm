@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
-using NewCRM.Application.Interface;
+using NewCRM.Application.Services.Interface;
 using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers

@@ -2,7 +2,7 @@
 using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
-using NewCRM.Application.Interface;
+using NewCRM.Application.Services.Interface;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Web.Controllers.ControllerHelper;

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
-using NewCRM.Application.Interface;
+using NewCRM.Application.Services.Interface;
 
 namespace NewCRM.Web.Filter
 {

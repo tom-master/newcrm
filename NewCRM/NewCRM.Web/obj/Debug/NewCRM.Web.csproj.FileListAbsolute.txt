@@ -222,7 +222,6 @@ D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\EntityFramework.dll
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\EntityFramework.DynamicFilters.dll
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\EntityFramework.SqlServer.dll
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Microsoft.Web.Infrastructure.dll
-D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Application.Interface.dll
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Dto.dll
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Infrastructure.dll
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Repository.dll
@@ -241,7 +240,6 @@ D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewLib.Data.dll
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\StackExchange.Redis.dll
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Nito.AsyncEx.dll
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Nito.AsyncEx.Enlightenment.dll
-D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Application.Interface.pdb
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Dto.pdb
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Dto.dll.config
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Infrastructure.pdb
@@ -278,3 +276,8 @@ D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.csprojResolveAssemblyR
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.csproj.CoreCompileInputs.cache
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.dll
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.pdb
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Application.Services.dll
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Domain.Services.dll
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Application.Services.pdb
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Domain.Services.pdb
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Domain.Services.dll.config
