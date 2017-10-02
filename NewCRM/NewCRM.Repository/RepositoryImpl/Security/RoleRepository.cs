@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.Composition;
-using NewCRM.Domain.Entitys.Security;
-using NewCRM.Domain.Repositories;
+﻿using NewCRM.Domain.Entitys.Security;
 using NewCRM.Domain.Repositories.IRepository.Security;
 using NewCRM.Repository.DataBaseProvider.EF;
 

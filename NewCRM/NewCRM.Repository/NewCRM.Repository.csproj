@@ -85,17 +85,17 @@
     </EmbeddedResource>
   </ItemGroup>-->
   <ItemGroup>
-    <Compile Include="DataBaseProvider\Redis\CacheEvent\ICacheCreateEvent.cs" />
-    <Compile Include="DataBaseProvider\Redis\CacheEvent\ICacheModifyEvent.cs" />
-    <Compile Include="DataBaseProvider\Mongodb\InternalDefaultQueryProvider.cs" />
-    <Compile Include="DataBaseProvider\Redis\QueryProviderFormCache.cs" />
-    <Compile Include="DataBaseProvider\Redis\InternalHelper\ICacheQueryProvider.cs" />
-    <Compile Include="DataBaseProvider\Redis\InternalHelper\RedisConnectionHelp.cs" />
-    <Compile Include="DataBaseProvider\Redis\InternalHelper\InternalDefaultQueryProvider.cs" />
+    <Compile Include="DatabaseProvider\Redis\CacheEvent\ICacheCreateEvent.cs" />
+    <Compile Include="DatabaseProvider\Redis\CacheEvent\ICacheModifyEvent.cs" />
+    <Compile Include="DatabaseProvider\Mongodb\InternalDefaultQueryProvider.cs" />
+    <Compile Include="DatabaseProvider\Redis\QueryProviderFormCache.cs" />
+    <Compile Include="DatabaseProvider\Redis\InternalHelper\ICacheQueryProvider.cs" />
+    <Compile Include="DatabaseProvider\Redis\InternalHelper\RedisConnectionHelp.cs" />
+    <Compile Include="DatabaseProvider\Redis\InternalHelper\InternalDefaultQueryProvider.cs" />
     <Compile Include="DefaultRepositoryFactory.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="DataBaseProvider\EF\NewCrmBackSite.cs" />
-    <Compile Include="DataBaseProvider\EF\QueryProvider.cs" />
+    <Compile Include="DatabaseProvider\EF\NewCrmBackSite.cs" />
+    <Compile Include="DatabaseProvider\EF\QueryProvider.cs" />
     <Compile Include="RepositoryImpl\Agent\TitleRepository.cs" />
     <Compile Include="RepositoryImpl\Agent\AccountRepository.cs" />
     <Compile Include="RepositoryImpl\Security\RoleRepository.cs" />
@@ -105,7 +105,7 @@
     <Compile Include="RepositoryImpl\System\LogRepository.cs" />
     <Compile Include="RepositoryImpl\System\OnlineRepository.cs" />
     <Compile Include="RepositoryImpl\System\WallpaperRepository.cs" />
-    <Compile Include="DataBaseProvider\EF\EntityFrameworkProvider.cs" />
+    <Compile Include="DatabaseProvider\EF\EntityFrameworkProvider.cs" />
     <Compile Include="UnitOfWorkProvide\EFUnitOfWorkContext.cs" />
     <Compile Include="UnitOfWorkProvide\UnitOfWorkContextBase.cs" />
     <Compile Include="UnitOfWorkProvide\UnitOfWorkContextExtensions.cs" />

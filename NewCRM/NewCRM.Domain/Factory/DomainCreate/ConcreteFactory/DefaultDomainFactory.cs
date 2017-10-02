@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 
 namespace NewCRM.Domain.Factory.DomainCreate.ConcreteFactory
 {

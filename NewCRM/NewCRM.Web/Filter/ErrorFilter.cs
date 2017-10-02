@@ -1,10 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Text;
-using System.Web.Mvc;
-using NewCRM.Application.Interface;
-using NewCRM.Dto.Dto;
-using NewCRM.Infrastructure.CommonTools.CustomException;
+﻿using System.Web.Mvc;
 
 namespace NewCRM.Web.Filter
 {

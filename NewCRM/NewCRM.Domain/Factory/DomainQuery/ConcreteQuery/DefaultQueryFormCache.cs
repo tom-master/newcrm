@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
-using System.Linq.Expressions;
-using NewCRM.Domain.Entitys;
 using NewCRM.Domain.Factory.DomainQuery.Query;
 using NewCRM.Domain.Factory.DomainSpecification;
 using NewCRM.Domain.Repositories;

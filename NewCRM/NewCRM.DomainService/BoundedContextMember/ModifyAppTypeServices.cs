@@ -1,5 +1,4 @@
-﻿using System; 
-using System.ComponentModel.Composition;
+﻿using System;
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Interface.BoundedContextMember;

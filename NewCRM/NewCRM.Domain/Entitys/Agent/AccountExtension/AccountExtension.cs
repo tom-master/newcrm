@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Linq.Expressions;
-using NewCRM.Domain.Factory.DomainSpecification;
-using NewCRM.Domain.Factory.DomainSpecification.ConcreteSpecification;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Entitys.Agent

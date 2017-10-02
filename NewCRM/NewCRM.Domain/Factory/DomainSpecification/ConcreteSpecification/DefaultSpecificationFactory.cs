@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using System.Linq.Expressions;
 using NewCRM.Domain.Factory.DomainSpecification.Factory;
 
