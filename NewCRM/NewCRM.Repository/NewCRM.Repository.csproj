@@ -94,7 +94,7 @@
     <Compile Include="DatabaseProvider\Redis\InternalHelper\InternalDefaultQueryProvider.cs" />
     <Compile Include="DefaultRepositoryFactory.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="DatabaseProvider\EF\NewCrmBackSite.cs" />
+    <Compile Include="DatabaseProvider\EF\Context\NewCrmBackContext.cs" />
     <Compile Include="DatabaseProvider\EF\QueryProvider.cs" />
     <Compile Include="RepositoryImpl\Agent\TitleRepository.cs" />
     <Compile Include="RepositoryImpl\Agent\AccountRepository.cs" />

@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using NewCRM.Repository.DatabaseProvider.EF.Context;
 
 namespace NewCRM.Web
 {
@@ -10,7 +11,7 @@ namespace NewCRM.Web
 	{
 		protected void Application_Start()
 		{
-			Database.SetInitializer(new CreateDatabaseIfNotExists<NewCrmBackSite>());
+			Database.SetInitializer(new CreateDatabaseIfNotExists<NewCrmBackContext>());
 
 			AreaRegistration.RegisterAllAreas();
 
