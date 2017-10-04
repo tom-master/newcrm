@@ -21,6 +21,8 @@ using NewCRM.Domain.Factory.DomainCreate;
 using NewCRM.Domain.Factory.DomainCreate.ConcreteFactory;
 using NewCRM.Repository.DataBaseProvider.Redis;
 using NewCRM.Repository.DataBaseProvider.Redis.InternalHelper;
+using System.Data.Entity;
+using NewCRM.Repository.DatabaseProvider.EF.Context;
 
 namespace NewCRM.Web.App_Start
 {
@@ -72,6 +74,7 @@ namespace NewCRM.Web.App_Start
 
 			container.RegisterType<ICacheQueryProvider, DefaultRedisQueryProvider>();
 
+			container.RegisterType<DbContext, NewCrmBackContext>();
 			container.RegisterType<SpecificationFactory, DefaultSpecificationFactory>();
 			container.RegisterType<RepositoryFactory, DefaultRepositoryFactory>();
 			container.RegisterType<DomainFactory, DefaultDomainFactory>();
