@@ -16,7 +16,6 @@ using NewCRM.Domain.Factory.DomainSpecification.Factory;
 using NewCRM.Repository;
 using NewCRM.Domain.Repositories;
 using NewCRM.Repository.DataBaseProvider.EF;
-using NewCRM.Repository.DataBaseProvider.Mongodb;
 using NewCRM.Domain.Factory.DomainCreate;
 using NewCRM.Domain.Factory.DomainCreate.ConcreteFactory;
 using NewCRM.Repository.DataBaseProvider.Redis;
@@ -68,7 +67,6 @@ namespace NewCRM.Web.App_Start
 			container.RegisterType<IAccountContext, AccountContext>();
 			container.RegisterType<IUnitOfWork, EfUnitOfWorkContext>();
 
-			container.RegisterType<IDomainModelQueryProvider, DefaultMongodbQueryProvider>();
 			container.RegisterType<IDomainModelQueryProvider, QueryProvider>();
 			container.RegisterType<IDomainModelQueryProviderFormCache, QueryProviderFormCache>();
 

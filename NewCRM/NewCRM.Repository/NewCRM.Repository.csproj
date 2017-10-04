@@ -99,7 +99,6 @@
   <ItemGroup>
     <Compile Include="DatabaseProvider\Redis\CacheEvent\ICacheCreateEvent.cs" />
     <Compile Include="DatabaseProvider\Redis\CacheEvent\ICacheModifyEvent.cs" />
-    <Compile Include="DatabaseProvider\Mongodb\DefaultMongodbQueryProvider.cs" />
     <Compile Include="DatabaseProvider\Redis\QueryProviderFormCache.cs" />
     <Compile Include="DatabaseProvider\Redis\InternalHelper\ICacheQueryProvider.cs" />
     <Compile Include="DatabaseProvider\Redis\InternalHelper\RedisConnectionHelp.cs" />
