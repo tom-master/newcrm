@@ -22,6 +22,7 @@ using NewCRM.Repository.DataBaseProvider.Redis;
 using NewCRM.Repository.DataBaseProvider.Redis.InternalHelper;
 using System.Data.Entity;
 using NewCRM.Repository.DatabaseProvider.EF.Context;
+using NewCRM.Domain.Services.BoundedContextMember;
 
 namespace NewCRM.Web.App_Start
 {
@@ -69,8 +70,16 @@ namespace NewCRM.Web.App_Start
 			container.RegisterType<IWallpaperApplicationServices, WallpaperApplicationServices>();
 			container.RegisterType<ISkinApplicationServices, SkinApplicationServices>();
 			container.RegisterType<ILoggerApplicationServices, LoggerApplicationServices>();
-
+			container.RegisterType<IInstallAppServices, InstallAppServices>();
+			container.RegisterType<IModifyAppInfoServices, ModifyAppInfoServices>();
+			container.RegisterType<IModifyAppTypeServices, ModifyAppTypeServices>();
 			container.RegisterType<IAccountContext, AccountContext>();
+			container.RegisterType<IModifyDeskMemberServices, ModifyDeskMemberServices>();
+			container.RegisterType<IModifyDockPostionServices, ModifyDockPostionServices>();
+			container.RegisterType<ICreateNewFolderServices, CreateNewFolderServices>();
+			container.RegisterType<IModifyDeskMemberPostionServices, ModifyDeskMemberPostionServices>();
+			container.RegisterType<IModifyWallpaperServices, ModifyWallpaperServices>();
+
 			container.RegisterType<IUnitOfWork, EfUnitOfWorkContext>();
 
 			container.RegisterType<IDomainModelQueryProvider, QueryProvider>();
