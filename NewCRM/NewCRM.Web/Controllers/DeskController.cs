@@ -60,10 +60,10 @@ namespace NewCRM.Web.Controllers
                 case "folder-folder": //成员从文件夹移动到另一个文件夹中
                     _deskApplicationServices.FolderToOtherFolder(0, memberId, to);
                     break;
-                case "desk-desk":
+                case "desk-desk": //桌面移动到另一个桌面
                     _deskApplicationServices.DeskToOtherDesk(0, memberId, to);
                     break;
-                case "dock-otherdesk":
+                case "dock-otherdesk"://应用码头移动到另一个桌面
                     _deskApplicationServices.DockToOtherDesk(0, memberId, to);
                     break;
             }

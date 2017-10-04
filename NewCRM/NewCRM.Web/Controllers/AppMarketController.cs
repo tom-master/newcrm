@@ -29,18 +29,18 @@ namespace NewCRM.Web.Controllers
 		/// <returns></returns>
 		public ActionResult Index()
 		{
-			//if (AccountDto.IsAdmin)
-			//{
-			//    ViewData["AppTypes"] = _appApplicationServices.GetAppTypes();
-			//}
-			//else
-			//{
-			//    ViewData["AppTypes"] = _appApplicationServices.GetAppTypes().Where(w => w.Name != "系统").ToList();
-			//}
+			if (IsAdmin)
+			{
+				ViewData["AppTypes"] = _appApplicationServices.GetAppTypes();
+			}
+			else
+			{
+				ViewData["AppTypes"] = _appApplicationServices.GetAppTypes().Where(w => w.Name != "系统").ToList();
+			}
 
-			//ViewData["TodayRecommendApp"] = _appApplicationServices.GetTodayRecommend();
-			//ViewData["AccountName"] = AccountDto.Name;
-			//ViewData["AccountApp"] = _appApplicationServices.GetAccountDevelopAppCountAndNotReleaseAppCount();
+			ViewData["TodayRecommendApp"] = _appApplicationServices.GetTodayRecommend(AccountId);
+			ViewData["AccountName"] = AccountName;
+			ViewData["AccountApp"] = _appApplicationServices.GetAccountDevelopAppCountAndNotReleaseAppCount(AccountId);
 
 			return View();
 		}
@@ -52,11 +52,11 @@ namespace NewCRM.Web.Controllers
 		/// <returns></returns>
 		public ActionResult AppDetail(Int32 appId)
 		{
-			//ViewData["IsInstallApp"] = _appApplicationServices.IsInstallApp(appId);
-			//ViewData["AccountName"] = AccountDto.Name;
-			//var singleAppResult = _appApplicationServices.GetApp(appId);
+			ViewData["IsInstallApp"] = _appApplicationServices.IsInstallApp(AccountId, appId);
+			ViewData["AccountName"] = AccountName;
 
-			return View(/*singleAppResult*/);
+			var result = _appApplicationServices.GetApp(appId);
+			return View(result);
 		}
 
 		/// <summary>
@@ -157,8 +157,7 @@ namespace NewCRM.Web.Controllers
 		{
 			Int32 totalCount = 0;
 
-			//var appResults = _appApplicationServices.GetAccountAllApps(AccountDto.Id, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
-			var appResults = new { };
+			var appResults = _appApplicationServices.GetAccountAllApps(AccountId, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
 
 			return Json(new
 			{
@@ -175,7 +174,7 @@ namespace NewCRM.Web.Controllers
 		public ActionResult ModifyAppInfo(FormCollection forms)
 		{
 			var appDto = WrapperAppDto(forms);
-			_appApplicationServices.ModifyAccountAppInfo(0, appDto);
+			_appApplicationServices.ModifyAccountAppInfo(AccountId, appDto);
 
 			return Json(new { success = 1 });
 		}
@@ -208,7 +207,7 @@ namespace NewCRM.Web.Controllers
 		public ActionResult CreateNewApp(FormCollection forms)
 		{
 			var appDto = WrapperAppDto(forms);
-			//appDto.AccountId = AccountDto.Id;
+			appDto.AccountId = AccountId;
 			_appApplicationServices.CreateNewApp(appDto);
 
 			return Json(new
@@ -273,7 +272,6 @@ namespace NewCRM.Web.Controllers
 			{
 				appDto.Id = Int32.Parse(forms["val_Id"]);
 			}
-
 
 			return appDto;
 		}

@@ -2,6 +2,9 @@
 using System.Web;
 using System.Web.Mvc;
 using NewCRM.Application.Services.Interface;
+using NewCRM.Dto.Dto;
+using NewCRM.Infrastructure.CommonTools;
+using NewCRM.Infrastructure.CommonTools.CustomHelper;
 using NewCRM.Web.Controllers.ControllerHelper;
 using Newtonsoft.Json;
 
@@ -33,22 +36,28 @@ namespace NewCRM.Web.Controllers
 		/// <returns></returns>
 		public ActionResult Landing(String accountName, String passWord, Boolean isRememberPasswrod = false)
 		{
+			var response = new ResponseModel<AccountDto>();
+
+			#region 参数验证
+			Parameter.Validate(accountName).Validate(passWord);
+			#endregion
+
 			var account = _accountApplicationServices.Login(accountName, passWord);
-
-			Response.SetCookie(new HttpCookie("Account")
+			if (account != null)
 			{
-				Value = JsonConvert.SerializeObject(account),
-				Expires = isRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddMinutes(30)
-			});
+				response.Message = "登陆成功";
+				response.Model = account;
+				response.IsSuccess = true;
 
-			//AccountDto = new
-			//{
-			//    account.Id,
-			//    account.Name,
-			//    account.IsAdmin
-			//};
+				Response.SetCookie(new HttpCookie("Account")
+				{
+					Name = account.Id.ToString(),
+					Value = JsonConvert.SerializeObject(account),
+					Expires = isRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddMinutes(30)
+				});
+			}
 
-			return Json(new { success = 1 });
+			return Json(response);
 		}
 	}
 }
