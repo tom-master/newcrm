@@ -7,7 +7,7 @@ using NewCRM.Domain.Repositories;
 
 namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
 {
-    internal class DefaultQueryFromMongodb : QueryBase
+	public class DefaultQueryFromMongodb : QueryBase
     {
         private readonly IDomainModelQueryProvider _queryProvider;
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JsonNet.PrivateSettersContractResolvers;
+using Microsoft.Practices.Unity;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
@@ -11,25 +12,27 @@ namespace NewCRM.Repository.DataBaseProvider.Redis.InternalHelper
     /// <summary>
     /// Redis操作
     /// </summary>
-    internal class InternalDefaultQueryProvider : ICacheQueryProvider
+    public class DefaultRedisQueryProvider : ICacheQueryProvider
     {
         private Int32 DbNum { get; }
         private readonly ConnectionMultiplexer _conn;
         private String _customKey;
 
-        #region 构造函数
+		#region 构造函数
 
-        public InternalDefaultQueryProvider() : this(0, null)
+
+		[InjectionConstructor]
+		public DefaultRedisQueryProvider() : this(0, null)
         {
 
         }
 
-        public InternalDefaultQueryProvider(Int32 dbNum = 0)
+        public DefaultRedisQueryProvider(Int32 dbNum)
                 : this(dbNum, null)
         {
         }
 
-        public InternalDefaultQueryProvider(Int32 dbNum, String readWriteHosts)
+		public DefaultRedisQueryProvider(Int32 dbNum, String readWriteHosts)
         {
             DbNum = dbNum;
             _conn =

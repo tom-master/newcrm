@@ -12,7 +12,7 @@ using IDeskApplicationServices = NewCRM.Application.Services.Interface.IDeskAppl
 
 namespace NewCRM.Application.Services
 {
-	internal class DeskApplicationServices : BaseServiceContext, IDeskApplicationServices
+	public class DeskApplicationServices : BaseServiceContext, IDeskApplicationServices
 	{
 
 		private readonly IModifyDeskMemberServices _modifyDeskMemberServices;

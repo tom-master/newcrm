@@ -2,17 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Interface.BoundedContextMember;
-using NewCRM.Domain.ValueObject;
-using IModifyDeskMemberServices = NewCRM.Domain.Services.Interface.IModifyDeskMemberServices;
+using NewCRM.Domain.Services.Interface;
+using NewCRM.Domain.ValueObject; 
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
 
-	internal sealed class ModifyDeskMemberServices : BaseServiceContext, IModifyDeskMemberServices
-	{
-
-
+	public sealed class ModifyDeskMemberServices : BaseServiceContext, IModifyDeskMemberServices
+	{ 
 		public void ModifyFolderInfo(Int32 accountId, String memberName, String memberIcon, Int32 memberId)
 		{
 

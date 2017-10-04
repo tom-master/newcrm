@@ -6,7 +6,7 @@ using NewCRM.Domain.Factory.DomainSpecification;
 
 namespace NewCRM.Domain.Factory.DomainQuery.Query
 {
-    internal interface IQuery
+    public interface IQuery
     {
         /// <summary>
         /// 查找并返回单个对象

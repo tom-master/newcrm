@@ -12,7 +12,7 @@ using NewCRM.Repository.UnitOfWorkProvide;
 
 namespace NewCRM.Repository.DataBaseProvider.Redis
 {
-    internal class QueryProviderFormCache : IDomainModelQueryProviderFormCache
+    public class QueryProviderFormCache : IDomainModelQueryProviderFormCache
     {
         private readonly ICacheQueryProvider _cacheQueryProvider;
 

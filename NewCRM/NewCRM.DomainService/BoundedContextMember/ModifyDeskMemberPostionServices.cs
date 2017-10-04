@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Interface.BoundedContextMember;
-using IModifyDeskMemberPostionServices = NewCRM.Domain.Services.Interface.IModifyDeskMemberPostionServices;
+using NewCRM.Domain.Services.Interface;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-	internal sealed class ModifyDeskMemberPostionServices : BaseServiceContext, IModifyDeskMemberPostionServices
+	public sealed class ModifyDeskMemberPostionServices : BaseServiceContext, IModifyDeskMemberPostionServices
 	{
 		public void MemberInDock(Int32 accountId, Int32 memberId)
 		{

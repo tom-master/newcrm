@@ -1,11 +1,10 @@
 ﻿using System;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Interface.BoundedContextMember;
-using ICreateNewFolderServices = NewCRM.Domain.Services.Interface.ICreateNewFolderServices;
+using NewCRM.Domain.Services.Interface;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-    internal class CreateNewFolderServices : BaseServiceContext, ICreateNewFolderServices
+	public class CreateNewFolderServices : BaseServiceContext, ICreateNewFolderServices
     {
   
         public void NewFolder(Int32 deskId, String folderName, String folderImg)

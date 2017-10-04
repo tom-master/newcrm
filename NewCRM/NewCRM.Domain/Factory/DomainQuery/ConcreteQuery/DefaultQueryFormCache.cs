@@ -7,7 +7,7 @@ using NewCRM.Domain.Repositories;
 
 namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
 {
-    internal class DefaultQueryFormCache : QueryBase
+	public class DefaultQueryFormCache : QueryBase
     {
         private readonly IDomainModelQueryProviderFormCache _domainModelQueryProviderFormCache;
 

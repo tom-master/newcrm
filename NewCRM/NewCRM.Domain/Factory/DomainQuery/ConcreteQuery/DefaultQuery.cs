@@ -11,7 +11,7 @@ using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
 {
-	internal class DefaultQuery : QueryBase
+	public class DefaultQuery : QueryBase
 	{
 		private readonly IDomainModelQueryProvider _queryProvider;
 

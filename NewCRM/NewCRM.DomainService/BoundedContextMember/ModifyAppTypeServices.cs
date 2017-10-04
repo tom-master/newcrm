@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Interface.BoundedContextMember;
-using IModifyAppTypeServices = NewCRM.Domain.Services.Interface.IModifyAppTypeServices;
+using NewCRM.Domain.Services.Interface;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-    internal sealed class ModifyAppTypeServices : BaseServiceContext, IModifyAppTypeServices
+	public sealed class ModifyAppTypeServices : BaseServiceContext, IModifyAppTypeServices
     {
   
         public void DeleteAppType(Int32 appTypeId)

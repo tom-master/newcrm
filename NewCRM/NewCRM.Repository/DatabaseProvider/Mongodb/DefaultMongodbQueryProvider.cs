@@ -6,7 +6,7 @@ using NewLib.Data.Mongodb;
 
 namespace NewCRM.Repository.DataBaseProvider.Mongodb
 {
-    internal sealed class InternalDefaultQueryProvider : IDomainModelQueryProvider
+    public sealed class DefaultMongodbQueryProvider : IDomainModelQueryProvider
     {
         private static readonly MongoServiceApi _mongoServiceApi = new MongoServiceApi();
 

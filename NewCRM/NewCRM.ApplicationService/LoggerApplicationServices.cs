@@ -12,7 +12,7 @@ using ILoggerApplicationServices = NewCRM.Application.Services.Interface.ILogger
 
 namespace NewCRM.Application.Services
 {
-    internal class LoggerApplicationServices : BaseServiceContext, ILoggerApplicationServices
+	public class LoggerApplicationServices : BaseServiceContext, ILoggerApplicationServices
     {
         private readonly QueryBase _query;
 

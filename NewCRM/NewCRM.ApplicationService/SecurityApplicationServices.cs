@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NewCRM.Application.Services.Interface;
 using NewCRM.Domain;
 using NewCRM.Domain.Entitys.Security;
 using NewCRM.Domain.Factory.DomainSpecification;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomException;
-using ISecurityApplicationServices = NewCRM.Application.Services.Interface.ISecurityApplicationServices;
 
 namespace NewCRM.Application.Services
 {
-    internal class SecurityApplicationServices : BaseServiceContext, ISecurityApplicationServices
+	public class SecurityApplicationServices : BaseServiceContext, ISecurityApplicationServices
     {
         #region Role
 

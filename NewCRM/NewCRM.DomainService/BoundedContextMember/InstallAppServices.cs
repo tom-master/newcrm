@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Interface.BoundedContextMember;
+using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
-using NewCRM.Infrastructure.CommonTools.CustomException;
-using IInstallAppServices = NewCRM.Domain.Services.Interface.IInstallAppServices;
+using NewCRM.Infrastructure.CommonTools.CustomException; 
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-    
-    internal sealed class InstallAppServices : BaseServiceContext, IInstallAppServices
+
+	public sealed class InstallAppServices : BaseServiceContext, IInstallAppServices
     {
         public void Install(Int32 accountId,Int32 appId, Int32 deskNum)
         {

@@ -2,14 +2,13 @@
 using System.Linq;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Interface.BoundedContextMember;
+using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
-using NewCRM.Infrastructure.CommonTools.CustomException;
-using IModifyDockPostionServices = NewCRM.Domain.Services.Interface.IModifyDockPostionServices;
+using NewCRM.Infrastructure.CommonTools.CustomException; 
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-    internal sealed class ModifyDockPostionServices : BaseServiceContext, IModifyDockPostionServices
+	public sealed class ModifyDockPostionServices : BaseServiceContext, IModifyDockPostionServices
     {
         public void ModifyDockPosition(Int32 accountId,Int32 defaultDeskNumber, String newPosition)
         {

@@ -8,44 +8,44 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Repository
 {
-    
-    internal sealed class DefaultRepositoryFactory : RepositoryFactory
-    {
-        private IEnumerable<dynamic> RepositoryFactory { get; set; }
 
-        private static readonly IDictionary<String, Type> _repositoryCache = new Dictionary<String, Type>();
+	public sealed class DefaultRepositoryFactory : RepositoryFactory
+	{
+		private IEnumerable<dynamic> RepositoryFactory { get; set; }
 
-        public override IRepository<T> Create<T>()
-        {
-            lock (_repositoryCache)
-            {
-                if (_repositoryCache.ContainsKey(typeof(T).Name))
-                {
-                    return RepositoryFactory.FirstOrDefault(w => w.GetType().FullName == _repositoryCache[typeof(T).Name].FullName);
-                }
+		private static readonly IDictionary<String, Type> _repositoryCache = new Dictionary<String, Type>();
 
-                var currentExcuteAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+		public override IRepository<T> Create<T>()
+		{
+			lock (_repositoryCache)
+			{
+				if (_repositoryCache.ContainsKey(typeof(T).Name))
+				{
+					return RepositoryFactory.FirstOrDefault(w => w.GetType().FullName == _repositoryCache[typeof(T).Name].FullName);
+				}
 
-                var repositoryType =
-                    currentExcuteAssembly.GetTypes().FirstOrDefault(assembly => assembly.Name.EndsWith("Repository", true, CultureInfo.InvariantCulture) && assembly.Name.Contains(typeof(T).Name));
+				var currentExcuteAssembly = System.Reflection.Assembly.GetExecutingAssembly();
 
-                if (repositoryType == null)
-                {
-                    throw new RepositoryException($"{nameof(repositoryType)}:为空");
+				var repositoryType =
+					currentExcuteAssembly.GetTypes().FirstOrDefault(assembly => assembly.Name.EndsWith("Repository", true, CultureInfo.InvariantCulture) && assembly.Name.Contains(typeof(T).Name));
 
-                }
+				if (repositoryType == null)
+				{
+					throw new RepositoryException($"{nameof(repositoryType)}:为空");
 
-                var newRepositoryInstance = RepositoryFactory.FirstOrDefault(w => w.GetType().FullName == repositoryType.FullName) as IRepository<T>;
+				}
 
-                if (newRepositoryInstance == null)
-                {
-                    throw new RepositoryException($"{nameof(newRepositoryInstance)}:为空");
-                }
+				var newRepositoryInstance = RepositoryFactory.FirstOrDefault(w => w.GetType().FullName == repositoryType.FullName) as IRepository<T>;
 
-                _repositoryCache.Add(typeof(T).Name, repositoryType);
+				if (newRepositoryInstance == null)
+				{
+					throw new RepositoryException($"{nameof(newRepositoryInstance)}:为空");
+				}
 
-                return newRepositoryInstance;
-            }
-        }
-    }
+				_repositoryCache.Add(typeof(T).Name, repositoryType);
+
+				return newRepositoryInstance;
+			}
+		}
+	}
 }

@@ -281,3 +281,14 @@ D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Domain.Services.dll
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Application.Services.pdb
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Domain.Services.pdb
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Domain.Services.dll.config
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\CommonServiceLocator.dll
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Microsoft.Practices.Unity.Configuration.dll
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Microsoft.Practices.Unity.dll
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Microsoft.Practices.Unity.RegistrationByConvention.dll
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Microsoft.Practices.ServiceLocation.dll
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Microsoft.Practices.Unity.xml
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Microsoft.Practices.Unity.Configuration.xml
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Microsoft.Practices.Unity.RegistrationByConvention.xml
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Microsoft.Practices.Unity.Mvc.dll
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\WebActivatorEx.dll
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Microsoft.Practices.Unity.Mvc.xml

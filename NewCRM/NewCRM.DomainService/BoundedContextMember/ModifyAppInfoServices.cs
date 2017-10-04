@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Interface.BoundedContextMember;
+using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
-using NewCRM.Infrastructure.CommonTools.CustomException;
-using IModifyAppInfoServices = NewCRM.Domain.Services.Interface.IModifyAppInfoServices;
+using NewCRM.Infrastructure.CommonTools.CustomException; 
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-    internal sealed class ModifyAppInfoServices : BaseServiceContext, IModifyAppInfoServices
+	public sealed class ModifyAppInfoServices : BaseServiceContext, IModifyAppInfoServices
     {
 
         public void ModifyAppStar(Int32 accountId,Int32 appId, Int32 starCount)

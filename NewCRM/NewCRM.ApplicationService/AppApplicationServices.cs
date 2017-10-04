@@ -15,7 +15,7 @@ using IAppApplicationServices = NewCRM.Application.Services.Interface.IAppApplic
 
 namespace NewCRM.Application.Services
 {
-	internal class AppApplicationServices : BaseServiceContext, IAppApplicationServices
+	public class AppApplicationServices : BaseServiceContext, IAppApplicationServices
 	{
 
 		private readonly IInstallAppServices _installAppServices;

@@ -1,17 +1,14 @@
 ﻿using System;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Interface.BoundedContextMember;
+using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomException;
-using IModifyWallpaperServices = NewCRM.Domain.Services.Interface.IModifyWallpaperServices;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-	internal sealed class ModifyWallpaperServices : BaseServiceContext, IModifyWallpaperServices
+	public sealed class ModifyWallpaperServices : BaseServiceContext, IModifyWallpaperServices
 	{
-
-
 		public void ModifyWallpaperMode(Int32 accountId, String newMode)
 		{
 			WallpaperMode wallpaperMode;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NewCRM.Application.Services.Interface;
 using NewCRM.Domain;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
@@ -12,14 +13,12 @@ using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
-using IAccountApplicationServices = NewCRM.Application.Services.Interface.IAccountApplicationServices;
 
 namespace NewCRM.Application.Services
 {
-	internal class AccountApplicationServices : BaseServiceContext, IAccountApplicationServices
+	public class AccountApplicationServices : BaseServiceContext, IAccountApplicationServices
 	{
 		private readonly IAccountContext _accountContext;
-
 
 		public AccountApplicationServices(IAccountContext accountContext)
 		{
@@ -224,7 +223,7 @@ namespace NewCRM.Application.Services
 			UnitOfWork.Commit();
 		}
 
-		public void ModifyAccountFace(Int32 accountId,String newFace)
+		public void ModifyAccountFace(Int32 accountId, String newFace)
 		{
 			ValidateParameter.Validate(newFace);
 
@@ -237,7 +236,7 @@ namespace NewCRM.Application.Services
 			UnitOfWork.Commit();
 		}
 
-		public void ModifyPassword(Int32 accountId,String newPassword)
+		public void ModifyPassword(Int32 accountId, String newPassword)
 		{
 			ValidateParameter.Validate(newPassword);
 
@@ -250,7 +249,7 @@ namespace NewCRM.Application.Services
 			UnitOfWork.Commit();
 		}
 
-		public void ModifyLockScreenPassword(Int32 accountId,String newScreenPassword)
+		public void ModifyLockScreenPassword(Int32 accountId, String newScreenPassword)
 		{
 			ValidateParameter.Validate(newScreenPassword);
 

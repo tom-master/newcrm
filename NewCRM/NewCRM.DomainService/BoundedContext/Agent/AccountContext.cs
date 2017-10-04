@@ -2,16 +2,15 @@
 using System.Net;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Interface.BoundedContext.Agent;
+using NewCRM.Domain.Services.Interface;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
-using IAccountContext = NewCRM.Domain.Services.Interface.IAccountContext;
 
 namespace NewCRM.Domain.Services.BoundedContext.Agent
 {
-    internal class AccountContext : BaseServiceContext, IAccountContext
+	public class AccountContext : BaseServiceContext, IAccountContext
     {
-        public Account Validate(String accountName, String password)
+	    public Account Validate(String accountName, String password)
         {
 	        var filter= FilterFactory.Create<Account>(acccount => acccount.Name == accountName);
 

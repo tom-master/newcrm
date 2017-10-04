@@ -83,3 +83,8 @@ D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.csprojResolveAssemblyR
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.csproj.CoreCompileInputs.cache
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.dll
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Dto\obj\Debug\NewCRM.Dto.pdb
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Dto\bin\Debug\Microsoft.Practices.Unity.dll
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Dto\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Dto\bin\Debug\Microsoft.Practices.Unity.xml
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Dto\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Dto\bin\Debug\Microsoft.Practices.ServiceLocation.xml
