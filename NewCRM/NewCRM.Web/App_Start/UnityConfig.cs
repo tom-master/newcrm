@@ -61,9 +61,15 @@ namespace NewCRM.Web.App_Start
 
 			container.RegisterType<QueryBase, DefaultQuery>("DefaultQuery");
 			container.RegisterType<QueryBase, DefaultQueryFormCache>("DefaultQueryFormCache");
-			container.RegisterType<QueryBase, DefaultQueryFromMongodb>("DefaultQueryFromMongodb");
 
 			container.RegisterType<IAccountApplicationServices, AccountApplicationServices>();
+			container.RegisterType<ISecurityApplicationServices, SecurityApplicationServices>();
+			container.RegisterType<IAppApplicationServices, AppApplicationServices>();
+			container.RegisterType<IDeskApplicationServices, DeskApplicationServices>();
+			container.RegisterType<IWallpaperApplicationServices, WallpaperApplicationServices>();
+			container.RegisterType<ISkinApplicationServices, SkinApplicationServices>();
+			container.RegisterType<ILoggerApplicationServices, LoggerApplicationServices>();
+
 			container.RegisterType<IAccountContext, AccountContext>();
 			container.RegisterType<IUnitOfWork, EfUnitOfWorkContext>();
 
