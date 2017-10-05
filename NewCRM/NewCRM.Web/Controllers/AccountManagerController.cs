@@ -24,11 +24,20 @@ namespace NewCRM.Web.Controllers
 		}
 
 		#region 页面
+		/// <summary>
+		/// 首页
+		/// </summary>
+		/// <returns></returns>
 		public ActionResult Index()
 		{
 			return View();
 		}
 
+		/// <summary>
+		/// 创建新账户
+		/// </summary>
+		/// <param name="accountId"></param>
+		/// <returns></returns>
 		public ActionResult CreateNewAccount(Int32 accountId = 0)
 		{
 			if (accountId != 0)
@@ -53,19 +62,23 @@ namespace NewCRM.Web.Controllers
 		/// <returns></returns>
 		public ActionResult GetAllAccounts(String accountName, String accountType, Int32 pageIndex, Int32 pageSize)
 		{
-			var response = new ResponseModels<AccountDto>();
-			Int32 totalCount;
+			var response = new ResponseModels<IList<AccountDto>>();
+
 			#region 参数验证
 			Parameter.Validate(accountName).Validate(accountType);
 			#endregion
 
+			Int32 totalCount;
 			var accounts = _accountApplicationServices.GetAccounts(accountName, accountType, pageIndex, pageSize, out totalCount);
-
-			return Json(new
+			if (accounts != null)
 			{
-				accounts,
-				totalCount
-			}, JsonRequestBehavior.AllowGet);
+				response.TotalCount = totalCount;
+				response.Message = "获取账户列表成功";
+				response.Model = accounts;
+				response.IsSuccess = true;
+			}
+
+			return Json(accounts, JsonRequestBehavior.AllowGet);
 		}
 
 		/// <summary>
@@ -76,18 +89,20 @@ namespace NewCRM.Web.Controllers
 		/// <returns></returns>
 		public ActionResult NewAccount(FormCollection forms, Int32 accountId)
 		{
-			var accountDto = WapperAccountDto(forms);
-
+			var response = new ResponseModel<AccountDto>();
+			var dto = WapperAccountDto(forms);
 			if (accountId == 0)
 			{
-				_accountApplicationServices.AddNewAccount(accountDto);
+				_accountApplicationServices.AddNewAccount(dto);
 			}
 			else
 			{
-				_accountApplicationServices.ModifyAccount(accountDto);
+				_accountApplicationServices.ModifyAccount(dto);
 			}
+			response.Message = "创建新账户成功";
+			response.IsSuccess = true;
 
-			return Json(new { success = 1 });
+			return Json(response);
 		}
 
 		/// <summary>
@@ -97,23 +112,38 @@ namespace NewCRM.Web.Controllers
 		/// <returns></returns>
 		public ActionResult CheckAccountNameExist(String param)
 		{
+			var response = new ResponseModel<dynamic>();
 			var result = _accountApplicationServices.CheckAccountNameExist(param);
+			response.IsSuccess = true;
+			response.Model = result ? new { status = "y", info = "" } : new { status = "n", info = "用户名已存在" };
 
-			return Json(result ? new { status = "y", info = "" } : new { status = "n", info = "用户名已存在" });
+			return Json(response);
 		}
 
+		/// <summary>
+		/// 移除账户
+		/// </summary>
+		/// <param name="accountId"></param>
+		/// <returns></returns>
 		public ActionResult RemoveAccount(Int32 accountId)
 		{
+			var response = new ResponseModel<String>();
 			_accountApplicationServices.RemoveAccount(accountId);
+			response.IsSuccess = true;
+			response.Message = "移除账户成功";
 
-			return Json(new
-			{
-				success = 1
-			});
+			return Json(response);
 		}
 
+		/// <summary>
+		/// 修改账户为禁用状态
+		/// </summary>
+		/// <param name="accountId"></param>
+		/// <param name="isDisable"></param>
+		/// <returns></returns>
 		public ActionResult ChangeAccountDisableStatus(Int32 accountId, String isDisable)
 		{
+			var response = new ResponseModel<String>();
 			if (Boolean.Parse(isDisable))
 			{
 				_accountApplicationServices.Disable(accountId);
@@ -122,11 +152,10 @@ namespace NewCRM.Web.Controllers
 			{
 				_accountApplicationServices.Enable(accountId);
 			}
+			response.IsSuccess = true;
+			response.Message = "账户状态修改成功";
 
-			return Json(new
-			{
-				success = 1
-			});
+			return Json(response);
 		}
 
 		#region private method
