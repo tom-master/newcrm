@@ -111,7 +111,7 @@ namespace NewCRM.Web.Controllers
         {
             var appTypeDto = new AppTypeDto
             {
-                Name = forms["val_name"] 
+                Name = forms["val_name"]  
             };
 
             if ((forms["id"] + "").Length > 0)
