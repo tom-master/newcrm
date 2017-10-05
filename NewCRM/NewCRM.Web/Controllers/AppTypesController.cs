@@ -18,7 +18,6 @@ namespace NewCRM.Web.Controllers
 			_appApplicationServices = appApplicationServices;
 		}
 
-
 		#region 类目管理
 
 		/// <summary>
