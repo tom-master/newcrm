@@ -23,4 +23,9 @@ namespace NewCRM.Infrastructure.CommonTools
 	{
 		public Int32 TotalCount { get; set; }
 	}
+
+	public class ResponseModel : ResponseModel<String>
+	{
+
+	}
 }

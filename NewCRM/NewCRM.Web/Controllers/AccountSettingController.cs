@@ -9,7 +9,6 @@ namespace NewCRM.Web.Controllers
 {
 	public class AccountSettingController : BaseController
 	{
-
 		private readonly IAccountApplicationServices _accountApplicationServices;
 
 		public AccountSettingController(IAccountApplicationServices accountApplicationServices)
@@ -18,9 +17,14 @@ namespace NewCRM.Web.Controllers
 		}
 
 		#region 页面
-		public ActionResult Index()
+		/// <summary>
+		/// 首页
+		/// </summary>
+		/// <param name="accountId"></param>
+		/// <returns></returns>
+		public ActionResult Index(Int32 accountId)
 		{
-			return View(_accountApplicationServices.GetAccount(AccountId));
+			return View(_accountApplicationServices.GetAccount(accountId));
 		}
 		#endregion
 
@@ -30,6 +34,7 @@ namespace NewCRM.Web.Controllers
 		/// <returns></returns>
 		public ActionResult UploadFace()
 		{
+			var response = new ResponseModel<dynamic>();
 			if (Request.Files.Count != 0)
 			{
 				var icon = Request.Files[0];
@@ -39,11 +44,19 @@ namespace NewCRM.Web.Controllers
 				{
 					_accountApplicationServices.ModifyAccountFace(0, fileUpLoadHelper.FilePath + fileUpLoadHelper.NewFileName);
 
-					return Json(new { success = true, msg = "" });
+					response.Message = "头像上传成功";
+					response.IsSuccess = true;
 				}
-				return Json(new { msg = "上传失败" });
+				else
+				{
+					response.Message = "头像上传失败";
+				}
 			}
-			return Json(new { msg = "请上传一个图片" });
+			else
+			{
+				response.Message = "请选择一张图片后再进行上传";
+			}
+			return Json(response);
 		}
 
 		/// <summary>
@@ -53,12 +66,18 @@ namespace NewCRM.Web.Controllers
 		/// <returns></returns>
 		public ActionResult ModifyAccountPassword(FormCollection forms)
 		{
-			_accountApplicationServices.ModifyPassword(0, forms["password"]);
+			#region 参数验证
 
-			return Json(new
-			{
-				success = 1
-			});
+			Parameter.Validate(forms);
+
+			#endregion
+
+			var response = new ResponseModel();
+			_accountApplicationServices.ModifyPassword(Int32.Parse(forms["accountId"]), forms["password"]);
+			response.Message = "账户密码修改成功";
+			response.IsSuccess = true;
+
+			return Json(response);
 		}
 
 		/// <summary>
@@ -68,32 +87,41 @@ namespace NewCRM.Web.Controllers
 		/// <returns></returns>
 		public ActionResult ModifyLockScreenPassword(FormCollection forms)
 		{
-			_accountApplicationServices.ModifyLockScreenPassword(0, forms["lockpassword"]);
+			#region 参数验证
 
-			return Json(new
-			{
-				success = 1
-			});
+			Parameter.Validate(forms);
+
+			#endregion
+
+			var response = new ResponseModel();
+			_accountApplicationServices.ModifyLockScreenPassword(Int32.Parse(forms["accountId"]), forms["lockpassword"]);
+
+			response.Message = "锁屏密码修改成功";
+			response.IsSuccess = true;
+
+			return Json(response);
 		}
 
 		/// <summary>
 		/// 检查旧密码和输入的密码是否一致
 		/// </summary>
+		/// <param name="accountId"></param>
 		/// <param name="param"></param>
 		/// <returns></returns>
-		public ActionResult CheckPassword(String param)
+		public ActionResult CheckPassword(Int32 accountId, String param)
 		{
-			var result = _accountApplicationServices.CheckPassword(0, param);
+			#region 参数验证
 
-			return Json(result ? new
-			{
-				status = "y",
-				info = ""
-			} : new
-			{
-				status = "n",
-				info = "原始密码错误"
-			});
+			Parameter.Validate(accountId).Validate(param);
+
+			#endregion
+
+			var response = new ResponseModel<dynamic>();
+			var result = _accountApplicationServices.CheckPassword(accountId, param);
+			response.IsSuccess = true;
+			response.Model = result ? new { status = "y", info = "" } : new { status = "n", info = "原始密码错误" };
+
+			return Json(response);
 		}
 	}
 }
