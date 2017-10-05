@@ -6,6 +6,7 @@ using NewCRM.Application.Services.Interface;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Web.Controllers.ControllerHelper;
+using System.Collections.Generic;
 
 namespace NewCRM.Web.Controllers
 {
@@ -22,7 +23,6 @@ namespace NewCRM.Web.Controllers
 
 		private readonly IAccountApplicationServices _accountApplicationServices;
 
-
 		public DeskOptionsController(IWallpaperApplicationServices wallpaperApplicationServices,
 			ISkinApplicationServices skinApplicationServices,
 			IDeskApplicationServices deskApplicationServices,
@@ -30,28 +30,26 @@ namespace NewCRM.Web.Controllers
 			IAccountApplicationServices accountApplicationServices)
 		{
 			_wallpaperApplicationServices = wallpaperApplicationServices;
-
 			_skinApplicationServices = skinApplicationServices;
-
 			_deskApplicationServices = deskApplicationServices;
-
 			_appApplicationServices = appApplicationServices;
-
 			_accountApplicationServices = accountApplicationServices;
 		}
 
 
 		#region 页面
 
-		// //// GET: PlatformSetting
 		/// <summary>
-		/// 系统壁纸
+		/// 首页
 		/// </summary>
 		/// <returns></returns>
-		public ActionResult SystemWallPaper()
+		public ActionResult SystemWallPaper(Int32 accountId)
 		{
-			ViewData["AccountConfig"] = _accountApplicationServices.GetConfig(0);
+			#region 参数验证
+			Parameter.Validate(accountId);
+			#endregion
 
+			ViewData["AccountConfig"] = _accountApplicationServices.GetConfig(accountId);
 			ViewData["Wallpapers"] = _wallpaperApplicationServices.GetWallpaper();
 
 			return View();
@@ -61,9 +59,13 @@ namespace NewCRM.Web.Controllers
 		/// 自定义壁纸
 		/// </summary>
 		/// <returns></returns>
-		public ActionResult CustomWallPaper()
+		public ActionResult CustomWallPaper(Int32 accountId)
 		{
-			ViewData["AccountConfig"] = _accountApplicationServices.GetConfig(0);
+			#region 参数验证
+			Parameter.Validate(accountId);
+			#endregion
+
+			ViewData["AccountConfig"] = _accountApplicationServices.GetConfig(accountId);
 
 			return View();
 		}
@@ -81,11 +83,14 @@ namespace NewCRM.Web.Controllers
 		/// 程序设置
 		/// </summary>
 		/// <returns></returns>
-		public ActionResult DeskSet()
+		public ActionResult DeskSet(Int32 accountId)
 		{
-			ViewData["AccountConfig"] = _accountApplicationServices.GetConfig(0);
+			#region 参数验证
+			Parameter.Validate(accountId);
+			#endregion
 
-			ViewData["Desks"] = _accountApplicationServices.GetConfig(0).DefaultDeskCount;
+			ViewData["AccountConfig"] = _accountApplicationServices.GetConfig(accountId);
+			ViewData["Desks"] = _accountApplicationServices.GetConfig(accountId).DefaultDeskCount;
 
 			return View();
 		}
@@ -94,36 +99,56 @@ namespace NewCRM.Web.Controllers
 		/// <summary>
 		/// 设置壁纸显示模式
 		/// </summary>
-		/// <param name="wallPaperShowType"></param>
 		/// <returns></returns>
-		public ActionResult ModifyWallpaperDisplayModel(String wallPaperShowType = "")
+		public ActionResult ModifyWallpaperDisplayModel(Int32 accountId, String wallPaperShowType = "")
 		{
-			//_wallpaperApplicationServices.ModifyWallpaperMode(AccountDto.Id, wallPaperShowType);
+			#region 参数验证
+			Parameter.Validate(accountId).Validate(wallPaperShowType);
+			#endregion
 
-			return Json(new { success = 1 });
+			var response = new ResponseModel();
+			_wallpaperApplicationServices.ModifyWallpaperMode(accountId, wallPaperShowType);
+			response.IsSuccess = true;
+			response.Message = "壁纸显示模式设置成功";
+
+			return Json(response);
 		}
 
 		/// <summary>
 		/// 设置壁纸
 		/// </summary>
-		/// <param name="wallpaperId"></param>
 		/// <returns></returns>
-		public ActionResult ModifyWallpaper(Int32 wallpaperId)
+		public ActionResult ModifyWallpaper(Int32 accountId, Int32 wallpaperId)
 		{
-			//_wallpaperApplicationServices.ModifyWallpaper(AccountDto.Id, wallpaperId);
+			#region 参数验证
+			Parameter.Validate(accountId).Validate(wallpaperId);
+			#endregion
 
-			return Json(new { success = 1 });
+			var response = new ResponseModel();
+			_wallpaperApplicationServices.ModifyWallpaper(accountId, wallpaperId);
+			response.IsSuccess = true;
+			response.Message = "设置壁纸成功";
+
+			return Json(response);
 		}
 
 		/// <summary>
 		/// 载入用户之前上传的壁纸
 		/// </summary>
 		/// <returns></returns>
-		public ActionResult GetAllUploadWallPaper()
+		public ActionResult GetAllUploadWallPaper(Int32 accountId)
 		{
-			var wallPapers = new { }; //_wallpaperApplicationServices.GetUploadWallpaper(AccountDto.Id);
+			#region 参数验证
+			Parameter.Validate(accountId);
+			#endregion
 
-			return Json(new { wallPapers }, JsonRequestBehavior.AllowGet);
+			var response = new ResponseModel<IList<WallpaperDto>>();
+			var result = _wallpaperApplicationServices.GetUploadWallpaper(accountId);
+			response.IsSuccess = true;
+			response.Message = "载入之前上传的壁纸成功";
+			response.Model = result;
+
+			return Json(response, JsonRequestBehavior.AllowGet);
 		}
 
 		/// <summary>
@@ -131,56 +156,78 @@ namespace NewCRM.Web.Controllers
 		/// </summary>
 		/// <param name="wallPaperId"></param>
 		/// <returns></returns>
-		public ActionResult DeleteWallPaper(Int32 wallPaperId = 0)
+		public ActionResult DeleteWallPaper(Int32 accountId, Int32 wallPaperId = 0)
 		{
-			// _wallpaperApplicationServices.RemoveWallpaper(AccountDto.Id, wallPaperId);
+			#region 参数验证
+			Parameter.Validate(accountId);
+			#endregion
 
-			return Json(new { success = 1 });
+			var response = new ResponseModel<IList<WallpaperDto>>();
+			_wallpaperApplicationServices.RemoveWallpaper(accountId, wallPaperId);
+			response.IsSuccess = true;
+			response.Message = "删除壁纸成功";
+
+			return Json(response);
 		}
 
 		/// <summary>
 		/// 上传壁纸     
 		/// </summary>
 		/// <returns></returns>c
-		public ActionResult UploadWallPaper()
+		public ActionResult UploadWallPaper(Int32 accountId)
 		{
+			#region 参数验证
+			Parameter.Validate(accountId);
+			#endregion
+
+			var response = new ResponseModel<dynamic>();
 			if (Request.Files.Count > 0)
 			{
 				var httpPostedFile = HttpContext.Request.Files[0];
-
 				var wallpaperDtoResult = _wallpaperApplicationServices.GetUploadWallpaper(CalculateFile.Calculate(httpPostedFile.InputStream));
 
 				if (wallpaperDtoResult != null)
 				{
-					return Json(new { value = 1, msg = "这张壁纸已经存在" }, JsonRequestBehavior.AllowGet);
+					response.Message = "这张壁纸已经存在";
+					response.IsSuccess = true;
 				}
-
-				var fileUpLoad = new FileUpLoadHelper(ConfigurationManager.AppSettings["UploadWallPaperPath"], false, false, true, true, 160, 115, ThumbnailMode.Auto, false, "");
-
-				var imgNd5 = CalculateFile.Calculate(httpPostedFile.InputStream);
-
-				if (fileUpLoad.SaveFile(httpPostedFile))
+				else
 				{
-					var shortUrl =
-						fileUpLoad.WebThumbnailFilePath.Substring(fileUpLoad.WebThumbnailFilePath.LastIndexOf("Script", StringComparison.OrdinalIgnoreCase)).Replace(@"\", "/").Insert(0, "/");
+					var fileUpLoad = new FileUpLoadHelper(ConfigurationManager.AppSettings["UploadWallPaperPath"], false, false, true, true, 160, 115, ThumbnailMode.Auto, false, "");
+					var imgNd5 = CalculateFile.Calculate(httpPostedFile.InputStream);
 
-					var wallpaperResult = _wallpaperApplicationServices.AddWallpaper(new WallpaperDto
+					if (fileUpLoad.SaveFile(httpPostedFile))
 					{
-						Height = fileUpLoad.FileHeight,
-						Source = "Upload",
-						Title = fileUpLoad.OldFileName,
-						Url = fileUpLoad.FilePath + fileUpLoad.OldFileName,
-						AccountId = AccountId,
-						Width = fileUpLoad.FileWidth,
-						Md5 = imgNd5,
-						ShortUrl = shortUrl
-					});
+						var shortUrl =
+							fileUpLoad.WebThumbnailFilePath.Substring(fileUpLoad.WebThumbnailFilePath.LastIndexOf("Script", StringComparison.OrdinalIgnoreCase)).Replace(@"\", "/").Insert(0, "/");
 
-					return Json(new { Id = wallpaperResult.Item1, Url = wallpaperResult.Item2 }, JsonRequestBehavior.AllowGet);
+						var wallpaperResult = _wallpaperApplicationServices.AddWallpaper(new WallpaperDto
+						{
+							Height = fileUpLoad.FileHeight,
+							Source = "Upload",
+							Title = fileUpLoad.OldFileName,
+							Url = fileUpLoad.FilePath + fileUpLoad.OldFileName,
+							AccountId = accountId,
+							Width = fileUpLoad.FileWidth,
+							Md5 = imgNd5,
+							ShortUrl = shortUrl
+						});
+
+						response.Message = "壁纸上传成功";
+						response.IsSuccess = true;
+						response.Model = new { Id = wallpaperResult.Item1, Url = wallpaperResult.Item2 };
+					}
+					else
+					{
+						response.Message = "壁纸上传失败";
+					}
 				}
 			}
-			return Json(new { value = 0, msg = "请先选择一张壁纸。" }, JsonRequestBehavior.AllowGet);
-
+			else
+			{
+				response.Message = "请先选择一张壁纸";
+			}
+			return Json(response, JsonRequestBehavior.AllowGet);
 		}
 
 		/// <summary>
@@ -188,10 +235,18 @@ namespace NewCRM.Web.Controllers
 		/// </summary>
 		/// <param name="webUrl"></param>
 		/// <returns></returns>
-		public async Task<ActionResult> WebWallPaper(String webUrl = "")
+		public async Task<ActionResult> WebWallPaper(Int32 accountId, String webUrl = "")
 		{
-			var webWallpaperResult = _wallpaperApplicationServices.AddWebWallpaper(AccountId, webUrl);
-			return Json(new { data = await webWallpaperResult });
+			#region 参数验证
+			Parameter.Validate(accountId);
+			#endregion
+
+			var response = new ResponseModel<Tuple<Int32, String>>();
+			var result = _wallpaperApplicationServices.AddWebWallpaper(accountId, webUrl);
+			response.IsSuccess = true;
+			response.Message = "网络壁纸保存成功";
+			response.Model = await result;
+			return Json(response);
 		}
 
 		/// <summary>
