@@ -11,15 +11,12 @@ namespace NewCRM.Web.Controllers
 {
 	public class AppManagerController : BaseController
 	{
-
 		private readonly IAppApplicationServices _appApplicationServices;
-
 
 		public AppManagerController(IAppApplicationServices appApplicationServices)
 		{
 			_appApplicationServices = appApplicationServices;
 		}
-
 
 		#region 页面
 
@@ -30,9 +27,7 @@ namespace NewCRM.Web.Controllers
 		public ActionResult Index()
 		{
 			ViewData["AppTypes"] = _appApplicationServices.GetAppTypes();
-
 			ViewData["AppStyles"] = _appApplicationServices.GetAllAppStyles().ToList();
-
 			ViewData["AppStates"] = _appApplicationServices.GetAllAppStates().Where(w => w.Name == "未审核" || w.Name == "已发布").ToList();
 
 			return View();
@@ -49,7 +44,6 @@ namespace NewCRM.Web.Controllers
 			if (appId != 0)// 如果appId为0则是新创建app
 			{
 				appResult = _appApplicationServices.GetApp(appId);
-
 				ViewData["AppState"] = appResult.AppAuditState;
 			}
 

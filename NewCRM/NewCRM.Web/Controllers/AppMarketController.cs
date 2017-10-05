@@ -6,6 +6,7 @@ using NewCRM.Application.Services.Interface;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Web.Controllers.ControllerHelper;
+using System.Collections.Generic;
 
 namespace NewCRM.Web.Controllers
 {
@@ -21,15 +22,17 @@ namespace NewCRM.Web.Controllers
 
 		#region 页面
 
-		#region 应用市场
-
 		/// <summary>
-		/// 应用市场
+		/// 首页
 		/// </summary>
 		/// <returns></returns>
-		public ActionResult Index()
+		public ActionResult Index(Int32 accountId, String accountName, Boolean isAdmin)
 		{
-			if (IsAdmin)
+			#region 参数验证
+			Parameter.Validate(accountId).Validate(accountName);
+			#endregion
+
+			if (isAdmin)
 			{
 				ViewData["AppTypes"] = _appApplicationServices.GetAppTypes();
 			}
@@ -38,9 +41,9 @@ namespace NewCRM.Web.Controllers
 				ViewData["AppTypes"] = _appApplicationServices.GetAppTypes().Where(w => w.Name != "系统").ToList();
 			}
 
-			ViewData["TodayRecommendApp"] = _appApplicationServices.GetTodayRecommend(AccountId);
-			ViewData["AccountName"] = AccountName;
-			ViewData["AccountApp"] = _appApplicationServices.GetAccountDevelopAppCountAndNotReleaseAppCount(AccountId);
+			ViewData["TodayRecommendApp"] = _appApplicationServices.GetTodayRecommend(accountId);
+			ViewData["AccountName"] = accountName;
+			ViewData["AccountApp"] = _appApplicationServices.GetAccountDevelopAppCountAndNotReleaseAppCount(accountId);
 
 			return View();
 		}
@@ -48,12 +51,15 @@ namespace NewCRM.Web.Controllers
 		/// <summary>
 		/// app详情
 		/// </summary>
-		/// <param name="appId"></param>
 		/// <returns></returns>
-		public ActionResult AppDetail(Int32 appId)
+		public ActionResult AppDetail(Int32 accountId, Int32 appId, String accountName)
 		{
-			ViewData["IsInstallApp"] = _appApplicationServices.IsInstallApp(AccountId, appId);
-			ViewData["AccountName"] = AccountName;
+			#region 参数验证
+			Parameter.Validate(accountId).Validate(accountName).Validate(appId);
+			#endregion
+
+			ViewData["IsInstallApp"] = _appApplicationServices.IsInstallApp(accountId, appId);
+			ViewData["AccountName"] = accountName;
 
 			var result = _appApplicationServices.GetApp(appId);
 			return View(result);
@@ -79,20 +85,21 @@ namespace NewCRM.Web.Controllers
 		/// <returns></returns>
 		public ActionResult AccountAppManageInfo(Int32 appId)
 		{
-			AppDto appResult = null;
+			#region 参数验证
+			Parameter.Validate(appId);
+			#endregion
+			AppDto result = null;
 			if (appId != 0)// 如果appId为0则是新创建app
 			{
-				appResult = _appApplicationServices.GetApp(appId);
-
-				ViewData["AppState"] = appResult.AppAuditState;
+				result = _appApplicationServices.GetApp(appId);
+				ViewData["AppState"] = result.AppAuditState;
 			}
 
 			ViewData["AppTypes"] = _appApplicationServices.GetAppTypes();
 
-			return View(appResult);
+			return View(result);
 		}
 
-		#endregion
 
 		#endregion
 
@@ -105,17 +112,29 @@ namespace NewCRM.Web.Controllers
 		/// <param name="pageIndex"></param>
 		/// <param name="pageSize"></param>
 		/// <returns></returns>
-		public ActionResult GetAllApps(Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize)
+		public ActionResult GetAllApps(Int32 accountId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize)
 		{
+			#region 参数验证
+			Parameter.Validate(accountId);
+			#endregion
+
+			var response = new ResponseModels<IList<AppDto>>();
+
 			Int32 totalCount;
-
-			var appResults = _appApplicationServices.GetAllApps(0, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
-
-			return Json(new
+			var result = _appApplicationServices.GetAllApps(accountId, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
+			if (result != null)
 			{
-				apps = appResults,
-				totalCount
-			}, JsonRequestBehavior.AllowGet);
+				response.TotalCount = totalCount;
+				response.IsSuccess = true;
+				response.Message = "app列表获取成功";
+				response.Model = result;
+			}
+			else
+			{
+				response.Message = "app列表获取失败";
+			}
+
+			return Json(response, JsonRequestBehavior.AllowGet);
 		}
 
 		/// <summary>
@@ -124,11 +143,18 @@ namespace NewCRM.Web.Controllers
 		/// <param name="appId"></param>
 		/// <param name="starCount"></param>
 		/// <returns></returns>
-		public ActionResult ModifyAppStart(Int32 appId, Int32 starCount)
+		public ActionResult ModifyAppStart(Int32 accountId, Int32 appId, Int32 starCount)
 		{
+			#region 参数验证
+			Parameter.Validate(accountId).Validate(appId).Validate(starCount);
+			#endregion
 
-			_appApplicationServices.ModifyAppStar(0, appId, starCount);
-			return Json(new { success = 1 });
+			var response = new ResponseModel();
+			_appApplicationServices.ModifyAppStar(accountId, appId, starCount);
+			response.IsSuccess = true;
+			response.Message = "打分成功";
+
+			return Json(response);
 		}
 
 		/// <summary>
@@ -137,10 +163,18 @@ namespace NewCRM.Web.Controllers
 		/// <param name="appId"></param>
 		/// <param name="deskNum"></param>
 		/// <returns></returns>
-		public ActionResult InstallApp(Int32 appId, Int32 deskNum)
+		public ActionResult InstallApp(Int32 accountId, Int32 appId, Int32 deskNum)
 		{
-			_appApplicationServices.InstallApp(0, appId, deskNum);
-			return Json(new { success = 1 });
+			#region 参数验证
+			Parameter.Validate(accountId).Validate(appId).Validate(deskNum);
+			#endregion
+
+			var response = new ResponseModel();
+			_appApplicationServices.InstallApp(accountId, appId, deskNum);
+			response.IsSuccess = true;
+			response.Message = "打分成功";
+
+			return Json(response);
 		}
 
 		/// <summary>
@@ -153,17 +187,28 @@ namespace NewCRM.Web.Controllers
 		/// <param name="pageIndex"></param>
 		/// <param name="pageSize"></param>
 		/// <returns></returns>
-		public ActionResult GetAccountAllApps(String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize)
+		public ActionResult GetAccountAllApps(Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize)
 		{
+			#region 参数验证
+			Parameter.Validate(accountId);
+			#endregion
+
+			var response = new ResponseModels<IList<AppDto>>();
 			Int32 totalCount = 0;
-
-			var appResults = _appApplicationServices.GetAccountAllApps(AccountId, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
-
-			return Json(new
+			var result = _appApplicationServices.GetAccountAllApps(accountId, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
+			if (result != null)
 			{
-				apps = appResults,
-				totalCount
-			}, JsonRequestBehavior.AllowGet);
+				response.TotalCount = totalCount;
+				response.IsSuccess = true;
+				response.Message = "app列表获取成功";
+				response.Model = result;
+			}
+			else
+			{
+				response.Message = "app列表获取失败";
+			}
+
+			return Json(response, JsonRequestBehavior.AllowGet);
 		}
 
 		/// <summary>
@@ -173,10 +218,16 @@ namespace NewCRM.Web.Controllers
 		/// <returns></returns>
 		public ActionResult ModifyAppInfo(FormCollection forms)
 		{
-			var appDto = WrapperAppDto(forms);
-			_appApplicationServices.ModifyAccountAppInfo(AccountId, appDto);
+			#region 参数验证
+			Parameter.Validate(forms);
+			#endregion
 
-			return Json(new { success = 1 });
+			var response = new ResponseModel();
+			_appApplicationServices.ModifyAccountAppInfo(Int32.Parse(forms["accountId"]), WrapperAppDto(forms));
+			response.IsSuccess = true;
+			response.Message = "修改app信息成功";
+
+			return Json(response);
 		}
 
 		/// <summary>
@@ -185,6 +236,7 @@ namespace NewCRM.Web.Controllers
 		/// <returns></returns>
 		public ActionResult UploadIcon()
 		{
+			var response = new ResponseModel();
 			if (Request.Files.Count != 0)
 			{
 				var icon = Request.Files[0];
@@ -192,11 +244,20 @@ namespace NewCRM.Web.Controllers
 				var fileUpLoadHelper = new FileUpLoadHelper(ConfigurationManager.AppSettings["UploadIconPath"], false, false);
 				if (fileUpLoadHelper.SaveFile(icon))
 				{
-					return Json(new { iconPath = fileUpLoadHelper.FilePath + fileUpLoadHelper.OldFileName });
+					response.IsSuccess = true;
+					response.Model = fileUpLoadHelper.FilePath + fileUpLoadHelper.OldFileName;
+					response.Message = "更新图标成功";
 				}
-				return Json(new { msg = "上传失败" });
+				else
+				{
+					response.Message = "上传失败";
+				}
 			}
-			return Json(new { msg = "请上传一个图片" });
+			else
+			{
+				response.Message = "请选择一张图片后再进行上除按";
+			}
+			return Json(response);
 		}
 
 		/// <summary>
@@ -206,14 +267,20 @@ namespace NewCRM.Web.Controllers
 		/// <returns></returns>
 		public ActionResult CreateNewApp(FormCollection forms)
 		{
-			var appDto = WrapperAppDto(forms);
-			appDto.AccountId = AccountId;
-			_appApplicationServices.CreateNewApp(appDto);
+			#region 参数验证
+			Parameter.Validate(forms);
+			#endregion
 
-			return Json(new
-			{
-				success = 1
-			});
+			var response = new ResponseModel();
+
+			var appDto = WrapperAppDto(forms);
+			appDto.AccountId = Int32.Parse(forms["accountId"]);
+
+			_appApplicationServices.CreateNewApp(appDto);
+			response.IsSuccess = true;
+			response.Message = "app创建成功";
+
+			return Json(response);
 		}
 
 		/// <summary>
@@ -223,24 +290,35 @@ namespace NewCRM.Web.Controllers
 		/// <returns></returns>
 		public ActionResult ReleaseApp(Int32 appId)
 		{
-			_appApplicationServices.ReleaseApp(appId);
+			#region 参数验证
+			Parameter.Validate(appId);
+			#endregion
 
-			return Json(new { success = 1 });
+			var response = new ResponseModel();
+			_appApplicationServices.ReleaseApp(appId);
+			response.IsSuccess = true;
+			response.Message = "app发布成功";
+
+			return Json(response);
 		}
 
 		/// <summary>
-		/// 删除用户开发
+		/// 删除用户开发的app
 		/// </summary>
 		/// <param name="appId"></param>
 		/// <returns></returns>
 		public ActionResult RemoveApp(Int32 appId)
 		{
-			_appApplicationServices.RemoveApp(appId);
+			#region 参数验证
+			Parameter.Validate(appId);
+			#endregion
 
-			return Json(new
-			{
-				success = 1
-			});
+			var response = new ResponseModel();
+			_appApplicationServices.RemoveApp(appId);
+			response.IsSuccess = true;
+			response.Message = "删除用户开发的app成功";
+
+			return Json(response);
 		}
 
 		#region private method
