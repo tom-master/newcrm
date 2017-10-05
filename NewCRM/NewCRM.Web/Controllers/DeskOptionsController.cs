@@ -253,12 +253,12 @@ namespace NewCRM.Web.Controllers
 		/// 获取全部的皮肤
 		/// </summary>
 		/// <returns></returns>
-		public ActionResult GetAllSkin()
+		public ActionResult GetAllSkin(Int32 accountId)
 		{
 			var skinPath = Server.MapPath(ConfigurationManager.AppSettings["PlantFormSkinPath"]);
 			var data = _skinApplicationServices.GetAllSkin(skinPath);
 
-			return Json(new { data, currentSkin = _accountApplicationServices.GetConfig(AccountId).Skin });
+			return Json(new { data, currentSkin = _accountApplicationServices.GetConfig(accountId).Skin });
 		}
 
 		/// <summary>
@@ -266,9 +266,9 @@ namespace NewCRM.Web.Controllers
 		/// </summary>
 		/// <param name="skin"></param>
 		/// <returns></returns>
-		public ActionResult ModifySkin(String skin = "")
+		public ActionResult ModifySkin(Int32 accountId,String skin = "")
 		{
-			_skinApplicationServices.ModifySkin(AccountId, skin);
+			_skinApplicationServices.ModifySkin(accountId, skin);
 
 			return Json(new { success = 1 });
 		}
@@ -278,9 +278,9 @@ namespace NewCRM.Web.Controllers
 		/// </summary>
 		/// <param name="deskNum"></param>
 		/// <returns></returns>
-		public ActionResult ModifyDefaultDesk(Int32 deskNum)
+		public ActionResult ModifyDefaultDesk(Int32 accountId, Int32 deskNum)
 		{
-			_deskApplicationServices.ModifyDefaultDeskNumber(AccountId, deskNum);
+			_deskApplicationServices.ModifyDefaultDeskNumber(accountId, deskNum);
 
 			return Json(new { success = 1 });
 		}
@@ -290,9 +290,9 @@ namespace NewCRM.Web.Controllers
 		/// </summary>
 		/// <param name="appXy"></param>
 		/// <returns></returns>
-		public ActionResult ModifyAppXy(String appXy)
+		public ActionResult ModifyAppXy(Int32 accountId, String appXy)
 		{
-			_appApplicationServices.ModifyAppDirection(AccountId, appXy);
+			_appApplicationServices.ModifyAppDirection(accountId, appXy);
 
 			return Json(new { success = 1 });
 		}
@@ -302,9 +302,9 @@ namespace NewCRM.Web.Controllers
 		/// </summary>
 		/// <param name="appSize"></param>
 		/// <returns></returns>
-		public ActionResult ModifyAppSize(Int32 appSize)
+		public ActionResult ModifyAppSize(Int32 accountId, Int32 appSize)
 		{
-			_appApplicationServices.ModifyAppIconSize(AccountId, appSize);
+			_appApplicationServices.ModifyAppIconSize(accountId, appSize);
 
 			return Json(new { success = 1 });
 		}
@@ -314,9 +314,9 @@ namespace NewCRM.Web.Controllers
 		/// </summary>
 		/// <param name="appVertical"></param>
 		/// <returns></returns>
-		public ActionResult ModifyAppVertical(Int32 appVertical)
+		public ActionResult ModifyAppVertical(Int32 accountId, Int32 appVertical)
 		{
-			_appApplicationServices.ModifyAppVerticalSpacing(AccountId, appVertical);
+			_appApplicationServices.ModifyAppVerticalSpacing(accountId, appVertical);
 
 			return Json(new { success = 1 });
 		}
@@ -326,9 +326,9 @@ namespace NewCRM.Web.Controllers
 		/// </summary>
 		/// <param name="appHorizontal"></param>
 		/// <returns></returns>
-		public ActionResult ModifyAppHorizontal(Int32 appHorizontal)
+		public ActionResult ModifyAppHorizontal(Int32 accountId, Int32 appHorizontal)
 		{
-			_appApplicationServices.ModifyAppHorizontalSpacing(AccountId, appHorizontal);
+			_appApplicationServices.ModifyAppHorizontalSpacing(accountId, appHorizontal);
 
 			return Json(new { success = 1 });
 		}
@@ -339,9 +339,9 @@ namespace NewCRM.Web.Controllers
 		/// <param name="pos"></param>
 		/// <param name="deskNum"></param>
 		/// <returns></returns>
-		public ActionResult ModifyDockPosition(String pos = "", Int32 deskNum = 0)
+		public ActionResult ModifyDockPosition(Int32 accountId, String pos = "", Int32 deskNum = 0)
 		{
-			_deskApplicationServices.ModifyDockPosition(AccountId, deskNum, pos);
+			_deskApplicationServices.ModifyDockPosition(accountId, deskNum, pos);
 
 			return Json(new { success = 1 });
 		}
