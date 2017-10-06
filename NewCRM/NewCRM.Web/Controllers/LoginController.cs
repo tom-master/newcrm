@@ -20,21 +20,23 @@ namespace NewCRM.Web.Controllers
 			_accountApplicationServices = accountApplicationServices;
 		}
 
-
-		// GET: Login
-		public ActionResult Index()
+        #region 页面
+        /// <summary>
+        /// 首页
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Index()
 		{
 			return View();
 		}
 
-		/// <summary>
-		/// 登陆
-		/// </summary>
-		/// <param name="accountName"></param>
-		/// <param name="passWord"></param>
-		/// <param name="isRememberPasswrod"></param>
-		/// <returns></returns>
-		public ActionResult Landing(String accountName, String passWord, Boolean isRememberPasswrod = false)
+        #endregion
+
+        /// <summary>
+        /// 登陆
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Landing(String accountName, String passWord, Boolean isRememberPasswrod = false)
 		{
 			var response = new ResponseModel<AccountDto>();
 
