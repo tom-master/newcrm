@@ -11,170 +11,165 @@ using System.Collections.Generic;
 
 namespace NewCRM.Web.Controllers
 {
-	public class IndexController : BaseController
-	{
+    public class IndexController : BaseController
+    {
 
-		private readonly IAccountApplicationServices _accountApplicationServices;
+        private readonly IAccountApplicationServices _accountServices;
 
-		private readonly IAppApplicationServices _appApplicationServices;
+        private readonly IAppApplicationServices _appServices;
 
-		private readonly IDeskApplicationServices _deskApplicationServices;
+        private readonly IDeskApplicationServices _deskServices;
 
-		public IndexController(IAccountApplicationServices accountApplicationServices,
-			IAppApplicationServices appApplicationServices,
-			IDeskApplicationServices deskApplicationServices)
-		{
-			_accountApplicationServices = accountApplicationServices;
-			_appApplicationServices = appApplicationServices;
-			_deskApplicationServices = deskApplicationServices;
-		}
+        public IndexController(IAccountApplicationServices accountServices, IAppApplicationServices appServices, IDeskApplicationServices deskServices)
+        {
+            _accountServices = accountServices;
+            _appServices = appServices;
+            _deskServices = deskServices;
+        }
 
 
-		#region 页面
+        #region 页面
 
-		/// <summary>
-		/// 首页
-		/// </summary>
-		/// <returns></returns>
-		public ActionResult Desktop(Int32 accountId)
-		{
-			ViewBag.Title = "桌面";
+        /// <summary>
+        /// 首页
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Desktop(Int32 accountId)
+        {
+            ViewBag.Title = "桌面";
 
-			if (Request.Cookies["Account"] != null)
-			{
-				ViewData["Account"] = JsonConvert.DeserializeObject<AccountDto>(Request.Cookies["Account"].Value);
-				ViewData["AccountConfig"] = _accountApplicationServices.GetConfig(accountId);
-				ViewData["Desks"] = _accountApplicationServices.GetConfig(accountId).DefaultDeskCount;
+            if (Request.Cookies["Account"] != null)
+            {
+                ViewData["Account"] = JsonConvert.DeserializeObject<AccountDto>(Request.Cookies["Account"].Value);
+                ViewData["AccountConfig"] = _accountServices.GetConfig(accountId);
+                ViewData["Desks"] = _accountServices.GetConfig(accountId).DefaultDeskCount;
 
-				return View();
-			}
+                return View();
+            }
 
             return RedirectToAction("Index", "Login");
         }
 
-		#endregion
+        #endregion
 
-		/// <summary>
-		/// 账户登出
-		/// </summary>
-		public void Logout()
-		{
-			Response.Cookies.Add(new HttpCookie("Account")
-			{
-				Expires = DateTime.Now.AddDays(-1)
-			});
-		}
+        /// <summary>
+        /// 账户登出
+        /// </summary>
+        public void Logout()
+        {
+            Response.Cookies.Add(new HttpCookie("Account")
+            {
+                Expires = DateTime.Now.AddDays(-1)
+            });
+        }
 
-		/// <summary>
-		/// 初始化皮肤
-		/// </summary>
-		/// <returns></returns>
-		public ActionResult GetSkin(Int32 accountId)
-		{
+        /// <summary>
+        /// 初始化皮肤
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetSkin(Int32 accountId)
+        {
             #region 参数验证
             Parameter.Validate(accountId);
             #endregion
 
             var response = new ResponseModel<String>();
-            var skinName = _accountApplicationServices.GetConfig(accountId).Skin;
+            var skinName = _accountServices.GetConfig(accountId).Skin;
             response.IsSuccess = true;
             response.Model = skinName;
             response.Message = "初始化皮肤成功";
 
             return Json(response, JsonRequestBehavior.AllowGet);
-		}
+        }
 
-		/// <summary>
-		/// 初始化壁纸
-		/// </summary>
-		/// <returns></returns>
-		public ActionResult GetWallpaper(Int32 accountId)
-		{
+        /// <summary>
+        /// 初始化壁纸
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetWallpaper(Int32 accountId)
+        {
             #region 参数验证
             Parameter.Validate(accountId);
             #endregion
 
             var response = new ResponseModel<ConfigDto>();
-            var result = _accountApplicationServices.GetConfig(accountId);
+            var result = _accountServices.GetConfig(accountId);
             response.IsSuccess = true;
             response.Message = "初始化壁纸成功";
             response.Model = result;
 
             return Json(response, JsonRequestBehavior.AllowGet);
-		}
+        }
 
-		/// <summary>
-		/// 初始化应用码头
-		/// </summary>
-		/// <returns></returns>
-		public ActionResult GetDockPos(Int32 accountId)
-		{
+        /// <summary>
+        /// 初始化应用码头
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetDockPos(Int32 accountId)
+        {
             #region 参数验证
             Parameter.Validate(accountId);
             #endregion
 
             var response = new ResponseModel<String>();
-            var result = _accountApplicationServices.GetConfig(accountId).DockPosition;
+            var result = _accountServices.GetConfig(accountId).DockPosition;
             response.IsSuccess = true;
             response.Message = "初始化应用码头成功";
             response.Model = result;
 
             return Json(response, JsonRequestBehavior.AllowGet);
-		}
+        }
 
-		/// <summary>
-		/// 获取我的应用
-		/// </summary>
-		/// <returns></returns>
-		public ActionResult GetAccountDeskMembers(Int32 accountId)
-		{
+        /// <summary>
+        /// 获取我的应用
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetAccountDeskMembers(Int32 accountId)
+        {
             #region 参数验证
             Parameter.Validate(accountId);
             #endregion
 
             var response = new ResponseModel<IDictionary<String, IList<dynamic>>>();
-            var result = _appApplicationServices.GetDeskMembers(accountId);
+            var result = _appServices.GetDeskMembers(accountId);
             response.IsSuccess = true;
             response.Message = "获取我的应用成功";
             response.Model = result;
 
             return Json(response, JsonRequestBehavior.AllowGet);
-		}
+        }
 
-		/// <summary>
-		/// 获取用户头像
-		/// </summary>
-		/// <returns></returns>
-		public ActionResult GetAccountFace(Int32 accountId)
-		{
+        /// <summary>
+        /// 获取用户头像
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetAccountFace(Int32 accountId)
+        {
             #region 参数验证
             Parameter.Validate(accountId);
             #endregion
 
             var response = new ResponseModel<String>();
-            var result = _accountApplicationServices.GetConfig(accountId).AccountFace;
+            var result = _accountServices.GetConfig(accountId).AccountFace;
             response.IsSuccess = true;
             response.Message = "获取用户头像成功";
             response.Model = result;
 
             return Json(response, JsonRequestBehavior.AllowGet);
-		}
+        }
 
-		/// <summary>
-		/// 创建一个窗口
-		/// </summary>
-		/// <param name="id"></param>
-		/// <param name="type"></param>
-		/// <returns></returns>
-		public ActionResult CreateWindow(Int32 accountId, Int32 id = 0, String type = "")
-		{
+        /// <summary>
+        /// 创建一个窗口
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult CreateWindow(Int32 accountId, Int32 id, String type)
+        {
             #region 参数验证
             Parameter.Validate(accountId);
             #endregion
 
             var response = new ResponseModel<dynamic>();
-            var internalMemberResult = type == "folder" ? _deskApplicationServices.GetMember(accountId, id, true)
-				 : _deskApplicationServices.GetMember(0, id);
+            var internalMemberResult = type == "folder" ? _deskServices.GetMember(accountId, id, true) : _deskServices.GetMember(accountId, id);
             response.IsSuccess = true;
             response.Message = "创建一个窗口成功";
             response.Model = new
@@ -194,6 +189,6 @@ namespace NewCRM.Web.Controllers
             };
 
             return Json(response);
-		}
-	}
+        }
+    }
 }
