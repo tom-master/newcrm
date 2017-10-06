@@ -242,10 +242,12 @@ namespace NewCRM.Web.Controllers
 			#endregion
 
 			var response = new ResponseModel<Tuple<Int32, String>>();
+
 			var result = _wallpaperApplicationServices.AddWebWallpaper(accountId, webUrl);
 			response.IsSuccess = true;
 			response.Message = "网络壁纸保存成功";
 			response.Model = await result;
+
 			return Json(response);
 		}
 
@@ -255,10 +257,20 @@ namespace NewCRM.Web.Controllers
 		/// <returns></returns>
 		public ActionResult GetAllSkin(Int32 accountId)
 		{
-			var skinPath = Server.MapPath(ConfigurationManager.AppSettings["PlantFormSkinPath"]);
-			var data = _skinApplicationServices.GetAllSkin(skinPath);
+			#region 参数验证
+			Parameter.Validate(accountId);
+			#endregion
 
-			return Json(new { data, currentSkin = _accountApplicationServices.GetConfig(accountId).Skin });
+			var response = new ResponseModel<dynamic>();
+
+			var skinPath = Server.MapPath(ConfigurationManager.AppSettings["PlantFormSkinPath"]);
+			var result = _skinApplicationServices.GetAllSkin(skinPath);
+			response.IsSuccess = true;
+			response.Message = "获取皮肤列表成功";
+			response.Model = new { data = result, currentSkin = _accountApplicationServices.GetConfig(accountId).Skin };
+
+			return Json(response);
+
 		}
 
 		/// <summary>
@@ -266,11 +278,19 @@ namespace NewCRM.Web.Controllers
 		/// </summary>
 		/// <param name="skin"></param>
 		/// <returns></returns>
-		public ActionResult ModifySkin(Int32 accountId,String skin = "")
+		public ActionResult ModifySkin(Int32 accountId, String skin = "")
 		{
-			_skinApplicationServices.ModifySkin(accountId, skin);
+			#region 参数验证
+			Parameter.Validate(accountId);
+			#endregion
 
-			return Json(new { success = 1 });
+			var response = new ResponseModel();
+
+			_skinApplicationServices.ModifySkin(accountId, skin);
+			response.IsSuccess = true;
+			response.Message = "更换皮肤成功";
+
+			return Json(response);
 		}
 
 		/// <summary>
@@ -280,9 +300,16 @@ namespace NewCRM.Web.Controllers
 		/// <returns></returns>
 		public ActionResult ModifyDefaultDesk(Int32 accountId, Int32 deskNum)
 		{
-			_deskApplicationServices.ModifyDefaultDeskNumber(accountId, deskNum);
+			#region 参数验证
+			Parameter.Validate(accountId);
+			#endregion
 
-			return Json(new { success = 1 });
+			var response = new ResponseModel();
+			_deskApplicationServices.ModifyDefaultDeskNumber(accountId, deskNum);
+			response.IsSuccess = true;
+			response.Message = "更换默认桌面成功";
+
+			return Json(response);
 		}
 
 		/// <summary>
@@ -292,9 +319,17 @@ namespace NewCRM.Web.Controllers
 		/// <returns></returns>
 		public ActionResult ModifyAppXy(Int32 accountId, String appXy)
 		{
-			_appApplicationServices.ModifyAppDirection(accountId, appXy);
+			#region 参数验证
+			Parameter.Validate(accountId);
+			#endregion
 
-			return Json(new { success = 1 });
+			var response = new ResponseModel();
+
+			_appApplicationServices.ModifyAppDirection(accountId, appXy);
+			response.IsSuccess = true;
+			response.Message = "更换图标排列方向成功";
+
+			return Json(response);
 		}
 
 		/// <summary>
@@ -304,9 +339,16 @@ namespace NewCRM.Web.Controllers
 		/// <returns></returns>
 		public ActionResult ModifyAppSize(Int32 accountId, Int32 appSize)
 		{
-			_appApplicationServices.ModifyAppIconSize(accountId, appSize);
+			#region 参数验证
+			Parameter.Validate(accountId);
+			#endregion
 
-			return Json(new { success = 1 });
+			var response = new ResponseModel();
+			_appApplicationServices.ModifyAppIconSize(accountId, appSize);
+			response.IsSuccess = true;
+			response.Message = "更改图标大小成功";
+
+			return Json(response);
 		}
 
 		/// <summary>
@@ -316,21 +358,35 @@ namespace NewCRM.Web.Controllers
 		/// <returns></returns>
 		public ActionResult ModifyAppVertical(Int32 accountId, Int32 appVertical)
 		{
-			_appApplicationServices.ModifyAppVerticalSpacing(accountId, appVertical);
+			#region 参数验证
+			Parameter.Validate(accountId);
+			#endregion
 
-			return Json(new { success = 1 });
+			var response = new ResponseModel();
+			_appApplicationServices.ModifyAppVerticalSpacing(accountId, appVertical);
+			response.IsSuccess = true;
+			response.Message = "更改图标垂直间距成功";
+
+			return Json(response);
 		}
 
 		/// <summary>
-		/// 修改图标的水平间距
+		/// 更改图标的水平间距
 		/// </summary>
 		/// <param name="appHorizontal"></param>
 		/// <returns></returns>
 		public ActionResult ModifyAppHorizontal(Int32 accountId, Int32 appHorizontal)
 		{
-			_appApplicationServices.ModifyAppHorizontalSpacing(accountId, appHorizontal);
+			#region 参数验证
+			Parameter.Validate(accountId);
+			#endregion
 
-			return Json(new { success = 1 });
+			var response = new ResponseModel();
+			_appApplicationServices.ModifyAppHorizontalSpacing(accountId, appHorizontal);
+			response.IsSuccess = true;
+			response.Message = "更改图标水平间距成功";
+
+			return Json(response);
 		}
 
 		/// <summary>
@@ -341,9 +397,16 @@ namespace NewCRM.Web.Controllers
 		/// <returns></returns>
 		public ActionResult ModifyDockPosition(Int32 accountId, String pos = "", Int32 deskNum = 0)
 		{
-			_deskApplicationServices.ModifyDockPosition(accountId, deskNum, pos);
+			#region 参数验证
+			Parameter.Validate(accountId);
+			#endregion
 
-			return Json(new { success = 1 });
+			var response = new ResponseModel();
+			_deskApplicationServices.ModifyDockPosition(accountId, deskNum, pos);
+			response.IsSuccess = true;
+			response.Message = "更改码头的位置成功";
+
+			return Json(response);
 		}
 	}
 }
