@@ -37,7 +37,7 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <param name="accountId"></param>
         /// <returns></returns>
-        public ActionResult CreateNewAccount(Int32 accountId = 0)
+        public ActionResult CreateNewAccount(Int32 accountId)
         {
             if (accountId != 0)
             {

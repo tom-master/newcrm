@@ -100,7 +100,7 @@ namespace NewCRM.Web.Controllers
         /// 设置壁纸显示模式
         /// </summary>
         /// <returns></returns>
-        public ActionResult ModifyWallpaperDisplayModel(Int32 accountId, String wallPaperShowType = "")
+        public ActionResult ModifyWallpaperDisplayModel(Int32 accountId, String wallPaperShowType )
         {
             #region 参数验证
             Parameter.Validate(accountId).Validate(wallPaperShowType);
@@ -155,7 +155,7 @@ namespace NewCRM.Web.Controllers
         /// 删除上传的壁纸
         /// </summary>
         /// <returns></returns>
-        public ActionResult DeleteWallPaper(Int32 accountId, Int32 wallPaperId = 0)
+        public ActionResult DeleteWallPaper(Int32 accountId, Int32 wallPaperId)
         {
             #region 参数验证
             Parameter.Validate(accountId);
@@ -233,7 +233,7 @@ namespace NewCRM.Web.Controllers
         /// 网络壁纸
         /// </summary>
         /// <returns></returns>
-        public async Task<ActionResult> WebWallPaper(Int32 accountId, String webUrl = "")
+        public async Task<ActionResult> WebWallPaper(Int32 accountId, String webUrl)
         {
             #region 参数验证
             Parameter.Validate(accountId);
@@ -275,7 +275,7 @@ namespace NewCRM.Web.Controllers
         /// 更换皮肤
         /// </summary>
         /// <returns></returns>
-        public ActionResult ModifySkin(Int32 accountId, String skin = "")
+        public ActionResult ModifySkin(Int32 accountId, String skin)
         {
             #region 参数验证
             Parameter.Validate(accountId);
@@ -385,7 +385,7 @@ namespace NewCRM.Web.Controllers
         /// 更改码头的位置
         /// </summary>
         /// <returns></returns>
-        public ActionResult ModifyDockPosition(Int32 accountId, String pos = "", Int32 deskNum = 0)
+        public ActionResult ModifyDockPosition(Int32 accountId, String pos, Int32 deskNum )
         {
             #region 参数验证
             Parameter.Validate(accountId);
