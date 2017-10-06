@@ -12,14 +12,14 @@ namespace NewCRM.Web.Controllers
 {
     public class SecurityController : BaseController
     {
-        private readonly ISecurityApplicationServices _securityApplicationServices;
+        private readonly ISecurityApplicationServices _securityServices;
 
-        private readonly IAppApplicationServices _appApplicationServices;
+        private readonly IAppApplicationServices _appServices;
 
-        public SecurityController(ISecurityApplicationServices securityApplicationServices, IAppApplicationServices appApplicationServices)
+        public SecurityController(ISecurityApplicationServices securityServices, IAppApplicationServices appServices)
         {
-            _securityApplicationServices = securityApplicationServices;
-            _appApplicationServices = appApplicationServices;
+            _securityServices = securityServices;
+            _appServices = appServices;
         }
 
 
@@ -40,11 +40,11 @@ namespace NewCRM.Web.Controllers
         /// 创建新角色
         /// </summary>
         /// <returns></returns>
-        public ActionResult CreateNewRole(Int32 roleId = 0)
+        public ActionResult CreateNewRole(Int32 roleId)
         {
             if (roleId != 0)
             {
-                ViewData["RoleResult"] = _securityApplicationServices.GetRole(roleId);
+                ViewData["RoleResult"] = _securityServices.GetRole(roleId);
             }
 
             return View();
@@ -53,18 +53,17 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 向角色附加权限
         /// </summary>
-        /// <param name="roleId"></param>
         /// <returns></returns>
-        public ActionResult AttachmentPower(Int32 roleId = 0)
+        public ActionResult AttachmentPower(Int32 roleId)
         {
             var role = new RoleDto();
             if (roleId != 0)
             {
-                role = _securityApplicationServices.GetRole(roleId);
+                role = _securityServices.GetRole(roleId);
                 ViewData["RolePowerResult"] = role;
             }
 
-            var result = _appApplicationServices.GetSystemApp(role.Powers.Select(s => s.Id).ToArray());
+            var result = _appServices.GetSystemApp(role.Powers.Select(s => s.Id).ToArray());
 
             return View(result);
         }
@@ -79,11 +78,10 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult AddSystemAppGotoPower()
         {
-            ViewData["SystemApp"] = _appApplicationServices.GetSystemApp();
+            ViewData["SystemApp"] = _appServices.GetSystemApp();
 
             return View();
         }
-
 
         #endregion
 
@@ -103,7 +101,7 @@ namespace NewCRM.Web.Controllers
 
             var totalCount = 0;
             var response = new ResponseModels<IList<RoleDto>>();
-            var result = _securityApplicationServices.GetAllRoles(roleName, pageIndex, pageSize, out totalCount);
+            var result = _securityServices.GetAllRoles(roleName, pageIndex, pageSize, out totalCount);
             response.IsSuccess = true;
             response.Message = "获取角色列表成功";
             response.Model = result;
@@ -123,7 +121,7 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             var response = new ResponseModel();
-            _securityApplicationServices.RemoveRole(roleId);
+            _securityServices.RemoveRole(roleId);
             response.IsSuccess = true;
             response.Message = "移除角色成功";
 
@@ -134,7 +132,7 @@ namespace NewCRM.Web.Controllers
         /// 添加角色
         /// </summary>
         /// <returns></returns>
-        public ActionResult NewRole(FormCollection forms, Int32 roleId = 0)
+        public ActionResult NewRole(FormCollection forms, Int32 roleId)
         {
             #region 参数验证
             Parameter.Validate(forms);
@@ -142,11 +140,11 @@ namespace NewCRM.Web.Controllers
 
             if (roleId != 0)
             {
-                _securityApplicationServices.ModifyRole(WapperRoleDto(forms));
+                _securityServices.ModifyRole(WapperRoleDto(forms));
             }
             else
             {
-                _securityApplicationServices.AddNewRole(WapperRoleDto(forms));
+                _securityServices.AddNewRole(WapperRoleDto(forms));
             }
             var response = new ResponseModel();
             response.IsSuccess = true;
@@ -158,7 +156,6 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 将权限附加到角色中
         /// </summary>
-        /// <param name="forms"></param>
         /// <returns></returns>
         public ActionResult AddPowerToRole(FormCollection forms)
         {
@@ -176,7 +173,7 @@ namespace NewCRM.Web.Controllers
                 throw new BusinessException("所选的权限列表不能为空");
             }
             var response = new ResponseModel();
-            _securityApplicationServices.AddPowerToCurrentRole(Int32.Parse(forms["val_roleId"]), powerIds);
+            _securityServices.AddPowerToCurrentRole(Int32.Parse(forms["val_roleId"]), powerIds);
             response.IsSuccess = true;
             response.Message = "将权限附加到角色中成功";
 
@@ -187,11 +184,11 @@ namespace NewCRM.Web.Controllers
         /// 选择系统app
         /// </summary>
         /// <returns></returns>
-        public ActionResult SelectSystemApp(String appIds = "")
+        public ActionResult SelectSystemApp(String appIds)
         {
             var response = new ResponseModel<IList<AppDto>>();
             var internalAppIds = appIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
-            var result = _appApplicationServices.GetSystemApp(internalAppIds);
+            var result = _appServices.GetSystemApp(internalAppIds);
             response.IsSuccess = true;
             response.Message = "选择系统app成功";
             response.Model = result;
