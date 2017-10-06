@@ -10,11 +10,11 @@ namespace NewCRM.Web.Controllers
 {
     public class LogController : BaseController
     {
-        private readonly ILoggerApplicationServices _loggerApplicationServices;
+        private readonly ILoggerApplicationServices _loggerServices;
         
-        public LogController(ILoggerApplicationServices loggerApplicationServices)
+        public LogController(ILoggerApplicationServices loggerServices)
         {
-            _loggerApplicationServices = loggerApplicationServices;
+            _loggerServices = loggerServices;
         }
 
 
@@ -38,7 +38,7 @@ namespace NewCRM.Web.Controllers
         {
             Int32 totalCount;
             var response = new ResponseModels<IList<LogDto>>();
-            var result = _loggerApplicationServices.GetAllLog(loglevel, pageIndex, pageSize, out totalCount);
+            var result = _loggerServices.GetAllLog(loglevel, pageIndex, pageSize, out totalCount);
             response.IsSuccess = true;
             response.Message = "获取日志列表成功";
             response.Model = result;
