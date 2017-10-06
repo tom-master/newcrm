@@ -154,7 +154,6 @@ namespace NewCRM.Web.Controllers
 		/// <summary>
 		/// 删除上传的壁纸
 		/// </summary>
-		/// <param name="wallPaperId"></param>
 		/// <returns></returns>
 		public ActionResult DeleteWallPaper(Int32 accountId, Int32 wallPaperId = 0)
 		{
@@ -173,7 +172,7 @@ namespace NewCRM.Web.Controllers
 		/// <summary>
 		/// 上传壁纸     
 		/// </summary>
-		/// <returns></returns>c
+		/// <returns></returns>
 		public ActionResult UploadWallPaper(Int32 accountId)
 		{
 			#region 参数验证
@@ -233,7 +232,6 @@ namespace NewCRM.Web.Controllers
 		/// <summary>
 		/// 网络壁纸
 		/// </summary>
-		/// <param name="webUrl"></param>
 		/// <returns></returns>
 		public async Task<ActionResult> WebWallPaper(Int32 accountId, String webUrl = "")
 		{
@@ -276,7 +274,6 @@ namespace NewCRM.Web.Controllers
 		/// <summary>
 		/// 更换皮肤
 		/// </summary>
-		/// <param name="skin"></param>
 		/// <returns></returns>
 		public ActionResult ModifySkin(Int32 accountId, String skin = "")
 		{
@@ -296,7 +293,6 @@ namespace NewCRM.Web.Controllers
 		/// <summary>
 		/// 更换默认显示的桌面
 		/// </summary>
-		/// <param name="deskNum"></param>
 		/// <returns></returns>
 		public ActionResult ModifyDefaultDesk(Int32 accountId, Int32 deskNum)
 		{
@@ -315,7 +311,6 @@ namespace NewCRM.Web.Controllers
 		/// <summary>
 		/// 更换图标的排列方向
 		/// </summary>
-		/// <param name="appXy"></param>
 		/// <returns></returns>
 		public ActionResult ModifyAppXy(Int32 accountId, String appXy)
 		{
@@ -335,7 +330,6 @@ namespace NewCRM.Web.Controllers
 		/// <summary>
 		/// 更改图标大小
 		/// </summary>
-		/// <param name="appSize"></param>
 		/// <returns></returns>
 		public ActionResult ModifyAppSize(Int32 accountId, Int32 appSize)
 		{
@@ -354,7 +348,6 @@ namespace NewCRM.Web.Controllers
 		/// <summary>
 		/// 更改应用图标的垂直间距
 		/// </summary>
-		/// <param name="appVertical"></param>
 		/// <returns></returns>
 		public ActionResult ModifyAppVertical(Int32 accountId, Int32 appVertical)
 		{
@@ -373,7 +366,6 @@ namespace NewCRM.Web.Controllers
 		/// <summary>
 		/// 更改图标的水平间距
 		/// </summary>
-		/// <param name="appHorizontal"></param>
 		/// <returns></returns>
 		public ActionResult ModifyAppHorizontal(Int32 accountId, Int32 appHorizontal)
 		{
@@ -392,8 +384,6 @@ namespace NewCRM.Web.Controllers
 		/// <summary>
 		/// 更改码头的位置
 		/// </summary>
-		/// <param name="pos"></param>
-		/// <param name="deskNum"></param>
 		/// <returns></returns>
 		public ActionResult ModifyDockPosition(Int32 accountId, String pos = "", Int32 deskNum = 0)
 		{
