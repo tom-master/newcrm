@@ -244,7 +244,7 @@ namespace NewCRM.Application.Services
             var internalAccount = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
             if (internalAccount.IsAdmin)
             {
-                throw new BusinessException($"不能删除管理员:{internalAccount.Name}");
+                throw new BusinessException($"不能删除管理员:{internalAccount.Name}"); 
             }
 
             internalAccount.Remove();
