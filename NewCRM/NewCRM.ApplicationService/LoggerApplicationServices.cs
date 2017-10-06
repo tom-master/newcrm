@@ -14,26 +14,16 @@ namespace NewCRM.Application.Services
 {
 	public class LoggerApplicationServices : BaseServiceContext, ILoggerApplicationServices
     {
-        private readonly QueryBase _query;
-
-        
-        public LoggerApplicationServices(QueryBase query)
-        {
-            _query = query;
-        }
-
         public void AddLogger(Int32 accountId,LogDto log)
         {
             log.AccountId = accountId;
-
             Repository.Create<Log>().Add(log.ConvertToModel<LogDto, Log>());
         }
 
         public IList<LogDto> GetAllLog(Int32 logLevel, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
             var internalLogLevel = EnumExtensions.ParseToEnum<LogLevel>(logLevel);
-
-            return _query.PageBy(FilterFactory.Create((Log log) => log.LogLevelEnum == internalLogLevel), pageIndex, pageSize, out totalCount).ConvertToDtos<Log, LogDto>().ToList();
+            return DatabaseQuery.PageBy(FilterFactory.Create((Log log) => log.LogLevelEnum == internalLogLevel), pageIndex, pageSize, out totalCount).ConvertToDtos<Log, LogDto>().ToList();
         }
     }
 }
