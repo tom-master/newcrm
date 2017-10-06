@@ -10,30 +10,23 @@ namespace NewCRM.Web.Filter
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {
-
             var actionName = filterContext.RequestContext.RouteData.Values["action"].ToString();
-
             if (actionName != "CreateWindow")
             {
                 return;
             }
-
             if (filterContext.HttpContext.Request.Cookies["Account"] == null)
             {
                 ReturnMessage(filterContext, "登陆超时，请刷新页面后重新登陆");
                 return;
             }
-
             //文件夹
             if (filterContext.RequestContext.HttpContext.Request.Form["type"] == "folder")
             {
                 return;
             }
-
             var account = DependencyResolver.Current.GetService<IAccountApplicationServices>().GetAccount();
-
             var appId = Int32.Parse(filterContext.RequestContext.HttpContext.Request.Form["id"]);
-
             var isPermission = DependencyResolver.Current.GetService<ISecurityApplicationServices>().CheckPermissions(appId, account.Roles.Select(role => role.Id).ToArray());
 
             if (!isPermission)
@@ -45,7 +38,6 @@ namespace NewCRM.Web.Filter
         private static void ReturnMessage(AuthorizationContext filterContext, String message)
         {
             var notPermissionMessage = @"<script>setTimeout(function(){window.top.ZENG.msgbox.show('" + message + "', 5,3000);},0)</script>";
-
             var isAjaxRequest = filterContext.RequestContext.HttpContext.Request.IsAjaxRequest();
 
             if (!isAjaxRequest)

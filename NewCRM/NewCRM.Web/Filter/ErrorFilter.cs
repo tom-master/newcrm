@@ -1,4 +1,11 @@
-﻿using System.Web.Mvc;
+﻿using NewCRM.Application.Services.Interface;
+using NewCRM.Dto.Dto;
+using NewCRM.Infrastructure.CommonTools;
+using NewCRM.Infrastructure.CommonTools.CustomException;
+using System;
+using System.Globalization;
+using System.Text;
+using System.Web.Mvc;
 
 namespace NewCRM.Web.Filter
 {
@@ -8,7 +15,16 @@ namespace NewCRM.Web.Filter
         public void OnException(ExceptionContext filterContext)
         {
             filterContext.ExceptionHandled = true;
-
+            var response = new ResponseModel<String>
+            {
+                IsSuccess = false,
+                Message = filterContext.Exception.Message,
+            };
+            filterContext.Result = new JsonResult()
+            {
+                Data = response,
+                ContentEncoding = Encoding.UTF8
+            };
             //DependencyResolver.Current.GetService<ILoggerApplicationServices>().AddLogger(new LogDto
             //{
             //    Action = filterContext.RouteData.Values["action"].ToString(),
