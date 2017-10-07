@@ -12,10 +12,10 @@ namespace NewCRM.Domain.Services.BoundedContextMember
     {
         public void Install(Int32 accountId,Int32 appId, Int32 deskNum)
         {
+            ValidateParameter.Validate(accountId).Validate(appId).Validate(deskNum);
+
             var desks = DatabaseQuery.Find(FilterFactory.Create((Desk desk) => desk.AccountId == accountId));
-
             var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskNum).Id;
-
             var appResult = DatabaseQuery.FindOne(FilterFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release && app.Id == appId));
 
             if (appResult == null)
@@ -24,20 +24,17 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             }
 
             var newMember = new Member(appResult.Name, appResult.IconUrl, appResult.AppUrl, appResult.Id, appResult.Width, appResult.Height, appResult.IsLock, appResult.IsMax, appResult.IsFull, appResult.IsSetbar, appResult.IsOpenMax, appResult.IsFlash, appResult.IsDraw, appResult.IsResize);
-
             foreach (var desk in desks)
             {
                 if (desk.Id != realDeskId)
                 {
                     continue;
                 }
-
                 desk.Members.Add(newMember);
                 Repository.Create<Desk>().Update(desk);
 
                 appResult.AddUseCount();
                 Repository.Create<App>().Update(appResult);
-
                 break;
             }
         }
