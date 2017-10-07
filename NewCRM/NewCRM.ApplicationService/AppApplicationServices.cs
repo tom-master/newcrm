@@ -11,7 +11,7 @@ using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
-using IAppApplicationServices = NewCRM.Application.Services.Interface.IAppApplicationServices;
+using NewCRM.Application.Services.Interface;
 
 namespace NewCRM.Application.Services
 {

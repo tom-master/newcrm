@@ -13,15 +13,15 @@ using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
-using IWallpaperApplicationServices = NewCRM.Application.Services.Interface.IWallpaperApplicationServices;
+using NewCRM.Application.Services.Interface;
 
 namespace NewCRM.Application.Services
 {
-	public class WallpaperApplicationServices : BaseServiceContext, IWallpaperApplicationServices
+    public class WallpaperApplicationServices : BaseServiceContext, IWallpaperApplicationServices
     {
 
         private readonly IModifyWallpaperServices _modifyWallpaperServices;
-        
+
         public WallpaperApplicationServices(IModifyWallpaperServices modifyWallpaperServices)
         {
             _modifyWallpaperServices = modifyWallpaperServices;
@@ -37,7 +37,6 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(wallpaperDto);
 
             var wallpaper = wallpaperDto.ConvertToModel<WallpaperDto, Wallpaper>();
-
             var wallPaperCount = DatabaseQuery.Find(FilterFactory.Create<Wallpaper>(w => w.AccountId == wallpaper.AccountId)).Count();
 
             if (wallPaperCount == 6)
@@ -46,7 +45,6 @@ namespace NewCRM.Application.Services
             }
 
             Repository.Create<Wallpaper>().Add(wallpaper);
-
             UnitOfWork.Commit();
 
             return new Tuple<Int32, String>(wallpaper.Id, wallpaper.ShortUrl);
@@ -55,13 +53,14 @@ namespace NewCRM.Application.Services
         public List<WallpaperDto> GetUploadWallpaper(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
-
             return DatabaseQuery.Find(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.AccountId == accountId)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
 
         }
 
         public async Task<Tuple<Int32, String>> AddWebWallpaper(Int32 accountId, String url)
         {
+            ValidateParameter.Validate(accountId).Validate(url);
+
             var imageTitle = Path.GetFileNameWithoutExtension(url);
 
             Image image;
@@ -110,7 +109,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(newMode);
 
-            _modifyWallpaperServices.ModifyWallpaperMode(accountId,newMode);
+            _modifyWallpaperServices.ModifyWallpaperMode(accountId, newMode);
 
             UnitOfWork.Commit();
         }

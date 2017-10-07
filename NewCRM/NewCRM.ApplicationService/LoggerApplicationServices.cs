@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using NewCRM.Domain;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Factory.DomainQuery.Query;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
-using ILoggerApplicationServices = NewCRM.Application.Services.Interface.ILoggerApplicationServices;
+using NewCRM.Application.Services.Interface;
 
 namespace NewCRM.Application.Services
 {
