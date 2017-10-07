@@ -130,7 +130,6 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
             var desks = GetDesks(accountId);
             var realDeskId = GetRealDeskId(deskId, desks);
-
             foreach (var desk in desks)
             {
                 var member = GetMember(memberId, desk);
@@ -154,7 +153,6 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
             var desks = GetDesks(accountId);
             var realDeskId = GetRealDeskId(deskId, desks);
-
             foreach (var desk in desks)
             {
                 var member = GetMember(memberId, desk);
