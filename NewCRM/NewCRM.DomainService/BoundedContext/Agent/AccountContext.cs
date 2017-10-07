@@ -8,12 +8,13 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Domain.Services.BoundedContext.Agent
 {
-	public class AccountContext : BaseServiceContext, IAccountContext
+    public class AccountContext : BaseServiceContext, IAccountContext
     {
-	    public Account Validate(String accountName, String password)
+        public Account Validate(String accountName, String password)
         {
-	        var filter= FilterFactory.Create<Account>(acccount => acccount.Name == accountName);
+            ValidateParameter.Validate(accountName).Validate(password);
 
+            var filter = FilterFactory.Create<Account>(acccount => acccount.Name == accountName);
             var accountResult = DatabaseQuery.FindOne(filter, account => new
             {
                 account.Id,
@@ -32,17 +33,15 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
             }
 
             accountResult.Online();
-
             Repository.Create<Account>().Update(accountResult);
-
             Repository.Create<Online>().Add(new Online(GetCurrentIpAddress(), accountResult.Id));
 
             return accountResult;
-
         }
 
         public void Logout(Int32 accountId)
         {
+            ValidateParameter.Validate(accountId);
             var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
 
             if (!accountResult.IsOnline)
@@ -50,9 +49,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
                 throw new BusinessException("该用户可能已在其他地方下线");
             }
             accountResult.Offline();
-
             Repository.Create<Account>().Update(accountResult);
-
             ModifyOnlineState(accountId);
         }
 
@@ -73,7 +70,6 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
             var onlineResult = DatabaseQuery.FindOne(FilterFactory.Create<Online>(online => online.AccountId == accountId));
 
             Repository.Create<Online>().Remove(onlineResult);
-
         }
 
         #endregion
