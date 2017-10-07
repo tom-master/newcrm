@@ -62,17 +62,13 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId).Validate(url);
 
             var imageTitle = Path.GetFileNameWithoutExtension(url);
-
             Image image;
 
             using (var stream = await new HttpClient().GetStreamAsync(new Uri(url)))
-
             using (image = Image.FromStream(stream))
             {
                 var wallpaperMd5 = CalculateFile.Calculate(stream);
-
                 var webWallpaper = GetUploadWallpaper(wallpaperMd5);
-
                 if (webWallpaper != null)
                 {
                     return new Tuple<Int32, String>(webWallpaper.Id, webWallpaper.ShortUrl);
@@ -91,10 +87,8 @@ namespace NewCRM.Application.Services
                 });
 
                 UnitOfWork.Commit();
-
                 return new Tuple<Int32, String>(wallpaperResult.Item1, wallpaperResult.Item2);
             }
-
         }
 
         public WallpaperDto GetUploadWallpaper(String md5)
@@ -102,13 +96,11 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(md5);
 
             return DatabaseQuery.FindOne(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Md5 == md5)).ConvertToDto<Wallpaper, WallpaperDto>();
-
         }
 
         public void ModifyWallpaperMode(Int32 accountId, String newMode)
         {
             ValidateParameter.Validate(accountId).Validate(newMode);
-
             _modifyWallpaperServices.ModifyWallpaperMode(accountId, newMode);
 
             UnitOfWork.Commit();
@@ -117,7 +109,6 @@ namespace NewCRM.Application.Services
         public void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId)
         {
             ValidateParameter.Validate(accountId).Validate(newWallpaperId);
-
             _modifyWallpaperServices.ModifyWallpaper(accountId, newWallpaperId);
 
             UnitOfWork.Commit();
@@ -126,7 +117,6 @@ namespace NewCRM.Application.Services
         public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
         {
             ValidateParameter.Validate(accountId).Validate(wallpaperId);
-
             _modifyWallpaperServices.RemoveWallpaper(accountId, wallpaperId);
 
             UnitOfWork.Commit();
