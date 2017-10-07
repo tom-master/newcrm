@@ -68,7 +68,6 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
         private void ModifyOnlineState(Int32 accountId)
         {
             var onlineResult = DatabaseQuery.FindOne(FilterFactory.Create<Online>(online => online.AccountId == accountId));
-
             Repository.Create<Online>().Remove(onlineResult);
         }
 
