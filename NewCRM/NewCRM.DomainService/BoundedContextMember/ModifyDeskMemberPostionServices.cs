@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
@@ -31,7 +30,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
 
             var desks = GetDesks(accountId);
-            var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
+            var realDeskId = GetRealDeskId(deskId, desks);
             foreach (var desk in desks)
             {
                 var member = GetMember(memberId, desk);
@@ -90,7 +89,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
 
             var desks = GetDesks(accountId);
-            var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
+            var realDeskId = GetRealDeskId(deskId, desks);
 
             foreach (var desk in desks)
             {
@@ -113,6 +112,8 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             }
         }
 
+
+
         public void FolderToOtherFolder(Int32 accountId, Int32 memberId, Int32 folderId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(folderId);
@@ -128,7 +129,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
 
             var desks = GetDesks(accountId);
-            var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
+            var realDeskId = GetRealDeskId(deskId, desks);
 
             foreach (var desk in desks)
             {
@@ -152,7 +153,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
 
             var desks = GetDesks(accountId);
-            var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
+            var realDeskId = GetRealDeskId(deskId, desks);
 
             foreach (var desk in desks)
             {

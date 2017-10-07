@@ -68,5 +68,11 @@ namespace NewCRM.Domain
             ValidateParameter.Validate(accountId);
             return DatabaseQuery.Find(FilterFactory.Create((Desk desk) => desk.AccountId == accountId));
         }
+
+        /// <summary>
+        /// 获取真实的桌面编号
+        /// </summary>
+        /// <returns></returns>
+        public static Int32 GetRealDeskId(Int32 deskId, IEnumerable<Desk> desks) => desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
     }
 }
