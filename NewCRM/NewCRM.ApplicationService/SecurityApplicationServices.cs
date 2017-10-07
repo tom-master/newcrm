@@ -11,7 +11,7 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Application.Services
 {
-	public class SecurityApplicationServices : BaseServiceContext, ISecurityApplicationServices
+    public class SecurityApplicationServices : BaseServiceContext, ISecurityApplicationServices
     {
         #region Role
 
@@ -22,7 +22,6 @@ namespace NewCRM.Application.Services
                 role.Name,
                 role.Id
             }).ConvertDynamicToDtos<RoleDto>().ToList();
-
         }
 
         public RoleDto GetRole(Int32 roleId)
@@ -30,7 +29,6 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(roleId);
 
             var roleResult = DatabaseQuery.FindOne(FilterFactory.Create<Role>(role => role.Id == roleId));
-
             if (roleResult == null)
             {
                 throw new BusinessException($"角色可能已被删除，请刷新后再试");
@@ -43,7 +41,6 @@ namespace NewCRM.Application.Services
                 roleResult.Remark,
                 Powers = roleResult.Powers.Select(s => new { Id = s.AppId })
             });
-
         }
 
         public List<RoleDto> GetAllRoles(String roleName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
@@ -51,8 +48,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(roleName).Validate(pageIndex).Validate(pageIndex);
 
             var filter = FilterFactory.Create<Role>();
-
-            if ((roleName + "").Length > 0)
+            if (!String.IsNullOrEmpty(roleName))
             {
                 filter.And(role => role.Name.Contains(roleName));
             }
@@ -63,7 +59,6 @@ namespace NewCRM.Application.Services
                 s.Id,
                 s.RoleIdentity
             }).ConvertDynamicToDtos<RoleDto>().ToList();
-
         }
 
 
@@ -72,7 +67,6 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(roleId);
 
             var roleResult = DatabaseQuery.FindOne(FilterFactory.Create<Role>(role => role.Id == roleId));
-
             if (roleResult == null)
             {
                 throw new BusinessException("该角色可能已不存在，请刷新后再试");
@@ -84,7 +78,6 @@ namespace NewCRM.Application.Services
             }
 
             roleResult.Remove();
-
             Repository.Create<Role>().Update(roleResult);
 
             UnitOfWork.Commit();
@@ -95,7 +88,6 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(roleDto);
 
             var role = roleDto.ConvertToModel<RoleDto, Role>();
-
             Repository.Create<Role>().Add(role);
 
             UnitOfWork.Commit();
@@ -106,7 +98,6 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(roleDto);
 
             var role = roleDto.ConvertToModel<RoleDto, Role>();
-
             var roleResult = DatabaseQuery.FindOne(FilterFactory.Create<Role>(internalRole => internalRole.Id == role.Id));
 
             if (roleResult == null)
@@ -115,7 +106,6 @@ namespace NewCRM.Application.Services
             }
 
             roleResult.ModifyRoleName(role.Name).ModifyRoleIdentity(role.RoleIdentity);
-
             Repository.Create<Role>().Update(roleResult);
 
             UnitOfWork.Commit();
@@ -124,7 +114,6 @@ namespace NewCRM.Application.Services
         public void AddPowerToCurrentRole(Int32 roleId, IEnumerable<Int32> powerIds)
         {
             ValidateParameter.Validate(roleId).Validate(powerIds);
-
             var roleResult = DatabaseQuery.FindOne(FilterFactory.Create<Role>(role => role.Id == roleId));
 
             if (roleResult == null)
@@ -133,9 +122,7 @@ namespace NewCRM.Application.Services
             }
 
             roleResult.Powers.ToList().ForEach(f => f.Remove());
-
             roleResult.AddPower(powerIds.ToArray());
-
             Repository.Create<Role>().Update(roleResult);
 
             UnitOfWork.Commit();
@@ -146,9 +133,7 @@ namespace NewCRM.Application.Services
         public Boolean CheckPermissions(Int32 accessAppId, params Int32[] roleIds)
         {
             var roles = DatabaseQuery.Find(FilterFactory.Create<Role>(role => roleIds.Contains(role.Id))).ToArray();
-
             return roles.Any(role => role.CheckPower(accessAppId));
-
         }
     }
 }
