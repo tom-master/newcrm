@@ -6,178 +6,165 @@ using NewCRM.Domain.Services.Interface;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-	public sealed class ModifyDeskMemberPostionServices : BaseServiceContext, IModifyDeskMemberPostionServices
-	{
-		public void MemberInDock(Int32 accountId, Int32 memberId)
-		{
-			var desks = GetDesks(accountId);
+    public sealed class ModifyDeskMemberPostionServices : BaseServiceContext, IModifyDeskMemberPostionServices
+    {
+        public void MemberInDock(Int32 accountId, Int32 memberId)
+        {
+            ValidateParameter.Validate(accountId).Validate(memberId);
 
-			foreach (var desk in desks)
-			{
-				var member = GetMember(memberId, desk);
+            var desks = GetDesks(accountId);
+            foreach (var desk in desks)
+            {
+                var member = GetMember(memberId, desk);
+                if (member != null)
+                {
+                    member.InDock();
+                    Repository.Create<Desk>().Update(desk);
 
-				if (member != null)
-				{
-					member.InDock();
+                    break;
+                }
+            }
+        }
 
-					Repository.Create<Desk>().Update(desk);
+        public void MemberOutDock(Int32 accountId, Int32 memberId, Int32 deskId)
+        {
+            ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
 
-					break;
-				}
-			}
-		}
+            var desks = GetDesks(accountId);
+            var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
+            foreach (var desk in desks)
+            {
+                var member = GetMember(memberId, desk);
+                if (member != null)
+                {
+                    member.OutDock().ToOtherDesk(realDeskId);
+                    Repository.Create<Desk>().Update(desk);
 
-		private IEnumerable<Desk> GetDesks(Int32 accountId)
-		{
-			return DatabaseQuery.Find(FilterFactory.Create((Desk desk) => desk.AccountId == accountId));
-		}
+                    break;
+                }
+            }
+        }
 
-		public void MemberOutDock(Int32 accountId, Int32 memberId, Int32 deskId)
-		{
-			var desks = GetDesks(accountId);
+        public void DockToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
+        {
+            ValidateParameter.Validate(accountId).Validate(memberId).Validate(folderId);
 
-			var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
+            var desks = GetDesks(accountId);
+            var deskResult = desks.FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
+            GetMember(memberId, deskResult).OutDock().InFolder(folderId);
 
-			foreach (var desk in desks)
-			{
-				var member = GetMember(memberId, desk);
+            Repository.Create<Desk>().Update(deskResult);
+        }
 
-				if (member != null)
-				{
-					member.OutDock().ToOtherDesk(realDeskId);
+        public void FolderToDock(Int32 accountId, Int32 memberId)
+        {
+            ValidateParameter.Validate(accountId).Validate(memberId);
 
-					Repository.Create<Desk>().Update(desk);
+            var desks = GetDesks(accountId);
+            var deskResult = desks.FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
+            GetMember(memberId, deskResult).InDock().OutFolder();
 
-					break;
-				}
-			}
-		}
+            Repository.Create<Desk>().Update(deskResult);
+        }
 
-		public void DockToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
-		{
-			var desks = GetDesks(accountId);
+        public void DeskToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
+        {
+            ValidateParameter.Validate(accountId).Validate(memberId).Validate(folderId);
 
-			var deskResult = desks.FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
+            var desks = GetDesks(accountId);
+            foreach (var desk in desks)
+            {
+                var member = GetMember(memberId, desk);
+                if (member != null)
+                {
+                    member.InFolder(folderId);
+                    Repository.Create<Desk>().Update(desk);
 
-			GetMember(memberId, deskResult).OutDock().InFolder(folderId);
+                    break;
+                }
+            }
+        }
 
-			Repository.Create<Desk>().Update(deskResult);
-		}
+        public void FolderToDesk(Int32 accountId, Int32 memberId, Int32 deskId)
+        {
+            ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
 
-		public void FolderToDock(Int32 accountId, Int32 memberId)
-		{
-			var desks = GetDesks(accountId);
+            var desks = GetDesks(accountId);
+            var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
 
-			var deskResult = desks.FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
+            foreach (var desk in desks)
+            {
+                var member = GetMember(memberId, desk);
+                if (member != null)
+                {
+                    if (member.DeskId == realDeskId)
+                    {
+                        member.OutFolder();
+                    }
+                    else
+                    {
+                        member.OutFolder().ToOtherDesk(realDeskId);
+                    }
 
-			GetMember(memberId, deskResult).InDock().OutFolder();
+                    Repository.Create<Desk>().Update(desk);
 
-			Repository.Create<Desk>().Update(deskResult);
-		}
+                    break;
+                }
+            }
+        }
 
-		public void DeskToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
-		{
-			var desks = GetDesks(accountId);
+        public void FolderToOtherFolder(Int32 accountId, Int32 memberId, Int32 folderId)
+        {
+            ValidateParameter.Validate(accountId).Validate(memberId).Validate(folderId);
 
-			foreach (var desk in desks)
-			{
-				var member = GetMember(memberId, desk);
+            var deskResult = GetDesks(accountId).FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
+            GetMember(memberId, deskResult).OutFolder().InFolder(folderId);
 
-				if (member != null)
-				{
-					member.InFolder(folderId);
+            Repository.Create<Desk>().Update(deskResult);
+        }
 
-					Repository.Create<Desk>().Update(desk);
+        public void DeskToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId)
+        {
+            ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
 
-					break;
-				}
-			}
-		}
+            var desks = GetDesks(accountId);
+            var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
 
-		public void FolderToDesk(Int32 accountId, Int32 memberId, Int32 deskId)
-		{
-			var desks = GetDesks(accountId);
+            foreach (var desk in desks)
+            {
+                var member = GetMember(memberId, desk);
+                if (member != null)
+                {
+                    if (member.IsOnDock)
+                    {
+                        member.OutDock();
+                    }
+                    member.ToOtherDesk(realDeskId);
+                    Repository.Create<Desk>().Update(desk);
 
-			var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
+                    break;
+                }
+            }
+        }
 
-			foreach (var desk in desks)
-			{
-				var member = GetMember(memberId, desk);
+        public void DockToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId)
+        {
+            ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
 
-				if (member != null)
-				{
-					if (member.DeskId == realDeskId)
-					{
-						member.OutFolder();
-					}
-					else
-					{
-						member.OutFolder().ToOtherDesk(realDeskId);
-					}
+            var desks = GetDesks(accountId);
+            var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
 
-					Repository.Create<Desk>().Update(desk);
+            foreach (var desk in desks)
+            {
+                var member = GetMember(memberId, desk);
+                if (member != null)
+                {
+                    member.OutDock().ToOtherDesk(realDeskId);
+                    Repository.Create<Desk>().Update(desk);
 
-					break;
-				}
-			}
-		}
-
-		public void FolderToOtherFolder(Int32 accountId, Int32 memberId, Int32 folderId)
-		{
-			var deskResult = GetDesks(accountId).FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
-
-			GetMember(memberId, deskResult).OutFolder().InFolder(folderId);
-
-			Repository.Create<Desk>().Update(deskResult);
-
-		}
-
-		public void DeskToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId)
-		{
-			var desks = GetDesks(accountId);
-
-			var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
-
-			foreach (var desk in desks)
-			{
-				var member = GetMember(memberId, desk);
-
-				if (member != null)
-				{
-
-					if (member.IsOnDock)
-					{
-						member.OutDock();
-					}
-
-					member.ToOtherDesk(realDeskId);
-
-					Repository.Create<Desk>().Update(desk);
-
-					break;
-				}
-			}
-		}
-
-		public void DockToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId)
-		{
-			var desks = GetDesks(accountId);
-
-			var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskId).Id;
-
-			foreach (var desk in desks)
-			{
-				var member = GetMember(memberId, desk);
-
-				if (member != null)
-				{
-					member.OutDock().ToOtherDesk(realDeskId);
-
-					Repository.Create<Desk>().Update(desk);
-
-					break;
-				}
-			}
-		}
-	}
+                    break;
+                }
+            }
+        }
+    }
 }
