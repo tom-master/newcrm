@@ -65,8 +65,8 @@ namespace NewCRM.Web.App_Start
 
 			container.RegisterType<IAccountServices, AccountApplicationServices>();
 			container.RegisterType<ISecurityApplicationServices, SecurityApplicationServices>();
-			container.RegisterType<IAppApplicationServices, AppApplicationServices>();
-			container.RegisterType<IDeskApplicationServices, DeskApplicationServices>();
+			container.RegisterType<IAppServices, AppApplicationServices>();
+			container.RegisterType<IDeskServices, DeskApplicationServices>();
 			container.RegisterType<IWallpaperApplicationServices, WallpaperApplicationServices>();
 			container.RegisterType<ISkinApplicationServices, SkinApplicationServices>();
 			container.RegisterType<ILoggerApplicationServices, LoggerApplicationServices>();

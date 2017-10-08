@@ -3,7 +3,7 @@ using NewCRM.Dto.Dto;
 
 namespace NewCRM.Application.Services.Interface
 {
-	public interface IDeskApplicationServices
+	public interface IDeskServices
 	{
 		#region have return value
 

@@ -10,9 +10,9 @@ namespace NewCRM.Web.Controllers
 {
     public class DeskController : BaseController
     {
-        private readonly IDeskApplicationServices _deskServices;
+        private readonly IDeskServices _deskServices;
 
-        public DeskController(IDeskApplicationServices deskServices)
+        public DeskController(IDeskServices deskServices)
         {
             _deskServices = deskServices;
         }

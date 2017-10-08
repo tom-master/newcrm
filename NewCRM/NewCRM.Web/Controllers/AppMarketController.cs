@@ -12,9 +12,9 @@ namespace NewCRM.Web.Controllers
 {
     public class AppMarketController : BaseController
     {
-        private readonly IAppApplicationServices _appServices;
+        private readonly IAppServices _appServices;
 
-        public AppMarketController(IAppApplicationServices appServices)
+        public AppMarketController(IAppServices appServices)
         {
             _appServices = appServices;
         }

@@ -4,7 +4,7 @@ using NewCRM.Dto.Dto;
 
 namespace NewCRM.Application.Services.Interface
 {
-	public interface IAppApplicationServices
+	public interface IAppServices
 	{
 		#region have return value
 

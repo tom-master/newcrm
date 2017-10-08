@@ -11,9 +11,9 @@ namespace NewCRM.Web.Controllers
 {
     public class AppTypesController : BaseController
     {
-        private readonly IAppApplicationServices _appServices;
+        private readonly IAppServices _appServices;
 
-        public AppTypesController(IAppApplicationServices appServices)
+        public AppTypesController(IAppServices appServices)
         {
             _appServices = appServices;
         }
