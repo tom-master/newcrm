@@ -88,9 +88,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult ModifyLockScreenPassword(FormCollection forms)
         {
             #region 参数验证
-
             Parameter.Validate(forms);
-
             #endregion
 
             var response = new ResponseModel();
@@ -109,9 +107,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult CheckPassword(Int32 accountId, String param)
         {
             #region 参数验证
-
             Parameter.Validate(accountId).Validate(param);
-
             #endregion
 
             var response = new ResponseModel<dynamic>();
