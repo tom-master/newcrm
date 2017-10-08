@@ -51,3 +51,4 @@ D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Infrastructure\bin\Debug\Newtonsoft.Json.xml
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Infrastructure\obj\Debug\NewCRM.Infrastructure.csproj.CoreCompileInputs.cache
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Infrastructure\obj\Debug\NewCRM.Infrastructure.dll
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Infrastructure\obj\Debug\NewCRM.Infrastructure.pdb
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Infrastructure\obj\Debug\NewCRM.Infrastructure.csprojResolveAssemblyReference.cache
