@@ -17,12 +17,12 @@ using NewCRM.Application.Services.Interface;
 
 namespace NewCRM.Application.Services
 {
-    public class WallpaperApplicationServices : BaseServiceContext, IWallpaperServices
+    public class WallpaperServices : BaseServiceContext, IWallpaperServices
     {
 
         private readonly IModifyWallpaperServices _modifyWallpaperServices;
 
-        public WallpaperApplicationServices(IModifyWallpaperServices modifyWallpaperServices)
+        public WallpaperServices(IModifyWallpaperServices modifyWallpaperServices)
         {
             _modifyWallpaperServices = modifyWallpaperServices;
         }

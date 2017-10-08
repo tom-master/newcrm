@@ -12,7 +12,7 @@ using NewCRM.Application.Services.Interface;
 
 namespace NewCRM.Application.Services
 {
-    public class DeskApplicationServices : BaseServiceContext, IDeskServices
+    public class DeskServices : BaseServiceContext, IDeskServices
     {
 
         private readonly IModifyDeskMemberServices _modifyDeskMemberServices;
@@ -24,7 +24,7 @@ namespace NewCRM.Application.Services
         private readonly IModifyDeskMemberPostionServices _modifyDeskMemberPostionServices;
 
 
-        public DeskApplicationServices(IModifyDeskMemberServices modifyDeskMemberServices,
+        public DeskServices(IModifyDeskMemberServices modifyDeskMemberServices,
             IModifyDockPostionServices modifyDockPostionServices,
             ICreateNewFolderServices createNewFolderServices,
             IModifyDeskMemberPostionServices modifyDeskMemberPostionServices)

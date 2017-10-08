@@ -16,11 +16,11 @@ using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Application.Services
 {
-    public class AccountApplicationServices : BaseServiceContext, IAccountServices
+    public class AccountServices : BaseServiceContext, IAccountServices
     {
         private readonly IAccountContext _accountContext;
 
-        public AccountApplicationServices(IAccountContext accountContext)
+        public AccountServices(IAccountContext accountContext)
         {
             _accountContext = accountContext;
         }

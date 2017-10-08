@@ -9,7 +9,7 @@ using NewCRM.Application.Services.Interface;
 
 namespace NewCRM.Application.Services
 {
-    public class SkinApplicationServices : BaseServiceContext, ISkinServices
+    public class SkinServices : BaseServiceContext, ISkinServices
     {
 
         public IDictionary<String, dynamic> GetAllSkin(String skinPath)
