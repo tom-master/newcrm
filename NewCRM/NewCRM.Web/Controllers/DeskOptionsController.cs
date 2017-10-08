@@ -21,13 +21,13 @@ namespace NewCRM.Web.Controllers
 
         private readonly IAppApplicationServices _appServices;
 
-        private readonly IAccountApplicationServices _accountServices;
+        private readonly IAccountServices _accountServices;
 
         public DeskOptionsController(IWallpaperApplicationServices wallpaperServices,
             ISkinApplicationServices skinServices,
             IDeskApplicationServices deskServices,
             IAppApplicationServices appServices,
-            IAccountApplicationServices accountServices)
+            IAccountServices accountServices)
         {
             _wallpaperServices = wallpaperServices;
             _skinServices = skinServices;

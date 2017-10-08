@@ -14,13 +14,13 @@ namespace NewCRM.Web.Controllers
     public class IndexController : BaseController
     {
 
-        private readonly IAccountApplicationServices _accountServices;
+        private readonly IAccountServices _accountServices;
 
         private readonly IAppApplicationServices _appServices;
 
         private readonly IDeskApplicationServices _deskServices;
 
-        public IndexController(IAccountApplicationServices accountServices, IAppApplicationServices appServices, IDeskApplicationServices deskServices)
+        public IndexController(IAccountServices accountServices, IAppApplicationServices appServices, IDeskApplicationServices deskServices)
         {
             _accountServices = accountServices;
             _appServices = appServices;

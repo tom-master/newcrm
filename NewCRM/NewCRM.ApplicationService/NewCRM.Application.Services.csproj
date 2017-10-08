@@ -52,7 +52,7 @@
     <Compile Include="AccountApplicationServices.cs" />
     <Compile Include="AppApplicationServices.cs" />
     <Compile Include="DeskApplicationServices.cs" />
-    <Compile Include="Interface\IAccountApplicationServices.cs" />
+    <Compile Include="Interface\IAccountServices.cs" />
     <Compile Include="Interface\IAppApplicationServices.cs" />
     <Compile Include="Interface\IDeskApplicationServices.cs" />
     <Compile Include="Interface\ILoggerApplicationServices.cs" />

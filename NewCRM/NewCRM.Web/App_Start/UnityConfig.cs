@@ -63,7 +63,7 @@ namespace NewCRM.Web.App_Start
 			container.RegisterType<QueryBase, DefaultQuery>("DefaultQuery");
 			container.RegisterType<QueryBase, DefaultQueryFormCache>("DefaultQueryFormCache");
 
-			container.RegisterType<IAccountApplicationServices, AccountApplicationServices>();
+			container.RegisterType<IAccountServices, AccountApplicationServices>();
 			container.RegisterType<ISecurityApplicationServices, SecurityApplicationServices>();
 			container.RegisterType<IAppApplicationServices, AppApplicationServices>();
 			container.RegisterType<IDeskApplicationServices, DeskApplicationServices>();

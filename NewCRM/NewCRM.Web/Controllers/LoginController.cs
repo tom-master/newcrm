@@ -12,9 +12,9 @@ namespace NewCRM.Web.Controllers
 {
     public class LoginController : BaseController
     {
-        private readonly IAccountApplicationServices _accountServices;
+        private readonly IAccountServices _accountServices;
 
-        public LoginController(IAccountApplicationServices accountServices)
+        public LoginController(IAccountServices accountServices)
         {
             _accountServices = accountServices;
         }

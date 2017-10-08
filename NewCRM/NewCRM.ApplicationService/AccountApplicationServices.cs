@@ -16,7 +16,7 @@ using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Application.Services
 {
-    public class AccountApplicationServices : BaseServiceContext, IAccountApplicationServices
+    public class AccountApplicationServices : BaseServiceContext, IAccountServices
     {
         private readonly IAccountContext _accountContext;
 

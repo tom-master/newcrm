@@ -25,7 +25,7 @@ namespace NewCRM.Web.Filter
             {
                 return;
             }
-            var account = DependencyResolver.Current.GetService<IAccountApplicationServices>().GetAccount();
+            var account = DependencyResolver.Current.GetService<IAccountServices>().GetAccount();
             var appId = Int32.Parse(filterContext.RequestContext.HttpContext.Request.Form["id"]);
             var isPermission = DependencyResolver.Current.GetService<ISecurityApplicationServices>().CheckPermissions(appId, account.Roles.Select(role => role.Id).ToArray());
 

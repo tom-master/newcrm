@@ -9,9 +9,9 @@ namespace NewCRM.Web.Controllers
 {
     public class AccountSettingController : BaseController
     {
-        private readonly IAccountApplicationServices _accountServices;
+        private readonly IAccountServices _accountServices;
 
-        public AccountSettingController(IAccountApplicationServices accountServices)
+        public AccountSettingController(IAccountServices accountServices)
         {
             _accountServices = accountServices;
         }
