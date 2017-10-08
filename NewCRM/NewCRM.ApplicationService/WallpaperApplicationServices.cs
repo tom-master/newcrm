@@ -17,7 +17,7 @@ using NewCRM.Application.Services.Interface;
 
 namespace NewCRM.Application.Services
 {
-    public class WallpaperApplicationServices : BaseServiceContext, IWallpaperApplicationServices
+    public class WallpaperApplicationServices : BaseServiceContext, IWallpaperServices
     {
 
         private readonly IModifyWallpaperServices _modifyWallpaperServices;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NewCRM.Application.Services.Interface
 {
-    public interface ISkinApplicationServices
+    public interface ISkinServices
     {
         /// <summary>
         /// 获取全部的皮肤

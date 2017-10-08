@@ -12,11 +12,11 @@ namespace NewCRM.Web.Controllers
 {
     public class SecurityController : BaseController
     {
-        private readonly ISecurityApplicationServices _securityServices;
+        private readonly ISecurityServices _securityServices;
 
         private readonly IAppServices _appServices;
 
-        public SecurityController(ISecurityApplicationServices securityServices, IAppServices appServices)
+        public SecurityController(ISecurityServices securityServices, IAppServices appServices)
         {
             _securityServices = securityServices;
             _appServices = appServices;

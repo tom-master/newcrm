@@ -14,9 +14,9 @@ namespace NewCRM.Web.Controllers
 
         private readonly IAccountServices _accountServices;
 
-        private readonly ISecurityApplicationServices _securityServices;
+        private readonly ISecurityServices _securityServices;
 
-        public AccountManagerController(IAccountServices accountServices, ISecurityApplicationServices securityServices)
+        public AccountManagerController(IAccountServices accountServices, ISecurityServices securityServices)
         {
             _accountServices = accountServices;
             _securityServices = securityServices;

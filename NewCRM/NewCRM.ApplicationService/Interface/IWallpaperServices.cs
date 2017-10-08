@@ -5,7 +5,7 @@ using NewCRM.Dto.Dto;
 
 namespace NewCRM.Application.Services.Interface
 {
-    public interface IWallpaperApplicationServices
+    public interface IWallpaperServices
     {
         #region have return value
 

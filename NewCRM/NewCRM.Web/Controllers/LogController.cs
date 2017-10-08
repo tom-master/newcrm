@@ -10,9 +10,9 @@ namespace NewCRM.Web.Controllers
 {
     public class LogController : BaseController
     {
-        private readonly ILoggerApplicationServices _loggerServices;
+        private readonly ILoggerServices _loggerServices;
         
-        public LogController(ILoggerApplicationServices loggerServices)
+        public LogController(ILoggerServices loggerServices)
         {
             _loggerServices = loggerServices;
         }

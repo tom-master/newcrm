@@ -4,7 +4,7 @@ using NewCRM.Dto.Dto;
 
 namespace NewCRM.Application.Services.Interface
 {
-    public interface ILoggerApplicationServices
+    public interface ILoggerServices
     {
         void AddLogger(Int32 accountId, LogDto log);
 

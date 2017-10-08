@@ -64,12 +64,12 @@ namespace NewCRM.Web.App_Start
 			container.RegisterType<QueryBase, DefaultQueryFormCache>("DefaultQueryFormCache");
 
 			container.RegisterType<IAccountServices, AccountApplicationServices>();
-			container.RegisterType<ISecurityApplicationServices, SecurityApplicationServices>();
+			container.RegisterType<ISecurityServices, SecurityApplicationServices>();
 			container.RegisterType<IAppServices, AppApplicationServices>();
 			container.RegisterType<IDeskServices, DeskApplicationServices>();
-			container.RegisterType<IWallpaperApplicationServices, WallpaperApplicationServices>();
-			container.RegisterType<ISkinApplicationServices, SkinApplicationServices>();
-			container.RegisterType<ILoggerApplicationServices, LoggerApplicationServices>();
+			container.RegisterType<IWallpaperServices, WallpaperApplicationServices>();
+			container.RegisterType<ISkinServices, SkinApplicationServices>();
+			container.RegisterType<ILoggerServices, LoggerApplicationServices>();
 			container.RegisterType<IInstallAppServices, InstallAppServices>();
 			container.RegisterType<IModifyAppInfoServices, ModifyAppInfoServices>();
 			container.RegisterType<IModifyAppTypeServices, ModifyAppTypeServices>();

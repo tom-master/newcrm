@@ -13,9 +13,9 @@ namespace NewCRM.Web.Controllers
     public class DeskOptionsController : BaseController
     {
 
-        private readonly IWallpaperApplicationServices _wallpaperServices;
+        private readonly IWallpaperServices _wallpaperServices;
 
-        private readonly ISkinApplicationServices _skinServices;
+        private readonly ISkinServices _skinServices;
 
         private readonly IDeskServices _deskServices;
 
@@ -23,8 +23,8 @@ namespace NewCRM.Web.Controllers
 
         private readonly IAccountServices _accountServices;
 
-        public DeskOptionsController(IWallpaperApplicationServices wallpaperServices,
-            ISkinApplicationServices skinServices,
+        public DeskOptionsController(IWallpaperServices wallpaperServices,
+            ISkinServices skinServices,
             IDeskServices deskServices,
             IAppServices appServices,
             IAccountServices accountServices)

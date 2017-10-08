@@ -11,7 +11,7 @@ using NewCRM.Application.Services.Interface;
 
 namespace NewCRM.Application.Services
 {
-	public class LoggerApplicationServices : BaseServiceContext, ILoggerApplicationServices
+	public class LoggerApplicationServices : BaseServiceContext, ILoggerServices
     {
         public void AddLogger(Int32 accountId,LogDto log)
         {
