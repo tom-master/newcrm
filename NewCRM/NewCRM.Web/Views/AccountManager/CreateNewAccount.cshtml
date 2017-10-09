@@ -12,8 +12,8 @@
     }
 }
 
-<form action="@Url.Action("NewAccount", "AccountManager")?accountId=@Request["accountId"]" method="post" name="form" id="form">
-    
+<form action="@Url.Action("NewAccount", "AccountManager")" method="post" name="form" id="form">
+
     <input type="hidden" name="id" value="@Request["accountId"]">
 
     <div class="creatbox">
@@ -49,7 +49,7 @@
                         if (accountResult.Password == null)
                         {
                             <text>
-                                <input type="password" name="val_password" datatype="*" nullmsg="请输入用户密码"/>
+                                <input type="password" name="val_password" datatype="*" nullmsg="请输入用户密码" />
                                 <span class="help-inline"></span>
                             </text>
                         }
@@ -67,21 +67,11 @@
                 <label class="label-text">用户类型：</label>
                 <div class="label-box form-inline">
                     <label class="radio" style="margin-right: 10px">
-                        <input type="radio" name="val_type" value="1" @{
-                                                                          if (accountResult.IsAdmin)
-                                                                          {
-                                                                              <text> checked="checked" </text>
-                                                                          }
-                                                                      }>用户
+                        <input type="radio" name="val_type" value="1" @{ if (accountResult.IsAdmin) { <text> checked="checked" </text>       } }>用户
                     </label>
 
                     <label class="radio" style="margin-right: 10px">
-                        <input type="radio" name="val_type" value="2" @{
-                                                                          if (accountResult.IsAdmin)
-                                                                          {
-                                                                              <text> checked="checked" </text>
-                                                                          }
-                                                                      }>管理员
+                        <input type="radio" name="val_type" value="2" @{ if (accountResult.IsAdmin) { <text> checked="checked" </text>       } }>管理员
                     </label>
                 </div>
             </div>
@@ -118,7 +108,7 @@
                             }
                         }
                     }
-                    <input type="hidden" name="val_roleIds" id="roleIds" value=""/>
+                    <input type="hidden" name="val_roleIds" id="roleIds" value="" />
                     <span class="help-inline"></span>
                 </div>
             </div>
@@ -139,11 +129,7 @@
                 btnSubmit: '#btn-submit',
                 postonce: false,
                 showAllError: true,
-                //msg：提示信息;
-                //o:{obj:*,type:*,curform:*}, obj指向的是当前验证的表单元素（或表单对象），type指示提示的状态，值为1、2、3、4， 1：正在检测/提交数据，2：通过验证，3：验证失败，4：提示ignore状态, curform为当前form对象;
-                //cssctl:内置的提示信息样式控制函数，该函数需传入两个参数：显示提示信息的对象 和 当前提示的状态（既形参o中的type）;
                 tiptype: function (msg, o) {
-
                     if (!o.obj.is('form')) {//验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
                         var B = o.obj.parents('.control-group');
                         var T = B.children('.help-inline');
@@ -158,43 +144,40 @@
                 },
                 ajaxPost: true,
                 callback: function (responseText) {
-                    if (typeof responseText.js !== 'undefined') {
-                        $('body').append(responseText.js);
-                    } else {
-                        if ($('input[name="id"]').val() !== '') {
-                            if (typeof responseText.success !== 'undefined') {
-                                $.dialog({
-                                    id: 'ajaxedit',
-                                    content: '修改成功，是否继续修改？',
-                                    okVal: '是',
-                                    ok: function () {
-                                        $.dialog.list['ajaxedit'].close();
-                                    },
-                                    cancel: function () {
-                                        window.parent.closeDetailIframe(function () {
-                                            window.parent.$('#pagination').trigger('currentPage');
-                                        });
-                                    }
-                                });
-                            }
+                    var response = responseText;
+                    if (response.IsSuccess) {
+                        if ($('input[name="id"]').val()) {
+                            $.dialog({
+                                id: 'ajaxedit',
+                                content: '修改成功，是否继续修改？',
+                                okVal: '是',
+                                ok: function () {
+                                    $.dialog.list['ajaxedit'].close();
+                                },
+                                cancel: function () {
+                                    window.parent.closeDetailIframe(function () {
+                                        window.parent.$('#pagination').trigger('currentPage');
+                                    });
+                                }
+                            });
                         } else {
-                            if (typeof responseText.success !== 'undefined') {
-                                $.dialog({
-                                    id: 'ajaxedit',
-                                    content: '添加成功，是否继续添加？',
-                                    okVal: '是',
-                                    ok: function () {
-                                        location.reload();
-                                        return false;
-                                    },
-                                    cancel: function () {
-                                        window.parent.closeDetailIframe(function () {
-                                            window.parent.$('#pagination').trigger('currentPage');
-                                        });
-                                    }
-                                });
-                            }
+                            $.dialog({
+                                id: 'ajaxedit',
+                                content: '添加成功，是否继续添加？',
+                                okVal: '是',
+                                ok: function () {
+                                    location.reload();
+                                    return false;
+                                },
+                                cancel: function () {
+                                    window.parent.closeDetailIframe(function () {
+                                        window.parent.$('#pagination').trigger('currentPage');
+                                    });
+                                }
+                            });
                         }
+                    } else {
+                        ZENG.msgbox.show(response.Message, 4, 2000);
                     }
                 }
             });

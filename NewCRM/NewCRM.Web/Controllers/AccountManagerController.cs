@@ -11,7 +11,6 @@ namespace NewCRM.Web.Controllers
 {
     public class AccountManagerController : BaseController
     {
-
         private readonly IAccountServices _accountServices;
 
         private readonly ISecurityServices _securityServices;
@@ -23,6 +22,7 @@ namespace NewCRM.Web.Controllers
         }
 
         #region 页面
+
         /// <summary>
         /// 首页
         /// </summary>
@@ -80,20 +80,25 @@ namespace NewCRM.Web.Controllers
         /// 创建新账户
         /// </summary>
         /// <returns></returns>
-        public ActionResult NewAccount(FormCollection forms, Int32 accountId)
+        public ActionResult NewAccount(FormCollection forms)
         {
             var response = new ResponseModel<AccountDto>();
             var dto = WapperAccountDto(forms);
-            if (accountId == 0)
+            if (dto.Id == 0)
             {
                 _accountServices.AddNewAccount(dto);
+
+                response.Message = "创建新账户成功";
+                response.IsSuccess = true;
             }
             else
             {
                 _accountServices.ModifyAccount(dto);
+
+                response.Message = "修改账户成功";
+                response.IsSuccess = true;
             }
-            response.Message = "创建新账户成功";
-            response.IsSuccess = true;
+
 
             return Json(response);
         }

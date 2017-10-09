@@ -104,11 +104,14 @@
 
                         $('@Url.Action("RemoveAccount", "AccountManager")', { accountId: memberid },
                             function (responseText) {
-                                if (typeof responseText.js !== 'undefined') {
-                                    $('body').append(responseText.js);
-                                } else {
-                                    $('#pagination').trigger('currentPage');
+                                if (responseText.IsSuccess) {
+
                                 }
+                                //if (typeof responseText.js !== 'undefined') {
+                                //    $('body').append(responseText.js);
+                                //} else {
+                                //    $('#pagination').trigger('currentPage');
+                                //}
                             });
                     },
                     cancel: true
