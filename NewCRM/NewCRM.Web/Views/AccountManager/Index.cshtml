@@ -105,13 +105,10 @@
                         $('@Url.Action("RemoveAccount", "AccountManager")', { accountId: memberid },
                             function (responseText) {
                                 if (responseText.IsSuccess) {
-
+                                    $('#pagination').trigger('currentPage');
+                                } else {
+                                    ZENG.msgbox.show(response.Message, 5, 2000);
                                 }
-                                //if (typeof responseText.js !== 'undefined') {
-                                //    $('body').append(responseText.js);
-                                //} else {
-                                //    $('#pagination').trigger('currentPage');
-                                //}
                             });
                     },
                     cancel: true
