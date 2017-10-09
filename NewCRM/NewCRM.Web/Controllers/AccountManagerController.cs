@@ -141,13 +141,18 @@ namespace NewCRM.Web.Controllers
             if (Boolean.Parse(isDisable))
             {
                 _accountServices.Disable(accountId);
+
+                response.IsSuccess = true;
+                response.Message = "禁用账户成功";
             }
             else
             {
                 _accountServices.Enable(accountId);
+
+                response.IsSuccess = true;
+                response.Message = "启用账户成功";
             }
-            response.IsSuccess = true;
-            response.Message = "账户状态修改成功";
+
 
             return Json(response);
         }

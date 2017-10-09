@@ -107,7 +107,7 @@
                                 if (responseText.IsSuccess) {
                                     $('#pagination').trigger('currentPage');
                                 } else {
-                                    ZENG.msgbox.show(response.Message, 5, 2000);
+                                    ZENG.msgbox.show(responseText.Message, 5, 2000);
                                 }
                             });
                     },
@@ -125,11 +125,16 @@
                     ok: function () {
                         $.post('@Url.Action("ChangeAccountDisableStatus", "AccountManager")', { accountId: parseInt(memberid), isDisable: isDisable },
                             function (responseText) {
-                                if (typeof responseText.js !== 'undefined') {
-                                    $('body').append(responseText.js);
-                                } else {
+                                if (responseText.IsSuccess) {
                                     $('#pagination').trigger('currentPage');
+                                } else {
+                                    ZENG.msgbox.show(responseText.Message, 5, 2000);
                                 }
+                                //if (typeof responseText.js !== 'undefined') {
+                                //    $('body').append(responseText.js);
+                                //} else {
+                                //    $('#pagination').trigger('currentPage');
+                                //}
                             });
                     },
                     cancel: true
