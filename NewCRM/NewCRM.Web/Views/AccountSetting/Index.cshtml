@@ -54,7 +54,7 @@
                 }
             case "modifyface":
                 {
-                    Html.RenderPartial("~/Views/AccountSetting/ModifyFace.cshtml");
+                    Html.RenderPartial("~/Views/AccountSetting/ModifyFace.cshtml", Model.Id);
                     break;
                 }
             case "accountsafe":
@@ -124,7 +124,7 @@
             },
             ajaxPost: true,
             callback: function (data) {
-                
+
                 if (data.status === 'y') {
                     window.parent.ZENG.msgbox.show('操作成功', 4, 2000);
                 } else {
