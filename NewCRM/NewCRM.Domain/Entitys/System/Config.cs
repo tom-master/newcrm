@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using NewCRM.Domain.ValueObject;
+using System.ComponentModel.DataAnnotations;
 
 namespace NewCRM.Domain.Entitys.System
 {
@@ -12,11 +13,13 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 皮肤
         /// </summary>
+        [Required(), MaxLength(6)]
         public String Skin { get; private set; }
 
         /// <summary>
         /// 用户头像
         /// </summary>
+        [Required()]
         public String AccountFace { get; private set; }
 
         /// <summary>
@@ -63,8 +66,7 @@ namespace NewCRM.Domain.Entitys.System
         /// 壁纸
         /// </summary>
         public virtual Wallpaper Wallpaper { get; private set; }
-
-
+ 
         #endregion
 
         #region ctor

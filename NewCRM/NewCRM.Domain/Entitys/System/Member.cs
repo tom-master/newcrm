@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using NewCRM.Domain.ValueObject;
+using System.ComponentModel.DataAnnotations;
 
 namespace NewCRM.Domain.Entitys.System
 {
@@ -36,22 +37,24 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 名称
         /// </summary>
+        [Required(), MaxLength(6)]
         public String Name { get; private set; }
 
         /// <summary>
         /// 图标地址
         /// </summary>
+        [Required()]
         public String IconUrl { get; private set; }
 
         /// <summary>
         /// app地址
         /// </summary>
+        [Required()]
         public String AppUrl { get; private set; }
 
         /// <summary>
         /// 成员是否在应用码头上
         /// </summary>
-
         public Boolean IsOnDock { get; private set; }
 
         /// <summary>
@@ -93,13 +96,15 @@ namespace NewCRM.Domain.Entitys.System
         /// 是否可以拉伸
         /// </summary>
         public Boolean IsResize { get; private set; }
-        
 
         /// <summary>
         /// 成员类型
         /// </summary>
         public MemberType MemberType { get; private set; }
 
+        /// <summary>
+        /// 桌面Id
+        /// </summary>
         public Int32 DeskId { get; set; }
 
         #endregion
@@ -137,7 +142,7 @@ namespace NewCRM.Domain.Entitys.System
             Boolean isOpenMax = default(Boolean),
             Boolean isFlash = default(Boolean),
             Boolean isDraw = default(Boolean),
-            Boolean isResize = default(Boolean)):this()
+            Boolean isResize = default(Boolean)) : this()
         {
             AppId = appId;
             Width = width > 800 ? 800 : width;
@@ -157,7 +162,7 @@ namespace NewCRM.Domain.Entitys.System
 
         }
 
-        public Member(String name, String iconUrl, Int32 appId):this()
+        public Member(String name, String iconUrl, Int32 appId) : this()
         {
             AppId = appId;
             Width = 800;

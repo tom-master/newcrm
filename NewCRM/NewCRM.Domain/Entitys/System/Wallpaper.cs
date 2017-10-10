@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using NewCRM.Domain.ValueObject;
+using System.ComponentModel.DataAnnotations;
 
 namespace NewCRM.Domain.Entitys.System
 {
@@ -13,13 +14,18 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 标题
         /// </summary>
+        [Required(), MaxLength(6)]
         public String Title { get; private set; }
 
         /// <summary>
         /// 图片地址
         /// </summary>
+        [Required()]
         public String Url { get; private set; }
 
+        /// <summary>
+        /// 短地址
+        /// </summary> 
         public String ShortUrl { get; set; }
 
         /// <summary>
@@ -30,6 +36,7 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 描述
         /// </summary>
+        [MaxLength(50)]
         public String Description { get; private set; }
 
         /// <summary>
@@ -51,7 +58,6 @@ namespace NewCRM.Domain.Entitys.System
         /// md5
         /// </summary>
         public String Md5 { get; private set; }
-
 
         public virtual ICollection<Config> Configs { get; set; }
 
@@ -88,6 +94,5 @@ namespace NewCRM.Domain.Entitys.System
 
 
         #endregion
-
     }
 }

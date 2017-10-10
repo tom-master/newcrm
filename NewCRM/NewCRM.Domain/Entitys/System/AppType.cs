@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace NewCRM.Domain.Entitys.System
 {
@@ -8,14 +9,17 @@ namespace NewCRM.Domain.Entitys.System
     public partial class AppType : DomainModelBase, IAggregationRoot
     {
         #region public proptery
+
         /// <summary>
         /// 名称
         /// </summary>
+        [Required(), MaxLength(6)]
         public String Name { get; private set; }
 
         /// <summary>
         /// 备注
         /// </summary>
+        [MaxLength(50)]
         public String Remark { get; private set; }
 
 
@@ -29,7 +33,7 @@ namespace NewCRM.Domain.Entitys.System
         /// </summary>
         /// <param name="name"></param>
         /// <param name="remark"></param>
-        public AppType(String name, String remark = default(String)):this()
+        public AppType(String name, String remark = default(String)) : this()
         {
             Name = name;
             Remark = remark;
@@ -40,7 +44,5 @@ namespace NewCRM.Domain.Entitys.System
             AddTime = DateTime.Now;
         }
         #endregion
-
-
     }
 }

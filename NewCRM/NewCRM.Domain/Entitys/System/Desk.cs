@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace NewCRM.Domain.Entitys.System
 {
@@ -9,13 +10,14 @@ namespace NewCRM.Domain.Entitys.System
     {
         #region public property
 
+        [Required()]
         public Int32 DeskNumber { get; private set; }
+         
+        [Required()]
+        public Int32 AccountId { get; set; }
 
         public virtual ICollection<Member> Members { get; private set; }
-
-        public Int32 AccountId { get; set; }
-        #endregion
-
+        #endregion 
 
         #region ctor
         public Desk(Int32 deskNumber, Int32 accountId):this()
@@ -26,13 +28,9 @@ namespace NewCRM.Domain.Entitys.System
             AccountId = accountId;
         }
 
-
         public Desk() { AddTime = DateTime.Now; }
 
-
         #endregion
-
-
 
     }
 }

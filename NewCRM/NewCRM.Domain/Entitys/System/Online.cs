@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace NewCRM.Domain.Entitys.System
 {
@@ -11,11 +12,13 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// Ip地址
         /// </summary>
+        [Required()]
         public String IpAddress { get; private set; }
 
         /// <summary>
         /// 用户Id
         /// </summary>
+        [Required()]
         public Int32 AccountId { get; private set; }
         #endregion
 
@@ -36,6 +39,5 @@ namespace NewCRM.Domain.Entitys.System
 
 
         #endregion
-
     }
 }

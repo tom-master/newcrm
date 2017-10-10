@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using NewCRM.Domain.ValueObject;
+using System.ComponentModel.DataAnnotations;
 
 namespace NewCRM.Domain.Entitys.System
 {
@@ -14,21 +15,25 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 名称
         /// </summary>
+        [Required(), MaxLength(6)]
         public String Name { get; private set; }
 
         /// <summary>
         /// 图标地址
         /// </summary>
+        [Required()]
         public String IconUrl { get; private set; }
 
         /// <summary>
         /// app地址
         /// </summary>
+        [Required()]
         public String AppUrl { get; private set; }
 
         /// <summary>
         /// 备注
         /// </summary>
+        [MaxLength(50)]
         public String Remark { get; private set; }
 
         /// <summary>
@@ -96,8 +101,14 @@ namespace NewCRM.Domain.Entitys.System
         /// </summary>
         public Int32 AccountId { get; private set; }
 
+        /// <summary>
+        /// App类型Id
+        /// </summary>
         public Int32 AppTypeId { get; set; }
 
+        /// <summary>
+        /// 是否推荐
+        /// </summary>
         public Boolean IsRecommand { get; private set; }
 
         /// <summary>
@@ -117,9 +128,7 @@ namespace NewCRM.Domain.Entitys.System
 
         public virtual ICollection<AppStar> AppStars { get; private set; }
 
-       // public virtual ICollection<AppRole> AppRoles { get; private set; }
-
-  
+        // public virtual ICollection<AppRole> AppRoles { get; private set; }
 
         #endregion
 
@@ -161,7 +170,7 @@ namespace NewCRM.Domain.Entitys.System
             Boolean isOpenMax = default(Boolean),
             Boolean isFlash = default(Boolean),
             Boolean isDraw = default(Boolean),
-            Boolean isResize = default(Boolean)):this()
+            Boolean isResize = default(Boolean)) : this()
         {
             Name = name;
             IconUrl = iconUrl;
@@ -193,7 +202,7 @@ namespace NewCRM.Domain.Entitys.System
             AppReleaseState = AppReleaseState.UnRelease;
             UseCount = 0;
             AppStars = new List<AppStar>();
-           // AppRoles = new List<AppRole>();
+            // AppRoles = new List<AppRole>();
             IsRecommand = false;
         }
 
