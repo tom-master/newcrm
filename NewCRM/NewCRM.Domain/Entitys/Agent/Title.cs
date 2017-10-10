@@ -33,15 +33,10 @@ namespace NewCRM.Domain.Entitys.Agent
         /// </summary>
         /// <param name="name"></param>
         /// <param name="remark"></param>
-        public Title(String name, String remark = default(String)) : this()
+        public Title(String name, String remark = default(String)) 
         {
             Name = name;
             Remark = remark;
-        }
-
-        public Title()
-        {
-            AddTime = DateTime.Now;
         }
 
         #endregion

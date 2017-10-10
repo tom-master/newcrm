@@ -75,7 +75,7 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <param name="name"></param>
         /// <param name="password"></param>
         /// <param name="accountType"></param>
-        public Account(String name, String password, AccountType accountType = default(AccountType)) : this()
+        public Account(String name, String password, AccountType accountType = default(AccountType)) 
         {
             Name = name;
             LoginPassword = password;
@@ -87,10 +87,7 @@ namespace NewCRM.Domain.Entitys.Agent
             IsOnline = false;
             IsAdmin = accountType == AccountType.Admin;
         }
-        public Account()
-        {
-            AddTime = DateTime.Now;
-        }
+       
         #endregion
     }
 }

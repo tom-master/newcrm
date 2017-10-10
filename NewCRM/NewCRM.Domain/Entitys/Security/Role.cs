@@ -41,15 +41,13 @@ namespace NewCRM.Domain.Entitys.Security
         /// </summary>
         /// <param name="name"></param>
         /// <param name="remark"></param>
-        public Role(String name, String remark = default(String)) : this()
+        public Role(String name, String remark = default(String)) 
         {
             Name = name;
             Remark = remark;
             Powers = new List<RolePower>();
 
         }
-
-        public Role() { AddTime = DateTime.Now; }
 
         #endregion
     }
