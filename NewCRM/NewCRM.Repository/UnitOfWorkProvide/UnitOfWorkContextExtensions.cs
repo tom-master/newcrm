@@ -30,18 +30,15 @@ namespace NewCRM.Repository.UnitOfWorkProvide
                 try
                 {
                     DbEntityEntry<T> entry = dbContext.Entry(entity);
-
                     if (entry.State == EntityState.Detached)
                     {
                         dbSet.Attach(entity);
-
                         entry.State = EntityState.Modified;
                     }
                 }
                 catch (InvalidOperationException)
                 {
                     T oldEntity = dbSet.Find(entity.Id);
-
                     dbContext.Entry(oldEntity).CurrentValues.SetValues(entity);
                 }
             }
