@@ -1,18 +1,18 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace NewCRM.Domain.Entitys.Security
 {
     public class RolePower : DomainModelBase
     {
-
         #region public property
-
+        [Required()]
         public Int32 RoleId { get; private set; }
 
+        [Required()]
         public Int32 AppId { get; private set; }
 
         #endregion
-
 
         #region ctor
 

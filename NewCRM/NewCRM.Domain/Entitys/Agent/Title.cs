@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace NewCRM.Domain.Entitys.Agent
 {
@@ -12,11 +13,13 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         ///名称
         /// </summary>
+        [Required(), MaxLength(10)]
         public String Name { get; private set; }
 
         /// <summary>
         /// 备注
         /// </summary>
+        [MaxLength(50)]
         public String Remark { get; private set; }
 
 
@@ -30,10 +33,10 @@ namespace NewCRM.Domain.Entitys.Agent
         /// </summary>
         /// <param name="name"></param>
         /// <param name="remark"></param>
-        public Title(String name, String remark = default(String)):this()
+        public Title(String name, String remark = default(String)) : this()
         {
             Name = name;
-            Remark = remark; 
+            Remark = remark;
         }
 
         public Title()
@@ -42,7 +45,5 @@ namespace NewCRM.Domain.Entitys.Agent
         }
 
         #endregion
-
-
     }
 }
