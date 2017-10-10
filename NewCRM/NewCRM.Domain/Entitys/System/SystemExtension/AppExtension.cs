@@ -21,7 +21,7 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 减小使用数
         /// </summary>
-        /// <returns></returns>
+        
         public App SubtractUseCount()
         {
             --UseCount;
@@ -31,8 +31,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 增加app的评价分数
         /// </summary> 
-        /// <param name="accountId"></param>
-        /// <param name="startCount"></param>
         public App AddStar(Int32 accountId, Int32 startCount)
         {
             if (accountId <= 0)
@@ -51,7 +49,6 @@ namespace NewCRM.Domain.Entitys.System
             }
 
             var score = startCount * 1.0;
-
             AppStars.Add(new AppStar(accountId, score));
 
             return this;
@@ -60,8 +57,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 减小app的评价分数
         /// </summary>
-        /// <param name="accountId"></param>
-        /// <returns></returns>
         public App SubtractStar(Int32 accountId)
         {
             if (accountId <= 0)
@@ -70,11 +65,9 @@ namespace NewCRM.Domain.Entitys.System
             }
 
             var appStar = AppStars.FirstOrDefault(star => star.AccountId == accountId);
-
             appStar?.RemoveStar();
 
             return this;
-
         }
 
         /// <summary>
@@ -98,7 +91,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 发布
         /// </summary>
-        /// <returns></returns>
         public App Release()
         {
             AppReleaseState = AppReleaseState.Release;
@@ -108,7 +100,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 暂不提交审核
         /// </summary>
-        /// <returns></returns>
         public App DontSentAudit()
         {
             AppAuditState = AppAuditState.Wait;
@@ -118,7 +109,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 提交审核
         /// </summary>
-        /// <returns></returns>
         public App SentAudit()
         {
             AppAuditState = AppAuditState.UnAuditState;
@@ -128,8 +118,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 修改app的宽
         /// </summary>
-        /// <param name="width"></param>
-        /// <returns></returns>
         public App ModifyWidth(Int32 width)
         {
             if (width <= 0)
@@ -143,8 +131,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 修改app的高
         /// </summary>
-        /// <param name="height"></param>
-        /// <returns></returns>
         public App ModifyHeight(Int32 height)
         {
             if (height <= 0)
@@ -160,8 +146,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 修改app的指向地址
         /// </summary>
-        /// <param name="newUrl"></param>
-        /// <returns></returns>
         public App ModifyUrl(String newUrl)
         {
             if ((newUrl + "").Length <= 0)
@@ -176,8 +160,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 修改app的图标
         /// </summary>
-        /// <param name="newIconUrl"></param>
-        /// <returns></returns>
         public App ModifyIconUrl(String newIconUrl)
         {
             if ((newIconUrl + "").Length <= 0)
@@ -193,8 +175,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 修改app名称
         /// </summary>
-        /// <param name="newName"></param>
-        /// <returns></returns>
         public App ModifyName(String newName)
         {
             Name = newName;
@@ -204,8 +184,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 修改是否最大化
         /// </summary>
-        /// <param name="isMax"></param>
-        /// <returns></returns>
         public App ModifyIsMax(Boolean isMax)
         {
             IsMax = isMax;
@@ -215,8 +193,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 修改打开后是否铺满全屏
         /// </summary>
-        /// <param name="isFull"></param>
-        /// <returns></returns>
         public App ModifyIsFull(Boolean isFull)
         {
             IsFull = isFull;
@@ -226,8 +202,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 修改加载后是否显示工具条
         /// </summary>
-        /// <param name="isSetbar"></param>
-        /// <returns></returns>
         public App ModifyIsSetbar(Boolean isSetbar)
         {
             IsSetbar = isSetbar;
@@ -237,8 +211,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 修改打开是否最大化
         /// </summary>
-        /// <param name="isOpenMax"></param>
-        /// <returns></returns>
         public App ModifyIsOpenMax(Boolean isOpenMax)
         {
             IsOpenMax = isOpenMax;
@@ -248,8 +220,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 修改是否锁定
         /// </summary>
-        /// <param name="isLock"></param>
-        /// <returns></returns>
         public App ModifyIsLock(Boolean isLock)
         {
             IsLock = isLock;
@@ -259,8 +229,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 修改是否为福莱希
         /// </summary>
-        /// <param name="isFlash"></param>
-        /// <returns></returns>
         public App ModifyIsFlash(Boolean isFlash)
         {
             IsFlash = isFlash;
@@ -270,8 +238,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 修改是否可以拖动
         /// </summary>
-        /// <param name="isDraw"></param>
-        /// <returns></returns>
         public App ModifyIsDraw(Boolean isDraw)
         {
             IsDraw = isDraw;
@@ -281,8 +247,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 修改是否可以拉伸
         /// </summary>
-        /// <param name="isResize"></param>
-        /// <returns></returns>
         public App ModifyIsResize(Boolean isResize)
         {
             IsResize = isResize;
@@ -292,8 +256,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 修改app类型
         /// </summary>
-        /// <param name="appTypeId"></param>
-        /// <returns></returns>
         public App ModifyAppType(Int32 appTypeId)
         {
             if (appTypeId <= 0)
@@ -307,8 +269,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 修改app介绍
         /// </summary>
-        /// <param name="remake"></param>
-        /// <returns></returns>
         public App ModifyAppRemake(String remake)
         {
             Remark = remake;
@@ -318,8 +278,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 修改app样式
         /// </summary>
-        /// <param name="appStyle"></param>
-        /// <returns></returns>
         public App ModifyAppStyle(AppStyle appStyle)
         {
             AppStyle = appStyle;
@@ -329,7 +287,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 设置今日推荐
         /// </summary>
-        /// <returns></returns>
         public App SetTodayRecommandApp()
         {
             IsRecommand = true;
@@ -340,20 +297,19 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 取消今日推荐
         /// </summary>
-        /// <returns></returns>
         public App CancelTodayRecommandApp()
         {
             IsRecommand = false;
-
             return this;
         }
 
+        /// <summary>
+        /// 移除App
+        /// </summary>
         public void Remove()
         {
             IsDeleted = true;
         }
-
-
 
         public override String KeyGenerator()
         {

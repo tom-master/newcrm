@@ -9,13 +9,14 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 修改app类型名称
         /// </summary>
-        /// <param name="newAppTypeName"></param>
         public void ModifyAppTypeName(String newAppTypeName)
         {
             Name = newAppTypeName;
         }
 
-
+        /// <summary>
+        /// 移除app类型
+        /// </summary>
         public void Remove()
         {
             IsDeleted = true;

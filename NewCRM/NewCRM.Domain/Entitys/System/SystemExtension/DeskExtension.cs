@@ -6,7 +6,6 @@ namespace NewCRM.Domain.Entitys.System
 {
     public partial class Desk
     {
-
         #region public method
 
         public Desk AddMember(Member member)
