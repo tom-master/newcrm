@@ -8,6 +8,9 @@ namespace NewCRM.Domain.Entitys.System
     {
         #region public method
 
+        /// <summary>
+        /// 添加桌面成员
+        /// </summary>
         public Desk AddMember(Member member)
         {
             if (member == null)
@@ -16,10 +19,12 @@ namespace NewCRM.Domain.Entitys.System
             }
 
             Members.Add(member);
-
             return this;
         }
 
+        /// <summary>
+        /// 移除桌面成员
+        /// </summary>
         public void RemoveMember(Int32 memberId)
         {
             if (memberId <= 0)
@@ -30,15 +35,10 @@ namespace NewCRM.Domain.Entitys.System
             Members.Where(member => member.Id == memberId).ToList().ForEach(m => { m.Remove(); });
         }
 
-
         public override String KeyGenerator()
         {
-            //return $"NewCRM:{nameof(Desk)}:AccountId:{AccountId}:Id:{Id}";
-
             return $"NewCRM:{nameof(Desk)}:AccountId:{AccountId}";
         }
-
-
         #endregion
     }
 }
