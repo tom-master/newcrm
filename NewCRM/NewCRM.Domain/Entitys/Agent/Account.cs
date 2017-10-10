@@ -21,11 +21,13 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 登陆密码
         /// </summary>
+        [Required(), MaxLength(6)]
         public String LoginPassword { get; private set; }
 
         /// <summary>
         /// 锁屏密码
         /// </summary>
+        [MaxLength(6)]
         public String LockScreenPassword { get; private set; }
 
         /// <summary>
@@ -36,7 +38,7 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 最后一次登录的时间
         /// </summary>
-        public DateTime LastLoginTime { get; private set; } = DateTime.Now;
+        public DateTime LastLoginTime { get; private set; }
 
         /// <summary>
         /// 是否在线
@@ -73,7 +75,7 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <param name="name"></param>
         /// <param name="password"></param>
         /// <param name="accountType"></param>
-        public Account(String name, String password, AccountType accountType = default(AccountType)):this()
+        public Account(String name, String password, AccountType accountType = default(AccountType)) : this()
         {
             Name = name;
             LoginPassword = password;

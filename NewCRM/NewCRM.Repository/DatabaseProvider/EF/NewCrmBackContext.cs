@@ -47,7 +47,7 @@ namespace NewCRM.Repository.DatabaseProvider.EF.Context
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
-			modelBuilder.Filter("IsDeleted", (DomainModelBase modelBase) => modelBase.IsDeleted, false);
+            modelBuilder.Filter("IsDeleted", (DomainModelBase modelBase) => modelBase.IsDeleted, false);
 
 			modelBuilder.Filter("IsDisable", (Account account) => account.IsDisable, false);
 
@@ -62,14 +62,13 @@ namespace NewCRM.Repository.DatabaseProvider.EF.Context
 				.WithMany()
 				.Map(m => m.MapKey("ConfigId"));
 
-			//modelBuilder.Entity<Account>()
-			//    .HasMany(a => a.AccountRoles)
-			//    .WithMany(r => r.Accounts)
-			//    .Map(m => m.MapLeftKey("AccountId").MapRightKey("RoleId").ToTable("AccountRole"));
+            //modelBuilder.Entity<Account>()
+            //    .HasMany(a => a.AccountRoles)
+            //    .WithMany(r => r.Accounts)
+            //    .Map(m => m.MapLeftKey("AccountId").MapRightKey("RoleId").ToTable("AccountRole"));
 
-
-			//Config
-			modelBuilder.Entity<Config>()
+            //Config
+            modelBuilder.Entity<Config>()
 				.HasRequired(c => c.Wallpaper)
 				.WithMany(w => w.Configs).Map(m => m.MapKey("WallpaperId"));
 
