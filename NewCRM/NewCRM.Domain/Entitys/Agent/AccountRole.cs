@@ -1,14 +1,16 @@
 ﻿using System;
 using NewCRM.Domain.Entitys.Security;
+using System.ComponentModel.DataAnnotations;
 
 namespace NewCRM.Domain.Entitys.Agent
 {
     public class AccountRole : DomainModelBase
     {
         #region public property
-
+        [Required()]
         public Int32 AccountId { get; private set; }
 
+        [Required()]
         public Int32 RoleId { get; private set; }
 
         public virtual Role Role { get; private set; }
@@ -17,7 +19,7 @@ namespace NewCRM.Domain.Entitys.Agent
 
         #region ctor
 
-        public AccountRole(Int32 accountId, Int32 roleId):this()
+        public AccountRole(Int32 accountId, Int32 roleId) : this()
         {
             AccountId = accountId;
             RoleId = roleId;
@@ -32,6 +34,5 @@ namespace NewCRM.Domain.Entitys.Agent
 
 
         #endregion
-
     }
 }
