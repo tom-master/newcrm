@@ -46,7 +46,7 @@ namespace NewCRM.Domain.Entitys.System
         #endregion
 
         #region ctor
-        public Log(Int32 accountId, String controller, String action, LogLevel logLevel, String track, String exceptionMessage):this()
+        public Log(Int32 accountId, String controller, String action, LogLevel logLevel, String track, String exceptionMessage)
         {
             AccountId = accountId;
             Controller = controller;
@@ -55,15 +55,6 @@ namespace NewCRM.Domain.Entitys.System
             Track = track;
             ExceptionMessage = exceptionMessage;
         }
-
-        public Log()
-        {
-            AddTime = DateTime.Now;
-
-        }
-
-
-
 
         #endregion
     }

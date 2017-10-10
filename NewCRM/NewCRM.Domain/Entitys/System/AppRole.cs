@@ -11,7 +11,6 @@ namespace NewCRM.Domain.Entitys.System
 
         public virtual Role Role { get; private set; }
 
-
         public AppRole(Int32 appId, Int32 roleId)
         {
             AppId = appId;

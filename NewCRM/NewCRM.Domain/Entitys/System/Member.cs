@@ -142,7 +142,7 @@ namespace NewCRM.Domain.Entitys.System
             Boolean isOpenMax = default(Boolean),
             Boolean isFlash = default(Boolean),
             Boolean isDraw = default(Boolean),
-            Boolean isResize = default(Boolean)) : this()
+            Boolean isResize = default(Boolean)) 
         {
             AppId = appId;
             Width = width > 800 ? 800 : width;
@@ -159,10 +159,9 @@ namespace NewCRM.Domain.Entitys.System
             IconUrl = iconUrl;
             AppUrl = appUrl;
             MemberType = appId == 0 ? MemberType.Folder : MemberType.App;
-
         }
 
-        public Member(String name, String iconUrl, Int32 appId) : this()
+        public Member(String name, String iconUrl, Int32 appId) 
         {
             AppId = appId;
             Width = 800;
@@ -173,11 +172,7 @@ namespace NewCRM.Domain.Entitys.System
             IconUrl = iconUrl;
             MemberType = appId == 0 ? MemberType.Folder : MemberType.App;
         }
-        public Member()
-        {
-            AddTime = DateTime.Now;
-        }
+       
         #endregion
-
     }
 }

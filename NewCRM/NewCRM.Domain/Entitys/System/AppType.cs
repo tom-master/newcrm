@@ -22,7 +22,6 @@ namespace NewCRM.Domain.Entitys.System
         [MaxLength(50)]
         public String Remark { get; private set; }
 
-
         public virtual ICollection<App> Apps { get; set; }
 
         #endregion
@@ -33,16 +32,12 @@ namespace NewCRM.Domain.Entitys.System
         /// </summary>
         /// <param name="name"></param>
         /// <param name="remark"></param>
-        public AppType(String name, String remark = default(String)) : this()
+        public AppType(String name, String remark = default(String)) 
         {
             Name = name;
             Remark = remark;
         }
 
-        public AppType()
-        {
-            AddTime = DateTime.Now;
-        }
         #endregion
     }
 }

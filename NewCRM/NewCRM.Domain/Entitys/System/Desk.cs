@@ -20,15 +20,13 @@ namespace NewCRM.Domain.Entitys.System
         #endregion 
 
         #region ctor
-        public Desk(Int32 deskNumber, Int32 accountId):this()
+        public Desk(Int32 deskNumber, Int32 accountId)
         {
             DeskNumber = deskNumber;
             Members = new List<Member>();
 
             AccountId = accountId;
         }
-
-        public Desk() { AddTime = DateTime.Now; }
 
         #endregion
 

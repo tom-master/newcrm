@@ -170,7 +170,7 @@ namespace NewCRM.Domain.Entitys.System
             Boolean isOpenMax = default(Boolean),
             Boolean isFlash = default(Boolean),
             Boolean isDraw = default(Boolean),
-            Boolean isResize = default(Boolean)) : this()
+            Boolean isResize = default(Boolean))
         {
             Name = name;
             IconUrl = iconUrl;
@@ -204,12 +204,6 @@ namespace NewCRM.Domain.Entitys.System
             AppStars = new List<AppStar>();
             // AppRoles = new List<AppRole>();
             IsRecommand = false;
-        }
-
-
-        public App()
-        {
-            AddTime = DateTime.Now;
         }
         #endregion
     }
