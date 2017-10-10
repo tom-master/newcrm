@@ -11,7 +11,6 @@ namespace NewCRM.Domain.Entitys.Security
         /// <summary>
         /// 修改角色名称
         /// </summary>
-        /// <param name="newRoleName"></param>
         public Role ModifyRoleName(String newRoleName)
         {
             Name = newRoleName;
@@ -21,7 +20,6 @@ namespace NewCRM.Domain.Entitys.Security
         /// <summary>
         /// 修改角色标识
         /// </summary>
-        /// <param name="newRoleIdentity"></param>
         /// <returns></returns>
         public Role ModifyRoleIdentity(String newRoleIdentity)
         {
@@ -34,8 +32,6 @@ namespace NewCRM.Domain.Entitys.Security
         /// <summary>
         /// 为角色添加权限
         /// </summary>
-        /// <param name="powerIds"></param>
-        /// <returns></returns>
         public Role AddPower(params Int32[] powerIds)
         {
             if (powerIds == null)
@@ -54,13 +50,9 @@ namespace NewCRM.Domain.Entitys.Security
             return this;
         }
 
-
-
         /// <summary>
         /// 移除角色权限
         /// </summary>
-        /// <param name="powerIds"></param>
-        /// <returns></returns>
         public Role RemovePower(params Int32[] powerIds)
         {
             if (powerIds == null)
@@ -100,8 +92,6 @@ namespace NewCRM.Domain.Entitys.Security
         /// <summary>
         /// 检查权限是否存在
         /// </summary>
-        /// <param name="appIds"></param>
-        /// <returns></returns>
         public Boolean CheckPower(params Int32[] appIds)
         {
             if (!appIds.Any())
@@ -112,12 +102,9 @@ namespace NewCRM.Domain.Entitys.Security
             return appIds.Any(appId =>
             {
                 var internalPower = Powers.FirstOrDefault(power => power.AppId == appId);
-
                 return internalPower?.AppId == appId;
             });
         }
-
-
 
         public override String KeyGenerator()
         {

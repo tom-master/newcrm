@@ -11,8 +11,6 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 修改密码
         /// </summary>
-        /// <param name="newPassword"></param>
-        /// <returns></returns>
         public Account ModifyPassword(String newPassword)
         {
             LoginPassword = newPassword;
@@ -22,8 +20,6 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 修改锁屏密码
         /// </summary>
-        /// <param name="newLockScreenPassword"></param>
-        /// <returns></returns>
         public Account ModifyLockScreenPassword(String newLockScreenPassword)
         {
             LockScreenPassword = newLockScreenPassword;
@@ -51,7 +47,6 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 添加职称
         /// </summary>
-        /// <param name="newTitle"></param>
         public Account AddTitle(Title newTitle)
         {
             if (newTitle == null)
@@ -65,7 +60,6 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 添加用户角色
         /// </summary>
-        /// <param name="roleIds"></param>
         public Account AddRole(params Int32[] roleIds)
         {
             if (roleIds == null)
@@ -89,8 +83,6 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 删除用户角色
         /// </summary>
-        /// <param name="roleIds"></param>
-        /// <returns></returns>
         public Account RemoveRole(params Int32[] roleIds)
         {
             if (roleIds == null)
@@ -111,7 +103,6 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 在线
         /// </summary>
-        /// <returns></returns>
         public Account Online()
         {
             IsOnline = true;
@@ -121,7 +112,6 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 离线
         /// </summary>
-        /// <returns></returns>
         public Account Offline()
         {
             IsOnline = false;
@@ -145,13 +135,11 @@ namespace NewCRM.Domain.Entitys.Agent
             IsDeleted = true;
         }
 
-
         public override String KeyGenerator()
         {
             return $"NewCRM:{nameof(Account)}:Id:{Id}";
         }
 
         #endregion
-
     }
 }

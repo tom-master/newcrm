@@ -4,12 +4,10 @@ namespace NewCRM.Domain.Entitys.Agent
 {
     public partial class Title
     {
-
         #region public method
         /// <summary>
         /// 修改职称名
         /// </summary>
-        /// <param name="newTitleName"></param>
         public void ModifyTitleName(String newTitleName)
         {
             Name = newTitleName;
