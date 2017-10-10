@@ -135,25 +135,8 @@ namespace NewCRM.Domain.Entitys.System
         #region ctor
 
         /// <summary>
-        /// 
+        /// 实例化一个app对象
         /// </summary>
-        /// <param name="name">app名称</param>
-        /// <param name="iconUrl">app图标路径</param>
-        /// <param name="appUrl">app地址</param>
-        /// <param name="width">宽</param>
-        /// <param name="height">高</param>
-        /// <param name="appTypeId"></param>
-        /// <param name="appAuditState"></param>
-        /// <param name="appStyle"></param>
-        /// <param name="accountId"></param>
-        /// <param name="remark">备注</param>
-        /// <param name="isMax">是否最大化</param>
-        /// <param name="isFull">是否全屏</param>
-        /// <param name="isSetbar">是否显示app底部的按钮</param>
-        /// <param name="isOpenMax">是否打开默认最大化</param>
-        /// <param name="isFlash">是否为flash</param>
-        /// <param name="isDraw">是否可以任意修改app窗体的大小</param>
-        /// <param name="isResize"></param>
         public App(String name,
             String iconUrl,
             String appUrl,

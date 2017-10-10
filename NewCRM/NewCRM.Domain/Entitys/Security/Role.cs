@@ -39,8 +39,6 @@ namespace NewCRM.Domain.Entitys.Security
         /// <summary>
         /// 实例化一个角色对象
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="remark"></param>
         public Role(String name, String remark = default(String)) 
         {
             Name = name;

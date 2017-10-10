@@ -68,14 +68,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 实例化一个壁纸对象
         /// </summary>
-        /// <param name="title"></param>
-        /// <param name="url"></param>
-        /// <param name="description"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="md5"></param>
-        /// <param name="accountId"></param>
-        /// <param name="wallpaperSource"></param>
         public Wallpaper(String title, String url, String description, Int32 width, Int32 height, String md5, Int32 accountId = default(Int32), WallpaperSource wallpaperSource = default(WallpaperSource))
         {
             Title = title;

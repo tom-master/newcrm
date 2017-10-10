@@ -31,8 +31,6 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 实例化一个职称对象
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="remark"></param>
         public Title(String name, String remark = default(String)) 
         {
             Name = name;

@@ -72,9 +72,6 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 实例化一个用户对象
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="password"></param>
-        /// <param name="accountType"></param>
         public Account(String name, String password, AccountType accountType = default(AccountType)) 
         {
             Name = name;

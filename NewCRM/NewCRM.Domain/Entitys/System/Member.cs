@@ -114,20 +114,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 实例化一个成员对象
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="iconUrl"></param>
-        /// <param name="appUrl"></param>
-        /// <param name="appId"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="isFlash"></param>
-        /// <param name="isDraw"></param>
-        /// <param name="isOpenMax"></param>
-        /// <param name="isFull"></param>
-        /// <param name="isSetbar"></param>
-        /// <param name="isLock"></param>
-        /// <param name="isMax"></param>
-        /// <param name="isResize"></param>
         public Member(
             String name,
             String iconUrl,
@@ -161,6 +147,9 @@ namespace NewCRM.Domain.Entitys.System
             MemberType = appId == 0 ? MemberType.Folder : MemberType.App;
         }
 
+        /// <summary>
+        /// 实例化一个成员对象
+        /// </summary>
         public Member(String name, String iconUrl, Int32 appId) 
         {
             AppId = appId;

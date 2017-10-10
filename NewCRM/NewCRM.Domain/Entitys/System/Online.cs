@@ -27,8 +27,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 实例化一个在线状态的对象
         /// </summary>
-        /// <param name="ipAddress"></param>
-        /// <param name="accountId"></param>
         public Online(String ipAddress, Int32 accountId) 
         {
             IpAddress = ipAddress;
