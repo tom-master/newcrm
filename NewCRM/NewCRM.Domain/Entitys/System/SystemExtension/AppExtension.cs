@@ -290,7 +290,6 @@ namespace NewCRM.Domain.Entitys.System
         public App SetTodayRecommandApp()
         {
             IsRecommand = true;
-
             return this;
         }
 
