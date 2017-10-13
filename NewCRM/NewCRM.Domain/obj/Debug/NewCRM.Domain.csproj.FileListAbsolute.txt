@@ -65,3 +65,4 @@ D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Domain\bin\Debug\Microsoft.Practices.ServiceLoc
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Domain\bin\Debug\Microsoft.Practices.Unity.xml
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Domain\bin\Debug\Microsoft.Practices.Unity.Configuration.xml
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Domain\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.xml
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Domain\bin\Debug\CommonServiceLocator.dll
