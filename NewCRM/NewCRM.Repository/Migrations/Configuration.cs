@@ -14,7 +14,7 @@ namespace NewCRM.Repository.Migrations
 
         protected override void Seed(NewCrmBackContext context)
         {
-            //  This method will be called after migrating t o the lates  t version.
+            //  This method will be called after migrating t  o the lates  t version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data. E.g.
