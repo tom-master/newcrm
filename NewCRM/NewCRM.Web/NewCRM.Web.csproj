@@ -781,7 +781,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="Scripts\HoorayUI\img\box.psd" />
     <Content Include="Scripts\HoorayUI\js\artDialog4.1.7\_doc\ajaxContent\content.json" />
     <Content Include="Scripts\HoorayUI\js\artDialog4.1.7\_doc\commercial_license.doc" />
     <Content Include="Scripts\HoorayUI\js\artDialog4.1.7\_doc\highlight\LICENSE" />
