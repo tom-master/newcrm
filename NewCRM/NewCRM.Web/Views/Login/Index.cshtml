@@ -9,9 +9,8 @@
     <div class="wrapper">
         <div class="container">
             <h1 class="logo">
-                 v8.7
+                v8.7
             </h1>
-
             <form id="loginForm">
                 <div>
                     <input type="text" name="accountname" value="admin" class="accountname" placeholder="用户名" autocomplete="off" />
@@ -29,8 +28,8 @@
 <script src="@Url.Content("~/Scripts/dynamicBackground.js")"></script>
 <script>
     $(function () {
-        $("#login")
-            .click(function (event) {
+        $("#login").click(function (event) {
+            debugger
                 event.preventDefault();
                 $('form').fadeOut(500);
                 $('.wrapper').addClass('form-success');

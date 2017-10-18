@@ -7,9 +7,9 @@ using NewCRM.Domain.Entitys.System;
 
 namespace NewCRM.Repository.DatabaseProvider.EF.Context
 {
-	public sealed class NewCrmBackContext : DbContext
+	public sealed class NewCrmContext : DbContext
 	{
-		public NewCrmBackContext() : base("name=NewCrm")
+		public NewCrmContext() : base("name=NewCrm")
 		{
 			Configuration.AutoDetectChangesEnabled = true;
 		}

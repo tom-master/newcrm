@@ -4,7 +4,7 @@ using NewCRM.Repository.DataBaseProvider.EF;
 
 namespace NewCRM.Repository.Migrations
 {
-    internal sealed class Configuration : DbMigrationsConfiguration<NewCrmBackContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<NewCrmContext>
     {
         public Configuration()
         {
@@ -12,7 +12,7 @@ namespace NewCRM.Repository.Migrations
             
         }
 
-        protected override void Seed(NewCrmBackContext context)
+        protected override void Seed(NewCrmContext context)
         {
             //  This method will be called after migrating to the lates  t version.
 

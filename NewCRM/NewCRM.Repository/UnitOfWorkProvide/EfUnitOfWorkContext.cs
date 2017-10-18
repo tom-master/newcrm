@@ -17,7 +17,7 @@ namespace NewCRM.Repository.UnitOfWorkProvide
 		protected override DbContext Context => EfDbContext.Value;
 
 		[Dependency]
-		public Lazy<NewCrmBackContext> EfDbContext { get; set; }
+		public Lazy<NewCrmContext> EfDbContext { get; set; }
 
 	}
 }

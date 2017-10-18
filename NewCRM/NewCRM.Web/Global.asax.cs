@@ -8,16 +8,18 @@ using NewCRM.Web.App_Start;
 
 namespace NewCRM.Web
 {
-	public class MvcApplication : System.Web.HttpApplication
-	{
-		protected void Application_Start()
-		{
-			Database.SetInitializer(new CreateDatabaseIfNotExists<NewCrmBackContext>());
-			AreaRegistration.RegisterAllAreas();
-			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-			RouteConfig.RegisterRoutes(RouteTable.Routes);
-			BundleConfig.RegisterBundles(BundleTable.Bundles);
-			UnityWebActivator.Start();
-		}
-	}
+    public class MvcApplication : System.Web.HttpApplication
+    {
+        protected void Application_Start()
+        {
+            // Database.SetInitializer(new CreateDatabaseIfNotExists<NewCrmContext>());
+
+
+            AreaRegistration.RegisterAllAreas();
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+            UnityWebActivator.Start();
+        }
+    }
 }
