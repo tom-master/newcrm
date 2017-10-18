@@ -170,7 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\" />
+    <Folder Include="fonts\" />
     <Folder Include="Models\" />
     <Folder Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\upload\" />
   </ItemGroup>
@@ -205,7 +205,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Properties\PublishProfiles\Test.pubxml.user" />
     <Content Include="Scripts\bootstrap.js" />
@@ -757,10 +756,6 @@
     <Content Include="Scripts\HoorayUI\js\webuploader-0.1.5\webuploader.nolog.min.js" />
     <Content Include="Scripts\HoorayUI\js\webuploader-0.1.5\webuploader.withoutimage.js" />
     <Content Include="Scripts\HoorayUI\js\webuploader-0.1.5\webuploader.withoutimage.min.js" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Properties\PublishProfiles\Test.pubxml" />
     <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\asp.net\c#\Upload.ashx" />
     <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\asp\无组件上传类文档.pdf" />
