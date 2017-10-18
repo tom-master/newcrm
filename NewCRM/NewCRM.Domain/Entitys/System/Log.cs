@@ -56,6 +56,9 @@ namespace NewCRM.Domain.Entitys.System
             ExceptionMessage = exceptionMessage;
         }
 
+        public Log()
+        {
+        }
         #endregion
     }
 }

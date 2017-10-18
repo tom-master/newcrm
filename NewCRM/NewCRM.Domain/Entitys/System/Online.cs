@@ -33,6 +33,14 @@ namespace NewCRM.Domain.Entitys.System
             AccountId = accountId;
         }
 
+
+        /// <summary>
+        /// 实例化一个在线状态的对象
+        /// </summary>
+        public Online()
+        {
+        }
+
         #endregion
     }
 }

@@ -25,6 +25,8 @@ namespace NewCRM.Domain.Entitys.Agent
             RoleId = roleId;
         }
 
+        public AccountRole() { }
+
         public void Remove()
         {
             IsDeleted = true;

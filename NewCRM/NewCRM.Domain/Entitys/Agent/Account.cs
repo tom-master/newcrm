@@ -84,6 +84,8 @@ namespace NewCRM.Domain.Entitys.Agent
             IsOnline = false;
             IsAdmin = accountType == AccountType.Admin;
         }
+
+        public Account() { }
        
         #endregion
     }

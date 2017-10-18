@@ -36,6 +36,10 @@ namespace NewCRM.Domain.Entitys.System
             Remark = remark;
         }
 
+        public AppType()
+        {
+        }
+
         #endregion
     }
 }

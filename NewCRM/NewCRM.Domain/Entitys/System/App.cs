@@ -188,6 +188,8 @@ namespace NewCRM.Domain.Entitys.System
             // AppRoles = new List<AppRole>();
             IsRecommand = false;
         }
+
+        public App() { }
         #endregion
     }
 }

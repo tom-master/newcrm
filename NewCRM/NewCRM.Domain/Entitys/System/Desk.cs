@@ -27,6 +27,10 @@ namespace NewCRM.Domain.Entitys.System
             AccountId = accountId;
         }
 
+        public Desk()
+        {
+        }
+
         #endregion
 
     }

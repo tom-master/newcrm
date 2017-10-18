@@ -161,7 +161,11 @@ namespace NewCRM.Domain.Entitys.System
             IconUrl = iconUrl;
             MemberType = appId == 0 ? MemberType.Folder : MemberType.App;
         }
-       
+
+        public Member()
+        {
+        }
+
         #endregion
     }
 }

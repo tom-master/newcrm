@@ -44,7 +44,13 @@ namespace NewCRM.Domain.Entitys.Security
             Name = name;
             Remark = remark;
             Powers = new List<RolePower>();
+        }
 
+        /// <summary>
+        /// 实例化一个角色对象
+        /// </summary>
+        public Role()
+        {
         }
 
         #endregion

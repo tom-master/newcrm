@@ -80,6 +80,11 @@ namespace NewCRM.Domain.Entitys.System
             Md5 = md5;
         }
 
+        public Wallpaper()
+        {
+            
+        }
+
         #endregion
     }
 }

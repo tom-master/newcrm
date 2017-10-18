@@ -37,6 +37,8 @@ namespace NewCRM.Domain.Entitys.Agent
             Remark = remark;
         }
 
+        public Title() { }
+
         #endregion
     }
 }

@@ -17,5 +17,9 @@ namespace NewCRM.Domain.Entitys.System
 
             RoleId = roleId;
         }
+
+        public AppRole()
+        {
+        }
     }
 }

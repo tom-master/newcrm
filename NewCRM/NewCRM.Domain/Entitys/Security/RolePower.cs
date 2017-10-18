@@ -22,6 +22,11 @@ namespace NewCRM.Domain.Entitys.Security
             AppId = appId;
         }
 
+        public RolePower()
+        {
+
+        }
+
         /// <summary>
         /// 移除角色权限
         /// </summary>

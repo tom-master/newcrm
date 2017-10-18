@@ -21,5 +21,9 @@ namespace NewCRM.Domain.Entitys.System
             AccountId = accountId;
             StartNum = startNum;
         }
+
+        public AppStar()
+        {
+        }
     }
 }
