@@ -36,7 +36,7 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <returns></returns>
         public ActionResult Landing(String accountName, String passWord, Boolean isRememberPasswrod=default(Boolean))
-        {
+        { 
             var response = new ResponseModel<AccountDto>();
 
             #region 参数验证
