@@ -24,9 +24,10 @@ namespace NewCRM.Repository
                 }
 
                 var currentExcuteAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-
                 var repositoryType =
-                    currentExcuteAssembly.GetTypes().FirstOrDefault(assembly => assembly.Name.EndsWith("Repository", true, CultureInfo.InvariantCulture) && assembly.Name.Contains(typeof(T).Name));
+                    currentExcuteAssembly
+                    .GetTypes()
+                    .FirstOrDefault(assembly => assembly.Name.EndsWith("Repository", true, CultureInfo.InvariantCulture) && assembly.Name.Contains(typeof(T).Name));
 
                 if (repositoryType == null)
                 {
@@ -34,7 +35,6 @@ namespace NewCRM.Repository
                 }
 
                 var newRepositoryInstance = Activator.CreateInstance(repositoryType) as IRepository<T>;
-
                 if (newRepositoryInstance == null)
                 {
                     throw new RepositoryException($"{nameof(newRepositoryInstance)}:为空");
