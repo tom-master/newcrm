@@ -3,14 +3,21 @@ using System.Linq;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
-using NewCRM.Infrastructure.CommonTools.CustomException; 
+using NewCRM.Infrastructure.CommonTools.CustomException;
+using NewCRM.Domain.Repositories.IRepository.System;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-	public sealed class ModifyAppInfoServices : BaseServiceContext, IModifyAppInfoServices
+    public sealed class ModifyAppInfoServices : BaseServiceContext, IModifyAppInfoServices
     {
+        private readonly IAppRepository _appRepository;
 
-        public void ModifyAppStar(Int32 accountId,Int32 appId, Int32 starCount)
+        public ModifyAppInfoServices(IAppRepository appRepository)
+        {
+            _appRepository = appRepository;
+        }
+
+        public void ModifyAppStar(Int32 accountId, Int32 appId, Int32 starCount)
         {
             ValidateParameter.Validate(accountId).Validate(appId).Validate(starCount);
 
@@ -22,7 +29,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             var appResult = DatabaseQuery.FindOne(FilterFactory.Create<App>(app => app.Id == appId));
             appResult.AddStar(accountId, starCount);
 
-            Repository.Create<App>().Update(appResult);
+            _appRepository.Update(appResult);
         }
 
         public void ModifyAccountAppInfo(Int32 accountId, App app)
@@ -56,7 +63,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                 appResult.SentAudit();
             }
 
-            Repository.Create<App>().Update(appResult);
+            _appRepository.Update(appResult);
         }
     }
 }

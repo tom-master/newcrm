@@ -4,11 +4,23 @@ using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomException;
+using NewCRM.Domain.Repositories.IRepository.Agent;
+using NewCRM.Domain.Repositories.IRepository.System;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     public sealed class ModifyWallpaperServices : BaseServiceContext, IModifyWallpaperServices
     {
+
+        private readonly IAccountRepository _accountRepository;
+        private readonly IWallpaperRepository _wallpaperRepository;
+
+        public ModifyWallpaperServices(IAccountRepository accountRepository, IWallpaperRepository wallpaperRepository)
+        {
+            _accountRepository = accountRepository;
+            _wallpaperRepository = wallpaperRepository;
+        }
+
         public void ModifyWallpaperMode(Int32 accountId, String newMode)
         {
             ValidateParameter.Validate(accountId).Validate(newMode);
@@ -18,7 +30,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             {
                 var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
                 accountResult.Config.ModifyDisplayMode(wallpaperMode);
-                Repository.Create<Account>().Update(accountResult);
+                _accountRepository.Update(accountResult);
             }
             else
             {
@@ -34,7 +46,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             var wallpaperResult = DatabaseQuery.FindOne(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Id == newWallpaperId));
             accountResult.Config.ModifyWallpaper(wallpaperResult);
 
-            Repository.Create<Account>().Update(accountResult);
+            _accountRepository.Update(accountResult);
         }
 
         public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
@@ -46,7 +58,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             {
                 throw new BusinessException($"当前壁纸正在使用或已被删除");
             }
-            Repository.Create<Wallpaper>().Remove(wallpaper => wallpaper.Id == wallpaperId);
+            _wallpaperRepository.Remove(wallpaper => wallpaper.Id == wallpaperId);
         }
     }
 }

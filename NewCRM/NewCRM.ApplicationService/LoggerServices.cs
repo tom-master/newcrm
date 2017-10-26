@@ -8,15 +8,23 @@ using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewCRM.Application.Services.Interface;
+using NewCRM.Domain.Repositories.IRepository.System;
 
 namespace NewCRM.Application.Services
 {
-	public class LoggerServices : BaseServiceContext, ILoggerServices
+    public class LoggerServices : BaseServiceContext, ILoggerServices
     {
-        public void AddLogger(Int32 accountId,LogDto log)
+        private readonly ILogRepository _loggerRepository;
+
+        public LoggerServices(ILogRepository loggerRepository)
+        {
+            _loggerRepository = loggerRepository;
+        }
+
+        public void AddLogger(Int32 accountId, LogDto log)
         {
             log.AccountId = accountId;
-            Repository.Create<Log>().Add(log.ConvertToModel<LogDto, Log>());
+            _loggerRepository.Add(log.ConvertToModel<LogDto, Log>());
         }
 
         public IList<LogDto> GetAllLog(Int32 logLevel, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)

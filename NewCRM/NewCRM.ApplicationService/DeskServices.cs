@@ -9,6 +9,8 @@ using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Application.Services.Interface;
+using NewCRM.Domain.Repositories.IRepository.System;
+using NewCRM.Domain.Repositories.IRepository.Agent;
 
 namespace NewCRM.Application.Services
 {
@@ -16,23 +18,24 @@ namespace NewCRM.Application.Services
     {
 
         private readonly IModifyDeskMemberServices _modifyDeskMemberServices;
-
         private readonly IModifyDockPostionServices _modifyDockPostionServices;
-
         private readonly ICreateNewFolderServices _createNewFolderServices;
-
         private readonly IModifyDeskMemberPostionServices _modifyDeskMemberPostionServices;
+
+        private readonly IAccountRepository _accountRepository;
 
 
         public DeskServices(IModifyDeskMemberServices modifyDeskMemberServices,
             IModifyDockPostionServices modifyDockPostionServices,
             ICreateNewFolderServices createNewFolderServices,
-            IModifyDeskMemberPostionServices modifyDeskMemberPostionServices)
+            IModifyDeskMemberPostionServices modifyDeskMemberPostionServices, IAccountRepository accountRepository)
         {
             _modifyDeskMemberServices = modifyDeskMemberServices;
             _modifyDockPostionServices = modifyDockPostionServices;
             _createNewFolderServices = createNewFolderServices;
             _modifyDeskMemberPostionServices = modifyDeskMemberPostionServices;
+
+            _accountRepository = accountRepository;
         }
 
         public MemberDto GetMember(Int32 accountId, Int32 memberId, Boolean isFolder)
@@ -70,7 +73,7 @@ namespace NewCRM.Application.Services
             var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
             accountResult.Config.ModifyDefaultDesk(newDefaultDeskNumber);
 
-            Repository.Create<Account>().Update(accountResult);
+            _accountRepository.Update(accountResult);
             UnitOfWork.Commit();
         }
 
