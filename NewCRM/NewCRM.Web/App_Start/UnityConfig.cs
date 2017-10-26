@@ -1,7 +1,6 @@
 using Microsoft.Practices.Unity;
 using NewCRM.Application.Services;
 using NewCRM.Application.Services.Interface;
-using NewCRM.Domain.Factory;
 using NewCRM.Domain.Factory.DomainCreate;
 using NewCRM.Domain.Factory.DomainCreate.ConcreteFactory;
 using NewCRM.Domain.Factory.DomainQuery.ConcreteQuery;
@@ -9,18 +8,22 @@ using NewCRM.Domain.Factory.DomainQuery.Query;
 using NewCRM.Domain.Factory.DomainSpecification.ConcreteSpecification;
 using NewCRM.Domain.Factory.DomainSpecification.Factory;
 using NewCRM.Domain.Repositories;
+using NewCRM.Domain.Repositories.IRepository.Agent;
+using NewCRM.Domain.Repositories.IRepository.Security;
+using NewCRM.Domain.Repositories.IRepository.System;
 using NewCRM.Domain.Services.BoundedContext.Agent;
 using NewCRM.Domain.Services.BoundedContextMember;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.UnitWork;
-using NewCRM.Repository;
 using NewCRM.Repository.DatabaseProvider.EF.Context;
 using NewCRM.Repository.DataBaseProvider.EF;
 using NewCRM.Repository.DataBaseProvider.Redis;
 using NewCRM.Repository.DataBaseProvider.Redis.InternalHelper;
+using NewCRM.Repository.RepositoryImpl.Agent;
+using NewCRM.Repository.RepositoryImpl.Security;
+using NewCRM.Repository.RepositoryImpl.System;
 using NewCRM.Repository.UnitOfWorkProvide;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 
 namespace NewCRM.Web.App_Start
@@ -89,6 +92,17 @@ namespace NewCRM.Web.App_Start
             container.RegisterType<DbContext, NewCrmContext>();
             container.RegisterType<SpecificationFactory, DefaultSpecificationFactory>();
             container.RegisterType<DomainFactory, DefaultDomainFactory>();
+
+
+            container.RegisterType<IAccountRepository, AccountRepository>();
+            container.RegisterType<ITitleRepository, TitleRepository>();
+            container.RegisterType<IRoleRepository, RoleRepository>();
+            container.RegisterType<IAppRepository, AppRepository>();
+            container.RegisterType<IAppTypeRepository, AppTypeRepository>();
+            container.RegisterType<IDeskRepository, DeskRepository>();
+            container.RegisterType<ILogRepository, LogRepository>();
+            container.RegisterType<IOnlineRepository, OnlineRepository>();
+            container.RegisterType<IWallpaperRepository, WallpaperRepository>();
         }
     }
 }
