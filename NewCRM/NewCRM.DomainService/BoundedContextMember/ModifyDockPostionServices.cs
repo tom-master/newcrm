@@ -5,11 +5,22 @@ using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomException;
+using NewCRM.Domain.Repositories.IRepository.System;
+using NewCRM.Domain.Repositories.IRepository.Agent;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     public sealed class ModifyDockPostionServices : BaseServiceContext, IModifyDockPostionServices
     {
+        private readonly IDeskRepository _deskRepository;
+        private readonly IAccountRepository _accountRepository;
+
+        public ModifyDockPostionServices(IDeskRepository deskRepository, IAccountRepository accountRepository)
+        {
+            _deskRepository = deskRepository;
+            _accountRepository = accountRepository;
+        }
+
         public void ModifyDockPosition(Int32 accountId, Int32 defaultDeskNumber, String newPosition)
         {
             ValidateParameter.Validate(accountId).Validate(defaultDeskNumber).Validate(newPosition);
@@ -30,7 +41,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                             f.OutDock();
                         });
 
-                        Repository.Create<Desk>().Update(deskResult);
+                        _deskRepository.Update(deskResult);
                     }
                     accountResult.Config.ModifyDockPostion(dockPostion);
                 }
@@ -44,7 +55,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                 throw new BusinessException($"未识别出的码头位置:{newPosition}");
             }
             accountResult.Config.ModifyDefaultDesk(defaultDeskNumber);
-            Repository.Create<Account>().Update(accountResult);
+            _accountRepository.Update(accountResult);
         }
     }
 }

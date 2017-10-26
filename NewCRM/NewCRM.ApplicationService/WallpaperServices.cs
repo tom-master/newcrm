@@ -14,6 +14,7 @@ using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Application.Services.Interface;
+using NewCRM.Domain.Repositories.IRepository.System;
 
 namespace NewCRM.Application.Services
 {
@@ -21,10 +22,12 @@ namespace NewCRM.Application.Services
     {
 
         private readonly IModifyWallpaperServices _modifyWallpaperServices;
+        private readonly IWallpaperRepository _wallpaperRepository;
 
-        public WallpaperServices(IModifyWallpaperServices modifyWallpaperServices)
+        public WallpaperServices(IModifyWallpaperServices modifyWallpaperServices, IWallpaperRepository wallpaperRepository)
         {
             _modifyWallpaperServices = modifyWallpaperServices;
+            _wallpaperRepository = wallpaperRepository;
         }
 
         public List<WallpaperDto> GetWallpaper()
@@ -44,7 +47,7 @@ namespace NewCRM.Application.Services
                 throw new BusinessException($"最多只能上传6张壁纸");
             }
 
-            Repository.Create<Wallpaper>().Add(wallpaper);
+            _wallpaperRepository.Add(wallpaper);
             UnitOfWork.Commit();
 
             return new Tuple<Int32, String>(wallpaper.Id, wallpaper.ShortUrl);

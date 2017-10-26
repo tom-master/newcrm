@@ -6,11 +6,19 @@ using System.Text.RegularExpressions;
 using NewCRM.Domain;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Application.Services.Interface;
+using NewCRM.Domain.Repositories.IRepository.Agent;
 
 namespace NewCRM.Application.Services
 {
     public class SkinServices : BaseServiceContext, ISkinServices
     {
+
+        private readonly IAccountRepository _accountRepository;
+
+        public SkinServices(IAccountRepository accountRepository)
+        {
+            _accountRepository = accountRepository;
+        }
 
         public IDictionary<String, dynamic> GetAllSkin(String skinPath)
         {
@@ -37,7 +45,7 @@ namespace NewCRM.Application.Services
             var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
             accountResult.Config.ModifySkin(newSkin);
 
-            Repository.Create<Account>().Update(accountResult);
+            _accountRepository.Update(accountResult);
             UnitOfWork.Commit();
         }
 

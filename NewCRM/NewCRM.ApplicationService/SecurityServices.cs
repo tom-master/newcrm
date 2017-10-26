@@ -8,11 +8,20 @@ using NewCRM.Domain.Factory.DomainSpecification;
 using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomException;
+using NewCRM.Domain.Repositories.IRepository.Security;
 
 namespace NewCRM.Application.Services
 {
     public class SecurityServices : BaseServiceContext, ISecurityServices
     {
+        private readonly IRoleRepository _roleRepository;
+
+        public SecurityServices(IRoleRepository roleRepository)
+        {
+            _roleRepository = roleRepository;
+        }
+
+
         #region Role
 
         public List<RoleDto> GetAllRoles()
@@ -78,7 +87,7 @@ namespace NewCRM.Application.Services
             }
 
             roleResult.Remove();
-            Repository.Create<Role>().Update(roleResult);
+            _roleRepository.Update(roleResult);
 
             UnitOfWork.Commit();
         }
@@ -88,7 +97,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(roleDto);
 
             var role = roleDto.ConvertToModel<RoleDto, Role>();
-            Repository.Create<Role>().Add(role);
+            _roleRepository.Add(role);
 
             UnitOfWork.Commit();
         }
@@ -106,7 +115,7 @@ namespace NewCRM.Application.Services
             }
 
             roleResult.ModifyRoleName(role.Name).ModifyRoleIdentity(role.RoleIdentity);
-            Repository.Create<Role>().Update(roleResult);
+            _roleRepository.Update(roleResult);
 
             UnitOfWork.Commit();
         }
@@ -123,7 +132,7 @@ namespace NewCRM.Application.Services
 
             roleResult.Powers.ToList().ForEach(f => f.Remove());
             roleResult.AddPower(powerIds.ToArray());
-            Repository.Create<Role>().Update(roleResult);
+            _roleRepository.Update(roleResult);
 
             UnitOfWork.Commit();
         }
