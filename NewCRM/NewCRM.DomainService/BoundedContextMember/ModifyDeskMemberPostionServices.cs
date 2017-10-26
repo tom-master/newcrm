@@ -1,12 +1,19 @@
-﻿using System;
-using System.Linq;
-using NewCRM.Domain.Entitys.System;
+﻿using NewCRM.Domain.Repositories.IRepository.System;
 using NewCRM.Domain.Services.Interface;
+using System;
+using System.Linq;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     public sealed class ModifyDeskMemberPostionServices : BaseServiceContext, IModifyDeskMemberPostionServices
     {
+        private readonly IDeskRepository _deskRepository;
+
+        public ModifyDeskMemberPostionServices(IDeskRepository deskRepository)
+        {
+            _deskRepository = deskRepository;
+        }
+
         public void MemberInDock(Int32 accountId, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
@@ -18,7 +25,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                 if (member != null)
                 {
                     member.InDock();
-                    Repository.Create<Desk>().Update(desk);
+                    _deskRepository.Update(desk);
 
                     break;
                 }
@@ -37,7 +44,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                 if (member != null)
                 {
                     member.OutDock().ToOtherDesk(realDeskId);
-                    Repository.Create<Desk>().Update(desk);
+                    _deskRepository.Update(desk);
 
                     break;
                 }
@@ -52,7 +59,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             var deskResult = desks.FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
             GetMember(memberId, deskResult).OutDock().InFolder(folderId);
 
-            Repository.Create<Desk>().Update(deskResult);
+            _deskRepository.Update(deskResult);
         }
 
         public void FolderToDock(Int32 accountId, Int32 memberId)
@@ -63,7 +70,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             var deskResult = desks.FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
             GetMember(memberId, deskResult).InDock().OutFolder();
 
-            Repository.Create<Desk>().Update(deskResult);
+            _deskRepository.Update(deskResult);
         }
 
         public void DeskToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
@@ -77,7 +84,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                 if (member != null)
                 {
                     member.InFolder(folderId);
-                    Repository.Create<Desk>().Update(desk);
+                    _deskRepository.Update(desk);
 
                     break;
                 }
@@ -105,7 +112,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                         member.OutFolder().ToOtherDesk(realDeskId);
                     }
 
-                    Repository.Create<Desk>().Update(desk);
+                    _deskRepository.Update(desk);
 
                     break;
                 }
@@ -121,7 +128,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             var deskResult = GetDesks(accountId).FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
             GetMember(memberId, deskResult).OutFolder().InFolder(folderId);
 
-            Repository.Create<Desk>().Update(deskResult);
+            _deskRepository.Update(deskResult);
         }
 
         public void DeskToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId)
@@ -140,7 +147,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                         member.OutDock();
                     }
                     member.ToOtherDesk(realDeskId);
-                    Repository.Create<Desk>().Update(desk);
+                    _deskRepository.Update(desk);
 
                     break;
                 }
@@ -159,7 +166,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                 if (member != null)
                 {
                     member.OutDock().ToOtherDesk(realDeskId);
-                    Repository.Create<Desk>().Update(desk);
+                    _deskRepository.Update(desk);
 
                     break;
                 }

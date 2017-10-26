@@ -4,12 +4,22 @@ using System.Linq;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
+using NewCRM.Domain.Repositories.IRepository.System;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
 
     public sealed class ModifyDeskMemberServices : BaseServiceContext, IModifyDeskMemberServices
     {
+        private readonly IDeskRepository _deskRepository;
+        private readonly IAppRepository _appRepository;
+
+        public ModifyDeskMemberServices(IDeskRepository deskRepository, IAppRepository appRepository)
+        {
+            _deskRepository = deskRepository;
+            _appRepository = appRepository;
+        }
+
         public void ModifyFolderInfo(Int32 accountId, String memberName, String memberIcon, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberName).Validate(memberIcon).Validate(memberId);
@@ -20,7 +30,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                 if (memberResult != null)
                 {
                     memberResult.ModifyName(memberName).ModifyIcon(memberIcon);
-                    Repository.Create<Desk>().Update(desk);
+                    _deskRepository.Update(desk);
 
                     break;
                 }
@@ -45,7 +55,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                     .ModifyIsOpenMax(member.IsOpenMax)
                     .ModifyIsFlash(member.IsFlash);
 
-                    Repository.Create<Desk>().Update(desk);
+                    _deskRepository.Update(desk);
 
                     break;
                 }
@@ -79,10 +89,10 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                     }
 
                     memberResult.Remove();
-                    Repository.Create<Desk>().Update(desk);
+                    _deskRepository.Update(desk);
                     if (appResult != null)
                     {
-                        Repository.Create<App>().Update(appResult);
+                        _appRepository.Update(appResult);
                     }
 
                     break;
