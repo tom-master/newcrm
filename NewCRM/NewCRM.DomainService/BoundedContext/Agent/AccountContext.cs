@@ -5,11 +5,22 @@ using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
+using NewCRM.Domain.Repositories.IRepository.System;
+using NewCRM.Domain.Repositories.IRepository.Agent;
 
 namespace NewCRM.Domain.Services.BoundedContext.Agent
 {
     public class AccountContext : BaseServiceContext, IAccountContext
     {
+        private readonly IAccountRepository _accountRepository;
+        private readonly IOnlineRepository _onlineRepository;
+
+        public AccountContext(IAccountRepository accountRepository, IOnlineRepository onlineRepository)
+        {
+            _accountRepository = accountRepository;
+            _onlineRepository = onlineRepository;
+        }
+
         public Account Validate(String accountName, String password)
         {
             ValidateParameter.Validate(accountName).Validate(password);
@@ -33,8 +44,8 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
             }
 
             accountResult.Online();
-            Repository.Create<Account>().Update(accountResult);
-            Repository.Create<Online>().Add(new Online(GetCurrentIpAddress(), accountResult.Id));
+            _accountRepository.Update(accountResult);
+            _onlineRepository.Add(new Online(GetCurrentIpAddress(), accountResult.Id));
 
             return accountResult;
         }
@@ -49,7 +60,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
                 throw new BusinessException("该用户可能已在其他地方下线");
             }
             accountResult.Offline();
-            Repository.Create<Account>().Update(accountResult);
+            _accountRepository.Update(accountResult);
             ModifyOnlineState(accountId);
         }
 
@@ -68,7 +79,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
         private void ModifyOnlineState(Int32 accountId)
         {
             var onlineResult = DatabaseQuery.FindOne(FilterFactory.Create<Online>(online => online.AccountId == accountId));
-            Repository.Create<Online>().Remove(onlineResult);
+            _onlineRepository.Remove(onlineResult);
         }
 
         #endregion
