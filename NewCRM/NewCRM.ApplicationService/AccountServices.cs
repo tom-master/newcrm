@@ -13,16 +13,22 @@ using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
+using NewCRM.Domain.Repositories.IRepository.Agent;
+using NewCRM.Domain.Repositories.IRepository.System;
 
 namespace NewCRM.Application.Services
 {
     public class AccountServices : BaseServiceContext, IAccountServices
     {
         private readonly IAccountContext _accountContext;
+        private readonly IAccountRepository _accountRepository;
+        private readonly IDeskRepository _deskRepository;
 
-        public AccountServices(IAccountContext accountContext)
+        public AccountServices(IAccountContext accountContext, IAccountRepository accountRepository, IDeskRepository deskRepository)
         {
             _accountContext = accountContext;
+            _accountRepository = accountRepository;
+            _deskRepository = deskRepository;
         }
 
         public AccountDto Login(String accountName, String password)
@@ -122,8 +128,9 @@ namespace NewCRM.Application.Services
             var account = accountDto.ConvertToModel<AccountDto, Account>();
             var accountType = EnumExtensions.ParseToEnum<AccountType>(account.IsAdmin ? 2 /*管理员*/ : 1 /*用户*/);
             var internalNewAccount = new Account(account.Name, PasswordUtil.CreateDbPassword(account.LoginPassword), accountType);
+
             internalNewAccount.AddRole(account.Roles.Select(role => role.RoleId).ToArray());
-            Repository.Create<Account>().Add(internalNewAccount);
+            _accountRepository.Add(internalNewAccount);
 
             IList<Desk> desks = new List<Desk>();
             for (var i = 1; i <= internalNewAccount.Config.DefaultDeskCount; i++)
@@ -131,7 +138,7 @@ namespace NewCRM.Application.Services
                 desks.Add(new Desk(i, internalNewAccount.Id));
             }
 
-            Repository.Create<Desk>().Add(desks);
+            _deskRepository.Add(desks);
             UnitOfWork.Commit();
         }
 
@@ -159,7 +166,7 @@ namespace NewCRM.Application.Services
             }
 
             accountResult.AddRole(account.Roles.Select(role => role.RoleId).ToArray());
-            Repository.Create<Account>().Update(accountResult);
+            _accountRepository.Update(accountResult);
             UnitOfWork.Commit();
         }
 
@@ -183,7 +190,7 @@ namespace NewCRM.Application.Services
 
             accountResult.Enable();
 
-            Repository.Create<Account>().Update(accountResult);
+            _accountRepository.Update(accountResult);
             UnitOfWork.Commit();
 
         }
@@ -200,7 +207,7 @@ namespace NewCRM.Application.Services
 
             accountResult.Disable();
 
-            Repository.Create<Account>().Update(accountResult);
+            _accountRepository.Update(accountResult);
             UnitOfWork.Commit();
         }
 
@@ -211,7 +218,7 @@ namespace NewCRM.Application.Services
             var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
             accountResult.Config.ModifyAccountFace(newFace);
 
-            Repository.Create<Account>().Update(accountResult);
+            _accountRepository.Update(accountResult);
             UnitOfWork.Commit();
         }
 
@@ -222,7 +229,7 @@ namespace NewCRM.Application.Services
             var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
             accountResult.ModifyPassword(PasswordUtil.CreateDbPassword(newPassword));
 
-            Repository.Create<Account>().Update(accountResult);
+            _accountRepository.Update(accountResult);
             UnitOfWork.Commit();
         }
 
@@ -233,7 +240,7 @@ namespace NewCRM.Application.Services
             var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
             accountResult.ModifyLockScreenPassword(PasswordUtil.CreateDbPassword(newScreenPassword));
 
-            Repository.Create<Account>().Update(accountResult);
+            _accountRepository.Update(accountResult);
             UnitOfWork.Commit();
         }
 
@@ -244,7 +251,7 @@ namespace NewCRM.Application.Services
             var internalAccount = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
             if (internalAccount.IsAdmin)
             {
-                throw new BusinessException($"不能删除管理员:{internalAccount.Name}"); 
+                throw new BusinessException($"不能删除管理员:{internalAccount.Name}");
             }
 
             internalAccount.Remove();

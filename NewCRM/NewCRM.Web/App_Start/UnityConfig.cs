@@ -88,10 +88,7 @@ namespace NewCRM.Web.App_Start
 
             container.RegisterType<DbContext, NewCrmContext>();
             container.RegisterType<SpecificationFactory, DefaultSpecificationFactory>();
-            container.RegisterType<RepositoryFactory, DefaultRepositoryFactory>();
             container.RegisterType<DomainFactory, DefaultDomainFactory>();
-
-            
         }
     }
 }

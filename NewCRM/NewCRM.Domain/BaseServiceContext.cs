@@ -39,12 +39,6 @@ namespace NewCRM.Domain
         public SpecificationFactory FilterFactory { get; set; }
 
         /// <summary>
-        /// 仓储工厂
-        /// </summary>
-        [Dependency]
-        public RepositoryFactory Repository { get; set; }
-
-        /// <summary>
         /// 参数验证
         /// </summary>
         public Parameter ValidateParameter => new Parameter();
