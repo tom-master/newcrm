@@ -31,4 +31,5 @@ namespace NewCRM.Domain.Repositories
 
         #endregion
     }
+
 }
