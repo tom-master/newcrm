@@ -12,6 +12,8 @@ using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewCRM.Application.Services.Interface;
+using NewCRM.Domain.Repositories.IRepository.Agent;
+using NewCRM.Domain.Repositories.IRepository.System;
 
 namespace NewCRM.Application.Services
 {
@@ -19,17 +21,23 @@ namespace NewCRM.Application.Services
     {
 
         private readonly IInstallAppServices _installAppServices;
-
         private readonly IModifyAppInfoServices _modifyAppInfoServices;
-
         private readonly IModifyAppTypeServices _modifyAppTypeServices;
 
+        private readonly IAccountRepository _accountRepository;
+        private readonly IAppRepository _appRepository;
+        private readonly IAppTypeRepository _appTypeRepository;
 
-        public AppServices(IInstallAppServices installAppServices, IModifyAppInfoServices modifyAppInfoServices, IModifyAppTypeServices modifyAppTypeServices)
+
+        public AppServices(IInstallAppServices installAppServices, IModifyAppInfoServices modifyAppInfoServices, IModifyAppTypeServices modifyAppTypeServices, IAccountRepository accountRepository, IAppRepository appRepository, IAppTypeRepository appTypeRepository)
         {
             _installAppServices = installAppServices;
             _modifyAppInfoServices = modifyAppInfoServices;
             _modifyAppTypeServices = modifyAppTypeServices;
+
+            _accountRepository = accountRepository;
+            _appRepository = appRepository;
+            _appTypeRepository = appTypeRepository;
         }
 
         public IDictionary<String, IList<dynamic>> GetDeskMembers(Int32 accountId)
@@ -405,7 +413,7 @@ namespace NewCRM.Application.Services
                 throw new BusinessException($"未能识别的App排列方向:{direction.ToLower()}");
             }
 
-            Repository.Create<Account>().Update(accountResult);
+            _accountRepository.Update(accountResult);
             UnitOfWork.Commit();
         }
 
@@ -416,7 +424,7 @@ namespace NewCRM.Application.Services
             var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
             accountResult.Config.ModifyDisplayIconLength(newSize);
 
-            Repository.Create<Account>().Update(accountResult);
+            _accountRepository.Update(accountResult);
             UnitOfWork.Commit();
         }
 
@@ -427,7 +435,7 @@ namespace NewCRM.Application.Services
             var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
             accountResult.Config.ModifyAppVerticalSpacingLength(newSize);
 
-            Repository.Create<Account>().Update(accountResult);
+            _accountRepository.Update(accountResult);
             UnitOfWork.Commit();
         }
 
@@ -438,7 +446,7 @@ namespace NewCRM.Application.Services
             var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
             accountResult.Config.ModifyAppHorizontalSpacingLength(newSize);
 
-            Repository.Create<Account>().Update(accountResult);
+            _accountRepository.Update(accountResult);
             UnitOfWork.Commit();
         }
 
@@ -474,7 +482,7 @@ namespace NewCRM.Application.Services
             var internalApp = new App(app.Name, app.IconUrl, app.AppUrl, app.Width, app.Height, app.AppTypeId, app.AppAuditState, app.AppStyle, app.AccountId,
                 app.Remark, app.IsMax, app.IsFull, app.IsSetbar, app.IsOpenMax, app.IsFlash, app.IsDraw, app.IsResize);
 
-            Repository.Create<App>().Add(internalApp);
+            _appRepository.Add(internalApp);
             UnitOfWork.Commit();
         }
 
@@ -491,7 +499,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(appTypeDto);
             var appType = appTypeDto.ConvertToModel<AppTypeDto, AppType>();
 
-            Repository.Create<AppType>().Add(new AppType(appType.Name));
+            _appTypeRepository.Add(new AppType(appType.Name));
             UnitOfWork.Commit();
 
         }
@@ -504,7 +512,7 @@ namespace NewCRM.Application.Services
             var internalAppType = DatabaseQuery.FindOne(internalAppTypeFilter);
 
             internalAppType.ModifyAppTypeName(appTypeDto.Name);
-            Repository.Create<AppType>().Update(internalAppType);
+            _appTypeRepository.Update(internalAppType);
 
             UnitOfWork.Commit();
 
@@ -518,7 +526,7 @@ namespace NewCRM.Application.Services
             var app = appDto.ConvertToModel<AppDto, App>();
             app.Pass();
 
-            Repository.Create<App>().Update(app);
+            _appRepository.Update(app);
             UnitOfWork.Commit();
         }
 
@@ -530,7 +538,7 @@ namespace NewCRM.Application.Services
             var app = appDto.ConvertToModel<AppDto, App>();
             app.Deny();
 
-            Repository.Create<App>().Update(app);
+            _appRepository.Update(app);
             UnitOfWork.Commit();
         }
 
@@ -541,12 +549,12 @@ namespace NewCRM.Application.Services
             //取消之前的今日推荐
             var beforeRecommandApp = DatabaseQuery.FindOne(FilterFactory.Create<App>(app => app.IsRecommand));
             beforeRecommandApp.CancelTodayRecommandApp();
-            Repository.Create<App>().Update(beforeRecommandApp);
+            _appRepository.Update(beforeRecommandApp);
 
             //重新设置今日推荐
             var afterRecommandApp = DatabaseQuery.FindOne(FilterFactory.Create<App>(app => app.Id == appId));
             afterRecommandApp.SetTodayRecommandApp();
-            Repository.Create<App>().Update(afterRecommandApp);
+            _appRepository.Update(afterRecommandApp);
 
             UnitOfWork.Commit();
 
@@ -563,7 +571,7 @@ namespace NewCRM.Application.Services
             }
 
             internalApp.Remove();
-            Repository.Create<App>().Update(internalApp);
+            _appRepository.Update(internalApp);
 
             UnitOfWork.Commit();
         }
@@ -575,7 +583,7 @@ namespace NewCRM.Application.Services
             var internalApp = DatabaseQuery.FindOne(FilterFactory.Create<App>(app => app.Id == appId));
             internalApp.Release();
 
-            Repository.Create<App>().Update(internalApp);
+            _appRepository.Update(internalApp);
             UnitOfWork.Commit();
         }
 

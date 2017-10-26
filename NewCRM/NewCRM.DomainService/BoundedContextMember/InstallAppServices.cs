@@ -3,14 +3,24 @@ using System.Linq;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
-using NewCRM.Infrastructure.CommonTools.CustomException; 
+using NewCRM.Infrastructure.CommonTools.CustomException;
+using NewCRM.Domain.Repositories.IRepository.System;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
 
-	public sealed class InstallAppServices : BaseServiceContext, IInstallAppServices
+    public sealed class InstallAppServices : BaseServiceContext, IInstallAppServices
     {
-        public void Install(Int32 accountId,Int32 appId, Int32 deskNum)
+        private readonly IAppRepository _appRepository;
+        private readonly IDeskRepository _deskRepository;
+
+        public InstallAppServices(IAppRepository appRepository, IDeskRepository deskRepository)
+        {
+            _appRepository = appRepository;
+            _deskRepository = deskRepository;
+        }
+
+        public void Install(Int32 accountId, Int32 appId, Int32 deskNum)
         {
             ValidateParameter.Validate(accountId).Validate(appId).Validate(deskNum);
 
@@ -31,10 +41,10 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                     continue;
                 }
                 desk.Members.Add(newMember);
-                Repository.Create<Desk>().Update(desk);
+                _deskRepository.Update(desk);
 
                 appResult.AddUseCount();
-                Repository.Create<App>().Update(appResult);
+                _appRepository.Update(appResult);
                 break;
             }
         }
