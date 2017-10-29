@@ -41,7 +41,7 @@ namespace NewCRM.Web.Controllers
         {
             if (accountId != 0)
             {
-                ViewData["Account"] = _accountServices.GetAccount(accountId);
+                ViewData["Account"] = _accountServices.GetAccount(Account.Id);
             }
 
             ViewData["Roles"] = _securityServices.GetAllRoles();
@@ -121,10 +121,10 @@ namespace NewCRM.Web.Controllers
         /// 移除账户
         /// </summary>
         /// <returns></returns>
-        public ActionResult RemoveAccount(Int32 accountId)
+        public ActionResult RemoveAccount()
         {
             var response = new ResponseModel<String>();
-            _accountServices.RemoveAccount(accountId);
+            _accountServices.RemoveAccount(Account.Id);
             response.IsSuccess = true;
             response.Message = "移除账户成功";
 
@@ -135,19 +135,19 @@ namespace NewCRM.Web.Controllers
         /// 修改账户为禁用状态
         /// </summary>
         /// <returns></returns>
-        public ActionResult ChangeAccountDisableStatus(Int32 accountId, String isDisable)
+        public ActionResult ChangeAccountDisableStatus(String isDisable)
         {
             var response = new ResponseModel<String>();
             if (Boolean.Parse(isDisable))
             {
-                _accountServices.Disable(accountId);
+                _accountServices.Disable(Account.Id);
 
                 response.IsSuccess = true;
                 response.Message = "禁用账户成功";
             }
             else
             {
-                _accountServices.Enable(accountId);
+                _accountServices.Enable(Account.Id);
 
                 response.IsSuccess = true;
                 response.Message = "启用账户成功";
@@ -159,16 +159,9 @@ namespace NewCRM.Web.Controllers
 
         #region private method
 
-        private static AccountDto WapperAccountDto(FormCollection forms)
+        private AccountDto WapperAccountDto(FormCollection forms)
         {
-            Int32 accountId = 0;
-            if ((forms["id"] + "").Length > 0)
-            {
-                accountId = Int32.Parse(forms["id"]);
-            }
-
             List<RoleDto> roleIds = new List<RoleDto>();
-
             if ((forms["val_roleIds"] + "").Length > 0)
             {
                 roleIds = forms["val_roleIds"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(role => new RoleDto
@@ -179,7 +172,7 @@ namespace NewCRM.Web.Controllers
 
             return new AccountDto
             {
-                Id = accountId,
+                Id = Account.Id,
                 Name = forms["val_accountname"],
                 Password = forms["val_password"],
                 IsAdmin = Int32.Parse(forms["val_type"]) == 1,
