@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Practices.Unity;
 using NewCRM.Domain.Entitys;
 using NewCRM.Domain.Factory.DomainSpecification;
 using NewCRM.Domain.Repositories;
@@ -21,6 +22,7 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
         /// <summary>
         /// 获取 仓储上下文的实例
         /// </summary>
+        [Dependency]
         protected IUnitOfWork UnitOfWork { get; set; }
 
         /// <summary>

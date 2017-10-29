@@ -38,7 +38,7 @@ namespace NewCRM.Web.Controllers
 
             if (Request.Cookies["Account"] != null)
             {
-                
+
                 ViewData["Account"] = Account;
                 ViewData["AccountConfig"] = _accountServices.GetConfig(Account.Id);
                 ViewData["Desks"] = _accountServices.GetConfig(Account.Id).DefaultDeskCount;
@@ -66,14 +66,11 @@ namespace NewCRM.Web.Controllers
         /// 初始化皮肤
         /// </summary>
         /// <returns></returns>
-        public ActionResult GetSkin(Int32 accountId)
+        [HttpGet]
+        public ActionResult GetSkin()
         {
-            #region 参数验证
-            Parameter.Validate(accountId);
-            #endregion
-
             var response = new ResponseModel<String>();
-            var skinName = _accountServices.GetConfig(accountId).Skin;
+            var skinName = _accountServices.GetConfig(Account.Id).Skin;
             response.IsSuccess = true;
             response.Model = skinName;
             response.Message = "初始化皮肤成功";
@@ -85,14 +82,11 @@ namespace NewCRM.Web.Controllers
         /// 初始化壁纸
         /// </summary>
         /// <returns></returns>
-        public ActionResult GetWallpaper(Int32 accountId)
+        [HttpGet]
+        public ActionResult GetWallpaper()
         {
-            #region 参数验证
-            Parameter.Validate(accountId);
-            #endregion
-
             var response = new ResponseModel<ConfigDto>();
-            var result = _accountServices.GetConfig(accountId);
+            var result = _accountServices.GetConfig(Account.Id);
             response.IsSuccess = true;
             response.Message = "初始化壁纸成功";
             response.Model = result;
@@ -104,14 +98,11 @@ namespace NewCRM.Web.Controllers
         /// 初始化应用码头
         /// </summary>
         /// <returns></returns>
-        public ActionResult GetDockPos(Int32 accountId)
+        [HttpGet]
+        public ActionResult GetDockPos()
         {
-            #region 参数验证
-            Parameter.Validate(accountId);
-            #endregion
-
             var response = new ResponseModel<String>();
-            var result = _accountServices.GetConfig(accountId).DockPosition;
+            var result = _accountServices.GetConfig(Account.Id).DockPosition;
             response.IsSuccess = true;
             response.Message = "初始化应用码头成功";
             response.Model = result;
@@ -123,14 +114,11 @@ namespace NewCRM.Web.Controllers
         /// 获取我的应用
         /// </summary>
         /// <returns></returns>
-        public ActionResult GetAccountDeskMembers(Int32 accountId)
+        [HttpGet]
+        public ActionResult GetAccountDeskMembers()
         {
-            #region 参数验证
-            Parameter.Validate(accountId);
-            #endregion
-
             var response = new ResponseModel<IDictionary<String, IList<dynamic>>>();
-            var result = _appServices.GetDeskMembers(accountId);
+            var result = _appServices.GetDeskMembers(Account.Id);
             response.IsSuccess = true;
             response.Message = "获取我的应用成功";
             response.Model = result;
@@ -142,14 +130,11 @@ namespace NewCRM.Web.Controllers
         /// 获取用户头像
         /// </summary>
         /// <returns></returns>
-        public ActionResult GetAccountFace(Int32 accountId)
+        [HttpGet]
+        public ActionResult GetAccountFace()
         {
-            #region 参数验证
-            Parameter.Validate(accountId);
-            #endregion
-
             var response = new ResponseModel<String>();
-            var result = _accountServices.GetConfig(accountId).AccountFace;
+            var result = _accountServices.GetConfig(Account.Id).AccountFace;
             response.IsSuccess = true;
             response.Message = "获取用户头像成功";
             response.Model = result;
@@ -161,14 +146,10 @@ namespace NewCRM.Web.Controllers
         /// 创建一个窗口
         /// </summary>
         /// <returns></returns>
-        public ActionResult CreateWindow(Int32 accountId, Int32 id, String type)
+        public ActionResult CreateWindow(Int32 id, String type)
         {
-            #region 参数验证
-            Parameter.Validate(accountId);
-            #endregion
-
             var response = new ResponseModel<dynamic>();
-            var internalMemberResult = type == "folder" ? _deskServices.GetMember(accountId, id, true) : _deskServices.GetMember(accountId, id);
+            var internalMemberResult = type == "folder" ? _deskServices.GetMember(Account.Id, id, true) : _deskServices.GetMember(Account.Id, id);
             response.IsSuccess = true;
             response.Message = "创建一个窗口成功";
             response.Model = new

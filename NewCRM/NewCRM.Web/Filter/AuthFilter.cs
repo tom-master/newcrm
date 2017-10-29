@@ -3,6 +3,8 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using NewCRM.Application.Services.Interface;
+using NewCRM.Dto.Dto;
+using Newtonsoft.Json;
 
 namespace NewCRM.Web.Filter
 {
@@ -25,7 +27,7 @@ namespace NewCRM.Web.Filter
             {
                 return;
             }
-            var account = DependencyResolver.Current.GetService<IAccountServices>().GetAccount();
+            var account = DependencyResolver.Current.GetService<IAccountServices>().GetAccount(JsonConvert.DeserializeObject<AccountDto>(filterContext.HttpContext.Request.Cookies["Account"].Value).Id);
             var appId = Int32.Parse(filterContext.RequestContext.HttpContext.Request.Form["id"]);
             var isPermission = DependencyResolver.Current.GetService<ISecurityServices>().CheckPermissions(appId, account.Roles.Select(role => role.Id).ToArray());
 
