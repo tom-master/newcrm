@@ -105,16 +105,13 @@ namespace NewCRM.Web.Controllers
         /// 获取所有的app
         /// </summary>
         /// <returns></returns>
-        public ActionResult GetAllApps(Int32 accountId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize)
+        public ActionResult GetAllApps(Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize)
         {
-            #region 参数验证
-            Parameter.Validate(accountId);
-            #endregion
 
             var response = new ResponseModels<IList<AppDto>>();
 
             Int32 totalCount;
-            var result = _appServices.GetAllApps(accountId, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
+            var result = _appServices.GetAllApps(Account.Id, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
             if (result != null)
             {
                 response.TotalCount = totalCount;
@@ -134,14 +131,14 @@ namespace NewCRM.Web.Controllers
         /// 给app打分
         /// </summary>
         /// <returns></returns>
-        public ActionResult ModifyAppStart(Int32 accountId, Int32 appId, Int32 starCount)
+        public ActionResult ModifyAppStart(Int32 appId, Int32 starCount)
         {
             #region 参数验证
-            Parameter.Validate(accountId).Validate(appId).Validate(starCount);
+            Parameter.Validate(appId).Validate(starCount);
             #endregion
 
             var response = new ResponseModel();
-            _appServices.ModifyAppStar(accountId, appId, starCount);
+            _appServices.ModifyAppStar(Account.Id, appId, starCount);
             response.IsSuccess = true;
             response.Message = "打分成功";
 
@@ -152,14 +149,14 @@ namespace NewCRM.Web.Controllers
         /// 安装app
         /// </summary>
         /// <returns></returns>
-        public ActionResult InstallApp(Int32 accountId, Int32 appId, Int32 deskNum)
+        public ActionResult InstallApp(Int32 appId, Int32 deskNum)
         {
             #region 参数验证
-            Parameter.Validate(accountId).Validate(appId).Validate(deskNum);
+            Parameter.Validate(appId).Validate(deskNum);
             #endregion
 
             var response = new ResponseModel();
-            _appServices.InstallApp(accountId, appId, deskNum);
+            _appServices.InstallApp(Account.Id, appId, deskNum);
             response.IsSuccess = true;
             response.Message = "打分成功";
 
@@ -170,15 +167,11 @@ namespace NewCRM.Web.Controllers
         /// 获取开发者（用户）的app
         /// </summary>
         /// <returns></returns>
-        public ActionResult GetAccountAllApps(Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize)
+        public ActionResult GetAccountAllApps(String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize)
         {
-            #region 参数验证
-            Parameter.Validate(accountId);
-            #endregion
-
             var response = new ResponseModels<IList<AppDto>>();
             Int32 totalCount = 0;
-            var result = _appServices.GetAccountAllApps(accountId, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
+            var result = _appServices.GetAccountAllApps(Account.Id, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
             if (result != null)
             {
                 response.TotalCount = totalCount;

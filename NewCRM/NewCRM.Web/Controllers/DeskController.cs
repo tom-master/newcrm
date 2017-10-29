@@ -39,39 +39,40 @@ namespace NewCRM.Web.Controllers
         /// 桌面元素移动
         /// </summary>
         /// <returns></returns>
-        public ActionResult MemberMove(Int32 accountId, String moveType, Int32 memberId, Int32 from, Int32 to)
+        public ActionResult MemberMove(String moveType, Int32 memberId, Int32 from, Int32 to)
         {
             #region 参数验证
-            Parameter.Validate(accountId).Validate(moveType).Validate(memberId);
+            Parameter.Validate(moveType).Validate(memberId);
             #endregion
+
             switch (moveType)
             {
                 case "desk-dock": //成员从桌面移动到码头
-                    _deskServices.MemberInDock(accountId, memberId);
+                    _deskServices.MemberInDock(Account.Id, memberId);
                     break;
                 case "dock-desk": //成员从码头移动到桌面
-                    _deskServices.MemberOutDock(accountId, memberId, to);
+                    _deskServices.MemberOutDock(Account.Id, memberId, to);
                     break;
                 case "dock-folder": //成员从码头移动到桌面文件夹中
-                    _deskServices.DockToFolder(accountId, memberId, to);
+                    _deskServices.DockToFolder(Account.Id, memberId, to);
                     break;
                 case "folder-dock": //成员从文件夹移动到码头
-                    _deskServices.FolderToDock(accountId, memberId);
+                    _deskServices.FolderToDock(Account.Id, memberId);
                     break;
                 case "desk-folder": //成员从桌面移动到文件夹
-                    _deskServices.DeskToFolder(accountId, memberId, to);
+                    _deskServices.DeskToFolder(Account.Id, memberId, to);
                     break;
                 case "folder-desk": //成员从文件夹移动到桌面
-                    _deskServices.FolderToDesk(accountId, memberId, to);
+                    _deskServices.FolderToDesk(Account.Id, memberId, to);
                     break;
                 case "folder-folder": //成员从文件夹移动到另一个文件夹中
-                    _deskServices.FolderToOtherFolder(accountId, memberId, to);
+                    _deskServices.FolderToOtherFolder(Account.Id, memberId, to);
                     break;
                 case "desk-desk": //桌面移动到另一个桌面
-                    _deskServices.DeskToOtherDesk(accountId, memberId, to);
+                    _deskServices.DeskToOtherDesk(Account.Id, memberId, to);
                     break;
                 case "dock-otherdesk"://应用码头移动到另一个桌面
-                    _deskServices.DockToOtherDesk(accountId, memberId, to);
+                    _deskServices.DockToOtherDesk(Account.Id, memberId, to);
                     break;
             }
             var response = new ResponseModel();
@@ -85,14 +86,14 @@ namespace NewCRM.Web.Controllers
         /// 修改文件夹的信息
         /// </summary>
         /// <returns></returns>
-        public ActionResult ModifyFolderInfo(Int32 accountId, String name, String icon, Int32 memberId)
+        public ActionResult ModifyFolderInfo(String name, String icon, Int32 memberId)
         {
             #region 参数验证
-            Parameter.Validate(accountId).Validate(name).Validate(icon).Validate(memberId);
+            Parameter.Validate(name).Validate(icon).Validate(memberId);
             #endregion
 
             var response = new ResponseModel();
-            _deskServices.ModifyFolderInfo(accountId, name, icon, memberId);
+            _deskServices.ModifyFolderInfo(Account.Id, name, icon, memberId);
             response.IsSuccess = true;
             response.Message = "修改成功";
 
@@ -161,14 +162,14 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <param name="memberId"></param>
         /// <returns></returns>
-        public ActionResult UnInstallMember(Int32 accountId, Int32 memberId)
+        public ActionResult UnInstallMember(Int32 memberId)
         {
             #region 参数验证
-            Parameter.Validate(accountId).Validate(memberId);
+            Parameter.Validate(memberId);
             #endregion
 
             var response = new ResponseModel();
-            _deskServices.RemoveMember(accountId, memberId);
+            _deskServices.RemoveMember(Account.Id, memberId);
             response.IsSuccess = true;
             response.Message = "卸载成功";
 

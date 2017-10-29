@@ -57,11 +57,11 @@ namespace NewCRM.Web.Controllers
         /// 获取所有的app
         /// </summary>
         /// <returns></returns>
-        public ActionResult GetAllApps(Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize)
+        public ActionResult GetAllApps(String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize)
         {
             var response = new ResponseModels<IList<AppDto>>();
             Int32 totalCount;
-            var result = _appServices.GetAccountAllApps(accountId, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
+            var result = _appServices.GetAccountAllApps(Account.Id, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
             if (result != null)
             {
                 response.TotalCount = totalCount;
