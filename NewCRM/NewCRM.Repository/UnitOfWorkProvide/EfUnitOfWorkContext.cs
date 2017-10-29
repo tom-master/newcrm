@@ -10,11 +10,12 @@ namespace NewCRM.Repository.UnitOfWorkProvide
 	/// </summary> 
 	public class EfUnitOfWorkContext : UnitOfWorkContextBase
 	{
-		/// <summary>
-		/// 获取 当前使用的数据访问上下文对象
-		/// </summary>
-		
-		protected override DbContext Context => EfDbContext.Value;
+
+        public EfUnitOfWorkContext() { }
+        /// <summary>
+        /// 获取 当前使用的数据访问上下文对象
+        /// </summary> 
+        public override DbContext Context => EfDbContext.Value;
 
 		[Dependency]
 		public Lazy<NewCrmContext> EfDbContext { get; set; }

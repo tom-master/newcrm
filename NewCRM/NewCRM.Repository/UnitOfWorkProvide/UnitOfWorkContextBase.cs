@@ -29,7 +29,7 @@ namespace NewCRM.Repository.UnitOfWorkProvide
         /// <summary>
         /// 获取 当前使用的数据访问上下文对象
         /// </summary>
-        protected abstract DbContext Context { get; }
+        public abstract DbContext Context { get; }
 
         /// <summary>
         ///     获取 当前单元操作是否已被提交
