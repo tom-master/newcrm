@@ -29,33 +29,23 @@
 <script>
     $(function () {
         $("#login").click(function (event) {
-            debugger
                 event.preventDefault();
                 $('form').fadeOut(500);
                 $('.wrapper').addClass('form-success');
 
                 $('.loading').show();
                 $('#parentDiv').hide();
-                $.post('@Url.Action("Landing", "Login")',
+                $.get('@Url.Action("Landing", "Login")',
                     {
                         AccountName: $('.accountname').val(),
                         passWord: $('.password').val()
                     },
                     function (responseText) {
-                        if (typeof responseText.js !== 'undefined') {
-                            $('body').append(responseText.js);
-                            setTimeout(function () {
-                                location.href = '@Url.Action("Index","Login")';
-                            }, 3000);
+                        if (responseText.IsSuccess) {
+                             $('.loading').hide();
+                             location.href = '@Url.Action("Desktop", "Index")';
                         } else {
-                            if (typeof responseText.success !== 'undefined') {
-                                $('.loading').hide();
-                                location.href = '@Url.Action("Desktop", "Index")';
-                            } else {
-                                $('#parentDiv').show();
-                                $('.loading').hide();
-                                $('.log .tip').text(responseText.msg).show();
-                            }
+                            $('.log .tip').text(responseText.Message).show();
                         }
                     });
             });

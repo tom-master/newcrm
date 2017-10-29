@@ -35,9 +35,10 @@ namespace NewCRM.Web.Controllers
         /// 登陆
         /// </summary>
         /// <returns></returns>
-        public ActionResult Landing(String accountName, String passWord, Boolean isRememberPasswrod=default(Boolean))
-        { 
-            var response =  new ResponseModel<AccountDto>();
+        [HttpGet]
+        public ActionResult Landing(String accountName, String passWord, Boolean isRememberPasswrod = default(Boolean))
+        {
+            var response = new ResponseModel<AccountDto>();
 
             #region 参数验证
             Parameter.Validate(accountName).Validate(passWord);
@@ -58,7 +59,7 @@ namespace NewCRM.Web.Controllers
                 });
             }
 
-            return Json(response);
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
     }
 }
