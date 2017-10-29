@@ -1,13 +1,11 @@
-﻿using System;
+﻿using NewCRM.Application.Services.Interface;
+using NewCRM.Dto.Dto;
+using NewCRM.Infrastructure.CommonTools;
+using NewCRM.Web.Controllers.ControllerHelper;
+using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
-using NewCRM.Application.Services.Interface;
-using NewCRM.Dto.Dto;
-using NewCRM.Web.Controllers.ControllerHelper;
-using Newtonsoft.Json;
-using NewCRM.Infrastructure.CommonTools;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace NewCRM.Web.Controllers
 {
@@ -34,15 +32,16 @@ namespace NewCRM.Web.Controllers
         /// 首页
         /// </summary>
         /// <returns></returns>
-        public ActionResult Desktop(Int32 accountId)
+        public ActionResult Desktop()
         {
             ViewBag.Title = "桌面";
 
             if (Request.Cookies["Account"] != null)
             {
-                ViewData["Account"] = JsonConvert.DeserializeObject<AccountDto>(Request.Cookies["Account"].Value);
-                ViewData["AccountConfig"] = _accountServices.GetConfig(accountId);
-                ViewData["Desks"] = _accountServices.GetConfig(accountId).DefaultDeskCount;
+                
+                ViewData["Account"] = Account;
+                ViewData["AccountConfig"] = _accountServices.GetConfig(Account.Id);
+                ViewData["Desks"] = _accountServices.GetConfig(Account.Id).DefaultDeskCount;
 
                 return View();
             }
