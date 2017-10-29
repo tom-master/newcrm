@@ -22,9 +22,9 @@ namespace NewCRM.Web.Controllers
         /// 首页
         /// </summary>
         /// <returns></returns>
-        public ActionResult Index(Int32 accountId)
+        public ActionResult Index()
         {
-            return View(_accountServices.GetAccount(accountId));
+            return View(_accountServices.GetAccount(Account.Id));
         }
 
         #endregion
@@ -33,12 +33,8 @@ namespace NewCRM.Web.Controllers
         ///上传账户头像
         /// </summary>
         /// <returns></returns>
-        public ActionResult UploadFace(Int32 accountId)
+        public ActionResult UploadFace()
         {
-            #region 参数验证
-            Parameter.Validate(accountId);
-            #endregion
-
             var response = new ResponseModel<dynamic>();
             if (Request.Files.Count != 0)
             {
@@ -47,7 +43,7 @@ namespace NewCRM.Web.Controllers
                 var fileUpLoadHelper = new FileUpLoadHelper(ConfigurationManager.AppSettings["UploadIconPath"], false, true);
                 if (fileUpLoadHelper.SaveFile(icon))
                 {
-                    _accountServices.ModifyAccountFace(accountId, fileUpLoadHelper.FilePath + fileUpLoadHelper.NewFileName);
+                    _accountServices.ModifyAccountFace(Account.Id, fileUpLoadHelper.FilePath + fileUpLoadHelper.NewFileName);
 
                     response.Message = "头像上传成功";
                     response.IsSuccess = true;
@@ -75,7 +71,7 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             var response = new ResponseModel();
-            _accountServices.ModifyPassword(Int32.Parse(forms["accountId"]), forms["password"]);
+            _accountServices.ModifyPassword(Account.Id, forms["password"]);
             response.Message = "账户密码修改成功";
             response.IsSuccess = true;
 
@@ -93,7 +89,7 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             var response = new ResponseModel();
-            _accountServices.ModifyLockScreenPassword(Int32.Parse(forms["accountId"]), forms["lockpassword"]);
+            _accountServices.ModifyLockScreenPassword(Account.Id, forms["lockpassword"]);
 
             response.Message = "锁屏密码修改成功";
             response.IsSuccess = true;
@@ -105,14 +101,14 @@ namespace NewCRM.Web.Controllers
         /// 检查旧密码和输入的密码是否一致
         /// </summary>
         /// <returns></returns>
-        public ActionResult CheckPassword(Int32 accountId, String param)
+        public ActionResult CheckPassword(String param)
         {
             #region 参数验证
-            Parameter.Validate(accountId).Validate(param);
+            Parameter.Validate(param);
             #endregion
 
             var response = new ResponseModel<dynamic>();
-            var result = _accountServices.CheckPassword(accountId, param);
+            var result = _accountServices.CheckPassword(Account.Id, param);
             response.IsSuccess = true;
             response.Model = result ? new { status = "y", info = "" } : new { status = "n", info = "原始密码错误" };
 
