@@ -146,9 +146,11 @@ namespace NewCRM.Web.Controllers
             {
                 _securityServices.AddNewRole(WapperRoleDto(forms));
             }
-            var response = new ResponseModel();
-            response.IsSuccess = true;
-            response.Message = "添加角色成功";
+            var response = new ResponseModel
+            {
+                IsSuccess = true,
+                Message = "添加角色成功"
+            };
 
             return Json(response);
         }
