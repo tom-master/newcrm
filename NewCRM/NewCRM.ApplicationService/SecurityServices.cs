@@ -40,7 +40,7 @@ namespace NewCRM.Application.Services
             var roleResult = DatabaseQuery.FindOne(FilterFactory.Create<Role>(role => role.Id == roleId));
             if (roleResult == null)
             {
-                throw new BusinessException($"角色可能已被删除，请刷新后再试");
+                throw new BusinessException("角色可能已被删除，请刷新后再试");
             }
 
             return DtoConfiguration.ConvertDynamicToDto<RoleDto>(new

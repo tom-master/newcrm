@@ -53,7 +53,7 @@
     <script src="@Url.Content("~/Scripts/handlebars-v4.0.5.js")"></script>
 
     <script id="table-template" type="text/x-handlebars-template">
-        {{#each roles}}
+        {{#each Model}}
         <tr class="list-bd">
             <td style="text-align:left;padding-left:15px">{{RoleIdentity}}</td>
             <td style="text-align:left;padding-left:15px">{{Name}}</td>
@@ -116,11 +116,15 @@
                 pageSize: 5
             }, function (responseText) {
                 ZENG.msgbox._hide();
-                var tableTemplate = Handlebars.compile($("#table-template").html());
-                $('.list-con').html(tableTemplate(responseText));
-                $('#pagination_setting').attr('count', responseText.totalCount);
-                $('.list-count').text(responseText.totalCount);
-                initPagination(current_page);
+                if (responseText.IsSuccess) {
+                    var tableTemplate = Handlebars.compile($("#table-template").html());
+                    $('.list-con').html(tableTemplate(responseText));
+                    $('#pagination_setting').attr('count', responseText.TotalCount);
+                    $('.list-count').text(responseText.totalCount);
+                    initPagination(current_page);
+                } else {
+                    ZENG.msgbox.show(responseText.Message, 6, 8000);
+                }
             });
         }
     </script>
