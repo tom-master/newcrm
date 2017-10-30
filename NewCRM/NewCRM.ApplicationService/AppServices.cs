@@ -376,10 +376,8 @@ namespace NewCRM.Application.Services
             }
         }
 
-        public List<AppDto> GetSystemApp(IEnumerable<Int32> appIds)
+        public List<AppDto> GetSystemApp(IEnumerable<Int32> appIds = default(IEnumerable<Int32>))
         {
-            ValidateParameter.Validate(appIds);
-
             var filter = FilterFactory.Create((App app) => app.IsSystem);
             if (appIds != null)
             {

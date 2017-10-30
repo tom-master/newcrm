@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using NewCRM.Domain.Entitys;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 
@@ -36,7 +40,7 @@ namespace NewCRM.Repository.UnitOfWorkProvide
                         entry.State = EntityState.Modified;
                     }
                 }
-                catch (InvalidOperationException)
+                catch (InvalidOperationException exception)
                 {
                     T oldEntity = dbSet.Find(entity.Id);
                     dbContext.Entry(oldEntity).CurrentValues.SetValues(entity);
@@ -46,68 +50,37 @@ namespace NewCRM.Repository.UnitOfWorkProvide
 
 
 
-        internal static void Update<T, TKey>(this DbContext dbContext, T entity, params Expression<Func<T, Object>>[] propertyExpressions)
+        internal static void Update<T, TKey>(this DbContext dbContext, Expression<Func<T, Object>> propertyExpression, params T[] entities)
             where T : DomainModelBase
         {
-            if (propertyExpressions == null)
+            if (propertyExpression == null) throw new ArgumentNullException($"{nameof(propertyExpression)}");
+            if (entities == null) throw new ArgumentNullException($"{nameof(entities)}");
+            ReadOnlyCollection<MemberInfo> memberInfos = ((dynamic)propertyExpression.Body).Members;
+            foreach (T entity in entities)
             {
-                throw new BusinessException($"{nameof(propertyExpressions)}：不能为空");
+                DbSet<T> dbSet = dbContext.Set<T>();
+                try
+                {
+                    DbEntityEntry<T> entry = dbContext.Entry(entity);
+                    entry.State = EntityState.Unchanged;
+                    foreach (var memberInfo in memberInfos)
+                    {
+                        entry.Property(memberInfo.Name).IsModified = true;
+                    }
+                }
+                catch (InvalidOperationException)
+                {
+                    T originalEntity = dbSet.Local.Single(m => Equals(m.Id, entity.Id));
+                    ObjectContext objectContext = ((IObjectContextAdapter)dbContext).ObjectContext;
+                    ObjectStateEntry objectEntry = objectContext.ObjectStateManager.GetObjectStateEntry(originalEntity);
+                    objectEntry.ApplyCurrentValues(entity);
+                    objectEntry.ChangeState(EntityState.Unchanged);
+                    foreach (var memberInfo in memberInfos)
+                    {
+                        objectEntry.SetModifiedProperty(memberInfo.Name);
+                    }
+                }
             }
-
-            if (entity == null)
-            {
-                throw new BusinessException($"{nameof(entity)}：不能为空");
-            }
-
-            //var dbEntityEntry = dbContext.Entry(entity);
-            //if (propertyExpressions.Any())
-            //{
-            //    foreach (var property in propertyExpressions)
-            //    {
-            //        dbEntityEntry.Property(property).IsModified = true;
-            //    }
-            //}
-            //else
-            //{
-            //    foreach (var property in dbEntityEntry.OriginalValues.PropertyNames)
-            //    {
-            //        var original = dbEntityEntry.OriginalValues.GetValue<Object>(property);
-            //        var current = dbEntityEntry.CurrentValues.GetValue<Object>(property);
-            //        if (original != null && !original.Equals(current))
-            //        {
-            //            dbEntityEntry.Property(property).IsModified = true;
-            //        }
-            //    }
-            //}
-
-            //ReadOnlyCollection<MemberInfo> memberInfos = ((dynamic)propertyExpression.Body).Members;
-
-            //foreach (T entity in entities)
-            //{
-            //    DbSet<T> dbSet = dbContext.Set<T>();
-            //    try
-            //    {
-            //        DbEntityEntry<T> entry = dbContext.Entry(entity);
-            //        entry.State = EntityState.Unchanged;
-            //        foreach (var memberInfo in memberInfos)
-            //        {
-            //            entry.Property(memberInfo.Name).IsModified = true;
-
-            //        }
-            //    }
-            //    catch (InvalidOperationException)
-            //    {
-            //        T originalEntity = dbSet.Local.Single(m => Equals(m.Id, entity.Id));
-            //        ObjectContext objectContext = ((IObjectContextAdapter)dbContext).ObjectContext;
-            //        ObjectStateEntry objectEntry = objectContext.ObjectStateManager.GetObjectStateEntry(originalEntity);
-            //        objectEntry.ApplyCurrentValues(entity);
-            //        objectEntry.ChangeState(EntityState.Unchanged);
-            //        foreach (var memberInfo in memberInfos)
-            //        {
-            //            objectEntry.SetModifiedProperty(memberInfo.Name);
-            //        }
-            //    }
-            //}
         }
 
         internal static Int32 SaveChanges(this DbContext dbContext, Boolean validateOnSaveEnabled)

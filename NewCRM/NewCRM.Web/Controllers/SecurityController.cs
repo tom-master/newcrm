@@ -40,7 +40,7 @@ namespace NewCRM.Web.Controllers
         /// 创建新角色
         /// </summary>
         /// <returns></returns>
-        public ActionResult CreateNewRole(Int32 roleId)
+        public ActionResult CreateNewRole(Int32 roleId = default(Int32))
         {
             if (roleId != 0)
             {
@@ -164,21 +164,18 @@ namespace NewCRM.Web.Controllers
             #region 参数验证
             Parameter.Validate(forms);
             #endregion
-
-            Int32[] powerIds;
-            if ((forms["val_apps_id"] + "").Length > 0)
+            var response = new ResponseModel();
+            if (!String.IsNullOrEmpty(forms["val_apps_id"]))
             {
-                powerIds = forms["val_apps_id"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
+                var powerIds = forms["val_apps_id"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
+                _securityServices.AddPowerToCurrentRole(Int32.Parse(forms["val_roleId"]), powerIds);
+                response.IsSuccess = true;
+                response.Message = "将权限附加到角色中成功";
             }
             else
             {
-                throw new BusinessException("所选的权限列表不能为空");
+                response.Message = "权限未作任何更改";
             }
-            var response = new ResponseModel();
-            _securityServices.AddPowerToCurrentRole(Int32.Parse(forms["val_roleId"]), powerIds);
-            response.IsSuccess = true;
-            response.Message = "将权限附加到角色中成功";
-
             return Json(response);
         }
 
