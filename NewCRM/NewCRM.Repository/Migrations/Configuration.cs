@@ -1,4 +1,10 @@
+﻿using System.Collections.Generic;
 using System.Data.Entity.Migrations;
+using NewCRM.Domain.Entitys.Agent;
+using NewCRM.Domain.Entitys.Security;
+using NewCRM.Domain.Entitys.System;
+using NewCRM.Domain.ValueObject;
+using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Repository.DatabaseProvider.EF.Context;
 using NewCRM.Repository.DataBaseProvider.EF;
 
@@ -9,7 +15,7 @@ namespace NewCRM.Repository.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            
+
         }
 
         protected override void Seed(NewCrmContext context)

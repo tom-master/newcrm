@@ -7,10 +7,10 @@ namespace NewCRM.Domain.Entitys.Agent
     public class AccountRole : DomainModelBase
     {
         #region public property
-        [Required()]
+        [Required]
         public Int32 AccountId { get; private set; }
 
-        [Required()]
+        [Required]
         public Int32 RoleId { get; private set; }
 
         public virtual Role Role { get; private set; }

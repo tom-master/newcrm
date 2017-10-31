@@ -18,25 +18,25 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 类名
         /// </summary>
-        [Required()]
+        [Required]
         public String Controller { get; private set; }
 
         /// <summary>
         /// 方法名
         /// </summary>
-        [Required()]
+        [Required]
         public String Action { get; private set; }
 
         /// <summary>
         /// 异常信息
         /// </summary>
-        [Required()]
+        [Required]
         public String ExceptionMessage { get; private set; }
 
         /// <summary>
         /// 异常堆栈
         /// </summary>
-        [Required()]
+        [Required]
         public String Track { get; private set; }
 
         /// <summary>

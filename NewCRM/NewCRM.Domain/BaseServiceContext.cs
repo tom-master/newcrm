@@ -17,7 +17,7 @@ namespace NewCRM.Domain
         /// <summary>
         /// 工作单元
         /// </summary>
-        [Dependency()]
+        [Dependency]
         public IUnitOfWork UnitOfWork { get; set; }
 
         /// <summary>

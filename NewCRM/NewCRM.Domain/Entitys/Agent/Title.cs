@@ -13,7 +13,7 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         ///名称
         /// </summary>
-        [Required(), MaxLength(10)]
+        [Required, MaxLength(10)]
         public String Name { get; private set; }
 
         /// <summary>

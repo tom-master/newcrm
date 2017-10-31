@@ -15,19 +15,19 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 名称
         /// </summary>
-        [Required(), MaxLength(6)]
+        [Required, MaxLength(6)]
         public String Name { get; private set; }
 
         /// <summary>
         /// 图标地址
         /// </summary>
-        [Required()]
+        [Required]
         public String IconUrl { get; private set; }
 
         /// <summary>
         /// app地址
         /// </summary>
-        [Required()]
+        [Required]
         public String AppUrl { get; private set; }
 
         /// <summary>
@@ -144,6 +144,7 @@ namespace NewCRM.Domain.Entitys.System
             Int32 height,
             Int32 appTypeId,
             AppAuditState appAuditState,
+            AppReleaseState appReleaseState,
             AppStyle appStyle = AppStyle.App,
             Int32 accountId = default(Int32),
             String remark = default(String),
@@ -182,7 +183,7 @@ namespace NewCRM.Domain.Entitys.System
             IsLock = false;
             Remark = remark;
             AppAuditState = appAuditState;
-            AppReleaseState = AppReleaseState.UnRelease;
+            AppReleaseState = appReleaseState;
             UseCount = 0;
             AppStars = new List<AppStar>();
             // AppRoles = new List<AppRole>();

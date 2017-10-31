@@ -13,13 +13,13 @@ namespace NewCRM.Domain.Entitys.Security
         /// <summary>
         /// 名称
         /// </summary>
-        [Required(), MaxLength(6)]
+        [Required, MaxLength(6)]
         public String Name { get; private set; }
 
         /// <summary>
         /// 角色标识
         /// </summary>
-        [Required(), MaxLength(20)]
+        [Required, MaxLength(20)]
         public String RoleIdentity { get; set; }
 
         /// <summary>

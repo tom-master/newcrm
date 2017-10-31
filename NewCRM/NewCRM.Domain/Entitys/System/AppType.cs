@@ -13,7 +13,7 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 名称
         /// </summary>
-        [Required(), MaxLength(6)]
+        [Required, MaxLength(6)]
         public String Name { get; private set; }
 
         /// <summary>

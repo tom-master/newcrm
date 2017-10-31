@@ -34,7 +34,7 @@ namespace NewCRM.Repository.DataBaseProvider.EF
         /// <summary>
         /// 获取 仓储上下文的实例
         /// </summary>
-        [Dependency()]
+        [Dependency]
         public IUnitOfWork UnitOfWork { get; set; }
 
         /// <summary>
@@ -44,9 +44,7 @@ namespace NewCRM.Repository.DataBaseProvider.EF
         {
             get
             {
-                var unitofwork = UnitOfWork as UnitOfWorkContextBase;
-
-                if (unitofwork != null)
+                if (UnitOfWork is UnitOfWorkContextBase unitofwork)
                 {
                     return unitofwork;
                 }

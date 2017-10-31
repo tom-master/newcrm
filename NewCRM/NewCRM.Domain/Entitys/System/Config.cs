@@ -13,13 +13,13 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 皮肤
         /// </summary>
-        [Required(), MaxLength(6)]
+        [Required, MaxLength(6)]
         public String Skin { get; private set; }
 
         /// <summary>
         /// 用户头像
         /// </summary>
-        [Required()]
+        [Required]
         public String AccountFace { get; private set; }
 
         /// <summary>

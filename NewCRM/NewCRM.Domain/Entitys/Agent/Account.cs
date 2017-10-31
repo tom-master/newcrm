@@ -15,13 +15,13 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 用户名
         /// </summary>
-        [Required()]
+        [Required]
         public String Name { get; private set; }
 
         /// <summary>
         /// 登陆密码
         /// </summary>
-        [Required(), MaxLength(6)]
+        [Required, MinLength(6)]
         public String LoginPassword { get; private set; }
 
         /// <summary>

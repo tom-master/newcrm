@@ -10,10 +10,10 @@ namespace NewCRM.Domain.Entitys.System
     {
         #region public property
 
-        [Required()]
+        [Required]
         public Int32 DeskNumber { get; private set; }
          
-        [Required()]
+        [Required]
         public Int32 AccountId { get; set; }
 
         public virtual ICollection<Member> Members { get; private set; }

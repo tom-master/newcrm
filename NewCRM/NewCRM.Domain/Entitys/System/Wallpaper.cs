@@ -14,13 +14,13 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 标题
         /// </summary>
-        [Required(), MaxLength(6)]
+        [Required, MaxLength(6)]
         public String Title { get; private set; }
 
         /// <summary>
         /// 图片地址
         /// </summary>
-        [Required()]
+        [Required]
         public String Url { get; private set; }
 
         /// <summary>

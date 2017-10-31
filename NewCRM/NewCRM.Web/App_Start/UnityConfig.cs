@@ -65,43 +65,43 @@ namespace NewCRM.Web.App_Start
             container.RegisterType<QueryBase, DefaultQuery>("DefaultQuery");
             container.RegisterType<QueryBase, DefaultQueryFormCache>("DefaultQueryFormCache");
 
-            container.RegisterType<IAccountServices, AccountServices>();
-            container.RegisterType<ISecurityServices, SecurityServices>();
-            container.RegisterType<IAppServices, AppServices>();
-            container.RegisterType<IDeskServices, DeskServices>();
-            container.RegisterType<IWallpaperServices, WallpaperServices>();
-            container.RegisterType<ISkinServices, SkinServices>();
-            container.RegisterType<ILoggerServices, LoggerServices>();
-            container.RegisterType<IInstallAppServices, InstallAppServices>();
-            container.RegisterType<IModifyAppInfoServices, ModifyAppInfoServices>();
-            container.RegisterType<IModifyAppTypeServices, ModifyAppTypeServices>();
-            container.RegisterType<IAccountContext, AccountContext>();
-            container.RegisterType<IModifyDeskMemberServices, ModifyDeskMemberServices>();
-            container.RegisterType<IModifyDockPostionServices, ModifyDockPostionServices>();
-            container.RegisterType<ICreateNewFolderServices, CreateNewFolderServices>();
-            container.RegisterType<IModifyDeskMemberPostionServices, ModifyDeskMemberPostionServices>();
-            container.RegisterType<IModifyWallpaperServices, ModifyWallpaperServices>();
+            container.RegisterType<IAccountServices, AccountServices>(new PerRequestLifetimeManager());
+            container.RegisterType<ISecurityServices, SecurityServices>(new PerRequestLifetimeManager());
+            container.RegisterType<IAppServices, AppServices>(new PerRequestLifetimeManager());
+            container.RegisterType<IDeskServices, DeskServices>(new PerRequestLifetimeManager());
+            container.RegisterType<IWallpaperServices, WallpaperServices>(new PerRequestLifetimeManager());
+            container.RegisterType<ISkinServices, SkinServices>(new PerRequestLifetimeManager());
+            container.RegisterType<ILoggerServices, LoggerServices>(new PerRequestLifetimeManager());
+            container.RegisterType<IInstallAppServices, InstallAppServices>(new PerRequestLifetimeManager());
+            container.RegisterType<IModifyAppInfoServices, ModifyAppInfoServices>(new PerRequestLifetimeManager());
+            container.RegisterType<IModifyAppTypeServices, ModifyAppTypeServices>(new PerRequestLifetimeManager());
+            container.RegisterType<IAccountContext, AccountContext>(new PerRequestLifetimeManager());
+            container.RegisterType<IModifyDeskMemberServices, ModifyDeskMemberServices>(new PerRequestLifetimeManager());
+            container.RegisterType<IModifyDockPostionServices, ModifyDockPostionServices>(new PerRequestLifetimeManager());
+            container.RegisterType<ICreateNewFolderServices, CreateNewFolderServices>(new PerRequestLifetimeManager());
+            container.RegisterType<IModifyDeskMemberPostionServices, ModifyDeskMemberPostionServices>(new PerRequestLifetimeManager());
+            container.RegisterType<IModifyWallpaperServices, ModifyWallpaperServices>(new PerRequestLifetimeManager());
 
-            container.RegisterType<IUnitOfWork, EfUnitOfWorkContext>();
+            container.RegisterType<IUnitOfWork, EfUnitOfWorkContext>(new ContainerControlledLifetimeManager());
 
-            container.RegisterType<IDomainModelQueryProvider, QueryProvider>();
-            container.RegisterType<IDomainModelQueryProviderFormCache, QueryProviderFormCache>();
+            container.RegisterType<IDomainModelQueryProvider, QueryProvider>(new PerRequestLifetimeManager());
+            container.RegisterType<IDomainModelQueryProviderFormCache, QueryProviderFormCache>(new PerRequestLifetimeManager());
 
-            container.RegisterType<ICacheQueryProvider, DefaultRedisQueryProvider>();
+            container.RegisterType<ICacheQueryProvider, DefaultRedisQueryProvider>(new PerRequestLifetimeManager());
 
-            container.RegisterType<SpecificationFactory, DefaultSpecificationFactory>();
-            container.RegisterType<DomainFactory, DefaultDomainFactory>();
+            container.RegisterType<SpecificationFactory, DefaultSpecificationFactory>(new PerRequestLifetimeManager());
+            container.RegisterType<DomainFactory, DefaultDomainFactory>(new PerRequestLifetimeManager());
 
 
-            container.RegisterType<IAccountRepository, AccountRepository>();
-            container.RegisterType<ITitleRepository, TitleRepository>();
-            container.RegisterType<IRoleRepository, RoleRepository>();
-            container.RegisterType<IAppRepository, AppRepository>();
-            container.RegisterType<IAppTypeRepository, AppTypeRepository>();
-            container.RegisterType<IDeskRepository, DeskRepository>();
-            container.RegisterType<ILogRepository, LogRepository>();
-            container.RegisterType<IOnlineRepository, OnlineRepository>();
-            container.RegisterType<IWallpaperRepository, WallpaperRepository>();
+            container.RegisterType<IAccountRepository, AccountRepository>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ITitleRepository, TitleRepository>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IRoleRepository, RoleRepository>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IAppRepository, AppRepository>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IAppTypeRepository, AppTypeRepository>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IDeskRepository, DeskRepository>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ILogRepository, LogRepository>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IOnlineRepository, OnlineRepository>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IWallpaperRepository, WallpaperRepository>(new ContainerControlledLifetimeManager());
         }
     }
 }
