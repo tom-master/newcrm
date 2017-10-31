@@ -12,7 +12,7 @@ namespace NewCRM.Web
     {
         protected void Application_Start()
         {
-            // Database.SetInitializer(new CreateDatabaseIfNotExists<NewCrmContext>());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<NewCrmContext>());
 
 
             AreaRegistration.RegisterAllAreas();

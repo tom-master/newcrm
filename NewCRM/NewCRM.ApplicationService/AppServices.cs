@@ -477,7 +477,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(appDto);
 
             var app = appDto.ConvertToModel<AppDto, App>();
-            var internalApp = new App(app.Name, app.IconUrl, app.AppUrl, app.Width, app.Height, app.AppTypeId, app.AppAuditState, app.AppStyle, app.AccountId,
+            var internalApp = new App(app.Name, app.IconUrl, app.AppUrl, app.Width, app.Height, app.AppTypeId, app.AppAuditState,AppReleaseState.UnRelease, app.AppStyle, app.AccountId,
                 app.Remark, app.IsMax, app.IsFull, app.IsSetbar, app.IsOpenMax, app.IsFlash, app.IsDraw, app.IsResize);
 
             _appRepository.Add(internalApp);
