@@ -25,13 +25,10 @@ namespace NewCRM.Web.Controllers
         /// 首页
         /// </summary>
         /// <returns></returns>
-        public ActionResult Index(Int32 accountId, String accountName, Boolean isAdmin)
+        public ActionResult Index()
         {
-            #region 参数验证
-            Parameter.Validate(accountId).Validate(accountName);
-            #endregion
 
-            if (isAdmin)
+            if (Account.IsAdmin)
             {
                 ViewData["AppTypes"] = _appServices.GetAppTypes();
             }
@@ -40,9 +37,9 @@ namespace NewCRM.Web.Controllers
                 ViewData["AppTypes"] = _appServices.GetAppTypes().Where(w => w.Name != "系统").ToList();
             }
 
-            ViewData["TodayRecommendApp"] = _appServices.GetTodayRecommend(accountId);
-            ViewData["AccountName"] = accountName;
-            ViewData["AccountApp"] = _appServices.GetAccountDevelopAppCountAndNotReleaseAppCount(accountId);
+            ViewData["TodayRecommendApp"] = _appServices.GetTodayRecommend(Account.Id);
+            ViewData["AccountName"] = Account.Name;
+            ViewData["AccountApp"] = _appServices.GetAccountDevelopAppCountAndNotReleaseAppCount(Account.Id);
 
             return View();
         }
@@ -51,13 +48,13 @@ namespace NewCRM.Web.Controllers
         /// app详情
         /// </summary>
         /// <returns></returns>
-        public ActionResult AppDetail(Int32 accountId, Int32 appId, String accountName)
+        public ActionResult AppDetail( Int32 appId, String accountName)
         {
             #region 参数验证
-            Parameter.Validate(accountId).Validate(accountName).Validate(appId);
+            Parameter.Validate(accountName).Validate(appId);
             #endregion
 
-            ViewData["IsInstallApp"] = _appServices.IsInstallApp(accountId, appId);
+            ViewData["IsInstallApp"] = _appServices.IsInstallApp(Account.Id, appId);
             ViewData["AccountName"] = accountName;
 
             var result = _appServices.GetApp(appId);
@@ -158,7 +155,7 @@ namespace NewCRM.Web.Controllers
             var response = new ResponseModel();
             _appServices.InstallApp(Account.Id, appId, deskNum);
             response.IsSuccess = true;
-            response.Message = "打分成功";
+            response.Message = "安装成功";
 
             return Json(response);
         }

@@ -106,7 +106,7 @@
     <script src="@Url.Content("~/Scripts/handlebars-v4.0.5.js")"></script>
 
     <script id="li-template" type="text/x-handlebars-template">
-        {{#each apps}}
+        {{#each Model}}
         <li>
             <a href="javascript:openDetailIframe2('@Url.Action("AppDetail","AppMarket")?appId={{Id}}');">
                 <img src="{{IconUrl}}">
@@ -265,7 +265,7 @@
         function getPageList(current_page) {
             var appTypeId = $('#appType').val() === '' ? 0 : parseInt($('#appType').val());
             var orderId = $('#order').val() === '' ? 1 : parseInt($('#order').val());
-            
+
             var outSideSearchText = '@Request["searchText"]';
 
             $.get('@Url.Action("GetAllApps", "AppMarket")', {
@@ -275,10 +275,14 @@
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 5
             }, function (responseText) {
-                var liTemplate = Handlebars.compile($("#li-template").html());
-                $('.app-list').html(liTemplate(responseText));
-                $('#pagination_setting').attr('count', parseInt(responseText.totalCount));
-                initPagination(current_page);
+                if (responseText.IsSuccess) {
+                    var liTemplate = Handlebars.compile($("#li-template").html());
+                    $('.app-list').html(liTemplate(responseText));
+                    $('#pagination_setting').attr('count', parseInt(responseText.TotalCount));
+                    initPagination(current_page);
+                } else {
+                    ZENG.msgbox.show(responseText.Message, 5, 2000);
+                }
             });
 
 

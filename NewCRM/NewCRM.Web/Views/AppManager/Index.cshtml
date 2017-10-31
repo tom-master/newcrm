@@ -55,7 +55,7 @@
             <select name="appState" id="appState" style="width: 140px">
                 <option value="0">全部</option>
                 @{
-                    foreach (var appState in (List<AppStateDto>) ViewData["AppStates"])
+                    foreach (var appState in (List<AppStateDto>)ViewData["AppStates"])
                     {
                         <text>
                             <option value="@appState.Id" data-type="@appState.Type">@appState.Name</option></text>
@@ -103,7 +103,7 @@
     <script src="@Url.Content("~/Scripts/handlebars-v4.0.5.js")"></script>
 
     <script id="table-template" type="text/x-handlebars-template">
-        {{#each apps}}
+        {{#each Model}}
         <tr class="list-bd">
             <td>{{Id}}</td>
             <td style="text-align:left;padding-left:15px">
@@ -121,17 +121,17 @@
             {{else}}
             <td>
                 {{#if IsRecommand }}
-                    <a href="javascript:;" class="btn btn-link do-recommend" appid="{{Id}}">今日推荐</a>
+                <a href="javascript:;" class="btn btn-link do-recommend" appid="{{Id}}">今日推荐</a>
                 {{else}}
-                    <a href="javascript:;" class="btn btn-link do-recommend" appid="{{Id}}">设为今日推荐</a>
+                <a href="javascript:;" class="btn btn-link do-recommend" appid="{{Id}}">设为今日推荐</a>
                 {{/if}}
                 <a href="javascript:openDetailIframe('@Url.Action("AccountAppManageInfo", "AppMarket")?appId={{Id}}');" class="btn btn-link">查看详情</a>
 
                 {{#if IsCreater}}
-                    {{#remove IsRecommand}}
-                        {{else}}
-                            <a href="javascript:;" class="btn btn-link do-del" appid="{{Id}}">删除</a>
-                    {{/remove}}
+                {{#remove IsRecommand}}
+                {{else}}
+                <a href="javascript:;" class="btn btn-link do-del" appid="{{Id}}">删除</a>
+                {{/remove}}
                 {{/if}}
 
             </td>
@@ -212,14 +212,19 @@
                 appState: appStateResult,
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 7
-            }, function (responseText) {
+                }, function (responseText) {
+                
+                    if (responseText.IsSuccess) {
+                        ZENG.msgbox.hide();
+                        var tableTemplate = Handlebars.compile($("#table-template").html());
+                        $('.list-con').html(tableTemplate(responseText));
+                        $('.list-count').text(responseText.TotalCount);
+                        $('#pagination_setting').attr('count', parseInt(responseText.totalCount));
+                        initPagination(current_page);
+                    } else {
+                        ZENG.msgbox.show(responseText.Message, 5,2000);
+                    }
 
-                ZENG.msgbox.hide();
-                var tableTemplate = Handlebars.compile($("#table-template").html());
-                $('.list-con').html(tableTemplate(responseText));
-                $('.list-count').text(responseText.totalCount);
-                $('#pagination_setting').attr('count', parseInt(responseText.totalCount));
-                initPagination(current_page);
             });
 
             Handlebars.registerHelper('convertstyle', function (appStyle) {
@@ -246,7 +251,7 @@
                 } else {
                     return options.inverse(this);
                 }
-                
+
             });
         }
     </script>
