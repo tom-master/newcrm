@@ -49,7 +49,6 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// app地址
         /// </summary>
-        [Required]
         public String AppUrl { get; private set; }
 
         /// <summary>

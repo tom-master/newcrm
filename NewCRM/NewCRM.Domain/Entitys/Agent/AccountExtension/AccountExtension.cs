@@ -106,6 +106,7 @@ namespace NewCRM.Domain.Entitys.Agent
         public Account Online()
         {
             IsOnline = true;
+            LastLoginTime = DateTime.Now;
             return this;
         }
 

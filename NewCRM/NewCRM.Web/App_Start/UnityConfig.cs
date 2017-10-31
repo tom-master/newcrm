@@ -15,7 +15,6 @@ using NewCRM.Domain.Services.BoundedContext.Agent;
 using NewCRM.Domain.Services.BoundedContextMember;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.UnitWork;
-using NewCRM.Repository.DatabaseProvider.EF.Context;
 using NewCRM.Repository.DataBaseProvider.EF;
 using NewCRM.Repository.DataBaseProvider.Redis;
 using NewCRM.Repository.DataBaseProvider.Redis.InternalHelper;
@@ -24,7 +23,6 @@ using NewCRM.Repository.RepositoryImpl.Security;
 using NewCRM.Repository.RepositoryImpl.System;
 using NewCRM.Repository.UnitOfWorkProvide;
 using System;
-using System.Data.Entity;
 
 namespace NewCRM.Web.App_Start
 {
@@ -87,7 +85,7 @@ namespace NewCRM.Web.App_Start
             container.RegisterType<IDomainModelQueryProvider, QueryProvider>(new PerRequestLifetimeManager());
             container.RegisterType<IDomainModelQueryProviderFormCache, QueryProviderFormCache>(new PerRequestLifetimeManager());
 
-            container.RegisterType<ICacheQueryProvider, DefaultRedisQueryProvider>(new PerRequestLifetimeManager());
+            container.RegisterType<ICacheQueryProvider, DefaultRedisQueryProvider>("ICacheQueryProvider", new PerRequestLifetimeManager());
 
             container.RegisterType<SpecificationFactory, DefaultSpecificationFactory>(new PerRequestLifetimeManager());
             container.RegisterType<DomainFactory, DefaultDomainFactory>(new PerRequestLifetimeManager());

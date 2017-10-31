@@ -22,7 +22,8 @@ namespace NewCRM.Repository.DataBaseProvider.EF
     {
         private readonly Parameter _vaildateParameter;
 
-        private ICacheQueryProvider _cacheQueryProvider;
+        [Dependency("ICacheQueryProvider")]
+        public ICacheQueryProvider CacheQueryProvider { get; set; }
 
         protected EntityFrameworkProvider()
         {
@@ -179,22 +180,22 @@ namespace NewCRM.Repository.DataBaseProvider.EF
         {
             var key = entity.KeyGenerator();
 
-            if (_cacheQueryProvider.GetKeyType(key) == RedisType.String)
+            if (CacheQueryProvider.GetKeyType(key) == RedisType.String)
             {
-                if (_cacheQueryProvider.KeyExists(key))
+                if (CacheQueryProvider.KeyExists(key))
                 {
-                    _cacheQueryProvider.KeyDelete(key);
+                    CacheQueryProvider.KeyDelete(key);
                 }
 
-                _cacheQueryProvider.StringSet(key, entity);
+                CacheQueryProvider.StringSet(key, entity);
             }
             else
             {
-                if (_cacheQueryProvider.GetKeyType(key) == RedisType.List)
+                if (CacheQueryProvider.GetKeyType(key) == RedisType.List)
                 {
-                    if (_cacheQueryProvider.KeyExists(key))
+                    if (CacheQueryProvider.KeyExists(key))
                     {
-                        _cacheQueryProvider.KeyDelete(key);
+                        CacheQueryProvider.KeyDelete(key);
                     }
                 }
             }

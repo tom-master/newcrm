@@ -15,7 +15,8 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
 {
     public class QueryProviderFormCache : IDomainModelQueryProviderFormCache
     {
-        private readonly ICacheQueryProvider _cacheQueryProvider;
+        [Dependency("ICacheQueryProvider")]
+        public ICacheQueryProvider CacheQueryProvider { get; set; }
 
         #region 属性
 
@@ -32,9 +33,7 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
         {
             get
             {
-                var unitofwork = UnitOfWork as UnitOfWorkContextBase;
-
-                if (unitofwork != null)
+                if (UnitOfWork is UnitOfWorkContextBase unitofwork)
                 {
                     return unitofwork;
                 }
@@ -45,30 +44,23 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
 
         #endregion
 
-        
-        public QueryProviderFormCache(ICacheQueryProvider cacheQueryProvider)
-        {
-            _cacheQueryProvider = cacheQueryProvider;
-        }
-
         public IEnumerable<T> Query<T>(Specification<T> entity) where T : DomainModelBase, IAggregationRoot
         {
             String internalKey = entity.Expression.GeneratorRedisKey<T>();
 
-            var cacheValue = _cacheQueryProvider.ListRange<T>(internalKey);
+            var cacheValue = CacheQueryProvider.ListRange<T>(internalKey);
 
             if (cacheValue == null || !cacheValue.Any())
             {
                 IList<T> values = EfContext.Set<T, Int32>().Where(entity.Expression).ToList();
-
-                if (_cacheQueryProvider.KeyExists(internalKey))
+                if (CacheQueryProvider.KeyExists(internalKey))
                 {
-                    _cacheQueryProvider.KeyDelete(internalKey);
+                    CacheQueryProvider.KeyDelete(internalKey);
                 }
 
                 foreach (var value in values)
                 {
-                    _cacheQueryProvider.ListRightPush(value.KeyGenerator(), value);
+                    CacheQueryProvider.ListRightPush(value.KeyGenerator(), value);
                 }
 
                 return values;
