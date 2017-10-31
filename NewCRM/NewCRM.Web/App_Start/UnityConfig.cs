@@ -89,7 +89,6 @@ namespace NewCRM.Web.App_Start
 
             container.RegisterType<ICacheQueryProvider, DefaultRedisQueryProvider>();
 
-            container.RegisterType<DbContext, NewCrmContext>();
             container.RegisterType<SpecificationFactory, DefaultSpecificationFactory>();
             container.RegisterType<DomainFactory, DefaultDomainFactory>();
 
