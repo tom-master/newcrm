@@ -27,7 +27,7 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 锁屏密码
         /// </summary>
-        [MaxLength(6)]
+        [MinLength(6)]
         public String LockScreenPassword { get; private set; }
 
         /// <summary>

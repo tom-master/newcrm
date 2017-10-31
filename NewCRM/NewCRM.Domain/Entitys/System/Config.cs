@@ -13,7 +13,7 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 皮肤
         /// </summary>
-        [Required, MaxLength(6)]
+        [Required]
         public String Skin { get; private set; }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace NewCRM.Domain.Entitys.System
             DockPosition = DockPostion.Top;
             Skin = "default";
             WallpaperMode = WallpaperMode.Fill;
-            AccountFace = "";
+            AccountFace = @"\Scripts\HoorayUI\img\ui\avatar_48.jpg";
             AppSize = 48;
             AppVerticalSpacing = 50;
             AppHorizontalSpacing = 50;
