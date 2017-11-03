@@ -122,7 +122,7 @@ namespace NewCRM.Application.Services
 
         public void AddPowerToCurrentRole(Int32 roleId, IEnumerable<Int32> powerIds)
         {
-            ValidateParameter.Validate(roleId).Validate(powerIds);
+            ValidateParameter.Validate(roleId);
             var roleResult = DatabaseQuery.FindOne(FilterFactory.Create<Role>(role => role.Id == roleId));
 
             if (roleResult == null)

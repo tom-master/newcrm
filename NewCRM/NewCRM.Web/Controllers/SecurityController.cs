@@ -159,23 +159,18 @@ namespace NewCRM.Web.Controllers
         /// 将权限附加到角色中
         /// </summary>
         /// <returns></returns>
+        [HttpPost]
         public ActionResult AddPowerToRole(FormCollection forms)
         {
             #region 参数验证
             Parameter.Validate(forms);
             #endregion
             var response = new ResponseModel();
-            if (!String.IsNullOrEmpty(forms["val_apps_id"]))
-            {
-                var powerIds = forms["val_apps_id"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
-                _securityServices.AddPowerToCurrentRole(Int32.Parse(forms["val_roleId"]), powerIds);
-                response.IsSuccess = true;
-                response.Message = "将权限附加到角色中成功";
-            }
-            else
-            {
-                response.Message = "权限未作任何更改";
-            }
+            var powerIds = forms["val_apps_id"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
+            _securityServices.AddPowerToCurrentRole(Int32.Parse(forms["val_roleId"]), powerIds);
+            response.IsSuccess = true;
+            response.Message = "将权限附加到角色中成功";
+
             return Json(response);
         }
 

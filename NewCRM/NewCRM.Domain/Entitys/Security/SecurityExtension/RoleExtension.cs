@@ -38,10 +38,7 @@ namespace NewCRM.Domain.Entitys.Security
             {
                 throw new BusinessException($"{nameof(powerIds)}不能为空");
             }
-            if (!powerIds.Any())
-            {
-                throw new BusinessException($"{nameof(powerIds)}不能为0");
-            }
+            
             foreach (var powerid in powerIds)
             {
                 Powers.Add(new RolePower(Id, powerid));
