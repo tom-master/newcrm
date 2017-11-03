@@ -145,7 +145,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 安装app
         /// </summary>
-        /// <returns></returns>
+        /// <returns></returns> 
         public ActionResult InstallApp(Int32 appId, Int32 deskNum)
         {
             #region 参数验证
