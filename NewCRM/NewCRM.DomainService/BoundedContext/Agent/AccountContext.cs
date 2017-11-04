@@ -21,7 +21,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
             _onlineRepository = onlineRepository;
         }
 
-        public Account Validate(String accountName, String password)
+        public Account Validate(String accountName, String password) 
         {
             ValidateParameter.Validate(accountName).Validate(password);
 
