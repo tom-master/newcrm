@@ -85,6 +85,7 @@
                 },
                 ajaxPost: true,
                 callback: function (responseText) {
+                    debugger
                     if (responseText.IsSuccess) {
                         if ($('input[name="val_roleId"]').val()) {
                             $.dialog({
@@ -141,7 +142,6 @@
                             url: '/Security/SelectSystemApp',
                             data: { appIds: $.dialog.data('appsid') },
                             success: function (responseText) {
-                                debugger
                                 if (responseText.IsSuccess) {
                                     var model = responseText.Model;
                                     var msg = "";

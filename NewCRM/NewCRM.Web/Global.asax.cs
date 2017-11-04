@@ -11,7 +11,7 @@ namespace NewCRM.Web
     {
         protected void Application_Start()
         {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<NewCrmContext>());
+            Database.SetInitializer(new CreateDatabaseIfNotExists<NewCrmContext>());
 
 
             AreaRegistration.RegisterAllAreas();

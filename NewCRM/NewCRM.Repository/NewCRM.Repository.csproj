@@ -90,14 +90,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201710310700143_Initial.resx">
-      <DependentUpon>201710310700143_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711040306187_Initial1.resx">
-      <DependentUpon>201711040306187_Initial1.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
   <!--<ItemGroup>
     <EmbeddedResource Include="Migrations\201606051122318_InitialCreate.resx">
       <DependentUpon>201606051122318_InitialCreate.cs</DependentUpon>
@@ -110,14 +102,6 @@
     <Compile Include="DatabaseProvider\Redis\InternalHelper\ICacheQueryProvider.cs" />
     <Compile Include="DatabaseProvider\Redis\InternalHelper\RedisConnectionHelp.cs" />
     <Compile Include="DatabaseProvider\Redis\InternalHelper\DefaultRedisQueryProvider.cs" />
-    <Compile Include="Migrations\201710310700143_Initial.cs" />
-    <Compile Include="Migrations\201710310700143_Initial.Designer.cs">
-      <DependentUpon>201710310700143_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711040306187_Initial1.cs" />
-    <Compile Include="Migrations\201711040306187_Initial1.Designer.cs">
-      <DependentUpon>201711040306187_Initial1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="DatabaseProvider\EF\NewCrmContext.cs" />
     <Compile Include="DatabaseProvider\EF\QueryProvider.cs" />

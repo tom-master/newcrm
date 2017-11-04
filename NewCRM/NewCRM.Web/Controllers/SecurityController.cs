@@ -167,9 +167,16 @@ namespace NewCRM.Web.Controllers
             #endregion
             var response = new ResponseModel();
             var powerIds = forms["val_apps_id"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
-            _securityServices.AddPowerToCurrentRole(Int32.Parse(forms["val_roleId"]), powerIds);
-            response.IsSuccess = true;
-            response.Message = "将权限附加到角色中成功";
+            if (powerIds.Any())
+            {
+                _securityServices.AddPowerToCurrentRole(Int32.Parse(forms["val_roleId"]), powerIds);
+                response.IsSuccess = true;
+                response.Message = "将权限附加到角色中成功";
+            }
+            else
+            {
+                response.Message = "一个角色至少拥有一个app";
+            }
 
             return Json(response);
         }
