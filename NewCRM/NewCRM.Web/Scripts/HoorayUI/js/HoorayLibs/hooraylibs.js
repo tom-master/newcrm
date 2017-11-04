@@ -2600,7 +2600,9 @@ ZENG.msgbox.success = function (msg, timeout) {
 ZENG.msgbox.fail = function (msg, timeout) {
     ZENG.msgbox.show(msg, 5, timeout || 2000);
 };
-ZENG.msgbox.loading = function () { };
+ZENG.msgbox.loading = function (msg) {
+    ZENG.msgbox.show(msg, 6, 8000);
+};
 
 
 ZENG.msgbox._setPosition = function (a, f, d) {
@@ -2618,7 +2620,6 @@ ZENG.msgbox.hide = function (a) {
     var b = ZENG.msgbox;
     if (a) {
         clearTimeout(b._timer);
-
         b._timer = setTimeout(b._hide, a);
     } else {
         b._hide();

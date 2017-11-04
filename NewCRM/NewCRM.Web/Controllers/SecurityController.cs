@@ -132,7 +132,7 @@ namespace NewCRM.Web.Controllers
         /// 添加角色
         /// </summary>
         /// <returns></returns>
-        public ActionResult NewRole(FormCollection forms, Int32 roleId)
+        public ActionResult NewRole(FormCollection forms, Int32 roleId=0)
         {
             #region 参数验证
             Parameter.Validate(forms);

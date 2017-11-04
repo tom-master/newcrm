@@ -80,10 +80,6 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult AccountAppManageInfo(Int32 appId)
         {
-            #region 参数验证
-            Parameter.Validate(appId);
-            #endregion
-
             AppDto result = null;
             if (appId != 0)// 如果appId为0则是新创建app
             {

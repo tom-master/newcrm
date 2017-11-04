@@ -96,8 +96,14 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(roleDto);
 
-            var role = roleDto.ConvertToModel<RoleDto, Role>();
-            _roleRepository.Add(role);
+            var filter = FilterFactory.Create<Role>(role => role.Name.ToLower() == roleDto.Name.ToLower() || role.RoleIdentity.ToLower() == roleDto.RoleIdentity.ToLower());
+            var result = DatabaseQuery.FindOne(filter);
+            if (result != null)
+            {
+                throw new BusinessException($@"角色:{roleDto.Name} 已经存在");
+            }
+            var roleModel = roleDto.ConvertToModel<RoleDto, Role>();
+            _roleRepository.Add(roleModel);
 
             UnitOfWork.Commit();
         }
@@ -106,15 +112,22 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(roleDto);
 
-            var role = roleDto.ConvertToModel<RoleDto, Role>();
-            var roleResult = DatabaseQuery.FindOne(FilterFactory.Create<Role>(internalRole => internalRole.Id == role.Id));
+            var filter = FilterFactory.Create<Role>(role => role.Name.ToLower() == roleDto.Name.ToLower() || role.RoleIdentity.ToLower() == roleDto.RoleIdentity.ToLower());
+            var result = DatabaseQuery.FindOne(filter);
+            if (result != null)
+            {
+                throw new BusinessException("已经存在一个相同名称的角色");
+            }
+
+            var roleModel = roleDto.ConvertToModel<RoleDto, Role>();
+            var roleResult = DatabaseQuery.FindOne(FilterFactory.Create<Role>(internalRole => internalRole.Id == roleModel.Id));
 
             if (roleResult == null)
             {
                 throw new BusinessException("该角色可能已被删除，请刷新后再试");
             }
 
-            roleResult.ModifyRoleName(role.Name).ModifyRoleIdentity(role.RoleIdentity);
+            roleResult.ModifyRoleName(roleModel.Name).ModifyRoleIdentity(roleModel.RoleIdentity);
             _roleRepository.Update(roleResult);
 
             UnitOfWork.Commit();

@@ -12,7 +12,7 @@
     }
 }
 
-<form action="@Url.Action("NewRole","Security")?roleId=@Request["roleId"]" method="post" id="form" name="form"> 
+<form action="@Url.Action("NewRole","Security")?roleId=@Request["roleId"]" method="post" id="form" name="form">
     <div class="creatbox">
         <div class="middle" style="overflow: hidden; position: inherit; bottom: 0px;">
             <div class="input-label">
@@ -28,7 +28,7 @@
                         else
                         {
                             <text>
-                                <input type="text"  class="text" name="val_roleName" id="val_roleName" value="@roleResult.Name" datatype="*" nullmsg="请输入角色标识" />
+                                <input type="text" class="text" name="val_roleName" id="val_roleName" value="@roleResult.Name" datatype="*" nullmsg="请输入角色标识" />
                             </text>
                         }
                     }
@@ -59,7 +59,7 @@
                     <span class="help-inline"></span>
                 </div>
             </div>
-            
+
         </div>
     </div>
     <div class="bottom-bar">
@@ -92,47 +92,42 @@
                 },
                 ajaxPost: true,
                 callback: function (responseText) {
-                    if (typeof responseText.js !== 'undefined') {
-                        $('body').append(responseText.js);
-                    } else {
+                    if (responseText.IsSuccess) {
                         if ($('input[name="roleId"]').val() !== '') {
-                            if (typeof responseText.success !== 'undefined') {
-                                $.dialog({
-                                    id: 'ajaxedit',
-                                    content: '修改成功，是否继续修改？',
-                                    okVal: '是',
-                                    ok: function () {
-                                        $.dialog.list['ajaxedit'].close();
-                                    },
-                                    cancel: function () {
-                                        window.parent.closeDetailIframe(function () {
-                                            window.parent.$('#pagination').trigger('currentPage');
-                                        });
-                                    }
-                                });
-                            }
+                            $.dialog({
+                                id: 'ajaxedit',
+                                content: '修改成功，是否继续修改？',
+                                okVal: '是',
+                                ok: function () {
+                                    $.dialog.list['ajaxedit'].close();
+                                },
+                                cancel: function () {
+                                    window.parent.closeDetailIframe(function () {
+                                        window.parent.$('#pagination').trigger('currentPage');
+                                    });
+                                }
+                            });
                         } else {
-                            if (typeof responseText.success !== 'undefined') {
-                                $.dialog({
-                                    id: 'ajaxedit',
-                                    content: '添加成功，是否继续添加？',
-                                    okVal: '是',
-                                    ok: function () {
-                                        location.reload();
-                                        return false;
-                                    },
-                                    cancel: function () {
-                                        window.parent.closeDetailIframe(function () {
-                                            window.parent.$('#pagination').trigger('currentPage');
-                                        });
-                                    }
-                                });
-                            }
+                            $.dialog({
+                                id: 'ajaxedit',
+                                content: '添加成功，是否继续添加？',
+                                okVal: '是',
+                                ok: function () {
+                                    location.reload();
+                                    return false;
+                                },
+                                cancel: function () {
+                                    window.parent.closeDetailIframe(function () {
+                                        window.parent.$('#pagination').trigger('currentPage');
+                                    });
+                                }
+                            });
                         }
-                    } 
+                    } else {
+                        ZENG.msgbox.fail(responseText.Message);
+                    }
                 }
             });
-
         });
     </script>
 }

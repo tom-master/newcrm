@@ -18,7 +18,7 @@ namespace NewCRM.Web.Filter
             var response = new ResponseModel<String>
             {
                 IsSuccess = false,
-                Message = filterContext.Exception.Message,
+                Message = filterContext.Exception is BusinessException ? filterContext.Exception.Message : "出现未知错误，请重试",
             };
             filterContext.Result = new JsonResult()
             {
