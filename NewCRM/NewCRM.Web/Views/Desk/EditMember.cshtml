@@ -127,7 +127,7 @@
             });
             uploader.on('beforeFileQueued', function(file) {
                 if (file.size > 300 * 1024) {
-                    ZENG.msgbox.show('文件大于300Kb，请压缩后再上传', 4, 2000);
+                    ZENG.msgbox.info('文件大于300Kb，请压缩后再上传');
                     return false;
                 } else {
                     $('.shortcutview img').remove();
@@ -148,7 +148,7 @@
             });
             uploader.on('uploadSuccess', function(file, cb) {
                 if (typeof cb.iconPath === 'undefined') {
-                    ZENG.msgbox.show(cb.msg, 4, 2000);
+                    ZENG.msgbox.info(cb.msg, 4, 2000);
                 } else {
                     $('.shortcutview img').attr('src', cb.iconPath);
                     $('#val_icon').val(cb.iconPath);
@@ -177,18 +177,15 @@
                 },
                 ajaxPost: true,
                 callback: function (responseText) {
-                    if (typeof responseText.js !== 'undefined') {
-                        $('body').append(responseText.js);
+                    if (responseText.IsSuccess) {
+                        ZENG.msgbox.success('修改成功', 4, 2000);
+                        setTimeout(function () {
+                            window.parent.HROS.app.get();
+                            window.parent.$.dialog.list['editdialog'].close();
+                        }, 1000);
                     } else {
-                        if (typeof responseText.success !== 'undefined') {
-                            ZENG.msgbox.show('修改成功', 4, 2000);
-                            setTimeout(function () {
-                                window.parent.HROS.app.get();
-                                window.parent.$.dialog.list['editdialog'].close();
-                            }, 1000);
-                        }
+                        ZENG.msgbox.success(responseText.Message, 4, 2000);
                     }
-                    
                 }
             });
             $('input[name="val_isresize"]').change(function() {

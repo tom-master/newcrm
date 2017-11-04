@@ -100,17 +100,14 @@
                         $.post('@Url.Action("ModifyAppStart", "AppMarket")',
                             { appId: '@Model.Id', starCount: num },
                             function (responseText) {
-                                if (typeof responseText.js !== 'undefined') {
-                                    $('body').append(responseText.js);
+                                if (responseText.IsSuccess) {
+                                    ZENG.msgbox.success("打分成功！");
+                                    setTimeout(function () {
+                                        location.reload();
+                                    }, 2000);
                                 } else {
-                                    if (typeof responseText.success !== 'undefined') {
-                                        ZENG.msgbox.show("打分成功！", 4, 2000);
-                                        setTimeout(function () {
-                                            location.reload();
-                                        }, 2000);
-                                    }
+                                    ZENG.msgbox.fail(responseText.Message);
                                 }
-
                             });
                     } else {
                         window.parent.parent.HROS.base.login();

@@ -72,7 +72,7 @@
     <script src="@Url.Content("~/Scripts/handlebars-v4.0.5.js")"></script>
 
     <script id="table-template" type="text/x-handlebars-template">
-        {{#each logs}}
+        {{#each Model}}
         <tr class="list-bd">
             <td>{{parseLoggerLevel LogLevelEnum}}</td>
             <td>{{Controller}}</td>
@@ -107,21 +107,22 @@
         }
 
         function getPageList(current_page) {
-            ZENG.msgbox.show('正在加载中，请稍后...', 6, 8000);
+            ZENG.msgbox.loading('正在加载中，请稍后...');
             $.get('@Url.Action("GetAllLog", "Log")', {
                 logLevel: $('#logLevel').find("option:selected").attr('value'),
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 5
             }, function (responseText) {
                 ZENG.msgbox._hide();
-
-                var tableTemplate = Handlebars.compile($("#table-template").html());
-                $('.list-con').html(tableTemplate(responseText));
-
-                $('#pagination_setting').attr('count', responseText.toatalCount);
-                $('.list-count').text(responseText.totalCount);
-
-                initPagination(current_page);
+                if (responseText.IsSuccess) {
+                    var tableTemplate = Handlebars.compile($("#table-template").html());
+                    $('.list-con').html(tableTemplate(responseText));
+                    $('#pagination_setting').attr('count', responseText.ToatalCount);
+                    $('.list-count').text(responseText.ToatalCount);
+                    initPagination(current_page);
+                } else {
+                    ZENG.msgbox.fail(responseText.Message);
+                }
             });
         }
 
