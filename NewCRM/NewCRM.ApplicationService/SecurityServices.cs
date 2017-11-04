@@ -9,6 +9,7 @@ using NewCRM.Dto;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Domain.Repositories.IRepository.Security;
+using NewCRM.Domain.Entitys.Agent;
 
 namespace NewCRM.Application.Services
 {
@@ -75,19 +76,25 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(roleId);
 
-            var roleResult = DatabaseQuery.FindOne(FilterFactory.Create<Role>(role => role.Id == roleId));
-            if (roleResult == null)
+            var filter = FilterFactory.Create<Account>(account => account.Roles.Any(ro => ro.RoleId == roleId));
+            if (DatabaseQuery.Find(filter).Any())
+            {
+                throw new BusinessException("当前角色已绑定了账户，无法删除");
+            }
+
+            var result = DatabaseQuery.FindOne(FilterFactory.Create<Role>(role => role.Id == roleId));
+            if (result == null)
             {
                 throw new BusinessException("该角色可能已不存在，请刷新后再试");
             }
 
-            if (roleResult.Powers.Any())
+            if (result.Powers.Any())
             {
-                roleResult.Powers.ToList().ForEach(rolePower => rolePower.Remove());
+                result.Powers.ToList().ForEach(rolePower => rolePower.Remove());
             }
 
-            roleResult.Remove();
-            _roleRepository.Update(roleResult);
+            result.Remove();
+            _roleRepository.Update(result);
 
             UnitOfWork.Commit();
         }

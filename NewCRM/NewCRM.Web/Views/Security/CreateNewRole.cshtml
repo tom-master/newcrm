@@ -1,11 +1,9 @@
 ﻿@using NewCRM.Dto.Dto
 
-
 @{
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
 
     var roleResult = ViewData["RoleResult"] as RoleDto;
-
     if (roleResult == null)
     {
         roleResult = new RoleDto();
@@ -93,7 +91,7 @@
                 ajaxPost: true,
                 callback: function (responseText) {
                     if (responseText.IsSuccess) {
-                        if ($('input[name="roleId"]').val() !== '') {
+                        if ('@Request["roleId"]') {
                             $.dialog({
                                 id: 'ajaxedit',
                                 content: '修改成功，是否继续修改？',

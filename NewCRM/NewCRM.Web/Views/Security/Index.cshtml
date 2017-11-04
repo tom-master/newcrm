@@ -79,11 +79,13 @@
                     content: '确定要删除 “' + name + '” 该角色？',
                     ok: function () {
                         $.post('@Url.Action("RemoveRole", "Security")', { roleId: roleId }, function (responseText) {
-                            if (typeof responseText.success !== 'undefined') {
+                            if (responseText.IsSuccess) {
                                 setTimeout(function () {
                                     $('#pagination').trigger('currentPage');
                                 }, 1000);
-                                ZENG.msgbox.success('移除成功');
+                                ZENG.msgbox.success('删除成功');
+                            } else {
+                                ZENG.msgbox.fail(responseText.Message);
                             }
                         });
                     },
