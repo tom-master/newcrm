@@ -107,7 +107,7 @@
                                 if (responseText.IsSuccess) {
                                     $('#pagination').trigger('currentPage');
                                 } else {
-                                    ZENG.msgbox.show(responseText.Message, 5, 2000);
+                                    ZENG.msgbox.fail(responseText.Message);
                                 }
                             });
                     },
@@ -128,13 +128,8 @@
                                 if (responseText.IsSuccess) {
                                     $('#pagination').trigger('currentPage');
                                 } else {
-                                    ZENG.msgbox.show(responseText.Message, 5, 2000);
+                                    ZENG.msgbox.fail(responseText.Message);
                                 }
-                                //if (typeof responseText.js !== 'undefined') {
-                                //    $('body').append(responseText.js);
-                                //} else {
-                                //    $('#pagination').trigger('currentPage');
-                                //}
                             });
                     },
                     cancel: true
@@ -161,7 +156,7 @@
         }
 
         function getPageList(current_page) {
-            ZENG.msgbox.show('正在加载中，请稍后...', 6, 8000);
+            ZENG.msgbox.loading('正在加载中，请稍后...');
             $.get('@Url.Action("GetAllAccounts", "AccountManager")', {
                 accountName: $('#accountName').val(),
                 accountType: $('#accountType').val(),
@@ -178,7 +173,7 @@
 
                     initPagination(current_page);
                 } else {
-                    ZENG.msgbox.show(responseText.Message, 6, 8000);
+                    ZENG.msgbox.fila(responseText.Message);
                 }
             });
         }

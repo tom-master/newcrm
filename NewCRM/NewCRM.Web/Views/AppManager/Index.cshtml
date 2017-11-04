@@ -213,7 +213,6 @@
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 7
                 }, function (responseText) {
-                
                     if (responseText.IsSuccess) {
                         ZENG.msgbox.hide();
                         var tableTemplate = Handlebars.compile($("#table-template").html());
@@ -222,7 +221,7 @@
                         $('#pagination_setting').attr('count', parseInt(responseText.totalCount));
                         initPagination(current_page);
                     } else {
-                        ZENG.msgbox.show(responseText.Message, 5,2000);
+                        ZENG.msgbox.fail(responseText.Message);
                     }
 
             });

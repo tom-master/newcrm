@@ -124,11 +124,10 @@
             },
             ajaxPost: true,
             callback: function (data) {
-
                 if (data.status === 'y') {
-                    window.parent.ZENG.msgbox.show('操作成功', 4, 2000);
+                    window.parent.ZENG.msgbox.success('操作成功');
                 } else {
-                    window.parent.ZENG.msgbox.show('操作失败', 5, 2000);
+                    window.parent.ZENG.msgbox.fail('操作失败');
                 }
             }
         });
@@ -155,9 +154,9 @@
             ajaxPost: true,
             callback: function (data) {
                 if (data.status === 'y') {
-                    window.parent.ZENG.msgbox.show('操作成功', 4, 2000);
+                    window.parent.ZENG.msgbox.success('操作成功');
                 } else {
-                    window.parent.ZENG.msgbox.show('操作失败', 5, 2000);
+                    window.parent.ZENG.msgbox.fail('操作失败');
                 }
             }
         });

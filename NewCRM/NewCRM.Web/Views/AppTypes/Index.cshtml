@@ -110,7 +110,7 @@
                     $('.list-con').html(template(responseText));
                     initPagination(current_page);
                 } else {
-                    ZENG.msgbox.show(responseText.Message, 3, 2000);
+                    ZENG.msgbox.fail(responseText.Message);
                 }
             });
         }
