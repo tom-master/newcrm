@@ -103,15 +103,10 @@
                 pageSize: 10,
                 searchText: $('#searchText').val()
             }, function (responseText) {
-
                 var template = Handlebars.compile($('#li-template').html());
-
                 $('#pagination_setting').attr('count', parseInt(responseText.totalCount));
-
                 $('.list-count').text(parseInt(responseText.totalCount));
-
                 $('.list-con').html(template(responseText));
-
                 initPagination(current_page);
             });
         }
