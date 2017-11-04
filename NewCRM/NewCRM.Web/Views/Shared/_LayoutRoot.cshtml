@@ -43,17 +43,12 @@
         });
 
     openDetailIframe = function (url) {
-        ZENG.msgbox.show('正在载入中，请稍后...', 6, 8000);
+        ZENG.msgbox.loading('正在载入中，请稍后...');
         $('#detailIframe iframe')
             .attr('src', url).on('load', function () {
                 $('body').css('overflow', 'hidden');
                 ZENG.msgbox._hide();
-                $('#detailIframe')
-                    .animate({
-                        'top': 0,
-                        'opacity': 'show'
-                    },
-                        500);
+                $('#detailIframe').animate({ 'top': 0, 'opacity': 'show' }, 500);
             });
     };
     closeDetailIframe = function (callback) {
