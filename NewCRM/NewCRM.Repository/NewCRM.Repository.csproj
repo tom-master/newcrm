@@ -94,6 +94,9 @@
     <EmbeddedResource Include="Migrations\201710310700143_Initial.resx">
       <DependentUpon>201710310700143_Initial.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711040306187_Initial1.resx">
+      <DependentUpon>201711040306187_Initial1.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <!--<ItemGroup>
     <EmbeddedResource Include="Migrations\201606051122318_InitialCreate.resx">
@@ -110,6 +113,10 @@
     <Compile Include="Migrations\201710310700143_Initial.cs" />
     <Compile Include="Migrations\201710310700143_Initial.Designer.cs">
       <DependentUpon>201710310700143_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711040306187_Initial1.cs" />
+    <Compile Include="Migrations\201711040306187_Initial1.Designer.cs">
+      <DependentUpon>201711040306187_Initial1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="DatabaseProvider\EF\NewCrmContext.cs" />

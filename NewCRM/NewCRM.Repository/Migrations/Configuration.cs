@@ -1,18 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Migrations;
-using System.Data.Entity.Validation;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using NewCRM.Domain.Entitys.Agent;
-using NewCRM.Domain.Entitys.Security;
-using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.ValueObject;
-using NewCRM.Infrastructure.CommonTools;
+﻿using System.Data.Entity.Migrations;
 using NewCRM.Repository.DatabaseProvider.EF.Context;
-using NewCRM.Repository.DataBaseProvider.EF;
 
 namespace NewCRM.Repository.Migrations
 {

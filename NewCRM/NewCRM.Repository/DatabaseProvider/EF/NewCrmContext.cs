@@ -39,8 +39,6 @@ namespace NewCRM.Repository.DatabaseProvider.EF.Context
 
 		public DbSet<RolePower> RolePowers { get; set; }
 
-		//public DbSet<AppRole> AppRoles { get; set; }
-
 		public DbSet<AppStar> AppStars { get; set; }
 
 
@@ -62,21 +60,10 @@ namespace NewCRM.Repository.DatabaseProvider.EF.Context
 				.WithMany()
 				.Map(m => m.MapKey("ConfigId"));
 
-            //modelBuilder.Entity<Account>()
-            //    .HasMany(a => a.AccountRoles)
-            //    .WithMany(r => r.Accounts)
-            //    .Map(m => m.MapLeftKey("AccountId").MapRightKey("RoleId").ToTable("AccountRole"));
-
             //Config
             modelBuilder.Entity<Config>()
 				.HasRequired(c => c.Wallpaper)
 				.WithMany(w => w.Configs).Map(m => m.MapKey("WallpaperId"));
-
-			////Role
-			//modelBuilder.Entity<Role>()
-			//    .HasMany(r => r.Powers)
-			//    .WithMany(p => p.Roles)
-			//    .Map(m => m.MapLeftKey("RoleId").MapRightKey("PowerId").ToTable("RolePower"));
 
 			//App
 			modelBuilder.Entity<App>()

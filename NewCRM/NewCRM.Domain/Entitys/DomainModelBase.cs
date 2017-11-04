@@ -24,11 +24,9 @@ namespace NewCRM.Domain.Entitys
 
         public Boolean IsDeleted { get; protected set; }
 
-        [DataType(DataType.DateTime), DefaultValue(typeof(DateTime))]
         public DateTime AddTime { get; protected set; } = DateTime.Parse($"{DateTime.Now:yyyy-MM-dd HH:mm:ss}");
 
-        [DataType(DataType.DateTime), DefaultValue(typeof(DateTime))]
-        public DateTime LastModifyTime { get; set; } = DateTime.Parse($"{DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+        public DateTime LastModifyTime { get; protected set; } = DateTime.Parse($"{DateTime.Now:yyyy-MM-dd HH:mm:ss}");
 
         #endregion
     }

@@ -148,10 +148,7 @@ namespace NewCRM.Repository.UnitOfWorkProvide
         public void RegisterModified<T, TKey>(T entity) where T : DomainModelBase
         {
             Context.Update<T, TKey>(entity);
-
             IsCommitted = false;
-
-            entity.LastModifyTime = DateTime.Parse($"{DateTime.Now:yyyy-MM-dd HH:mm:ss}");
         }
 
         /// <summary>

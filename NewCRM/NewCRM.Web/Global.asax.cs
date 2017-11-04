@@ -1,5 +1,4 @@
-﻿using NewCRM.Repository.DataBaseProvider.EF;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
