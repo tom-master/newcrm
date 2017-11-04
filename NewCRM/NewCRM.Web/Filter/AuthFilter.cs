@@ -39,7 +39,7 @@ namespace NewCRM.Web.Filter
 
         private static void ReturnMessage(AuthorizationContext filterContext, String message)
         {
-            var notPermissionMessage = @"<script>setTimeout(function(){window.top.ZENG.msgbox.show('" + message + "', 5,3000);},0)</script>";
+            var notPermissionMessage = @"<script>setTimeout(function(){window.top.ZENG.msgbox.info('" + message + "');},0)</script>";
             var isAjaxRequest = filterContext.RequestContext.HttpContext.Request.IsAjaxRequest();
 
             if (!isAjaxRequest)

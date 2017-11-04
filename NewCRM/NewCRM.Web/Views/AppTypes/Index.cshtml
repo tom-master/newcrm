@@ -41,7 +41,7 @@
     <script src="@Url.Content("~/Scripts/handlebars-v4.0.5.js")"></script>
 
     <script id="li-template" type="text/x-handlebars-template">
-        {{#each appTypes}}
+        {{#each Model}}
         <tr class="list-bd">
             <td style="text-align:left;padding-left:15px">
                 {{Name}}
@@ -103,11 +103,15 @@
                 pageSize: 10,
                 searchText: $('#searchText').val()
             }, function (responseText) {
-                var template = Handlebars.compile($('#li-template').html());
-                $('#pagination_setting').attr('count', parseInt(responseText.totalCount));
-                $('.list-count').text(parseInt(responseText.totalCount));
-                $('.list-con').html(template(responseText));
-                initPagination(current_page);
+                if (responseText.IsSuccess) {
+                    var template = Handlebars.compile($('#li-template').html());
+                    $('#pagination_setting').attr('count', parseInt(responseText.TotalCount));
+                    $('.list-count').text(parseInt(responseText.TotalCount));
+                    $('.list-con').html(template(responseText));
+                    initPagination(current_page);
+                } else {
+                    ZENG.msgbox.show(responseText.Message, 3, 2000);
+                }
             });
         }
     </script>

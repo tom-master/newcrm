@@ -73,7 +73,7 @@ namespace NewCRM.Web.Controllers
                 response.IsSuccess = true;
             }
 
-            return Json(accounts, JsonRequestBehavior.AllowGet);
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
