@@ -2,13 +2,10 @@
 @{
 
     Layout = "~/Views/Shared/_LayoutRoot.cshtml";
+
     var account = ViewData["Account"] as AccountDto;
-
     var accountConfig = ViewData["AccountConfig"] as ConfigDto;
-
     var desks = (Int32)ViewData["Desks"];
-
-
 }
 @section ParentCss{
     <link href="@Url.Content("~/Scripts/HoorayUI/js/HoorayLibs/hooraylibs.css")" rel="stylesheet" />
