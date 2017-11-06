@@ -33,7 +33,7 @@ namespace NewCRM.Web.Controllers
         /// 创建新的类目
         /// </summary>
         /// <returns></returns>
-        public ActionResult CreateNewAppType(Int32 appTypeId)
+        public ActionResult CreateNewAppType(Int32 appTypeId=0)
         {
             AppTypeDto result = null;
             if (appTypeId != 0)
@@ -85,7 +85,8 @@ namespace NewCRM.Web.Controllers
         /// 创建新的app类型
         /// </summary>
         /// <returns></returns>
-        public ActionResult NewAppType(FormCollection forms, Int32 appTypeId)
+        [HttpPost]
+        public ActionResult NewAppType(FormCollection forms, Int32 appTypeId = 0)
         {
             #region 参数验证
             Parameter.Validate(forms);

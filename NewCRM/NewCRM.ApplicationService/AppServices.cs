@@ -477,7 +477,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(appDto);
 
             var app = appDto.ConvertToModel<AppDto, App>();
-            var internalApp = new App(app.Name, app.IconUrl, app.AppUrl, app.Width, app.Height, app.AppTypeId, app.AppAuditState,AppReleaseState.UnRelease, app.AppStyle, app.AccountId,
+            var internalApp = new App(app.Name, app.IconUrl, app.AppUrl, app.Width, app.Height, app.AppTypeId, app.AppAuditState, AppReleaseState.UnRelease, app.AppStyle, app.AccountId,
                 app.Remark, app.IsMax, app.IsFull, app.IsSetbar, app.IsOpenMax, app.IsFlash, app.IsDraw, app.IsResize);
 
             _appRepository.Add(internalApp);
@@ -495,11 +495,16 @@ namespace NewCRM.Application.Services
         public void CreateNewAppType(AppTypeDto appTypeDto)
         {
             ValidateParameter.Validate(appTypeDto);
-            var appType = appTypeDto.ConvertToModel<AppTypeDto, AppType>();
 
+            var filter = FilterFactory.Create<AppType>(a => a.Name == appTypeDto.Name);
+            if (DatabaseQuery.Find(filter).Any())
+            {
+                throw new BusinessException($@"分类:{appTypeDto.Name},已存在");
+            }
+
+            var appType = appTypeDto.ConvertToModel<AppTypeDto, AppType>();
             _appTypeRepository.Add(new AppType(appType.Name));
             UnitOfWork.Commit();
-
         }
 
         public void ModifyAppType(AppTypeDto appTypeDto, Int32 appTypeId)
@@ -508,6 +513,11 @@ namespace NewCRM.Application.Services
 
             var internalAppTypeFilter = FilterFactory.Create<AppType>(appType => appType.Id == appTypeId);
             var internalAppType = DatabaseQuery.FindOne(internalAppTypeFilter);
+
+            if (internalAppType.Name == appTypeDto.Name)
+            {
+                throw new BusinessException($@"分类:{appTypeDto.Name},已存在");
+            }
 
             internalAppType.ModifyAppTypeName(appTypeDto.Name);
             _appTypeRepository.Update(internalAppType);
