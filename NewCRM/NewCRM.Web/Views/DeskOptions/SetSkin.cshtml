@@ -13,7 +13,6 @@
 {
     <script>
         $(function () {
-
             loadAllSkin(function () {
                 changeSkin();
             });
@@ -23,14 +22,14 @@
         function loadAllSkin(callback) {
             ZENG.msgbox.loading('正在加载中，请稍后...');
             $.post('@Url.Action("GetAllSkin", "DeskOptions")', { __: Date.now }, function (responseText) {
-                ZENG.msgbox._hide();
+                ZENG.msgbox.hide();
                 if (responseText.IsSuccess) {
                     var html = '';
-                    $.each(responseText.data, function (k, v) {
+                    $.each(responseText.Model.data, function (k, v) {
                         html += '<li skin="' + k + '"><img src="' + v.imgPath + '"  data-css="' + v.skinPath + '"><div></div></li>';
                     });
                     $('#skinList').append(html);
-                    $('li[skin="' + responseText.currentSkin + '"]').addClass('selected');
+                    $('li[skin="' + responseText.Model.currentSkin + '"]').addClass('selected');
                     if (typeof (callback) === 'function') {
                         callback && callback();
                     }
@@ -50,7 +49,7 @@
                         window.parent.ZENG.msgbox.success("皮肤设置成功，如果没有更新请刷新页面");
                         setTimeout(function () {
                             window.parent.HROS.base.getSkin(skin, function () {
-                                window.parent.ZENG.msgbox._hide();
+                                window.parent.ZENG.msgbox.hide();
                             });
                         }, 2000);
                     } else {

@@ -164,7 +164,7 @@
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 5
             }, function (responseText) {
-                ZENG.msgbox._hide();
+                ZENG.msgbox.hide();
                 if (responseText.IsSuccess) {
                     var tableTemplate = Handlebars.compile($("#table-template").html());
                     $('.list-con').html(tableTemplate(responseText));
