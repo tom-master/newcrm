@@ -488,6 +488,12 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(appTypeId);
 
+            var filter = FilterFactory.Create<App>(a => a.AppTypeId == appTypeId);
+            if (DatabaseQuery.Find(filter).Any())
+            {
+                throw new BusinessException($@"当前分类下已有绑定app,不能删除当前分类");
+            }
+
             _modifyAppTypeServices.DeleteAppType(appTypeId);
             UnitOfWork.Commit();
         }
