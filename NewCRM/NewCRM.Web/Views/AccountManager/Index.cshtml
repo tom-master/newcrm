@@ -101,9 +101,10 @@
                     id: 'edit',
                     content: '确定要删除 “' + name + '” 该账户么？',
                     ok: function () {
-
-                        $('@Url.Action("RemoveAccount", "AccountManager")', { accountId: memberid },
+                        
+                        $.get('@Url.Action("RemoveAccount", "AccountManager")', { accountId: memberid },
                             function (responseText) {
+                                debugger
                                 if (responseText.IsSuccess) {
                                     $('#pagination').trigger('currentPage');
                                 } else {

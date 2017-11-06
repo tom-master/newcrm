@@ -20,10 +20,11 @@ namespace NewCRM.Web.Filter
                 IsSuccess = false,
                 Message = filterContext.Exception is BusinessException ? filterContext.Exception.Message : "出现未知错误，请重试",
             };
-            filterContext.Result = new JsonResult()
+            filterContext.Result = new JsonResult
             {
                 Data = response,
-                ContentEncoding = Encoding.UTF8
+                ContentEncoding = Encoding.UTF8,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
             //DependencyResolver.Current.GetService<ILoggerApplicationServices>().AddLogger(new LogDto
             //{

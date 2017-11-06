@@ -37,7 +37,7 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <param name="accountId"></param>
         /// <returns></returns>
-        public ActionResult CreateNewAccount(Int32 accountId=0)
+        public ActionResult CreateNewAccount(Int32 accountId = 0)
         {
             if (accountId != 0)
             {
@@ -121,14 +121,15 @@ namespace NewCRM.Web.Controllers
         /// 移除账户
         /// </summary>
         /// <returns></returns>
-        public ActionResult RemoveAccount()
+        [HttpGet]
+        public ActionResult RemoveAccount(Int32 accountId)
         {
             var response = new ResponseModel<String>();
-            _accountServices.RemoveAccount(Account.Id);
+            _accountServices.RemoveAccount(accountId);
             response.IsSuccess = true;
             response.Message = "移除账户成功";
 
-            return Json(response);
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
