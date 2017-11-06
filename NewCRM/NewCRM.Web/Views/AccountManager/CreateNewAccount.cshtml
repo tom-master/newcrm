@@ -3,9 +3,7 @@
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
 
     var accountResult = ViewData["Account"] as AccountDto;
-
     var roles = ViewData["Roles"] as List<RoleDto>;
-
     if (accountResult == null)
     {
         accountResult = new AccountDto();

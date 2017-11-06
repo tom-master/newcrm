@@ -37,11 +37,11 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <param name="accountId"></param>
         /// <returns></returns>
-        public ActionResult CreateNewAccount(Int32 accountId)
+        public ActionResult CreateNewAccount(Int32 accountId=0)
         {
             if (accountId != 0)
             {
-                ViewData["Account"] = _accountServices.GetAccount(Account.Id);
+                ViewData["Account"] = _accountServices.GetAccount(accountId);
             }
 
             ViewData["Roles"] = _securityServices.GetAllRoles();
