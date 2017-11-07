@@ -2,7 +2,8 @@
 using System.Web.Mvc;
 using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
-using Newtonsoft.Json;
+using NewCRM.Application.Services.Interface;
+using Microsoft.Practices.Unity;
 
 namespace NewCRM.Web.Controllers.ControllerHelper
 {
@@ -10,14 +11,17 @@ namespace NewCRM.Web.Controllers.ControllerHelper
     {
         protected Parameter Parameter => new Parameter();
 
+        [Dependency]
+        protected IAccountServices AccountServices { get; set; }
+
         protected AccountDto Account
         {
             get
             {
-                var accountCookie = Request.Cookies["Account"];
-                if (accountCookie != null)
+                var accountId = Request.Cookies["memberID"];
+                if (accountId != null)
                 {
-                    return JsonConvert.DeserializeObject<AccountDto>(accountCookie.Value);
+                    return AccountServices.GetAccount(Int32.Parse(accountId.Value));
                 }
 
                 RedirectToAction("Landing", "Login");

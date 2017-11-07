@@ -11,7 +11,6 @@ namespace NewCRM.Web.Controllers
 {
     public class IndexController : BaseController
     {
-
         private readonly IAccountServices _accountServices;
 
         private readonly IAppServices _appServices;

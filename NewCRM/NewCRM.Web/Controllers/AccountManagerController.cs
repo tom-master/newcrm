@@ -11,13 +11,10 @@ namespace NewCRM.Web.Controllers
 {
     public class AccountManagerController : BaseController
     {
-        private readonly IAccountServices _accountServices;
-
         private readonly ISecurityServices _securityServices;
 
-        public AccountManagerController(IAccountServices accountServices, ISecurityServices securityServices)
+        public AccountManagerController(ISecurityServices securityServices)
         {
-            _accountServices = accountServices;
             _securityServices = securityServices;
         }
 
@@ -41,7 +38,7 @@ namespace NewCRM.Web.Controllers
         {
             if (accountId != 0)
             {
-                ViewData["Account"] = _accountServices.GetAccount(accountId);
+                ViewData["Account"] = AccountServices.GetAccount(accountId);
             }
 
             ViewData["Roles"] = _securityServices.GetAllRoles();
@@ -64,7 +61,7 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             Int32 totalCount;
-            var accounts = _accountServices.GetAccounts(accountName, accountType, pageIndex, pageSize, out totalCount);
+            var accounts = AccountServices.GetAccounts(accountName, accountType, pageIndex, pageSize, out totalCount);
             if (accounts != null)
             {
                 response.TotalCount = totalCount;
@@ -86,14 +83,14 @@ namespace NewCRM.Web.Controllers
             var dto = WapperAccountDto(forms);
             if (dto.Id == 0)
             {
-                _accountServices.AddNewAccount(dto);
+                AccountServices.AddNewAccount(dto);
 
                 response.Message = "创建新账户成功";
                 response.IsSuccess = true;
             }
             else
             {
-                _accountServices.ModifyAccount(dto);
+                AccountServices.ModifyAccount(dto);
 
                 response.Message = "修改账户成功";
                 response.IsSuccess = true;
@@ -110,7 +107,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult CheckAccountNameExist(String param)
         {
             var response = new ResponseModel<dynamic>();
-            var result = _accountServices.CheckAccountNameExist(param);
+            var result = AccountServices.CheckAccountNameExist(param);
             response.IsSuccess = true;
             response.Model = result ? new { status = "y", info = "" } : new { status = "n", info = "用户名已存在" };
 
@@ -125,7 +122,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult RemoveAccount(Int32 accountId)
         {
             var response = new ResponseModel<String>();
-            _accountServices.RemoveAccount(accountId);
+            AccountServices.RemoveAccount(accountId);
             response.IsSuccess = true;
             response.Message = "移除账户成功";
 
@@ -141,14 +138,14 @@ namespace NewCRM.Web.Controllers
             var response = new ResponseModel<String>();
             if (Boolean.Parse(isDisable))
             {
-                _accountServices.Disable(Account.Id);
+                AccountServices.Disable(Account.Id);
 
                 response.IsSuccess = true;
                 response.Message = "禁用账户成功";
             }
             else
             {
-                _accountServices.Enable(Account.Id);
+                AccountServices.Enable(Account.Id);
 
                 response.IsSuccess = true;
                 response.Message = "启用账户成功";
