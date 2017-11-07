@@ -21,19 +21,15 @@ namespace NewCRM.Web.Controllers
 
         private readonly IAppServices _appServices;
 
-        private readonly IAccountServices _accountServices;
-
         public DeskOptionsController(IWallpaperServices wallpaperServices,
             ISkinServices skinServices,
             IDeskServices deskServices,
-            IAppServices appServices,
-            IAccountServices accountServices)
+            IAppServices appServices)
         {
             _wallpaperServices = wallpaperServices;
             _skinServices = skinServices;
             _deskServices = deskServices;
             _appServices = appServices;
-            _accountServices = accountServices;
         }
 
 
@@ -45,7 +41,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult SystemWallPaper()
         {
-            ViewData["AccountConfig"] = _accountServices.GetConfig(Account.Id);
+            ViewData["AccountConfig"] = AccountServices.GetConfig(Account.Id);
             ViewData["Wallpapers"] = _wallpaperServices.GetWallpaper();
 
             return View();
@@ -57,7 +53,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult CustomWallPaper()
         {
-            ViewData["AccountConfig"] = _accountServices.GetConfig(Account.Id);
+            ViewData["AccountConfig"] = AccountServices.GetConfig(Account.Id);
             return View();
         }
 
@@ -76,8 +72,8 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult DeskSet()
         {
-            ViewData["AccountConfig"] = _accountServices.GetConfig(Account.Id);
-            ViewData["Desks"] = _accountServices.GetConfig(Account.Id).DefaultDeskCount;
+            ViewData["AccountConfig"] = AccountServices.GetConfig(Account.Id);
+            ViewData["Desks"] = AccountServices.GetConfig(Account.Id).DefaultDeskCount;
 
             return View();
         }
@@ -244,7 +240,7 @@ namespace NewCRM.Web.Controllers
             var result = _skinServices.GetAllSkin(skinPath);
             response.IsSuccess = true;
             response.Message = "获取皮肤列表成功";
-            response.Model = new { data = result, currentSkin = _accountServices.GetConfig(Account.Id).Skin };
+            response.Model = new { data = result, currentSkin = AccountServices.GetConfig(Account.Id).Skin };
 
             return Json(response);
 
