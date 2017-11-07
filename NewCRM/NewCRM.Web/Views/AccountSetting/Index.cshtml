@@ -123,11 +123,11 @@
                 }
             },
             ajaxPost: true,
-            callback: function (data) {
-                if (data.status === 'y') {
-                    window.parent.ZENG.msgbox.success('操作成功');
+            callback: function (responseText) {
+                if (responseText.IsSuccess) {
+                    window.parent.ZENG.msgbox.success('修改成功');
                 } else {
-                    window.parent.ZENG.msgbox.fail('操作失败');
+                    window.parent.ZENG.msgbox.fail('修改失败');
                 }
             }
         });
@@ -152,11 +152,12 @@
                 }
             },
             ajaxPost: true,
-            callback: function (data) {
-                if (data.status === 'y') {
-                    window.parent.ZENG.msgbox.success('操作成功');
+            callback: function (responseText) {
+                debugger
+                if (responseText.IsSuccess) {
+                    window.parent.ZENG.msgbox.success('修改成功');
                 } else {
-                    window.parent.ZENG.msgbox.fail('操作失败');
+                    window.parent.ZENG.msgbox.fail('修改失败');
                 }
             }
         });
