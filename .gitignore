@@ -64,3 +64,4 @@
 /NewCRM/packages
 /NewCRM/TestCenter
 / - Copy.gitignore
+/NewCRM/NewCRM.Web/Scripts/HoorayUI/img/ui/uploadui
