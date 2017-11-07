@@ -11,15 +11,12 @@ namespace NewCRM.Web.Controllers
 {
     public class IndexController : BaseController
     {
-        private readonly IAccountServices _accountServices;
-
         private readonly IAppServices _appServices;
 
         private readonly IDeskServices _deskServices;
 
-        public IndexController(IAccountServices accountServices, IAppServices appServices, IDeskServices deskServices)
+        public IndexController(IAppServices appServices, IDeskServices deskServices)
         {
-            _accountServices = accountServices;
             _appServices = appServices;
             _deskServices = deskServices;
         }
@@ -39,8 +36,8 @@ namespace NewCRM.Web.Controllers
             {
 
                 ViewData["Account"] = Account;
-                ViewData["AccountConfig"] = _accountServices.GetConfig(Account.Id);
-                ViewData["Desks"] = _accountServices.GetConfig(Account.Id).DefaultDeskCount;
+                ViewData["AccountConfig"] = AccountServices.GetConfig(Account.Id);
+                ViewData["Desks"] = AccountServices.GetConfig(Account.Id).DefaultDeskCount;
 
                 return View();
             }
@@ -63,7 +60,7 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             var response = new ResponseModel();
-            var result = _accountServices.UnlockScreen(Account.Id, unlockPassword);
+            var result = AccountServices.UnlockScreen(Account.Id, unlockPassword);
             if (result)
             {
                 response.IsSuccess = true;
@@ -91,7 +88,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult GetSkin()
         {
             var response = new ResponseModel<String>();
-            var skinName = _accountServices.GetConfig(Account.Id).Skin;
+            var skinName = AccountServices.GetConfig(Account.Id).Skin;
             response.IsSuccess = true;
             response.Model = skinName;
             response.Message = "初始化皮肤成功";
@@ -107,7 +104,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult GetWallpaper()
         {
             var response = new ResponseModel<ConfigDto>();
-            var result = _accountServices.GetConfig(Account.Id);
+            var result = AccountServices.GetConfig(Account.Id);
             response.IsSuccess = true;
             response.Message = "初始化壁纸成功";
             response.Model = result;
@@ -123,7 +120,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult GetDockPos()
         {
             var response = new ResponseModel<String>();
-            var result = _accountServices.GetConfig(Account.Id).DockPosition;
+            var result = AccountServices.GetConfig(Account.Id).DockPosition;
             response.IsSuccess = true;
             response.Message = "初始化应用码头成功";
             response.Model = result;
@@ -155,7 +152,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult GetAccountFace()
         {
             var response = new ResponseModel<String>();
-            var result = _accountServices.GetConfig(Account.Id).AccountFace;
+            var result = AccountServices.GetConfig(Account.Id).AccountFace;
             response.IsSuccess = true;
             response.Message = "获取用户头像成功";
             response.Model = result;
