@@ -38,7 +38,6 @@ namespace NewCRM.Application.Services
             var account = _accountContext.Validate(accountName, password).ConvertToDto<Account, AccountDto>();
             UnitOfWork.Commit();
             return account;
-
         }
 
         public ConfigDto GetConfig(Int32 accountId)
@@ -104,7 +103,6 @@ namespace NewCRM.Application.Services
             }
 
             return accountResult.ConvertToDto<Account, AccountDto>();
-
         }
 
         public Boolean CheckAccountNameExist(String accountName)
@@ -255,6 +253,25 @@ namespace NewCRM.Application.Services
             }
 
             internalAccount.Remove();
+        }
+
+        public Boolean UnlockPassword(Int32 accountId, String unlockPassword)
+        {
+            #region 参数验证
+            ValidateParameter.Validate(unlockPassword);
+            #endregion
+
+            var filter = FilterFactory.Create<Account>(a => a.Id == accountId);
+            var result = DatabaseQuery.FindOne(filter);
+            if (result == null)
+            {
+                return false;
+            }
+            if (result.LockScreenPassword == PasswordUtil.CreateDbPassword(unlockPassword))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -58,5 +58,18 @@ namespace NewCRM.Web.Controllers
 
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// 解锁屏幕
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult UnlockScreen(String unlockPassword)
+        {
+            #region 参数验证
+            Parameter.Validate(unlockPassword);
+            #endregion
+
+
+        }
     }
 }

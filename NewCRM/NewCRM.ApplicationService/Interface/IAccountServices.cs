@@ -8,7 +8,6 @@ namespace NewCRM.Application.Services.Interface
     {
         #region  have return value
 
-
         /// <summary>
         /// 用户登陆
         /// </summary>
@@ -48,31 +47,37 @@ namespace NewCRM.Application.Services.Interface
         /// <returns></returns>
         Boolean CheckAccountNameExist(String accountName);
 
-	    /// <summary>
-	    ///  检查密码
-	    /// </summary>
-	    /// <param name="accountId"></param>
-	    /// <param name="oldAccountPassword"></param>
-	    /// <returns></returns>
-	    Boolean CheckPassword(Int32 accountId,String oldAccountPassword);
+        /// <summary>
+        ///  检查密码
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="oldAccountPassword"></param>
+        /// <returns></returns>
+        Boolean CheckPassword(Int32 accountId, String oldAccountPassword);
+
+        /// <summary>
+        /// 解锁屏幕
+        /// </summary>
+        /// <returns></returns>
+        Boolean UnlockPassword(Int32 accountId, String unlockPassword);
 
         #endregion
 
         #region not have return value
 
-	    /// <summary>
-	    /// 修改账户密码
-	    /// </summary>
-	    /// <param name="accountId"></param>
-	    /// <param name="newPassword"></param>
-	    void ModifyPassword(Int32 accountId,String newPassword);
+        /// <summary>
+        /// 修改账户密码
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="newPassword"></param>
+        void ModifyPassword(Int32 accountId, String newPassword);
 
-	    /// <summary>
-	    /// 修改锁屏密码
-	    /// </summary>
-	    /// <param name="accountId"></param>
-	    /// <param name="newScreenPassword"></param>
-	    void ModifyLockScreenPassword(Int32 accountId,String newScreenPassword);
+        /// <summary>
+        /// 修改锁屏密码
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="newScreenPassword"></param>
+        void ModifyLockScreenPassword(Int32 accountId, String newScreenPassword);
 
         /// <summary>
         /// 修改用户
@@ -80,12 +85,12 @@ namespace NewCRM.Application.Services.Interface
         /// <param name="account"></param>
         void ModifyAccount(AccountDto account);
 
-	    /// <summary>
-	    /// 修改账户头像
-	    /// </summary>
-	    /// <param name="accountId"></param>
-	    /// <param name="newFace"></param>
-	    void ModifyAccountFace(Int32 accountId,String newFace);
+        /// <summary>
+        /// 修改账户头像
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="newFace"></param>
+        void ModifyAccountFace(Int32 accountId, String newFace);
 
         /// <summary>
         /// 添加新的用户
