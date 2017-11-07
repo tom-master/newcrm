@@ -31,7 +31,8 @@ namespace NewCRM.Dto.MapperProfile
                     {
                         Id = power.AppId
                     }).ToList()
-                }).ToList()));
+                }).ToList()))
+                .ForMember(dto => dto.AccountFace, account => account.MapFrom(u => u.Config.AccountFace));
         }
     }
 
