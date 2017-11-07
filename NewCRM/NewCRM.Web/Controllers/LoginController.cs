@@ -9,7 +9,7 @@ using System.Web.Mvc;
 namespace NewCRM.Web.Controllers
 {
     public class LoginController : BaseController
-    { 
+    {
 
         #region 页面
         /// <summary>
@@ -42,9 +42,9 @@ namespace NewCRM.Web.Controllers
                 response.Message = "登陆成功";
                 response.IsSuccess = true;
 
-                Response.Cookies.Add(new HttpCookie("Account")
+                Response.Cookies.Add(new HttpCookie("memberID")
                 {
-                    Value = JsonConvert.SerializeObject(account),
+                    Value = account.Id.ToString(),
                     Expires = isRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddMinutes(30)
                 });
             }

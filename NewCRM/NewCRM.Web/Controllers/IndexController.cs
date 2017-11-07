@@ -32,7 +32,7 @@ namespace NewCRM.Web.Controllers
         {
             ViewBag.Title = "桌面";
 
-            if (Request.Cookies["Account"] != null)
+            if (Request.Cookies["memberID"] != null)
             {
 
                 ViewData["Account"] = Account;
@@ -74,7 +74,7 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         public void Logout()
         {
-            Response.Cookies.Add(new HttpCookie("Account")
+            Response.Cookies.Add(new HttpCookie("memberID")
             {
                 Expires = DateTime.Now.AddDays(-1)
             });

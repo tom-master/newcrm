@@ -144,10 +144,7 @@
 @section ParentScript{
 
     <script>
-        $(function () {
-
-            $.cookie('memberID', '@account.Id');
-
+        $(function () { 
             document.body.onselectstart = document.body.ondrag = function () {
                 return false;
             };
