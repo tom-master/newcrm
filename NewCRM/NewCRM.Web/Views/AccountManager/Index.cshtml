@@ -104,7 +104,6 @@
                         
                         $.get('@Url.Action("RemoveAccount", "AccountManager")', { accountId: memberid },
                             function (responseText) {
-                                debugger
                                 if (responseText.IsSuccess) {
                                     $('#pagination').trigger('currentPage');
                                 } else {
