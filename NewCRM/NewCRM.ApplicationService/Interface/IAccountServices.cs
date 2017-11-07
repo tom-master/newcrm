@@ -59,7 +59,7 @@ namespace NewCRM.Application.Services.Interface
         /// 解锁屏幕
         /// </summary>
         /// <returns></returns>
-        Boolean UnlockPassword(Int32 accountId, String unlockPassword);
+        Boolean UnlockScreen(Int32 accountId, String unlockPassword);
 
         #endregion
 

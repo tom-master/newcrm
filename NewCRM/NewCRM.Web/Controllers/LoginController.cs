@@ -63,13 +63,21 @@ namespace NewCRM.Web.Controllers
         /// 解锁屏幕
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult UnlockScreen(String unlockPassword)
         {
             #region 参数验证
             Parameter.Validate(unlockPassword);
             #endregion
 
+            var response = new ResponseModel();
+            var result = _accountServices.UnlockScreen(Account.Id, unlockPassword);
+            if (result)
+            {
+                response.IsSuccess = true;
+            }
 
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
     }
 }

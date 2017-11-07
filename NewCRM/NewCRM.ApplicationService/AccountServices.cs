@@ -255,7 +255,7 @@ namespace NewCRM.Application.Services
             internalAccount.Remove();
         }
 
-        public Boolean UnlockPassword(Int32 accountId, String unlockPassword)
+        public Boolean UnlockScreen(Int32 accountId, String unlockPassword)
         {
             #region 参数验证
             ValidateParameter.Validate(unlockPassword);
