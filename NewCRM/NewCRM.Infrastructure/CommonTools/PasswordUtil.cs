@@ -13,7 +13,6 @@ namespace NewCRM.Infrastructure.CommonTools
         public static Boolean ComparePasswords(String dbPassword, String userPassword)
         {
             var dbPwd = Convert.FromBase64String(dbPassword);
-
             var hashedPwd = HashString(userPassword);
 
             if (dbPwd.Length == 0 || hashedPwd.Length == 0 || dbPwd.Length != hashedPwd.Length + _saltLength)
@@ -24,10 +23,11 @@ namespace NewCRM.Infrastructure.CommonTools
             var saltValue = new Byte[_saltLength];
             var saltOffset = hashedPwd.Length;
             for (var i = 0; i < _saltLength; i++)
+            {
                 saltValue[i] = dbPwd[saltOffset + i];
+            }
 
             var saltedPassword = CreateSaltedPassword(saltValue, hashedPwd);
-
             var result = CompareByteArray(dbPwd, saltedPassword);
 
             return result;
@@ -38,16 +38,12 @@ namespace NewCRM.Infrastructure.CommonTools
         public static String CreateDbPassword(String userPassword)
         {
             var unsaltedPassword = HashString(userPassword);
-
-            //Create a salt value
             var saltValue = new Byte[_saltLength];
             var rng = new RNGCryptoServiceProvider();
             rng.GetBytes(saltValue);
 
             var saltedPassword = CreateSaltedPassword(saltValue, unsaltedPassword);
-
             return Convert.ToBase64String(saltedPassword);
-
         }
 
         #region 私有函数

@@ -267,7 +267,7 @@ namespace NewCRM.Application.Services
             {
                 return false;
             }
-            if (result.LockScreenPassword == PasswordUtil.CreateDbPassword(unlockPassword))
+            if (PasswordUtil.ComparePasswords(result.LockScreenPassword, unlockPassword))
             {
                 return true;
             }
