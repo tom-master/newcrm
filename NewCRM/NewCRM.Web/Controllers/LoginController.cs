@@ -1,5 +1,4 @@
-﻿using NewCRM.Application.Services.Interface;
-using NewCRM.Dto.Dto;
+﻿using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Web.Controllers.ControllerHelper;
 using Newtonsoft.Json;

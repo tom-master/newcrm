@@ -1,12 +1,11 @@
-﻿using System;
+﻿using NewCRM.Application.Services.Interface;
+using NewCRM.Dto.Dto;
+using NewCRM.Infrastructure.CommonTools;
+using NewCRM.Web.Controllers.ControllerHelper;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using NewCRM.Application.Services.Interface;
-using NewCRM.Dto.Dto;
-using NewCRM.Infrastructure.CommonTools.CustomException;
-using NewCRM.Web.Controllers.ControllerHelper;
-using NewCRM.Infrastructure.CommonTools;
-using System.Collections.Generic;
 
 namespace NewCRM.Web.Controllers
 {
