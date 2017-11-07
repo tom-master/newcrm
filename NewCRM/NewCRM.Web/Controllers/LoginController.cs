@@ -10,13 +10,7 @@ using System.Web.Mvc;
 namespace NewCRM.Web.Controllers
 {
     public class LoginController : BaseController
-    {
-        private readonly IAccountServices _accountServices;
-
-        public LoginController(IAccountServices accountServices)
-        {
-            _accountServices = accountServices;
-        }
+    { 
 
         #region 页面
         /// <summary>
@@ -43,7 +37,7 @@ namespace NewCRM.Web.Controllers
             Parameter.Validate(accountName).Validate(passWord);
             #endregion
 
-            var account = _accountServices.Login(accountName, passWord);
+            var account = AccountServices.Login(accountName, passWord);
             if (account != null)
             {
                 response.Message = "登陆成功";
