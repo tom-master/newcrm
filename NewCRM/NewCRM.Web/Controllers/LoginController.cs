@@ -47,6 +47,12 @@ namespace NewCRM.Web.Controllers
                     Value = account.Id.ToString(),
                     Expires = isRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddMinutes(30)
                 });
+
+                Response.Cookies.Add(new HttpCookie("Account")
+                {
+                    Value = JsonConvert.SerializeObject(new { AccountFace = account.AccountFace, Name = account.Name }),
+                    Expires = isRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddMinutes(30)
+                });
             }
 
             return Json(response, JsonRequestBehavior.AllowGet);
