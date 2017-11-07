@@ -9,13 +9,6 @@ namespace NewCRM.Web.Controllers
 {
     public class AccountSettingController : BaseController
     {
-        private readonly IAccountServices _accountServices;
-
-        public AccountSettingController(IAccountServices accountServices)
-        {
-            _accountServices = accountServices;
-        }
-
         #region 页面
 
         /// <summary>
@@ -24,7 +17,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            return View(_accountServices.GetAccount(Account.Id));
+            return View(AccountServices.GetAccount(Account.Id));
         }
 
         #endregion
@@ -43,7 +36,7 @@ namespace NewCRM.Web.Controllers
                 var fileUpLoadHelper = new FileUpLoadHelper(ConfigurationManager.AppSettings["UploadIconPath"], false, true);
                 if (fileUpLoadHelper.SaveFile(icon))
                 {
-                    _accountServices.ModifyAccountFace(Account.Id, fileUpLoadHelper.FilePath + fileUpLoadHelper.NewFileName);
+                    AccountServices.ModifyAccountFace(Account.Id, fileUpLoadHelper.FilePath + fileUpLoadHelper.NewFileName);
 
                     response.Message = "头像上传成功";
                     response.IsSuccess = true;
@@ -71,7 +64,7 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             var response = new ResponseModel();
-            _accountServices.ModifyPassword(Account.Id, forms["password"]);
+            AccountServices.ModifyPassword(Account.Id, forms["password"]);
             response.Message = "账户密码修改成功";
             response.IsSuccess = true;
 
@@ -89,7 +82,7 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             var response = new ResponseModel();
-            _accountServices.ModifyLockScreenPassword(Account.Id, forms["lockpassword"]);
+            AccountServices.ModifyLockScreenPassword(Account.Id, forms["lockpassword"]);
 
             response.Message = "锁屏密码修改成功";
             response.IsSuccess = true;
@@ -108,7 +101,8 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             var response = new ResponseModel<dynamic>();
-            var result = _accountServices.CheckPassword(Account.Id, param);
+            var result = AccountServices.CheckPassword(Account.Id, param);
+
             response.IsSuccess = true;
             response.Model = result ? new { status = "y", info = "" } : new { status = "n", info = "原始密码错误" };
 
