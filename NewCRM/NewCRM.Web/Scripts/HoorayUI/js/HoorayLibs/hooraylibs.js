@@ -2592,7 +2592,6 @@ ZENG.msgbox.show = function (c, g, h, a) {
 };
 
 ZENG.msgbox.info = function (msg, timeout) {
-    debugger
     ZENG.msgbox.show(msg, 1, timeout || 2000);
 };
 ZENG.msgbox.success = function (msg, timeout) {
