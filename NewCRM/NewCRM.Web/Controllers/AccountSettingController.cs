@@ -1,6 +1,7 @@
 ﻿using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Web.Controllers.ControllerHelper;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Web.Mvc;
 
@@ -25,9 +26,12 @@ namespace NewCRM.Web.Controllers
         ///上传账户头像
         /// </summary>
         /// <returns></returns>
+        [HttpPost]
         public ActionResult UploadFace()
         {
-            var response = new ResponseModel<dynamic>();
+            var msg = "";
+            var success = false;
+            var files = new List<String>();
             if (Request.Files.Count != 0)
             {
                 var icon = Request.Files[0];
@@ -35,21 +39,22 @@ namespace NewCRM.Web.Controllers
                 var fileUpLoadHelper = new FileUpLoadHelper(ConfigurationManager.AppSettings["UploadIconPath"], false, true);
                 if (fileUpLoadHelper.SaveFile(icon))
                 {
-                    AccountServices.ModifyAccountFace(Account.Id, fileUpLoadHelper.FilePath + fileUpLoadHelper.NewFileName);
-
-                    response.Message = "头像上传成功";
-                    response.IsSuccess = true;
+                    var filePath = fileUpLoadHelper.FilePath + fileUpLoadHelper.NewFileName+".jpg";
+                    AccountServices.ModifyAccountFace(Account.Id, filePath);
+                    files.Add(filePath);
+                    msg = "头像上传成功";
+                    success = true;
                 }
                 else
                 {
-                    response.Message = "头像上传失败";
+                    msg = "头像上传失败";
                 }
             }
             else
             {
-                response.Message = "请选择一张图片后再进行上传";
+                msg = "请选择一张图片后再进行上传";
             }
-            return Json(response);
+            return Json(new { avatarUrls = files, msg, success });
         }
 
         /// <summary>

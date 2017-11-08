@@ -436,7 +436,7 @@ namespace NewCRM.Infrastructure.CommonTools
                     _newFileName = CreateFileName() + _fileExtension;
                 else
                     _newFileName = _oldFileName;
-                _webFilePath = HttpContext.Current.Server.MapPath(_filePath + _newFileName);
+                _webFilePath = HttpContext.Current.Server.MapPath(_filePath + _newFileName+".jpg");
                 if (isfileTypeImages)
                 {
 
