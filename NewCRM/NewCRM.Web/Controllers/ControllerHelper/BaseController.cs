@@ -23,8 +23,6 @@ namespace NewCRM.Web.Controllers.ControllerHelper
                 {
                     return AccountServices.GetAccount(Int32.Parse(accountId.Value));
                 }
-
-                RedirectToAction("Landing", "Login");
                 return null;
             }
         }

@@ -66,7 +66,7 @@
             });
             upload.on('beforeFileQueued', function (file) {
                 if (file.size > 1000 * 1024) {
-                    ZENG.msgbox.info('文件大于1000Kb', 5, 2000);
+                    ZENG.msgbox.info('文件大于1000Kb');
                     return false;
                 }
             });

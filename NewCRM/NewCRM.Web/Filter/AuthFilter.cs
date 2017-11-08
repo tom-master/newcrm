@@ -11,13 +11,20 @@ namespace NewCRM.Web.Filter
         public void OnAuthorization(AuthorizationContext filterContext)
         {
             var actionName = filterContext.RequestContext.RouteData.Values["action"].ToString();
-            if (actionName != "CreateWindow")
+
+            if ((filterContext.RequestContext.RouteData.Values["controller"].ToString() == "Login" && actionName == "Index") || actionName == "Landing"||actionName== "Desktop")
             {
                 return;
             }
+
             if (filterContext.HttpContext.Request.Cookies["memberID"] == null)
             {
                 ReturnMessage(filterContext, "登陆超时，请刷新页面后重新登陆");
+                return;
+            }
+
+            if (actionName != "CreateWindow")
+            {
                 return;
             }
             //文件夹
@@ -37,7 +44,9 @@ namespace NewCRM.Web.Filter
 
         private static void ReturnMessage(AuthorizationContext filterContext, String message)
         {
-            var notPermissionMessage = @"<script>setTimeout(function(){window.top.ZENG.msgbox.info('" + message + "');},0)</script>";
+            var notPermissionMessage = @"<script>
+                window.top.ZENG.msgbox.info('" + message + "');" +
+                "setTimeout(function(){window.location.href='/Login/Index'},2000)</script>";
             var isAjaxRequest = filterContext.RequestContext.HttpContext.Request.IsAjaxRequest();
 
             if (!isAjaxRequest)
