@@ -57,6 +57,10 @@
             callback && callback();
         });
     };
+
+    function alertInfo() {
+        ZENG.msgbox.info('会话过期，请刷新页面重新登陆');
+    }
 </script>
 
 @RenderSection("ParentScript", false)

@@ -12,7 +12,7 @@ namespace NewCRM.Web.Filter
         {
             var actionName = filterContext.RequestContext.RouteData.Values["action"].ToString();
 
-            if ((filterContext.RequestContext.RouteData.Values["controller"].ToString() == "Login" && actionName == "Index") || actionName == "Landing"||actionName== "Desktop")
+            if ((filterContext.RequestContext.RouteData.Values["controller"].ToString() == "Login" && actionName == "Index") || actionName == "Landing" || actionName == "Desktop")
             {
                 return;
             }
@@ -44,9 +44,7 @@ namespace NewCRM.Web.Filter
 
         private static void ReturnMessage(AuthorizationContext filterContext, String message)
         {
-            var notPermissionMessage = @"<script>
-                window.top.ZENG.msgbox.info('" + message + "');" +
-                "setTimeout(function(){window.location.href='/Login/Index'},2000)</script>";
+            var notPermissionMessage = @"<script>window.parent.alertInfo()</script>";
             var isAjaxRequest = filterContext.RequestContext.HttpContext.Request.IsAjaxRequest();
 
             if (!isAjaxRequest)

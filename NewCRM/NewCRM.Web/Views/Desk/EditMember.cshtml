@@ -148,7 +148,7 @@
             });
             uploader.on('uploadSuccess', function(file, cb) {
                 if (typeof cb.iconPath === 'undefined') {
-                    ZENG.msgbox.info(cb.msg, 4, 2000);
+                    ZENG.msgbox.info(cb.msg);
                 } else {
                     $('.shortcutview img').attr('src', cb.iconPath);
                     $('#val_icon').val(cb.iconPath);
