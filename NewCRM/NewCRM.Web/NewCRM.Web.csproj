@@ -163,16 +163,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\asp.net\c#\Upload.aspx.cs">
-      <DependentUpon>Upload.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="fonts\" />
     <Folder Include="Models\" />
-    <Folder Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\upload\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -550,24 +545,11 @@
     <Content Include="Scripts\HoorayUI\js\bootstrap\js\bootstrap.js" />
     <Content Include="Scripts\HoorayUI\js\bootstrap\js\bootstrap.min.js" />
     <Content Include="Scripts\HoorayUI\js\bubbler\bubbler.jquery.js" />
-    <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\asp.net\c#\bin\Newtonsoft.Json.dll" />
-    <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\asp.net\c#\Upload.aspx" />
-    <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\asp.net\vb\bin\Newtonsoft.Json.dll" />
-    <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\asp.net\vb\Upload.aspx" />
-    <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\asp.net\vb\Upload.aspx.vb" />
-    <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\asp\Upload.asp" />
-    <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\asp\Upload.asp.cls" />
     <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\crossdomain.xml" />
     <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\expressInstall.swf" />
     <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\fullAvatarEditor.swf" />
-    <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\jsp\WEB-INF\lib\commons-fileupload-1.3.jar" />
-    <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\jsp\WEB-INF\lib\fastjson-1.1.9.jar" />
     <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\scripts\fullAvatarEditor.js" />
     <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\scripts\swfobject.js" />
-    <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\simpleDemo.html" />
-    <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\使用说明.txt" />
-    <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\插件介绍.txt" />
-    <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\许可协议.txt" />
     <Content Include="Scripts\HoorayUI\js\fullcalendar-1.6.4\changelog.txt" />
     <Content Include="Scripts\HoorayUI\js\fullcalendar-1.6.4\demos\agenda-views.html" />
     <Content Include="Scripts\HoorayUI\js\fullcalendar-1.6.4\demos\basic-views.html" />
@@ -757,10 +739,6 @@
     <Content Include="Scripts\HoorayUI\js\webuploader-0.1.5\webuploader.withoutimage.js" />
     <Content Include="Scripts\HoorayUI\js\webuploader-0.1.5\webuploader.withoutimage.min.js" />
     <None Include="Properties\PublishProfiles\Test.pubxml" />
-    <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\asp.net\c#\Upload.ashx" />
-    <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\asp\无组件上传类文档.pdf" />
-    <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\jsp\upload.jsp" />
-    <Content Include="Scripts\HoorayUI\js\fullAvatarEditor-2.3\php\upload.php" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
     <Content Include="Views\AppMarket\AccountAppManageNewApp.cshtml" />
