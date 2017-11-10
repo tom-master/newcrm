@@ -1,0 +1,166 @@
+﻿@model NewCRM.Dto.Dto.AccountDto
+
+@{
+    Layout = "~/Views/Shared/_LayoutApps.cshtml";
+}
+
+<div class="title">
+    <ul>
+        <li data-value="baseinfo" @{
+                                      if (Request["target"] == "baseinfo")
+                                      {
+                                          <text>
+                                              class="focus"
+                                          </text>
+                                      }
+                                  }>
+            <a href="javascript:void(0);">基本信息</a>
+        </li>
+
+        <li data-value="modifyface" @{
+                                        if (Request["target"] == "modifyface")
+                                        {
+                                            <text>
+                                                class="focus"
+                                            </text>
+                                        }
+                                    }>
+            <a href="javascript:void(0);">修改头像</a>
+        </li>
+
+        <li data-value="accountsafe" @{
+                                         if (Request["target"] == "accountsafe")
+                                         {
+                                             <text>
+                                                 class="focus"
+                                             </text>
+                                         }
+                                     }>
+            <a href="javascript:void(0);">账号安全</a>
+        </li>
+    </ul>
+</div>
+
+
+@{
+    if (Model != null)
+    {
+        switch (Request["target"])
+        {
+            case "baseinfo":
+                {
+                    Html.RenderPartial("~/Views/AccountSetting/BaseInfo.cshtml", Model);
+                    break;
+                }
+            case "modifyface":
+                {
+                    Html.RenderPartial("~/Views/AccountSetting/ModifyFace.cshtml", Model.Id);
+                    break;
+                }
+            case "accountsafe":
+                {
+                    Html.RenderPartial("~/Views/AccountSetting/AccountSafe.cshtml");
+                    break;
+                }
+            default:
+                {
+                    <text>
+                        @Html.Partial("~/Views/AccountSetting/BaseInfo.cshtml", Model);
+                      
+                    </text>
+                    break;
+                }
+        }
+    }
+}
+
+@section ChildrenScript
+{
+    <script>
+        @{
+            if (Request["target"]==null)
+            {
+                <text>
+                    $('.title ul > li').first().addClass('focus');
+                </text>
+            }
+        }
+
+        $('.title ul > li').on('click', function () {
+            var $li = $(this);
+            var value = $li.attr('data-value');
+            $('.title ul > li').each(function (k, v) {
+                $(v).removeClass('focus');
+            });
+            if (value === 'baseinfo') {
+                location.href = '@Url.Action("Index","AccountSetting")?target=baseinfo';
+            } else if (value === 'modifyface') {
+                location.href = '@Url.Action("Index","AccountSetting")?target=modifyface';
+            } else if (value === 'accountsafe') {
+                location.href = '@Url.Action("Index","AccountSetting")?target=accountsafe';
+            }
+        });
+
+
+        $('#form').Validform({
+            btnSubmit: '#form-submit',
+            postonce: false,
+            showAllError: true,
+            //msg：提示信息;
+            //o:{obj:*,type:*,curform:*}, obj指向的是当前验证的表单元素（或表单对象），type指示提示的状态，值为1、2、3、4， 1：正在检测/提交数据，2：通过验证，3：验证失败，4：提示ignore状态, curform为当前form对象;
+            //cssctl:内置的提示信息样式控制函数，该函数需传入两个参数：显示提示信息的对象 和 当前提示的状态（既形参o中的type）;
+            tiptype: function (msg, o) {
+                if (!o.obj.is('form')) {//验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
+                    var B = o.obj.parents('.control-group');
+                    var T = B.children('.help-inline');
+                    if (o.type === 2) {
+                        B.removeClass('error');
+                        T.text('');
+                    } else {
+                        B.addClass('error');
+                        T.text(msg);
+                    }
+                }
+            },
+            ajaxPost: true,
+            callback: function (responseText) {
+                if (responseText.IsSuccess) {
+                    window.parent.ZENG.msgbox.success('修改成功');
+                } else {
+                    window.parent.ZENG.msgbox.fail('修改失败');
+                }
+            }
+        });
+        $('#form2').Validform({
+            btnSubmit: '#form-submit2',
+            postonce: false,
+            showAllError: true,
+            //msg：提示信息;
+            //o:{obj:*,type:*,curform:*}, obj指向的是当前验证的表单元素（或表单对象），type指示提示的状态，值为1、2、3、4， 1：正在检测/提交数据，2：通过验证，3：验证失败，4：提示ignore状态, curform为当前form对象;
+            //cssctl:内置的提示信息样式控制函数，该函数需传入两个参数：显示提示信息的对象 和 当前提示的状态（既形参o中的type）;
+            tiptype: function (msg, o) {
+                if (!o.obj.is('form')) {//验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
+                    var B = o.obj.parents('.control-group');
+                    var T = B.children('.help-inline');
+                    if (o.type == 2) {
+                        B.removeClass('error');
+                        T.text('');
+                    } else {
+                        B.addClass('error');
+                        T.text(msg);
+                    }
+                }
+            },
+            ajaxPost: true,
+            callback: function (responseText) {
+                if (responseText.IsSuccess) {
+                    window.parent.ZENG.msgbox.success('修改成功');
+                } else {
+                    window.parent.ZENG.msgbox.fail('修改失败');
+                }
+            }
+        });
+
+
+    </script>
+}
