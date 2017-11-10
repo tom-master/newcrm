@@ -2546,7 +2546,7 @@ ZENG.object = {
         c = String(c);
         var b = ZENG.object.routeRE,
             a;
-        b.lastIndex = 0;
+        b.lastIndex = 0;  
         while ((a = b.exec(c)) !== null) {
             d = d[a[0]];
             if (d === undefined || d === null) {
