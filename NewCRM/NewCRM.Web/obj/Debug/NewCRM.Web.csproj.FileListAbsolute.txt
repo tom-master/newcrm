@@ -236,10 +236,7 @@ D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\System.Web.WebPages.Razor.dll
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\WebGrease.dll
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Domain.dll
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\AutoMapper.dll
-D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewLib.Data.dll
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\StackExchange.Redis.dll
-D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Nito.AsyncEx.dll
-D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Nito.AsyncEx.Enlightenment.dll
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Dto.pdb
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Dto.dll.config
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Infrastructure.pdb
@@ -260,11 +257,7 @@ D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\System.Web.Optimization.xml
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Domain.pdb
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewCRM.Domain.dll.config
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\AutoMapper.xml
-D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewLib.Data.pdb
-D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\NewLib.Data.dll.config
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\StackExchange.Redis.xml
-D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Nito.AsyncEx.xml
-D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Nito.AsyncEx.Enlightenment.xml
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\zh-Hans\System.Web.Helpers.resources.dll
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\zh-Hans\System.Web.Mvc.resources.dll
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\zh-Hans\System.Web.Razor.resources.dll

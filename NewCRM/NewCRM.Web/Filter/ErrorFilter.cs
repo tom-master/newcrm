@@ -26,16 +26,17 @@ namespace NewCRM.Web.Filter
                 ContentEncoding = Encoding.UTF8,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
-            //DependencyResolver.Current.GetService<ILoggerApplicationServices>().AddLogger(new LogDto
-            //{
-            //    Action = filterContext.RouteData.Values["action"].ToString(),
-            //    Controller = filterContext.RouteData.Values["controller"].ToString(),
-            //    ExceptionMessage = filterContext.Exception.Message.Length > 20 ? "操作失败，请查看日志" : filterContext.Exception.Message,
-            //    Track = filterContext.Exception.StackTrace,
-            //    LogLevelEnum = 4,
-            //    Id = new Random().Next(1, Int32.MaxValue),
-            //    AddTime = DateTime.Now.ToString(CultureInfo.CurrentCulture)
-            //});
+
+            DependencyResolver.Current.GetService<ILoggerServices>().AddLogger(new LogDto
+            {
+                Action = filterContext.RouteData.Values["action"].ToString(),
+                Controller = filterContext.RouteData.Values["controller"].ToString(),
+                ExceptionMessage = filterContext.Exception.Message,
+                Track = filterContext.Exception.StackTrace,
+                LogLevelEnum = 4,
+                Id = new Random().Next(1, Int32.MaxValue),
+                AddTime = DateTime.Now.ToString(CultureInfo.CurrentCulture)
+            });
 
             //var errorMessage = filterContext.Exception.GetType() == typeof(BusinessException) ? filterContext.Exception.Message : "操作失败，请查看日志";
 

@@ -6,7 +6,7 @@ namespace NewCRM.Application.Services.Interface
 {
     public interface ILoggerServices
     {
-        void AddLogger(Int32 accountId, LogDto log);
+        void AddLogger(LogDto log);
 
         IList<LogDto> GetAllLog(Int32 logLevel, Int32 pageIndex, Int32 pageSize,out Int32 totalCount);
     }

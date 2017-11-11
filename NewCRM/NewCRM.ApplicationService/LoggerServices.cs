@@ -21,9 +21,8 @@ namespace NewCRM.Application.Services
             _loggerRepository = loggerRepository;
         }
 
-        public void AddLogger(Int32 accountId, LogDto log)
+        public void AddLogger(LogDto log)
         {
-            log.AccountId = accountId;
             _loggerRepository.Add(log.ConvertToModel<LogDto, Log>());
         }
 

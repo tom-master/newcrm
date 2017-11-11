@@ -5,8 +5,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NewCRM.Domain.Entitys.System
 {
-    [Description("日志"),Serializable]
-    public  class Log : DomainModelBase, IAggregationRoot
+    [Description("日志"), Serializable]
+    public class Log : DomainModelBase, IAggregationRoot
     {
         #region public property
 
@@ -60,5 +60,10 @@ namespace NewCRM.Domain.Entitys.System
         {
         }
         #endregion
+
+        public override String KeyGenerator()
+        {
+            return $"NewCRM:{nameof(Log)}";
+        }
     }
 }
