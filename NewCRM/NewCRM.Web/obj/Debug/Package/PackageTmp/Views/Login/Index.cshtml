@@ -1,0 +1,55 @@
+﻿@{
+    Layout = null;
+}
+<title>登陆</title>
+<link href="@Url.Content("~/Scripts/HoorayUI/css/login.css")" rel="stylesheet" />
+<div class="loading" style="display: none"></div>
+<div id="parentDiv">
+    <canvas id="Mycanvas"></canvas>
+    <div class="wrapper">
+        <div class="container">
+            <h1 class="logo">
+                v8.7
+            </h1>
+            <form id="loginForm">
+                <div>
+                    <input type="text" name="accountname" value="admin" class="accountname" placeholder="用户名" autocomplete="off" />
+                </div>
+                <div>
+                    <input type="password" name="password" value="adminadmin" class="password" placeholder="密码" oncontextmenu="return false" onpaste="return false" />
+                </div>
+                <button id="login">登 陆</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="@Url.Content("~/Scripts/jquery-3.2.1.js")"></script>
+<script src="@Url.Content("~/Scripts/HoorayUI/js/validate/Validform_v5.3.2/Validform_v5.3.2.js")"></script>
+<script src="@Url.Content("~/Scripts/dynamicBackground.js")"></script>
+
+<script>
+    $(function () {
+        $("#login").click(function (event) {
+                event.preventDefault();
+                $('form').fadeOut(500);
+                $('.wrapper').addClass('form-success');
+
+                $('.loading').show();
+                $('#parentDiv').hide();
+                $.get('@Url.Action("Landing", "Login")',
+                    {
+                        AccountName: $('.accountname').val(),
+                        passWord: $('.password').val()
+                    },
+                    function (responseText) {
+                        if (responseText.IsSuccess) {
+                            $('.loading').hide();
+                            location.href = '@Url.Action("Desktop", "Index")';
+                        } else {
+                            $('.log .tip').text(responseText.Message).show();
+                        }
+                    });
+            });
+    });
+
+</script>

@@ -19,7 +19,7 @@ namespace NewCRM.Repository.RepositoryImpl.System
         {
             // _mongodbContext.Add(entity);
 
-            CacheQueryProvider.StringSet(entity.KeyGenerator(), entity);
+            CacheQueryProvider.ListLeftPush(entity.KeyGenerator(), entity);
         }
     }
 }

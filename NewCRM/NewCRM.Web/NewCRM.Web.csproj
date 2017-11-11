@@ -753,6 +753,7 @@
     <Content Include="Views\AccountSetting\AccountSafe.cshtml" />
     <Content Include="Views\Security\AddSystemAppGotoPower.cshtml" />
     <Content Include="Views\Log\Index.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
     <None Include="Views\Security\CreateNewRole.cshtml" />
     <Content Include="Views\AccountManager\Index.cshtml" />
     <Content Include="Views\AccountManager\CreateNewAccount.cshtml" />
@@ -782,7 +783,6 @@
     <Content Include="Views\DeskOptions\SystemWallPaper.cshtml" />
     <Content Include="Views\Desk\EditMember.cshtml" />
     <Content Include="Views\Index\Desktop.cshtml" />
-    <None Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutApps.cshtml" />
     <Content Include="Views\Shared\_LayoutRoot.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
