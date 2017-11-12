@@ -205,28 +205,29 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult UploadIcon()
         {
-            var response = new ResponseModel();
-            if (Request.Files.Count != 0)
-            {
-                var icon = Request.Files[0];
+            return null;
+            //var response = new ResponseModel();
+            //if (Request.Files.Count != 0)
+            //{
+            //    var icon = Request.Files[0];
 
-                var fileUpLoadHelper = new FileUpLoadHelper(ConfigurationManager.AppSettings["UploadIconPath"], false, false);
-                if (fileUpLoadHelper.SaveFile(icon))
-                {
-                    response.IsSuccess = true;
-                    response.Model = fileUpLoadHelper.FilePath + fileUpLoadHelper.OldFileName;
-                    response.Message = "更新图标成功";
-                }
-                else
-                {
-                    response.Message = "上传失败";
-                }
-            }
-            else
-            {
-                response.Message = "请选择一张图片后再进行上除按";
-            }
-            return Json(response);
+            //    var fileUpLoadHelper = new FileUpLoadHelper(ConfigurationManager.AppSettings["UploadIconPath"], false, false);
+            //    if (fileUpLoadHelper.SaveFile(icon))
+            //    {
+            //        response.IsSuccess = true;
+            //        response.Model = fileUpLoadHelper.FilePath + fileUpLoadHelper.OldFileName;
+            //        response.Message = "更新图标成功";
+            //    }
+            //    else
+            //    {
+            //        response.Message = "上传失败";
+            //    }
+            //}
+            //else
+            //{
+            //    response.Message = "请选择一张图片后再进行上除按";
+            //}
+            //return Json(response);
         }
 
         /// <summary>

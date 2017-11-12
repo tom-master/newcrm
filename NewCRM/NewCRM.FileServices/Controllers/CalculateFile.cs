@@ -2,9 +2,8 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using NewCRM.Infrastructure.CommonTools.CustomException;
 
-namespace NewCRM.Infrastructure.CommonTools
+namespace NewCRM.FileServices
 {
     public class CalculateFile
     {
@@ -17,7 +16,7 @@ namespace NewCRM.Infrastructure.CommonTools
         {
             if (stream == null)
             {
-                throw new BusinessException("流不能为空");
+                return "";
             }
             var md5 = new MD5CryptoServiceProvider();
             md5.ComputeHash(stream);

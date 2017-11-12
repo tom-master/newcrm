@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Web;
 
-namespace NewCRM.Infrastructure.CommonTools
+namespace NewCRM.FileServices
 {
     public class FileUpLoadHelper
     {
@@ -252,7 +252,7 @@ namespace NewCRM.Infrastructure.CommonTools
         public FileUpLoadHelper(String filePath, Boolean isDate, Boolean isCreateNewFileName,
             Boolean isImage, Boolean isThumbnail, Int32 thumbnailWidth, Int32 thumbnailHeight, ThumbnailMode thumbnailMode,
             Boolean isWatermarkText, String watermarkText)
-        { 
+        {
             _isThumbnail = isThumbnail;
             _filePath = filePath;
             _isDate = isDate;
@@ -264,10 +264,14 @@ namespace NewCRM.Infrastructure.CommonTools
             _isWatermarkText = isWatermarkText;
             _watermarkText = watermarkText;
             if (_isDate)
+            {
                 _filePath += DateTime.Now.ToString("yyyyMMdd") + "/";
-            String savePath = HttpContext.Current.Server.MapPath(_filePath);
-            if (!Directory.Exists(savePath))
-                Directory.CreateDirectory(savePath);
+            }
+
+            if (!Directory.Exists(_filePath))
+            {
+                Directory.CreateDirectory(_filePath);
+            }
         }
 
         /// <summary>
@@ -410,7 +414,7 @@ namespace NewCRM.Infrastructure.CommonTools
         /// </summary>
         /// <param name="postedFile"></param>
         /// <returns></returns>
-        public Boolean SaveFile(HttpPostedFileBase postedFile)
+        public Boolean SaveFile(HttpPostedFile postedFile)
         {
             _fileSize = postedFile.ContentLength;
             if (_fileSize > 0)
@@ -420,23 +424,32 @@ namespace NewCRM.Infrastructure.CommonTools
                 _fileExtension = new FileInfo(_oldFileName).Extension;
                 Boolean isfileTypeImages = false;
                 if (_fileContentType == "image/png" || _fileContentType == "image/bmp" || _fileContentType == "image/gif" || _fileContentType == "image/pjpeg" || _fileContentType == "image/jpeg")
+                {
                     isfileTypeImages = true;
+                }
+
                 if (_isImage && !isfileTypeImages)
                 {
                     _tipMsg = "图片格式不对！";
                     return false;
                 }
+
                 if (_fileSize > _maxFileSize)
                 {
                     _tipMsg = String.Format("上传文件超过系统允许大小:{0}M",
                         _maxFileSize);
                     return false;
                 }
+
                 if (_isCreateNewFileName)
+                {
                     _newFileName = CreateFileName() + _fileExtension;
+                }
                 else
+                {
                     _newFileName = _oldFileName;
-                _webFilePath = HttpContext.Current.Server.MapPath(_filePath + _newFileName+".jpg");
+                }
+                _webFilePath = _filePath + _newFileName;
                 if (isfileTypeImages)
                 {
 
@@ -446,13 +459,13 @@ namespace NewCRM.Infrastructure.CommonTools
                         if (_isThumbnail)
                         {
                             _thumbnailFileName = "s_" + _newFileName;
-                            _webThumbnailFilePath = HttpContext.Current.Server.MapPath(_filePath + _thumbnailFileName);
+                            _webThumbnailFilePath = _filePath + _thumbnailFileName;
                             MakeThumbnail();
                         }
                         if (_isWatermarkText)
                         {
                             _watermarkFileName = "sy_" + _newFileName;
-                            _webWatermarkFilePath = HttpContext.Current.Server.MapPath(_filePath + _watermarkFileName);
+                            _webWatermarkFilePath = _filePath + _watermarkFileName;
                             AddWatermarkText();
                         }
                         if (File.Exists(_webFilePath))
@@ -468,15 +481,13 @@ namespace NewCRM.Infrastructure.CommonTools
                                 originalImage.Dispose();
                             }
                         }
-                        _tipMsg = String.Format("提示：文件“{0}”成功上传，文件类型为：{1}，文件大小为：{2}B",
-                            _newFileName, _fileContentType, _fileSize);
+                        _tipMsg = String.Format("提示：文件“{0}”成功上传，文件类型为：{1}，文件大小为：{2}B", _newFileName, _fileContentType, _fileSize);
                         return true;
                     }
                     catch (Exception ex)
                     {
                         _tipMsg = "提示：文件上传失败，失败原因：" + ex.Message;
                     }
-
                 }
                 else
                 {

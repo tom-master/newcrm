@@ -17,7 +17,7 @@ namespace NewCRM.FileServices.Controllers
         [Route("upload"), HttpPost]
         public IHttpActionResult Upload()
         {
-            var responses = new List<FileStorageResponse>();
+            var responses = new List<dynamic>();
 
             try
             {
@@ -25,7 +25,7 @@ namespace NewCRM.FileServices.Controllers
                 var accountId = request["accountId"];
                 if (String.IsNullOrEmpty(accountId))
                 {
-                    responses.Add(new FileStorageResponse
+                    responses.Add(new
                     {
                         IsSuccess = false,
                         Message = $@"{nameof(accountId)}参数验证失败"
@@ -37,7 +37,7 @@ namespace NewCRM.FileServices.Controllers
                 var files = request.Files;
                 if (files == null || files.Count == 0)
                 {
-                    responses.Add(new FileStorageResponse
+                    responses.Add(new
                     {
                         IsSuccess = false,
                         Message = "未能获取到上传的文件"
@@ -55,6 +55,10 @@ namespace NewCRM.FileServices.Controllers
                 {
                     middlePath = "face";
                 }
+                else if (type == "3")
+                {
+                    middlePath = "icon";
+                }
 
 
                 for (int i = 0; i < files.Count; i++)
@@ -64,7 +68,7 @@ namespace NewCRM.FileServices.Controllers
                     var fileExtension = file.FileName.Substring(file.FileName.LastIndexOf("."));
                     if (_denyUploadTypes.Any(d => d.ToLower() == fileExtension))
                     {
-                        responses.Add(new FileStorageResponse
+                        responses.Add(new
                         {
                             IsSuccess = false,
                             Message = $@"后缀名为：{fileExtension}的文件禁止上传"
@@ -76,29 +80,28 @@ namespace NewCRM.FileServices.Controllers
                         file.InputStream.Position = 0;
                         var fileFullPath = $@"{_fileStoragePath}/{accountId}/{middlePath}/";
                         var fileName = $@"{Guid.NewGuid().ToString().Replace("-", "")}{fileExtension}";
-                        if (!Directory.Exists(fileFullPath))
-                        {
-                            Directory.CreateDirectory(fileFullPath);
-                        }
-                        using (var fileStream = new FileStream($@"{fileFullPath}/{Guid.NewGuid().ToString().Replace("-", "") }.jpg", FileMode.CreateNew, FileAccess.Write))
-                        {
-                            file.InputStream.Read(bytes, 0, bytes.Length);
-                            fileStream.Write(bytes, 0, bytes.Length);
-                        }
 
-                        responses.Add(new FileStorageResponse
+                        var fileUpLoad = new FileUpLoadHelper(fileFullPath, false, false, true, true, 160, 115, ThumbnailMode.Auto, false, "");
+                        var md5 = CalculateFile.Calculate(file.InputStream);
+
+                        if (fileUpLoad.SaveFile(file))
                         {
-                            IsSuccess = true,
-                            Model = fileFullPath.Substring(fileFullPath.IndexOf(@"/")) + fileName
-                        });
+                            responses.Add(new
+                            {
+                                IsSuccess = true,
+                                Height = fileUpLoad.FileHeight,
+                                Title = fileUpLoad.OldFileName,
+                                Url = fileUpLoad.FilePath + fileUpLoad.OldFileName,
+                                Width = fileUpLoad.FileWidth,
+                                Md5 = md5,
+                            });
+                        }
                     }
                 }
-
-
             }
             catch (Exception ex)
             {
-                responses.Add(new FileStorageResponse
+                responses.Add(new
                 {
                     IsSuccess = false,
                     Message = ex.Message
@@ -109,12 +112,4 @@ namespace NewCRM.FileServices.Controllers
         }
     }
 
-    internal class FileStorageResponse
-    {
-        public Boolean IsSuccess { get; set; }
-
-        public String Message { get; set; }
-
-        public String Model { get; set; }
-    }
 }

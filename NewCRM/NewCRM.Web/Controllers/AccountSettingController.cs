@@ -29,32 +29,33 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public ActionResult UploadFace()
         {
-            var msg = "";
-            var success = false;
-            var files = new List<String>();
-            if (Request.Files.Count != 0)
-            {
-                var icon = Request.Files[0];
+            return null;
+            //var msg = "";
+            //var success = false;
+            //var files = new List<String>();
+            //if (Request.Files.Count != 0)
+            //{
+            //    var icon = Request.Files[0];
 
-                var fileUpLoadHelper = new FileUpLoadHelper(ConfigurationManager.AppSettings["UploadIconPath"], false, true);
-                if (fileUpLoadHelper.SaveFile(icon))
-                {
-                    var filePath = fileUpLoadHelper.FilePath + fileUpLoadHelper.NewFileName+".jpg";
-                    AccountServices.ModifyAccountFace(Account.Id, filePath);
-                    files.Add(filePath);
-                    msg = "头像上传成功";
-                    success = true;
-                }
-                else
-                {
-                    msg = "头像上传失败";
-                }
-            }
-            else
-            {
-                msg = "请选择一张图片后再进行上传";
-            }
-            return Json(new { avatarUrls = files, msg, success });
+            //    var fileUpLoadHelper = new FileUpLoadHelper(ConfigurationManager.AppSettings["UploadIconPath"], false, true);
+            //    if (fileUpLoadHelper.SaveFile(icon))
+            //    {
+            //        var filePath = fileUpLoadHelper.FilePath + fileUpLoadHelper.NewFileName+".jpg";
+            //        AccountServices.ModifyAccountFace(Account.Id, filePath);
+            //        files.Add(filePath);
+            //        msg = "头像上传成功";
+            //        success = true;
+            //    }
+            //    else
+            //    {
+            //        msg = "头像上传失败";
+            //    }
+            //}
+            //else
+            //{
+            //    msg = "请选择一张图片后再进行上传";
+            //}
+            //return Json(new { avatarUrls = files, msg, success });
         }
 
         /// <summary>
