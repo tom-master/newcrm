@@ -26,36 +26,15 @@ namespace NewCRM.Web.Controllers
         ///上传账户头像
         /// </summary>
         /// <returns></returns>
-        [HttpPost]
-        public ActionResult UploadFace()
+        [HttpGet]
+        public ActionResult UploadFace(String accountFace)
         {
-            return null;
-            //var msg = "";
-            //var success = false;
-            //var files = new List<String>();
-            //if (Request.Files.Count != 0)
-            //{
-            //    var icon = Request.Files[0];
+            var response = new ResponseModel();
+            AccountServices.ModifyAccountFace(Account.Id, accountFace);
+            response.IsSuccess = true;
+            response.Model = "头像上传成功";
 
-            //    var fileUpLoadHelper = new FileUpLoadHelper(ConfigurationManager.AppSettings["UploadIconPath"], false, true);
-            //    if (fileUpLoadHelper.SaveFile(icon))
-            //    {
-            //        var filePath = fileUpLoadHelper.FilePath + fileUpLoadHelper.NewFileName+".jpg";
-            //        AccountServices.ModifyAccountFace(Account.Id, filePath);
-            //        files.Add(filePath);
-            //        msg = "头像上传成功";
-            //        success = true;
-            //    }
-            //    else
-            //    {
-            //        msg = "头像上传失败";
-            //    }
-            //}
-            //else
-            //{
-            //    msg = "请选择一张图片后再进行上传";
-            //}
-            //return Json(new { avatarUrls = files, msg, success });
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>

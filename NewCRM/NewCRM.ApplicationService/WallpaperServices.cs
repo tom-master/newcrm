@@ -62,38 +62,36 @@ namespace NewCRM.Application.Services
 
         public async Task<Tuple<Int32, String>> AddWebWallpaper(Int32 accountId, String url)
         {
-            //ValidateParameter.Validate(accountId).Validate(url);
+            ValidateParameter.Validate(accountId).Validate(url);
 
-            //var imageTitle = Path.GetFileNameWithoutExtension(url);
-            //Image image;
+            var imageTitle = Path.GetFileNameWithoutExtension(url);
+            Image image;
 
-            //using (var stream = await new HttpClient().GetStreamAsync(new Uri(url)))
-            //using (image = Image.FromStream(stream))
-            //{
-            //    var wallpaperMd5 = CalculateFile.Calculate(stream);
-            //    var webWallpaper = GetUploadWallpaper(wallpaperMd5);
-            //    if (webWallpaper != null)
-            //    {
-            //        return new Tuple<Int32, String>(webWallpaper.Id, webWallpaper.ShortUrl);
-            //    }
+            using (var stream = await new HttpClient().GetStreamAsync(new Uri(url)))
+            using (image = Image.FromStream(stream))
+            {
+                var wallpaperMd5 = CalculateFile.Calculate(stream);
+                var webWallpaper = GetUploadWallpaper(wallpaperMd5);
+                if (webWallpaper != null)
+                {
+                    return new Tuple<Int32, String>(webWallpaper.Id, webWallpaper.ShortUrl);
+                }
 
-            //    var wallpaperResult = AddWallpaper(new WallpaperDto
-            //    {
-            //        Width = image.Width,
-            //        Height = image.Height,
-            //        Source = WallpaperSource.Web.ToString(),
-            //        Title = imageTitle,
-            //        Url = url,
-            //        AccountId = accountId,
-            //        Md5 = wallpaperMd5,
-            //        ShortUrl = url
-            //    });
+                var wallpaperResult = AddWallpaper(new WallpaperDto
+                {
+                    Width = image.Width,
+                    Height = image.Height,
+                    Source = WallpaperSource.Web.ToString(),
+                    Title = imageTitle,
+                    Url = url,
+                    AccountId = accountId,
+                    Md5 = wallpaperMd5,
+                    ShortUrl = url
+                });
 
-            //    UnitOfWork.Commit();
-            //    return new Tuple<Int32, String>(wallpaperResult.Item1, wallpaperResult.Item2);
-            //}
-
-            return null;
+                UnitOfWork.Commit();
+                return new Tuple<Int32, String>(wallpaperResult.Item1, wallpaperResult.Item2);
+            }
         }
 
         public WallpaperDto GetUploadWallpaper(String md5)

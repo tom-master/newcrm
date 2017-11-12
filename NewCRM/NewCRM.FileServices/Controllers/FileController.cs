@@ -45,19 +45,29 @@ namespace NewCRM.FileServices.Controllers
 
                     return Json(responses);
                 }
-                var type = request["type"];
+                var uploadtype = request["uploadtype"];
+                if (String.IsNullOrEmpty(uploadtype))
+                {
+                    responses.Add(new
+                    {
+                        IsSuccess = false,
+                        Message = $@"{nameof(uploadtype)}参数验证失败"
+                    });
+
+                    return Json(responses);
+                }
                 var middlePath = "";
-                if (type == "1")
+                if (uploadtype.ToLower() == UploadType.Wallpaper.ToString().ToLower())
                 {
-                    middlePath = "wallpaper";
+                    middlePath = UploadType.Wallpaper.ToString();
                 }
-                else if (type == "2")
+                else if (uploadtype.ToLower() == UploadType.Face.ToString().ToLower())
                 {
-                    middlePath = "face";
+                    middlePath = UploadType.Face.ToString();
                 }
-                else if (type == "3")
+                else if (uploadtype.ToLower() == UploadType.Icon.ToString().ToLower())
                 {
-                    middlePath = "icon";
+                    middlePath = UploadType.Icon.ToString();
                 }
 
 
@@ -86,15 +96,22 @@ namespace NewCRM.FileServices.Controllers
 
                         if (fileUpLoad.SaveFile(file))
                         {
-                            responses.Add(new
+                            if (uploadtype.ToLower() == UploadType.Face.ToString().ToLower())
                             {
-                                IsSuccess = true,
-                                Height = fileUpLoad.FileHeight,
-                                Title = fileUpLoad.OldFileName,
-                                Url = fileUpLoad.FilePath + fileUpLoad.OldFileName,
-                                Width = fileUpLoad.FileWidth,
-                                Md5 = md5,
-                            });
+                                return Json(new { avatarUrls = fileUpLoad.FilePath.Substring(fileUpLoad.FilePath.IndexOf("/")) + fileUpLoad.OldFileName, msg = "", success = true });
+                            }
+                            else
+                            {
+                                responses.Add(new
+                                {
+                                    IsSuccess = true,
+                                    Width = fileUpLoad.FileWidth,
+                                    Height = fileUpLoad.FileHeight,
+                                    Title = fileUpLoad.OldFileName,
+                                    Url = fileUpLoad.FilePath.Substring(fileUpLoad.FilePath.IndexOf("/")) + fileUpLoad.OldFileName,
+                                    Md5 = md5,
+                                });
+                            }
                         }
                     }
                 }
@@ -111,5 +128,11 @@ namespace NewCRM.FileServices.Controllers
             return Json(responses);
         }
     }
+}
 
+public enum UploadType
+{
+    Wallpaper = 1,
+    Face = 2,
+    Icon = 3
 }

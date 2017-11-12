@@ -356,7 +356,6 @@ namespace NewCRM.Application.Services
                     Type = description.Type
                 };
             }
-
         }
 
         public IEnumerable<AppStateDto> GetAllAppStates()
@@ -600,6 +599,26 @@ namespace NewCRM.Application.Services
             _appRepository.Update(internalApp);
             UnitOfWork.Commit();
         }
+
+        public void ModifyAppIcon(Int32 accountId, Int32 appId, String newIcon)
+        {
+            #region 参数验证
+            ValidateParameter.Validate(accountId).Validate(appId).Validate(newIcon);
+            #endregion
+
+            var filter = FilterFactory.Create<App>(a => a.AccountId == accountId && a.Id == appId);
+            var result = DatabaseQuery.FindOne(filter);
+            if (result == null)
+            {
+                throw new BusinessException("该app可能已被删除");
+            }
+
+            result.ModifyIconUrl(newIcon);
+            _appRepository.Update(result);
+
+            UnitOfWork.Commit();
+        }
+
 
         #region private method
 

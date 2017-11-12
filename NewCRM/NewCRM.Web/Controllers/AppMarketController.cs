@@ -48,7 +48,7 @@ namespace NewCRM.Web.Controllers
         /// app详情
         /// </summary>
         /// <returns></returns>
-        public ActionResult AppDetail( Int32 appId, String accountName)
+        public ActionResult AppDetail(Int32 appId, String accountName)
         {
             #region 参数验证
             Parameter.Validate(accountName).Validate(appId);
@@ -119,7 +119,7 @@ namespace NewCRM.Web.Controllers
 
             return Json(response, JsonRequestBehavior.AllowGet);
         }
-         
+
         /// <summary>
         /// 给app打分
         /// </summary>
@@ -203,31 +203,21 @@ namespace NewCRM.Web.Controllers
         /// 更新图标
         /// </summary>
         /// <returns></returns>
-        public ActionResult UploadIcon()
+        [HttpGet]
+        public ActionResult UploadIcon(Int32 appId, String newIcon)
         {
-            return null;
-            //var response = new ResponseModel();
-            //if (Request.Files.Count != 0)
-            //{
-            //    var icon = Request.Files[0];
+            #region 参数验证
+            Parameter.Validate(appId).Validate(newIcon);
+            #endregion
 
-            //    var fileUpLoadHelper = new FileUpLoadHelper(ConfigurationManager.AppSettings["UploadIconPath"], false, false);
-            //    if (fileUpLoadHelper.SaveFile(icon))
-            //    {
-            //        response.IsSuccess = true;
-            //        response.Model = fileUpLoadHelper.FilePath + fileUpLoadHelper.OldFileName;
-            //        response.Message = "更新图标成功";
-            //    }
-            //    else
-            //    {
-            //        response.Message = "上传失败";
-            //    }
-            //}
-            //else
-            //{
-            //    response.Message = "请选择一张图片后再进行上除按";
-            //}
-            //return Json(response);
+            var response = new ResponseModel();
+
+            _appServices.ModifyAppIcon(Account.Id, appId, newIcon);
+
+            response.IsSuccess = true;
+            response.Message = "更新图标成功";
+
+            return Json(response);
         }
 
         /// <summary>

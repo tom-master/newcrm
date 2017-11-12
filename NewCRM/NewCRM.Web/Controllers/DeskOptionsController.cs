@@ -152,65 +152,27 @@ namespace NewCRM.Web.Controllers
         /// 上传壁纸     
         /// </summary>
         /// <returns></returns>
-        public ActionResult UploadWallPaper()
+        [HttpGet]
+        public ActionResult UploadWallPaper(WallpaperDto wallpaper)
         {
-            return null;
-            //var response = new ResponseModel<dynamic>();
-            //if (Request.Files.Count > 0)
-            //{
-            //    var httpPostedFile = HttpContext.Request.Files[0];
-            //    if (httpPostedFile == null)
-            //    {
-            //        response.Message = "请先选择一张壁纸";
-            //    }
-            //    else
-            //    {
-            //        var wallpaperDtoResult = _wallpaperServices.GetUploadWallpaper(CalculateFile.Calculate(httpPostedFile.InputStream));
+            var response = new ResponseModel<dynamic>();
 
-            //        if (wallpaperDtoResult != null)
-            //        {
-            //            response.Message = "这张壁纸已经存在";
-            //            response.IsSuccess = true;
-            //        }
-            //        else
-            //        {
-            //            var fileUpLoad = new FileUpLoadHelper(ConfigurationManager.AppSettings["UploadWallPaperPath"], false, false, true, true, 160, 115, ThumbnailMode.Auto, false, "");
-            //            var imgNd5 = CalculateFile.Calculate(httpPostedFile.InputStream);
+            var wallpaperResult = _wallpaperServices.AddWallpaper(new WallpaperDto
+            {
+                Title = wallpaper.Title,
+                Width = wallpaper.Width,
+                Height = wallpaper.Height,
+                Url = wallpaper.Url,
+                Source = "Upload",
+                AccountId = Account.Id,
+                Md5 = wallpaper.Md5,
+                ShortUrl = ""
+            });
 
-            //            if (fileUpLoad.SaveFile(httpPostedFile))
-            //            {
-            //                var shortUrl =
-            //                    fileUpLoad.WebThumbnailFilePath.Substring(fileUpLoad.WebThumbnailFilePath.LastIndexOf("Script", StringComparison.OrdinalIgnoreCase)).Replace(@"\", "/").Insert(0, "/");
-
-            //                var wallpaperResult = _wallpaperServices.AddWallpaper(new WallpaperDto
-            //                {
-            //                    Height = fileUpLoad.FileHeight,
-            //                    Source = "Upload",
-            //                    Title = fileUpLoad.OldFileName,
-            //                    Url = fileUpLoad.FilePath + fileUpLoad.OldFileName,
-            //                    AccountId = Account.Id,
-            //                    Width = fileUpLoad.FileWidth,
-            //                    Md5 = imgNd5,
-            //                    ShortUrl = shortUrl
-            //                });
-
-            //                response.Message = "壁纸上传成功";
-            //                response.IsSuccess = true;
-            //                response.Model = new { Id = wallpaperResult.Item1, Url = wallpaperResult.Item2 };
-            //            }
-            //            else
-            //            {
-            //                response.Message = "壁纸上传失败";
-            //            }
-            //        }
-            //    }
-
-            //}
-            //else
-            //{
-            //    response.Message = "请先选择一张壁纸";
-            //}
-            //return Json(response, JsonRequestBehavior.AllowGet);
+            response.Message = "壁纸上传成功";
+            response.IsSuccess = true;
+            response.Model = new { Id = wallpaperResult.Item1, Url = wallpaperResult.Item2 };
+            return Json(response);
         }
 
         /// <summary>

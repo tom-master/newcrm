@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonTools\CalculateFile.cs" />
     <Compile Include="CommonTools\CustomException\BusinessException.cs" />
     <Compile Include="CommonTools\CustomException\ComponentException.cs" />
     <Compile Include="CommonTools\CustomException\DomainModelException.cs" />
