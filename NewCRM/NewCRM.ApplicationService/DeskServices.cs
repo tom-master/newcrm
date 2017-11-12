@@ -21,6 +21,7 @@ namespace NewCRM.Application.Services
         private readonly IModifyDockPostionServices _modifyDockPostionServices;
         private readonly ICreateNewFolderServices _createNewFolderServices;
         private readonly IModifyDeskMemberPostionServices _modifyDeskMemberPostionServices;
+        private readonly IDeskRepository _deskRepository;
 
         private readonly IAccountRepository _accountRepository;
 
@@ -28,12 +29,13 @@ namespace NewCRM.Application.Services
         public DeskServices(IModifyDeskMemberServices modifyDeskMemberServices,
             IModifyDockPostionServices modifyDockPostionServices,
             ICreateNewFolderServices createNewFolderServices,
-            IModifyDeskMemberPostionServices modifyDeskMemberPostionServices, IAccountRepository accountRepository)
+            IModifyDeskMemberPostionServices modifyDeskMemberPostionServices, IAccountRepository accountRepository,IDeskRepository deskRepository)
         {
             _modifyDeskMemberServices = modifyDeskMemberServices;
             _modifyDockPostionServices = modifyDockPostionServices;
             _createNewFolderServices = createNewFolderServices;
             _modifyDeskMemberPostionServices = modifyDeskMemberPostionServices;
+            _deskRepository = deskRepository;
 
             _accountRepository = accountRepository;
         }
@@ -187,6 +189,13 @@ namespace NewCRM.Application.Services
 
             _modifyDeskMemberPostionServices.DockToOtherDesk(accountId, memberId, deskId);
             UnitOfWork.Commit();
+        }
+
+        public void ModifyMemberIcon(Int32 memberId, String newIcon)
+        {
+            #region 参数验证
+            ValidateParameter.Validate(memberId).Validate(newIcon);
+            #endregion
         }
     }
 }
