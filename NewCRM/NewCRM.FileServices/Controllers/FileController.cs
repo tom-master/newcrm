@@ -18,7 +18,6 @@ namespace NewCRM.FileServices.Controllers
         public IHttpActionResult Upload()
         {
             var responses = new List<dynamic>();
-
             try
             {
                 var request = HttpContext.Current.Request;
@@ -74,8 +73,16 @@ namespace NewCRM.FileServices.Controllers
                 for (int i = 0; i < files.Count; i++)
                 {
                     var file = files[i];
+                    var fileExtension = "";
+                    if (file.FileName.LastIndexOf(".") < 0)
+                    {
+                        fileExtension = file.ContentType.Substring(file.ContentType.LastIndexOf("/")+1);
+                    }
+                    else
+                    {
+                        fileExtension = file.FileName.Substring(file.FileName.LastIndexOf("."));
+                    }
 
-                    var fileExtension = file.FileName.Substring(file.FileName.LastIndexOf("."));
                     if (_denyUploadTypes.Any(d => d.ToLower() == fileExtension))
                     {
                         responses.Add(new
@@ -89,7 +96,7 @@ namespace NewCRM.FileServices.Controllers
                         var bytes = new byte[file.InputStream.Length];
                         file.InputStream.Position = 0;
                         var fileFullPath = $@"{_fileStoragePath}/{accountId}/{middlePath}/";
-                        var fileName = $@"{Guid.NewGuid().ToString().Replace("-", "")}{fileExtension}";
+                        var fileName = $@"{Guid.NewGuid().ToString().Replace("-", "")}.{fileExtension}";
 
                         var fileUpLoad = new FileUpLoadHelper(fileFullPath, false, false, true, true, 160, 115, ThumbnailMode.Auto, false, "");
                         var md5 = CalculateFile.Calculate(file.InputStream);
