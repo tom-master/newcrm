@@ -29,7 +29,7 @@ namespace NewCRM.Application.Services
         public DeskServices(IModifyDeskMemberServices modifyDeskMemberServices,
             IModifyDockPostionServices modifyDockPostionServices,
             ICreateNewFolderServices createNewFolderServices,
-            IModifyDeskMemberPostionServices modifyDeskMemberPostionServices, IAccountRepository accountRepository,IDeskRepository deskRepository)
+            IModifyDeskMemberPostionServices modifyDeskMemberPostionServices, IAccountRepository accountRepository, IDeskRepository deskRepository)
         {
             _modifyDeskMemberServices = modifyDeskMemberServices;
             _modifyDockPostionServices = modifyDockPostionServices;
@@ -191,11 +191,15 @@ namespace NewCRM.Application.Services
             UnitOfWork.Commit();
         }
 
-        public void ModifyMemberIcon(Int32 memberId, String newIcon)
+        public void ModifyMemberIcon(Int32 accountId, Int32 memberId, String newIcon)
         {
             #region 参数验证
             ValidateParameter.Validate(memberId).Validate(newIcon);
             #endregion
+
+            _modifyDeskMemberServices.ModifyMemberIcon(accountId, memberId, newIcon);
+
+            UnitOfWork.Commit();
         }
     }
 }

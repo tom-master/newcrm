@@ -99,7 +99,7 @@ namespace NewCRM.Application.Services.Interface
         /// <summary>
         /// 更新桌面成员的图标
         /// </summary>
-        void ModifyMemberIcon(Int32 memberId, String newIcon);
+        void ModifyMemberIcon(Int32 accountId, Int32 memberId, String newIcon);
 
         #endregion
     }
