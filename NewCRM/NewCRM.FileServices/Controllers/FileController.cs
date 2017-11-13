@@ -98,9 +98,12 @@ namespace NewCRM.FileServices.Controllers
                         file.InputStream.Position = 0;
                         var fileFullPath = $@"{_fileStoragePath}/{accountId}/{middlePath}/";
                         var fileName = $@"{Guid.NewGuid().ToString().Replace("-", "")}.{fileExtension}";
+                        if (!Directory.Exists(fileFullPath))
+                        {
+                            Directory.CreateDirectory(fileFullPath);
+                        }
 
                         var md5 = CalculateFile.Calculate(file.InputStream);
-
                         using (var fileStream = new FileStream(fileFullPath + fileName, FileMode.Create, FileAccess.Write))
                         {
                             file.InputStream.Read(bytes, 0, bytes.Count());
@@ -134,7 +137,7 @@ namespace NewCRM.FileServices.Controllers
                 responses.Add(new
                 {
                     IsSuccess = false,
-                    Message = ex.Message
+                    Message = ex.GetType().Name
                 });
             }
 
