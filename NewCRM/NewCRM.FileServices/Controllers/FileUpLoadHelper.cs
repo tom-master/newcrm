@@ -414,7 +414,7 @@ namespace NewCRM.FileServices
         /// </summary>
         /// <param name="postedFile"></param>
         /// <returns></returns>
-        public Boolean SaveFile(HttpPostedFile postedFile)
+        public Boolean SaveFile(HttpPostedFile postedFile, String ext = default(String))
         {
             _fileSize = postedFile.ContentLength;
             if (_fileSize > 0)

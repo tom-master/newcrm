@@ -27,7 +27,7 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult UploadFace(String accountFace)
+        public ActionResult ModifyAccountFace(String accountFace)
         {
             var response = new ResponseModel();
             AccountServices.ModifyAccountFace(Account.Id, accountFace);

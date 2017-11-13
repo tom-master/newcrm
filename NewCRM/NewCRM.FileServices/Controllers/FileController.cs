@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -74,9 +75,9 @@ namespace NewCRM.FileServices.Controllers
                 {
                     var file = files[i];
                     var fileExtension = "";
-                    if (file.FileName.LastIndexOf(".") < 0)
+                    if (file.FileName.StartsWith("__avatar"))
                     {
-                        fileExtension = file.ContentType.Substring(file.ContentType.LastIndexOf("/")+1);
+                        fileExtension = file.ContentType.Substring(file.ContentType.LastIndexOf("/") + 1);
                     }
                     else
                     {
@@ -98,26 +99,31 @@ namespace NewCRM.FileServices.Controllers
                         var fileFullPath = $@"{_fileStoragePath}/{accountId}/{middlePath}/";
                         var fileName = $@"{Guid.NewGuid().ToString().Replace("-", "")}.{fileExtension}";
 
-                        var fileUpLoad = new FileUpLoadHelper(fileFullPath, false, false, true, true, 160, 115, ThumbnailMode.Auto, false, "");
                         var md5 = CalculateFile.Calculate(file.InputStream);
 
-                        if (fileUpLoad.SaveFile(file))
+                        using (var fileStream = new FileStream(fileFullPath + fileName, FileMode.Create, FileAccess.Write))
                         {
+                            file.InputStream.Read(bytes, 0, bytes.Count());
+                            fileStream.Write(bytes, 0, bytes.Count());
+
                             if (uploadtype.ToLower() == UploadType.Face.ToString().ToLower())
                             {
-                                return Json(new { avatarUrls = fileUpLoad.FilePath.Substring(fileUpLoad.FilePath.IndexOf("/")) + fileUpLoad.OldFileName, msg = "", success = true });
+                                return Json(new { avatarUrls = fileFullPath + fileName, msg = "", success = true });
                             }
                             else
                             {
-                                responses.Add(new
+                                using (Image originalImage = Image.FromFile(fileFullPath + fileName))
                                 {
-                                    IsSuccess = true,
-                                    Width = fileUpLoad.FileWidth,
-                                    Height = fileUpLoad.FileHeight,
-                                    Title = fileUpLoad.OldFileName,
-                                    Url = fileUpLoad.FilePath.Substring(fileUpLoad.FilePath.IndexOf("/")) + fileUpLoad.OldFileName,
-                                    Md5 = md5,
-                                });
+                                    responses.Add(new
+                                    {
+                                        IsSuccess = true,
+                                        Width = originalImage.Width,
+                                        Height = originalImage.Height,
+                                        Title = fileName,
+                                        Url = fileFullPath.Substring(fileFullPath.IndexOf("/")) + fileName,
+                                        Md5 = md5,
+                                    });
+                                }
                             }
                         }
                     }

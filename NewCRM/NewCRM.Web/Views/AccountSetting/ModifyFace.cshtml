@@ -19,7 +19,6 @@
             avatar_box_border_width: 1
         }, function (msg) {
             switch (msg.code) {
-                
                 case 1:
                     //alert("页面成功加载了组件！");
                     break;
@@ -36,9 +35,16 @@
                     }
                     break;
                 case 5:
-                    debugger
                     if (msg.type == 0) {
-                        window.parent.HROS.startmenu.getAvatar();
+                        debugger
+                        $.get('@Url.Action("ModifyAccountFace", "AccountSetting")', { accountFace: msg.content.avatarUrls }, function (responseText) {
+                            if (responseText.IsSuccess) {
+                                ZENG.msgbox.success('账户头像上传成功，刷新查看');
+                                window.parent.HROS.startmenu.getAvatar();
+                            } else {
+                                ZENG.msgbox.fail('账户头像上传失败');
+                            }
+                        })
                     }
                     break;
             }
