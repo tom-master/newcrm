@@ -78,6 +78,10 @@ namespace NewCRM.FileServices.Controllers
                     if (file.FileName.StartsWith("__avatar"))
                     {
                         fileExtension = file.ContentType.Substring(file.ContentType.LastIndexOf("/") + 1);
+                        if (fileExtension=="jpeg")
+                        {
+                            fileExtension = "jpg";
+                        }
                     }
                     else
                     {
