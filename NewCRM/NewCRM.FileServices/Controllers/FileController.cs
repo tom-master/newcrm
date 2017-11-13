@@ -108,7 +108,7 @@ namespace NewCRM.FileServices.Controllers
 
                             if (uploadtype.ToLower() == UploadType.Face.ToString().ToLower())
                             {
-                                return Json(new { avatarUrls = fileFullPath + fileName, msg = "", success = true });
+                                return Json(new { avatarUrls = fileFullPath.Substring(fileFullPath.IndexOf("/")) + fileName, msg = "", success = true });
                             }
                             else
                             {
