@@ -26,13 +26,15 @@ namespace NewCRM.Infrastructure.CommonTools
 
         private static void WatcherStrat(string path, string filter)
         {
-            var watcher = new FileSystemWatcher();
-            watcher.Path = path;
-            watcher.Filter = filter;
+            var watcher = new FileSystemWatcher
+            {
+                Path = path,
+                Filter = filter
+            };
 
             watcher.Changed += (obj, sender) =>
             {
-
+                var a = 0;
             };
             watcher.EnableRaisingEvents = true;
         }

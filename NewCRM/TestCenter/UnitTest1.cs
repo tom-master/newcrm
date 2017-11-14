@@ -13,7 +13,7 @@ namespace TestCenter
         [TestMethod]
         public void TestMethod1()
         {
-            var a = PasswordUtil.ComparePasswords("FjR4ujpqmCH3rM1LRQDGjXVGhlJUtmRb", "adminadmin");
+            ProfileManager.Init(AppDomain.CurrentDomain.BaseDirectory);
         }
     }
 }
