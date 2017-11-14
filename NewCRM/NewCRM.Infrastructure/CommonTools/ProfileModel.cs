@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace NewCRM.Infrastructure.CommonTools
 {
-    public class ProfileModel
+    public class ProfileManager
     {
         [DllImport("kernel32")]
         private static extern int GetPrivateProfileString(string sectionName, string key, string defaultValue, byte[] returnBuffer, int size, string filePath);
@@ -16,8 +16,12 @@ namespace NewCRM.Infrastructure.CommonTools
             {
                 _profilePath = profilePath;
             }
-
-
         }
+
+    }
+
+    public class ProfileModel
+    {
+        public String FileUrl { get; set; }
     }
 }
