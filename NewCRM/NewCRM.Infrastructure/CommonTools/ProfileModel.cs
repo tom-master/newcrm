@@ -12,7 +12,8 @@ namespace NewCRM.Infrastructure.CommonTools
         private static extern int GetPrivateProfileString(string sectionName, string key, string defaultValue, byte[] returnBuffer, int size, string filePath);
 
         private static String _profilePath = "";
-        private static String _fileUrl = "";
+        public static String GetFileUrl { get; private set; }
+
 
         public static void Init(String profilePath = default(String))
         {
@@ -22,6 +23,7 @@ namespace NewCRM.Infrastructure.CommonTools
             }
 
             WatcherStrat(profilePath, "*.ini");
+            GetFileUrl = GetSectionValue("FileStorage", "FileUrl");
         }
 
         private static void WatcherStrat(string path, string filter)
@@ -34,25 +36,21 @@ namespace NewCRM.Infrastructure.CommonTools
 
             watcher.Changed += (obj, sender) =>
             {
-                var a = 0;
+                GetFileUrl = GetSectionValue("FileStorage", "FileUrl");
             };
             watcher.EnableRaisingEvents = true;
         }
 
-        public String GetFileUrl
+        private static String GetSectionValue(String sectionName, String key)
         {
-            get
+            Byte[] buffer = new Byte[2048];
+            Int32 length = GetPrivateProfileString(sectionName, key, "发生错误", buffer, 999, _profilePath);
+            String result = Encoding.Default.GetString(buffer, 0, length);
+            if (!String.IsNullOrEmpty(result))
             {
-                byte[] buffer = new byte[2048];
-                Int32 length = GetPrivateProfileString("FileStorage", "FileUrl", "发生错误", buffer, 999, _profilePath);
-                String result = Encoding.Default.GetString(buffer, 0, length);
-                if (!String.IsNullOrEmpty(result))
-                {
-                    throw new BusinessException("FileUrl配置参数获取失败");
-                }
-
-                return result;
+                throw new BusinessException("FileUrl配置参数获取失败");
             }
+            return result;
         }
     }
 }
