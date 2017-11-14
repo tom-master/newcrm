@@ -62,6 +62,7 @@
     <Compile Include="CommonTools\CustomHelper\Parameter.cs" />
     <Compile Include="CommonTools\CustomHelper\StringHelper.cs" />
     <Compile Include="CommonTools\FileHelper.cs" />
+    <Compile Include="CommonTools\ProfileModel.cs" />
     <Compile Include="CommonTools\ResponseModel.cs" />
     <Compile Include="CommonTools\ResponseType.cs" />
     <Compile Include="CommonTools\PasswordUtil.cs" />
