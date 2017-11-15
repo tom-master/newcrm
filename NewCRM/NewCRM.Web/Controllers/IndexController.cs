@@ -35,7 +35,7 @@ namespace NewCRM.Web.Controllers
             if (Request.Cookies["memberID"] != null)
             {
                 var account = Account;
-                account.AccountFace = System.Configuration.ConfigurationManager.AppSettings["FileUrl"] + account.AccountFace;
+                account.AccountFace = ProfileManager.FileUrl + account.AccountFace;
                 ViewData["Account"] = account;
                 ViewData["AccountConfig"] = AccountServices.GetConfig(account.Id);
                 ViewData["Desks"] = AccountServices.GetConfig(account.Id).DefaultDeskCount;
@@ -156,7 +156,7 @@ namespace NewCRM.Web.Controllers
             var result = AccountServices.GetConfig(Account.Id).AccountFace;
             response.IsSuccess = true;
             response.Message = "获取用户头像成功";
-            response.Model = System.Configuration.ConfigurationManager.AppSettings["FileUrl"] + result;
+            response.Model = ProfileManager.FileUrl + result;
 
             return Json(response, JsonRequestBehavior.AllowGet);
         }

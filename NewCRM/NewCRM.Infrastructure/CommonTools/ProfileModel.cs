@@ -2,41 +2,34 @@
 using System;
 using System.Configuration;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace NewCRM.Infrastructure.CommonTools
 {
     public class ProfileManager
     {
-        private static String _profilePath = "";
-        public static String GetFileUrl { get; private set; }
-
-
-        public static void Init(String profilePath = default(String))
-        {
-            if (profilePath != default(String))
-            {
-                _profilePath = profilePath;
-            }
-
-            WatcherStrat(profilePath, "ConsoleApp1.exe.config");
-            GetFileUrl = ConfigurationManager.AppSettings["FileStorage"];
-        }
-
-        private static void WatcherStrat(string path, string filter)
+        public static void Init()
         {
             var watcher = new FileSystemWatcher
             {
-                Path = path,
-                Filter = filter
+                Path = AppDomain.CurrentDomain.BaseDirectory,
+                Filter = "WebSite.config"
             };
 
             watcher.Changed += (obj, sender) =>
             {
-                GetFileUrl = ConfigurationManager.AppSettings["FileStorage"];
+                Reload();
             };
+
+            Reload();
             watcher.EnableRaisingEvents = true;
         }
+
+        private static void Reload()
+        {
+            var config = ConfigurationManager.OpenMappedExeConfiguration(new ExeConfigurationFileMap { ExeConfigFilename = $@"{AppDomain.CurrentDomain.BaseDirectory}/WebSite.config" }, ConfigurationUserLevel.None);
+            FileUrl = config.AppSettings.Settings["FileUrl"].Value;
+        }
+
+        public static String FileUrl { get; private set; }
     }
 }

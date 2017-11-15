@@ -13,7 +13,7 @@ namespace TestCenter
         [TestMethod]
         public void TestMethod1()
         {
-            ProfileManager.Init(AppDomain.CurrentDomain.BaseDirectory);
+            var a = Environment.CurrentDirectory;
         }
     }
 }

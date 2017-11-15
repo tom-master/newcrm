@@ -757,6 +757,7 @@
     <None Include="Views\Security\CreateNewRole.cshtml" />
     <Content Include="Views\AccountManager\Index.cshtml" />
     <Content Include="Views\AccountManager\CreateNewAccount.cshtml" />
+    <Content Include="WebSite.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
