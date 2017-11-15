@@ -13,7 +13,7 @@ namespace NewCRM.FileServices.Controllers
     public class FileController : ApiController
     {
         private static readonly String _fileStoragePath = ConfigurationManager.AppSettings["FileStorage"];
-        private static readonly String[] _denyUploadTypes = new[] { ".exe", ".bat", ".bat" };
+        private static readonly String[] _denyUploadTypes = { ".exe", ".bat", ".bat" };
 
         [Route("upload"), HttpPost]
         public IHttpActionResult Upload()
@@ -35,7 +35,7 @@ namespace NewCRM.FileServices.Controllers
                 }
 
                 var files = request.Files;
-                if (files == null || files.Count == 0)
+                if (files.Count == 0)
                 {
                     responses.Add(new
                     {
@@ -74,7 +74,7 @@ namespace NewCRM.FileServices.Controllers
                 for (int i = 0; i < files.Count; i++)
                 {
                     var file = files[i];
-                    var fileExtension = "";
+                    string fileExtension;
                     if (file.FileName.StartsWith("__avatar"))
                     {
                         fileExtension = file.ContentType.Substring(file.ContentType.LastIndexOf("/", StringComparison.Ordinal) + 1);
