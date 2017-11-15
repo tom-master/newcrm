@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Configuration;
+using NewCRM.Infrastructure.CommonTools;
 using StackExchange.Redis;
 
 namespace NewCRM.Repository.DataBaseProvider.Redis.InternalHelper
@@ -11,14 +12,11 @@ namespace NewCRM.Repository.DataBaseProvider.Redis.InternalHelper
     internal static class RedisConnectionHelp
     {
         //系统自定义Key前缀
-        public static readonly String SysCustomKey = ConfigurationManager.AppSettings["redisKey"] ?? "";
-        
-        private static readonly String _redisConnectionString = ConfigurationManager.ConnectionStrings["RedisExchangeHosts"].ConnectionString;
+        public static readonly String SysCustomKey = ProfileManager.RedisPrefix ?? "";
 
+        private static readonly String _redisConnectionString = ProfileManager.RedisConnection;
         private static readonly Object _locker = new Object();
-
         private static ConnectionMultiplexer _instance;
-
         private static readonly ConcurrentDictionary<String, ConnectionMultiplexer> _connectionCache = new ConcurrentDictionary<String, ConnectionMultiplexer>();
 
         /// <summary>
