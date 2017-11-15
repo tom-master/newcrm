@@ -44,6 +44,8 @@ namespace NewCRM.Repository.UnitOfWorkProvide
                 {
                     T oldEntity = dbSet.Find(entity.Id);
                     dbContext.Entry(oldEntity).CurrentValues.SetValues(entity);
+
+                    throw;
                 }
             }
         }
