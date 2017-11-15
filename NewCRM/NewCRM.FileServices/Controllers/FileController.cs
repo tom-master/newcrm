@@ -77,15 +77,15 @@ namespace NewCRM.FileServices.Controllers
                     var fileExtension = "";
                     if (file.FileName.StartsWith("__avatar"))
                     {
-                        fileExtension = file.ContentType.Substring(file.ContentType.LastIndexOf("/") + 1);
-                        if (fileExtension=="jpeg")
+                        fileExtension = file.ContentType.Substring(file.ContentType.LastIndexOf("/", StringComparison.Ordinal) + 1);
+                        if (fileExtension == "jpeg")
                         {
                             fileExtension = "jpg";
                         }
                     }
                     else
                     {
-                        fileExtension = file.FileName.Substring(file.FileName.LastIndexOf("."));
+                        fileExtension = file.FileName.Substring(file.FileName.LastIndexOf(".", StringComparison.Ordinal));
                     }
 
                     if (_denyUploadTypes.Any(d => d.ToLower() == fileExtension))
@@ -108,29 +108,27 @@ namespace NewCRM.FileServices.Controllers
                         }
 
                         var md5 = CalculateFile.Calculate(file.InputStream);
+                        file.InputStream.Position = 0;
                         using (var fileStream = new FileStream(fileFullPath + fileName, FileMode.Create, FileAccess.Write))
                         {
-                            file.InputStream.Read(bytes, 0, bytes.Count());
-                            fileStream.Write(bytes, 0, bytes.Count());
+                            file.InputStream.Read(bytes, 0, bytes.Length);
+                            fileStream.Write(bytes, 0, bytes.Length);
 
                             if (uploadtype.ToLower() == UploadType.Face.ToString().ToLower())
                             {
-                                return Json(new { avatarUrls = fileFullPath.Substring(fileFullPath.IndexOf("/")) + fileName, msg = "", success = true });
+                                return Json(new { avatarUrls = fileFullPath.Substring(fileFullPath.IndexOf("/", StringComparison.Ordinal)) + fileName, msg = "", success = true });
                             }
-                            else
+                            using (Image originalImage = Image.FromFile(fileFullPath + fileName))
                             {
-                                using (Image originalImage = Image.FromFile(fileFullPath + fileName))
+                                responses.Add(new
                                 {
-                                    responses.Add(new
-                                    {
-                                        IsSuccess = true,
-                                        Width = originalImage.Width,
-                                        Height = originalImage.Height,
-                                        Title = fileName,
-                                        Url = fileFullPath.Substring(fileFullPath.IndexOf("/")) + fileName,
-                                        Md5 = md5,
-                                    });
-                                }
+                                    IsSuccess = true,
+                                    originalImage.Width,
+                                    originalImage.Height,
+                                    Title = fileName,
+                                    Url = fileFullPath.Substring(fileFullPath.IndexOf("/", StringComparison.Ordinal)) + fileName,
+                                    Md5 = md5,
+                                });
                             }
                         }
                     }
