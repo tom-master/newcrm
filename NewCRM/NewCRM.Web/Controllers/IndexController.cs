@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
+using NewCRM.Infrastructure.CommonTools.CustomHelper;
+using Nito.AsyncEx;
 
 namespace NewCRM.Web.Controllers
 {
@@ -106,6 +108,10 @@ namespace NewCRM.Web.Controllers
         {
             var response = new ResponseModel<ConfigDto>();
             var result = AccountServices.GetConfig(Account.Id);
+
+            result.WallpaperSource = "web";
+            result.WallpaperUrl = AsyncContext.Run(BingHelper.GetEverydayWallpaperAsync);
+
             response.IsSuccess = true;
             response.Message = "初始化壁纸成功";
             response.Model = result;

@@ -69,3 +69,15 @@ D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.csprojResolveAssemblyR
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.csproj.CoreCompileInputs.cache
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.dll
 D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\obj\Debug\NewCRM.Web.pdb
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Microsoft.Threading.Tasks.dll
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Microsoft.Threading.Tasks.Extensions.dll
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Nito.AsyncEx.Concurrent.dll
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Nito.AsyncEx.dll
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Nito.AsyncEx.Enlightenment.dll
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Microsoft.Threading.Tasks.xml
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Microsoft.Threading.Tasks.Extensions.xml
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Nito.AsyncEx.xml
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Nito.AsyncEx.Concurrent.xml
+D:\dev\NewCRM-v1.0\NewCRM\NewCRM.Web\bin\Nito.AsyncEx.Enlightenment.xml
