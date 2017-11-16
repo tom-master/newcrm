@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Linq;
 using NewCRM.Domain.Repositories;
 using NewCRM.Infrastructure.CommonTools;
+using NewCRM.Infrastructure.CommonTools.CustomHelper;
 
 namespace TestCenter
 {
@@ -13,7 +14,7 @@ namespace TestCenter
         [TestMethod]
         public void TestMethod1()
         {
-            var a = Environment.CurrentDirectory;
+            var a = BingHelper.GetEverydayWallpaperAsync().Result;
         }
     }
 }
