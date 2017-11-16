@@ -23,8 +23,8 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
-NewCRM.Web/[Bb]in/
-NewCRM.Web/[Oo]bj/
+**/[Bb]in/
+**/[Oo]bj/
 
 # Visual Studio 2015 cache/options directory
 .vs/
