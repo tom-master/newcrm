@@ -110,7 +110,7 @@ namespace NewCRM.Web.Controllers
             var result = AccountServices.GetConfig(Account.Id);
 
             result.WallpaperSource = "web";
-            result.WallpaperUrl = AsyncContext.Run(BingHelper.GetEverydayWallpaperAsync);
+            result.WallpaperUrl = AsyncContext.Run(BingHelper.GetEverydayBackgroundImageAsync);
 
             response.IsSuccess = true;
             response.Message = "初始化壁纸成功";
