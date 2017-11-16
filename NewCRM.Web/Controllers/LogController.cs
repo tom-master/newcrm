@@ -45,6 +45,6 @@ namespace NewCRM.Web.Controllers
             response.TotalCount = totalCount;
 
             return Json(response, JsonRequestBehavior.AllowGet);
-        }
-    }
+        } 
+    }  
 }
