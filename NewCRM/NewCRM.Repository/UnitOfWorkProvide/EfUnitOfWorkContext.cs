@@ -1,14 +1,14 @@
-﻿using System;
+﻿using NewCRM.Repository.DatabaseProvider.EF.Context;
+using System;
 using System.Data.Entity;
-using Microsoft.Practices.Unity;
-using NewCRM.Repository.DatabaseProvider.EF.Context;
+using Unity.Attributes;
 
 namespace NewCRM.Repository.UnitOfWorkProvide
 {
-	/// <summary>
-	/// 数据单元操作类
-	/// </summary> 
-	public class EfUnitOfWorkContext : UnitOfWorkContextBase
+    /// <summary>
+    /// 数据单元操作类
+    /// </summary> 
+    public class EfUnitOfWorkContext : UnitOfWorkContextBase
 	{
 
         public EfUnitOfWorkContext() { }

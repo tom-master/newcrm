@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using NewCRM.Domain.Entitys;
+﻿using NewCRM.Domain.Entitys;
 using NewCRM.Domain.Repositories;
 using NewCRM.Domain.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustomException;
@@ -10,7 +6,11 @@ using NewCRM.Infrastructure.CommonTools.CustomHelper;
 using NewCRM.Repository.DataBaseProvider.Redis.InternalHelper;
 using NewCRM.Repository.UnitOfWorkProvide;
 using StackExchange.Redis;
-using Microsoft.Practices.Unity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using Unity.Attributes;
 
 namespace NewCRM.Repository.DataBaseProvider.EF
 {

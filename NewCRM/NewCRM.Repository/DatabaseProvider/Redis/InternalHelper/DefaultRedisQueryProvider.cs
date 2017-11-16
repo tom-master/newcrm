@@ -1,11 +1,11 @@
-﻿using System;
+﻿using JsonNet.PrivateSettersContractResolvers;
+using Newtonsoft.Json;
+using StackExchange.Redis;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using JsonNet.PrivateSettersContractResolvers;
-using Microsoft.Practices.Unity;
-using Newtonsoft.Json;
-using StackExchange.Redis;
+using Unity.Attributes;
 
 namespace NewCRM.Repository.DataBaseProvider.Redis.InternalHelper
 {

@@ -1,13 +1,12 @@
-﻿using System;
-using System.Linq;
-using Microsoft.Practices.Unity;
-using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Factory;
+﻿using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Factory.DomainQuery.Query;
 using NewCRM.Domain.Factory.DomainSpecification.Factory;
 using NewCRM.Domain.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.Attributes;
 
 namespace NewCRM.Domain
 {

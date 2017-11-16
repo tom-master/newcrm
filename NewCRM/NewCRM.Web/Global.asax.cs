@@ -1,8 +1,7 @@
-﻿using NewCRM.Web.App_Start;
+﻿using NewCRM.Infrastructure.CommonTools;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using NewCRM.Infrastructure.CommonTools;
 
 namespace NewCRM.Web
 {
@@ -18,7 +17,7 @@ namespace NewCRM.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            UnityWebActivator.Start();
+            UnityMvcActivator.Start();
         }
     }
 }

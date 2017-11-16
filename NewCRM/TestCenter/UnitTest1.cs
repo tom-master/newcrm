@@ -1,10 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Reflection;
-using System.Linq;
-using NewCRM.Domain.Repositories;
-using NewCRM.Infrastructure.CommonTools;
-using NewCRM.Infrastructure.CommonTools.CustomHelper;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TestCenter
 {
@@ -14,7 +8,6 @@ namespace TestCenter
         [TestMethod]
         public void TestMethod1()
         {
-            var a = BingHelper.GetEverydayWallpaperAsync().Result;
         }
     }
 }
