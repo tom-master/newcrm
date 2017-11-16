@@ -36,9 +36,8 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult GetAllLog(Int32 loglevel, Int32 pageIndex, Int32 pageSize)
         {
-            Int32 totalCount;
             var response = new ResponseModels<IList<LogDto>>();
-            var result = _loggerServices.GetAllLog(loglevel, pageIndex, pageSize, out totalCount);
+            var result = _loggerServices.GetAllLog(loglevel, pageIndex, pageSize, out var totalCount);
             response.IsSuccess = true;
             response.Message = "获取日志列表成功";
             response.Model = result;
