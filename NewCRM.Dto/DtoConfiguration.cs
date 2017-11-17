@@ -17,8 +17,8 @@ namespace NewCRM.Dto
             Mapper.Initialize(d =>
             {
                 //Account
-                d.CreateMap<Account, AccountDto>();
-                d.AddProfile<AccountToAccountDtoProfile>();
+                //d.CreateMap<Account, AccountDto>();
+                //d.AddProfile<AccountToAccountDtoProfile>();
 
                 d.CreateMap<AccountDto, Account>();
                 d.AddProfile<AccountDtoToAccountProfile>();
@@ -26,58 +26,58 @@ namespace NewCRM.Dto
                 d.CreateMap<RoleDto, AccountRole>();
                 d.AddProfile<RoleDtoToAccountRoleProfile>();
 
-                d.CreateMap<AccountRole, RoleDto>();
-                d.AddProfile<AccountRoleToRoleDtoProfile>();
+                //d.CreateMap<AccountRole, RoleDto>();
+                //d.AddProfile<AccountRoleToRoleDtoProfile>();
 
-                //Wallpaper
-                d.CreateMap<Config, ConfigDto>();
-                d.AddProfile<ConfigToConfigDtoProfile>();
+                ////Wallpaper
+                //d.CreateMap<Config, ConfigDto>();
+                //d.AddProfile<ConfigToConfigDtoProfile>();
 
-                //Wallpaper
-                d.CreateMap<Wallpaper, WallpaperDto>();
-                d.AddProfile<WallpaperToWallpaperDtoProfile>();
+                ////Wallpaper
+                //d.CreateMap<Wallpaper, WallpaperDto>();
+                //d.AddProfile<WallpaperToWallpaperDtoProfile>();
 
                 d.CreateMap<WallpaperDto, Wallpaper>();
                 d.AddProfile<WallpaperDtoToWallpaperProfile>();
 
                 //Member
-                d.CreateMap<Member, MemberDto>();
-                d.AddProfile<MemberToMemberDtoProfile>();
+                //d.CreateMap<Member, MemberDto>();
+                //d.AddProfile<MemberToMemberDtoProfile>();
 
                 d.CreateMap<MemberDto, Member>();
                 d.AddProfile<MemberDtoToMemberProfile>();
 
                 //AppType
-                d.CreateMap<AppType, AppTypeDto>();
-                d.AddProfile<AppTypeToAppTypeDtoProfile>();
+                //d.CreateMap<AppType, AppTypeDto>();
+                //d.AddProfile<AppTypeToAppTypeDtoProfile>();
 
                 d.CreateMap<AppTypeDto, AppType>();
                 d.AddProfile<AppTypeDtoToAppTypeProfile>();
 
                 //App
-                d.CreateMap<App, AppDto>();
-                d.AddProfile<AppToAppDtoProfile>();
+                //d.CreateMap<App, AppDto>();
+                //d.AddProfile<AppToAppDtoProfile>();
 
                 d.CreateMap<AppDto, App>();
                 d.AddProfile<AppDtoToAppProfile>();
 
                 //Role
-                d.CreateMap<Role, RoleDto>();
-                d.AddProfile<RoleToRoleDtoProfile>();
+                //d.CreateMap<Role, RoleDto>();
+                //d.AddProfile<RoleToRoleDtoProfile>();
 
                 d.CreateMap<RoleDto, Role>();
                 d.AddProfile<RoleDtoToRoleProfile>();
 
                 //Desk
-                d.CreateMap<Desk, DeskDto>();
-                d.AddProfile<DeskToDeskDtoProfile>();
+                //d.CreateMap<Desk, DeskDto>();
+                //d.AddProfile<DeskToDeskDtoProfile>();
 
                 d.CreateMap<DeskDto, Desk>();
                 d.AddProfile<DeskDtoToDeskProfile>();
 
                 //Log
-                d.CreateMap<Log, LogDto>();
-                d.AddProfile<LogToLogDtoProfile>();
+                //d.CreateMap<Log, LogDto>();
+                //d.AddProfile<LogToLogDtoProfile>();
 
                 d.CreateMap<LogDto, Log>();
                 d.AddProfile<LogDtoToLogProfile>();
@@ -113,60 +113,6 @@ namespace NewCRM.Dto
 
             #endregion
         }
-
-        #region DomainModelToDto
-
-        /// <summary>
-        /// 领域模型转换成DTO
-        /// </summary>
-        /// <typeparam name="TModel">领域模型</typeparam>
-        /// <typeparam name="TDto">DTO模型</typeparam>
-        /// <param name="source">领域模型</param>
-        /// <returns></returns>
-        public static TDto ConvertToDto<TModel, TDto>(this TModel source) where TModel : DomainModelBase where TDto : BaseDto
-        {
-            return Mapper.Map<TDto>(source);
-        }
-
-        /// <summary>
-        /// 领域模型转换成DTO
-        /// </summary>
-        /// <typeparam name="TModel">领域模型</typeparam>
-        /// <typeparam name="TDto">DTO模型</typeparam>
-        /// <param name="source">领域模型</param>
-        /// <returns></returns>
-        //public static IEnumerable<TDto> ConvertToDtos<TModel, TDto>(this IEnumerable<TModel> source) where TModel : DomainModelBase where TDto : BaseDto
-        //{
-        //    return Mapper.Map<IList<TDto>>(source);
-        //}
-
-        /// <summary>
-        /// 将动态类型转换为指定的dto
-        /// </summary>
-        /// <typeparam name="TDto"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        //public static IEnumerable<TDto> ConvertDynamicToDtos<TDto>(this IEnumerable<dynamic> source) where TDto : BaseDto
-        //{
-        //    var config = new MapperConfiguration(cfg => cfg.CreateMissingTypeMaps = true);
-        //    var mapper = config.CreateMapper();
-        //    return source.Select(mapper.Map<TDto>).ToList();
-        //}
-
-        /// <summary>
-        /// 将动态类型转换为指定的dto
-        /// </summary>
-        /// <typeparam name="TDto"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        //public static TDto ConvertDynamicToDto<TDto>(dynamic source) where TDto : BaseDto
-        //{
-        //    var config = new MapperConfiguration(cfg => cfg.CreateMissingTypeMaps = true);
-        //    var mapper = config.CreateMapper();
-        //    return mapper.Map<TDto>(source);
-        //}
-
-        #endregion
 
         #region DtoToDomainModel
         /// <summary>

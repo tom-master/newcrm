@@ -34,9 +34,13 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountName).Validate(password);
 
-            var account = _accountContext.Validate(accountName, password).ConvertToDto<Account, AccountDto>();
+            var account = _accountContext.Validate(accountName, password);
             UnitOfWork.Commit();
-            return account;
+            return new AccountDto
+            {
+                AccountFace = account.Config.AccountFace,
+                Name = account.Name,
+            };
         }
 
         public ConfigDto GetConfig(Int32 accountId)
@@ -95,13 +99,35 @@ namespace NewCRM.Application.Services
 
         public AccountDto GetAccount(Int32 accountId = default(Int32))
         {
-            var accountResult = CacheQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            if(accountResult == null)
+            var result = CacheQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
+            if(result == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
             }
 
-            return accountResult.ConvertToDto<Account, AccountDto>();
+            return new AccountDto
+            {
+                AccountFace = result.Config.AccountFace,
+                AddTime = result.AddTime.ToString("yyyy-MM-dd"),
+                Id = result.Id,
+                IsAdmin = result.IsAdmin,
+                IsDisable = result.IsDisable,
+                IsOnline = result.IsOnline,
+                LastLoginTime = result.LastLoginTime.ToString("yyyy-MM-dd"),
+                LastModifyTime = result.LastModifyTime.ToString("yyyy-MM-dd"),
+                LockScreenPassword = result.LockScreenPassword,
+                Name = result.Name,
+                Roles = result.Roles.Select(s => new RoleDto
+                {
+                    Id = s.Id,
+                    Name = s.Role.Name,
+                    Powers = s.Role.Powers.Select(p => new PowerDto
+                    {
+                        Id = p.Id,
+                    }).ToList(),
+                    RoleIdentity = s.Role.RoleIdentity
+                }).ToList(),
+            };
         }
 
         public Boolean CheckAccountNameExist(String accountName)

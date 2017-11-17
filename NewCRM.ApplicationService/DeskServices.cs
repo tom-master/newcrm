@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Linq;
-using NewCRM.Application.Services.Interface;
 using NewCRM.Domain;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Repositories.IRepository.Agent;
-using NewCRM.Domain.Repositories.IRepository.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
+using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomException;
+using NewCRM.Application.Services.Interface;
+using NewCRM.Domain.Repositories.IRepository.System;
+using NewCRM.Domain.Repositories.IRepository.Agent;
 
 namespace NewCRM.Application.Services
 {
@@ -44,24 +45,43 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId).Validate(memberId);
 
             var desks = CacheQuery.Find(FilterFactory.Create((Desk desk) => desk.AccountId == accountId));
-            foreach (var desk in desks)
+            foreach(var desk in desks)
             {
+                MemberType memberType;
                 var members = desk.Members;
-                if (isFolder)
+                if(isFolder)
                 {
-                    var folderMember = members.FirstOrDefault(member => member.Id == memberId && member.MemberType == MemberType.Folder);
-                    if (folderMember != null)
-                    {
-                        return folderMember.ConvertToDto<Member, MemberDto>();
-                    }
+                    memberType = MemberType.Folder;
                 }
                 else
                 {
-                    var appMember = members.FirstOrDefault(member => member.AppId == memberId && member.MemberType == MemberType.App);
-                    if (appMember != null)
+                    memberType = MemberType.App;
+                }
+                var result = members.FirstOrDefault(member => member.AppId == memberId && member.MemberType == memberType);
+                if(result != null)
+                {
+                    return new MemberDto
                     {
-                        return appMember.ConvertToDto<Member, MemberDto>();
-                    }
+                        AppId = result.AppId,
+                        AppUrl = result.AppUrl,
+                        DeskId = result.DeskId,
+                        FolderId = result.FolderId,
+                        Height = result.Height,
+                        IconUrl = result.IconUrl,
+                        Id = result.Id,
+                        IsDraw = result.IsDraw,
+                        IsFlash = result.IsFlash,
+                        IsFull = result.IsFull,
+                        IsLock = result.IsLock,
+                        IsMax = result.IsMax,
+                        IsOnDock = result.IsOnDock,
+                        IsOpenMax = result.IsOpenMax,
+                        IsResize = result.IsResize,
+                        IsSetbar = result.IsSetbar,
+                        MemberType = result.MemberType.ToString(),
+                        Name = result.Name,
+                        Width = result.Width
+                    };
                 }
             }
             throw new BusinessException($"未找到app");
