@@ -18,29 +18,29 @@ namespace NewCRM.Repository.UnitOfWorkProvide
     {
         internal static void Update<T, TKey>(this DbContext dbContext, params T[] entities) where T : DomainModelBase
         {
-            if (dbContext == null)
+            if(dbContext == null)
             {
                 throw new BusinessException($"{nameof(dbContext)}：不能为空");
             }
 
-            if (entities == null)
+            if(entities == null)
             {
                 throw new BusinessException($"{nameof(entities)}：不能为空");
             }
 
-            foreach (T entity in entities)
+            foreach(T entity in entities)
             {
                 DbSet<T> dbSet = dbContext.Set<T>();
                 try
                 {
                     DbEntityEntry<T> entry = dbContext.Entry(entity);
-                    if (entry.State == EntityState.Detached)
+                    if(entry.State == EntityState.Detached)
                     {
                         dbSet.Attach(entity);
                         entry.State = EntityState.Modified;
                     }
                 }
-                catch (InvalidOperationException exception)
+                catch(InvalidOperationException)
                 {
                     T oldEntity = dbSet.Find(entity.Id);
                     dbContext.Entry(oldEntity).CurrentValues.SetValues(entity);
@@ -55,29 +55,29 @@ namespace NewCRM.Repository.UnitOfWorkProvide
         internal static void Update<T, TKey>(this DbContext dbContext, Expression<Func<T, Object>> propertyExpression, params T[] entities)
             where T : DomainModelBase
         {
-            if (propertyExpression == null) throw new ArgumentNullException($"{nameof(propertyExpression)}");
-            if (entities == null) throw new ArgumentNullException($"{nameof(entities)}");
+            if(propertyExpression == null) throw new ArgumentNullException($"{nameof(propertyExpression)}");
+            if(entities == null) throw new ArgumentNullException($"{nameof(entities)}");
             ReadOnlyCollection<MemberInfo> memberInfos = ((dynamic)propertyExpression.Body).Members;
-            foreach (T entity in entities)
+            foreach(T entity in entities)
             {
                 DbSet<T> dbSet = dbContext.Set<T>();
                 try
                 {
                     DbEntityEntry<T> entry = dbContext.Entry(entity);
                     entry.State = EntityState.Unchanged;
-                    foreach (var memberInfo in memberInfos)
+                    foreach(var memberInfo in memberInfos)
                     {
                         entry.Property(memberInfo.Name).IsModified = true;
                     }
                 }
-                catch (InvalidOperationException)
+                catch(InvalidOperationException)
                 {
                     T originalEntity = dbSet.Local.Single(m => Equals(m.Id, entity.Id));
                     ObjectContext objectContext = ((IObjectContextAdapter)dbContext).ObjectContext;
                     ObjectStateEntry objectEntry = objectContext.ObjectStateManager.GetObjectStateEntry(originalEntity);
                     objectEntry.ApplyCurrentValues(entity);
                     objectEntry.ChangeState(EntityState.Unchanged);
-                    foreach (var memberInfo in memberInfos)
+                    foreach(var memberInfo in memberInfos)
                     {
                         objectEntry.SetModifiedProperty(memberInfo.Name);
                     }
@@ -95,7 +95,7 @@ namespace NewCRM.Repository.UnitOfWorkProvide
             }
             finally
             {
-                if (isReturn)
+                if(isReturn)
                 {
                     dbContext.Configuration.ValidateOnSaveEnabled = !validateOnSaveEnabled;
                 }

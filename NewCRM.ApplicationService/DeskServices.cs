@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Linq;
+using NewCRM.Application.Services.Interface;
 using NewCRM.Domain;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
+using NewCRM.Domain.Repositories.IRepository.Agent;
+using NewCRM.Domain.Repositories.IRepository.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
-using NewCRM.Dto.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomException;
-using NewCRM.Application.Services.Interface;
-using NewCRM.Domain.Repositories.IRepository.System;
-using NewCRM.Domain.Repositories.IRepository.Agent;
 
 namespace NewCRM.Application.Services
 {
     public class DeskServices : BaseServiceContext, IDeskServices
     {
-
         private readonly IModifyDeskMemberServices _modifyDeskMemberServices;
         private readonly IModifyDockPostionServices _modifyDockPostionServices;
         private readonly ICreateNewFolderServices _createNewFolderServices;
@@ -24,7 +22,6 @@ namespace NewCRM.Application.Services
         private readonly IDeskRepository _deskRepository;
 
         private readonly IAccountRepository _accountRepository;
-
 
         public DeskServices(IModifyDeskMemberServices modifyDeskMemberServices,
             IModifyDockPostionServices modifyDockPostionServices,

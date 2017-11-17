@@ -118,8 +118,19 @@ namespace NewCRM.Application.Services
         public WallpaperDto GetUploadWallpaper(String md5)
         {
             ValidateParameter.Validate(md5);
-
-            return DatabaseQuery.FindOne(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Md5 == md5)).ConvertToDto<Wallpaper, WallpaperDto>();
+            var result = DatabaseQuery.FindOne(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Md5 == md5));
+            return new WallpaperDto
+            {
+                AccountId = result.AccountId,
+                Height = result.Height,
+                Width = result.Width,
+                Id = result.Id,
+                Md5 = result.Md5,
+                ShortUrl = result.ShortUrl,
+                Source = result.Source.ToString(),
+                Title = result.Title,
+                Url = result.Url
+            };
         }
 
         public void ModifyWallpaperMode(Int32 accountId, String newMode)
