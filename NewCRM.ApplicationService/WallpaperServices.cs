@@ -31,7 +31,18 @@ namespace NewCRM.Application.Services
 
         public List<WallpaperDto> GetWallpaper()
         {
-            return DatabaseQuery.Find(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
+            return DatabaseQuery.Find(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System)).Select(s => new WallpaperDto
+            {
+                AccountId = s.AccountId,
+                Height = s.Height,
+                Id = s.Id,
+                Md5 = s.Md5,
+                ShortUrl = s.ShortUrl,
+                Source = s.Source.ToString(),
+                Title = s.Title,
+                Url = s.Url,
+                Width = s.Width
+            }).ToList();
         }
 
         public Tuple<Int32, String> AddWallpaper(WallpaperDto wallpaperDto)
@@ -41,7 +52,7 @@ namespace NewCRM.Application.Services
             var wallpaper = wallpaperDto.ConvertToModel<WallpaperDto, Wallpaper>();
             var wallPaperCount = DatabaseQuery.Find(FilterFactory.Create<Wallpaper>(w => w.AccountId == wallpaper.AccountId)).Count();
 
-            if (wallPaperCount == 6)
+            if(wallPaperCount == 6)
             {
                 throw new BusinessException($"最多只能上传6张壁纸");
             }
@@ -55,7 +66,18 @@ namespace NewCRM.Application.Services
         public List<WallpaperDto> GetUploadWallpaper(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
-            return DatabaseQuery.Find(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.AccountId == accountId)).ConvertToDtos<Wallpaper, WallpaperDto>().ToList();
+            return DatabaseQuery.Find(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.AccountId == accountId)).Select(s => new WallpaperDto
+            {
+                AccountId = s.AccountId,
+                Height = s.Height,
+                Id = s.Id,
+                Md5 = s.Md5,
+                ShortUrl = s.ShortUrl,
+                Source = s.Source.ToString(),
+                Title = s.Title,
+                Url = s.Url,
+                Width = s.Width
+            }).ToList();
 
         }
 
@@ -66,12 +88,12 @@ namespace NewCRM.Application.Services
             var imageTitle = Path.GetFileNameWithoutExtension(url);
             Image image;
 
-            using (var stream = await new HttpClient().GetStreamAsync(new Uri(url)))
-            using (image = Image.FromStream(stream))
+            using(var stream = await new HttpClient().GetStreamAsync(new Uri(url)))
+            using(image = Image.FromStream(stream))
             {
                 var wallpaperMd5 = CalculateFile.Calculate(stream);
                 var webWallpaper = GetUploadWallpaper(wallpaperMd5);
-                if (webWallpaper != null)
+                if(webWallpaper != null)
                 {
                     return new Tuple<Int32, String>(webWallpaper.Id, webWallpaper.ShortUrl);
                 }

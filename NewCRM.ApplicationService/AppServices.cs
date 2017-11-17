@@ -293,18 +293,18 @@ namespace NewCRM.Application.Services
             #endregion
 
             var appTypes = GetAppTypes();
-            return DatabaseQuery.PageBy(filter, pageIndex, pageSize, out totalCount).Select(app => new
+            return DatabaseQuery.PageBy(filter, pageIndex, pageSize, out totalCount).Select(app => new AppDto
             {
-                app.Name,
-                app.AppStyle,
+                Name = app.Name,
+                AppStyle = (Int32)app.AppStyle,
                 AppTypeName = appTypes.FirstOrDefault(appType => appType.Id == app.AppTypeId).Name,
-                app.UseCount,
-                app.Id,
-                app.IconUrl,
-                app.AppAuditState,
-                app.IsRecommand,
+                UseCount = app.UseCount,
+                Id = app.Id,
+                IconUrl = app.IconUrl,
+                AppAuditState = (Int32)app.AppAuditState,
+                IsRecommand = app.IsRecommand,
                 IsCreater = app.AccountId == accountId
-            }).ConvertDynamicToDtos<AppDto>().ToList();
+            }).ToList();
         }
 
         public AppDto GetApp(Int32 appId)

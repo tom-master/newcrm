@@ -4,7 +4,7 @@ using System.Linq;
 using NewCRM.Domain;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.ValueObject;
-using NewCRM.Dto; 
+using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Domain.Repositories.IRepository.System;
@@ -28,7 +28,17 @@ namespace NewCRM.Application.Services
         public IList<LogDto> GetAllLog(Int32 logLevel, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
             var internalLogLevel = EnumExtensions.ParseToEnum<LogLevel>(logLevel);
-            return DatabaseQuery.PageBy(FilterFactory.Create((Log log) => log.LogLevelEnum == internalLogLevel), pageIndex, pageSize, out totalCount).ConvertToDtos<Log, LogDto>().ToList();
+            return DatabaseQuery.PageBy(FilterFactory.Create((Log log) => log.LogLevelEnum == internalLogLevel), pageIndex, pageSize, out totalCount).Select(s => new LogDto
+            {
+                AccountId = s.AccountId,
+                Action = s.Action,
+                AddTime = s.AddTime.ToString("yyyy-MM-dd"),
+                Controller = s.Controller,
+                ExceptionMessage = s.ExceptionMessage,
+                Id = s.Id,
+                LogLevelEnum = (Int32)s.LogLevelEnum,
+                Track = s.Track
+            }).ToList();
         }
     }
 }
