@@ -98,7 +98,11 @@ namespace NewCRM.Domain.Entitys.System
         /// </summary>
         public Config ModifyWallpaper(Wallpaper newWallpaper)
         {
-            Wallpaper = newWallpaper ?? throw new BusinessException($"{nameof(newWallpaper)}不能为空");
+            if(newWallpaper == null)
+            {
+                throw new BusinessException($"{nameof(newWallpaper)}不能为空");
+            }
+            Wallpaper = newWallpaper;
             return this;
         }
 
@@ -108,7 +112,7 @@ namespace NewCRM.Domain.Entitys.System
         /// <param name="deskNumber"></param>
         public Config ModifyDefaultDesk(Int32 deskNumber)
         {
-            if (deskNumber > _maxDeskNumber)
+            if(deskNumber > _maxDeskNumber)
             {
                 throw new BusinessException("设置的默认显示桌面号不能超出当前所有可用的桌面总数");
             }
@@ -122,7 +126,7 @@ namespace NewCRM.Domain.Entitys.System
         /// </summary>
         public Config ModifyDefaultDeskCount(Int32 deskNumber)
         {
-            if ((DefaultDeskCount + deskNumber) > _maxDeskNumber)
+            if((DefaultDeskCount + deskNumber) > _maxDeskNumber)
             {
                 throw new BusinessException("设置的默认显示桌面号不能超出当前所有可用的桌面总数");
             }

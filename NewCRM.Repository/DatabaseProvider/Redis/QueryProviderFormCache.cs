@@ -33,9 +33,9 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
         {
             get
             {
-                if (UnitOfWork is UnitOfWorkContextBase unitofwork)
+                if (UnitOfWork is UnitOfWorkContextBase)
                 {
-                    return unitofwork;
+                    return UnitOfWork as UnitOfWorkContextBase;
                 }
 
                 throw new RepositoryException($"无法获取当前工作单元的实例:{nameof(UnitOfWork)}");

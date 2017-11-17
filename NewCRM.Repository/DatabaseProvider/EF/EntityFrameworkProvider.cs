@@ -45,9 +45,9 @@ namespace NewCRM.Repository.DataBaseProvider.EF
         {
             get
             {
-                if (UnitOfWork is UnitOfWorkContextBase unitofwork)
+                if(UnitOfWork is UnitOfWorkContextBase)
                 {
-                    return unitofwork;
+                    return UnitOfWork as UnitOfWorkContextBase;
                 }
 
                 throw new RepositoryException($"无法获取当前工作单元的实例:{nameof(UnitOfWork)}");
@@ -95,7 +95,7 @@ namespace NewCRM.Repository.DataBaseProvider.EF
         {
             _vaildateParameter.Validate(id);
             T entity = EfContext.Set<T, Int32>().Find(id);
-            if (entity != null)
+            if(entity != null)
             {
                 Remove(entity, isSave);
             }
@@ -136,7 +136,7 @@ namespace NewCRM.Repository.DataBaseProvider.EF
         {
             _vaildateParameter.Validate(predicate);
             IList<T> entities = EfContext.Set<T, Int32>().Where(predicate).ToList();
-            if (entities.Any())
+            if(entities.Any())
             {
                 Remove(entities, isSave);
             }
@@ -180,9 +180,9 @@ namespace NewCRM.Repository.DataBaseProvider.EF
         {
             var key = entity.KeyGenerator();
 
-            if (CacheQueryProvider.GetKeyType(key) == RedisType.String)
+            if(CacheQueryProvider.GetKeyType(key) == RedisType.String)
             {
-                if (CacheQueryProvider.KeyExists(key))
+                if(CacheQueryProvider.KeyExists(key))
                 {
                     CacheQueryProvider.KeyDelete(key);
                 }
@@ -191,9 +191,9 @@ namespace NewCRM.Repository.DataBaseProvider.EF
             }
             else
             {
-                if (CacheQueryProvider.GetKeyType(key) == RedisType.List)
+                if(CacheQueryProvider.GetKeyType(key) == RedisType.List)
                 {
-                    if (CacheQueryProvider.KeyExists(key))
+                    if(CacheQueryProvider.KeyExists(key))
                     {
                         CacheQueryProvider.KeyDelete(key);
                     }
