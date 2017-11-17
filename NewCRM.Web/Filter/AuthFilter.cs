@@ -10,9 +10,9 @@ namespace NewCRM.Web.Filter
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {
-            var actionName = filterContext.RequestContext.RouteData.Values["action"].ToString();
-
-            if ((filterContext.RequestContext.RouteData.Values["controller"].ToString() == "Login" && actionName == "Index") || actionName == "Landing" || actionName == "Desktop")
+            var actionName = filterContext.RequestContext.RouteData.Values["action"].ToString().ToLower();
+            var controllerName = filterContext.RequestContext.RouteData.Values["controller"].ToString().ToLower();
+            if ((controllerName == "login" && actionName == "index") || actionName == "landing" || actionName == "desktop")
             {
                 return;
             }
@@ -23,7 +23,7 @@ namespace NewCRM.Web.Filter
                 return;
             }
 
-            if (actionName != "CreateWindow")
+            if (actionName != "createwindow")
             {
                 return;
             }
@@ -44,7 +44,7 @@ namespace NewCRM.Web.Filter
 
         private static void ReturnMessage(AuthorizationContext filterContext, String message)
         {
-            var notPermissionMessage = @"<script>window.parent.alertInfo()</script>";
+            var notPermissionMessage = $@"<script>window.parent.alertInfo({message})</script>";
             var isAjaxRequest = filterContext.RequestContext.HttpContext.Request.IsAjaxRequest();
 
             if (!isAjaxRequest)
