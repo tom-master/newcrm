@@ -44,7 +44,7 @@ namespace NewCRM.Web.Filter
 
         private static void ReturnMessage(AuthorizationContext filterContext, String message)
         {
-            var notPermissionMessage = $@"<script>window.parent.alertInfo({message})</script>";
+            var notPermissionMessage = $@"<script>window.parent.alertInfo('{message}')</script>";
             var isAjaxRequest = filterContext.RequestContext.HttpContext.Request.IsAjaxRequest();
 
             if (!isAjaxRequest)

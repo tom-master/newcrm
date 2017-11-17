@@ -92,7 +92,7 @@ namespace NewCRM.Application.Services
                 Id = account.Id,
                 IsAdmin = account.IsAdmin,
                 Name = account.Name,
-                AccountFace = account.Config.AccountFace,
+                AccountFace = ProfileManager.FileUrl + account.Config.AccountFace,
                 IsDisable = account.IsDisable
             }).ToList();
 
@@ -120,11 +120,11 @@ namespace NewCRM.Application.Services
                 Name = result.Name,
                 Roles = result.Roles.Select(s => new RoleDto
                 {
-                    Id = s.Id,
+                    Id = s.RoleId,
                     Name = s.Role.Name,
                     Powers = s.Role.Powers.Select(p => new PowerDto
                     {
-                        Id = p.Id,
+                        Id = p.AppId
                     }).ToList(),
                     RoleIdentity = s.Role.RoleIdentity
                 }).ToList(),
