@@ -5,7 +5,6 @@ using NewCRM.Domain.Entitys;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.Security;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Dto.Dto;
 using NewCRM.Dto.MapperProfile;
 
 namespace NewCRM.Dto
@@ -136,10 +135,10 @@ namespace NewCRM.Dto
         /// <typeparam name="TDto">DTO模型</typeparam>
         /// <param name="source">领域模型</param>
         /// <returns></returns>
-        public static IEnumerable<TDto> ConvertToDtos<TModel, TDto>(this IEnumerable<TModel> source) where TModel : DomainModelBase where TDto : BaseDto
-        {
-            return Mapper.Map<IList<TDto>>(source);
-        }
+        //public static IEnumerable<TDto> ConvertToDtos<TModel, TDto>(this IEnumerable<TModel> source) where TModel : DomainModelBase where TDto : BaseDto
+        //{
+        //    return Mapper.Map<IList<TDto>>(source);
+        //}
 
         /// <summary>
         /// 将动态类型转换为指定的dto
@@ -147,14 +146,12 @@ namespace NewCRM.Dto
         /// <typeparam name="TDto"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static IEnumerable<TDto> ConvertDynamicToDtos<TDto>(this IEnumerable<dynamic> source) where TDto : BaseDto
-        {
-            var config = new MapperConfiguration(cfg => cfg.CreateMissingTypeMaps = true);
-
-            var mapper = config.CreateMapper();
-
-            return source.Select(mapper.Map<TDto>).ToList();
-        }
+        //public static IEnumerable<TDto> ConvertDynamicToDtos<TDto>(this IEnumerable<dynamic> source) where TDto : BaseDto
+        //{
+        //    var config = new MapperConfiguration(cfg => cfg.CreateMissingTypeMaps = true);
+        //    var mapper = config.CreateMapper();
+        //    return source.Select(mapper.Map<TDto>).ToList();
+        //}
 
         /// <summary>
         /// 将动态类型转换为指定的dto
@@ -162,14 +159,12 @@ namespace NewCRM.Dto
         /// <typeparam name="TDto"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static TDto ConvertDynamicToDto<TDto>(dynamic source) where TDto : BaseDto
-        {
-            var config = new MapperConfiguration(cfg => cfg.CreateMissingTypeMaps = true);
-
-            var mapper = config.CreateMapper();
-
-            return mapper.Map<TDto>(source);
-        }
+        //public static TDto ConvertDynamicToDto<TDto>(dynamic source) where TDto : BaseDto
+        //{
+        //    var config = new MapperConfiguration(cfg => cfg.CreateMissingTypeMaps = true);
+        //    var mapper = config.CreateMapper();
+        //    return mapper.Map<TDto>(source);
+        //}
 
         #endregion
 
@@ -196,11 +191,11 @@ namespace NewCRM.Dto
         }
 
 
-        public static TModel ConvertToModel<TDto, TModel>(this TDto source,TModel tt)
+        public static TModel ConvertToModel<TDto, TModel>(this TDto source, TModel tt)
              where TDto : BaseDto
              where TModel : DomainModelBase
         {
-            return Mapper.Map<TDto, TModel>(source, tt);
+            return Mapper.Map(source, tt);
         }
 
         #endregion

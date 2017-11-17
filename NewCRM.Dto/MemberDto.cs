@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace NewCRM.Dto.Dto
+namespace NewCRM.Dto
 {
     public sealed class MemberDto : BaseDto
     {

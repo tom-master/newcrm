@@ -1,5 +1,5 @@
 ﻿using System;
-using NewCRM.Dto.Dto;
+using NewCRM.Dto; 
 
 namespace NewCRM.Application.Services.Interface
 {

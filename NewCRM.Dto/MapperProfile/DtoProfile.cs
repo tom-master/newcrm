@@ -5,7 +5,6 @@ using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.Security;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.ValueObject;
-using NewCRM.Dto.Dto;
 
 namespace NewCRM.Dto.MapperProfile
 {
@@ -201,10 +200,7 @@ namespace NewCRM.Dto.MapperProfile
                 .ForMember(dto => dto.IconUrl, app => app.MapFrom(w => w.IconUrl))
                 .ForMember(dto => dto.Remark, app => app.MapFrom(w => w.Remark))
                 .ForMember(dto => dto.UseCount, app => app.MapFrom(w => w.UseCount))
-                .ForMember(dto => dto.StartCount, app => app.MapFrom(w =>
-                             w.AppStars.Any()
-                                 ? (w.AppStars.Sum(s => s.StartNum) * 1.0) /
-                                   (w.AppStars.Count * 1.0) : 0.0))
+                .ForMember(dto => dto.StartCount, app => app.MapFrom(w => w.AppStars.Any() ? (w.AppStars.Sum(s => s.StartNum) * 1.0) / (w.AppStars.Count * 1.0) : 0.0))
                 .ForMember(dto => dto.AccountId, app => app.MapFrom(w => w.AccountId))
                 .ForMember(dto => dto.AppStyle, app => app.MapFrom(w => (Int32)w.AppStyle))
                 //.ForMember(dto => dto.AppTypeName, app => app.MapFrom(w => w.AppType.Name))

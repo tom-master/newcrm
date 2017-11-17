@@ -1,12 +1,11 @@
-﻿using NewCRM.Application.Services.Interface;
-using NewCRM.Dto.Dto;
-using NewCRM.Infrastructure.CommonTools;
-using NewCRM.Web.Controllers.ControllerHelper;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
+using NewCRM.Application.Services.Interface;
+using NewCRM.Dto;
+using NewCRM.Infrastructure.CommonTools;
+using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
@@ -28,7 +27,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult Index()
         {
 
-            if (Account.IsAdmin)
+            if(Account.IsAdmin)
             {
                 ViewData["AppTypes"] = _appServices.GetAppTypes();
             }
@@ -81,7 +80,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult AccountAppManageInfo(Int32 appId)
         {
             AppDto result = null;
-            if (appId != 0)// 如果appId为0则是新创建app
+            if(appId != 0)// 如果appId为0则是新创建app
             {
                 result = _appServices.GetApp(appId);
                 ViewData["AppState"] = result.AppAuditState;
@@ -105,7 +104,7 @@ namespace NewCRM.Web.Controllers
 
             Int32 totalCount;
             var result = _appServices.GetAllApps(Account.Id, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
-            if (result != null)
+            if(result != null)
             {
                 response.TotalCount = totalCount;
                 response.IsSuccess = true;
@@ -165,7 +164,7 @@ namespace NewCRM.Web.Controllers
             var response = new ResponseModels<IList<AppDto>>();
             Int32 totalCount = 0;
             var result = _appServices.GetAccountAllApps(Account.Id, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
-            if (result != null)
+            if(result != null)
             {
                 response.TotalCount = totalCount;
                 response.IsSuccess = true;
@@ -302,7 +301,7 @@ namespace NewCRM.Web.Controllers
                 AppReleaseState = 2 //未发布
             };
 
-            if ((forms["val_Id"] + "").Length > 0)
+            if((forms["val_Id"] + "").Length > 0)
             {
                 appDto.Id = Int32.Parse(forms["val_Id"]);
             }

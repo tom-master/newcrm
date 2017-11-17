@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace NewCRM.Dto.Dto
+namespace NewCRM.Dto
 {
     public sealed class ConfigDto : BaseDto
     {
@@ -81,7 +81,7 @@ namespace NewCRM.Dto.Dto
         /// <summary>
         /// 默认桌面数量
         /// </summary>
-        public Int32 DefaultDeskCount { get; private set; }
+        public Int32 DefaultDeskCount { get; set; }
 
     }
 }

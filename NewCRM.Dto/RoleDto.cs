@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace NewCRM.Dto.Dto
+namespace NewCRM.Dto
 {
     public sealed class RoleDto : BaseDto
     {

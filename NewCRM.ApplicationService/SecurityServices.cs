@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Domain;
+using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.Security;
 using NewCRM.Domain.Factory.DomainSpecification;
-using NewCRM.Dto;
-using NewCRM.Dto.Dto;
-using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Domain.Repositories.IRepository.Security;
-using NewCRM.Domain.Entitys.Agent;
+using NewCRM.Dto;
+using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Application.Services
 {

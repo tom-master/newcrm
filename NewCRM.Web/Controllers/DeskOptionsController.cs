@@ -1,12 +1,12 @@
-﻿using NewCRM.Application.Services.Interface;
-using NewCRM.Dto.Dto;
-using NewCRM.Infrastructure.CommonTools;
-using NewCRM.Web.Controllers.ControllerHelper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using NewCRM.Application.Services.Interface;
+using NewCRM.Dto;
+using NewCRM.Infrastructure.CommonTools;
+using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {

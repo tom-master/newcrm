@@ -50,22 +50,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppDto.cs" />
+    <Compile Include="AppStateDto.cs" />
+    <Compile Include="AppStyleDto.cs" />
+    <Compile Include="AppTypeDto.cs" />
+    <Compile Include="BaseDto.cs" />
+    <Compile Include="ConfigDto.cs" />
+    <Compile Include="DeskDto.cs" />
     <Compile Include="DtoConfiguration.cs" />
-    <Compile Include="Dto\AppDto.cs" />
-    <Compile Include="Dto\AppStateDto.cs" />
-    <Compile Include="Dto\AppStyleDto.cs" />
-    <Compile Include="Dto\AppTypeDto.cs" />
-    <Compile Include="Dto\BaseDto.cs" />
-    <Compile Include="Dto\ConfigDto.cs" />
-    <Compile Include="Dto\DeskDto.cs" />
-    <Compile Include="Dto\LogDto.cs" />
-    <Compile Include="Dto\MemberDto.cs" />
-    <Compile Include="Dto\PowerDto.cs" />
-    <Compile Include="Dto\RoleDto.cs" />
-    <Compile Include="Dto\TodayRecommendAppDto.cs" />
-    <Compile Include="Dto\AccountDto.cs" />
-    <Compile Include="Dto\WallpaperDto.cs" />
+    <Compile Include="LogDto.cs" />
     <Compile Include="MapperProfile\DtoProfile.cs" />
+    <Compile Include="MemberDto.cs" />
+    <Compile Include="PowerDto.cs" />
+    <Compile Include="RoleDto.cs" />
+    <Compile Include="TodayRecommendAppDto.cs" />
+    <Compile Include="AccountDto.cs" />
+    <Compile Include="WallpaperDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

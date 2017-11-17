@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NewCRM.Dto.Dto
+namespace NewCRM.Dto
 {
     public sealed class TodayRecommendAppDto : BaseDto
     {

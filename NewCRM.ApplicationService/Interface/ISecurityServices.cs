@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using NewCRM.Dto.Dto;
+using NewCRM.Dto;
 
 namespace NewCRM.Application.Services.Interface
 {

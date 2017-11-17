@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NewCRM.Dto.Dto
+namespace NewCRM.Dto
 {
     public sealed class DeskDto : BaseDto
     {
