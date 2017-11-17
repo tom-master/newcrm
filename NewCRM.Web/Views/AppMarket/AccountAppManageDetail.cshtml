@@ -1,5 +1,5 @@
 ﻿
-@model NewCRM.Dto.Dto.AppDto
+@model NewCRM.Dto.AppDto
 <form action="" method="post" name="form" id="form">
     <div class="creatbox">
         <div class="middle">
@@ -66,7 +66,7 @@
 
                 </div>
             </div>
-            <div class="input-label input-label-isresize" @{ if (Model.AppStyle == 2) { <text> style="display:none" </text>        } }>
+            <div class="input-label input-label-isresize" @{ if (Model.AppStyle == 2) { <text> style="display:none" </text>         } }>
                 <label class="label-text">窗口是否拉伸：</label>
                 <div class="label-box form-inline control-group">
                     @if (Model.IsResize)
@@ -77,7 +77,7 @@
                     }
                 </div>
             </div>
-            <div class="input-label input-label-isopenmax" @{ if (Model.AppStyle == 2 || Model.IsResize == false) { <text> style="display:none" </text>        } }>
+            <div class="input-label input-label-isopenmax" @{ if (Model.AppStyle == 2 || Model.IsResize == false) { <text> style="display:none" </text>         } }>
                 <label class="label-text">打开默认最大化：</label>
                 <div class="label-box form-inline control-group">
                     @if (Model.IsOpenMax)
@@ -88,7 +88,7 @@
                     }
                 </div>
             </div>
-            <div class="input-label input-label-isflash" @{ if (Model.AppStyle == 2) { <text> style="display:none" </text>        } }>
+            <div class="input-label input-label-isflash" @{ if (Model.AppStyle == 2) { <text> style="display:none" </text>         } }>
                 <label class="label-text">是否为Flash：</label>
                 <div class="label-box form-inline control-group">
                     @if (Model.IsFlash)

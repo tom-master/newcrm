@@ -36,20 +36,23 @@
 
                 $('.loading').show();
                 $('#parentDiv').hide();
-                $.get('@Url.Action("Landing", "Login")',
-                    {
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/login/landing',
+                    data: {
                         AccountName: $('.accountname').val(),
                         passWord: $('.password').val()
                     },
-                    function (responseText) {
+                    success: function(responseText) {
                         if (responseText.IsSuccess) {
                             $('.loading').hide();
                             location.href = '@Url.Action("Desktop", "Index")';
                         } else {
                             $('.log .tip').text(responseText.Message).show();
                         }
-                    });
+                    }
+                });
             });
     });
-
 </script>

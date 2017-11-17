@@ -1,4 +1,4 @@
-﻿@model NewCRM.Dto.Dto.AccountDto
+﻿@model NewCRM.Dto.AccountDto
 
 @{
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
@@ -54,7 +54,7 @@
                 }
             case "modifyface":
                 {
-                    Html.RenderPartial("~/Views/AccountSetting/ModifyFace.cshtml", Model.Id);
+                    Html.RenderPartial("~/Views/AccountSetting/ModifyFace.cshtml", Model);
                     break;
                 }
             case "accountsafe":

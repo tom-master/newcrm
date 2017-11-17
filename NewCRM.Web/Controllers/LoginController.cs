@@ -27,7 +27,7 @@ namespace NewCRM.Web.Controllers
         /// 登陆
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         public ActionResult Landing(String accountName, String passWord, Boolean isRememberPasswrod = default(Boolean))
         {
             var response = new ResponseModel<AccountDto>();
