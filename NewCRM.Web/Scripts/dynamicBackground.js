@@ -70,7 +70,7 @@
         for (var i = 0; i < POINT; i++) {
             for (var j = 0; j < POINT; j++) {
                 if (i + j < POINT) {
-                    var A = Math.abs(circleArr[i + j].x - circleArr[i].x),
+                    var A = Math.abs(circleArr[i + j].x - circleArr[i].x), 
 						B = Math.abs(circleArr[i + j].y - circleArr[i].y);
                     var lineLength = Math.sqrt(A * A + B * B);
                     var C = 1 / lineLength * 7 - 0.009;
