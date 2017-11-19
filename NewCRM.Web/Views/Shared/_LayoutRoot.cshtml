@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>@ViewBag.Title</title>
-    <link href="@Url.Content("~/Scripts/HoorayUI/js/HoorayLibs/hooraylibs.css")" rel="stylesheet" />
+    
     @RenderSection("ParentCss", false)
 </head>
 <body>
@@ -12,10 +12,10 @@
 
 @Scripts.Render("~/bundles/js")
 @*<script src="@Url.Content("~/Scripts/jquery-3.2.1.min.js")"></script>
-<script src="@Url.Content("~/Scripts/HoorayUI/js/HoorayJs/jquery-browser.js")"></script>
-<script src="@Url.Content("~/Scripts/HoorayUI/js/artDialog4.1.7/jquery.artDialog.js?skin=default")"></script>
+<script src="@Url.Content("~/Scripts/HoorayUI/js/HoorayJs/jquery-browser.js")"></script>*@
+<script src="@Url.Content("~/Scripts/HoorayUI/js/artDialog4.1.7/jquery.artDialog.source.js")"></script>
 <script src="@Url.Content("~/Scripts/HoorayUI/js/artDialog4.1.7/plugins/iframeTools.js")"></script>
-<script src="@Url.Content("~/Scripts/HoorayUI/js/HoorayLibs//hooraylibs.js")"></script>
+@*<script src="@Url.Content("~/Scripts/HoorayUI/js/HoorayLibs//hooraylibs.js")"></script>
 <script src="@Url.Content("~/Scripts/HoorayUI/js/bootstrap/js/bootstrap.min.js")"></script>
 <script src="@Url.Content("~/Scripts/HoorayUI/js/sugar/sugar-1.4.1.min.js")"></script>
 <script src="@Url.Content("~/Scripts/HoorayUI/js/HoorayJs/hros.min.js")"></script>

@@ -122,7 +122,7 @@
     <script src="@Url.Content("~/Scripts/handlebars-v4.0.5.js")"></script>
 
     <script id="table-template" type="text/x-handlebars-template">
-        {{#each apps}}
+        {{#each Model}}
         <tr class="list-bd">
             <td style="text-align:left;padding-left:15px">
                 <img src="{{IconUrl}}" alt="{{Name}}" class="appicon">
@@ -135,7 +135,7 @@
                 <a href="javascript:openDetailIframe('@Url.Action("AccountAppManageInfo", "AppMarket")?appId={{Id}}');" class="btn btn-mini btn-link">详情</a>
                 <a href="javascript:;" class="btn btn-link do-del" appId="{{Id}}">删除</a>
             </td>
-             
+
         </tr>
         {{/each}}
     </script>
@@ -202,11 +202,15 @@
                 pageSize: 4
             }, function(responseText) {
                 ZENG.msgbox.hide();
-                var tableTemplate = Handlebars.compile($("#table-template").html());
-                $('.list-con').html(tableTemplate(responseText));
-                $('.list-count').text(responseText.totalCount);
-                $('#pagination_setting').attr('count', parseInt(responseText.totalCount));
-                initPagination(current_page);
+                if (responseText.IsSuccess) {
+                    var tableTemplate = Handlebars.compile($("#table-template").html());
+                    $('.list-con').html(tableTemplate(responseText));
+                    $('.list-count').text(responseText.TotalCount);
+                    $('#pagination_setting').attr('count', parseInt(responseText.TotalCount));
+                    initPagination(current_page);
+                } else {
+                    ZENG.msgbox.fail(responseText.Message);
+                }
             });
 
             Handlebars.registerHelper('convertstyle', function(appStyle) {
