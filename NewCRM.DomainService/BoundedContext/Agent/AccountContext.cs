@@ -1,14 +1,12 @@
-﻿using NewCRM.Domain.Entitys.Agent;
+﻿using System;
+using System.Net;
+using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Repositories.IRepository.Agent;
 using NewCRM.Domain.Repositories.IRepository.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
-using System;
-using System.Net;
-using NewCRM.Dto;
-using System.Linq.Expressions;
 
 namespace NewCRM.Domain.Services.BoundedContext.Agent
 {
