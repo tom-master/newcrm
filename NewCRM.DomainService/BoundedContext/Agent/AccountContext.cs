@@ -7,6 +7,8 @@ using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using System;
 using System.Net;
+using NewCRM.Dto;
+using System.Linq.Expressions;
 
 namespace NewCRM.Domain.Services.BoundedContext.Agent
 {
@@ -21,19 +23,19 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
             _onlineRepository = onlineRepository;
         }
 
-        public Account Validate(String accountName, String password) 
+        public Account Validate(String accountName, String password)
         {
             ValidateParameter.Validate(accountName).Validate(password);
-
             var filter = FilterFactory.Create<Account>(acccount => acccount.Name == accountName);
-            var accountResult = DatabaseQuery.FindOne(filter);
+            var accountResult2 = DatabaseQuery.FindOne(filter);
+            var accountResult = DatabaseQuery.FindOne(filter, a => new { a.Name, a.Id, a.LoginPassword });
 
-            if (accountResult == null)
+            if(accountResult == null)
             {
                 throw new BusinessException($"该用户不存在或被禁用{accountName}");
             }
 
-            if (!PasswordUtil.ComparePasswords(accountResult.LoginPassword, password))
+            if(!PasswordUtil.ComparePasswords(accountResult.LoginPassword, password))
             {
                 throw new BusinessException("密码错误");
             }
@@ -50,7 +52,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
             ValidateParameter.Validate(accountId);
             var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
 
-            if (!accountResult.IsOnline)
+            if(!accountResult.IsOnline)
             {
                 throw new BusinessException("该用户可能已在其他地方下线");
             }
