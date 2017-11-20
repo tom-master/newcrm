@@ -27,7 +27,6 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
         {
             ValidateParameter.Validate(accountName).Validate(password);
             var filter = FilterFactory.Create<Account>(acccount => acccount.Name == accountName);
-            var accountResult2 = DatabaseQuery.FindOne(filter);
             var accountResult = DatabaseQuery.FindOne(filter, a => new { a.Name, a.Id, a.LoginPassword });
 
             if(accountResult == null)
