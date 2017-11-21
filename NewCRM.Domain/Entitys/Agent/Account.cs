@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using NewCRM.Domain.ValueObject;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Domain.Entitys.Agent
 {
@@ -59,7 +57,7 @@ namespace NewCRM.Domain.Entitys.Agent
         /// </summary>
         public Account(String name, String password, AccountType accountType = default(AccountType))
         {
-            Name = name;
+            Name = name; 
             LoginPassword = password;
             IsDisable = false;
             LastLoginTime = DateTime.Now;

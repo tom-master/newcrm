@@ -1,5 +1,6 @@
 ﻿using System;
 using NewCRM.Domain.Entitys.Agent;
+using NewCRM.Domain.Entitys.System;
 
 namespace NewCRM.Domain.Services.Interface
 {
@@ -20,6 +21,12 @@ namespace NewCRM.Domain.Services.Interface
         /// </summary>
         /// <param name="accountId"></param>
         void Logout(Int32 accountId);
+
+        /// <summary>
+        /// 获取配置
+        /// </summary>
+        /// <returns></returns>
+        Config GetConfig(Int32 accountId);
 
     }
 }

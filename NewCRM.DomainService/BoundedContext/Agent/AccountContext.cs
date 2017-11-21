@@ -1,5 +1,4 @@
 ﻿using NewCRM.Domain.Entitys.Agent;
-using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
@@ -9,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Net;
+using NewCRM.Domain.Entitys.System;
 
 namespace NewCRM.Domain.Services.BoundedContext.Agent
 {
@@ -29,7 +29,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
 
                     #region 查询用户
                     {
-                        var sql = @"SELECT a.Id,a.Name,a.LoginPassword FROM dbo.Accounts AS a WHERE a.Name=@name";
+                        var sql = @"SELECT a.Id,a.Name,a.LoginPassword,a.Face FROM dbo.Accounts AS a WHERE a.Name=@name";
                         result = dataStore.SqlGetDataTable(sql, new List<SqlParameter> { new SqlParameter("@name", accountName) }).AsSignal<Account>();
                         if (result == null)
                         {
@@ -87,7 +87,6 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
         {
             ValidateParameter.Validate(accountId);
 
-
             using (var dataStore = new DataStore())
             {
                 try
@@ -118,6 +117,16 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
             }
         }
 
+        public Config GetConfig(Int32 accountId)
+        {
+            ValidateParameter.Validate(accountId);
+
+            using (var dataStore = new DataStore())
+            {
+                var sql = $@"";
+            }
+        }
+
         #region private method
 
         /// <summary>
@@ -125,6 +134,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
         /// </summary>
         /// <returns></returns>
         private String GetCurrentIpAddress() => (Dns.GetHostEntry(Dns.GetHostName()).AddressList[0]).ToString();
+
         #endregion
     }
 }
