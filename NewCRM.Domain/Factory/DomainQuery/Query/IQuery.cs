@@ -14,6 +14,11 @@ namespace NewCRM.Domain.Factory.DomainQuery.Query
         U FindOne<T, U>(Specification<T> specification, Expression<Func<T, U>> selector) where T : DomainModelBase, IAggregationRoot;
 
         /// <summary>
+        /// 查找并返回单个对象
+        /// </summary>
+        T FindOne<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot;
+
+        /// <summary>
         /// 查找并返回集合
         /// </summary>
         IEnumerable<U> Find<T, U>(Specification<T> specification, Expression<Func<T, U>> selector) where T : DomainModelBase, IAggregationRoot;

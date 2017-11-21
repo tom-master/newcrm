@@ -46,32 +46,25 @@ namespace NewCRM.Application.Services
 
         public ConfigDto GetConfig(Int32 accountId)
         {
-            var accountResult = CacheQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-
-            if(accountResult == null)
-            {
-                throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
-            }
-
-            var accountConfig = accountResult.Config;
+            var result = CacheQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId), a => a.Config);
 
             return new ConfigDto
             {
-                Id = accountConfig.Id,
-                Skin = accountConfig.Skin,
-                AccountFace = accountConfig.AccountFace,
-                AppSize = accountConfig.AppSize,
-                AppVerticalSpacing = accountConfig.AppVerticalSpacing,
-                AppHorizontalSpacing = accountConfig.AppHorizontalSpacing,
-                DefaultDeskNumber = accountConfig.DefaultDeskNumber,
-                DefaultDeskCount = accountConfig.DefaultDeskCount,
-                AppXy = accountConfig.AppXy.ToString().ToLower(),
-                DockPosition = accountConfig.DockPosition.ToString().ToLower(),
-                WallpaperUrl = accountConfig.Wallpaper.Url,
-                WallpaperWidth = accountConfig.Wallpaper.Width,
-                WallpaperHeigth = accountConfig.Wallpaper.Height,
-                WallpaperSource = accountConfig.Wallpaper.Source.ToString().ToLower(),
-                WallpaperMode = accountConfig.WallpaperMode.ToString().ToLower()
+                Id = result.Id,
+                Skin = result.Skin,
+                AccountFace = result.AccountFace,
+                AppSize = result.AppSize,
+                AppVerticalSpacing = result.AppVerticalSpacing,
+                AppHorizontalSpacing = result.AppHorizontalSpacing,
+                DefaultDeskNumber = result.DefaultDeskNumber,
+                DefaultDeskCount = result.DefaultDeskCount,
+                AppXy = result.AppXy.ToString().ToLower(),
+                DockPosition = result.DockPosition.ToString().ToLower(),
+                WallpaperUrl = result.Wallpaper.Url,
+                WallpaperWidth = result.Wallpaper.Width,
+                WallpaperHeigth = result.Wallpaper.Height,
+                WallpaperSource = result.Wallpaper.Source.ToString().ToLower(),
+                WallpaperMode = result.WallpaperMode.ToString().ToLower()
             };
         }
 
@@ -86,37 +79,31 @@ namespace NewCRM.Application.Services
                 filter.And(account => account.IsAdmin == isAdmin);
             }
 
-            return DatabaseQuery.PageBy(filter, pageIndex, pageSize, out totalCount).Select(account => new AccountDto
+            return DatabaseQuery.PageBy(filter, pageIndex, pageSize, out totalCount, a => new AccountDto
             {
-                Id = account.Id,
-                IsAdmin = account.IsAdmin,
-                Name = account.Name,
-                AccountFace = ProfileManager.FileUrl + account.Config.AccountFace,
-                IsDisable = account.IsDisable
+                Id = a.Id,
+                IsAdmin = a.IsAdmin,
+                Name = a.Name,
+                AccountFace = ProfileManager.FileUrl + a.Config.AccountFace,
+                IsDisable = a.IsDisable
             }).ToList();
         }
 
         public AccountDto GetAccount(Int32 accountId = default(Int32))
         {
-            var result = CacheQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            if(result == null)
+            var result = CacheQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId), a => new AccountDto
             {
-                throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
-            }
-
-            return new AccountDto
-            {
-                AccountFace = result.Config.AccountFace,
-                AddTime = result.AddTime.ToString("yyyy-MM-dd"),
-                Id = result.Id,
-                IsAdmin = result.IsAdmin,
-                IsDisable = result.IsDisable,
-                IsOnline = result.IsOnline,
-                LastLoginTime = result.LastLoginTime.ToString("yyyy-MM-dd"),
-                LastModifyTime = result.LastModifyTime.ToString("yyyy-MM-dd"),
-                LockScreenPassword = result.LockScreenPassword,
-                Name = result.Name,
-                Roles = result.Roles.Select(s => new RoleDto
+                AccountFace = a.Config.AccountFace,
+                AddTime = a.AddTime.ToString("yyyy-MM-dd"),
+                Id = a.Id,
+                IsAdmin = a.IsAdmin,
+                IsDisable = a.IsDisable,
+                IsOnline = a.IsOnline,
+                LastLoginTime = a.LastLoginTime.ToString("yyyy-MM-dd"),
+                LastModifyTime = a.LastModifyTime.ToString("yyyy-MM-dd"),
+                LockScreenPassword = a.LockScreenPassword,
+                Name = a.Name,
+                Roles = a.Roles.Select(s => new RoleDto
                 {
                     Id = s.RoleId,
                     Name = s.Role.Name,
@@ -126,21 +113,27 @@ namespace NewCRM.Application.Services
                     }).ToList(),
                     RoleIdentity = s.Role.RoleIdentity
                 }).ToList(),
-            };
+            });
+            if(result == null)
+            {
+                throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
+            }
+
+            return result;
         }
 
         public Boolean CheckAccountNameExist(String accountName)
         {
             ValidateParameter.Validate(accountName);
-            return !DatabaseQuery.Find(FilterFactory.Create<Account>(account => account.Name == accountName)).Any();
+            return !DatabaseQuery.Find(FilterFactory.Create<Account>(account => account.Name == accountName), a => a.Name).Any();
         }
 
         public Boolean CheckPassword(Int32 accountId, String oldAccountPassword)
         {
             ValidateParameter.Validate(oldAccountPassword);
 
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            return PasswordUtil.ComparePasswords(accountResult.LoginPassword, oldAccountPassword);
+            var result = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId), a => a.LoginPassword);
+            return PasswordUtil.ComparePasswords(result, oldAccountPassword);
         }
 
         public void AddNewAccount(AccountDto accountDto)
@@ -154,7 +147,7 @@ namespace NewCRM.Application.Services
             internalNewAccount.AddRole(account.Roles.Select(role => role.RoleId).ToArray());
             _accountRepository.Add(internalNewAccount);
 
-            IList<Desk> desks = new List<Desk>();
+            var desks = new List<Desk>();
             for(var i = 1 ; i <= internalNewAccount.Config.DefaultDeskCount ; i++)
             {
                 desks.Add(new Desk(i, internalNewAccount.Id));

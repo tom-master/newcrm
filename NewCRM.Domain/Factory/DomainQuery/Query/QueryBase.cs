@@ -13,6 +13,11 @@ namespace NewCRM.Domain.Factory.DomainQuery.Query
             return default(U);
         }
 
+        public virtual T FindOne<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot
+        {
+            return default(T);
+        }
+
         public virtual IEnumerable<U> Find<T, U>(Specification<T> specification, Expression<Func<T, U>> selector) where T : DomainModelBase, IAggregationRoot
         {
             return default(IEnumerable<U>);
@@ -23,5 +28,6 @@ namespace NewCRM.Domain.Factory.DomainQuery.Query
             totalCount = 0;
             return default(IEnumerable<U>);
         }
+
     }
 }

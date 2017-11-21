@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using NewCRM.Domain.Entitys;
-using NewCRM.Domain.Factory.DomainCreate;
 using NewCRM.Domain.Factory.DomainQuery.Query;
 using NewCRM.Domain.Factory.DomainSpecification;
 using NewCRM.Domain.Repositories;
@@ -14,12 +12,10 @@ namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
     public class DefaultQuery : QueryBase
     {
         private readonly IDomainModelQueryProvider _queryProvider;
-        private readonly DomainFactory _domainFactory;
 
-        public DefaultQuery(IDomainModelQueryProvider queryProvider, DomainFactory domainFactory)
+        public DefaultQuery(IDomainModelQueryProvider queryProvider)
         {
             _queryProvider = queryProvider;
-            _domainFactory = domainFactory;
         }
 
         /// <summary>
@@ -28,6 +24,14 @@ namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
         public override U FindOne<T, U>(Specification<T> specification, Expression<Func<T, U>> selector)
         {
             return _queryProvider.Query(specification).Select(selector).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// 查找并返回单个对象
+        /// </summary>
+        public override T FindOne<T>(Specification<T> specification)
+        {
+            return _queryProvider.Query(specification).FirstOrDefault();
         }
 
         /// <summary>
