@@ -2,6 +2,6 @@
 
 namespace NewCRM.Domain.Repositories.IRepository.System
 {
-    public partial interface IAppRepository : IRepository<App>
+    public partial interface IAppRepository 
     { }
 }

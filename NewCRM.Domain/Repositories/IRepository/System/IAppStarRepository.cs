@@ -2,7 +2,7 @@
 
 namespace NewCRM.Domain.Repositories.IRepository.System
 {
-    public interface IAppStarRepository : IRepository<AppStar>
+    public interface IAppStarRepository 
     {
     }
 }

@@ -2,7 +2,7 @@
 
 namespace NewCRM.Domain.Repositories.IRepository.System
 {
-    public interface IMemberRepository : IRepository<Member>
+    public interface IMemberRepository 
     {
     }
 }

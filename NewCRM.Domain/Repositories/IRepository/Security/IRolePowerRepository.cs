@@ -2,7 +2,7 @@
 
 namespace NewCRM.Domain.Repositories.IRepository.Security
 {
-    public interface IRolePowerRepository : IRepository<RolePower>
+    public interface IRolePowerRepository 
     {
     }
 }

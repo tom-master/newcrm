@@ -2,6 +2,6 @@
 
 namespace NewCRM.Domain.Repositories.IRepository.System
 {
-    public interface IOnlineRepository : IRepository<Online>
+    public interface IOnlineRepository 
     { }
 }

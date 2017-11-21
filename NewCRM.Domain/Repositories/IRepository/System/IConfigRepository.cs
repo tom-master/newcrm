@@ -2,7 +2,7 @@
 
 namespace NewCRM.Domain.Repositories.IRepository.System
 {
-    public interface IConfigRepository : IRepository<Config>
+    public interface IConfigRepository
     {
     }
 }

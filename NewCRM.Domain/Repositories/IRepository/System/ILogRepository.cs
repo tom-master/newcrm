@@ -2,6 +2,6 @@
 
 namespace NewCRM.Domain.Repositories.IRepository.System
 {
-    public interface ILogRepository : IRepository<Log>
+    public interface ILogRepository 
     { }
 }

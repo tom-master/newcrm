@@ -2,6 +2,6 @@
 
 namespace NewCRM.Domain.Repositories.IRepository.System
 {
-    public interface IWallpaperRepository : IRepository<Wallpaper>
+    public interface IWallpaperRepository
     { }
 }

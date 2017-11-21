@@ -2,9 +2,7 @@
 
 namespace NewCRM.Repository.RepositoryImpl.System
 {
-
-    public class LogRepository : ILogRepository
+    public class MemberRepository : IMemberRepository
     {
-
     }
 }

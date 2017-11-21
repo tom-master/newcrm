@@ -89,7 +89,6 @@
     <Compile Include="Entitys\System\SystemExtension\WallpaperExtension.cs" />
     <Compile Include="KeyGenerators\RedisKeyGenerator.cs" />
     <Compile Include="KeyGenerators\IKeyGenerator.cs" />
-    <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\IRepository\Agent\IAccountRoleRepository.cs" />
     <Compile Include="Repositories\IRepository\Agent\IAccountRepository.cs" />
     <Compile Include="Repositories\IRepository\Security\IRolePowerRepository.cs" />

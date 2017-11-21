@@ -5,31 +5,25 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 
-namespace NewCRM.Repository
+namespace NewCRM.Repository.StorageProvider.SqlServer
 {
-    /// <summary>
-    /// 数据库访问操作类
-    /// </summary>
+
     public class SqlHelper : IDisposable
     {
         private SqlConnection _connection;
-        private IList<SqlParameter> _parameters;
         private SqlTransaction _dataTransaction;
 
-        public SqlHelper(string connectionName)
+        public SqlHelper(string connectionName = default(String))
         {
-            _parameters = new List<SqlParameter>();
-            _connection = new SqlConnection(ConfigurationManager.AppSettings[connectionName]);
+            _connection = connectionName == default(String) ? new SqlConnection(ConfigurationManager.AppSettings["NewCrm"]) : new SqlConnection(ConfigurationManager.AppSettings[connectionName]);
         }
 
         #region 事务处理
-
 
         /// <summary>
         /// 是否使用事务
         /// </summary>
         public bool UseTransaction { get; set; }
-
 
         /// <summary>
         /// 获得当前事务
@@ -37,19 +31,16 @@ namespace NewCRM.Repository
         /// <returns></returns>
         protected SqlTransaction GetNonceTransaction()
         {
-            if(UseTransaction)
+            if (UseTransaction)
             {
-                if(_dataTransaction == null)
+                if (_dataTransaction == null)
                 {
                     UseTransaction = true;
                     _dataTransaction = _connection.BeginTransaction();
                 }
                 return _dataTransaction;
             }
-            else
-            {
-                throw new Exception("没有启动事务");
-            }
+            throw new Exception("没有启动事务");
         }
 
         /// <summary>
@@ -57,7 +48,7 @@ namespace NewCRM.Repository
         /// </summary>
         public virtual void Commit()
         {
-            if(UseTransaction)
+            if (UseTransaction)
             {
                 _dataTransaction.Commit();
             }
@@ -71,12 +62,9 @@ namespace NewCRM.Repository
         /// </summary>
         public virtual void Rollback()
         {
-            if(UseTransaction)
+            if (UseTransaction)
             {
-                if(_dataTransaction != null)
-                {
-                    _dataTransaction.Rollback();
-                }
+                _dataTransaction?.Rollback();
             }
             else
             {
@@ -86,26 +74,20 @@ namespace NewCRM.Repository
 
         #endregion
 
-        /// <summary>
-        /// 开启数据库连接
-        /// </summary>
         protected virtual void Open()
         {
-            if(_connection.State == ConnectionState.Closed)
+            if (_connection.State == ConnectionState.Closed)
             {
                 _connection.Open();
             }
         }
 
-        /// <summary>
-        /// 执行 SQL 语句并返回受影响的行数。
-        /// </summary>
         public virtual int SqlExecute(string sqlStr, CommandType commandType = CommandType.Text)
         {
             Open();
-            using(SqlCommand cmd = _connection.CreateCommand())
+            using (SqlCommand cmd = _connection.CreateCommand())
             {
-                if(UseTransaction)
+                if (UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
@@ -115,17 +97,12 @@ namespace NewCRM.Repository
             }
         }
 
-        /// <summary>
-        /// 执行 SQL 语句，并返回查询所返回的结果集中第一行的第一列。忽略其他列或行。
-        /// </summary>
-        /// <param name="sqlStr">SQL语句</param>
-        /// <returns></returns>
         public virtual object SqlScalar(string sqlStr, CommandType commandType = CommandType.Text)
         {
             Open();
-            using(SqlCommand cmd = _connection.CreateCommand())
+            using (SqlCommand cmd = _connection.CreateCommand())
             {
-                if(UseTransaction)
+                if (UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
@@ -137,17 +114,13 @@ namespace NewCRM.Repository
             }
         }
 
-        /// <summary>
-        /// 执行SQL语句，获得数据表
-        /// </summary>
-        /// <param name="sqlStr">SQL语句</param>
-        /// <returns></returns>
+
         public DataTable SqlGetDataTable(string sqlStr, CommandType commandType = CommandType.Text)
         {
             Open();
-            using(SqlCommand cmd = _connection.CreateCommand())
+            using (SqlCommand cmd = _connection.CreateCommand())
             {
-                if(UseTransaction)
+                if (UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
@@ -160,17 +133,12 @@ namespace NewCRM.Repository
             }
         }
 
-        /// <summary>
-        /// 执行SQL语句，返回只进结果集流的读取方法
-        /// </summary>
-        /// <param name="sqlStr">SQL语句</param>
-        /// <returns></returns>
         public SqlDataReader SqlGetDataReader(string sqlStr, CommandType commandType = CommandType.Text)
         {
             Open();
-            using(SqlCommand cmd = _connection.CreateCommand())
+            using (SqlCommand cmd = _connection.CreateCommand())
             {
-                if(UseTransaction)
+                if (UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
@@ -180,18 +148,12 @@ namespace NewCRM.Repository
             }
         }
 
-        /// <summary>
-        /// 执行SQL语句，返回只进结果集流的读取方法
-        /// </summary>
-        /// <param name="sqlStr"></param>
-        /// <param name="behavior"></param>
-        /// <returns></returns>
         public SqlDataReader SqlGetDataReader(string sqlStr, CommandBehavior behavior, CommandType commandType = CommandType.Text)
         {
             Open();
-            using(SqlCommand cmd = _connection.CreateCommand())
+            using (SqlCommand cmd = _connection.CreateCommand())
             {
-                if(UseTransaction)
+                if (UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
@@ -202,21 +164,19 @@ namespace NewCRM.Repository
         }
 
         #region 执行带参数的sql语句
-        /// <summary>
-        /// 执行带参数的sql语句 返回受影响行数
-        /// </summary>
+
         public int SqlExecute(string sqlStr, List<SqlParameter> parameters, CommandType commandType = CommandType.Text)
         {
             Open();
-            using(SqlCommand cmd = _connection.CreateCommand())
+            using (SqlCommand cmd = _connection.CreateCommand())
             {
-                if(UseTransaction)
+                if (UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
                 cmd.CommandType = commandType;
                 cmd.CommandText = sqlStr;
-                if(parameters.Any())
+                if (parameters.Any())
                 {
                     cmd.Parameters.AddRange(parameters.ToArray());
                 }
@@ -229,15 +189,15 @@ namespace NewCRM.Repository
         public DataTable SqlGetDataTable(string sqlStr, List<SqlParameter> parameters, CommandType commandType = CommandType.Text)
         {
             Open();
-            using(SqlCommand cmd = _connection.CreateCommand())
+            using (SqlCommand cmd = _connection.CreateCommand())
             {
-                if(UseTransaction)
+                if (UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
                 cmd.CommandType = commandType;
                 cmd.CommandText = sqlStr;
-                if(parameters.Any())
+                if (parameters.Any())
                 {
                     cmd.Parameters.AddRange(parameters.ToArray());
                 }
@@ -252,16 +212,16 @@ namespace NewCRM.Repository
         public object SqlScalar(string sqlStr, List<SqlParameter> parameters, CommandType commandType = CommandType.Text)
         {
             Open();
-            using(SqlCommand cmd = _connection.CreateCommand())
+            using (SqlCommand cmd = _connection.CreateCommand())
             {
-                if(UseTransaction)
+                if (UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
                 cmd.CommandType = commandType;
                 cmd.CommandText = sqlStr;
                 //参数化
-                if(parameters.Any())
+                if (parameters.Any())
                 {
                     cmd.Parameters.AddRange(parameters.ToArray());
                 }
@@ -272,22 +232,19 @@ namespace NewCRM.Repository
             }
         }
 
-        /// <summary>
-        /// 执行SQL语句，返回只进结果集流的读取方法
-        /// </summary>
         public SqlDataReader SqlGetDataReader(string sqlStr, List<SqlParameter> parameters, CommandType commandType = CommandType.Text)
         {
             Open();
-            using(SqlCommand cmd = _connection.CreateCommand())
+            using (SqlCommand cmd = _connection.CreateCommand())
             {
-                if(UseTransaction)
+                if (UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
                 cmd.CommandType = commandType;
                 cmd.CommandText = sqlStr;
                 //参数化
-                if(parameters.Any())
+                if (parameters.Any())
                 {
                     cmd.Parameters.AddRange(parameters.ToArray());
                 }
@@ -310,20 +267,19 @@ namespace NewCRM.Repository
 
         protected virtual void Dispose(bool disposing)
         {
-            if(!disposed)
+            if (!disposed)
             {
-                if(!disposing)
+                if (!disposing)
                     return;
 
-                if(_connection != null)
+                if (_connection != null)
                 {
-                    if(_connection.State != ConnectionState.Closed)
+                    if (_connection.State != ConnectionState.Closed)
                     {
                         _connection.Close();
                     }
                     _connection.Dispose();
                     _connection = null;
-                    _parameters = null;
                 }
                 disposed = true;
             }

@@ -1,8 +1,8 @@
-﻿
-using NewCRM.Domain.Entitys.Agent;
-
+﻿using NewCRM.Domain.Entitys.Agent;
 namespace NewCRM.Domain.Repositories.IRepository.Agent
 {
-    public interface IAccountRepository : IRepository<Account>
-    { }
+    public interface IAccountRepository
+    {
+        
+    }
 }

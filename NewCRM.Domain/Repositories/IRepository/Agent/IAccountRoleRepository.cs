@@ -2,7 +2,7 @@
 
 namespace NewCRM.Domain.Repositories.IRepository.Agent
 {
-    public interface IAccountRoleRepository : IRepository<AccountRole>
+    public interface IAccountRoleRepository 
     {
     }
 }
