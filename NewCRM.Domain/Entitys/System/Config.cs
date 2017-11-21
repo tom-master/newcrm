@@ -63,10 +63,15 @@ namespace NewCRM.Domain.Entitys.System
         public DockPostion DockPosition { get; private set; }
 
         /// <summary>
-        /// 壁纸
+        /// 账户Id
         /// </summary>
-        public virtual Wallpaper Wallpaper { get; private set; }
- 
+        public Int32 AccountId { get; set; }
+
+        /// <summary>
+        /// 壁纸Id
+        /// </summary>
+        public Int32 WallpaperId { get; private set; }
+
         #endregion
 
         #region ctor

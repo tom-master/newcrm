@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Domain.Entitys.Agent
@@ -50,21 +48,6 @@ namespace NewCRM.Domain.Entitys.Agent
         /// </summary>
         public Boolean IsAdmin { get; private set; }
 
-        /// <summary>
-        /// 职称
-        /// </summary>
-        public virtual Title Title { get; private set; }
-
-        /// <summary>
-        /// 用户配置
-        /// </summary>
-        public virtual Config Config { get; private set; }
-
-        /// <summary>
-        /// 用户角色
-        /// </summary>
-        public virtual ICollection<AccountRole> Roles { get; private set; }
-
         #endregion
 
         #region ctor
@@ -72,21 +55,19 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 实例化一个用户对象
         /// </summary>
-        public Account(String name, String password, AccountType accountType = default(AccountType)) 
+        public Account(String name, String password, AccountType accountType = default(AccountType))
         {
             Name = name;
             LoginPassword = password;
             IsDisable = false;
             LastLoginTime = DateTime.Now;
             LockScreenPassword = password;
-            Roles = new List<AccountRole>();
-            Config = new Config();
             IsOnline = false;
             IsAdmin = accountType == AccountType.Admin;
         }
 
         public Account() { }
-       
+
         #endregion
     }
 }

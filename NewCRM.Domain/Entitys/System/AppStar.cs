@@ -14,8 +14,6 @@ namespace NewCRM.Domain.Entitys.System
         /// </summary>
         public Double StartNum { get; private set; }
 
-        public virtual App App { get; set; }
-
         public AppStar(Int32 accountId, Double startNum)
         {
             AccountId = accountId;

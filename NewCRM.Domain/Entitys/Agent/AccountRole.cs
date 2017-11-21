@@ -1,5 +1,4 @@
 ﻿using System;
-using NewCRM.Domain.Entitys.Security;
 using System.ComponentModel.DataAnnotations;
 
 namespace NewCRM.Domain.Entitys.Agent
@@ -12,8 +11,6 @@ namespace NewCRM.Domain.Entitys.Agent
 
         [Required]
         public Int32 RoleId { get; private set; }
-
-        public virtual Role Role { get; private set; }
 
         #endregion
 

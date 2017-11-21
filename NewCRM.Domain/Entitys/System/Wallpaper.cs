@@ -59,8 +59,6 @@ namespace NewCRM.Domain.Entitys.System
         /// </summary>
         public String Md5 { get; private set; }
 
-        public virtual ICollection<Config> Configs { get; set; }
-
         #endregion
 
         #region ctor
@@ -82,7 +80,7 @@ namespace NewCRM.Domain.Entitys.System
 
         public Wallpaper()
         {
-            
+
         }
 
         #endregion

@@ -28,23 +28,17 @@ namespace NewCRM.Domain.Entitys.Security
         [MaxLength(50)]
         public String Remark { get; private set; }
 
-        /// <summary>
-        /// 角色对应的权限
-        /// </summary>
-        public virtual ICollection<RolePower> Powers { get; private set; }
-
         #endregion
 
         #region ctor
         /// <summary>
         /// 实例化一个角色对象
         /// </summary>
-        public Role(String name,String roleIdentity, String remark = default(String)) 
+        public Role(String name, String roleIdentity, String remark = default(String))
         {
             Name = name;
             Remark = remark;
             RoleIdentity = roleIdentity;
-            Powers = new List<RolePower>();
         }
 
         /// <summary>
