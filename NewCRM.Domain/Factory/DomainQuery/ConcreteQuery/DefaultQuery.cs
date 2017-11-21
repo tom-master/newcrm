@@ -80,13 +80,9 @@ namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
         /// <returns></returns>
         public override IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount, Expression<Func<T, Object>> selector)
         {
-
             IQueryable<T> query = _queryProvider.Query(specification);
-
             totalCount = query.Count();
-
             return ConvertToDomain<T>(query.PageBy(pageIndex, pageSize, specification.OrderBy).Select(selector).ToList());
-
         }
 
         /// <summary>分页</summary>
@@ -99,9 +95,7 @@ namespace NewCRM.Domain.Factory.DomainQuery.ConcreteQuery
         public override IEnumerable<T> PageBy<T>(Specification<T> specification, int pageIndex, int pageSize, out int totalCount)
         {
             IQueryable<T> query = _queryProvider.Query(specification);
-
             totalCount = query.Count();
-
             return query.PageBy(pageIndex, pageSize, specification.OrderBy);
         }
 
