@@ -43,7 +43,7 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
 
         #endregion
 
-        public IEnumerable<T> Query<T>(Specification<T> entity) where T : DomainModelBase, IAggregationRoot
+        public IEnumerable<T> Query<T>(Specification<T> entity) where T : DomainModelBase
         {
             String internalKey = entity.Expression.GeneratorRedisKey<T>();
 
@@ -68,7 +68,7 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
             return cacheValue;
         }
 
-        public IEnumerable<T> QueryPage<T>(Specification<T> entity, out Int32 totalCount, Int32 pageIndex, Int32 pageSize) where T : DomainModelBase, IAggregationRoot
+        public IEnumerable<T> QueryPage<T>(Specification<T> entity, out Int32 totalCount, Int32 pageIndex, Int32 pageSize) where T : DomainModelBase
         {
             throw new NotSupportedException();
         }

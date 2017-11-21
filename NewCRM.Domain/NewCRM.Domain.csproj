@@ -89,12 +89,6 @@
     <Compile Include="Entitys\System\SystemExtension\ConfigExtension.cs" />
     <Compile Include="Entitys\System\SystemExtension\MemberExtension.cs" />
     <Compile Include="Factory\DomainQuery\Query\QueryBase.cs" />
-    <Compile Include="Factory\DomainSpecification\ConcreteSpecification\DefaultSpecification.cs" />
-    <Compile Include="Factory\DomainSpecification\ConcreteSpecification\DefaultSpecificationFactory.cs" />
-    <Compile Include="Factory\DomainSpecification\Specification.cs" />
-    <Compile Include="Factory\DomainSpecification\ParameterVisitor.cs" />
-    <Compile Include="Factory\DomainSpecification\SpecificationExtensions.cs" />
-    <Compile Include="Factory\DomainSpecification\Factory\SpecificationFactory.cs" />
     <Compile Include="Entitys\System\SystemExtension\OnlineExtension.cs" />
     <Compile Include="Entitys\System\SystemExtension\WallpaperExtension.cs" />
     <Compile Include="Factory\DomainCreate\ConcreteFactory\DefaultDomainFactory.cs" />
