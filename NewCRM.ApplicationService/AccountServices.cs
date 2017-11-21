@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NewCRM.Application.Services.Interface;
+﻿using NewCRM.Application.Services.Interface;
 using NewCRM.Domain;
 using NewCRM.Domain.Entitys.Agent;
-using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Factory.DomainSpecification;
 using NewCRM.Domain.Repositories.IRepository.Agent;
-using NewCRM.Domain.Repositories.IRepository.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
+using System;
+using System.Collections.Generic;
 
 namespace NewCRM.Application.Services
 {
@@ -21,13 +17,11 @@ namespace NewCRM.Application.Services
     {
         private readonly IAccountContext _accountContext;
         private readonly IAccountRepository _accountRepository;
-        private readonly IDeskRepository _deskRepository;
 
-        public AccountServices(IAccountContext accountContext, IAccountRepository accountRepository, IDeskRepository deskRepository)
+        public AccountServices(IAccountContext accountContext, IAccountRepository accountRepository)
         {
             _accountContext = accountContext;
             _accountRepository = accountRepository;
-            _deskRepository = deskRepository;
         }
 
         public AccountDto Login(String accountName, String password)

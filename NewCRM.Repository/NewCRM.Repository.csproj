@@ -90,25 +90,13 @@
     </EmbeddedResource>
   </ItemGroup>-->
   <ItemGroup>
-    <Compile Include="RepositoryImpl\Agent\AccountRoleRepository.cs" />
-    <Compile Include="RepositoryImpl\Security\RolePowerRepository.cs" />
-    <Compile Include="RepositoryImpl\System\AppStarRepository.cs" />
-    <Compile Include="RepositoryImpl\System\ConfigRepository.cs" />
-    <Compile Include="RepositoryImpl\System\MemberRepository.cs" />
     <Compile Include="StorageProvider\Redis\CacheEvent\ICacheCreateEvent.cs" />
     <Compile Include="StorageProvider\Redis\CacheEvent\ICacheModifyEvent.cs" />
     <Compile Include="StorageProvider\Redis\QueryProviderFormCache.cs" />
     <Compile Include="StorageProvider\Redis\InternalHelper\ICacheQueryProvider.cs" />
     <Compile Include="StorageProvider\Redis\InternalHelper\RedisConnectionHelp.cs" />
     <Compile Include="StorageProvider\Redis\InternalHelper\DefaultRedisQueryProvider.cs" />
-    <Compile Include="StorageProvider\SqlServer\SqlHelper.cs" />
-    <Compile Include="RepositoryImpl\Agent\AccountRepository.cs" />
-    <Compile Include="RepositoryImpl\Security\RoleRepository.cs" />
-    <Compile Include="RepositoryImpl\System\AppRepository.cs" />
-    <Compile Include="RepositoryImpl\System\AppTypeRepository.cs" />
-    <Compile Include="RepositoryImpl\System\LogRepository.cs" />
-    <Compile Include="RepositoryImpl\System\OnlineRepository.cs" />
-    <Compile Include="RepositoryImpl\System\WallpaperRepository.cs" />
+    <Compile Include="StorageProvider\DataStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NewCRM.Domain\NewCRM.Domain.csproj">

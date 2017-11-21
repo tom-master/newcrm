@@ -5,15 +5,15 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 
-namespace NewCRM.Repository.StorageProvider.SqlServer
+namespace NewCRM.Repository.StorageProvider
 {
 
-    public class SqlHelper : IDisposable
+    public class DataStore : IDisposable
     {
         private SqlConnection _connection;
         private SqlTransaction _dataTransaction;
 
-        public SqlHelper(string connectionName = default(String))
+        public DataStore(string connectionName = default(String))
         {
             _connection = connectionName == default(String) ? new SqlConnection(ConfigurationManager.AppSettings["NewCrm"]) : new SqlConnection(ConfigurationManager.AppSettings[connectionName]);
         }
