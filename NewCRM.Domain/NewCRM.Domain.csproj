@@ -79,7 +79,6 @@
     <Compile Include="Entitys\Agent\AccountExtension\AccountExtension.cs" />
     <Compile Include="Entitys\Agent\AccountRole.cs" />
     <Compile Include="Entitys\DomainModelBase.cs" />
-    <Compile Include="Entitys\IAggregationRoot.cs" />
     <Compile Include="Entitys\Security\RolePower.cs" />
     <Compile Include="Entitys\Security\SecurityExtension\RoleExtension.cs" />
     <Compile Include="Entitys\System\App.cs" />

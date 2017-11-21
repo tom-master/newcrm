@@ -1,10 +1,8 @@
-﻿using NewCRM.Domain.Entitys.Agent;
-using NewCRM.Domain.Repositories.IRepository.Agent;
-using NewCRM.Repository.DataBaseProvider.EF;
+﻿using NewCRM.Domain.Repositories.IRepository.Agent;
 
 namespace NewCRM.Repository.RepositoryImpl.Agent
 {
-    public class TitleRepository : EntityFrameworkProvider<Title>, ITitleRepository
+    public class TitleRepository : ITitleRepository
     {
     }
 }

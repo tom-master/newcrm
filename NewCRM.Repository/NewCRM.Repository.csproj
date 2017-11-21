@@ -115,7 +115,6 @@
     <Compile Include="RepositoryImpl\Security\RoleRepository.cs" />
     <Compile Include="RepositoryImpl\System\AppRepository.cs" />
     <Compile Include="RepositoryImpl\System\AppTypeRepository.cs" />
-    <Compile Include="RepositoryImpl\System\DeskRepository.cs" />
     <Compile Include="RepositoryImpl\System\LogRepository.cs" />
     <Compile Include="RepositoryImpl\System\OnlineRepository.cs" />
     <Compile Include="RepositoryImpl\System\WallpaperRepository.cs" />
