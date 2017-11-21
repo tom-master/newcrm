@@ -48,7 +48,7 @@ namespace NewCRM.Application.Services
         {
             var accountResult = CacheQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
 
-            if (accountResult == null)
+            if(accountResult == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
             }
@@ -73,15 +73,14 @@ namespace NewCRM.Application.Services
                 WallpaperSource = accountConfig.Wallpaper.Source.ToString().ToLower(),
                 WallpaperMode = accountConfig.WallpaperMode.ToString().ToLower()
             };
-
         }
 
         public List<AccountDto> GetAccounts(String accountName, String accountType, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
             ValidateParameter.Validate(accountName).Validate(pageIndex).Validate(pageSize);
 
-            var filter = FilterFactory.Create<Account>(account => (accountName + "").Length == 0 || account.Name.Contains(accountName));
-            if (!String.IsNullOrEmpty(accountType))
+            var filter = FilterFactory.Create<Account>(account => String.IsNullOrEmpty(accountName) || account.Name.Contains(accountName));
+            if(!String.IsNullOrEmpty(accountType))
             {
                 var isAdmin = (EnumExtensions.ParseToEnum<AccountType>(Int32.Parse(accountType)) == AccountType.Admin);
                 filter.And(account => account.IsAdmin == isAdmin);
@@ -95,13 +94,12 @@ namespace NewCRM.Application.Services
                 AccountFace = ProfileManager.FileUrl + account.Config.AccountFace,
                 IsDisable = account.IsDisable
             }).ToList();
-
         }
 
         public AccountDto GetAccount(Int32 accountId = default(Int32))
         {
             var result = CacheQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            if (result == null)
+            if(result == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
             }
@@ -157,7 +155,7 @@ namespace NewCRM.Application.Services
             _accountRepository.Add(internalNewAccount);
 
             IList<Desk> desks = new List<Desk>();
-            for (var i = 1; i <= internalNewAccount.Config.DefaultDeskCount; i++)
+            for(var i = 1 ; i <= internalNewAccount.Config.DefaultDeskCount ; i++)
             {
                 desks.Add(new Desk(i, internalNewAccount.Id));
             }
@@ -173,18 +171,18 @@ namespace NewCRM.Application.Services
             var account = accountDto.ConvertToModel<AccountDto, Account>();
             var accountResult = DatabaseQuery.FindOne(FilterFactory.Create<Account>(internalAccount => internalAccount.Id == account.Id));
 
-            if (accountResult == null)
+            if(accountResult == null)
             {
                 throw new BusinessException($"用户{account.Name}可能已被禁用或删除");
             }
 
-            if (!String.IsNullOrEmpty(account.LoginPassword))
+            if(!String.IsNullOrEmpty(account.LoginPassword))
             {
                 var newPassword = PasswordUtil.CreateDbPassword(account.LoginPassword);
                 accountResult.ModifyPassword(newPassword);
             }
 
-            if (accountResult.Roles.Any())
+            if(accountResult.Roles.Any())
             {
                 accountResult.Roles.ToList().ForEach(role => { role.Remove(); });
             }
@@ -207,7 +205,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId);
 
             var accountResult = DatabaseQuery.FindOne(FilterFactory.Create<Account>((account) => account.Id == accountId));
-            if (accountResult == null)
+            if(accountResult == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
             }
@@ -224,7 +222,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId);
 
             var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            if (accountResult.IsAdmin)
+            if(accountResult.IsAdmin)
             {
                 throw new BusinessException($"不能禁用管理员:{accountResult.Name}");
             }
@@ -273,7 +271,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId);
 
             var internalAccount = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            if (internalAccount.IsAdmin)
+            if(internalAccount.IsAdmin)
             {
                 throw new BusinessException($"不能删除管理员:{internalAccount.Name}");
             }
@@ -289,11 +287,11 @@ namespace NewCRM.Application.Services
 
             var filter = FilterFactory.Create<Account>(a => a.Id == accountId);
             var result = DatabaseQuery.FindOne(filter);
-            if (result == null)
+            if(result == null)
             {
                 return false;
             }
-            if (PasswordUtil.ComparePasswords(result.LockScreenPassword, unlockPassword))
+            if(PasswordUtil.ComparePasswords(result.LockScreenPassword, unlockPassword))
             {
                 return true;
             }
