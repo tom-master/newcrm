@@ -10,9 +10,15 @@ namespace NewCRM.Domain.Entitys.System
         public Int32 AccountId { get; private set; }
 
         /// <summary>
+        /// 应用Id
+        /// </summary>
+        public Int32 AppId { get; private set; }
+
+        /// <summary>
         /// 评分
         /// </summary>
         public Double StartNum { get; private set; }
+
 
         public AppStar(Int32 accountId, Double startNum)
         {

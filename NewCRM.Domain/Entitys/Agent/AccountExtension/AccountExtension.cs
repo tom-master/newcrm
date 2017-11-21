@@ -45,62 +45,6 @@ namespace NewCRM.Domain.Entitys.Agent
         }
 
         /// <summary>
-        /// 添加职称
-        /// </summary>
-        public Account AddTitle(Title newTitle)
-        {
-            if (newTitle == null)
-            {
-                throw new BusinessException($"{nameof(newTitle)}:不能为空");
-            }
-            Title = newTitle;
-            return this;
-        }
-
-        /// <summary>
-        /// 添加用户角色
-        /// </summary>
-        public Account AddRole(params Int32[] roleIds)
-        {
-            if (roleIds == null)
-            {
-                throw new BusinessException($"{nameof(roleIds)}:不能为空");
-            }
-
-            if (!roleIds.Any())
-            {
-                throw new BusinessException($"{nameof(roleIds)}:不能为0");
-            }
-
-            foreach (var roleId in roleIds)
-            {
-                Roles.Add(new AccountRole(Id, roleId));
-            }
-
-            return this;
-        }
-
-        /// <summary>
-        /// 删除用户角色
-        /// </summary>
-        public Account RemoveRole(params Int32[] roleIds)
-        {
-            if (roleIds == null)
-            {
-                throw new BusinessException($"{nameof(roleIds)}:不能为空");
-            }
-            if (!roleIds.Any())
-            {
-                throw new BusinessException($"{nameof(roleIds)}:不能为0");
-            }
-            foreach (var roleId in roleIds)
-            {
-                Roles.FirstOrDefault(r => r.Id == roleId).Remove();
-            }
-            return this;
-        }
-
-        /// <summary>
         /// 在线
         /// </summary>
         public Account Online()
@@ -116,15 +60,6 @@ namespace NewCRM.Domain.Entitys.Agent
         public Account Offline()
         {
             IsOnline = false;
-            return this;
-        }
-
-        /// <summary>
-        /// 移除职称
-        /// </summary>
-        public Account RemoveTitle()
-        {
-            Title.Remove();
             return this;
         }
 

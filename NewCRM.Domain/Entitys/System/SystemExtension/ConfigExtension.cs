@@ -94,19 +94,6 @@ namespace NewCRM.Domain.Entitys.System
         }
 
         /// <summary>
-        /// 修改显示的壁纸
-        /// </summary>
-        public Config ModifyWallpaper(Wallpaper newWallpaper)
-        {
-            if(newWallpaper == null)
-            {
-                throw new BusinessException($"{nameof(newWallpaper)}不能为空");
-            }
-            Wallpaper = newWallpaper;
-            return this;
-        }
-
-        /// <summary>
         /// 更新默认第几个桌面
         /// </summary>
         /// <param name="deskNumber"></param>

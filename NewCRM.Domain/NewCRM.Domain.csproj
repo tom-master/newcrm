@@ -75,7 +75,6 @@
     <Compile Include="Factory\DomainQuery\ConcreteQuery\DefaultQueryFormCache.cs" />
     <Compile Include="Factory\DomainQuery\ConcreteQuery\DefaultQuery.cs" />
     <Compile Include="Factory\DomainQuery\Query\IQuery.cs" />
-    <Compile Include="Entitys\Agent\AccountExtension\TitleExtension.cs" />
     <Compile Include="Entitys\Agent\Account.cs" />
     <Compile Include="Entitys\Agent\AccountExtension\AccountExtension.cs" />
     <Compile Include="Entitys\Agent\AccountRole.cs" />

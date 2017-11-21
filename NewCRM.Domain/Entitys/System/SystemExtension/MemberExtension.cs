@@ -119,7 +119,7 @@ namespace NewCRM.Domain.Entitys.System
         /// </summary>
         public Member InFolder(Int32 folderId)
         {
-            if (folderId <= 0)
+            if(folderId <= 0)
             {
                 throw new BusinessException($"{nameof(folderId)}:不能为0");
             }
@@ -160,20 +160,6 @@ namespace NewCRM.Domain.Entitys.System
         public Member OutDock()
         {
             IsOnDock = false;
-            return this;
-        }
-
-        /// <summary>
-        /// 成员移动到其他桌面
-        /// </summary>
-        public Member ToOtherDesk(Int32 deskId)
-        {
-            if (deskId <= 0)
-            {
-                throw new BusinessException($"{nameof(deskId)}:不能为0");
-            }
-
-            DeskId = deskId;
             return this;
         }
 

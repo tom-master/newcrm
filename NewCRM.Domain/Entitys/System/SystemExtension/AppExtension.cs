@@ -29,48 +29,6 @@ namespace NewCRM.Domain.Entitys.System
         }
 
         /// <summary>
-        /// 增加app的评价分数
-        /// </summary> 
-        public App AddStar(Int32 accountId, Int32 startCount)
-        {
-            if (accountId <= 0)
-            {
-                throw new BusinessException($"{nameof(accountId)}:不能为0");
-            }
-
-            if (startCount <= 0)
-            {
-                throw new BusinessException($"{nameof(startCount)}:不能为0");
-            }
-
-            if (AppStars.Any(appStar => appStar.AccountId == accountId))
-            {
-                throw new BusinessException("您已对这个应用打过分");
-            }
-
-            var score = startCount * 1.0;
-            AppStars.Add(new AppStar(accountId, score));
-
-            return this;
-        }
-
-        /// <summary>
-        /// 减小app的评价分数
-        /// </summary>
-        public App SubtractStar(Int32 accountId)
-        {
-            if (accountId <= 0)
-            {
-                throw new BusinessException($"{nameof(accountId)}:不能为0");
-            }
-
-            var appStar = AppStars.FirstOrDefault(star => star.AccountId == accountId);
-            appStar?.RemoveStar();
-
-            return this;
-        }
-
-        /// <summary>
         /// 审核通过
         /// </summary>
         public App Pass()

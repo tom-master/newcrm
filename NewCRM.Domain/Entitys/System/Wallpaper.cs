@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using NewCRM.Domain.ValueObject;
 using System.ComponentModel.DataAnnotations;
+using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Domain.Entitys.System
 {
