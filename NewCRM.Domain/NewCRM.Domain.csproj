@@ -100,7 +100,6 @@
     <Compile Include="Entitys\System\SystemExtension\WallpaperExtension.cs" />
     <Compile Include="Factory\DomainCreate\ConcreteFactory\DefaultDomainFactory.cs" />
     <Compile Include="Factory\DomainCreate\DomainFactory.cs" />
-    <Compile Include="Factory\RepositoryFactory.cs" />
     <Compile Include="KeyGenerators\RedisKeyGenerator.cs" />
     <Compile Include="KeyGenerators\IKeyGenerator.cs" />
     <Compile Include="Repositories\IDomainModelQueryProvider.cs" />

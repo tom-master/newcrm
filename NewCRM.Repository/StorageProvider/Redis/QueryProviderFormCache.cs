@@ -1,14 +1,13 @@
-﻿using NewCRM.Domain.Entitys;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using NewCRM.Domain.Entitys;
 using NewCRM.Domain.Factory.DomainSpecification;
 using NewCRM.Domain.Repositories;
 using NewCRM.Domain.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewCRM.Repository.DataBaseProvider.Redis.InternalHelper;
-using NewCRM.Repository.UnitOfWorkProvide;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Unity.Attributes;
 
 namespace NewCRM.Repository.DataBaseProvider.Redis
@@ -33,7 +32,7 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
         {
             get
             {
-                if (UnitOfWork is UnitOfWorkContextBase)
+                if(UnitOfWork is UnitOfWorkContextBase)
                 {
                     return UnitOfWork as UnitOfWorkContextBase;
                 }
@@ -50,15 +49,15 @@ namespace NewCRM.Repository.DataBaseProvider.Redis
 
             var cacheValue = CacheQueryProvider.ListRange<T>(internalKey);
 
-            if (cacheValue == null || !cacheValue.Any())
+            if(cacheValue == null || !cacheValue.Any())
             {
                 IList<T> values = EfContext.Set<T, Int32>().Where(entity.Expression).ToList();
-                if (CacheQueryProvider.KeyExists(internalKey))
+                if(CacheQueryProvider.KeyExists(internalKey))
                 {
                     CacheQueryProvider.KeyDelete(internalKey);
                 }
 
-                foreach (var value in values)
+                foreach(var value in values)
                 {
                     CacheQueryProvider.ListRightPush(value.KeyGenerator(), value);
                 }

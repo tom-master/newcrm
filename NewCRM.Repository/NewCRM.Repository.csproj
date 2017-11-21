@@ -103,16 +103,13 @@
     </EmbeddedResource>
   </ItemGroup>-->
   <ItemGroup>
-    <Compile Include="DatabaseProvider\Redis\CacheEvent\ICacheCreateEvent.cs" />
-    <Compile Include="DatabaseProvider\Redis\CacheEvent\ICacheModifyEvent.cs" />
-    <Compile Include="DatabaseProvider\Redis\QueryProviderFormCache.cs" />
-    <Compile Include="DatabaseProvider\Redis\InternalHelper\ICacheQueryProvider.cs" />
-    <Compile Include="DatabaseProvider\Redis\InternalHelper\RedisConnectionHelp.cs" />
-    <Compile Include="DatabaseProvider\Redis\InternalHelper\DefaultRedisQueryProvider.cs" />
-    <Compile Include="SqlHelper.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="DatabaseProvider\EF\NewCrmContext.cs" />
-    <Compile Include="DatabaseProvider\EF\QueryProvider.cs" />
+    <Compile Include="StorageProvider\Redis\CacheEvent\ICacheCreateEvent.cs" />
+    <Compile Include="StorageProvider\Redis\CacheEvent\ICacheModifyEvent.cs" />
+    <Compile Include="StorageProvider\Redis\QueryProviderFormCache.cs" />
+    <Compile Include="StorageProvider\Redis\InternalHelper\ICacheQueryProvider.cs" />
+    <Compile Include="StorageProvider\Redis\InternalHelper\RedisConnectionHelp.cs" />
+    <Compile Include="StorageProvider\Redis\InternalHelper\DefaultRedisQueryProvider.cs" />
+    <Compile Include="StorageProvider\SqlServer\SqlHelper.cs" />
     <Compile Include="RepositoryImpl\Agent\TitleRepository.cs" />
     <Compile Include="RepositoryImpl\Agent\AccountRepository.cs" />
     <Compile Include="RepositoryImpl\Security\RoleRepository.cs" />
@@ -122,10 +119,6 @@
     <Compile Include="RepositoryImpl\System\LogRepository.cs" />
     <Compile Include="RepositoryImpl\System\OnlineRepository.cs" />
     <Compile Include="RepositoryImpl\System\WallpaperRepository.cs" />
-    <Compile Include="DatabaseProvider\EF\EntityFrameworkProvider.cs" />
-    <Compile Include="UnitOfWorkProvide\EFUnitOfWorkContext.cs" />
-    <Compile Include="UnitOfWorkProvide\UnitOfWorkContextBase.cs" />
-    <Compile Include="UnitOfWorkProvide\UnitOfWorkContextExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NewCRM.Domain\NewCRM.Domain.csproj">
