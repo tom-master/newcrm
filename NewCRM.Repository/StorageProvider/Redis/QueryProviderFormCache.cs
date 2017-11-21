@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using NewCRM.Domain.Entitys;
-using NewCRM.Domain.Factory.DomainSpecification;
-using NewCRM.Domain.Repositories;
 using NewCRM.Domain.UnitWork;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;

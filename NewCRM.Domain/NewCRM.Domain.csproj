@@ -72,9 +72,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseServiceContext.cs" />
-    <Compile Include="Factory\DomainQuery\ConcreteQuery\DefaultQueryFormCache.cs" />
-    <Compile Include="Factory\DomainQuery\ConcreteQuery\DefaultQuery.cs" />
-    <Compile Include="Factory\DomainQuery\Query\IQuery.cs" />
     <Compile Include="Entitys\Agent\Account.cs" />
     <Compile Include="Entitys\Agent\AccountExtension\AccountExtension.cs" />
     <Compile Include="Entitys\Agent\AccountRole.cs" />
@@ -88,15 +85,10 @@
     <Compile Include="Entitys\System\SystemExtension\AppTypeExtension.cs" />
     <Compile Include="Entitys\System\SystemExtension\ConfigExtension.cs" />
     <Compile Include="Entitys\System\SystemExtension\MemberExtension.cs" />
-    <Compile Include="Factory\DomainQuery\Query\QueryBase.cs" />
     <Compile Include="Entitys\System\SystemExtension\OnlineExtension.cs" />
     <Compile Include="Entitys\System\SystemExtension\WallpaperExtension.cs" />
-    <Compile Include="Factory\DomainCreate\ConcreteFactory\DefaultDomainFactory.cs" />
-    <Compile Include="Factory\DomainCreate\DomainFactory.cs" />
     <Compile Include="KeyGenerators\RedisKeyGenerator.cs" />
     <Compile Include="KeyGenerators\IKeyGenerator.cs" />
-    <Compile Include="Repositories\IDomainModelQueryProvider.cs" />
-    <Compile Include="Repositories\IDomainModelQueryProviderFormCache.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\IRepository\Agent\IAccountRoleRepository.cs" />
     <Compile Include="Repositories\IRepository\Agent\IAccountRepository.cs" />
