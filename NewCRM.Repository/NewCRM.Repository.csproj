@@ -109,6 +109,7 @@
     <Compile Include="DatabaseProvider\Redis\InternalHelper\ICacheQueryProvider.cs" />
     <Compile Include="DatabaseProvider\Redis\InternalHelper\RedisConnectionHelp.cs" />
     <Compile Include="DatabaseProvider\Redis\InternalHelper\DefaultRedisQueryProvider.cs" />
+    <Compile Include="SqlHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="DatabaseProvider\EF\NewCrmContext.cs" />
     <Compile Include="DatabaseProvider\EF\QueryProvider.cs" />
