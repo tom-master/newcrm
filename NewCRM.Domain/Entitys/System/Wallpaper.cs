@@ -6,7 +6,7 @@ using NewCRM.Domain.ValueObject;
 namespace NewCRM.Domain.Entitys.System
 {
     [Serializable, Description("壁纸")]
-    public partial class Wallpaper : DomainModelBase, IAggregationRoot
+    public partial class Wallpaper : DomainModelBase
     {
         #region public property
 

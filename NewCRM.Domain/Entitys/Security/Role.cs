@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace NewCRM.Domain.Entitys.Security
 {
     [Description("角色"), Serializable]
-    public partial class Role : DomainModelBase, IAggregationRoot
+    public partial class Role : DomainModelBase
     {
         #region public property
 

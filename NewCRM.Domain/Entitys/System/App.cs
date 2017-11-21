@@ -7,7 +7,7 @@ namespace NewCRM.Domain.Entitys.System
 {
 
     [Serializable, Description("应用")]
-    public partial class App : DomainModelBase, IAggregationRoot
+    public partial class App : DomainModelBase
     {
         #region public property
 

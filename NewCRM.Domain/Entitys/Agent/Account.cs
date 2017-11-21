@@ -8,7 +8,7 @@ using NewCRM.Domain.ValueObject;
 namespace NewCRM.Domain.Entitys.Agent
 {
     [Description("用户"), Serializable]
-    public partial class Account : DomainModelBase, IAggregationRoot
+    public partial class Account : DomainModelBase
     {
         #region public property
 

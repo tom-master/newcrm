@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace NewCRM.Domain.Entitys.System
 {
     [Description("应用类型"), Serializable]
-    public partial class AppType : DomainModelBase, IAggregationRoot
+    public partial class AppType : DomainModelBase
     {
         #region public proptery
 

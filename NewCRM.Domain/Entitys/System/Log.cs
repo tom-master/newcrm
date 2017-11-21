@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace NewCRM.Domain.Entitys.System
 {
     [Description("日志"), Serializable]
-    public class Log : DomainModelBase, IAggregationRoot
+    public class Log : DomainModelBase
     {
         #region public property
 
