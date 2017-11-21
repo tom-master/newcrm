@@ -8,38 +8,20 @@ namespace NewCRM.Domain.Factory.DomainQuery.Query
 {
     public abstract class QueryBase : IQuery
     {
-        public virtual T FindOne<T>(Specification<T> specification, Expression<Func<T, Object>> selector) where T : DomainModelBase, IAggregationRoot
+        public virtual U FindOne<T, U>(Specification<T> specification, Expression<Func<T, U>> selector = default(Expression<Func<T, U>>)) where T : DomainModelBase, IAggregationRoot
         {
-            return default(T);
+            return default(U);
         }
 
-        public virtual T FindOne<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot
+        public virtual IEnumerable<U> Find<T, U>(Specification<T> specification, Expression<Func<T, U>> selector = default(Expression<Func<T, U>>)) where T : DomainModelBase, IAggregationRoot
         {
-            return default(T);
+            return default(IEnumerable<U>);
         }
 
-        public virtual IEnumerable<T> Find<T>(Specification<T> specification, Expression<Func<T, Object>> selector) where T : DomainModelBase, IAggregationRoot
-        {
-            return default(IEnumerable<T>);
-        }
-
-        public virtual IEnumerable<T> Find<T>(Specification<T> specification) where T : DomainModelBase, IAggregationRoot
-        {
-            return default(IEnumerable<T>);
-        }
-
-        public virtual IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount, Expression<Func<T, Object>> selector) where T : DomainModelBase, IAggregationRoot
+        public virtual IEnumerable<U> PageBy<T, U>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount, Expression<Func<T, U>> selector = default(Expression<Func<T, U>>)) where T : DomainModelBase, IAggregationRoot
         {
             totalCount = 0;
-
-            return default(IEnumerable<T>);
-        }
-
-        public virtual IEnumerable<T> PageBy<T>(Specification<T> specification, Int32 pageIndex, Int32 pageSize, out Int32 totalCount) where T : DomainModelBase, IAggregationRoot
-        {
-            totalCount = 0;
-
-            return default(IEnumerable<T>);
+            return default(IEnumerable<U>);
         }
     }
 }
