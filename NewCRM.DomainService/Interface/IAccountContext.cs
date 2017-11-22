@@ -52,5 +52,10 @@ namespace NewCRM.Domain.Services.Interface
         /// 检查用户名是否重复
         /// </summary>
         Boolean CheckAccountNameExist(String accountName);
+
+        /// <summary>
+        /// 检查密码
+        /// </summary>
+        String GetOldPassword(Int32 accountId);
     }
 }

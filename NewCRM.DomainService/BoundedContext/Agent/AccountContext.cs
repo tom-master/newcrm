@@ -253,5 +253,32 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
                 return dataStore.SqlGetDataTable(sql).AsList<RolePower>().ToList();
             }
         }
+
+        public Boolean CheckAccountNameExist(string accountName)
+        {
+            ValidateParameter.Validate(accountName);
+
+            using(var dataStore = new DataStore())
+            {
+                var sql = $@"
+SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
+
+                return (Int32)dataStore.SqlScalar(sql, new List<SqlParameter> { new SqlParameter("@name", accountName) }) != 0 ? false : true;
+            }
+        }
+
+        /// <summary>
+        /// 检查密码
+        /// </summary>
+        public String GetOldPassword(Int32 accountId)
+        {
+            ValidateParameter.Validate(accountId);
+            using(var dataStore = new DataStore())
+            {
+                var sql = $@"SELECT a.LoginPassword FROM dbo.Accounts AS a WHERE a.Id={accountId} AND a.IsDeleted=0 AND a.IsDisable=0";
+
+                return dataStore.SqlScalar(sql).ToString();
+            }
+        }
     }
 }

@@ -115,14 +115,14 @@ namespace NewCRM.Application.Services
         public Boolean CheckAccountNameExist(String accountName)
         {
             ValidateParameter.Validate(accountName);
-            return !DatabaseQuery.Find(FilterFactory.Create<Account>(account => account.Name == accountName), a => a.Name).Any();
+            return _accountContext.CheckAccountNameExist(accountName);
         }
 
         public Boolean CheckPassword(Int32 accountId, String oldAccountPassword)
         {
             ValidateParameter.Validate(oldAccountPassword);
 
-            var result = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId), a => a.LoginPassword);
+            var result = _accountContext.GetOldPassword(accountId);
             return PasswordUtil.ComparePasswords(result, oldAccountPassword);
         }
 
