@@ -34,10 +34,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         /// <summary>
         /// 参数转换为枚举类型
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static T ParseToEnum<T>(Object value) where T : struct
+        public static T ParseToEnum<T>(String value) where T : struct
         {
             var enumConst = Enum.GetName(typeof(T), value);
             T t;
@@ -47,6 +44,14 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
             }
 
             throw new BusinessException($"{value}不是有效的类型");
+        }
+
+        /// <summary>
+        /// 参数转换为枚举类型
+        /// </summary>
+        public static T ParseToEnum<T>(Int32 value) where T : struct
+        {
+            return ParseToEnum<T>(value.ToString());
         }
     }
 }

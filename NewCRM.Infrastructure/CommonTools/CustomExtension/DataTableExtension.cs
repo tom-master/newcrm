@@ -11,13 +11,13 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
     {
         public static IList<T> AsList<T>(this DataTable dataTable) where T : class, new()
         {
-            if (dataTable == null || dataTable.Rows.Count == 0)
+            if(dataTable == null || dataTable.Rows.Count == 0)
             {
                 throw new BusinessException("转换失败");
             }
 
             var data = new List<T>();
-            foreach (DataRow row in dataTable.Rows)
+            foreach(DataRow row in dataTable.Rows)
             {
                 T item = GetItem<T>(row);
                 data.Add(item);
@@ -35,14 +35,15 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
             Type temp = typeof(T);
             T obj = Activator.CreateInstance<T>();
 
-            foreach (DataColumn column in dr.Table.Columns)
+            foreach(DataColumn column in dr.Table.Columns)
             {
-                foreach (PropertyInfo pro in temp.GetProperties())
+                foreach(PropertyInfo pro in temp.GetProperties())
                 {
-                    if (pro.Name == column.ColumnName && dr[column.ColumnName] != DBNull.Value)
+                    if(pro.Name == column.ColumnName && dr[column.ColumnName] != DBNull.Value)
+                    {
                         pro.SetValue(obj, dr[column.ColumnName], null);
-                    else
-                        continue;
+                        break;
+                    }
                 }
             }
             return obj;

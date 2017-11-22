@@ -36,25 +36,26 @@ namespace NewCRM.Application.Services
 
         public ConfigDto GetConfig(Int32 accountId)
         {
-            var result = CacheQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId), a => a.Config);
+            var config = _accountContext.GetConfig(accountId);
+            var wallpaper = _accountContext.GetWallpaper(config.WallpaperId);
 
             return new ConfigDto
             {
-                Id = result.Id,
-                Skin = result.Skin,
-                AccountFace = result.AccountFace,
-                AppSize = result.AppSize,
-                AppVerticalSpacing = result.AppVerticalSpacing,
-                AppHorizontalSpacing = result.AppHorizontalSpacing,
-                DefaultDeskNumber = result.DefaultDeskNumber,
-                DefaultDeskCount = result.DefaultDeskCount,
-                AppXy = result.AppXy.ToString().ToLower(),
-                DockPosition = result.DockPosition.ToString().ToLower(),
-                WallpaperUrl = result.Wallpaper.Url,
-                WallpaperWidth = result.Wallpaper.Width,
-                WallpaperHeigth = result.Wallpaper.Height,
-                WallpaperSource = result.Wallpaper.Source.ToString().ToLower(),
-                WallpaperMode = result.WallpaperMode.ToString().ToLower()
+                Id = config.Id,
+                Skin = config.Skin,
+                AccountFace = config.Face,
+                AppSize = config.AppSize,
+                AppVerticalSpacing = config.AppVerticalSpacing,
+                AppHorizontalSpacing = config.AppHorizontalSpacing,
+                DefaultDeskNumber = config.DefaultDeskNumber,
+                DefaultDeskCount = config.DefaultDeskCount,
+                AppXy = config.AppXy.ToString().ToLower(),
+                DockPosition = config.DockPosition.ToString().ToLower(),
+                WallpaperUrl = wallpaper.Url,
+                WallpaperWidth = wallpaper.Width,
+                WallpaperHeigth = wallpaper.Height,
+                WallpaperSource = wallpaper.Source.ToString().ToLower(),
+                WallpaperMode = config.ToString().ToLower()
             };
         }
 
@@ -63,7 +64,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountName).Validate(pageIndex).Validate(pageSize);
 
             var filter = FilterFactory.Create<Account>(account => String.IsNullOrEmpty(accountName) || account.Name.Contains(accountName));
-            if (!String.IsNullOrEmpty(accountType))
+            if(!String.IsNullOrEmpty(accountType))
             {
                 var isAdmin = (EnumExtensions.ParseToEnum<AccountType>(Int32.Parse(accountType)) == AccountType.Admin);
                 filter.And(account => account.IsAdmin == isAdmin);
@@ -104,7 +105,7 @@ namespace NewCRM.Application.Services
                     RoleIdentity = s.Role.RoleIdentity
                 }).ToList(),
             });
-            if (result == null)
+            if(result == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
             }
@@ -138,7 +139,7 @@ namespace NewCRM.Application.Services
             _accountRepository.Add(internalNewAccount);
 
             var desks = new List<Desk>();
-            for (var i = 1; i <= internalNewAccount.Config.DefaultDeskCount; i++)
+            for(var i = 1 ; i <= internalNewAccount.Config.DefaultDeskCount ; i++)
             {
                 desks.Add(new Desk(i, internalNewAccount.Id));
             }
@@ -154,18 +155,18 @@ namespace NewCRM.Application.Services
             var account = accountDto.ConvertToModel<AccountDto, Account>();
             var accountResult = DatabaseQuery.FindOne(FilterFactory.Create<Account>(internalAccount => internalAccount.Id == account.Id));
 
-            if (accountResult == null)
+            if(accountResult == null)
             {
                 throw new BusinessException($"用户{account.Name}可能已被禁用或删除");
             }
 
-            if (!String.IsNullOrEmpty(account.LoginPassword))
+            if(!String.IsNullOrEmpty(account.LoginPassword))
             {
                 var newPassword = PasswordUtil.CreateDbPassword(account.LoginPassword);
                 accountResult.ModifyPassword(newPassword);
             }
 
-            if (accountResult.Roles.Any())
+            if(accountResult.Roles.Any())
             {
                 accountResult.Roles.ToList().ForEach(role => { role.Remove(); });
             }
@@ -188,7 +189,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId);
 
             var accountResult = DatabaseQuery.FindOne(FilterFactory.Create<Account>((account) => account.Id == accountId));
-            if (accountResult == null)
+            if(accountResult == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
             }
@@ -205,7 +206,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId);
 
             var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            if (accountResult.IsAdmin)
+            if(accountResult.IsAdmin)
             {
                 throw new BusinessException($"不能禁用管理员:{accountResult.Name}");
             }
@@ -254,7 +255,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId);
 
             var internalAccount = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            if (internalAccount.IsAdmin)
+            if(internalAccount.IsAdmin)
             {
                 throw new BusinessException($"不能删除管理员:{internalAccount.Name}");
             }
@@ -270,11 +271,11 @@ namespace NewCRM.Application.Services
 
             var filter = FilterFactory.Create<Account>(a => a.Id == accountId);
             var result = DatabaseQuery.FindOne(filter);
-            if (result == null)
+            if(result == null)
             {
                 return false;
             }
-            if (PasswordUtil.ComparePasswords(result.LockScreenPassword, unlockPassword))
+            if(PasswordUtil.ComparePasswords(result.LockScreenPassword, unlockPassword))
             {
                 return true;
             }

@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Net;
 using NewCRM.Domain.Entitys.System;
+using System.Text;
+using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Domain.Services.BoundedContext.Agent
 {
@@ -19,7 +21,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
             ValidateParameter.Validate(accountName).Validate(password);
 
 
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
             {
                 Account result = null;
 
@@ -31,12 +33,12 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
                     {
                         var sql = @"SELECT a.Id,a.Name,a.LoginPassword,a.Face FROM dbo.Accounts AS a WHERE a.Name=@name";
                         result = dataStore.SqlGetDataTable(sql, new List<SqlParameter> { new SqlParameter("@name", accountName) }).AsSignal<Account>();
-                        if (result == null)
+                        if(result == null)
                         {
                             throw new BusinessException($"该用户不存在或被禁用{accountName}");
                         }
 
-                        if (!PasswordUtil.ComparePasswords(result.LoginPassword, password))
+                        if(!PasswordUtil.ComparePasswords(result.LoginPassword, password))
                         {
                             throw new BusinessException("密码错误");
                         }
@@ -75,7 +77,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
                     dataStore.Commit();
                     return result;
                 }
-                catch (Exception ex)
+                catch(Exception ex)
                 {
                     dataStore.Rollback();
                     throw;
@@ -87,7 +89,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
         {
             ValidateParameter.Validate(accountId);
 
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
             {
                 try
                 {
@@ -109,7 +111,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
 
                     dataStore.Commit();
                 }
-                catch (Exception ex)
+                catch(Exception ex)
                 {
                     dataStore.Rollback();
                     throw;
@@ -121,11 +123,60 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
         {
             ValidateParameter.Validate(accountId);
 
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
+            {
+                var sql = $@"SELECT 
+                            a.Id,
+                            a.Skin,
+                            a.Face,
+                            a.AppSize,
+                            a.AppVerticalSpacing,
+                            a.AppHorizontalSpacing,
+                            a.DefaultDeskNumber,
+                            a.DefaultDeskCount,
+                            a.AppXy,
+                            a.DockPosition,
+                            a.WallpaperMode,
+                            a.WallpaperId
+                            FROM dbo.Configs AS a WHERE a.AccountId={accountId} AND a.IsDeleted=0";
+                return dataStore.SqlGetDataTable(sql).AsSignal<Config>();
+            }
+        }
+
+        public Wallpaper GetWallpaper(Int32 wallPaperId)
+        {
+            ValidateParameter.Validate(wallPaperId);
+
+            using(var dataStore = new DataStore())
+            {
+                var sql = $@"SELECT a.Url,a.Width,a.Height,a.Source FROM dbo.Wallpapers AS a WHERE a.Id={wallPaperId} AND a.IsDeleted=0";
+
+                return dataStore.SqlGetDataTable(sql).AsSignal<Wallpaper>();
+            }
+        }
+
+        public List<Account> GetAccounts(string accountName, string accountType, int pageIndex, int pageSize, out int totalCount)
+        {
+            ValidateParameter.Validate(accountName).Validate(pageIndex).Validate(pageSize);
+            var where = new StringBuilder();
+            where.Append("WHERE 1=1 ");
+            if(!String.IsNullOrEmpty(accountName))
+            {
+                where.Append(" AND a.Name=@name");
+            }
+
+            if(!String.IsNullOrEmpty(accountType))
+            {
+                var isAdmin = (EnumExtensions.ParseToEnum<AccountType>(Int32.Parse(accountType)) == AccountType.Admin) ? 1 : 0;
+                where.Append($@" AND a.IsAdmin={isAdmin}");
+            }
+
+            using(var dataStore = new DataStore())
             {
                 var sql = $@"";
             }
         }
+
 
         #region private method
 
@@ -133,7 +184,11 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
         /// 获取当前登陆的ip
         /// </summary>
         /// <returns></returns>
-        private String GetCurrentIpAddress() => (Dns.GetHostEntry(Dns.GetHostName()).AddressList[0]).ToString();
+        private String GetCurrentIpAddress()
+        {
+            return (Dns.GetHostEntry(Dns.GetHostName()).AddressList[0]).ToString();
+        }
+
 
         #endregion
     }
