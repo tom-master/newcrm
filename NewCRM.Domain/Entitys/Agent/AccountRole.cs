@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using NewCRM.Domain.Entitys.Security;
 
 namespace NewCRM.Domain.Entitys.Agent
 {
@@ -12,6 +15,7 @@ namespace NewCRM.Domain.Entitys.Agent
         [Required]
         public Int32 RoleId { get; private set; }
 
+
         #endregion
 
         #region ctor
@@ -19,7 +23,7 @@ namespace NewCRM.Domain.Entitys.Agent
         public AccountRole(Int32 accountId, Int32 roleId)
         {
             AccountId = accountId;
-            RoleId = roleId;
+            RoleId = roleId; 
         }
 
         public AccountRole() { }

@@ -28,6 +28,9 @@ namespace NewCRM.Domain.Entitys.Security
         [MaxLength(50)]
         public String Remark { get; private set; }
 
+
+        public IList<RolePower> Powers { get; private set; }
+
         #endregion
 
         #region ctor
@@ -39,6 +42,7 @@ namespace NewCRM.Domain.Entitys.Security
             Name = name;
             Remark = remark;
             RoleIdentity = roleIdentity;
+            Powers = new List<RolePower>();
         }
 
         /// <summary>

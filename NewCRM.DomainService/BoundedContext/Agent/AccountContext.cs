@@ -29,7 +29,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
 
                 try
                 {
-                    dataStore.UseTransaction = true;
+                    dataStore.OpenTransaction();
 
                     #region 查询用户
                     {
@@ -95,7 +95,7 @@ namespace NewCRM.Domain.Services.BoundedContext.Agent
             {
                 try
                 {
-                    dataStore.UseTransaction = true;
+                    dataStore.OpenTransaction();
 
                     #region 设置用户下线
                     {
@@ -267,9 +267,6 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
             }
         }
 
-        /// <summary>
-        /// 检查密码
-        /// </summary>
         public String GetOldPassword(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
@@ -278,6 +275,191 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
                 var sql = $@"SELECT a.LoginPassword FROM dbo.Accounts AS a WHERE a.Id={accountId} AND a.IsDeleted=0 AND a.IsDisable=0";
 
                 return dataStore.SqlScalar(sql).ToString();
+            }
+        }
+
+        public void AddNewAccount(Account account)
+        {
+            ValidateParameter.Validate(account);
+
+            using(var dataStore = new DataStore())
+            {
+                try
+                {
+                    dataStore.OpenTransaction();
+
+                    var accountId = 0;
+                    var configId = 0;
+                    #region 初始化配置
+                    {
+                        var config = new Config();
+                        var sql = $@"INSERT dbo.Configs
+                                ( Skin ,
+                                  AppSize ,
+                                  AppVerticalSpacing ,
+                                  AppHorizontalSpacing ,
+                                  DefaultDeskNumber ,
+                                  DefaultDeskCount ,
+                                  WallpaperMode ,
+                                  AppXy ,
+                                  DockPosition ,
+                                  IsDeleted ,
+                                  AddTime ,
+                                  LastModifyTime ,
+                                  WallpaperId ,
+                                  Face
+                                )
+                        VALUES  ( N'{config.Skin}' , -- Skin - nvarchar(max)
+                                  {config.AppSize} , -- AppSize - int
+                                  {config.AppVerticalSpacing} , -- AppVerticalSpacing - int
+                                  {config.AppHorizontalSpacing} , -- AppHorizontalSpacing - int
+                                  {config.DefaultDeskNumber} , -- DefaultDeskNumber - int
+                                  {config.DefaultDeskCount} , -- DefaultDeskCount - int
+                                  {(Int32)config.WallpaperMode} , -- WallpaperMode - int
+                                  {(Int32)config.AppXy} , -- AppXy - int
+                                  {config.DockPosition} , -- DockPosition - int
+                                  0 , -- IsDeleted - bit
+                                  GETDATE() , -- AddTime - datetime
+                                  GETDATE() , -- LastModifyTime - datetime
+                                  0 , -- WallpaperId - int
+                                  N'{config.Face}'  -- Face - nvarchar(150)
+                                ) SELECT @@IDENTITY AS Id";
+                        configId = (Int32)dataStore.SqlScalar(sql);
+                    }
+                    #endregion
+
+                    #region 新增用户
+                    {
+                        var sql = $@"INSERT dbo.Accounts
+                            ( 
+                              Name ,
+                              LoginPassword ,
+                              LockScreenPassword ,
+                              IsDisable ,
+                              LastLoginTime ,
+                              IsOnline ,
+                              IsAdmin ,
+                              IsDeleted ,
+                              AddTime ,
+                              LastModifyTime ,
+                              ConfigId ,
+                              TitleId
+                            )
+                    VALUES  ( 
+                              @name , -- Name - nvarchar(max)
+                              @loginPassword , -- LoginPassword - nvarchar(max)
+                              @lockScreenPassword , -- LockScreenPassword - nvarchar(max)
+                              0 , -- IsDisable - bit
+                              GETDATE() , -- LastLoginTime - datetime
+                              0 , -- IsOnline - bit
+                              @isAdmin , -- IsAdmin - bit
+                              0 , -- IsDeleted - bit
+                              GETDATE() , -- AddTime - datetime
+                              GETDATE() , -- LastModifyTime - datetime
+                              {configId} , -- ConfigId - int
+                              0  -- TitleId - int
+                            ) SELECT @@IDENTITY AS Id";
+                        var parameters = new List<SqlParameter>
+                    {
+                        new SqlParameter("@name",account.Name),
+                        new SqlParameter("@loginPassword",account.LoginPassword),
+                        new SqlParameter("@lockScreenPassword",account.LockScreenPassword),
+                        new SqlParameter("@isAdmin",account.IsAdmin),
+                    };
+                        accountId = (Int32)dataStore.SqlScalar(sql);
+                    }
+                    #endregion
+
+                    #region 用户角色
+                    {
+                        var sqlBuilder = new StringBuilder();
+                        foreach(var item in account.Roles)
+                        {
+                            sqlBuilder.Append($@"INSERT dbo.AccountRoles
+                                ( AccountId ,
+                                  RoleId ,
+                                  IsDeleted ,
+                                  AddTime ,
+                                  LastModifyTime
+                                )
+                        VALUES  ( {accountId} , -- AccountId - int
+                                  {item.RoleId} , -- RoleId - int
+                                  0 , -- IsDeleted - bit
+                                  GETDATE() , -- AddTime - datetime
+                                  GETDATE()  -- LastModifyTime - datetime
+                                )");
+                        }
+                        dataStore.SqlExecute(sqlBuilder.ToString());
+
+                    }
+                    #endregion
+
+                    dataStore.Commit();
+                }
+                catch(Exception ex)
+                {
+                    dataStore.Rollback();
+                    throw;
+                }
+            }
+        }
+
+        public void ModifyAccount(Account accountDto)
+        {
+            ValidateParameter.Validate(accountDto);
+
+            using(var dataStore = new DataStore())
+            {
+                try
+                {
+                    if(!String.IsNullOrEmpty(accountDto.LoginPassword))
+                    {
+                        #region 修改密码
+                        {
+                            var newPassword = PasswordUtil.CreateDbPassword(accountDto.LoginPassword);
+                            var sql = $@"UPDATE dbo.Accounts SET LoginPassword={newPassword} WHERE Id={accountDto.Id} AND IsDeleted=0 AND IsDisable=0";
+
+                            dataStore.SqlExecute(sql);
+                        }
+                        #endregion
+                    }
+
+                    #region 修改账户角色
+                    {
+
+                        if(accountDto.Roles.Any())
+                        {
+                            var sqlBuilder = new StringBuilder();
+                            sqlBuilder.Append($@"UPDATE dbo.AccountRoles SET IsDeleted=1 WHERE AccountId={accountDto.Id} AND IsDeleted=0");
+
+                            foreach(var item in accountDto.Roles)
+                            {
+                                sqlBuilder.Append($@"INSERT dbo.AccountRoles
+                                            ( AccountId ,
+                                              RoleId ,
+                                              IsDeleted ,
+                                              AddTime ,
+                                              LastModifyTime
+                                            )
+                                    VALUES  ( {accountDto.Id} , -- AccountId - int
+                                              {item} , -- RoleId - int
+                                              0 , -- IsDeleted - bit
+                                              GETDATE() , -- AddTime - datetime
+                                              GETDATE()  -- LastModifyTime - datetime
+                                            )");
+                            }
+                            dataStore.SqlExecute(sqlBuilder.ToString());
+                        }
+                    }
+                    #endregion
+
+                    dataStore.Commit();
+                }
+                catch(Exception ex)
+                {
+                    dataStore.Rollback();
+                    throw;
+                }
             }
         }
     }

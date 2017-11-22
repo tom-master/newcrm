@@ -1,4 +1,7 @@
-﻿using NewCRM.Application.Services.Interface;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using NewCRM.Application.Services.Interface;
 using NewCRM.Domain;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Services.Interface;
@@ -7,9 +10,6 @@ using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace NewCRM.Application.Services
 {
@@ -132,19 +132,9 @@ namespace NewCRM.Application.Services
 
             var account = accountDto.ConvertToModel<AccountDto, Account>();
             var accountType = EnumExtensions.ParseToEnum<AccountType>(account.IsAdmin ? 2 /*管理员*/ : 1 /*用户*/);
-            var internalNewAccount = new Account(account.Name, PasswordUtil.CreateDbPassword(account.LoginPassword), accountType);
+            var internalNewAccount = new Account(account.Name, PasswordUtil.CreateDbPassword(account.LoginPassword), account.Roles, accountType);
 
-            internalNewAccount.AddRole(account.Roles.Select(role => role.RoleId).ToArray());
-            _accountRepository.Add(internalNewAccount);
-
-            var desks = new List<Desk>();
-            for(var i = 1 ; i <= internalNewAccount.Config.DefaultDeskCount ; i++)
-            {
-                desks.Add(new Desk(i, internalNewAccount.Id));
-            }
-
-            _deskRepository.Add(desks);
-            UnitOfWork.Commit();
+            _accountContext.AddNewAccount(internalNewAccount);
         }
 
         public void ModifyAccount(AccountDto accountDto)
@@ -152,27 +142,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountDto);
 
             var account = accountDto.ConvertToModel<AccountDto, Account>();
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create<Account>(internalAccount => internalAccount.Id == account.Id));
-
-            if(accountResult == null)
-            {
-                throw new BusinessException($"用户{account.Name}可能已被禁用或删除");
-            }
-
-            if(!String.IsNullOrEmpty(account.LoginPassword))
-            {
-                var newPassword = PasswordUtil.CreateDbPassword(account.LoginPassword);
-                accountResult.ModifyPassword(newPassword);
-            }
-
-            if(accountResult.Roles.Any())
-            {
-                accountResult.Roles.ToList().ForEach(role => { role.Remove(); });
-            }
-
-            accountResult.AddRole(account.Roles.Select(role => role.RoleId).ToArray());
-            _accountRepository.Update(accountResult);
-            UnitOfWork.Commit();
+            _accountContext.ModifyAccount(account);
         }
 
         public void Logout(Int32 accountId)

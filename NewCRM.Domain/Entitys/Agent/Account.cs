@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace NewCRM.Domain.Entitys.Agent
 {
@@ -53,6 +54,11 @@ namespace NewCRM.Domain.Entitys.Agent
         /// </summary>
         public String Face { get; set; }
 
+
+        /// <summary>
+        /// 用户角色
+        /// </summary>
+        public IEnumerable<AccountRole> Roles { get; private set; }
         #endregion
 
         #region ctor
@@ -60,15 +66,16 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 实例化一个用户对象
         /// </summary>
-        public Account(String name, String password, AccountType accountType = default(AccountType))
+        public Account(String name, String password, IEnumerable<AccountRole> roles, AccountType accountType = default(AccountType))
         {
-            Name = name; 
+            Name = name;
             LoginPassword = password;
             IsDisable = false;
             LastLoginTime = DateTime.Now;
             LockScreenPassword = password;
             IsOnline = false;
             IsAdmin = accountType == AccountType.Admin;
+            Roles = roles;
         }
 
         public Account() { }

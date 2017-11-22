@@ -57,5 +57,15 @@ namespace NewCRM.Domain.Services.Interface
         /// 检查密码
         /// </summary>
         String GetOldPassword(Int32 accountId);
+
+        /// <summary>
+        /// 添加新账户
+        /// </summary>
+        void AddNewAccount(Account accountDto);
+
+        /// <summary>
+        /// 修改账户
+        /// </summary>
+        void ModifyAccount(Account accountDto);
     }
 }
