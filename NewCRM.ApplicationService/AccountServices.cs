@@ -9,6 +9,7 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NewCRM.Application.Services
 {
@@ -63,54 +64,52 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountName).Validate(pageIndex).Validate(pageSize);
 
-            var filter = FilterFactory.Create<Account>(account => String.IsNullOrEmpty(accountName) || account.Name.Contains(accountName));
-            if(!String.IsNullOrEmpty(accountType))
-            {
-                var isAdmin = (EnumExtensions.ParseToEnum<AccountType>(Int32.Parse(accountType)) == AccountType.Admin);
-                filter.And(account => account.IsAdmin == isAdmin);
-            }
+            var result = _accountContext.GetAccounts(accountName, accountType, pageIndex, pageSize, out totalCount);
 
-            return DatabaseQuery.PageBy(filter, pageIndex, pageSize, out totalCount, a => new AccountDto
+            return result.Select(s => new AccountDto
             {
-                Id = a.Id,
-                IsAdmin = a.IsAdmin,
-                Name = a.Name,
-                AccountFace = ProfileManager.FileUrl + a.Config.AccountFace,
-                IsDisable = a.IsDisable
+                Id = s.Id,
+                IsAdmin = s.IsAdmin,
+                Name = s.Name,
+                AccountFace = ProfileManager.FileUrl + s.Face,
+                IsDisable = s.IsDisable
             }).ToList();
         }
 
-        public AccountDto GetAccount(Int32 accountId = default(Int32))
+        public AccountDto GetAccount(Int32 accountId)
         {
-            var result = CacheQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId), a => new AccountDto
-            {
-                AccountFace = a.Config.AccountFace,
-                AddTime = a.AddTime.ToString("yyyy-MM-dd"),
-                Id = a.Id,
-                IsAdmin = a.IsAdmin,
-                IsDisable = a.IsDisable,
-                IsOnline = a.IsOnline,
-                LastLoginTime = a.LastLoginTime.ToString("yyyy-MM-dd"),
-                LastModifyTime = a.LastModifyTime.ToString("yyyy-MM-dd"),
-                LockScreenPassword = a.LockScreenPassword,
-                Name = a.Name,
-                Roles = a.Roles.Select(s => new RoleDto
-                {
-                    Id = s.RoleId,
-                    Name = s.Role.Name,
-                    Powers = s.Role.Powers.Select(p => new PowerDto
-                    {
-                        Id = p.AppId
-                    }).ToList(),
-                    RoleIdentity = s.Role.RoleIdentity
-                }).ToList(),
-            });
-            if(result == null)
+            var account = _accountContext.GetAccount(accountId);
+            var roles = _accountContext.GetRoles(account.Id);
+            var powers = _accountContext.GetPowers();
+
+            if(account == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
             }
 
-            return result;
+            return new AccountDto
+            {
+                AccountFace = account.Face,
+                AddTime = account.AddTime.ToString("yyyy-MM-dd"),
+                Id = account.Id,
+                IsAdmin = account.IsAdmin,
+                IsDisable = account.IsDisable,
+                IsOnline = account.IsOnline,
+                LastLoginTime = account.LastLoginTime.ToString("yyyy-MM-dd"),
+                LastModifyTime = account.LastModifyTime.ToString("yyyy-MM-dd"),
+                LockScreenPassword = account.LockScreenPassword,
+                Name = account.Name,
+                Roles = roles.Select(s => new RoleDto
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Powers = powers.Where(w => w.RoleId == s.Id).Select(p => new PowerDto
+                    {
+                        Id = p.AppId
+                    }).ToList(),
+                    RoleIdentity = s.RoleIdentity
+                }).ToList()
+            };
         }
 
         public Boolean CheckAccountNameExist(String accountName)

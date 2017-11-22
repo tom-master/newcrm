@@ -48,6 +48,11 @@ namespace NewCRM.Domain.Entitys.Agent
         /// </summary>
         public Boolean IsAdmin { get; private set; }
 
+        /// <summary>
+        /// 头像
+        /// </summary>
+        public String Face { get; set; }
+
         #endregion
 
         #region ctor
