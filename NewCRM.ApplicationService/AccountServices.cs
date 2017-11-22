@@ -82,7 +82,7 @@ namespace NewCRM.Application.Services
             var roles = _accountContext.GetRoles(account.Id);
             var powers = _accountContext.GetPowers();
 
-            if(account == null)
+            if (account == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
             }
@@ -156,67 +156,31 @@ namespace NewCRM.Application.Services
         public void Enable(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
-
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create<Account>((account) => account.Id == accountId));
-            if(accountResult == null)
-            {
-                throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
-            }
-
-            accountResult.Enable();
-
-            _accountRepository.Update(accountResult);
-            UnitOfWork.Commit();
-
+            _accountContext.Enable(accountId);
         }
 
         public void Disable(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
-
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            if(accountResult.IsAdmin)
-            {
-                throw new BusinessException($"不能禁用管理员:{accountResult.Name}");
-            }
-
-            accountResult.Disable();
-
-            _accountRepository.Update(accountResult);
-            UnitOfWork.Commit();
+            _accountContext.Disable(accountId);
         }
 
         public void ModifyAccountFace(Int32 accountId, String newFace)
         {
             ValidateParameter.Validate(newFace);
-
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            accountResult.Config.ModifyAccountFace(newFace);
-
-            _accountRepository.Update(accountResult);
-            UnitOfWork.Commit();
+            _accountContext.ModifyAccountFace(accountId, newFace);
         }
 
         public void ModifyPassword(Int32 accountId, String newPassword)
         {
             ValidateParameter.Validate(newPassword);
-
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            accountResult.ModifyPassword(PasswordUtil.CreateDbPassword(newPassword));
-
-            _accountRepository.Update(accountResult);
-            UnitOfWork.Commit();
+            _accountContext.ModifyPassword(accountId, PasswordUtil.CreateDbPassword(newPassword));
         }
 
         public void ModifyLockScreenPassword(Int32 accountId, String newScreenPassword)
         {
             ValidateParameter.Validate(newScreenPassword);
-
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            accountResult.ModifyLockScreenPassword(PasswordUtil.CreateDbPassword(newScreenPassword));
-
-            _accountRepository.Update(accountResult);
-            UnitOfWork.Commit();
+            _accountContext.ModifyLockScreenPassword(accountId, PasswordUtil.CreateDbPassword(newScreenPassword));
         }
 
         public void RemoveAccount(Int32 accountId)
@@ -224,7 +188,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId);
 
             var internalAccount = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            if(internalAccount.IsAdmin)
+            if (internalAccount.IsAdmin)
             {
                 throw new BusinessException($"不能删除管理员:{internalAccount.Name}");
             }
@@ -240,11 +204,11 @@ namespace NewCRM.Application.Services
 
             var filter = FilterFactory.Create<Account>(a => a.Id == accountId);
             var result = DatabaseQuery.FindOne(filter);
-            if(result == null)
+            if (result == null)
             {
                 return false;
             }
-            if(PasswordUtil.ComparePasswords(result.LockScreenPassword, unlockPassword))
+            if (PasswordUtil.ComparePasswords(result.LockScreenPassword, unlockPassword))
             {
                 return true;
             }

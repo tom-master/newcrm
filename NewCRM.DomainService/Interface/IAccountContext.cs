@@ -67,5 +67,30 @@ namespace NewCRM.Domain.Services.Interface
         /// 修改账户
         /// </summary>
         void ModifyAccount(Account accountDto);
+
+        /// <summary>
+        /// 账户启用
+        /// </summary>
+        void Enable(Int32 accountId);
+
+        /// <summary>
+        /// 账户禁用
+        /// </summary>
+        void Disable(Int32 accountId);
+
+        /// <summary>
+        /// 修改账户头像
+        /// </summary>
+        void ModifyAccountFace(Int32 accountId, String newFace);
+
+        /// <summary>
+        /// 修改账户密码
+        /// </summary>
+        void ModifyPassword(Int32 accountId, String newPassword);
+
+        /// <summary>
+        /// 修改锁屏密码
+        /// </summary>
+        void ModifyLockScreenPassword(Int32 accountId, String newScreenPassword);
     }
 }
