@@ -186,33 +186,13 @@ namespace NewCRM.Application.Services
         public void RemoveAccount(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
-
-            var internalAccount = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            if (internalAccount.IsAdmin)
-            {
-                throw new BusinessException($"不能删除管理员:{internalAccount.Name}");
-            }
-
-            internalAccount.Remove();
+            _accountContext.RemoveAccount(accountId);
         }
 
         public Boolean UnlockScreen(Int32 accountId, String unlockPassword)
         {
-            #region 参数验证
             ValidateParameter.Validate(unlockPassword);
-            #endregion
-
-            var filter = FilterFactory.Create<Account>(a => a.Id == accountId);
-            var result = DatabaseQuery.FindOne(filter);
-            if (result == null)
-            {
-                return false;
-            }
-            if (PasswordUtil.ComparePasswords(result.LockScreenPassword, unlockPassword))
-            {
-                return true;
-            }
-            return false;
+            return _accountContext.UnlockScreen(accountId, unlockPassword);
         }
     }
 }

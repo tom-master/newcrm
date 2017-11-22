@@ -92,5 +92,15 @@ namespace NewCRM.Domain.Services.Interface
         /// 修改锁屏密码
         /// </summary>
         void ModifyLockScreenPassword(Int32 accountId, String newScreenPassword);
+
+        /// <summary>
+        /// 移除账户
+        /// </summary>
+        void RemoveAccount(Int32 accountId);
+
+        /// <summary>
+        /// 解除屏幕锁定
+        /// </summary>
+        Boolean UnlockScreen(Int32 accountId, String unlockPassword);
     }
 }

@@ -513,5 +513,75 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
                 dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@password", newScreenPassword) });
             }
         }
+
+
+        public void RemoveAccount(Int32 accountId)
+        {
+            ValidateParameter.Validate(accountId);
+
+            using (var dataStore = new DataStore())
+            {
+                dataStore.OpenTransaction();
+
+                try
+                {
+                    #region 前置条件验证
+                    {
+                        var sql = $@"SELECT a.IsAdmin FROM dbo.Accounts AS a WHERE a.Id={accountId} AND a.IsDeleted=0 AND a.IsDisable=0";
+                        var isAdmin = (Int32)dataStore.SqlScalar(sql) == 1 ? true : false;
+                        if (isAdmin)
+                        {
+                            throw new BusinessException("不能删除管理员");
+                        }
+                    }
+                    #endregion
+
+                    #region 移除账户
+                    {
+                        var sql = $@"UPDATE dbo.Accounts SET IsDeleted=1 WHERE Id={accountId} AND IsDeleted=0 AND IsDisable=0";
+                        dataStore.SqlExecute(sql);
+                    }
+                    #endregion
+
+                    #region 移除账户配置
+                    {
+                        var sql = $@"UPDATE dbo.Configs SET IsDeleted=1 WHERE AccountId={accountId} AND IsDeleted=0";
+                        dataStore.SqlExecute(sql);
+                    }
+                    #endregion
+
+                    #region 移除用户角色
+                    {
+                        var sql = $@"UPDATE dbo.AccountRoles SET IsDeleted=1 WHERE AccountId={accountId} AND IsDeleted=0";
+                        dataStore.SqlExecute(sql);
+                    }
+                    #endregion
+
+                    #region 移除用户安装的app
+                    {
+                        var sql = $@"UPDATE dbo.Members SET IsDeleted=0 WHERE AccountId={accountId}";
+                        dataStore.SqlExecute(sql);
+                    }
+                    #endregion
+
+                    dataStore.Commit();
+                }
+                catch (Exception ex)
+                {
+                    dataStore.Rollback();
+                    throw;
+                }
+            }
+        }
+
+        public Boolean UnlockScreen(Int32 accountId, String unlockPassword)
+        {
+            ValidateParameter.Validate(accountId).Validate(unlockPassword);
+            using (var dataStore = new DataStore())
+            {
+                var sql = $@"SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Id={accountId} AND a.LockScreenPassword=@password AND a.IsDeleted=0 AND a.IsDisable=0";
+                return (Int32)dataStore.SqlScalar(sql) > 0 ? true : false;
+            }
+        }
     }
 }
