@@ -5,9 +5,6 @@ using NewCRM.Application.Services.Interface;
 using NewCRM.Domain;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Factory.DomainSpecification;
-using NewCRM.Domain.Repositories.IRepository.Agent;
-using NewCRM.Domain.Repositories.IRepository.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
@@ -23,20 +20,12 @@ namespace NewCRM.Application.Services
         private readonly IModifyAppInfoServices _modifyAppInfoServices;
         private readonly IModifyAppTypeServices _modifyAppTypeServices;
 
-        private readonly IAccountRepository _accountRepository;
-        private readonly IAppRepository _appRepository;
-        private readonly IAppTypeRepository _appTypeRepository;
 
-
-        public AppServices(IInstallAppServices installAppServices, IModifyAppInfoServices modifyAppInfoServices, IModifyAppTypeServices modifyAppTypeServices, IAccountRepository accountRepository, IAppRepository appRepository, IAppTypeRepository appTypeRepository)
+        public AppServices(IInstallAppServices installAppServices, IModifyAppInfoServices modifyAppInfoServices, IModifyAppTypeServices modifyAppTypeServices)
         {
             _installAppServices = installAppServices;
             _modifyAppInfoServices = modifyAppInfoServices;
             _modifyAppTypeServices = modifyAppTypeServices;
-
-            _accountRepository = accountRepository;
-            _appRepository = appRepository;
-            _appTypeRepository = appTypeRepository;
         }
 
         public IDictionary<String, IList<dynamic>> GetDeskMembers(Int32 accountId)

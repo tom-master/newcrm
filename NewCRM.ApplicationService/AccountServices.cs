@@ -149,8 +149,6 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
             _accountContext.Logout(accountId);
-
-            UnitOfWork.Commit();
         }
 
         public void Enable(Int32 accountId)
