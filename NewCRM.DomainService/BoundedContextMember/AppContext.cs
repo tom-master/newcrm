@@ -153,19 +153,43 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                     if(stats[0] == "AppReleaseState")
                     {
                         var appReleaseState = EnumExtensions.ParseToEnum<AppReleaseState>(Int32.Parse(stats[1]));
-
-                        filter.And(app => app.AppReleaseState == appReleaseState);
+                        where.Append($@" AND a.AppReleaseState={appReleaseState} ");
                     }
 
                     //app应用审核状态
                     if(stats[0] == "AppAuditState")
                     {
                         var appAuditState = EnumExtensions.ParseToEnum<AppAuditState>(Int32.Parse(stats[1]));
-
-                        filter.And(app => app.AppAuditState == appAuditState);
+                        where.Append($@" AND a.AppAuditState={appAuditState}");
                     }
                 }
 
+                #endregion
+
+                #region totalCount
+                {
+                    var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a {where} ";
+                    totalCount = (Int32)dataStore.SqlScalar(sql);
+                }
+                #endregion
+
+                #region sql
+                {
+                    var sql = $@"SELECT TOP {pageSize} * FROM 
+                    (
+	                    SELECT
+	                    ROW_NUMBER() OVER(ORDER BY a.Id DESC) AS rownumber,
+	                    a.Name,
+	                    a.AppStyle,
+	                    a.UseCount,
+	                    a.Id,
+	                    a.IconUrl,
+	                    a.AppAuditState,
+	                    a.IsRecommand
+	                    FROM dbo.Apps AS a {where} 
+                    ) AS aa WHERE aa.rownumber>{pageSize}*({pageIndex}-1)";
+                    return dataStore.SqlGetDataTable(sql).AsList<App>().ToList();
+                }
                 #endregion
             }
         }

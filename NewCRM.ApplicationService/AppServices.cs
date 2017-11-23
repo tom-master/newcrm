@@ -155,77 +155,29 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
 
             var result = _appContext.GetApps(accountId, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
-           return result.Select(app => new AppDto
-           {
-               AppTypeId = app.AppTypeId,
-               AccountId = app.AccountId,
-               AddTime = app.AddTime.ToString("yyyy-MM-dd"),
-               UseCount = app.UseCount,
-               StartCount = CountAppStars(app),
-               Name = app.Name,
-               IconUrl = app.IconUrl,
-               Remark = app.Remark,
-               AppStyle = (Int32)app.AppStyle,
-               Id = app.Id
-           }).ToList();
+            return result.Select(app => new AppDto
+            {
+                AppTypeId = app.AppTypeId,
+                AccountId = app.AccountId,
+                AddTime = app.AddTime.ToString("yyyy-MM-dd"),
+                UseCount = app.UseCount,
+                StartCount = CountAppStars(app),
+                Name = app.Name,
+                IconUrl = app.IconUrl,
+                Remark = app.Remark,
+                AppStyle = (Int32)app.AppStyle,
+                Id = app.Id
+            }).ToList();
         }
 
         public List<AppDto> GetAccountAllApps(Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
             ValidateParameter.Validate(accountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
-            var filter = FilterFactory.Create<App>();
 
-            #region 条件筛选
-
-            if(accountId != default(Int32))
-            {
-                filter.And(app => app.AccountId == accountId);
-            }
-
-            //应用名称
-            if((searchText + "").Length > 0)
-            {
-                filter.And(app => app.Name.Contains(searchText));
-            }
-
-            //应用所属类型
-            if(appTypeId != 0)
-            {
-                filter.And(app => app.AppTypeId == appTypeId);
-            }
-
-            //应用样式
-            if(appStyleId != 0)
-            {
-                var appStyle = EnumExtensions.ParseToEnum<AppStyle>(appStyleId);
-
-                filter.And(app => app.AppStyle == appStyle);
-            }
-
-            if((appState + "").Length > 0)
-            {
-                //app发布状态
-                var stats = appState.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                if(stats[0] == "AppReleaseState")
-                {
-                    var appReleaseState = EnumExtensions.ParseToEnum<AppReleaseState>(Int32.Parse(stats[1]));
-
-                    filter.And(app => app.AppReleaseState == appReleaseState);
-                }
-
-                //app应用审核状态
-                if(stats[0] == "AppAuditState")
-                {
-                    var appAuditState = EnumExtensions.ParseToEnum<AppAuditState>(Int32.Parse(stats[1]));
-
-                    filter.And(app => app.AppAuditState == appAuditState);
-                }
-            }
-
-            #endregion
+            var result = _appContext.GetAccountApps(accountId, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
 
             var appTypes = GetAppTypes();
-            return DatabaseQuery.PageBy(filter, pageIndex, pageSize, out totalCount).Select(app => new AppDto
+            return result.Select(app => new AppDto
             {
                 Name = app.Name,
                 AppStyle = (Int32)app.AppStyle,
