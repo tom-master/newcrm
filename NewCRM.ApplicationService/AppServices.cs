@@ -195,31 +195,30 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(appId);
 
-            var filter = FilterFactory.Create<App>(app => app.Id == appId);
-            var appResult = DatabaseQuery.FindOne(filter);
+            var result = _appContext.GetApp(appId);
             var appTypes = GetAppTypes();
 
             return new AppDto
             {
-                Name = appResult.Name,
-                IconUrl = appResult.IconUrl,
-                Remark = appResult.Remark,
-                UseCount = appResult.UseCount,
-                StartCount = CountAppStars(appResult),
-                AppTypeName = appTypes.FirstOrDefault(appType => appType.Id == appResult.AppTypeId).Name,
-                AddTime = appResult.AddTime.ToString("yyyy-MM-dd"),
-                AccountId = appResult.AccountId,
-                Id = appResult.Id,
-                IsResize = appResult.IsResize,
-                IsOpenMax = appResult.IsOpenMax,
-                IsFlash = appResult.IsFlash,
-                AppStyle = (Int32)appResult.AppStyle,
-                AppUrl = appResult.AppUrl,
-                Width = appResult.Width,
-                Height = appResult.Height,
-                AppAuditState = (Int32)appResult.AppAuditState,
-                AppReleaseState = (Int32)appResult.AppReleaseState,
-                AppTypeId = appResult.AppTypeId
+                Name = result.Name,
+                IconUrl = result.IconUrl,
+                Remark = result.Remark,
+                UseCount = result.UseCount,
+                StartCount = result.StarCount,
+                AppTypeName = appTypes.FirstOrDefault(appType => appType.Id == result.AppTypeId).Name,
+                AddTime = result.AddTime.ToString("yyyy-MM-dd"),
+                AccountId = result.AccountId,
+                Id = result.Id,
+                IsResize = result.IsResize,
+                IsOpenMax = result.IsOpenMax,
+                IsFlash = result.IsFlash,
+                AppStyle = (Int32)result.AppStyle,
+                AppUrl = result.AppUrl,
+                Width = result.Width,
+                Height = result.Height,
+                AppAuditState = (Int32)result.AppAuditState,
+                AppReleaseState = (Int32)result.AppReleaseState,
+                AppTypeId = result.AppTypeId
             };
         }
 

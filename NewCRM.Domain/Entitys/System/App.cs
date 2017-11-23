@@ -126,6 +126,8 @@ namespace NewCRM.Domain.Entitys.System
 
         public Boolean IsInstall { get; private set; }
 
+        public Int32 StarCount { get; private set; }
+
         #endregion
 
         #region ctor

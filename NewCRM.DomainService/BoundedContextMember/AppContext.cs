@@ -124,7 +124,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
                 if(accountId != default(Int32))
                 {
-                    where.Append($@" a.AccountId={accountId}");
+                    where.Append($@" AND a.AccountId={accountId}");
                 }
 
                 //应用名称
@@ -191,6 +191,37 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                     return dataStore.SqlGetDataTable(sql).AsList<App>().ToList();
                 }
                 #endregion
+            }
+        }
+
+        public App GetApp(Int32 appId)
+        {
+            ValidateParameter.Validate(appId);
+            using(var dataStore = new DataStore())
+            {
+                var sql = $@"SELECT 
+                            a.Name,
+                            a.IconUrl,
+                            a.Remark,
+                            a.UseCount,
+                            (
+	                            SELECT SUM(a1.StartNum) FROM dbo.AppStars AS a1 WHERE a1.AppId={appId} AND a1.IsDeleted=0
+                            ) AS StarCount,
+                            a.AddTime,
+                            a.AccountId,
+                            a.Id,
+                            a.IsResize,
+                            a.IsOpenMax,
+                            a.IsFlash,
+                            a.AppStyle,
+                            a.AppUrl,
+                            a.Width,
+                            a.Height,
+                            a.AppAuditState,
+                            a.AppReleaseState,
+                            a.AppTypeId
+                            FROM dbo.Apps AS a WHERE a.Id={appId} AND a.IsDeleted=0";
+                return dataStore.SqlGetDataTable(sql).AsSignal<App>();
             }
         }
     }
