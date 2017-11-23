@@ -6,7 +6,7 @@ using NewCRM.Domain.ValueObject;
 namespace NewCRM.Domain.Entitys.System
 {
     /// <summary>
-    /// 成员会有两种类型 1：app，2：文件夹
+    /// 成员
     /// </summary>
     [Serializable, Description("成员")]
     public partial class Member : DomainModelBase

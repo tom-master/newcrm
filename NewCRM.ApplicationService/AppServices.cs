@@ -15,32 +15,34 @@ namespace NewCRM.Application.Services
 {
     public class AppServices : BaseServiceContext, IAppServices
     {
-
         private readonly IInstallAppServices _installAppServices;
         private readonly IModifyAppInfoServices _modifyAppInfoServices;
-        private readonly IModifyAppTypeServices _modifyAppTypeServices;
+        private readonly IMemberServices _memberServices;
+        private readonly IAppTypeServices _appTypeServices;
 
-
-        public AppServices(IInstallAppServices installAppServices, IModifyAppInfoServices modifyAppInfoServices, IModifyAppTypeServices modifyAppTypeServices)
+        public AppServices(IInstallAppServices installAppServices,
+            IModifyAppInfoServices modifyAppInfoServices,
+            IMemberServices memberServices,
+            IAppTypeServices appTypeServices)
         {
             _installAppServices = installAppServices;
             _modifyAppInfoServices = modifyAppInfoServices;
-            _modifyAppTypeServices = modifyAppTypeServices;
+            _memberServices = memberServices;
+            _appTypeServices = appTypeServices;
         }
 
         public IDictionary<String, IList<dynamic>> GetDeskMembers(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
 
-            var desks = CacheQuery.Find(FilterFactory.Create((Desk desk) => desk.AccountId == accountId));
+            var result = _memberServices.GetDeskMembers(accountId);
+            var deskGroup = result.GroupBy(a => a.DeskIndex);
             var deskDictionary = new Dictionary<String, IList<dynamic>>();
-
-            foreach(var desk in desks)
+            foreach(var desk in deskGroup)
             {
+                var members = desk.ToList();
                 var deskMembers = new List<dynamic>();
-                var members = desk.Members.ToList();
-
-                foreach(var member in members)
+                foreach(var member in desk.ToList())
                 {
                     if(member.MemberType == MemberType.Folder)
                     {
@@ -95,16 +97,16 @@ namespace NewCRM.Application.Services
                         }
                     }
                 }
-                deskDictionary.Add(desk.DeskNumber.ToString(), deskMembers);
+                deskDictionary.Add(desk.ToString(), deskMembers);
             }
 
-            return deskDictionary;
 
+            return deskDictionary;
         }
 
         public List<AppTypeDto> GetAppTypes()
         {
-            return CacheQuery.Find(FilterFactory.Create((AppType appType) => true)).Select(s => new AppTypeDto
+            return _appTypeServices.GetAppTypes().Select(s => new AppTypeDto
             {
                 Id = s.Id,
                 Name = s.Name

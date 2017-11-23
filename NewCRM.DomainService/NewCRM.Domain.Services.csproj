@@ -47,8 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoundedContextMember\AppTypeServices.cs" />
     <Compile Include="BoundedContextMember\CreateNewFolderServices.cs" />
-    <Compile Include="BoundedContextMember\ModifyAppTypeServices.cs" />
+    <Compile Include="BoundedContextMember\MemberServices.cs" />
     <Compile Include="BoundedContextMember\InstallAppServices.cs" />
     <Compile Include="BoundedContextMember\ModifyDeskMemberPostionServices.cs" />
     <Compile Include="BoundedContext\Agent\AccountContext.cs" />
@@ -57,10 +58,11 @@
     <Compile Include="BoundedContextMember\ModifyDockPostionServices.cs" />
     <Compile Include="BoundedContextMember\ModifyWallpaperServices.cs" />
     <Compile Include="Interface\IAccountContext.cs" />
+    <Compile Include="Interface\IAppTypeServices.cs" />
     <Compile Include="Interface\ICreateNewFolderServices.cs" />
+    <Compile Include="Interface\IMemberServices.cs" />
     <Compile Include="Interface\IInstallAppServices.cs" />
     <Compile Include="Interface\IModifyAppInfoServices.cs" />
-    <Compile Include="Interface\IModifyAppTypeServices.cs" />
     <Compile Include="Interface\IModifyDeskMemberPostionServices.cs" />
     <Compile Include="Interface\IModifyDeskMemberServices.cs" />
     <Compile Include="Interface\IModifyDockPostionServices.cs" />
