@@ -17,5 +17,22 @@ namespace NewCRM.Domain.Services.Interface
         /// 修改成员排列方向X轴
         /// </summary>
         void ModifyMemberDirectionToY(Int32 accountId);
+
+
+        /// <summary>
+        /// 修改成员图标显示大小
+        /// </summary>
+        void ModifyMemberDisplayIconSize(Int32 accountId, Int32 newSize);
+
+        /// <summary>
+        /// 修改成员之间的垂直间距
+        /// </summary>
+        void ModifyMemberVerticalSpacing(Int32 accountId, Int32 newSize);
+
+        /// <summary>
+        /// 修改成员之间的水平间距
+        /// </summary>
+        void ModifyMemberHorizontalSpacing(Int32 accountId, Int32 newSize);
+
     }
 }

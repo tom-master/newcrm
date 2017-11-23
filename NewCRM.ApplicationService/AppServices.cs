@@ -295,34 +295,19 @@ namespace NewCRM.Application.Services
         public void ModifyAppIconSize(Int32 accountId, Int32 newSize)
         {
             ValidateParameter.Validate(accountId).Validate(newSize);
-
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            accountResult.Config.ModifyDisplayIconLength(newSize);
-
-            _accountRepository.Update(accountResult);
-            UnitOfWork.Commit();
+            _deskContext.ModifyMemberDisplayIconSize(accountId, newSize);
         }
 
         public void ModifyAppVerticalSpacing(Int32 accountId, Int32 newSize)
         {
             ValidateParameter.Validate(accountId).Validate(newSize);
-
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            accountResult.Config.ModifyAppVerticalSpacingLength(newSize);
-
-            _accountRepository.Update(accountResult);
-            UnitOfWork.Commit();
+            _deskContext.ModifyMemberHorizontalSpacing(accountId, newSize);
         }
 
         public void ModifyAppHorizontalSpacing(Int32 accountId, Int32 newSize)
         {
             ValidateParameter.Validate(accountId).Validate(newSize);
-
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            accountResult.Config.ModifyAppHorizontalSpacingLength(newSize);
-
-            _accountRepository.Update(accountResult);
-            UnitOfWork.Commit();
+            _deskContext.ModifyMemberVerticalSpacing(accountId, newSize);
         }
 
         public void ModifyAppStar(Int32 accountId, Int32 appId, Int32 starCount)
