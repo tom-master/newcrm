@@ -251,5 +251,10 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                 return dataStore.SqlGetDataTable(sql).AsList<App>().ToList();
             }
         }
+
+        public void ModifyAppStar(int accountId, int appId, int starCount)
+        {
+            ValidateParameter.Validate(accountId).Validate(appId).Validate(starCount);
+        }
     }
 }

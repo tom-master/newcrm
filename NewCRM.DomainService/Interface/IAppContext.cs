@@ -30,5 +30,10 @@ namespace NewCRM.Domain.Services.Interface
         /// 获取系统App
         /// </summary>
         List<App> GetSystemApp(IEnumerable<Int32> appIds = default(IEnumerable<Int32>));
+
+        /// <summary>
+        /// 更改app评分
+        /// </summary>
+        void ModifyAppStar(Int32 accountId, Int32 appId, Int32 starCount);
     }
 }
