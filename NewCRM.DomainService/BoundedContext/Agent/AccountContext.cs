@@ -514,7 +514,6 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
             }
         }
 
-
         public void RemoveAccount(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
