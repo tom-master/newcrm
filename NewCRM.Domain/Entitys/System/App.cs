@@ -124,6 +124,8 @@ namespace NewCRM.Domain.Entitys.System
         /// </summary>
         public AppStyle AppStyle { get; private set; }
 
+        public Boolean IsInstall { get; private set; }
+
         #endregion
 
         #region ctor

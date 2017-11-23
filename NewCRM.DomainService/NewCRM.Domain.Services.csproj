@@ -47,8 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoundedContextMember\AppContext.cs" />
     <Compile Include="BoundedContextMember\AppTypeServices.cs" />
     <Compile Include="BoundedContextMember\CreateNewFolderServices.cs" />
+    <Compile Include="Interface\IAppContext.cs" />
     <Compile Include="BoundedContextMember\MemberServices.cs" />
     <Compile Include="BoundedContextMember\InstallAppServices.cs" />
     <Compile Include="BoundedContextMember\ModifyDeskMemberPostionServices.cs" />

@@ -20,18 +20,21 @@ namespace NewCRM.Application.Services
         private readonly IMemberServices _memberServices;
         private readonly IAppTypeServices _appTypeServices;
         private readonly IRecommendAppServices _recommendAppServices;
+        private readonly IAppContext _appContext;
 
         public AppServices(IInstallAppServices installAppServices,
             IModifyAppInfoServices modifyAppInfoServices,
             IMemberServices memberServices,
             IAppTypeServices appTypeServices,
-            IRecommendAppServices recommendAppServices)
+            IRecommendAppServices recommendAppServices,
+            IAppContext appContext)
         {
             _installAppServices = installAppServices;
             _modifyAppInfoServices = modifyAppInfoServices;
             _memberServices = memberServices;
             _appTypeServices = appTypeServices;
             _recommendAppServices = recommendAppServices;
+            _appContext = appContext;
         }
 
         public IDictionary<String, IList<dynamic>> GetDeskMembers(Int32 accountId)
@@ -151,69 +154,20 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
 
-            var filter = FilterFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release);
-
-            #region 条件筛选
-
-            if(appTypeId != 0 && appTypeId != -1)//全部app
-            {
-                filter.And(app => app.AppTypeId == appTypeId);
-            }
-            else
-            {
-                if(appTypeId == -1)//用户制作的app
-                {
-                    filter.And(app => app.AccountId == accountId);
-                }
-            }
-
-            switch(orderId)
-            {
-                case 1:
-                    {
-                        filter.OrderByDescending(app => app.AddTime);
-                        break;
-                    }
-                case 2:
-                    {
-                        filter.OrderByDescending(app => app.UseCount);
-                        break;
-                    }
-                case 3:
-                    {
-                        filter.OrderByDescending(app => app.AppStars.Sum(s => s.StartNum) * 1.0);
-                        break;
-                    }
-            }
-
-            if((searchText + "").Length > 0)//关键字搜索
-            {
-                filter.And(app => app.Name.Contains(searchText));
-            }
-
-            #endregion
-
-
-            var appTypes = GetAppTypes();
-            var appDtoResult = DatabaseQuery.PageBy(filter, pageIndex, pageSize, out totalCount).Select(app => new AppDto
-            {
-                AppTypeId = app.AppTypeId,
-                AccountId = app.AccountId,
-                AddTime = app.AddTime.ToString("yyyy-MM-dd"),
-                UseCount = app.UseCount,
-                StartCount = CountAppStars(app),
-                Name = app.Name,
-                IconUrl = app.IconUrl,
-                Remark = app.Remark,
-                AppStyle = (Int32)app.AppStyle,
-                //AppTypeName = appTypes.FirstOrDefault(appType => appType.Id == app.AppTypeId).Name,
-                Id = app.Id
-            }).ToList();
-
-            appDtoResult.ForEach(appDto => appDto.IsInstall = IsInstallApp(accountId, appDto.Id));
-
-            return appDtoResult;
-
+            var result = _appContext.GetApps(accountId, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
+           return result.Select(app => new AppDto
+           {
+               AppTypeId = app.AppTypeId,
+               AccountId = app.AccountId,
+               AddTime = app.AddTime.ToString("yyyy-MM-dd"),
+               UseCount = app.UseCount,
+               StartCount = CountAppStars(app),
+               Name = app.Name,
+               IconUrl = app.IconUrl,
+               Remark = app.Remark,
+               AppStyle = (Int32)app.AppStyle,
+               Id = app.Id
+           }).ToList();
         }
 
         public List<AppDto> GetAccountAllApps(Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
