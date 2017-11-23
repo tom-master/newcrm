@@ -19,16 +19,19 @@ namespace NewCRM.Application.Services
         private readonly IModifyAppInfoServices _modifyAppInfoServices;
         private readonly IMemberServices _memberServices;
         private readonly IAppTypeServices _appTypeServices;
+        private readonly IRecommendAppServices _recommendAppServices;
 
         public AppServices(IInstallAppServices installAppServices,
             IModifyAppInfoServices modifyAppInfoServices,
             IMemberServices memberServices,
-            IAppTypeServices appTypeServices)
+            IAppTypeServices appTypeServices,
+            IRecommendAppServices recommendAppServices)
         {
             _installAppServices = installAppServices;
             _modifyAppInfoServices = modifyAppInfoServices;
             _memberServices = memberServices;
             _appTypeServices = appTypeServices;
+            _recommendAppServices = recommendAppServices;
         }
 
         public IDictionary<String, IList<dynamic>> GetDeskMembers(Int32 accountId)
@@ -100,7 +103,6 @@ namespace NewCRM.Application.Services
                 deskDictionary.Add(desk.ToString(), deskMembers);
             }
 
-
             return deskDictionary;
         }
 
@@ -117,34 +119,22 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var topApp = DatabaseQuery.Find(FilterFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release && app.IsRecommand)).Select(app => new
-            {
-                app.UseCount,
-                AppStars = CountAppStars(app),
-                app.Id,
-                app.Name,
-                app.IconUrl,
-                app.Remark,
-                app.AppStyle
-            }).FirstOrDefault();
-
-            if(topApp == null)
+            var result = _recommendAppServices.GetTodayRecommend(accountId);
+            if(result == null)
             {
                 return new TodayRecommendAppDto();
             }
 
-            var members = CacheQuery.Find(FilterFactory.Create((Desk desk) => desk.AccountId == accountId)).SelectMany((a, b) => a.Members);
-
             return new TodayRecommendAppDto
             {
-                Id = topApp.Id,
-                Name = topApp.Name,
-                UseCount = topApp.UseCount,
-                AppIcon = topApp.IconUrl,
-                StartCount = topApp.AppStars,
-                IsInstall = members.Any(member => member.AppId == topApp.Id),
-                Remark = topApp.Remark,
-                Style = topApp.AppStyle.ToString().ToLower()
+                Id = result.Id,
+                Name = result.Name,
+                UseCount = result.UseCount,
+                AppIcon = result.IconUrl,
+                StartCount = result.AppStars,
+                IsInstall = result.IsInstall,
+                Remark = result.Remark,
+                Style = result.AppStyle
             };
         }
 
@@ -152,11 +142,8 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var accountApps = DatabaseQuery.Find(FilterFactory.Create<App>(app => app.AccountId == accountId)).ToArray();
-            var accountDevAppCount = accountApps.Length;
-            var accountUnReleaseAppCount = accountApps.Count(app => app.AppReleaseState == AppReleaseState.UnRelease);
-
-            return new Tuple<Int32, Int32>(accountDevAppCount, accountUnReleaseAppCount);
+            var result = _installAppServices.GetAccountDevelopAppCountAndNotReleaseAppCount(accountId);
+            return result;
 
         }
 
