@@ -27,7 +27,6 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountName).Validate(password);
 
             var account = _accountContext.Validate(accountName, password);
-            UnitOfWork.Commit();
             return new AccountDto
             {
                 Name = account.Name,
