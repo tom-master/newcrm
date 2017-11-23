@@ -224,5 +224,32 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                 return dataStore.SqlGetDataTable(sql).AsSignal<App>();
             }
         }
+
+        public bool IsInstallApp(int accountId, int appId)
+        {
+            ValidateParameter.Validate(accountId).Validate(appId);
+            using(var dataStore = new DataStore())
+            {
+                var sql = $@"
+SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={accountId} AND a.IsDeleted=0";
+                return (Int32)dataStore.SqlScalar(sql) > 0 ? true : false;
+            }
+        }
+
+        public List<App> GetSystemApp(IEnumerable<int> appIds = null)
+        {
+            using(var dataStore = new DataStore())
+            {
+                var where = new StringBuilder();
+                where.Append(" WHERE 1=1 a.IsSystem=1 AND a.IsDeleted=0");
+                if(appIds.Any())
+                {
+                    where.Append($@" AND a.Id IN({String.Join(",", appIds)})");
+                }
+
+                var sql = $@"SELECT a.Id,a.Name,a.IconUrl FROM dbo.Apps AS a {where}";
+                return dataStore.SqlGetDataTable(sql).AsList<App>().ToList();
+            }
+        }
     }
 }

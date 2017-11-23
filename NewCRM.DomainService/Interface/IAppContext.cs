@@ -20,5 +20,15 @@ namespace NewCRM.Domain.Services.Interface
         /// 获取app
         /// </summary>
         App GetApp(Int32 appId);
+
+        /// <summary>
+        /// 是否已经安装app
+        /// </summary>
+        Boolean IsInstallApp(Int32 accountId, Int32 appId);
+
+        /// <summary>
+        /// 获取系统App
+        /// </summary>
+        List<App> GetSystemApp(IEnumerable<Int32> appIds = default(IEnumerable<Int32>));
     }
 }

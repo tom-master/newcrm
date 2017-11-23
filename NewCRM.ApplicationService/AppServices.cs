@@ -9,7 +9,6 @@ using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomException;
-using NewCRM.Infrastructure.CommonTools.CustomExtension;
 
 namespace NewCRM.Application.Services
 {
@@ -21,13 +20,15 @@ namespace NewCRM.Application.Services
         private readonly IAppTypeServices _appTypeServices;
         private readonly IRecommendAppServices _recommendAppServices;
         private readonly IAppContext _appContext;
+        private readonly IDeskContext _deskContext;
 
         public AppServices(IInstallAppServices installAppServices,
             IModifyAppInfoServices modifyAppInfoServices,
             IMemberServices memberServices,
             IAppTypeServices appTypeServices,
             IRecommendAppServices recommendAppServices,
-            IAppContext appContext)
+            IAppContext appContext,
+            IDeskContext deskContext)
         {
             _installAppServices = installAppServices;
             _modifyAppInfoServices = modifyAppInfoServices;
@@ -35,6 +36,7 @@ namespace NewCRM.Application.Services
             _appTypeServices = appTypeServices;
             _recommendAppServices = recommendAppServices;
             _appContext = appContext;
+            _deskContext = deskContext;
         }
 
         public IDictionary<String, IList<dynamic>> GetDeskMembers(Int32 accountId)
@@ -225,9 +227,8 @@ namespace NewCRM.Application.Services
         public Boolean IsInstallApp(Int32 accountId, Int32 appId)
         {
             ValidateParameter.Validate(accountId).Validate(appId);
-
-            var members = DatabaseQuery.Find(FilterFactory.Create((Desk desk) => desk.AccountId == accountId)).SelectMany((a, b) => a.Members);
-            return members.Any(member => member.AppId == appId);
+            var result = _appContext.IsInstallApp(accountId, appId);
+            return result;
         }
 
         public IEnumerable<AppStyleDto> GetAllAppStyles()
@@ -263,14 +264,8 @@ namespace NewCRM.Application.Services
 
         public List<AppDto> GetSystemApp(IEnumerable<Int32> appIds = default(IEnumerable<Int32>))
         {
-            var filter = FilterFactory.Create((App app) => app.IsSystem);
-            if(appIds != null)
-            {
-                filter.And(app => appIds.Contains(app.Id));
-            }
-
-            var appResult = DatabaseQuery.Find(filter);
-            return appResult.Select(app => new AppDto
+            var result = _appContext.GetSystemApp(appIds);
+            return result.Select(app => new AppDto
             {
                 Id = app.Id,
                 Name = app.Name,
@@ -282,22 +277,19 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(direction);
 
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
             if(direction.ToLower() == "x")
             {
-                accountResult.Config.ModifyAppDirectionToX();
+                _deskContext.ModifyMemberDirectionToX(accountId);
             }
             else if(direction.ToLower() == "y")
             {
-                accountResult.Config.ModifyAppDirectionToY();
+                _deskContext.ModifyMemberDirectionToY(accountId);
             }
             else
             {
                 throw new BusinessException($"未能识别的App排列方向:{direction.ToLower()}");
             }
 
-            _accountRepository.Update(accountResult);
-            UnitOfWork.Commit();
         }
 
         public void ModifyAppIconSize(Int32 accountId, Int32 newSize)
