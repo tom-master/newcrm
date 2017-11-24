@@ -5,6 +5,8 @@ using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Domain.Repositories.IRepository.System;
+using NewCRM.Repository.StorageProvider;
+using System.Text;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
@@ -28,11 +30,10 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         public void ModifyAccountAppInfo(Int32 accountId, App app)
         {
             ValidateParameter.Validate(accountId).Validate(accountId).Validate(app);
-
-            var appResult = DatabaseQuery.FindOne(FilterFactory.Create<App>(internalApp => internalApp.Id == app.Id && internalApp.AccountId == accountId));
-            if(appResult == null)
+            using(var dataStore = new DataStore())
             {
-                throw new BusinessException("这个应用可能已被删除，请刷新后再试");
+                var set = new StringBuilder();
+                set.Append($@" IconUrl=0,Name=0,AppTypeId=0,AppUrl=0,Width=0,Height=0,AppStyle=0,IsResize=0,IsOpenMax=0,IsFlash,Remark=0 ");
             }
 
             appResult.ModifyIconUrl(app.IconUrl)

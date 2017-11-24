@@ -325,9 +325,7 @@ namespace NewCRM.Application.Services
         public void InstallApp(Int32 accountId, Int32 appId, Int32 deskNum)
         {
             ValidateParameter.Validate(accountId).Validate(appId).Validate(deskNum);
-
             _installAppServices.Install(accountId, appId, deskNum);
-            UnitOfWork.Commit();
         }
 
         public void ModifyAccountAppInfo(Int32 accountId, AppDto appDto)
