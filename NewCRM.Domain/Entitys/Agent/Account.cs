@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using NewCRM.Domain.ValueObject;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.ValueObject;
+using System.Collections.Generic;
 
 namespace NewCRM.Domain.Entitys.Agent
 {
     [Description("用户"), Serializable]
-    public partial class Account : DomainModelBase, IAggregationRoot
+    public partial class Account : DomainModelBase
     {
         #region public property
 
@@ -51,20 +50,15 @@ namespace NewCRM.Domain.Entitys.Agent
         public Boolean IsAdmin { get; private set; }
 
         /// <summary>
-        /// 职称
+        /// 头像
         /// </summary>
-        public virtual Title Title { get; private set; }
+        public String Face { get; set; }
 
-        /// <summary>
-        /// 用户配置
-        /// </summary>
-        public virtual Config Config { get; private set; }
 
         /// <summary>
         /// 用户角色
         /// </summary>
-        public virtual ICollection<AccountRole> Roles { get; private set; }
-
+        public IEnumerable<AccountRole> Roles { get; private set; }
         #endregion
 
         #region ctor
@@ -72,21 +66,20 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 实例化一个用户对象
         /// </summary>
-        public Account(String name, String password, AccountType accountType = default(AccountType)) 
+        public Account(String name, String password, IEnumerable<AccountRole> roles, AccountType accountType = default(AccountType))
         {
             Name = name;
             LoginPassword = password;
             IsDisable = false;
             LastLoginTime = DateTime.Now;
             LockScreenPassword = password;
-            Roles = new List<AccountRole>();
-            Config = new Config();
             IsOnline = false;
             IsAdmin = accountType == AccountType.Admin;
+            Roles = roles;
         }
 
         public Account() { }
-       
+
         #endregion
     }
 }

@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using NewCRM.Domain.ValueObject;
 using System.ComponentModel.DataAnnotations;
+using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Domain.Entitys.System
 {
 
     [Serializable, Description("应用")]
-    public partial class App : DomainModelBase, IAggregationRoot
+    public partial class App : DomainModelBase
     {
         #region public property
 
@@ -125,9 +124,9 @@ namespace NewCRM.Domain.Entitys.System
         /// </summary>
         public AppStyle AppStyle { get; private set; }
 
-        public virtual ICollection<AppStar> AppStars { get; private set; }
+        public Boolean IsInstall { get; private set; }
 
-        // public virtual ICollection<AppRole> AppRoles { get; private set; }
+        public Int32 StarCount { get; private set; }
 
         #endregion
 
@@ -169,7 +168,7 @@ namespace NewCRM.Domain.Entitys.System
             IsResize = isResize;
             AppTypeId = appTypeId;
             AppStyle = appStyle;
-            if (accountId == 0)
+            if(accountId == 0)
             {
                 IsSystem = true;
             }
@@ -184,8 +183,6 @@ namespace NewCRM.Domain.Entitys.System
             AppAuditState = appAuditState;
             AppReleaseState = appReleaseState;
             UseCount = 0;
-            AppStars = new List<AppStar>();
-            // AppRoles = new List<AppRole>();
             IsRecommand = false;
         }
 

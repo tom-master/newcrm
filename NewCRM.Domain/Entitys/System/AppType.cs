@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace NewCRM.Domain.Entitys.System
 {
     [Description("应用类型"), Serializable]
-    public partial class AppType : DomainModelBase, IAggregationRoot
+    public partial class AppType : DomainModelBase
     {
         #region public proptery
 
@@ -22,7 +22,6 @@ namespace NewCRM.Domain.Entitys.System
         [MaxLength(50)]
         public String Remark { get; private set; }
 
-        public virtual ICollection<App> Apps { get; set; }
 
         #endregion
 
@@ -30,7 +29,7 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 实例化一个app类型对象
         /// </summary>
-        public AppType(String name, String remark = default(String)) 
+        public AppType(String name, String remark = default(String))
         {
             Name = name;
             Remark = remark;

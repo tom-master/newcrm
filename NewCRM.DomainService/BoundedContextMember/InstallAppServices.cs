@@ -4,48 +4,129 @@ using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomException;
-using NewCRM.Domain.Repositories.IRepository.System;
+using NewCRM.Infrastructure.CommonTools.CustomExtension;
+using NewCRM.Repository.StorageProvider;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
 
     public sealed class InstallAppServices : BaseServiceContext, IInstallAppServices
     {
-        private readonly IAppRepository _appRepository;
-        private readonly IDeskRepository _deskRepository;
-
-        public InstallAppServices(IAppRepository appRepository, IDeskRepository deskRepository)
+        public Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount(Int32 accountId)
         {
-            _appRepository = appRepository;
-            _deskRepository = deskRepository;
+            ValidateParameter.Validate(accountId);
+            using(var dataStore = new DataStore())
+            {
+                var sql = $@"SELECT a.Id FROM dbo.Apps AS a WHERE a.AccountId={accountId} AND a.IsDeleted=0";
+                var result = dataStore.SqlGetDataTable(sql).AsList<App>();
+                return new Tuple<int, int>(result.Count, result.Count(a => a.AppReleaseState == AppReleaseState.UnRelease));
+            }
         }
 
         public void Install(Int32 accountId, Int32 appId, Int32 deskNum)
         {
             ValidateParameter.Validate(accountId).Validate(appId).Validate(deskNum);
 
-            var desks = DatabaseQuery.Find(FilterFactory.Create((Desk desk) => desk.AccountId == accountId));
-            var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskNum).Id;
-            var appResult = DatabaseQuery.FindOne(FilterFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release && app.Id == appId));
-
-            if (appResult == null)
+            using(var dataStore = new DataStore())
             {
-                throw new BusinessException($"应用添加失败，请刷新重试");
-            }
-
-            var newMember = new Member(appResult.Name, appResult.IconUrl, appResult.AppUrl, appResult.Id, appResult.Width, appResult.Height, appResult.IsLock, appResult.IsMax, appResult.IsFull, appResult.IsSetbar, appResult.IsOpenMax, appResult.IsFlash, appResult.IsDraw, appResult.IsResize);
-            foreach (var desk in desks)
-            {
-                if (desk.Id != realDeskId)
+                dataStore.OpenTransaction();
+                try
                 {
-                    continue;
-                }
-                desk.Members.Add(newMember);
-                _deskRepository.Update(desk);
+                    App app = null;
+                    #region 获取app
+                    {
+                        var sql = $@"SELECT
+                                a.Name,
+                                a.IconUrl,
+                                a.AppUrl,
+                                a.Id,
+                                a.Width,
+                                a.Height,
+                                a.IsLock,
+                                a.IsMax,
+                                a.IsFull,
+                                a.IsSetbar,
+                                a.IsOpenMax,
+                                a.IsFlash,
+                                a.IsDraw
+                                FROM  dbo.Apps AS a WHERE a.AppAuditState={AppAuditState.Pass} AND a.AppReleaseState={AppReleaseState.Release} AND a.IsDeleted=0 AND a.Id={appId}";
+                        app = dataStore.SqlGetDataTable(sql).AsSignal<App>();
+                    }
+                    #endregion
 
-                appResult.AddUseCount();
-                _appRepository.Update(appResult);
-                break;
+                    if(app == null)
+                    {
+                        throw new BusinessException($"应用添加失败，请刷新重试");
+                    }
+
+                    #region 添加桌面成员
+                    {
+                        var newMember = new Member(app.Name, app.IconUrl, app.AppUrl, app.Id, app.Width, app.Height, app.IsLock, app.IsMax, app.IsFull, app.IsSetbar, app.IsOpenMax, app.IsFlash, app.IsDraw, app.IsResize);
+
+                        var sql = $@"INSERT dbo.Members
+                            ( AppId ,
+                              Width ,
+                              Height ,
+                              FolderId ,
+                              Name ,
+                              IconUrl ,
+                              AppUrl ,
+                              IsOnDock ,
+                              IsMax ,
+                              IsFull ,
+                              IsSetbar ,
+                              IsOpenMax ,
+                              IsLock ,
+                              IsFlash ,
+                              IsDraw ,
+                              IsResize ,
+                              MemberType ,
+                              IsDeleted ,
+                              AddTime ,
+                              LastModifyTime ,
+                              AccountId ,
+                              DeskIndex
+                            )
+                    VALUES  ( {newMember.AppId} , -- AppId - int
+                              {newMember.Width} , -- Width - int
+                              {newMember.Height} , -- Height - int
+                              0 , -- FolderId - int
+                              N'{newMember.Name}' , -- Name - nvarchar(6)
+                              N'{newMember.IconUrl}' , -- IconUrl - nvarchar(max)
+                              N'{newMember.AppUrl}' , -- AppUrl - nvarchar(max)
+                              0 , -- IsOnDock - bit
+                              {newMember.IsMax} , -- IsMax - bit
+                              {newMember.IsFull} , -- IsFull - bit
+                              {newMember.IsSetbar} , -- IsSetbar - bit
+                              {newMember.IsOpenMax} , -- IsOpenMax - bit
+                              {newMember.IsLock} , -- IsLock - bit
+                              {newMember.IsFlash} , -- IsFlash - bit
+                              {newMember.IsDraw} , -- IsDraw - bit
+                              {newMember.IsResize} , -- IsResize - bit
+                              {newMember.MemberType} , -- MemberType - int
+                              0 , -- IsDeleted - bit
+                              GETDATE() , -- AddTime - datetime
+                              GETDATE() , -- LastModifyTime - datetime
+                              {accountId} , -- AccountId - int
+                              {deskNum}  -- DeskIndex - int
+                            )";
+                    }
+                    #endregion
+
+                    #region 更改app使用数量
+                    {
+                        var sql = $@"UPDATE dbo.Apps SET UseCount=UseCount+1 WHERE Id={app.Id} AND IsDeleted=0";
+                        dataStore.SqlExecute(sql);
+                    }
+                    #endregion
+
+                    dataStore.Commit();
+                }
+                catch(Exception)
+                {
+                    dataStore.Rollback();
+                    throw;
+                }
             }
         }
     }

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace NewCRM.Domain.Entitys.System
 {
     [Description("在线人数"), Serializable]
-    public partial class Online : DomainModelBase, IAggregationRoot
+    public partial class Online : DomainModelBase
     {
         #region public property
 

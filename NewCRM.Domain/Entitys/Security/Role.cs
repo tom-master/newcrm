@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace NewCRM.Domain.Entitys.Security
 {
     [Description("角色"), Serializable]
-    public partial class Role : DomainModelBase, IAggregationRoot
+    public partial class Role : DomainModelBase
     {
         #region public property
 
@@ -28,10 +28,8 @@ namespace NewCRM.Domain.Entitys.Security
         [MaxLength(50)]
         public String Remark { get; private set; }
 
-        /// <summary>
-        /// 角色对应的权限
-        /// </summary>
-        public virtual ICollection<RolePower> Powers { get; private set; }
+
+        public IList<RolePower> Powers { get; private set; }
 
         #endregion
 
@@ -39,7 +37,7 @@ namespace NewCRM.Domain.Entitys.Security
         /// <summary>
         /// 实例化一个角色对象
         /// </summary>
-        public Role(String name,String roleIdentity, String remark = default(String)) 
+        public Role(String name, String roleIdentity, String remark = default(String))
         {
             Name = name;
             Remark = remark;

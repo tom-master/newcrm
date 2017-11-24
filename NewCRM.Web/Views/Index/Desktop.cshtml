@@ -7,8 +7,7 @@
     var accountConfig = ViewData["AccountConfig"] as ConfigDto;
     var desks = (Int32)ViewData["Desks"];
 }
-@section ParentCss{
-    <link href="@Url.Content("~/Scripts/HoorayUI/js/HoorayLibs/hooraylibs.css")" rel="stylesheet" />
+@section ParentCss{ 
     <link href="@Url.Content("~/Scripts/HoorayUI/css/index.css")" rel="stylesheet" />
 }
 <div class="loading"></div>
@@ -50,7 +49,7 @@
                         @{
                             for (int i = 1; i <= desks; i++)
                             {
-
+                                
                                 <text>
                                     <a class="pagination pagination-@i" href="javascript:void(0);" index="@i" title="切换至桌面@{@i}，快捷键：Ctrl + @i">
                                         <span class="pagination-icon-bg"></span>
@@ -144,7 +143,7 @@
 @section ParentScript{
 
     <script>
-        $(function () {
+        $(function () { 
             document.body.onselectstart = document.body.ondrag = function () {
                 return false;
             };

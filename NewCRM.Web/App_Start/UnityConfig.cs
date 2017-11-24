@@ -73,7 +73,7 @@ namespace NewCRM.Web
 
             container.RegisterType<IAccountServices, AccountServices>(new PerRequestLifetimeManager());
             container.RegisterType<ISecurityServices, SecurityServices>(new PerRequestLifetimeManager());
-            container.RegisterType<IAppServices, AppServices>(new PerRequestLifetimeManager());
+            container.RegisterType<IAppServices, Application.Services.AppServices>(new PerRequestLifetimeManager());
             container.RegisterType<IDeskServices, DeskServices>(new PerRequestLifetimeManager());
             container.RegisterType<IWallpaperServices, WallpaperServices>(new PerRequestLifetimeManager());
             container.RegisterType<ISkinServices, SkinServices>(new PerRequestLifetimeManager());

@@ -22,9 +22,13 @@ namespace NewCRM.Web.Controllers
         /// 页面
         /// </summary>
         /// <returns></returns>
-        public ActionResult EditMember(Int32 memberId)
+        public ActionResult EditMember(Int32 accountId, Int32 memberId)
         {
-            var result = _deskServices.GetMember(Account.Id, memberId);
+            #region 参数验证
+            Parameter.Validate(accountId);
+            #endregion
+
+            var result = _deskServices.GetMember(accountId, memberId);
             return View(result);
         }
 

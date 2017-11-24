@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using NewCRM.Domain.ValueObject;
 using System.ComponentModel.DataAnnotations;
+using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Domain.Entitys.System
 {
     [Serializable, Description("壁纸")]
-    public partial class Wallpaper : DomainModelBase, IAggregationRoot
+    public partial class Wallpaper : DomainModelBase
     {
         #region public property
 
@@ -59,8 +58,6 @@ namespace NewCRM.Domain.Entitys.System
         /// </summary>
         public String Md5 { get; private set; }
 
-        public virtual ICollection<Config> Configs { get; set; }
-
         #endregion
 
         #region ctor
@@ -82,7 +79,7 @@ namespace NewCRM.Domain.Entitys.System
 
         public Wallpaper()
         {
-            
+
         }
 
         #endregion

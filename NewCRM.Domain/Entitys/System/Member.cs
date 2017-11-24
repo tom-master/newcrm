@@ -1,17 +1,16 @@
 ﻿using System;
 using System.ComponentModel;
-using NewCRM.Domain.ValueObject;
 using System.ComponentModel.DataAnnotations;
+using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Domain.Entitys.System
 {
     /// <summary>
-    /// 成员会有两种类型 1：app，2：文件夹
+    /// 成员
     /// </summary>
     [Serializable, Description("成员")]
     public partial class Member : DomainModelBase
     {
-
         #region public property
 
         /// <summary>
@@ -102,9 +101,14 @@ namespace NewCRM.Domain.Entitys.System
         public MemberType MemberType { get; private set; }
 
         /// <summary>
-        /// 桌面Id
+        /// 桌面索引
         /// </summary>
-        public Int32 DeskId { get; set; }
+        public Int32 DeskIndex { get; set; }
+
+        /// <summary>
+        /// 账户Id
+        /// </summary>
+        public Int32 AccountId { get; set; }
 
         #endregion
 
@@ -127,7 +131,7 @@ namespace NewCRM.Domain.Entitys.System
             Boolean isOpenMax = default(Boolean),
             Boolean isFlash = default(Boolean),
             Boolean isDraw = default(Boolean),
-            Boolean isResize = default(Boolean)) 
+            Boolean isResize = default(Boolean))
         {
             AppId = appId;
             Width = width > 800 ? 800 : width;
@@ -149,7 +153,7 @@ namespace NewCRM.Domain.Entitys.System
         /// <summary>
         /// 实例化一个成员对象
         /// </summary>
-        public Member(String name, String iconUrl, Int32 appId) 
+        public Member(String name, String iconUrl, Int32 appId)
         {
             AppId = appId;
             Width = 800;

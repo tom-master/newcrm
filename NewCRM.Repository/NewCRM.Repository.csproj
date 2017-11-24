@@ -34,19 +34,6 @@
     <Reference Include="CommonServiceLocator, Version=2.0.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.5.2.1\lib\net45\CommonServiceLocator.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.DynamicFilters, Version=3.0.1.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.DynamicFilters.3.0.1\lib\net40\EntityFramework.DynamicFilters.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.Extended, Version=6.0.0.0, Culture=neutral, PublicKeyToken=05b7e29bdd433584, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.Extended.6.1.0.168\lib\net45\EntityFramework.Extended.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="NewCRM.Infrastructure">
       <HintPath>..\NewCRM.Infrastructure\bin\Debug\NewCRM.Infrastructure.dll</HintPath>
     </Reference>
@@ -103,28 +90,13 @@
     </EmbeddedResource>
   </ItemGroup>-->
   <ItemGroup>
-    <Compile Include="DatabaseProvider\Redis\CacheEvent\ICacheCreateEvent.cs" />
-    <Compile Include="DatabaseProvider\Redis\CacheEvent\ICacheModifyEvent.cs" />
-    <Compile Include="DatabaseProvider\Redis\QueryProviderFormCache.cs" />
-    <Compile Include="DatabaseProvider\Redis\InternalHelper\ICacheQueryProvider.cs" />
-    <Compile Include="DatabaseProvider\Redis\InternalHelper\RedisConnectionHelp.cs" />
-    <Compile Include="DatabaseProvider\Redis\InternalHelper\DefaultRedisQueryProvider.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="DatabaseProvider\EF\NewCrmContext.cs" />
-    <Compile Include="DatabaseProvider\EF\QueryProvider.cs" />
-    <Compile Include="RepositoryImpl\Agent\TitleRepository.cs" />
-    <Compile Include="RepositoryImpl\Agent\AccountRepository.cs" />
-    <Compile Include="RepositoryImpl\Security\RoleRepository.cs" />
-    <Compile Include="RepositoryImpl\System\AppRepository.cs" />
-    <Compile Include="RepositoryImpl\System\AppTypeRepository.cs" />
-    <Compile Include="RepositoryImpl\System\DeskRepository.cs" />
-    <Compile Include="RepositoryImpl\System\LogRepository.cs" />
-    <Compile Include="RepositoryImpl\System\OnlineRepository.cs" />
-    <Compile Include="RepositoryImpl\System\WallpaperRepository.cs" />
-    <Compile Include="DatabaseProvider\EF\EntityFrameworkProvider.cs" />
-    <Compile Include="UnitOfWorkProvide\EFUnitOfWorkContext.cs" />
-    <Compile Include="UnitOfWorkProvide\UnitOfWorkContextBase.cs" />
-    <Compile Include="UnitOfWorkProvide\UnitOfWorkContextExtensions.cs" />
+    <Compile Include="StorageProvider\Redis\CacheEvent\ICacheCreateEvent.cs" />
+    <Compile Include="StorageProvider\Redis\CacheEvent\ICacheModifyEvent.cs" />
+    <Compile Include="StorageProvider\Redis\QueryProviderFormCache.cs" />
+    <Compile Include="StorageProvider\Redis\InternalHelper\ICacheQueryProvider.cs" />
+    <Compile Include="StorageProvider\Redis\InternalHelper\RedisConnectionHelp.cs" />
+    <Compile Include="StorageProvider\Redis\InternalHelper\DefaultRedisQueryProvider.cs" />
+    <Compile Include="StorageProvider\DataStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NewCRM.Domain\NewCRM.Domain.csproj">

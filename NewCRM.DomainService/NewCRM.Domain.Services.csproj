@@ -47,30 +47,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoundedContextMember\AppContext.cs" />
+    <Compile Include="BoundedContextMember\AppTypeServices.cs" />
     <Compile Include="BoundedContextMember\CreateNewFolderServices.cs" />
-    <Compile Include="BoundedContextMember\ModifyAppTypeServices.cs" />
+    <Compile Include="BoundedContextMember\DeskContext.cs" />
+    <Compile Include="Interface\IAppContext.cs" />
+    <Compile Include="BoundedContextMember\MemberServices.cs" />
     <Compile Include="BoundedContextMember\InstallAppServices.cs" />
     <Compile Include="BoundedContextMember\ModifyDeskMemberPostionServices.cs" />
+    <Compile Include="BoundedContextMember\RecommendAppServices.cs" />
     <Compile Include="BoundedContext\Agent\AccountContext.cs" />
     <Compile Include="BoundedContextMember\ModifyAppInfoServices.cs" />
     <Compile Include="BoundedContextMember\ModifyDeskMemberServices.cs" />
     <Compile Include="BoundedContextMember\ModifyDockPostionServices.cs" />
     <Compile Include="BoundedContextMember\ModifyWallpaperServices.cs" />
     <Compile Include="Interface\IAccountContext.cs" />
+    <Compile Include="Interface\IAppTypeServices.cs" />
     <Compile Include="Interface\ICreateNewFolderServices.cs" />
+    <Compile Include="Interface\IDeskContext.cs" />
+    <Compile Include="Interface\IMemberServices.cs" />
     <Compile Include="Interface\IInstallAppServices.cs" />
     <Compile Include="Interface\IModifyAppInfoServices.cs" />
-    <Compile Include="Interface\IModifyAppTypeServices.cs" />
     <Compile Include="Interface\IModifyDeskMemberPostionServices.cs" />
     <Compile Include="Interface\IModifyDeskMemberServices.cs" />
     <Compile Include="Interface\IModifyDockPostionServices.cs" />
     <Compile Include="Interface\IModifyWallpaperServices.cs" />
+    <Compile Include="Interface\IRecommendAppServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NewCRM.Domain\NewCRM.Domain.csproj">
       <Project>{173C1046-4529-4D70-B6F5-501C61514E86}</Project>
       <Name>NewCRM.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NewCRM.Dto\NewCRM.Dto.csproj">
+      <Project>{0C635AA2-3953-4AA0-A07F-CF8B1B7BBC6E}</Project>
+      <Name>NewCRM.Dto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NewCRM.Repository\NewCRM.Repository.csproj">
+      <Project>{951B196F-22E6-4C4C-B7CA-8AF239BBF34E}</Project>
+      <Name>NewCRM.Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
