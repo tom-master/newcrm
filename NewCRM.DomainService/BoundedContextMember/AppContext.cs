@@ -255,6 +255,26 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
         public void ModifyAppStar(int accountId, int appId, int starCount)
         {
             ValidateParameter.Validate(accountId).Validate(appId).Validate(starCount);
+
+            using(var dataStore = new DataStore())
+            {
+                var sql = $@"INSERT dbo.AppStars
+                            ( AccountId ,
+                              StartNum ,
+                              IsDeleted ,
+                              AddTime ,
+                              LastModifyTime ,
+                              AppId
+                            )
+                    VALUES  ( {accountId} , -- AccountId - int
+                              {starCount} , -- StartNum - float
+                              0 , -- IsDeleted - bit
+                              GETDATE() , -- AddTime - datetime
+                              GETDATE() , -- LastModifyTime - datetime
+                              {appId}  -- AppId - int
+                            )";
+                dataStore.SqlExecute(sql);
+            }
         }
     }
 }

@@ -314,8 +314,12 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(appId).Validate(starCount, true);
 
-            _modifyAppInfoServices.ModifyAppStar(accountId, appId, starCount);
-            UnitOfWork.Commit();
+            var isInstall = _appContext.IsInstallApp(accountId, appId);
+            if(!isInstall)
+            {
+                throw new BusinessException("您还没有安装这个App，因此不能打分");
+            }
+            _appContext.ModifyAppStar(accountId, appId, starCount);
         }
 
         public void InstallApp(Int32 accountId, Int32 appId, Int32 deskNum)

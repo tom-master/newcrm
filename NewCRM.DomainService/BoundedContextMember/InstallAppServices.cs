@@ -27,13 +27,34 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         {
             ValidateParameter.Validate(accountId).Validate(appId).Validate(deskNum);
 
-            var desks = DatabaseQuery.Find(FilterFactory.Create((Desk desk) => desk.AccountId == accountId));
-            var realDeskId = desks.FirstOrDefault(desk => desk.DeskNumber == deskNum).Id;
-            var appResult = DatabaseQuery.FindOne(FilterFactory.Create<App>(app => app.AppAuditState == AppAuditState.Pass && app.AppReleaseState == AppReleaseState.Release && app.Id == appId));
-
-            if(appResult == null)
+            using(var dataStore = new DataStore())
             {
-                throw new BusinessException($"应用添加失败，请刷新重试");
+                Member member = null;
+                #region 获取app
+                {
+                    var sql = $@"SELECT
+                                a.Name,
+                                a.IconUrl,
+                                a.AppUrl,
+                                a.Id,
+                                a.Width,
+                                a.Height,
+                                a.IsLock,
+                                a.IsMax,
+                                a.IsFull,
+                                a.IsSetbar,
+                                a.IsOpenMax,
+                                a.IsFlash,
+                                a.IsDraw
+                                FROM  dbo.Apps AS a WHERE a.AppAuditState={AppAuditState.Pass} AND a.AppReleaseState={AppReleaseState.Release} AND a.IsDeleted=0 AND a.Id={appId}";
+                    member = dataStore.SqlGetDataTable(sql).AsSignal<Member>();
+                }
+                #endregion
+
+                if(member == null)
+                {
+                    throw new BusinessException($"应用添加失败，请刷新重试");
+                }
             }
 
             var newMember = new Member(appResult.Name, appResult.IconUrl, appResult.AppUrl, appResult.Id, appResult.Width, appResult.Height, appResult.IsLock, appResult.IsMax, appResult.IsFull, appResult.IsSetbar, appResult.IsOpenMax, appResult.IsFlash, appResult.IsDraw, appResult.IsResize);
