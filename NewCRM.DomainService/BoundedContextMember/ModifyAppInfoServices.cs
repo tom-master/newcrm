@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomException;
-using NewCRM.Domain.Repositories.IRepository.System;
 using NewCRM.Repository.StorageProvider;
-using System.Text;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
@@ -49,18 +48,25 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         public void DeleteAppType(Int32 appTypeId)
         {
             ValidateParameter.Validate(appTypeId);
-
-            var apps = DatabaseQuery.Find(FilterFactory.Create<App>(app => app.AppTypeId == appTypeId)).ToList();
-            if (apps.Any())
+            using (var dataStore = new DataStore())
             {
-                apps.ForEach(app =>
+                #region 前置条件验证
                 {
-                    app.ModifyAppType(appTypeId);
-                });
-            }
+                    var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a WHERE a.AppTypeId={appTypeId} AND a.IsDeleted=0";
+                    if ((Int32)dataStore.SqlScalar(sql) > 0)
+                    {
+                        throw new BusinessException($@"当前分类下已有绑定app,不能删除当前分类");
+                    }
+                }
+                #endregion
 
-            var internalAppType = DatabaseQuery.FindOne(FilterFactory.Create<AppType>(appType => appType.Id == appTypeId));
-            internalAppType.Remove();
+                #region 移除app分类
+                {
+                    var sql = $@"UPDATE dbo.AppTypes SET IsDeleted=1 WHERE Id={appTypeId}";
+                    dataStore.SqlExecute(sql);
+                }
+                #endregion
+            }
         }
     }
 }

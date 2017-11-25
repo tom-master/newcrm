@@ -15,31 +15,29 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         public List<App> GetApps(int accountId, int appTypeId, int orderId, string searchText, int pageIndex, int pageSize, out int totalCount)
         {
             ValidateParameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
-
-
                 var where = new StringBuilder();
                 where.Append($@" WHERE 1=1 AND a.IsDeleted=0 AND a.AppAuditState={AppAuditState.Pass} AND a.AppReleaseState={AppReleaseState.Release} ");
 
                 var orderBy = new StringBuilder();
-                if(appTypeId != 0 && appTypeId != -1)//全部app
+                if (appTypeId != 0 && appTypeId != -1)//全部app
                 {
                     where.Append($@" AND a.AppTypeId={appTypeId}");
                 }
                 else
                 {
-                    if(appTypeId == -1)//用户制作的app
+                    if (appTypeId == -1)//用户制作的app
                     {
                         where.Append($@" AND a.AccountId={accountId}");
                     }
                 }
-                if(!String.IsNullOrEmpty(searchText))//关键字搜索
+                if (!String.IsNullOrEmpty(searchText))//关键字搜索
                 {
                     where.Append($@" AND a.Name LIKE '%{searchText}%'");
                 }
 
-                switch(orderId)
+                switch (orderId)
                 {
                     case 1:
                         {
@@ -115,49 +113,49 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         {
             ValidateParameter.Validate(accountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
 
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var where = new StringBuilder();
                 where.Append($@" WHERE 1=1 ");
 
                 #region 条件筛选
 
-                if(accountId != default(Int32))
+                if (accountId != default(Int32))
                 {
                     where.Append($@" AND a.AccountId={accountId}");
                 }
 
                 //应用名称
-                if(!String.IsNullOrEmpty(searchText))
+                if (!String.IsNullOrEmpty(searchText))
                 {
                     where.Append($@" AND a.Name LIKE '%{searchText}%'");
                 }
 
                 //应用所属类型
-                if(appTypeId != 0)
+                if (appTypeId != 0)
                 {
                     where.Append($@" AND a.AppTypeId={appTypeId}");
                 }
 
                 //应用样式
-                if(appStyleId != 0)
+                if (appStyleId != 0)
                 {
                     var appStyle = EnumExtensions.ParseToEnum<AppStyle>(appStyleId);
                     where.Append($@" AND a.AppStyle={appStyle}");
                 }
 
-                if((appState + "").Length > 0)
+                if ((appState + "").Length > 0)
                 {
                     //app发布状态
                     var stats = appState.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    if(stats[0] == "AppReleaseState")
+                    if (stats[0] == "AppReleaseState")
                     {
                         var appReleaseState = EnumExtensions.ParseToEnum<AppReleaseState>(Int32.Parse(stats[1]));
                         where.Append($@" AND a.AppReleaseState={appReleaseState} ");
                     }
 
                     //app应用审核状态
-                    if(stats[0] == "AppAuditState")
+                    if (stats[0] == "AppAuditState")
                     {
                         var appAuditState = EnumExtensions.ParseToEnum<AppAuditState>(Int32.Parse(stats[1]));
                         where.Append($@" AND a.AppAuditState={appAuditState}");
@@ -197,7 +195,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         public App GetApp(Int32 appId)
         {
             ValidateParameter.Validate(appId);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT 
                             a.Name,
@@ -228,7 +226,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         public bool IsInstallApp(int accountId, int appId)
         {
             ValidateParameter.Validate(accountId).Validate(appId);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"
 SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={accountId} AND a.IsDeleted=0";
@@ -238,11 +236,11 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
 
         public List<App> GetSystemApp(IEnumerable<int> appIds = null)
         {
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var where = new StringBuilder();
                 where.Append(" WHERE 1=1 a.IsSystem=1 AND a.IsDeleted=0");
-                if(appIds.Any())
+                if (appIds.Any())
                 {
                     where.Append($@" AND a.Id IN({String.Join(",", appIds)})");
                 }
@@ -256,7 +254,7 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
         {
             ValidateParameter.Validate(accountId).Validate(appId).Validate(starCount);
 
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"INSERT dbo.AppStars
                             ( AccountId ,
@@ -272,6 +270,69 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                               GETDATE() , -- AddTime - datetime
                               GETDATE() , -- LastModifyTime - datetime
                               {appId}  -- AppId - int
+                            )";
+                dataStore.SqlExecute(sql);
+            }
+        }
+
+        public void CreateNewApp(App app)
+        {
+            using (var dataStore = new DataStore())
+            {
+                var sql = $@"INSERT dbo.Apps
+                            (
+                                Name,
+                                IconUrl,
+                                AppUrl,
+                                Remark,
+                                Width,
+                                Height,
+                                UseCount,
+                                IsMax,
+                                IsFull,
+                                IsSetbar,
+                                IsOpenMax,
+                                IsLock,
+                                IsSystem,
+                                IsFlash,
+                                IsDraw,
+                                IsResize,
+                                AccountId,
+                                AppTypeId,
+                                IsRecommand,
+                                AppAuditState,
+                                AppReleaseState,
+                                AppStyle,
+                                IsDeleted,
+                                AddTime,
+                                LastModifyTime
+                            )
+                            VALUES
+                            (   N'{app.Name}',       -- Name - nvarchar(6)
+                                N'{app.IconUrl}',       -- IconUrl - nvarchar(max)
+                                N'{app.AppUrl}',       -- AppUrl - nvarchar(max)
+                                N'{app.Remark}',       -- Remark - nvarchar(50)
+                                {app.Width},         -- Width - int
+                                {app.Height},         -- Height - int
+                                0,         -- UseCount - int
+                                {app.IsMax},      -- IsMax - bit
+                                {app.IsFull},      -- IsFull - bit
+                                {app.IsSetbar},      -- IsSetbar - bit
+                                {app.IsOpenMax},      -- IsOpenMax - bit
+                                0,      -- IsLock - bit
+                                {app.IsSystem},      -- IsSystem - bit
+                                {app.IsFlash},      -- IsFlash - bit
+                                {app.IsDraw},      -- IsDraw - bit
+                                {app.IsResize},      -- IsResize - bit
+                                {app.AccountId},         -- AccountId - int
+                                {app.AppTypeId},         -- AppTypeId - int
+                                0,      -- IsRecommand - bit
+                                {(Int32)app.AppAuditState},         -- AppAuditState - int
+                                {(Int32)AppReleaseState.UnRelease},         -- AppReleaseState - int
+                                {app.AppStyle},         -- AppStyle - int
+                                0,      -- IsDeleted - bit
+                                GETDATE(), -- AddTime - datetime
+                                GETDATE()  -- LastModifyTime - datetime
                             )";
                 dataStore.SqlExecute(sql);
             }

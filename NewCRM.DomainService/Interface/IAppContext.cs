@@ -35,5 +35,10 @@ namespace NewCRM.Domain.Services.Interface
         /// 更改app评分
         /// </summary>
         void ModifyAppStar(Int32 accountId, Int32 appId, Int32 starCount);
+
+        /// <summary>
+        /// 创建新的app
+        /// </summary>
+        void CreateNewApp(App app);
     }
 }

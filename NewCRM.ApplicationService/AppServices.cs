@@ -46,13 +46,13 @@ namespace NewCRM.Application.Services
             var result = _memberServices.GetDeskMembers(accountId);
             var deskGroup = result.GroupBy(a => a.DeskIndex);
             var deskDictionary = new Dictionary<String, IList<dynamic>>();
-            foreach(var desk in deskGroup)
+            foreach (var desk in deskGroup)
             {
                 var members = desk.ToList();
                 var deskMembers = new List<dynamic>();
-                foreach(var member in desk.ToList())
+                foreach (var member in desk.ToList())
                 {
-                    if(member.MemberType == MemberType.Folder)
+                    if (member.MemberType == MemberType.Folder)
                     {
                         deskMembers.Add(new
                         {
@@ -85,7 +85,7 @@ namespace NewCRM.Application.Services
                     }
                     else
                     {
-                        if(member.FolderId == 0)
+                        if (member.FolderId == 0)
                         {
                             var internalType = member.MemberType.ToString().ToLower();
                             deskMembers.Add(new
@@ -125,7 +125,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId);
 
             var result = _recommendAppServices.GetTodayRecommend(accountId);
-            if(result == null)
+            if (result == null)
             {
                 return new TodayRecommendAppDto();
             }
@@ -234,7 +234,7 @@ namespace NewCRM.Application.Services
         public IEnumerable<AppStyleDto> GetAllAppStyles()
         {
             var descriptions = GetEnumDescriptions(typeof(AppStyle));
-            foreach(var description in descriptions)
+            foreach (var description in descriptions)
             {
                 yield return new AppStyleDto
                 {
@@ -251,7 +251,7 @@ namespace NewCRM.Application.Services
 
             appStates.AddRange(GetEnumDescriptions(typeof(AppAuditState)));
             appStates.AddRange(GetEnumDescriptions(typeof(AppReleaseState)));
-            foreach(var appState in appStates)
+            foreach (var appState in appStates)
             {
                 yield return new AppStateDto
                 {
@@ -277,11 +277,11 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(direction);
 
-            if(direction.ToLower() == "x")
+            if (direction.ToLower() == "x")
             {
                 _deskContext.ModifyMemberDirectionToX(accountId);
             }
-            else if(direction.ToLower() == "y")
+            else if (direction.ToLower() == "y")
             {
                 _deskContext.ModifyMemberDirectionToY(accountId);
             }
@@ -315,7 +315,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId).Validate(appId).Validate(starCount, true);
 
             var isInstall = _appContext.IsInstallApp(accountId, appId);
-            if(!isInstall)
+            if (!isInstall)
             {
                 throw new BusinessException("您还没有安装这个App，因此不能打分");
             }
@@ -331,9 +331,7 @@ namespace NewCRM.Application.Services
         public void ModifyAccountAppInfo(Int32 accountId, AppDto appDto)
         {
             ValidateParameter.Validate(accountId).Validate(appDto);
-
             _modifyAppInfoServices.ModifyAccountAppInfo(accountId, appDto.ConvertToModel<AppDto, App>());
-            UnitOfWork.Commit();
         }
 
         public void CreateNewApp(AppDto appDto)
@@ -343,9 +341,8 @@ namespace NewCRM.Application.Services
             var app = appDto.ConvertToModel<AppDto, App>();
             var internalApp = new App(app.Name, app.IconUrl, app.AppUrl, app.Width, app.Height, app.AppTypeId, app.AppAuditState, AppReleaseState.UnRelease, app.AppStyle, app.AccountId,
                 app.Remark, app.IsMax, app.IsFull, app.IsSetbar, app.IsOpenMax, app.IsFlash, app.IsDraw, app.IsResize);
+            _appContext.CreateNewApp(internalApp);
 
-            _appRepository.Add(internalApp);
-            UnitOfWork.Commit();
         }
 
         public void RemoveAppType(Int32 appTypeId)
@@ -353,7 +350,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(appTypeId);
 
             var filter = FilterFactory.Create<App>(a => a.AppTypeId == appTypeId);
-            if(DatabaseQuery.Find(filter).Any())
+            if (DatabaseQuery.Find(filter).Any())
             {
                 throw new BusinessException($@"当前分类下已有绑定app,不能删除当前分类");
             }
@@ -367,7 +364,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(appTypeDto);
 
             var filter = FilterFactory.Create<AppType>(a => a.Name == appTypeDto.Name);
-            if(DatabaseQuery.Find(filter).Any())
+            if (DatabaseQuery.Find(filter).Any())
             {
                 throw new BusinessException($@"分类:{appTypeDto.Name},已存在");
             }
@@ -384,7 +381,7 @@ namespace NewCRM.Application.Services
             var internalAppTypeFilter = FilterFactory.Create<AppType>(appType => appType.Id == appTypeId);
             var internalAppType = DatabaseQuery.FindOne(internalAppTypeFilter);
 
-            if(internalAppType.Name == appTypeDto.Name)
+            if (internalAppType.Name == appTypeDto.Name)
             {
                 throw new BusinessException($@"分类:{appTypeDto.Name},已存在");
             }
@@ -443,7 +440,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(appId);
 
             var internalApp = DatabaseQuery.FindOne(FilterFactory.Create<App>(app => app.Id == appId));
-            if(internalApp.AppStars.Any())
+            if (internalApp.AppStars.Any())
             {
                 internalApp.AppStars.ToList().ForEach(appStar => appStar.RemoveStar());
             }
@@ -473,7 +470,7 @@ namespace NewCRM.Application.Services
 
             var filter = FilterFactory.Create<App>(a => a.AccountId == accountId && a.Id == appId);
             var result = DatabaseQuery.FindOne(filter);
-            if(result == null)
+            if (result == null)
             {
                 throw new BusinessException("该app可能已被删除");
             }
