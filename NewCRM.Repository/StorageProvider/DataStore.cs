@@ -7,7 +7,6 @@ using System.Linq;
 
 namespace NewCRM.Repository.StorageProvider
 {
-
     public class DataStore : IDisposable
     {
         private SqlConnection _connection;

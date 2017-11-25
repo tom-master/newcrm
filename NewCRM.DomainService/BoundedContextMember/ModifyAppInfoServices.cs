@@ -16,7 +16,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         {
             ValidateParameter.Validate(accountId).Validate(appId).Validate(starCount);
 
-            if(!DatabaseQuery.Find(FilterFactory.Create<Desk>(d => d.Members.Any(m => m.AppId == appId) && d.AccountId == accountId)).Any())
+            if (!DatabaseQuery.Find(FilterFactory.Create<Desk>(d => d.Members.Any(m => m.AppId == appId) && d.AccountId == accountId)).Any())
             {
                 throw new BusinessException($"请安装这个应用后再打分");
             }
@@ -30,34 +30,20 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         public void ModifyAccountAppInfo(Int32 accountId, App app)
         {
             ValidateParameter.Validate(accountId).Validate(accountId).Validate(app);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var set = new StringBuilder();
-                set.Append($@" IconUrl=0,Name=0,AppTypeId=0,AppUrl=0,Width=0,Height=0,AppStyle=0,IsResize=0,IsOpenMax=0,IsFlash,Remark=0 ");
+                set.Append($@" IconUrl={app.IconUrl},Name={app.Name},AppTypeId={app.AppTypeId},AppUrl={app.AppUrl},Width={app.Width},Height={app.Height},AppStyle={app.AppStyle},IsResize={app.IsResize},IsOpenMax={app.IsOpenMax},IsFlash={app.IsFlash},Remark={app.Remark} ");
+                if (app.AppAuditState == AppAuditState.Wait)
+                {
+                    set.Append($@" ,AppAuditState={(Int32)AppAuditState.Wait} ");
+                }
+                else
+                {
+                    set.Append($@" ,AppAuditState={(Int32)AppAuditState.UnAuditState} ");
+                }
+                dataStore.SqlExecute(set.ToString());
             }
-
-            appResult.ModifyIconUrl(app.IconUrl)
-                .ModifyName(app.Name)
-                .ModifyAppType(app.AppTypeId)
-                .ModifyUrl(app.AppUrl)
-                .ModifyWidth(app.Width)
-                .ModifyHeight(app.Height)
-                .ModifyAppStyle(app.AppStyle)
-                .ModifyIsResize(app.IsResize)
-                .ModifyIsOpenMax(app.IsOpenMax)
-                .ModifyIsFlash(app.IsFlash)
-                .ModifyAppRemake(app.Remark);
-
-            if(app.AppAuditState == AppAuditState.Wait)//未审核
-            {
-                appResult.DontSentAudit();
-            }
-            else if(app.AppAuditState == AppAuditState.UnAuditState)
-            {
-                appResult.SentAudit();
-            }
-
-            _appRepository.Update(appResult);
         }
 
         public void DeleteAppType(Int32 appTypeId)
@@ -65,7 +51,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             ValidateParameter.Validate(appTypeId);
 
             var apps = DatabaseQuery.Find(FilterFactory.Create<App>(app => app.AppTypeId == appTypeId)).ToList();
-            if(apps.Any())
+            if (apps.Any())
             {
                 apps.ForEach(app =>
                 {
