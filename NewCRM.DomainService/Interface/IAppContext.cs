@@ -40,5 +40,25 @@ namespace NewCRM.Domain.Services.Interface
         /// 创建新的app
         /// </summary>
         void CreateNewApp(App app);
+
+        /// <summary>
+        /// app审核通过
+        /// </summary>
+        void Pass(Int32 appId);
+
+        /// <summary>
+        /// app审核不通过
+        /// </summary>
+        void Deny(Int32 appId);
+
+        /// <summary>
+        /// 设置今日推荐app
+        /// </summary>
+        void SetTodayRecommandApp(Int32 appId);
+
+        /// <summary>
+        /// 移除app
+        /// </summary>
+        void RemoveApp(Int32 appId);
     }
 }

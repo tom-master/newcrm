@@ -337,5 +337,89 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                 dataStore.SqlExecute(sql);
             }
         }
+
+        public void Pass(Int32 appId)
+        {
+            ValidateParameter.Validate(appId);
+            using (var dataStore = new DataStore())
+            {
+                var sql = $@"UPDATE dbo.Apps SET AppAuditState={AppAuditState.Pass} WHERE Id={appId} AND IsDeleted=0";
+                dataStore.SqlExecute(sql);
+            }
+        }
+
+        public void Deny(Int32 appId)
+        {
+            ValidateParameter.Validate(appId);
+            using (var dataStore = new DataStore())
+            {
+                var sql = $@"UPDATE dbo.Apps SET AppAuditState={AppAuditState.Deny} WHERE Id={appId} AND IsDeleted=0";
+                dataStore.SqlExecute(sql);
+            }
+        }
+
+        public void SetTodayRecommandApp(Int32 appId)
+        {
+            ValidateParameter.Validate(appId);
+            using (var dataStore = new DataStore())
+            {
+                dataStore.OpenTransaction();
+                try
+                {
+                    #region 取消之前的推荐app
+                    {
+                        var sql = $@"UPDATE dbo.Apps SET IsRecommand=0 WHERE IsRecommand=1 AND IsDeleted=0";
+                        dataStore.SqlExecute(sql);
+                    }
+                    #endregion
+
+                    #region 设置新的推荐app
+                    {
+                        var sql = $@"UPDATE dbo.Apps SET IsRecommand=1 WHERE Id={appId} AND IsDeleted=0";
+                        dataStore.SqlExecute(sql);
+                    }
+                    #endregion
+
+                    dataStore.Commit();
+                }
+                catch (Exception ex)
+                {
+                    dataStore.Rollback();
+                    throw;
+                }
+            }
+        }
+
+        public void RemoveApp(Int32 appId)
+        {
+            ValidateParameter.Validate(appId);
+            using (var dataStore = new DataStore())
+            {
+                dataStore.OpenTransaction();
+                try
+                {
+                    #region 移除app的评分
+                    {
+                        var sql = $@"UPDATE dbo.AppStars SET IsDeleted=1 WHERE AppId={appId}";
+                        dataStore.SqlExecute(sql);
+                    }
+                    #endregion
+
+                    #region 移除app
+                    {
+                        var sql = $@"UPDATE dbo.Apps SET IsDeleted=1 WHERE Id={appId}";
+                        dataStore.SqlExecute(sql);
+                    }
+                    #endregion
+
+                    dataStore.Commit();
+                }
+                catch (Exception ex)
+                {
+                    dataStore.Rollback();
+                    throw;
+                }
+            }
+        }
     }
 }

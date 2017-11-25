@@ -367,59 +367,25 @@ namespace NewCRM.Application.Services
         public void Pass(Int32 appId)
         {
             ValidateParameter.Validate(appId);
-
-            var appDto = GetApp(appId);
-            var app = appDto.ConvertToModel<AppDto, App>();
-            app.Pass();
-
-            _appRepository.Update(app);
-            UnitOfWork.Commit();
+            _appContext.Pass(appId);
         }
 
         public void Deny(Int32 appId)
         {
             ValidateParameter.Validate(appId);
-
-            var appDto = GetApp(appId);
-            var app = appDto.ConvertToModel<AppDto, App>();
-            app.Deny();
-
-            _appRepository.Update(app);
-            UnitOfWork.Commit();
+            _appContext.Deny(appId);
         }
 
         public void SetTodayRecommandApp(Int32 appId)
         {
             ValidateParameter.Validate(appId);
-
-            //取消之前的今日推荐
-            var beforeRecommandApp = DatabaseQuery.FindOne(FilterFactory.Create<App>(app => app.IsRecommand));
-            beforeRecommandApp.CancelTodayRecommandApp();
-            _appRepository.Update(beforeRecommandApp);
-
-            //重新设置今日推荐
-            var afterRecommandApp = DatabaseQuery.FindOne(FilterFactory.Create<App>(app => app.Id == appId));
-            afterRecommandApp.SetTodayRecommandApp();
-            _appRepository.Update(afterRecommandApp);
-
-            UnitOfWork.Commit();
-
+            _appContext.SetTodayRecommandApp(appId);
         }
 
         public void RemoveApp(Int32 appId)
         {
             ValidateParameter.Validate(appId);
-
-            var internalApp = DatabaseQuery.FindOne(FilterFactory.Create<App>(app => app.Id == appId));
-            if (internalApp.AppStars.Any())
-            {
-                internalApp.AppStars.ToList().ForEach(appStar => appStar.RemoveStar());
-            }
-
-            internalApp.Remove();
-            _appRepository.Update(internalApp);
-
-            UnitOfWork.Commit();
+            _appContext.RemoveApp(appId);
         }
 
         public void ReleaseApp(Int32 appId)
