@@ -421,5 +421,19 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                 }
             }
         }
+
+        public void ReleaseApp(Int32 appId)
+        {
+            ValidateParameter.Validate(appId);
+            using (var dataStore = new DataStore())
+            {
+                #region 发布app
+                {
+                    var sql = $@"UPDATE dbo.Apps SET AppReleaseState={AppReleaseState.Release} WHERE Id={appId} AND IsDeleted=0 AND AppAuditState={AppAuditState.Pass}";
+                    dataStore.SqlExecute(sql);
+                }
+                #endregion
+            }
+        }
     }
 }

@@ -163,7 +163,7 @@ namespace NewCRM.Application.Services
                 AccountId = app.AccountId,
                 AddTime = app.AddTime.ToString("yyyy-MM-dd"),
                 UseCount = app.UseCount,
-                StartCount = CountAppStars(app),
+                StartCount = app.StarCount,
                 Name = app.Name,
                 IconUrl = app.IconUrl,
                 Remark = app.Remark,
@@ -392,31 +392,15 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(appId);
 
-            var internalApp = DatabaseQuery.FindOne(FilterFactory.Create<App>(app => app.Id == appId));
-            internalApp.Release();
-
-            _appRepository.Update(internalApp);
-            UnitOfWork.Commit();
+            _appContext.ReleaseApp(appId);
         }
 
         public void ModifyAppIcon(Int32 accountId, Int32 appId, String newIcon)
         {
-            #region 参数验证
             ValidateParameter.Validate(accountId).Validate(appId).Validate(newIcon);
-            #endregion
-
-            var filter = FilterFactory.Create<App>(a => a.AccountId == accountId && a.Id == appId);
-            var result = DatabaseQuery.FindOne(filter);
-            if (result == null)
-            {
-                throw new BusinessException("该app可能已被删除");
-            }
-
-            result.ModifyIconUrl(newIcon);
-            _appRepository.Update(result);
-
-            UnitOfWork.Commit();
+            _modifyAppInfoServices.ModifyAppIcon(accountId, appId, newIcon);
         }
+
 
 
         #region private method
@@ -427,14 +411,6 @@ namespace NewCRM.Application.Services
         // <summary> <param name="enumType"></param>
         // <summary> <returns></returns>
         private static IEnumerable<dynamic> GetEnumDescriptions(Type enumType) => enumType.GetFields().Where(field => field.CustomAttributes.Any()).Select(s => new { s.CustomAttributes.ToArray()[0].ConstructorArguments[0].Value, Id = s.GetRawConstantValue(), Type = enumType.Name }).Cast<dynamic>().ToList();
-
-        // <summary> <summary>
-        // <summary> 计算app的星级
-        // <summary> </summary>
-        // <summary> <param name="app"></param>
-        // <summary> <returns></returns>
-        private static Double CountAppStars(App app) => app.AppStars.Any() ? (app.AppStars.Sum(s => s.StartNum) * 1.0) / (app.AppStars.Count * 1.0) : 0.0;
-
         #endregion
     }
 }

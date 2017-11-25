@@ -60,5 +60,12 @@ namespace NewCRM.Domain.Services.Interface
         /// 移除app
         /// </summary>
         void RemoveApp(Int32 appId);
+
+        /// <summary>
+        /// 发布app
+        /// </summary>
+        void ReleaseApp(Int32 appId);
+
+
     }
 }

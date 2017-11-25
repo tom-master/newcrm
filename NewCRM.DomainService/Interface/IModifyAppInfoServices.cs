@@ -29,5 +29,10 @@ namespace NewCRM.Domain.Services.Interface
         /// 修改app分类
         /// </summary>
         void ModifyAppType(String appTypeName, Int32 appTypeId);
+
+        /// <summary>
+        /// 更改app图标
+        /// </summary>
+        void ModifyAppIcon(Int32 accountId, Int32 appId, String newIcon);
     }
 }

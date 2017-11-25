@@ -134,5 +134,16 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                 #endregion
             }
         }
+
+        public void ModifyAppIcon(Int32 accountId, Int32 appId, String newIcon)
+        {
+            ValidateParameter.Validate(accountId).Validate(appId).Validate(newIcon);
+            using (var dataStore = new DataStore())
+            {
+                var sql = $@"UPDATE dbo.Apps SET IconUrl=@url WHERE Id={appId} AND AccountId={accountId} AND AppAuditState={(Int32)AppAuditState.Pass} AND AppReleaseState={(Int32)AppReleaseState.Release} AND IsDeleted=0";
+
+                dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@url", newIcon) });
+            }
+        }
     }
 }
