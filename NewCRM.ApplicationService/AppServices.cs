@@ -348,49 +348,20 @@ namespace NewCRM.Application.Services
         public void RemoveAppType(Int32 appTypeId)
         {
             ValidateParameter.Validate(appTypeId);
-
-            var filter = FilterFactory.Create<App>(a => a.AppTypeId == appTypeId);
-            if (DatabaseQuery.Find(filter).Any())
-            {
-                throw new BusinessException($@"当前分类下已有绑定app,不能删除当前分类");
-            }
-
-            _modifyAppTypeServices.DeleteAppType(appTypeId);
-            UnitOfWork.Commit();
+            _modifyAppInfoServices.DeleteAppType(appTypeId);
         }
 
         public void CreateNewAppType(AppTypeDto appTypeDto)
         {
             ValidateParameter.Validate(appTypeDto);
-
-            var filter = FilterFactory.Create<AppType>(a => a.Name == appTypeDto.Name);
-            if (DatabaseQuery.Find(filter).Any())
-            {
-                throw new BusinessException($@"分类:{appTypeDto.Name},已存在");
-            }
-
             var appType = appTypeDto.ConvertToModel<AppTypeDto, AppType>();
-            _appTypeRepository.Add(new AppType(appType.Name));
-            UnitOfWork.Commit();
+            _modifyAppInfoServices.CreateNewAppType(appType);
         }
 
         public void ModifyAppType(AppTypeDto appTypeDto, Int32 appTypeId)
         {
             ValidateParameter.Validate(appTypeDto).Validate(appTypeId);
-
-            var internalAppTypeFilter = FilterFactory.Create<AppType>(appType => appType.Id == appTypeId);
-            var internalAppType = DatabaseQuery.FindOne(internalAppTypeFilter);
-
-            if (internalAppType.Name == appTypeDto.Name)
-            {
-                throw new BusinessException($@"分类:{appTypeDto.Name},已存在");
-            }
-
-            internalAppType.ModifyAppTypeName(appTypeDto.Name);
-            _appTypeRepository.Update(internalAppType);
-
-            UnitOfWork.Commit();
-
+            _modifyAppInfoServices.ModifyAppType(appTypeDto.Name, appTypeId);
         }
 
         public void Pass(Int32 appId)

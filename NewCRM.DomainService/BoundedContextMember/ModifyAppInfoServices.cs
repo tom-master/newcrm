@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using NewCRM.Domain.Entitys.System;
@@ -64,6 +66,70 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                 {
                     var sql = $@"UPDATE dbo.AppTypes SET IsDeleted=1 WHERE Id={appTypeId}";
                     dataStore.SqlExecute(sql);
+                }
+                #endregion
+            }
+        }
+
+        public void CreateNewAppType(AppType appType)
+        {
+            ValidateParameter.Validate(appType);
+            using (var dataStore = new DataStore())
+            {
+                #region 前置条件验证
+                {
+                    var sql = $@"SELECT COUNT(*) FROM dbo.AppTypes AS a WHERE a.Name=@name AND a.IsDeleted=0";
+                    var result = (Int32)dataStore.SqlScalar(sql, new List<SqlParameter> { new SqlParameter("@name", appType.Name) });
+                    if (result > 0)
+                    {
+                        throw new BusinessException($@"分类:{appType.Name},已存在");
+                    }
+                }
+                #endregion
+
+                #region 添加app分类
+                {
+                    var sql = $@"INSERT dbo.AppTypes
+                                (
+                                    Name,
+                                    Remark,
+                                    IsDeleted,
+                                    AddTime,
+                                    LastModifyTime
+                                )
+                                VALUES
+                                (   N'{appType.Name}',       -- Name - nvarchar(6)
+                                    N'{appType.Remark}',       -- Remark - nvarchar(50)
+                                    0,      -- IsDeleted - bit
+                                    GETDATE(), -- AddTime - datetime
+                                    GETDATE()  -- LastModifyTime - datetime
+                                )";
+                    dataStore.SqlExecute(sql);
+                }
+                #endregion
+            }
+        }
+
+        public void ModifyAppType(String appTypeName, Int32 appTypeId)
+        {
+            ValidateParameter.Validate(appTypeName).Validate(appTypeId);
+            using (var dataStore = new DataStore())
+            {
+                #region 前置条件验证
+                {
+                    var sql = $@"SELECT COUNT(*) FROM dbo.AppTypes AS a WHERE a.Name=@name AND a.IsDeleted=0";
+                    var result = (Int32)dataStore.SqlScalar(sql, new List<SqlParameter> { new SqlParameter("@name", appTypeName) });
+                    if (result > 0)
+                    {
+                        throw new BusinessException($@"分类:{appTypeName},已存在");
+                    }
+                }
+                #endregion
+
+                #region 更新app分类
+                {
+                    var sql = $@"UPDATE dbo.AppTypes SET Name=@name WHERE Id={appTypeId} AND IsDeleted=0";
+                    dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@name", appTypeName) });
                 }
                 #endregion
             }
