@@ -38,12 +38,11 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         public void DockToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(folderId);
-
-            var desks = GetDesks(accountId);
-            var deskResult = desks.FirstOrDefault(d => d.Members.Any(m => m.Id == memberId));
-            GetMember(memberId, deskResult).OutDock().InFolder(folderId);
-
-            _deskRepository.Update(deskResult);
+            using (var dataStore = new DataStore())
+            {
+                var sql = $@"UPDATE dbo.Members SET IsOnDock=0,FolderId={folderId} WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
+                dataStore.SqlExecute(sql);
+            }
         }
 
         public void FolderToDock(Int32 accountId, Int32 memberId)
