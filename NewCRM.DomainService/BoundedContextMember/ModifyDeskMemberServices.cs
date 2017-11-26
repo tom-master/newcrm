@@ -46,24 +46,10 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         public void ModifyMemberInfo(Int32 accountId, Member member)
         {
             ValidateParameter.Validate(accountId).Validate(member);
-
-            foreach (var desk in GetDesks(accountId))
+            using (var dataStore = new DataStore())
             {
-                var memberResult = GetMember(member.Id, desk);
-                if (memberResult != null)
-                {
-                    memberResult.ModifyIcon(member.IconUrl)
-                    .ModifyName(member.Name)
-                    .ModifyWidth(member.Width)
-                    .ModifyHeight(member.Height)
-                    .ModifyIsResize(member.IsResize)
-                    .ModifyIsOpenMax(member.IsOpenMax)
-                    .ModifyIsFlash(member.IsFlash);
-
-                    _deskRepository.Update(desk);
-
-                    break;
-                }
+                var sql = $@"UPDATE dbo.Members SET IconUrl={member.IconUrl},Name={member.Name},Width={member.Width},Height={member.Height},IsResize={member.IsResize},IsOpenMax={member.IsOpenMax},IsFlash={member.IsFlash} WHERE Id={member.Id} AND AccountId={accountId} AND IsDeleted=0";
+                dataStore.SqlExecute(sql);
             }
         }
 

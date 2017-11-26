@@ -149,15 +149,12 @@ namespace NewCRM.Application.Services
         public void ModifyMemberInfo(Int32 accountId, MemberDto member)
         {
             ValidateParameter.Validate(accountId).Validate(member);
-
             _modifyDeskMemberServices.ModifyMemberInfo(accountId, member.ConvertToModel<MemberDto, Member>());
-            UnitOfWork.Commit();
         }
 
         public void CreateNewFolder(String folderName, String folderImg, Int32 deskId)
         {
             ValidateParameter.Validate(folderName).Validate(folderImg).Validate(deskId);
-
             _createNewFolderServices.NewFolder(deskId, folderName, folderImg);
             UnitOfWork.Commit();
         }
