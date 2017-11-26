@@ -3,6 +3,7 @@ using NewCRM.Domain.Services.Interface;
 using System;
 using System.Linq;
 using NewCRM.Repository.StorageProvider;
+using System.Text;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
@@ -90,22 +91,35 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         public void DeskToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
-
-            var desks = GetDesks(accountId);
-            var realDeskId = GetRealDeskId(deskId, desks);
-            foreach (var desk in desks)
+            using (var dataStore = new DataStore())
             {
-                var member = GetMember(memberId, desk);
-                if (member != null)
+                dataStore.OpenTransaction();
+                try
                 {
-                    if (member.IsOnDock)
+                    var set = new StringBuilder();
+                    #region 查询成员是否在应用码头中
                     {
-                        member.OutDock();
+                        var sql = $@"SELECT COUNT(*) FROM dbo.Members AS a WHERE a.Id=0 AND a.AccountId=0 AND a.IsDeleted=0 AND IsOnDock=1";
+                        if ((Int32)dataStore.SqlScalar(sql) > 0)
+                        {
+                            set.Append($@" ,IsOnDock=0");
+                        }
                     }
-                    member.ToOtherDesk(realDeskId);
-                    _deskRepository.Update(desk);
+                    #endregion
 
-                    break;
+                    #region 成员移动到其他桌面
+                    {
+                        var sql = $@"UPDATE dbo.Members SET DeskIndex={deskId} WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
+                        dataStore.SqlExecute(sql);
+                    }
+                    #endregion
+
+                    dataStore.Commit();
+                }
+                catch (Exception ex)
+                {
+                    dataStore.Rollback();
+                    throw;
                 }
             }
         }

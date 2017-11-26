@@ -131,9 +131,7 @@ namespace NewCRM.Application.Services
         public void DeskToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
-
             _modifyDeskMemberPostionServices.DeskToOtherDesk(accountId, memberId, deskId);
-            UnitOfWork.Commit();
         }
 
         public void ModifyFolderInfo(Int32 accountId, String memberName, String memberIcon, Int32 memberId)
