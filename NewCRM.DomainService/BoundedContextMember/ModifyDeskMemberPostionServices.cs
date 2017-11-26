@@ -68,28 +68,10 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         public void FolderToDesk(Int32 accountId, Int32 memberId, Int32 deskId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
-
-            var desks = GetDesks(accountId);
-            var realDeskId = GetRealDeskId(deskId, desks);
-
-            foreach (var desk in desks)
+            using (var dataStore = new DataStore())
             {
-                var member = GetMember(memberId, desk);
-                if (member != null)
-                {
-                    if (member.DeskId == realDeskId)
-                    {
-                        member.OutFolder();
-                    }
-                    else
-                    {
-                        member.OutFolder().ToOtherDesk(realDeskId);
-                    }
-
-                    _deskRepository.Update(desk);
-
-                    break;
-                }
+                var sql = $@"UPDATE dbo.Members SET FolderId=0,DeskIndex={deskId} WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
+                dataStore.SqlExecute(sql);
             }
         }
 

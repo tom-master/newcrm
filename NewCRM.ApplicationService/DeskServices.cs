@@ -119,9 +119,7 @@ namespace NewCRM.Application.Services
         public void FolderToDesk(Int32 accountId, Int32 memberId, Int32 deskId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
-
             _modifyDeskMemberPostionServices.FolderToDesk(accountId, memberId, deskId);
-            UnitOfWork.Commit();
         }
 
         public void FolderToOtherFolder(Int32 accountId, Int32 memberId, Int32 folderId)
