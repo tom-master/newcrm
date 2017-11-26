@@ -107,9 +107,7 @@ namespace NewCRM.Application.Services
         public void FolderToDock(Int32 accountId, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
-
             _modifyDeskMemberPostionServices.FolderToDock(accountId, memberId);
-            UnitOfWork.Commit();
         }
 
         public void DeskToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
