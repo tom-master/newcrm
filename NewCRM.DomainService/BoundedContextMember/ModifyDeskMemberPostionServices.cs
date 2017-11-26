@@ -58,18 +58,10 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         public void DeskToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(folderId);
-
-            var desks = GetDesks(accountId);
-            foreach (var desk in desks)
+            using (var dataStore = new DataStore())
             {
-                var member = GetMember(memberId, desk);
-                if (member != null)
-                {
-                    member.InFolder(folderId);
-                    _deskRepository.Update(desk);
-
-                    break;
-                }
+                var sql = $@"UPDATE dbo.Members SET FolderId={folderId} WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
+                dataStore.SqlExecute(sql);
             }
         }
 
