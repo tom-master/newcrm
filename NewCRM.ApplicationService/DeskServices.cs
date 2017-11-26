@@ -137,9 +137,7 @@ namespace NewCRM.Application.Services
         public void ModifyFolderInfo(Int32 accountId, String memberName, String memberIcon, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberName).Validate(memberIcon).Validate(memberId);
-
             _modifyDeskMemberServices.ModifyFolderInfo(accountId, memberName, memberIcon, memberId);
-            UnitOfWork.Commit();
         }
 
         public void RemoveMember(Int32 accountId, Int32 memberId)

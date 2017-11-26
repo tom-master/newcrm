@@ -1,41 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
-using NewCRM.Domain.Repositories.IRepository.System;
+using NewCRM.Repository.StorageProvider;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
 
     public sealed class ModifyDeskMemberServices : BaseServiceContext, IModifyDeskMemberServices
     {
-        private readonly IDeskRepository _deskRepository;
-        private readonly IAppRepository _appRepository;
-
-        public ModifyDeskMemberServices(IDeskRepository deskRepository, IAppRepository appRepository)
-        {
-            _deskRepository = deskRepository;
-            _appRepository = appRepository;
-        }
-
         public void ModifyFolderInfo(Int32 accountId, String memberName, String memberIcon, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberName).Validate(memberIcon).Validate(memberId);
-
-            foreach (var desk in GetDesks(accountId))
+            using (var dataStore = new DataStore())
             {
-                var memberResult = GetMember(memberId, desk);
-                if (memberResult != null)
+                var sql = $@"UPDATE Members SET Name=@name,IconUrl=@url WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
+                var parameters = new List<SqlParameter>
                 {
-                    memberResult.ModifyName(memberName).ModifyIcon(memberIcon);
-                    _deskRepository.Update(desk);
-
-                    break;
-                }
+                    new SqlParameter("@name",memberName),
+                    new SqlParameter("@url",memberIcon)
+                };
+                dataStore.SqlExecute(sql);
             }
-
         }
 
         public void ModifyMemberIcon(Int32 accountId, Int32 memberId, String newIcon)
