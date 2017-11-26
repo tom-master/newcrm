@@ -156,7 +156,6 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(folderName).Validate(folderImg).Validate(deskId);
             _createNewFolderServices.NewFolder(deskId, folderName, folderImg);
-            UnitOfWork.Commit();
         }
 
         public void DockToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId)

@@ -127,7 +127,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         public void DockToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
-
+            
             var desks = GetDesks(accountId);
             var realDeskId = GetRealDeskId(deskId, desks);
             foreach (var desk in desks)

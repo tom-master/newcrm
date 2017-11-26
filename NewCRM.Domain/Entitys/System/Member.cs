@@ -148,6 +148,7 @@ namespace NewCRM.Domain.Entitys.System
             IconUrl = iconUrl;
             AppUrl = appUrl;
             MemberType = appId == 0 ? MemberType.Folder : MemberType.App;
+            DeskIndex = 1;
         }
 
         /// <summary>
@@ -162,6 +163,7 @@ namespace NewCRM.Domain.Entitys.System
             IsOpenMax = false;
             Name = name;
             IconUrl = iconUrl;
+            DeskIndex = 1;
             MemberType = appId == 0 ? MemberType.Folder : MemberType.App;
         }
 
