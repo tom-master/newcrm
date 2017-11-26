@@ -161,9 +161,7 @@ namespace NewCRM.Application.Services
         public void DockToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
-
             _modifyDeskMemberPostionServices.DockToOtherDesk(accountId, memberId, deskId);
-            UnitOfWork.Commit();
         }
 
         public void ModifyMemberIcon(Int32 accountId, Int32 memberId, String newIcon)
@@ -173,7 +171,6 @@ namespace NewCRM.Application.Services
             #endregion
 
             _modifyDeskMemberServices.ModifyMemberIcon(accountId, memberId, newIcon);
-
             UnitOfWork.Commit();
         }
     }
