@@ -7,6 +7,16 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 {
     public class DeskContext : BaseServiceContext, IDeskContext
     {
+        public void ModifyDefaultDeskNumber(Int32 accountId, Int32 newDefaultDeskNumber)
+        {
+            ValidateParameter.Validate(accountId).Validate(newDefaultDeskNumber);
+            using (var dataStore = new DataStore())
+            {
+                var sql = $@"UPDATE dbo.Configs SET DefaultDeskNumber={newDefaultDeskNumber} WHERE AccountId={accountId} AND IsDeleted=0";
+                dataStore.SqlExecute(sql);
+            }
+        }
+
         public void ModifyMemberDirectionToX(int accountId)
         {
             ValidateParameter.Validate(accountId);

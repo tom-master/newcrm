@@ -34,5 +34,10 @@ namespace NewCRM.Domain.Services.Interface
         /// </summary>
         void ModifyMemberHorizontalSpacing(Int32 accountId, Int32 newSize);
 
+        /// <summary>
+        /// 修改默认显示的桌面编号
+        /// </summary>
+        void ModifyDefaultDeskNumber(Int32 accountId, Int32 newDefaultDeskNumber);
+
     }
 }
