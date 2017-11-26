@@ -19,63 +19,55 @@ namespace NewCRM.Application.Services
         private readonly IModifyDockPostionServices _modifyDockPostionServices;
         private readonly ICreateNewFolderServices _createNewFolderServices;
         private readonly IModifyDeskMemberPostionServices _modifyDeskMemberPostionServices;
+        private readonly IMemberContext _memberContext;
 
         public DeskServices(IModifyDeskMemberServices modifyDeskMemberServices,
             IModifyDockPostionServices modifyDockPostionServices,
             ICreateNewFolderServices createNewFolderServices,
-            IModifyDeskMemberPostionServices modifyDeskMemberPostionServices)
+            IModifyDeskMemberPostionServices modifyDeskMemberPostionServices,
+            IMemberContext memberContext)
         {
             _modifyDeskMemberServices = modifyDeskMemberServices;
             _modifyDockPostionServices = modifyDockPostionServices;
             _createNewFolderServices = createNewFolderServices;
             _modifyDeskMemberPostionServices = modifyDeskMemberPostionServices;
+            _memberContext = memberContext;
         }
 
         public MemberDto GetMember(Int32 accountId, Int32 memberId, Boolean isFolder)
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
 
-            var desks = CacheQuery.Find(FilterFactory.Create((Desk desk) => desk.AccountId == accountId));
-            foreach (var desk in desks)
+            var result = _memberContext.GetMember(accountId, memberId, isFolder);
+            if (result == null)
             {
-                MemberType memberType;
-                var members = desk.Members;
-                if (isFolder)
-                {
-                    memberType = MemberType.Folder;
-                }
-                else
-                {
-                    memberType = MemberType.App;
-                }
-                var result = members.FirstOrDefault(member => member.AppId == memberId && member.MemberType == memberType);
-                if (result != null)
-                {
-                    return new MemberDto
-                    {
-                        AppId = result.AppId,
-                        AppUrl = result.AppUrl,
-                        DeskId = result.DeskId,
-                        FolderId = result.FolderId,
-                        Height = result.Height,
-                        IconUrl = result.IconUrl,
-                        Id = result.Id,
-                        IsDraw = result.IsDraw,
-                        IsFlash = result.IsFlash,
-                        IsFull = result.IsFull,
-                        IsLock = result.IsLock,
-                        IsMax = result.IsMax,
-                        IsOnDock = result.IsOnDock,
-                        IsOpenMax = result.IsOpenMax,
-                        IsResize = result.IsResize,
-                        IsSetbar = result.IsSetbar,
-                        MemberType = result.MemberType.ToString(),
-                        Name = result.Name,
-                        Width = result.Width
-                    };
-                }
+                throw new BusinessException($"未找到app");
             }
-            throw new BusinessException($"未找到app");
+            if (result != null)
+            {
+                return new MemberDto
+                {
+                    AppId = result.AppId,
+                    AppUrl = result.AppUrl,
+                    DeskId = result.DeskIndex,
+                    FolderId = result.FolderId,
+                    Height = result.Height,
+                    IconUrl = result.IconUrl,
+                    Id = result.Id,
+                    IsDraw = result.IsDraw,
+                    IsFlash = result.IsFlash,
+                    IsFull = result.IsFull,
+                    IsLock = result.IsLock,
+                    IsMax = result.IsMax,
+                    IsOnDock = result.IsOnDock,
+                    IsOpenMax = result.IsOpenMax,
+                    IsResize = result.IsResize,
+                    IsSetbar = result.IsSetbar,
+                    MemberType = result.MemberType.ToString(),
+                    Name = result.Name,
+                    Width = result.Width
+                };
+            }
         }
 
         public void ModifyDefaultDeskNumber(Int32 accountId, Int32 newDefaultDeskNumber)

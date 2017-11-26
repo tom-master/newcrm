@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
+using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewCRM.Repository.StorageProvider;
 
@@ -39,7 +39,34 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             ValidateParameter.Validate(accountId).Validate(memberId);
             using (var dataStore = new DataStore())
             {
+                var where = new StringBuilder();
+                if (isFolder)
+                {
+                    where.Append($@" AND a.MemberType={(Int32)MemberType.Folder}");
+                }
 
+                var sql = $@"SELECT 
+                    a.MemberType,
+                    a.AppId,
+                    a.AppUrl,
+                    a.DeskIndex,
+                    a.FolderId,
+                    a.Height,
+                    a.IconUrl,
+                    a.Id,
+                    a.IsDraw,
+                    a.IsFlash,
+                    a.IsFull,
+                    a.IsLock,
+                    a.IsMax,
+                    a.IsOnDock,
+                    a.IsOpenMax,
+                    a.IsResize,
+                    a.IsSetbar,
+                    a.Name,
+                    a.Width
+                    FROM dbo.Members AS a WHERE a.AccountId={accountId} AND a.Id={memberId} {where} AND a.IsDeleted=0";
+                return dataStore.SqlGetDataTable(sql).AsSignal<Member>();
             }
         }
     }
