@@ -19,22 +19,16 @@ namespace NewCRM.Application.Services
         private readonly IModifyDockPostionServices _modifyDockPostionServices;
         private readonly ICreateNewFolderServices _createNewFolderServices;
         private readonly IModifyDeskMemberPostionServices _modifyDeskMemberPostionServices;
-        private readonly IDeskRepository _deskRepository;
-
-        private readonly IAccountRepository _accountRepository;
 
         public DeskServices(IModifyDeskMemberServices modifyDeskMemberServices,
             IModifyDockPostionServices modifyDockPostionServices,
             ICreateNewFolderServices createNewFolderServices,
-            IModifyDeskMemberPostionServices modifyDeskMemberPostionServices, IAccountRepository accountRepository, IDeskRepository deskRepository)
+            IModifyDeskMemberPostionServices modifyDeskMemberPostionServices)
         {
             _modifyDeskMemberServices = modifyDeskMemberServices;
             _modifyDockPostionServices = modifyDockPostionServices;
             _createNewFolderServices = createNewFolderServices;
             _modifyDeskMemberPostionServices = modifyDeskMemberPostionServices;
-            _deskRepository = deskRepository;
-
-            _accountRepository = accountRepository;
         }
 
         public MemberDto GetMember(Int32 accountId, Int32 memberId, Boolean isFolder)
@@ -42,11 +36,11 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId).Validate(memberId);
 
             var desks = CacheQuery.Find(FilterFactory.Create((Desk desk) => desk.AccountId == accountId));
-            foreach(var desk in desks)
+            foreach (var desk in desks)
             {
                 MemberType memberType;
                 var members = desk.Members;
-                if(isFolder)
+                if (isFolder)
                 {
                     memberType = MemberType.Folder;
                 }
@@ -55,7 +49,7 @@ namespace NewCRM.Application.Services
                     memberType = MemberType.App;
                 }
                 var result = members.FirstOrDefault(member => member.AppId == memberId && member.MemberType == memberType);
-                if(result != null)
+                if (result != null)
                 {
                     return new MemberDto
                     {

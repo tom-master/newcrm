@@ -16,7 +16,7 @@ namespace NewCRM.Application.Services
     {
         private readonly IInstallAppServices _installAppServices;
         private readonly IModifyAppInfoServices _modifyAppInfoServices;
-        private readonly IMemberServices _memberServices;
+        private readonly IMemberContext _memberServices;
         private readonly IAppTypeServices _appTypeServices;
         private readonly IRecommendAppServices _recommendAppServices;
         private readonly IAppContext _appContext;
@@ -24,7 +24,7 @@ namespace NewCRM.Application.Services
 
         public AppServices(IInstallAppServices installAppServices,
             IModifyAppInfoServices modifyAppInfoServices,
-            IMemberServices memberServices,
+            IMemberContext memberServices,
             IAppTypeServices appTypeServices,
             IRecommendAppServices recommendAppServices,
             IAppContext appContext,

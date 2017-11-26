@@ -10,12 +10,12 @@ using NewCRM.Repository.StorageProvider;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
-    public class MemberServices : BaseServiceContext, IMemberServices
+    public class MemberContext : BaseServiceContext, IMemberContext
     {
-        public List<Member> GetDeskMembers(Int32 accountId)
+        public List<Member> GetMembers(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT 
                             a.MemberType,
@@ -31,6 +31,15 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                             a.IsSetbar
                             FROM dbo.Members AS a WHERE a.AccountId={accountId} AND a.IsDeleted=0";
                 return dataStore.SqlGetDataTable(sql).AsList<Member>().ToList();
+            }
+        }
+
+        public Member GetMember(Int32 accountId, Int32 memberId, Boolean isFolder)
+        {
+            ValidateParameter.Validate(accountId).Validate(memberId);
+            using (var dataStore = new DataStore())
+            {
+
             }
         }
     }
