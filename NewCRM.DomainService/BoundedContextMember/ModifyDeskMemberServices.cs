@@ -30,16 +30,10 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         public void ModifyMemberIcon(Int32 accountId, Int32 memberId, String newIcon)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(newIcon);
-
-            foreach (var desk in GetDesks(accountId))
+            using (var dataStore = new DataStore())
             {
-                var result = desk.Members.FirstOrDefault(a => a.Id == memberId);
-                if (result != null)
-                {
-                    result.ModifyIcon(newIcon);
-                    _deskRepository.Update(desk);
-                    break;
-                }
+                var sql = $@"UPDATE dbo.Members SET IconUrl=@url WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
+                dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@url", newIcon) });
             }
         }
 

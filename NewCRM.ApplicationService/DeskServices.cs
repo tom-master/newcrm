@@ -166,12 +166,8 @@ namespace NewCRM.Application.Services
 
         public void ModifyMemberIcon(Int32 accountId, Int32 memberId, String newIcon)
         {
-            #region 参数验证
             ValidateParameter.Validate(memberId).Validate(newIcon);
-            #endregion
-
             _modifyDeskMemberServices.ModifyMemberIcon(accountId, memberId, newIcon);
-            UnitOfWork.Commit();
         }
     }
 }
