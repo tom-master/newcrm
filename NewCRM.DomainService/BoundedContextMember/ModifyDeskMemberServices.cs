@@ -70,40 +70,61 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         public void RemoveMember(Int32 accountId, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
-
-            var desks = GetDesks(accountId);
-            App appResult = null;
-            foreach (var desk in desks)
+            using (var dataStore = new DataStore())
             {
-                var memberResult = GetMember(memberId, desk);
-                if (memberResult != null)
+                dataStore.OpenTransaction();
+                try
                 {
-                    if (memberResult.MemberType == MemberType.Folder)
+                    var isFolder = false;
+                    #region 判断是否为文件夹
                     {
-                        //移除文件夹中的内容
-                        foreach (var desk1 in desks)
+                        var sql = $@"SELECT a.MemberType FROM dbo.Members AS a WHERE a.Id={memberId} AND a.AccountId={accountId} AND a.IsDeleted=0";
+                        isFolder = ((Int32)dataStore.SqlScalar(sql)) == (Int32)MemberType.Folder;
+                    }
+                    #endregion
+
+                    if (isFolder)
+                    {
+                        #region 将文件夹内的成员移出
                         {
-                            desk1.Members.Where(d => d.FolderId == memberId).ToList().ForEach(m => m.Remove());
+                            var sql = $@"UPDATE dbo.Members SET FolderId=0 WHERE AccountId={accountId} AND IsDeleted=0 AND FolderId={memberId}";
+                            dataStore.SqlExecute(sql);
                         }
+                        #endregion
                     }
                     else
                     {
-                        appResult = DatabaseQuery.FindOne(FilterFactory.Create<App>(app => app.Id == memberResult.AppId));
-                        appResult.SubtractUseCount();
-                        appResult.SubtractStar(accountId);
+                        var appId = 0;
+
+                        #region 获取appId
+                        {
+                            var sql = $@"SELECT a.AppId FROM dbo.Members AS a WHERE a.Id={memberId} AND a.AccountId={accountId} AND a.IsDeleted=0";
+                            appId = (Int32)dataStore.SqlScalar(sql);
+                        }
+                        #endregion
+
+                        #region app使用量-1
+                        {
+                            var sql = $@"UPDATE dbo.Apps SET UseCount=UseCount-1 WHERE Id={appId} AND AccountId={accountId} AND IsDeleted=0";
+                        }
+                        #endregion
                     }
 
-                    memberResult.Remove();
-                    _deskRepository.Update(desk);
-                    if (appResult != null)
+                    #region 移除成员
                     {
-                        _appRepository.Update(appResult);
+                        var sql = $@"UPDATE dbo.Members SET IsDeleted=1 WHERE Id={memberId} AND AccountId={accountId}";
+                        dataStore.SqlExecute(sql);
                     }
+                    #endregion
 
-                    break;
+                    dataStore.Commit();
+                }
+                catch (Exception ex)
+                {
+                    dataStore.Rollback();
+                    throw;
                 }
             }
-
         }
     }
 }

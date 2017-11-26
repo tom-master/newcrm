@@ -143,9 +143,7 @@ namespace NewCRM.Application.Services
         public void RemoveMember(Int32 accountId, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
-
             _modifyDeskMemberServices.RemoveMember(accountId, memberId);
-            UnitOfWork.Commit();
         }
 
         public void ModifyMemberInfo(Int32 accountId, MemberDto member)
