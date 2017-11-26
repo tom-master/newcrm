@@ -20,18 +20,21 @@ namespace NewCRM.Application.Services
         private readonly ICreateNewFolderServices _createNewFolderServices;
         private readonly IModifyDeskMemberPostionServices _modifyDeskMemberPostionServices;
         private readonly IMemberContext _memberContext;
+        private readonly IDeskContext _deskContext;
 
         public DeskServices(IModifyDeskMemberServices modifyDeskMemberServices,
             IModifyDockPostionServices modifyDockPostionServices,
             ICreateNewFolderServices createNewFolderServices,
             IModifyDeskMemberPostionServices modifyDeskMemberPostionServices,
-            IMemberContext memberContext)
+            IMemberContext memberContext,
+            IDeskContext deskContext)
         {
             _modifyDeskMemberServices = modifyDeskMemberServices;
             _modifyDockPostionServices = modifyDockPostionServices;
             _createNewFolderServices = createNewFolderServices;
             _modifyDeskMemberPostionServices = modifyDeskMemberPostionServices;
             _memberContext = memberContext;
+            _deskContext = deskContext;
         }
 
         public MemberDto GetMember(Int32 accountId, Int32 memberId, Boolean isFolder)
@@ -73,28 +76,19 @@ namespace NewCRM.Application.Services
         public void ModifyDefaultDeskNumber(Int32 accountId, Int32 newDefaultDeskNumber)
         {
             ValidateParameter.Validate(accountId).Validate(newDefaultDeskNumber);
-
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            accountResult.Config.ModifyDefaultDesk(newDefaultDeskNumber);
-
-            _accountRepository.Update(accountResult);
-            UnitOfWork.Commit();
+            _deskContext.ModifyDefaultDeskNumber(accountId, newDefaultDeskNumber);
         }
 
         public void ModifyDockPosition(Int32 accountId, Int32 defaultDeskNumber, String newPosition)
         {
             ValidateParameter.Validate(accountId).Validate(defaultDeskNumber).Validate(newPosition);
-
-            _modifyDockPostionServices.ModifyDockPosition(accountId, defaultDeskNumber, newPosition);
-            UnitOfWork.Commit();
+            _deskContext.ModifyDockPosition(accountId, defaultDeskNumber, newPosition);
         }
 
         public void MemberInDock(Int32 accountId, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
-
             _modifyDeskMemberPostionServices.MemberInDock(accountId, memberId);
-            UnitOfWork.Commit();
         }
 
         public void MemberOutDock(Int32 accountId, Int32 memberId, Int32 deskId)
@@ -102,7 +96,6 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
 
             _modifyDeskMemberPostionServices.MemberOutDock(accountId, memberId, deskId);
-            UnitOfWork.Commit();
         }
 
         public void DockToFolder(Int32 accountId, Int32 memberId, Int32 folderId)

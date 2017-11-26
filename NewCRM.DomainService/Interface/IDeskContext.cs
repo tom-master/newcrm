@@ -39,5 +39,9 @@ namespace NewCRM.Domain.Services.Interface
         /// </summary>
         void ModifyDefaultDeskNumber(Int32 accountId, Int32 newDefaultDeskNumber);
 
+        /// <summary>
+        /// 修改码头位置
+        /// </summary>
+        void ModifyDockPosition(Int32 accountId, Int32 defaultDeskNumber, String newPosition);
     }
 }
