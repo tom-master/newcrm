@@ -13,7 +13,7 @@ namespace NewCRM.Application.Services.Interface
         /// 获取所有的系统壁纸
         /// </summary>
         /// <returns></returns>
-        List<WallpaperDto> GetWallpaper();
+        List<WallpaperDto> GetWallpapers();
 
         /// <summary>
         /// 添加壁纸

@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Domain;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.Repositories.IRepository.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
@@ -19,19 +18,18 @@ namespace NewCRM.Application.Services
 {
     public class WallpaperServices : BaseServiceContext, IWallpaperServices
     {
-
         private readonly IModifyWallpaperServices _modifyWallpaperServices;
-        private readonly IWallpaperRepository _wallpaperRepository;
-
-        public WallpaperServices(IModifyWallpaperServices modifyWallpaperServices, IWallpaperRepository wallpaperRepository)
+        private readonly IWallpaperContext _wallpaperContext;
+        public WallpaperServices(IModifyWallpaperServices modifyWallpaperServices, IWallpaperContext wallpaperContext)
         {
             _modifyWallpaperServices = modifyWallpaperServices;
-            _wallpaperRepository = wallpaperRepository;
+            _wallpaperContext = wallpaperContext;
         }
 
-        public List<WallpaperDto> GetWallpaper()
+        public List<WallpaperDto> GetWallpapers()
         {
-            return DatabaseQuery.Find(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Source == WallpaperSource.System)).Select(s => new WallpaperDto
+            var result = _wallpaperContext.GetWallpapers();
+            return result.Select(s => new WallpaperDto
             {
                 AccountId = s.AccountId,
                 Height = s.Height,
@@ -48,19 +46,7 @@ namespace NewCRM.Application.Services
         public Tuple<Int32, String> AddWallpaper(WallpaperDto wallpaperDto)
         {
             ValidateParameter.Validate(wallpaperDto);
-
-            var wallpaper = wallpaperDto.ConvertToModel<WallpaperDto, Wallpaper>();
-            var wallPaperCount = DatabaseQuery.Find(FilterFactory.Create<Wallpaper>(w => w.AccountId == wallpaper.AccountId)).Count();
-
-            if(wallPaperCount == 6)
-            {
-                throw new BusinessException($"最多只能上传6张壁纸");
-            }
-
-            _wallpaperRepository.Add(wallpaper);
-            UnitOfWork.Commit();
-
-            return new Tuple<Int32, String>(wallpaper.Id, wallpaper.ShortUrl);
+            return _wallpaperContext.AddWallpaper(wallpaperDto.ConvertToModel<WallpaperDto, Wallpaper>());
         }
 
         public List<WallpaperDto> GetUploadWallpaper(Int32 accountId)
