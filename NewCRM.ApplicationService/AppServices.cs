@@ -43,7 +43,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var result = _memberServices.GetDeskMembers(accountId);
+            var result = _memberServices.GetMembers(accountId);
             var deskGroup = result.GroupBy(a => a.DeskIndex);
             var deskDictionary = new Dictionary<String, IList<dynamic>>();
             foreach (var desk in deskGroup)

@@ -38,20 +38,17 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                 {
                     return null;
                 }
-                while(dataReader.Read())
+                return new
                 {
-                    return new
-                    {
-                        UseCount = Int32.Parse(dataReader["UseCount"].ToString()),
-                        Id = Int32.Parse(dataReader["Id"].ToString()),
-                        Name = dataReader["Name"].ToString(),
-                        IconUrl = dataReader["IconUrl"].ToString(),
-                        Remark = dataReader["Remark"].ToString(),
-                        AppStyle = Int32.Parse(dataReader["AppStyle"].ToString()),
-                        AppStars = Int32.Parse(dataReader["AppStars"].ToString()),
-                        IsInstall = Int32.Parse(dataReader["IsInstall"].ToString()) > 0 ? true : false
-                    };
-                }
+                    UseCount = Int32.Parse(dataReader["UseCount"].ToString()),
+                    Id = Int32.Parse(dataReader["Id"].ToString()),
+                    Name = dataReader["Name"].ToString(),
+                    IconUrl = dataReader["IconUrl"].ToString(),
+                    Remark = dataReader["Remark"].ToString(),
+                    AppStyle = Int32.Parse(dataReader["AppStyle"].ToString()),
+                    AppStars = Int32.Parse(dataReader["AppStars"].ToString()),
+                    IsInstall = Int32.Parse(dataReader["IsInstall"].ToString()) > 0 ? true : false
+                };
             }
         }
     }

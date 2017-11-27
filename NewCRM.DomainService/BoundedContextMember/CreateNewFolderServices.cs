@@ -12,9 +12,6 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             ValidateParameter.Validate(deskId).Validate(folderImg).Validate(folderName);
 
             var folder = new Member(folderName, folderImg, 0);
-            var desk = DatabaseQuery.FindOne(FilterFactory.Create((Desk d) => d.Id == deskId));
-            _deskRepository.Update(desk.AddMember(newMember));
-
             using (var dataStore = new DataStore())
             {
                 var sql = $@"INSERT dbo.Members

@@ -1,21 +1,12 @@
-﻿using NewCRM.Domain.Repositories.IRepository.System;
-using NewCRM.Domain.Services.Interface;
-using System;
-using System.Linq;
-using NewCRM.Repository.StorageProvider;
+﻿using System;
 using System.Text;
+using NewCRM.Domain.Services.Interface;
+using NewCRM.Repository.StorageProvider;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     public sealed class ModifyDeskMemberPostionServices : BaseServiceContext, IModifyDeskMemberPostionServices
     {
-        private readonly IDeskRepository _deskRepository;
-
-        public ModifyDeskMemberPostionServices(IDeskRepository deskRepository)
-        {
-            _deskRepository = deskRepository;
-        }
-
         public void MemberInDock(Int32 accountId, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId);

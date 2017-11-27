@@ -41,31 +41,28 @@ namespace NewCRM.Application.Services
             {
                 throw new BusinessException($"未找到app");
             }
-            if (result != null)
+            return new MemberDto
             {
-                return new MemberDto
-                {
-                    AppId = result.AppId,
-                    AppUrl = result.AppUrl,
-                    DeskId = result.DeskIndex,
-                    FolderId = result.FolderId,
-                    Height = result.Height,
-                    IconUrl = result.IconUrl,
-                    Id = result.Id,
-                    IsDraw = result.IsDraw,
-                    IsFlash = result.IsFlash,
-                    IsFull = result.IsFull,
-                    IsLock = result.IsLock,
-                    IsMax = result.IsMax,
-                    IsOnDock = result.IsOnDock,
-                    IsOpenMax = result.IsOpenMax,
-                    IsResize = result.IsResize,
-                    IsSetbar = result.IsSetbar,
-                    MemberType = result.MemberType.ToString(),
-                    Name = result.Name,
-                    Width = result.Width
-                };
-            }
+                AppId = result.AppId,
+                AppUrl = result.AppUrl,
+                DeskId = result.DeskIndex,
+                FolderId = result.FolderId,
+                Height = result.Height,
+                IconUrl = result.IconUrl,
+                Id = result.Id,
+                IsDraw = result.IsDraw,
+                IsFlash = result.IsFlash,
+                IsFull = result.IsFull,
+                IsLock = result.IsLock,
+                IsMax = result.IsMax,
+                IsOnDock = result.IsOnDock,
+                IsOpenMax = result.IsOpenMax,
+                IsResize = result.IsResize,
+                IsSetbar = result.IsSetbar,
+                MemberType = result.MemberType.ToString(),
+                Name = result.Name,
+                Width = result.Width
+            };
         }
 
         public void ModifyDefaultDeskNumber(Int32 accountId, Int32 newDefaultDeskNumber)

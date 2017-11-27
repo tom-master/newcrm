@@ -1,26 +1,14 @@
 ﻿using System;
 using System.Linq;
 using NewCRM.Domain.Entitys.Agent;
-using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomException;
-using NewCRM.Domain.Repositories.IRepository.System;
-using NewCRM.Domain.Repositories.IRepository.Agent;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     public sealed class ModifyDockPostionServices : BaseServiceContext, IModifyDockPostionServices
     {
-        private readonly IDeskRepository _deskRepository;
-        private readonly IAccountRepository _accountRepository;
-
-        public ModifyDockPostionServices(IDeskRepository deskRepository, IAccountRepository accountRepository)
-        {
-            _deskRepository = deskRepository;
-            _accountRepository = accountRepository;
-        }
-
         public void ModifyDockPosition(Int32 accountId, Int32 defaultDeskNumber, String newPosition)
         {
             ValidateParameter.Validate(accountId).Validate(defaultDeskNumber).Validate(newPosition);
