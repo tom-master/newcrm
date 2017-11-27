@@ -62,17 +62,7 @@ namespace NewCRM.Application.Services
         public void AddNewRole(RoleDto roleDto)
         {
             ValidateParameter.Validate(roleDto);
-
-            var filter = FilterFactory.Create<Role>(role => role.Name.ToLower() == roleDto.Name.ToLower() || role.RoleIdentity.ToLower() == roleDto.RoleIdentity.ToLower());
-            var result = DatabaseQuery.FindOne(filter);
-            if(result != null)
-            {
-                throw new BusinessException($@"角色:{roleDto.Name} 已经存在");
-            }
-            var roleModel = roleDto.ConvertToModel<RoleDto, Role>();
-            _roleRepository.Add(roleModel);
-
-            UnitOfWork.Commit();
+            _securityContext.AddNewRole(roleDto.ConvertToModel<RoleDto, Role>());
         }
 
         public void ModifyRole(RoleDto roleDto)

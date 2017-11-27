@@ -31,7 +31,24 @@ SELECT COUNT(*) FROM dbo.Roles AS a WHERE a.Name=@name AND a.IsDeleted=0";
                 #endregion
 
                 #region 添加角色
-
+                {
+                    var sql = $@"INSERT dbo.Roles
+                                ( Name ,
+                                  RoleIdentity ,
+                                  Remark ,
+                                  IsDeleted ,
+                                  AddTime ,
+                                  LastModifyTime
+                                )
+                        VALUES  ( @name , -- Name - nvarchar(6)
+                                  N'{role.RoleIdentity}' , -- RoleIdentity - nvarchar(20)
+                                  N'{role.Remark}' , -- Remark - nvarchar(50)
+                                  0 , -- IsDeleted - bit
+                                  GETDATE() , -- AddTime - datetime
+                                  GETDATE()  -- LastModifyTime - datetime
+                                )";
+                    dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@name", role.Name) });
+                }
                 #endregion
             }
         }
