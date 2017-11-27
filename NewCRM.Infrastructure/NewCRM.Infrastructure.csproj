@@ -52,9 +52,6 @@
     <Compile Include="CommonTools\CalculateFile.cs" />
     <Compile Include="CommonTools\CustomException\BusinessException.cs" />
     <Compile Include="CommonTools\CustomException\ComponentException.cs" />
-    <Compile Include="CommonTools\CustomException\DomainModelException.cs" />
-    <Compile Include="CommonTools\CustomException\ExceptionMessage.cs" />
-    <Compile Include="CommonTools\CustomException\RepositoryException.cs" />
     <Compile Include="CommonTools\CustomExtension\DataTableExtension.cs" />
     <Compile Include="CommonTools\CustomExtension\EnumExtensions.cs" />
     <Compile Include="CommonTools\CustomExtension\ExpressionExtension.cs" />
