@@ -24,7 +24,7 @@ namespace NewCRM.Application.Services
             _loggerContext.AddLogger(log.ConvertToModel<LogDto, Log>());
         }
 
-        public IList<LogDto> GetAllLog(Int32 accountId, Int32 logLevel, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+        public IList<LogDto> GetLogs(Int32 accountId, Int32 logLevel, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
             var result = _loggerContext.GetLogs(accountId, logLevel, pageIndex, pageSize, out totalCount);
             return result.Select(s => new LogDto

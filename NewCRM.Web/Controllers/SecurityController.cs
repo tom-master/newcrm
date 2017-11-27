@@ -41,7 +41,7 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult CreateNewRole(Int32 roleId = default(Int32))
         {
-            if (roleId != 0)
+            if(roleId != 0)
             {
                 ViewData["RoleResult"] = _securityServices.GetRole(roleId);
             }
@@ -56,7 +56,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult AttachmentPower(Int32 roleId)
         {
             var role = new RoleDto();
-            if (roleId != 0)
+            if(roleId != 0)
             {
                 role = _securityServices.GetRole(roleId);
                 ViewData["RolePowerResult"] = role;
@@ -100,7 +100,7 @@ namespace NewCRM.Web.Controllers
 
             var totalCount = 0;
             var response = new ResponseModels<IList<RoleDto>>();
-            var result = _securityServices.GetAllRoles(roleName, pageIndex, pageSize, out totalCount);
+            var result = _securityServices.GetRoles(roleName, pageIndex, pageSize, out totalCount);
             response.IsSuccess = true;
             response.Message = "获取角色列表成功";
             response.Model = result;
@@ -131,13 +131,13 @@ namespace NewCRM.Web.Controllers
         /// 添加角色
         /// </summary>
         /// <returns></returns>
-        public ActionResult NewRole(FormCollection forms, Int32 roleId=0)
+        public ActionResult NewRole(FormCollection forms, Int32 roleId = 0)
         {
             #region 参数验证
             Parameter.Validate(forms);
             #endregion
 
-            if (roleId != 0)
+            if(roleId != 0)
             {
                 _securityServices.ModifyRole(WapperRoleDto(forms));
             }
@@ -166,7 +166,7 @@ namespace NewCRM.Web.Controllers
             #endregion
             var response = new ResponseModel();
             var powerIds = forms["val_apps_id"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
-            if (powerIds.Any())
+            if(powerIds.Any())
             {
                 _securityServices.AddPowerToCurrentRole(Int32.Parse(forms["val_roleId"]), powerIds);
                 response.IsSuccess = true;
@@ -203,7 +203,7 @@ namespace NewCRM.Web.Controllers
         private static RoleDto WapperRoleDto(FormCollection forms)
         {
             Int32 roleId = 0;
-            if ((forms["roleId"] + "").Length > 0)
+            if((forms["roleId"] + "").Length > 0)
             {
                 roleId = Int32.Parse(forms["roleId"]);
             }

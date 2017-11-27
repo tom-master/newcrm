@@ -99,7 +99,7 @@ UPDATE dbo.RolePowers SET IsDeleted=1 WHERE RoleId={roleId}";
 
                     dataStore.Commit();
                 }
-                catch(Exception ex)
+                catch(Exception)
                 {
                     dataStore.Rollback();
                     throw;
@@ -251,7 +251,7 @@ UPDATE dbo.Roles SET Name=@name,RoleIdentity=@identity WHERE Id={role.Id} AND Is
 
                     dataStore.Commit();
                 }
-                catch(Exception ex)
+                catch(Exception)
                 {
                     dataStore.Rollback();
                     throw;

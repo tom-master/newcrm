@@ -36,12 +36,12 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult CreateNewAccount(Int32 accountId = 0)
         {
-            if (accountId != 0)
+            if(accountId != 0)
             {
                 ViewData["Account"] = AccountServices.GetAccount(accountId);
             }
-
-            ViewData["Roles"] = _securityServices.GetAllRoles();
+            var totalCount = 0;
+            ViewData["Roles"] = _securityServices.GetRoles("", 1, 100, out totalCount);
 
             return View();
         }
@@ -62,7 +62,7 @@ namespace NewCRM.Web.Controllers
 
             Int32 totalCount;
             var accounts = AccountServices.GetAccounts(accountName, accountType, pageIndex, pageSize, out totalCount);
-            if (accounts != null)
+            if(accounts != null)
             {
                 response.TotalCount = totalCount;
                 response.Message = "获取账户列表成功";
@@ -81,7 +81,7 @@ namespace NewCRM.Web.Controllers
         {
             var response = new ResponseModel<AccountDto>();
             var dto = WapperAccountDto(forms);
-            if (dto.Id == 0)
+            if(dto.Id == 0)
             {
                 AccountServices.AddNewAccount(dto);
 
@@ -136,7 +136,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult ChangeAccountDisableStatus(String isDisable)
         {
             var response = new ResponseModel<String>();
-            if (Boolean.Parse(isDisable))
+            if(Boolean.Parse(isDisable))
             {
                 AccountServices.Disable(Account.Id);
 
@@ -160,7 +160,7 @@ namespace NewCRM.Web.Controllers
         private AccountDto WapperAccountDto(FormCollection forms)
         {
             List<RoleDto> roleIds = new List<RoleDto>();
-            if ((forms["val_roleIds"] + "").Length > 0)
+            if((forms["val_roleIds"] + "").Length > 0)
             {
                 roleIds = forms["val_roleIds"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(role => new RoleDto
                 {

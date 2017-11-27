@@ -11,12 +11,11 @@ namespace NewCRM.Web.Controllers
     public class LogController : BaseController
     {
         private readonly ILoggerServices _loggerServices;
-        
+
         public LogController(ILoggerServices loggerServices)
         {
             _loggerServices = loggerServices;
         }
-
 
         #region 页面
         /// <summary>
@@ -34,17 +33,17 @@ namespace NewCRM.Web.Controllers
         /// 获取日志列表
         /// </summary>
         /// <returns></returns>
-        public ActionResult GetAllLog(Int32 loglevel, Int32 pageIndex, Int32 pageSize)
+        public ActionResult GetLogs(Int32 accountId, Int32 loglevel, Int32 pageIndex, Int32 pageSize)
         {
             var response = new ResponseModels<IList<LogDto>>();
             var totalCount = 0;
-            var result = _loggerServices.GetAllLog(loglevel, pageIndex, pageSize, out totalCount);
+            var result = _loggerServices.GetLogs(accountId, loglevel, pageIndex, pageSize, out totalCount);
             response.IsSuccess = true;
             response.Message = "获取日志列表成功";
             response.Model = result;
             response.TotalCount = totalCount;
 
             return Json(response, JsonRequestBehavior.AllowGet);
-        } 
-    }  
+        }
+    }
 }

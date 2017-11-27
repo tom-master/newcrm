@@ -8,6 +8,6 @@ namespace NewCRM.Application.Services.Interface
     {
         void AddLogger(LogDto log);
 
-        IList<LogDto> GetAllLog(Int32 accountId, Int32 logLevel, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
+        IList<LogDto> GetLogs(Int32 accountId, Int32 logLevel, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
     }
 }

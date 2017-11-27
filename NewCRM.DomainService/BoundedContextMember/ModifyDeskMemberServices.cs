@@ -14,7 +14,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         public void ModifyFolderInfo(Int32 accountId, String memberName, String memberIcon, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberName).Validate(memberIcon).Validate(memberId);
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE Members SET Name=@name,IconUrl=@url WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
                 var parameters = new List<SqlParameter>
@@ -29,7 +29,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         public void ModifyMemberIcon(Int32 accountId, Int32 memberId, String newIcon)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(newIcon);
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Members SET IconUrl=@url WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
                 dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@url", newIcon) });
@@ -39,7 +39,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         public void ModifyMemberInfo(Int32 accountId, Member member)
         {
             ValidateParameter.Validate(accountId).Validate(member);
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Members SET IconUrl={member.IconUrl},Name={member.Name},Width={member.Width},Height={member.Height},IsResize={member.IsResize},IsOpenMax={member.IsOpenMax},IsFlash={member.IsFlash} WHERE Id={member.Id} AND AccountId={accountId} AND IsDeleted=0";
                 dataStore.SqlExecute(sql);
@@ -49,7 +49,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         public void RemoveMember(Int32 accountId, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
             {
                 dataStore.OpenTransaction();
                 try
@@ -62,7 +62,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
                     }
                     #endregion
 
-                    if (isFolder)
+                    if(isFolder)
                     {
                         #region 将文件夹内的成员移出
                         {
@@ -98,7 +98,7 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 
                     dataStore.Commit();
                 }
-                catch (Exception ex)
+                catch(Exception)
                 {
                     dataStore.Rollback();
                     throw;
