@@ -14,25 +14,12 @@ namespace NewCRM.Application.Services
 {
     public class SecurityServices : BaseServiceContext, ISecurityServices
     {
-        private readonly IRoleRepository _roleRepository;
 
-        public SecurityServices(IRoleRepository roleRepository)
+        public SecurityServices()
         {
-            _roleRepository = roleRepository;
         }
-
 
         #region Role
-
-        public List<RoleDto> GetAllRoles()
-        {
-            return DatabaseQuery.Find(FilterFactory.Create<Role>()).Select(role => new RoleDto
-            {
-                Name = role.Name,
-                Id = role.Id
-            }).ToList();
-        }
-
         public RoleDto GetRole(Int32 roleId)
         {
             ValidateParameter.Validate(roleId);
@@ -52,7 +39,7 @@ namespace NewCRM.Application.Services
             };
         }
 
-        public List<RoleDto> GetAllRoles(String roleName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+        public List<RoleDto> GetRoles(String roleName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
             ValidateParameter.Validate(roleName).Validate(pageIndex).Validate(pageIndex);
 
@@ -69,7 +56,6 @@ namespace NewCRM.Application.Services
                 RoleIdentity = s.RoleIdentity
             }).ToList();
         }
-
 
         public void RemoveRole(Int32 roleId)
         {
