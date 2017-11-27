@@ -391,7 +391,6 @@ namespace NewCRM.Application.Services
         public void ReleaseApp(Int32 appId)
         {
             ValidateParameter.Validate(appId);
-
             _appContext.ReleaseApp(appId);
         }
 
@@ -401,15 +400,9 @@ namespace NewCRM.Application.Services
             _modifyAppInfoServices.ModifyAppIcon(accountId, appId, newIcon);
         }
 
-
-
         #region private method
-
         // <summary>
         // <summary> 获取传入的枚举类型的字面量的描述
-        // <summary> </summary>
-        // <summary> <param name="enumType"></param>
-        // <summary> <returns></returns>
         private static IEnumerable<dynamic> GetEnumDescriptions(Type enumType) => enumType.GetFields().Where(field => field.CustomAttributes.Any()).Select(s => new { s.CustomAttributes.ToArray()[0].ConstructorArguments[0].Value, Id = s.GetRawConstantValue(), Type = enumType.Name }).Cast<dynamic>().ToList();
         #endregion
     }
