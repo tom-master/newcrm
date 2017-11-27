@@ -68,26 +68,7 @@ namespace NewCRM.Application.Services
         public void ModifyRole(RoleDto roleDto)
         {
             ValidateParameter.Validate(roleDto);
-
-            var filter = FilterFactory.Create<Role>(role => role.Name.ToLower() == roleDto.Name.ToLower() || role.RoleIdentity.ToLower() == roleDto.RoleIdentity.ToLower());
-            var result = DatabaseQuery.FindOne(filter);
-            if(result != null)
-            {
-                throw new BusinessException("已经存在一个相同名称的角色");
-            }
-
-            var roleModel = roleDto.ConvertToModel<RoleDto, Role>();
-            var roleResult = DatabaseQuery.FindOne(FilterFactory.Create<Role>(internalRole => internalRole.Id == roleModel.Id));
-
-            if(roleResult == null)
-            {
-                throw new BusinessException("该角色可能已被删除，请刷新后再试");
-            }
-
-            roleResult.ModifyRoleName(roleModel.Name).ModifyRoleIdentity(roleModel.RoleIdentity);
-            _roleRepository.Update(roleResult);
-
-            UnitOfWork.Commit();
+            _securityContext.ModifyRole(roleDto.ConvertToModel<RoleDto, Role>());
         }
 
         public void AddPowerToCurrentRole(Int32 roleId, IEnumerable<Int32> powerIds)

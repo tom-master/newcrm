@@ -26,7 +26,7 @@ SELECT COUNT(*) FROM dbo.Roles AS a WHERE a.Name=@name AND a.IsDeleted=0";
                     if(result > 0)
                     {
                         throw new BusinessException($@"角色:{role.Name} 已经存在");
-                    } 
+                    }
                 }
                 #endregion
 
@@ -55,7 +55,16 @@ SELECT COUNT(*) FROM dbo.Roles AS a WHERE a.Name=@name AND a.IsDeleted=0";
 
         public void AddPowerToCurrentRole(int roleId, IEnumerable<int> powerIds)
         {
-            throw new NotImplementedException();
+            ValidateParameter.Validate(roleId).Validate(powerIds);
+            if(!powerIds.Any())
+            {
+                throw new BusinessException("权限列表为空");
+            }
+
+            using(var dataStore = new DataStore())
+            {
+
+            }
         }
 
         public bool CheckPermissions(int accessAppId, params int[] roleIds)
@@ -131,7 +140,34 @@ SELECT COUNT(*) FROM dbo.Roles AS a WHERE a.Name=@name AND a.IsDeleted=0";
 
         public void ModifyRole(Role role)
         {
-            throw new NotImplementedException();
+            ValidateParameter.Validate(role);
+            using(var dataStore = new DataStore())
+            {
+                #region 前置条件验证
+                {
+                    var sql = $@"
+SELECT COUNT(*) FROM dbo.Roles AS a WHERE a.Name=@name AND a.IsDeleted=0";
+                    var result = (Int32)dataStore.SqlScalar(sql, new List<SqlParameter> { new SqlParameter("@name", role.Name) });
+                    if(result > 0)
+                    {
+                        throw new BusinessException($@"角色:{role.Name} 已经存在");
+                    }
+                }
+                #endregion
+
+                #region 修改角色
+                {
+                    var sql = $@"
+UPDATE dbo.Roles SET Name=@name,RoleIdentity=@identity WHERE Id={role.Id} AND IsDeleted=0";
+                    var parameters = new List<SqlParameter>
+                    {
+                        new SqlParameter("@name",role.Name),
+                        new SqlParameter("@identity",role.RoleIdentity)
+                    };
+                    dataStore.SqlExecute(sql, parameters);
+                }
+                #endregion
+            }
         }
 
         public void RemoveRole(int roleId)
