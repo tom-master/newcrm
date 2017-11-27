@@ -97,7 +97,15 @@ namespace NewCRM.Dto
         [Required]
         public String MemberType { get; set; }
 
-        public Int32 DeskId { get; set; }
+        /// <summary>
+        /// 桌面索引
+        /// </summary>
+        public Int32 DeskIndex { get; set; }
+
+        /// <summary>
+        /// 账户Id
+        /// </summary>
+        public Int32 AccountId { get; set; }
 
         #endregion
     }

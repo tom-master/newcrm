@@ -45,7 +45,7 @@ namespace NewCRM.Application.Services
             {
                 AppId = result.AppId,
                 AppUrl = result.AppUrl,
-                DeskId = result.DeskIndex,
+                DeskIndex = result.DeskIndex,
                 FolderId = result.FolderId,
                 Height = result.Height,
                 IconUrl = result.IconUrl,

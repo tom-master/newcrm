@@ -51,23 +51,19 @@ namespace NewCRM.Web
 
             container.RegisterType<IAccountServices, AccountServices>(new PerRequestLifetimeManager());
             container.RegisterType<ISecurityServices, SecurityServices>(new PerRequestLifetimeManager());
-            container.RegisterType<IAppServices, Application.Services.AppServices>(new PerRequestLifetimeManager());
+            container.RegisterType<IAppServices, AppServices>(new PerRequestLifetimeManager());
             container.RegisterType<IDeskServices, DeskServices>(new PerRequestLifetimeManager());
             container.RegisterType<IWallpaperServices, WallpaperServices>(new PerRequestLifetimeManager());
             container.RegisterType<ISkinServices, SkinServices>(new PerRequestLifetimeManager());
             container.RegisterType<ILoggerServices, LoggerServices>(new PerRequestLifetimeManager());
             container.RegisterType<IInstallAppServices, InstallAppServices>(new PerRequestLifetimeManager());
             container.RegisterType<IModifyAppInfoServices, ModifyAppInfoServices>(new PerRequestLifetimeManager());
-            container.RegisterType<IModifyAppTypeServices, ModifyAppTypeServices>(new PerRequestLifetimeManager());
             container.RegisterType<IAccountContext, AccountContext>(new PerRequestLifetimeManager());
             container.RegisterType<IModifyDeskMemberServices, ModifyDeskMemberServices>(new PerRequestLifetimeManager());
             container.RegisterType<IModifyDockPostionServices, ModifyDockPostionServices>(new PerRequestLifetimeManager());
             container.RegisterType<ICreateNewFolderServices, CreateNewFolderServices>(new PerRequestLifetimeManager());
             container.RegisterType<IModifyDeskMemberPostionServices, ModifyDeskMemberPostionServices>(new PerRequestLifetimeManager());
             container.RegisterType<IModifyWallpaperServices, ModifyWallpaperServices>(new PerRequestLifetimeManager());
-
-            container.RegisterType<ICacheQueryProvider, DefaultRedisQueryProvider>("ICacheQueryProvider", new PerRequestLifetimeManager());
-
         }
     }
 }

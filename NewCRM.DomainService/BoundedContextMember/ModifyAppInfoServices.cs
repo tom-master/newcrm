@@ -13,21 +13,6 @@ namespace NewCRM.Domain.Services.BoundedContextMember
 {
     public sealed class ModifyAppInfoServices : BaseServiceContext, IModifyAppInfoServices
     {
-        public void ModifyAppStar(Int32 accountId, Int32 appId, Int32 starCount)
-        {
-            ValidateParameter.Validate(accountId).Validate(appId).Validate(starCount);
-
-            if (!DatabaseQuery.Find(FilterFactory.Create<Desk>(d => d.Members.Any(m => m.AppId == appId) && d.AccountId == accountId)).Any())
-            {
-                throw new BusinessException($"请安装这个应用后再打分");
-            }
-
-            var appResult = DatabaseQuery.FindOne(FilterFactory.Create<App>(app => app.Id == appId));
-            appResult.AddStar(accountId, starCount);
-
-            _appRepository.Update(appResult);
-        }
-
         public void ModifyAccountAppInfo(Int32 accountId, App app)
         {
             ValidateParameter.Validate(accountId).Validate(accountId).Validate(app);

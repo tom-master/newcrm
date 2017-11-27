@@ -72,8 +72,8 @@ namespace NewCRM.Dto
                 //d.CreateMap<Desk, DeskDto>();
                 //d.AddProfile<DeskToDeskDtoProfile>();
 
-                d.CreateMap<DeskDto, Desk>();
-                d.AddProfile<DeskDtoToDeskProfile>();
+                //d.CreateMap<DeskDto, Desk>();
+                //d.AddProfile<DeskDtoToDeskProfile>();
 
                 //Log
                 //d.CreateMap<Log, LogDto>();

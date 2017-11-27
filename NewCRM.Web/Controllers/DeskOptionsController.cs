@@ -42,7 +42,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult SystemWallPaper()
         {
             ViewData["AccountConfig"] = AccountServices.GetConfig(Account.Id);
-            ViewData["Wallpapers"] = _wallpaperServices.GetWallpaper();
+            ViewData["Wallpapers"] = _wallpaperServices.GetWallpapers();
 
             return View();
         }
@@ -163,7 +163,7 @@ namespace NewCRM.Web.Controllers
                 Width = wallpaper.Width,
                 Height = wallpaper.Height,
                 Url = wallpaper.Url,
-                Source = "Upload",
+                Source = 0,
                 AccountId = Account.Id,
                 Md5 = wallpaper.Md5,
                 ShortUrl = ""
