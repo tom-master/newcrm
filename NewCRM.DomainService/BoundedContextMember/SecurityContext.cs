@@ -63,7 +63,47 @@ SELECT COUNT(*) FROM dbo.Roles AS a WHERE a.Name=@name AND a.IsDeleted=0";
 
             using(var dataStore = new DataStore())
             {
+                dataStore.OpenTransaction();
+                try
+                {
+                    #region 移除之前的角色权限
+                    {
+                        var sql = $@"
+UPDATE dbo.RolePowers SET IsDeleted=1 WHERE RoleId={roleId}";
+                    }
+                    #endregion
 
+                    #region 添加角色权限
+                    {
+                        var sqlBuilder = new StringBuilder();
+                        foreach(var item in powerIds)
+                        {
+                            sqlBuilder.Append($@"INSERT dbo.RolePowers
+                                                    ( RoleId ,
+                                                      AppId ,
+                                                      IsDeleted ,
+                                                      AddTime ,
+                                                      LastModifyTime
+                                                    )
+                                            VALUES  ( {roleId} , -- RoleId - int
+                                                      {item}, -- AppId - int
+                                                      0 , -- IsDeleted - bit
+                                                      GETDATE() , -- AddTime - datetime
+                                                      GETDATE()  -- LastModifyTime - datetime
+                                                    )");
+                        }
+
+
+                    }
+                    #endregion
+
+                    dataStore.Commit();
+                }
+                catch(Exception ex)
+                {
+                    dataStore.Rollback();
+                    throw;
+                }
             }
         }
 

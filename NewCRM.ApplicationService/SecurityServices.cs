@@ -74,18 +74,7 @@ namespace NewCRM.Application.Services
         public void AddPowerToCurrentRole(Int32 roleId, IEnumerable<Int32> powerIds)
         {
             ValidateParameter.Validate(roleId);
-            var roleResult = DatabaseQuery.FindOne(FilterFactory.Create<Role>(role => role.Id == roleId));
-
-            if(roleResult == null)
-            {
-                throw new BusinessException("该角色可能已被删除，请刷新后再试");
-            }
-
-            roleResult.Powers.ToList().ForEach(f => f.Remove());
-            roleResult.AddPower(powerIds.ToArray());
-            _roleRepository.Update(roleResult);
-
-            UnitOfWork.Commit();
+            _securityContext.AddPowerToCurrentRole(roleId, powerIds);
         }
 
         #endregion
