@@ -5,8 +5,7 @@ using NewCRM.Application.Services.Interface;
 using NewCRM.Domain;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.Security;
-using NewCRM.Domain.Factory.DomainSpecification;
-using NewCRM.Domain.Repositories.IRepository.Security;
+using NewCRM.Domain.Services.Interface;
 using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 
@@ -14,42 +13,39 @@ namespace NewCRM.Application.Services
 {
     public class SecurityServices : BaseServiceContext, ISecurityServices
     {
+        private readonly ISecurityContext _securityContext;
 
-        public SecurityServices()
+        public SecurityServices(ISecurityContext securityContext)
         {
+            _securityContext = securityContext;
         }
 
         #region Role
+
         public RoleDto GetRole(Int32 roleId)
         {
             ValidateParameter.Validate(roleId);
 
-            var roleResult = DatabaseQuery.FindOne(FilterFactory.Create<Role>(role => role.Id == roleId));
-            if(roleResult == null)
+            var result = _securityContext.GetRole(roleId);
+            if(result == null)
             {
                 throw new BusinessException("角色可能已被删除，请刷新后再试");
             }
-
+            var powers = _securityContext.GetPowers();
             return new RoleDto
             {
-                Name = roleResult.Name,
-                RoleIdentity = roleResult.RoleIdentity,
-                Remark = roleResult.Remark,
-                Powers = roleResult.Powers.Select(s => new PowerDto { Id = s.AppId }).ToList()
+                Name = result.Name,
+                RoleIdentity = result.RoleIdentity,
+                Remark = result.Remark,
+                Powers = powers.Where(w => w.RoleId == result.Id).Select(s => new PowerDto { Id = s.AppId }).ToList()
             };
         }
 
         public List<RoleDto> GetRoles(String roleName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
             ValidateParameter.Validate(roleName).Validate(pageIndex).Validate(pageIndex);
-
-            var filter = FilterFactory.Create<Role>();
-            if(!String.IsNullOrEmpty(roleName))
-            {
-                filter.And(role => role.Name.Contains(roleName));
-            }
-
-            return DatabaseQuery.PageBy(filter, pageIndex, pageSize, out totalCount).Select(s => new RoleDto
+            var result = _securityContext.GetRoles(roleName, pageIndex, pageSize, out totalCount);
+            return result.Select(s => new RoleDto
             {
                 Name = s.Name,
                 Id = s.Id,
@@ -60,28 +56,7 @@ namespace NewCRM.Application.Services
         public void RemoveRole(Int32 roleId)
         {
             ValidateParameter.Validate(roleId);
-
-            var filter = FilterFactory.Create<Account>(account => account.Roles.Any(ro => ro.RoleId == roleId));
-            if(DatabaseQuery.Find(filter).Any())
-            {
-                throw new BusinessException("当前角色已绑定了账户，无法删除");
-            }
-
-            var result = DatabaseQuery.FindOne(FilterFactory.Create<Role>(role => role.Id == roleId));
-            if(result == null)
-            {
-                throw new BusinessException("该角色可能已不存在，请刷新后再试");
-            }
-
-            if(result.Powers.Any())
-            {
-                result.Powers.ToList().ForEach(rolePower => rolePower.Remove());
-            }
-
-            result.Remove();
-            _roleRepository.Update(result);
-
-            UnitOfWork.Commit();
+            _securityContext.RemoveRole(roleId);
         }
 
         public void AddNewRole(RoleDto roleDto)
