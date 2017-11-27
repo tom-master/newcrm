@@ -51,6 +51,7 @@
     <Compile Include="BoundedContextMember\AppTypeServices.cs" />
     <Compile Include="BoundedContextMember\CreateNewFolderServices.cs" />
     <Compile Include="BoundedContextMember\DeskContext.cs" />
+    <Compile Include="BoundedContextMember\LoggerContext.cs" />
     <Compile Include="Interface\IAppContext.cs" />
     <Compile Include="BoundedContextMember\MemberContext.cs" />
     <Compile Include="BoundedContextMember\InstallAppServices.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Interface\IAppTypeServices.cs" />
     <Compile Include="Interface\ICreateNewFolderServices.cs" />
     <Compile Include="Interface\IDeskContext.cs" />
+    <Compile Include="Interface\ILoggerContext.cs" />
     <Compile Include="Interface\IMemberContext.cs" />
     <Compile Include="Interface\IInstallAppServices.cs" />
     <Compile Include="Interface\IModifyAppInfoServices.cs" />

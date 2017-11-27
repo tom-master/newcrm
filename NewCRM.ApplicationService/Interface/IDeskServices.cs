@@ -11,10 +11,6 @@ namespace NewCRM.Application.Services.Interface
         /// <summary>
         /// 根据用户id获取桌面的成员
         /// </summary>
-        /// <param name="accountId"></param>
-        /// <param name="memberId"></param>
-        /// <param name="isFolder"></param>
-        /// <returns></returns>
         MemberDto GetMember(Int32 accountId, Int32 memberId, Boolean isFolder = default(Boolean));
 
         #endregion

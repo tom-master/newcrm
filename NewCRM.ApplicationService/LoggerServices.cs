@@ -1,34 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NewCRM.Application.Services.Interface;
 using NewCRM.Domain;
 using NewCRM.Domain.Entitys.System;
-using NewCRM.Domain.ValueObject;
+using NewCRM.Domain.Services.Interface;
 using NewCRM.Dto;
-using NewCRM.Infrastructure.CommonTools.CustomExtension;
-using NewCRM.Application.Services.Interface;
-using NewCRM.Domain.Repositories.IRepository.System;
 
 namespace NewCRM.Application.Services
 {
     public class LoggerServices : BaseServiceContext, ILoggerServices
     {
-        private readonly ILogRepository _loggerRepository;
+        private ILoggerContext _loggerContext;
 
-        public LoggerServices(ILogRepository loggerRepository)
+        public LoggerServices(ILoggerContext loggerContext)
         {
-            _loggerRepository = loggerRepository;
+            _loggerContext = loggerContext;
         }
 
         public void AddLogger(LogDto log)
         {
-            _loggerRepository.Add(log.ConvertToModel<LogDto, Log>());
+            ValidateParameter.Validate(log);
+            _loggerContext.AddLogger(log.ConvertToModel<LogDto, Log>());
         }
 
-        public IList<LogDto> GetAllLog(Int32 logLevel, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+        public IList<LogDto> GetAllLog(Int32 accountId, Int32 logLevel, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
-            var internalLogLevel = EnumExtensions.ParseToEnum<LogLevel>(logLevel);
-            return DatabaseQuery.PageBy(FilterFactory.Create((Log log) => log.LogLevelEnum == internalLogLevel), pageIndex, pageSize, out totalCount).Select(s => new LogDto
+            var result = _loggerContext.GetLogs(accountId, logLevel, pageIndex, pageSize, out totalCount);
+            return result.Select(s => new LogDto
             {
                 AccountId = s.AccountId,
                 Action = s.Action,
