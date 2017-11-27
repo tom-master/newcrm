@@ -53,6 +53,7 @@
     <Compile Include="BoundedContextMember\DeskContext.cs" />
     <Compile Include="BoundedContextMember\LoggerContext.cs" />
     <Compile Include="BoundedContextMember\SecurityContext.cs" />
+    <Compile Include="BoundedContextMember\SkinContext.cs" />
     <Compile Include="Interface\IAppContext.cs" />
     <Compile Include="BoundedContextMember\MemberContext.cs" />
     <Compile Include="BoundedContextMember\InstallAppServices.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Interface\IModifyWallpaperServices.cs" />
     <Compile Include="Interface\IRecommendAppServices.cs" />
     <Compile Include="Interface\ISecurityContext.cs" />
+    <Compile Include="Interface\ISkinContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

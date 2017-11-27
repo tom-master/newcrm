@@ -112,8 +112,7 @@ UPDATE dbo.RolePowers SET IsDeleted=1 WHERE RoleId={roleId}";
             ValidateParameter.Validate(accessAppId).Validate(roleIds);
             using(var dataStore = new DataStore())
             {
-                var sql = $@"
-SELECT a.AppId FROM dbo.RolePowers AS a WHERE a.RoleId IN({String.Join(",", roleIds)}) AND a.IsDeleted=0";
+                var sql = $@"SELECT a.AppId FROM dbo.RolePowers AS a WHERE a.RoleId IN({String.Join(",", roleIds)}) AND a.IsDeleted=0";
                 var result = dataStore.SqlGetDataTable(sql).AsList<RolePower>().ToList();
                 return result.Any(a => a.AppId == accessAppId);
             }

@@ -3,21 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using NewCRM.Domain;
-using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Application.Services.Interface;
-using NewCRM.Domain.Repositories.IRepository.Agent;
+using NewCRM.Domain;
+using NewCRM.Domain.Services.Interface;
 
 namespace NewCRM.Application.Services
 {
     public class SkinServices : BaseServiceContext, ISkinServices
     {
+        private readonly ISkinContext _skinContext;
 
-        private readonly IAccountRepository _accountRepository;
-
-        public SkinServices(IAccountRepository accountRepository)
+        public SkinServices(ISkinContext skinContext)
         {
-            _accountRepository = accountRepository;
+            _skinContext = skinContext;
         }
 
         public IDictionary<String, dynamic> GetAllSkin(String skinPath)
@@ -41,12 +39,7 @@ namespace NewCRM.Application.Services
         public void ModifySkin(Int32 accountId, String newSkin)
         {
             ValidateParameter.Validate(accountId).Validate(newSkin);
-
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            accountResult.Config.ModifySkin(newSkin);
-
-            _accountRepository.Update(accountResult);
-            UnitOfWork.Commit();
+            
         }
 
         #region private method
