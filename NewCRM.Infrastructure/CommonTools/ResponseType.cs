@@ -6,7 +6,7 @@ namespace NewCRM.Infrastructure.CommonTools
     /// <summary>
     /// 表示业务操作结果的枚举
     /// </summary>
-    [Description("业务操作结果的枚举"),Flags]
+    [Description("业务操作结果的枚举"), Flags]
     public enum ResponseType
     {
         /// <summary>
@@ -16,43 +16,43 @@ namespace NewCRM.Infrastructure.CommonTools
         Success = 1,
 
         /// <summary>
-        ///     操作取消或操作没引发任何变化
+        /// 操作取消或操作没引发任何变化
         /// </summary>
         [Description("操作没有引发任何变化提交取消")]
         NoChanged = 2,
 
         /// <summary>
-        ///     参数错误
+        /// 参数错误
         /// </summary>
         [Description("参数错误")]
         ParamError = 3,
 
         /// <summary>
-        ///     指定参数的数据不存在
+        /// 指定参数的数据不存在
         /// </summary>
         [Description("指定参数的数据不存在")]
         QueryNull = 4,
 
         /// <summary>
-        ///     权限不足
+        /// 权限不足
         /// </summary>
         [Description("当前用户权限不足不能继续操作")]
         PurviewLack = 5,
 
         /// <summary>
-        ///     非法操作
+        /// 非法操作
         /// </summary>
         [Description("非法操作")]
         IllegalOperation = 6,
 
         /// <summary>
-        ///     警告
+        /// 警告
         /// </summary>
         [Description("警告")]
         Warning = 7,
 
         /// <summary>
-        ///     操作引发错误
+        /// 操作引发错误
         /// </summary>
         [Description("操作引发错误")]
         Error = 8,

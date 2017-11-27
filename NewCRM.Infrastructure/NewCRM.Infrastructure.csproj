@@ -62,7 +62,6 @@
     <Compile Include="CommonTools\CustomHelper\BingHelper.cs" />
     <Compile Include="CommonTools\CustomHelper\Parameter.cs" />
     <Compile Include="CommonTools\CustomHelper\StringHelper.cs" />
-    <Compile Include="CommonTools\FileHelper.cs" />
     <Compile Include="CommonTools\ProfileManager.cs" />
     <Compile Include="CommonTools\ResponseModel.cs" />
     <Compile Include="CommonTools\ResponseType.cs" />
