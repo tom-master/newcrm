@@ -36,7 +36,7 @@ namespace NewCRM.Application.Services
                 Id = s.Id,
                 Md5 = s.Md5,
                 ShortUrl = s.ShortUrl,
-                Source = s.Source.ToString(),
+                Source = (Int32)s.Source,
                 Title = s.Title,
                 Url = s.Url,
                 Width = s.Width
@@ -52,19 +52,18 @@ namespace NewCRM.Application.Services
         public List<WallpaperDto> GetUploadWallpaper(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
-            return DatabaseQuery.Find(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.AccountId == accountId)).Select(s => new WallpaperDto
+            return _wallpaperContext.GetUploadWallpaper(accountId).Select(s => new WallpaperDto
             {
                 AccountId = s.AccountId,
                 Height = s.Height,
                 Id = s.Id,
                 Md5 = s.Md5,
                 ShortUrl = s.ShortUrl,
-                Source = s.Source.ToString(),
+                Source = (Int32)s.Source,
                 Title = s.Title,
                 Url = s.Url,
                 Width = s.Width
             }).ToList();
-
         }
 
         public async Task<Tuple<Int32, String>> AddWebWallpaper(Int32 accountId, String url)
@@ -88,15 +87,13 @@ namespace NewCRM.Application.Services
                 {
                     Width = image.Width,
                     Height = image.Height,
-                    Source = WallpaperSource.Web.ToString(),
+                    Source = (Int32)WallpaperSource.Web,
                     Title = imageTitle,
                     Url = url,
                     AccountId = accountId,
                     Md5 = wallpaperMd5,
                     ShortUrl = url
                 });
-
-                UnitOfWork.Commit();
                 return new Tuple<Int32, String>(wallpaperResult.Item1, wallpaperResult.Item2);
             }
         }
@@ -104,7 +101,7 @@ namespace NewCRM.Application.Services
         public WallpaperDto GetUploadWallpaper(String md5)
         {
             ValidateParameter.Validate(md5);
-            var result = DatabaseQuery.FindOne(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Md5 == md5));
+            var result = _wallpaperContext.GetUploadWallpaper(md5);
             return new WallpaperDto
             {
                 AccountId = result.AccountId,
@@ -113,7 +110,7 @@ namespace NewCRM.Application.Services
                 Id = result.Id,
                 Md5 = result.Md5,
                 ShortUrl = result.ShortUrl,
-                Source = result.Source.ToString(),
+                Source = (Int32)result.Source,
                 Title = result.Title,
                 Url = result.Url
             };
@@ -123,24 +120,18 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(newMode);
             _modifyWallpaperServices.ModifyWallpaperMode(accountId, newMode);
-
-            UnitOfWork.Commit();
         }
 
         public void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId)
         {
             ValidateParameter.Validate(accountId).Validate(newWallpaperId);
             _modifyWallpaperServices.ModifyWallpaper(accountId, newWallpaperId);
-
-            UnitOfWork.Commit();
         }
 
         public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
         {
             ValidateParameter.Validate(accountId).Validate(wallpaperId);
             _modifyWallpaperServices.RemoveWallpaper(accountId, wallpaperId);
-
-            UnitOfWork.Commit();
         }
     }
 }

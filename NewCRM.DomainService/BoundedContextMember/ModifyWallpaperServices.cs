@@ -4,21 +4,14 @@ using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomException;
-using NewCRM.Domain.Repositories.IRepository.Agent;
-using NewCRM.Domain.Repositories.IRepository.System;
+using NewCRM.Repository.StorageProvider;
 
 namespace NewCRM.Domain.Services.BoundedContextMember
 {
     public sealed class ModifyWallpaperServices : BaseServiceContext, IModifyWallpaperServices
     {
-
-        private readonly IAccountRepository _accountRepository;
-        private readonly IWallpaperRepository _wallpaperRepository;
-
-        public ModifyWallpaperServices(IAccountRepository accountRepository, IWallpaperRepository wallpaperRepository)
+        public ModifyWallpaperServices()
         {
-            _accountRepository = accountRepository;
-            _wallpaperRepository = wallpaperRepository;
         }
 
         public void ModifyWallpaperMode(Int32 accountId, String newMode)
@@ -26,11 +19,13 @@ namespace NewCRM.Domain.Services.BoundedContextMember
             ValidateParameter.Validate(accountId).Validate(newMode);
 
             WallpaperMode wallpaperMode;
-            if (Enum.TryParse(newMode, true, out wallpaperMode))
+            if(Enum.TryParse(newMode, true, out wallpaperMode))
             {
-                var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-                accountResult.Config.ModifyDisplayMode(wallpaperMode);
-                _accountRepository.Update(accountResult);
+                using(var dataStore = new DataStore())
+                {
+                    var sql = $@"UPDATE dbo.Configs SET WallpaperMode={(Int32)wallpaperMode} WHERE AccountId={accountId} AND IsDeleted=0";
+                    dataStore.SqlExecute(sql);
+                }
             }
             else
             {
@@ -41,24 +36,36 @@ namespace NewCRM.Domain.Services.BoundedContextMember
         public void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId)
         {
             ValidateParameter.Validate(accountId).Validate(newWallpaperId);
-
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            var wallpaperResult = DatabaseQuery.FindOne(FilterFactory.Create<Wallpaper>(wallpaper => wallpaper.Id == newWallpaperId));
-            accountResult.Config.ModifyWallpaper(wallpaperResult);
-
-            _accountRepository.Update(accountResult);
+            using(var dataStore = new DataStore())
+            {
+                var sql = $@"UPDATE dbo.Configs SET WallpaperId={newWallpaperId} WHERE AccountId={accountId} AND IsDeleted=0";
+                dataStore.SqlExecute(sql);
+            }
         }
 
         public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
         {
             ValidateParameter.Validate(accountId).Validate(wallpaperId);
-
-            var accountResult = DatabaseQuery.FindOne(FilterFactory.Create((Account account) => account.Id == accountId));
-            if (accountResult.Config.Wallpaper.Id == wallpaperId)
+            using(var dataStore = new DataStore())
             {
-                throw new BusinessException($"当前壁纸正在使用或已被删除");
+                #region 前置条件验证
+                {
+                    var sql = $@"SELECT COUNT(*) FROM dbo.Configs AS a WHERE a.AccountId={accountId} AND a.WallpaperId={wallpaperId} AND a.IsDeleted=0";
+                    var result = (Int32)dataStore.SqlExecute(sql);
+                    if(result > 0)
+                    {
+                        throw new BusinessException("当前壁纸正在使用中，不能删除");
+                    }
+                }
+                #endregion
+
+                #region 移除壁纸
+                {
+                    var sql = $@"UPDATE dbo.Wallpapers SET IsDeleted=1 WHERE Id={wallpaperId} AccountId={accountId} AND IsDeleted=0";
+                    dataStore.SqlExecute(sql);
+                }
+                #endregion
             }
-            _wallpaperRepository.Remove(wallpaper => wallpaper.Id == wallpaperId);
         }
     }
 }

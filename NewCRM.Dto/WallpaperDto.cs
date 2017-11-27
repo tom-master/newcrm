@@ -31,8 +31,7 @@ namespace NewCRM.Dto
         /// <summary>
         /// 来源
         /// </summary>
-        [Required, StringLength(10)]
-        public String Source { get; set; }
+        public Int32 Source { get; set; }
 
         /// <summary>
         /// 图片的宽

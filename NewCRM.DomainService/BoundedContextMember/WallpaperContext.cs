@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
+using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewCRM.Repository.StorageProvider;
@@ -77,12 +78,40 @@ SELECT a.Id,a.Url FROM dbo.Wallpapers AS a WHERE a.Id={newWallpaperId} AND a.IsD
 
         public Wallpaper GetUploadWallpaper(string md5)
         {
-            throw new NotImplementedException();
+            using(var dataStore = new DataStore())
+            {
+                var sql = $@"SELECT
+                            a.AccountId,
+                            a.Height,
+                            a.Id,
+                            a.Md5,
+                            a.ShortUrl,
+                            a.Source,
+                            a.Title,
+                            a.Url,
+                            a.Width
+                            FROM dbo.Wallpapers AS a WHERE a.Md5={md5} AND a.IsDeleted=0";
+                return dataStore.SqlGetDataTable(sql).AsSignal<Wallpaper>();
+            }
         }
 
         public List<Wallpaper> GetUploadWallpaper(int accountId)
         {
-            throw new NotImplementedException();
+            using(var dataStore = new DataStore())
+            {
+                var sql = $@"SELECT
+                            a.AccountId,
+                            a.Height,
+                            a.Id,
+                            a.Md5,
+                            a.ShortUrl,
+                            a.Source,
+                            a.Title,
+                            a.Url,
+                            a.Width
+                            FROM dbo.Wallpapers AS a WHERE a.AccountId={accountId} AND a.Source={(Int32)WallpaperSource.Upload} AND a.IsDeleted=0";
+                return dataStore.SqlGetDataTable(sql).AsList<Wallpaper>().ToList();
+            }
         }
 
         public List<Wallpaper> GetWallpapers()
@@ -104,19 +133,5 @@ SELECT a.Id,a.Url FROM dbo.Wallpapers AS a WHERE a.Id={newWallpaperId} AND a.IsD
             }
         }
 
-        public void ModifyWallpaper(int accountId, int newWallpaperId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ModifyWallpaperMode(int accountId, string newMode)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveWallpaper(int accountId, int wallpaperId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
