@@ -81,8 +81,8 @@ namespace NewCRM.Application.Services
 
         public Boolean CheckPermissions(Int32 accessAppId, params Int32[] roleIds)
         {
-            var roles = DatabaseQuery.Find(FilterFactory.Create<Role>(role => roleIds.Contains(role.Id))).ToArray();
-            return roles.Any(role => role.CheckPower(accessAppId));
+            ValidateParameter.Validate(accessAppId).Validate(roleIds);
+            return _securityContext.CheckPermissions(accessAppId, roleIds);
         }
     }
 }

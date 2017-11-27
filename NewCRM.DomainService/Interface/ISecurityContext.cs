@@ -48,7 +48,6 @@ namespace NewCRM.Domain.Services.Interface
         /// <summary>
         /// 检查授权
         /// </summary>
-        /// <returns></returns>
-        Boolean CheckPermissions(Int32 accessAppId, params Int32[] roleIds);
+        bool CheckPermissions(int accessAppId, params int[] roleIds);
     }
 }

@@ -109,7 +109,14 @@ UPDATE dbo.RolePowers SET IsDeleted=1 WHERE RoleId={roleId}";
 
         public bool CheckPermissions(int accessAppId, params int[] roleIds)
         {
-            throw new NotImplementedException();
+            ValidateParameter.Validate(accessAppId).Validate(roleIds);
+            using(var dataStore = new DataStore())
+            {
+                var sql = $@"
+SELECT a.AppId FROM dbo.RolePowers AS a WHERE a.RoleId IN({String.Join(",", roleIds)}) AND a.IsDeleted=0";
+                var result = dataStore.SqlGetDataTable(sql).AsList<RolePower>().ToList();
+                return result.Any(a => a.AppId == accessAppId);
+            }
         }
 
         public IList<RolePower> GetPowers()
