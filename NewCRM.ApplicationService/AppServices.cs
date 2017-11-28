@@ -14,21 +14,18 @@ namespace NewCRM.Application.Services
 {
     public class AppServices : BaseServiceContext, IAppServices
     {
-        private readonly IInstallAppServices _installAppServices;
         private readonly IMemberContext _memberServices;
         private readonly IAppTypeServices _appTypeServices;
         private readonly IRecommendAppServices _recommendAppServices;
         private readonly IAppContext _appContext;
         private readonly IDeskContext _deskContext;
 
-        public AppServices(IInstallAppServices installAppServices,
-            IMemberContext memberServices,
+        public AppServices(IMemberContext memberServices,
             IAppTypeServices appTypeServices,
             IRecommendAppServices recommendAppServices,
             IAppContext appContext,
             IDeskContext deskContext)
         {
-            _installAppServices = installAppServices;
             _memberServices = memberServices;
             _appTypeServices = appTypeServices;
             _recommendAppServices = recommendAppServices;
@@ -43,13 +40,13 @@ namespace NewCRM.Application.Services
             var result = _memberServices.GetMembers(accountId);
             var deskGroup = result.GroupBy(a => a.DeskIndex);
             var deskDictionary = new Dictionary<String, IList<dynamic>>();
-            foreach (var desk in deskGroup)
+            foreach(var desk in deskGroup)
             {
                 var members = desk.ToList();
                 var deskMembers = new List<dynamic>();
-                foreach (var member in desk.ToList())
+                foreach(var member in desk.ToList())
                 {
-                    if (member.MemberType == MemberType.Folder)
+                    if(member.MemberType == MemberType.Folder)
                     {
                         deskMembers.Add(new
                         {
@@ -82,7 +79,7 @@ namespace NewCRM.Application.Services
                     }
                     else
                     {
-                        if (member.FolderId == 0)
+                        if(member.FolderId == 0)
                         {
                             var internalType = member.MemberType.ToString().ToLower();
                             deskMembers.Add(new
@@ -122,7 +119,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId);
 
             var result = _recommendAppServices.GetTodayRecommend(accountId);
-            if (result == null)
+            if(result == null)
             {
                 return new TodayRecommendAppDto();
             }
@@ -144,7 +141,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var result = _installAppServices.GetAccountDevelopAppCountAndNotReleaseAppCount(accountId);
+            var result = _appContext.GetAccountDevelopAppCountAndNotReleaseAppCount(accountId);
             return result;
 
         }
@@ -231,7 +228,7 @@ namespace NewCRM.Application.Services
         public IEnumerable<AppStyleDto> GetAllAppStyles()
         {
             var descriptions = GetEnumDescriptions(typeof(AppStyle));
-            foreach (var description in descriptions)
+            foreach(var description in descriptions)
             {
                 yield return new AppStyleDto
                 {
@@ -248,7 +245,7 @@ namespace NewCRM.Application.Services
 
             appStates.AddRange(GetEnumDescriptions(typeof(AppAuditState)));
             appStates.AddRange(GetEnumDescriptions(typeof(AppReleaseState)));
-            foreach (var appState in appStates)
+            foreach(var appState in appStates)
             {
                 yield return new AppStateDto
                 {
@@ -274,11 +271,11 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(direction);
 
-            if (direction.ToLower() == "x")
+            if(direction.ToLower() == "x")
             {
                 _deskContext.ModifyMemberDirectionToX(accountId);
             }
-            else if (direction.ToLower() == "y")
+            else if(direction.ToLower() == "y")
             {
                 _deskContext.ModifyMemberDirectionToY(accountId);
             }
@@ -312,7 +309,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId).Validate(appId).Validate(starCount, true);
 
             var isInstall = _appContext.IsInstallApp(accountId, appId);
-            if (!isInstall)
+            if(!isInstall)
             {
                 throw new BusinessException("您还没有安装这个App，因此不能打分");
             }
@@ -322,7 +319,7 @@ namespace NewCRM.Application.Services
         public void InstallApp(Int32 accountId, Int32 appId, Int32 deskNum)
         {
             ValidateParameter.Validate(accountId).Validate(appId).Validate(deskNum);
-            _installAppServices.Install(accountId, appId, deskNum);
+            _appContext.Install(accountId, appId, deskNum);
         }
 
         public void ModifyAccountAppInfo(Int32 accountId, AppDto appDto)

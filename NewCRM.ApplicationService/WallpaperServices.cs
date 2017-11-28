@@ -12,17 +12,14 @@ using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools;
-using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Application.Services
 {
     public class WallpaperServices : BaseServiceContext, IWallpaperServices
     {
-        private readonly IModifyWallpaperServices _modifyWallpaperServices;
         private readonly IWallpaperContext _wallpaperContext;
-        public WallpaperServices(IModifyWallpaperServices modifyWallpaperServices, IWallpaperContext wallpaperContext)
+        public WallpaperServices(IWallpaperContext wallpaperContext)
         {
-            _modifyWallpaperServices = modifyWallpaperServices;
             _wallpaperContext = wallpaperContext;
         }
 
@@ -119,19 +116,19 @@ namespace NewCRM.Application.Services
         public void ModifyWallpaperMode(Int32 accountId, String newMode)
         {
             ValidateParameter.Validate(accountId).Validate(newMode);
-            _modifyWallpaperServices.ModifyWallpaperMode(accountId, newMode);
+            _wallpaperContext.ModifyWallpaperMode(accountId, newMode);
         }
 
         public void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId)
         {
             ValidateParameter.Validate(accountId).Validate(newWallpaperId);
-            _modifyWallpaperServices.ModifyWallpaper(accountId, newWallpaperId);
+            _wallpaperContext.ModifyWallpaper(accountId, newWallpaperId);
         }
 
         public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
         {
             ValidateParameter.Validate(accountId).Validate(wallpaperId);
-            _modifyWallpaperServices.RemoveWallpaper(accountId, wallpaperId);
+            _wallpaperContext.RemoveWallpaper(accountId, wallpaperId);
         }
     }
 }

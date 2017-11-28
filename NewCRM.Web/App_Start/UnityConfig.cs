@@ -56,10 +56,8 @@ namespace NewCRM.Web
             container.RegisterType<IWallpaperServices, WallpaperServices>(new PerRequestLifetimeManager());
             container.RegisterType<ISkinServices, SkinServices>(new PerRequestLifetimeManager());
             container.RegisterType<ILoggerServices, LoggerServices>(new PerRequestLifetimeManager());
-            container.RegisterType<IInstallAppServices, InstallAppServices>(new PerRequestLifetimeManager());
             container.RegisterType<IAccountContext, AccountContext>(new PerRequestLifetimeManager());
             container.RegisterType<ICreateNewFolderServices, CreateNewFolderServices>(new PerRequestLifetimeManager());
-            container.RegisterType<IModifyWallpaperServices, ModifyWallpaperServices>(new PerRequestLifetimeManager());
         }
     }
 }
