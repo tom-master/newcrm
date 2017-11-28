@@ -60,10 +60,9 @@ namespace NewCRM.Web
             container.RegisterType<IDeskContext, DeskContext>(new PerRequestLifetimeManager());
             container.RegisterType<ILoggerContext, LoggerContext>(new PerRequestLifetimeManager());
             container.RegisterType<IMemberContext, MemberContext>(new PerRequestLifetimeManager());
-            container.RegisterType<IAppContext, AppContext>(new PerRequestLifetimeManager());
-            container.RegisterType<IAppContext, AppContext>(new PerRequestLifetimeManager());
-            container.RegisterType<IAppContext, AppContext>(new PerRequestLifetimeManager());
-            container.RegisterType<IAppContext, AppContext>(new PerRequestLifetimeManager());
+            container.RegisterType<ISecurityContext, SecurityContext>(new PerRequestLifetimeManager());
+            container.RegisterType<ISkinContext, SkinContext>(new PerRequestLifetimeManager());
+            container.RegisterType<IWallpaperContext, WallpaperContext>(new PerRequestLifetimeManager());
 
         }
     }
