@@ -58,7 +58,6 @@
     <Compile Include="Interface\IAppContext.cs" />
     <Compile Include="BoundedContextMember\MemberContext.cs" />
     <Compile Include="BoundedContextMember\InstallAppServices.cs" />
-    <Compile Include="BoundedContextMember\ModifyDeskMemberPostionServices.cs" />
     <Compile Include="BoundedContextMember\RecommendAppServices.cs" />
     <Compile Include="BoundedContext\Agent\AccountContext.cs" />
     <Compile Include="BoundedContextMember\ModifyAppInfoServices.cs" />
@@ -73,7 +72,6 @@
     <Compile Include="Interface\IMemberContext.cs" />
     <Compile Include="Interface\IInstallAppServices.cs" />
     <Compile Include="Interface\IModifyAppInfoServices.cs" />
-    <Compile Include="Interface\IModifyDeskMemberPostionServices.cs" />
     <Compile Include="Interface\IModifyDeskMemberServices.cs" />
     <Compile Include="Interface\IModifyDockPostionServices.cs" />
     <Compile Include="Interface\IModifyWallpaperServices.cs" />
