@@ -10,15 +10,12 @@ namespace NewCRM.Application.Services
 {
     public class DeskServices : BaseServiceContext, IDeskServices
     {
-        private readonly ICreateNewFolderServices _createNewFolderServices;
         private readonly IMemberContext _memberContext;
         private readonly IDeskContext _deskContext;
 
-        public DeskServices(ICreateNewFolderServices createNewFolderServices,
-            IMemberContext memberContext,
+        public DeskServices( IMemberContext memberContext,
             IDeskContext deskContext)
         {
-            _createNewFolderServices = createNewFolderServices;
             _memberContext = memberContext;
             _deskContext = deskContext;
         }
@@ -137,7 +134,7 @@ namespace NewCRM.Application.Services
         public void CreateNewFolder(String folderName, String folderImg, Int32 deskId)
         {
             ValidateParameter.Validate(folderName).Validate(folderImg).Validate(deskId);
-            _createNewFolderServices.NewFolder(deskId, folderName, folderImg);
+            _deskContext.CreateNewFolder(deskId, folderName, folderImg);
         }
 
         public void DockToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId)

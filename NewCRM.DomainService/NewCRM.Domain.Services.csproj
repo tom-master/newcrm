@@ -49,7 +49,6 @@
   <ItemGroup>
     <Compile Include="BoundedContextMember\AppContext.cs" />
     <Compile Include="BoundedContextMember\AppTypeServices.cs" />
-    <Compile Include="BoundedContextMember\CreateNewFolderServices.cs" />
     <Compile Include="BoundedContextMember\DeskContext.cs" />
     <Compile Include="BoundedContextMember\LoggerContext.cs" />
     <Compile Include="BoundedContextMember\SecurityContext.cs" />
@@ -61,7 +60,6 @@
     <Compile Include="BoundedContext\Agent\AccountContext.cs" />
     <Compile Include="Interface\IAccountContext.cs" />
     <Compile Include="Interface\IAppTypeServices.cs" />
-    <Compile Include="Interface\ICreateNewFolderServices.cs" />
     <Compile Include="Interface\IDeskContext.cs" />
     <Compile Include="Interface\ILoggerContext.cs" />
     <Compile Include="Interface\IMemberContext.cs" />

@@ -88,5 +88,10 @@ namespace NewCRM.Domain.Services.Interface
         /// 成员从码头移动到桌面
         /// </summary>
         void DockToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId);
+
+        /// <summary>
+        /// 创建文件夹
+        /// </summary>
+        void CreateNewFolder(Int32 deskId, String folderName, String folderImg);
     }
 }

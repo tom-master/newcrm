@@ -57,7 +57,6 @@ namespace NewCRM.Web
             container.RegisterType<ISkinServices, SkinServices>(new PerRequestLifetimeManager());
             container.RegisterType<ILoggerServices, LoggerServices>(new PerRequestLifetimeManager());
             container.RegisterType<IAccountContext, AccountContext>(new PerRequestLifetimeManager());
-            container.RegisterType<ICreateNewFolderServices, CreateNewFolderServices>(new PerRequestLifetimeManager());
         }
     }
 }
