@@ -26,37 +26,42 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 登陆
         /// </summary>
-        /// <returns></returns>
         [HttpPost]
-        public ActionResult Landing(String accountName, String passWord, Boolean isRememberPasswrod = default(Boolean))
+        public ActionResult Landing(LoginParameter loginParameter)
         {
             var response = new ResponseModel<AccountDto>();
 
             #region 参数验证
-            Parameter.Validate(accountName).Validate(passWord);
+            Parameter.Validate(loginParameter);
             #endregion
 
-            var account = AccountServices.Login(accountName, passWord);
-            if (account != null)
+            var account = AccountServices.Login(loginParameter.Name, loginParameter.Password);
+            if(account != null)
             {
                 response.Message = "登陆成功";
                 response.IsSuccess = true;
-
                 Response.Cookies.Add(new HttpCookie("memberID")
                 {
                     Value = account.Id.ToString(),
-                    Expires = isRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddMinutes(30)
+                    Expires = loginParameter.IsRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddMinutes(30)
                 });
 
                 Response.Cookies.Add(new HttpCookie("Account")
                 {
                     Value = JsonConvert.SerializeObject(new { AccountFace = account.AccountFace, Name = account.Name }),
-                    Expires = isRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddMinutes(30)
+                    Expires = loginParameter.IsRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddMinutes(30)
                 });
             }
-
-            return Json(response, JsonRequestBehavior.AllowGet);
+            return Json(response);
         }
+    }
 
+    public class LoginParameter
+    {
+        public String Name { get; set; }
+
+        public String Password { get; set; }
+
+        public Boolean IsRememberPasswrod { get; set; }
     }
 }

@@ -52,7 +52,7 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 头像
         /// </summary>
-        public String Face { get; set; }
+        public String AccountFace { get; set; }
 
 
         /// <summary>

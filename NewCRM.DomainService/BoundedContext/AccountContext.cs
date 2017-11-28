@@ -22,18 +22,20 @@ namespace NewCRM.Domain.Services.BoundedContext
         {
             ValidateParameter.Validate(accountName).Validate(password);
 
-
             using(var dataStore = new DataStore())
             {
                 Account result = null;
-
                 try
                 {
                     dataStore.OpenTransaction();
 
                     #region 查询用户
                     {
-                        var sql = @"SELECT a.Id,a.Name,a.LoginPassword,a.Face FROM dbo.Accounts AS a WHERE a.Name=@name";
+                        var sql = @"SELECT a.Id,a.Name,a.LoginPassword,a1.AccountFace 
+                                    FROM dbo.Accounts AS a
+                                    INNER JOIN dbo.Configs AS a1
+                                    ON a1.AccountId=a.Id 
+                                    WHERE a.Name=@name AND a.IsDeleted=0 AND a.IsDisable=0";
                         result = dataStore.SqlGetDataTable(sql, new List<SqlParameter> { new SqlParameter("@name", accountName) }).AsSignal<Account>();
                         if(result == null)
                         {
@@ -57,20 +59,20 @@ namespace NewCRM.Domain.Services.BoundedContext
                     #region 添加在线用户列表
                     {
                         var sql = $@"INSERT dbo.Onlines
-                    (
-                        IpAddress,
-                        AccountId,
-                        IsDeleted,
-                        AddTime,
-                        LastModifyTime
-                    )
-                    VALUES
-                    (   N'{(Dns.GetHostEntry(Dns.GetHostName()).AddressList[0]).ToString()}',       -- IpAddress - nvarchar(max)
-                        {result.Id},         -- AccountId - int
-                        {0},      -- IsDeleted - bit
-                        GETDATE(), -- AddTime - datetime
-                        GETDATE()  -- LastModifyTime - datetime
-                    )";
+                                    (
+                                        IpAddress,
+                                        AccountId,
+                                        IsDeleted,
+                                        AddTime,
+                                        LastModifyTime
+                                    )
+                                    VALUES
+                                    (   N'{(Dns.GetHostEntry(Dns.GetHostName()).AddressList[0]).ToString()}',       -- IpAddress - nvarchar(max)
+                                        {result.Id},         -- AccountId - int
+                                        {0},      -- IsDeleted - bit
+                                        GETDATE(), -- AddTime - datetime
+                                        GETDATE()  -- LastModifyTime - datetime
+                                    )";
 
                         dataStore.SqlExecute(sql);
                     }

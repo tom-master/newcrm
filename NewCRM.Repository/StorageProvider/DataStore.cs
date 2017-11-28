@@ -14,7 +14,7 @@ namespace NewCRM.Repository.StorageProvider
 
         public DataStore(string connectionName = default(String))
         {
-            _connection = connectionName == default(String) ? new SqlConnection(ConfigurationManager.AppSettings["NewCrm"]) : new SqlConnection(ConfigurationManager.AppSettings[connectionName]);
+            _connection = connectionName == default(String) ? new SqlConnection(ConfigurationManager.ConnectionStrings["NewCrm"].ToString()) : new SqlConnection(ConfigurationManager.ConnectionStrings[connectionName].ToString());
         }
 
         #region 事务处理

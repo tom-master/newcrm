@@ -55,5 +55,7 @@ namespace NewCRM.Dto
         public String LastLoginTime { get; set; }
 
         public String LastModifyTime { get; set; }
+
+        public Boolean IsRememberPasswrod { get; set; }
     }
 }

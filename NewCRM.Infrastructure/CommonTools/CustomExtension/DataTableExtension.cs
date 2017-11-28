@@ -16,13 +16,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
                 throw new BusinessException("转换失败");
             }
 
-            var data = new List<T>();
-            foreach(DataRow row in dataTable.Rows)
-            {
-                T item = GetItem<T>(row);
-                data.Add(item);
-            }
-            return data;
+            return ConvertToList<T>(dataTable);
         }
 
         public static T AsSignal<T>(this DataTable dataTable) where T : class, new()
@@ -30,23 +24,29 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
             return AsList<T>(dataTable).FirstOrDefault();
         }
 
-        private static T GetItem<T>(DataRow dr)
+        public static List<T> ConvertToList<T>(DataTable dt) where T : class, new()
         {
-            Type temp = typeof(T);
-            T obj = Activator.CreateInstance<T>();
-
-            foreach(DataColumn column in dr.Table.Columns)
+            var list = new List<T>();
+            var t = new T();
+            PropertyInfo[] propertys = t.GetType().GetProperties();
+            foreach(DataRow dr in dt.Rows)
             {
-                foreach(PropertyInfo pro in temp.GetProperties())
+                foreach(PropertyInfo propertyInfo in propertys)
                 {
-                    if(pro.Name == column.ColumnName && dr[column.ColumnName] != DBNull.Value)
+                    var tempName = propertyInfo.Name;
+                    if(dt.Columns.Contains(tempName))
                     {
-                        pro.SetValue(obj, dr[column.ColumnName], null);
-                        break;
+                        var value = dr[tempName];
+                        if(value != DBNull.Value)
+                        {
+                            propertyInfo.SetValue(t, value, null);
+                        }
                     }
                 }
+
+                list.Add(t);
             }
-            return obj;
+            return list;
         }
     }
 }

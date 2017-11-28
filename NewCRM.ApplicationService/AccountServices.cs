@@ -30,7 +30,8 @@ namespace NewCRM.Application.Services
             return new AccountDto
             {
                 Name = account.Name,
-                Id = account.Id
+                Id = account.Id,
+                AccountFace = account.AccountFace
             };
         }
 
@@ -70,7 +71,7 @@ namespace NewCRM.Application.Services
                 Id = s.Id,
                 IsAdmin = s.IsAdmin,
                 Name = s.Name,
-                AccountFace = ProfileManager.FileUrl + s.Face,
+                AccountFace = ProfileManager.FileUrl + s.AccountFace,
                 IsDisable = s.IsDisable
             }).ToList();
         }
@@ -81,14 +82,14 @@ namespace NewCRM.Application.Services
             var roles = _accountContext.GetRoles(account.Id);
             var powers = _accountContext.GetPowers();
 
-            if (account == null)
+            if(account == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
             }
 
             return new AccountDto
             {
-                AccountFace = account.Face,
+                AccountFace = account.AccountFace,
                 AddTime = account.AddTime.ToString("yyyy-MM-dd"),
                 Id = account.Id,
                 IsAdmin = account.IsAdmin,
