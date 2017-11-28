@@ -66,6 +66,31 @@ namespace NewCRM.Domain.Services.Interface
         /// </summary>
         void ReleaseApp(Int32 appId);
 
+        /// <summary>
+        /// 修改开发者（用户）的app信息
+        /// </summary>
+        void ModifyAccountAppInfo(Int32 accountId, App app);
+
+        /// <summary>
+        /// 删除App分类
+        /// </summary>
+        void DeleteAppType(Int32 appTypeId);
+
+        /// <summary>
+        /// 创建新的app分类
+        /// </summary>
+        void CreateNewAppType(AppType appType);
+
+        /// <summary>
+        /// 修改app分类
+        /// </summary>
+        void ModifyAppType(String appTypeName, Int32 appTypeId);
+
+        /// <summary>
+        /// 更改app图标
+        /// </summary>
+        void ModifyAppIcon(Int32 accountId, Int32 appId, String newIcon);
+
 
     }
 }

@@ -15,7 +15,6 @@ namespace NewCRM.Application.Services
     public class AppServices : BaseServiceContext, IAppServices
     {
         private readonly IInstallAppServices _installAppServices;
-        private readonly IModifyAppInfoServices _modifyAppInfoServices;
         private readonly IMemberContext _memberServices;
         private readonly IAppTypeServices _appTypeServices;
         private readonly IRecommendAppServices _recommendAppServices;
@@ -23,7 +22,6 @@ namespace NewCRM.Application.Services
         private readonly IDeskContext _deskContext;
 
         public AppServices(IInstallAppServices installAppServices,
-            IModifyAppInfoServices modifyAppInfoServices,
             IMemberContext memberServices,
             IAppTypeServices appTypeServices,
             IRecommendAppServices recommendAppServices,
@@ -31,7 +29,6 @@ namespace NewCRM.Application.Services
             IDeskContext deskContext)
         {
             _installAppServices = installAppServices;
-            _modifyAppInfoServices = modifyAppInfoServices;
             _memberServices = memberServices;
             _appTypeServices = appTypeServices;
             _recommendAppServices = recommendAppServices;
@@ -331,7 +328,7 @@ namespace NewCRM.Application.Services
         public void ModifyAccountAppInfo(Int32 accountId, AppDto appDto)
         {
             ValidateParameter.Validate(accountId).Validate(appDto);
-            _modifyAppInfoServices.ModifyAccountAppInfo(accountId, appDto.ConvertToModel<AppDto, App>());
+            _appContext.ModifyAccountAppInfo(accountId, appDto.ConvertToModel<AppDto, App>());
         }
 
         public void CreateNewApp(AppDto appDto)
@@ -348,20 +345,20 @@ namespace NewCRM.Application.Services
         public void RemoveAppType(Int32 appTypeId)
         {
             ValidateParameter.Validate(appTypeId);
-            _modifyAppInfoServices.DeleteAppType(appTypeId);
+            _appContext.DeleteAppType(appTypeId);
         }
 
         public void CreateNewAppType(AppTypeDto appTypeDto)
         {
             ValidateParameter.Validate(appTypeDto);
             var appType = appTypeDto.ConvertToModel<AppTypeDto, AppType>();
-            _modifyAppInfoServices.CreateNewAppType(appType);
+            _appContext.CreateNewAppType(appType);
         }
 
         public void ModifyAppType(AppTypeDto appTypeDto, Int32 appTypeId)
         {
             ValidateParameter.Validate(appTypeDto).Validate(appTypeId);
-            _modifyAppInfoServices.ModifyAppType(appTypeDto.Name, appTypeId);
+            _appContext.ModifyAppType(appTypeDto.Name, appTypeId);
         }
 
         public void Pass(Int32 appId)
@@ -397,7 +394,7 @@ namespace NewCRM.Application.Services
         public void ModifyAppIcon(Int32 accountId, Int32 appId, String newIcon)
         {
             ValidateParameter.Validate(accountId).Validate(appId).Validate(newIcon);
-            _modifyAppInfoServices.ModifyAppIcon(accountId, appId, newIcon);
+            _appContext.ModifyAppIcon(accountId, appId, newIcon);
         }
 
         #region private method
