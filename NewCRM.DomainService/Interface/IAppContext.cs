@@ -100,5 +100,11 @@ namespace NewCRM.Domain.Services.Interface
         /// 获取当前账户下已开发和未发布的app
         /// </summary>
         Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount(Int32 accountId);
+
+        /// <summary>
+        /// 获取所有App类型
+        /// </summary>
+        /// <returns></returns>
+        List<AppType> GetAppTypes();
     }
 }

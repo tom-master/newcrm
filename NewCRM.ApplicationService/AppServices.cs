@@ -15,19 +15,16 @@ namespace NewCRM.Application.Services
     public class AppServices : BaseServiceContext, IAppServices
     {
         private readonly IMemberContext _memberServices;
-        private readonly IAppTypeServices _appTypeServices;
         private readonly IRecommendAppServices _recommendAppServices;
         private readonly IAppContext _appContext;
         private readonly IDeskContext _deskContext;
 
         public AppServices(IMemberContext memberServices,
-            IAppTypeServices appTypeServices,
             IRecommendAppServices recommendAppServices,
             IAppContext appContext,
             IDeskContext deskContext)
         {
             _memberServices = memberServices;
-            _appTypeServices = appTypeServices;
             _recommendAppServices = recommendAppServices;
             _appContext = appContext;
             _deskContext = deskContext;
@@ -107,7 +104,7 @@ namespace NewCRM.Application.Services
 
         public List<AppTypeDto> GetAppTypes()
         {
-            return _appTypeServices.GetAppTypes().Select(s => new AppTypeDto
+            return _appContext.GetAppTypes().Select(s => new AppTypeDto
             {
                 Id = s.Id,
                 Name = s.Name
