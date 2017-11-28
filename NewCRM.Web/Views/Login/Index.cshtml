@@ -27,29 +27,30 @@
 <script>
     $(function () {
         $("#login").click(function (event) {
-                event.preventDefault();
-                $('form').fadeOut(500);
-                $('.wrapper').addClass('form-success');
+            event.preventDefault();
+            $('form').fadeOut(500);
+            $('.wrapper').addClass('form-success');
 
-                $('.loading').show();
-                $('#parentDiv').hide();
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/login/landing',
-                    data: {
-                        AccountName: $('.accountname').val(),
-                        passWord: $('.password').val()
-                    },
-                    success: function(responseText) {
-                        if (responseText.IsSuccess) {
-                            $('.loading').hide();
-                            location.href = '@Url.Action("Desktop", "Index")';
-                        } else {
-                            $('.log .tip').text(responseText.Message).show();
-                        }
+            $('.loading').show();
+            $('#parentDiv').hide();
+            var loginParameter = {
+                Name: $('.accountname').val(),
+                Password: $('.password').val(),
+                IsRememberPasswrod: false
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/login/landing',
+                data: { loginParameter },
+                success: function (responseText) {
+                    if (responseText.IsSuccess) {
+                        $('.loading').hide();
+                        location.href = '@Url.Action("Desktop", "Index")';
+                    } else {
+                        $('.log .tip').text(responseText.Message).show();
                     }
-                });
+                }
             });
+        });
     });
 </script>

@@ -9,6 +9,10 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
 {
     public static class DataTableExtension
     {
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <returns></returns>
         public static IList<T> AsList<T>(this DataTable dataTable) where T : class, new()
         {
             if(dataTable == null || dataTable.Rows.Count == 0)
@@ -19,18 +23,22 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
             return ConvertToList<T>(dataTable);
         }
 
+        /// <summary>
+        /// 获取单值
+        /// </summary>
+        /// <returns></returns>
         public static T AsSignal<T>(this DataTable dataTable) where T : class, new()
         {
             return AsList<T>(dataTable).FirstOrDefault();
         }
 
-        public static List<T> ConvertToList<T>(DataTable dt) where T : class, new()
+        private static List<T> ConvertToList<T>(DataTable dt) where T : class, new()
         {
             var list = new List<T>();
-            var t = new T();
-            PropertyInfo[] propertys = t.GetType().GetProperties();
             foreach(DataRow dr in dt.Rows)
             {
+                var t = new T();
+                PropertyInfo[] propertys = t.GetType().GetProperties();
                 foreach(PropertyInfo propertyInfo in propertys)
                 {
                     var tempName = propertyInfo.Name;
