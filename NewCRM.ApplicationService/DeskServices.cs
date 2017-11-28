@@ -10,17 +10,14 @@ namespace NewCRM.Application.Services
 {
     public class DeskServices : BaseServiceContext, IDeskServices
     {
-        private readonly IModifyDockPostionServices _modifyDockPostionServices;
         private readonly ICreateNewFolderServices _createNewFolderServices;
         private readonly IMemberContext _memberContext;
         private readonly IDeskContext _deskContext;
 
-        public DeskServices(IModifyDockPostionServices modifyDockPostionServices,
-            ICreateNewFolderServices createNewFolderServices,
+        public DeskServices(ICreateNewFolderServices createNewFolderServices,
             IMemberContext memberContext,
             IDeskContext deskContext)
         {
-            _modifyDockPostionServices = modifyDockPostionServices;
             _createNewFolderServices = createNewFolderServices;
             _memberContext = memberContext;
             _deskContext = deskContext;

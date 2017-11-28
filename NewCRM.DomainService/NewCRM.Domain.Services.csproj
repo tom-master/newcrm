@@ -61,7 +61,6 @@
     <Compile Include="BoundedContextMember\RecommendAppServices.cs" />
     <Compile Include="BoundedContext\Agent\AccountContext.cs" />
     <Compile Include="BoundedContextMember\ModifyAppInfoServices.cs" />
-    <Compile Include="BoundedContextMember\ModifyDockPostionServices.cs" />
     <Compile Include="BoundedContextMember\ModifyWallpaperServices.cs" />
     <Compile Include="Interface\IAccountContext.cs" />
     <Compile Include="Interface\IAppTypeServices.cs" />
@@ -71,7 +70,6 @@
     <Compile Include="Interface\IMemberContext.cs" />
     <Compile Include="Interface\IInstallAppServices.cs" />
     <Compile Include="Interface\IModifyAppInfoServices.cs" />
-    <Compile Include="Interface\IModifyDockPostionServices.cs" />
     <Compile Include="Interface\IModifyWallpaperServices.cs" />
     <Compile Include="Interface\IRecommendAppServices.cs" />
     <Compile Include="Interface\ISecurityContext.cs" />
