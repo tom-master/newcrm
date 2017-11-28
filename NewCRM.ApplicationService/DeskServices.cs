@@ -10,19 +10,16 @@ namespace NewCRM.Application.Services
 {
     public class DeskServices : BaseServiceContext, IDeskServices
     {
-        private readonly IModifyDeskMemberServices _modifyDeskMemberServices;
         private readonly IModifyDockPostionServices _modifyDockPostionServices;
         private readonly ICreateNewFolderServices _createNewFolderServices;
         private readonly IMemberContext _memberContext;
         private readonly IDeskContext _deskContext;
 
-        public DeskServices(IModifyDeskMemberServices modifyDeskMemberServices,
-            IModifyDockPostionServices modifyDockPostionServices,
+        public DeskServices(IModifyDockPostionServices modifyDockPostionServices,
             ICreateNewFolderServices createNewFolderServices,
             IMemberContext memberContext,
             IDeskContext deskContext)
         {
-            _modifyDeskMemberServices = modifyDeskMemberServices;
             _modifyDockPostionServices = modifyDockPostionServices;
             _createNewFolderServices = createNewFolderServices;
             _memberContext = memberContext;
@@ -125,19 +122,19 @@ namespace NewCRM.Application.Services
         public void ModifyFolderInfo(Int32 accountId, String memberName, String memberIcon, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberName).Validate(memberIcon).Validate(memberId);
-            _modifyDeskMemberServices.ModifyFolderInfo(accountId, memberName, memberIcon, memberId);
+            _memberContext.ModifyFolderInfo(accountId, memberName, memberIcon, memberId);
         }
 
         public void RemoveMember(Int32 accountId, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
-            _modifyDeskMemberServices.RemoveMember(accountId, memberId);
+            _memberContext.RemoveMember(accountId, memberId);
         }
 
         public void ModifyMemberInfo(Int32 accountId, MemberDto member)
         {
             ValidateParameter.Validate(accountId).Validate(member);
-            _modifyDeskMemberServices.ModifyMemberInfo(accountId, member.ConvertToModel<MemberDto, Member>());
+            _memberContext.ModifyMemberInfo(accountId, member.ConvertToModel<MemberDto, Member>());
         }
 
         public void CreateNewFolder(String folderName, String folderImg, Int32 deskId)
@@ -155,7 +152,7 @@ namespace NewCRM.Application.Services
         public void ModifyMemberIcon(Int32 accountId, Int32 memberId, String newIcon)
         {
             ValidateParameter.Validate(memberId).Validate(newIcon);
-            _modifyDeskMemberServices.ModifyMemberIcon(accountId, memberId, newIcon);
+            _memberContext.ModifyMemberIcon(accountId, memberId, newIcon);
         }
     }
 }

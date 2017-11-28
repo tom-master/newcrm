@@ -59,7 +59,6 @@ namespace NewCRM.Web
             container.RegisterType<IInstallAppServices, InstallAppServices>(new PerRequestLifetimeManager());
             container.RegisterType<IModifyAppInfoServices, ModifyAppInfoServices>(new PerRequestLifetimeManager());
             container.RegisterType<IAccountContext, AccountContext>(new PerRequestLifetimeManager());
-            container.RegisterType<IModifyDeskMemberServices, ModifyDeskMemberServices>(new PerRequestLifetimeManager());
             container.RegisterType<IModifyDockPostionServices, ModifyDockPostionServices>(new PerRequestLifetimeManager());
             container.RegisterType<ICreateNewFolderServices, CreateNewFolderServices>(new PerRequestLifetimeManager());
             container.RegisterType<IModifyWallpaperServices, ModifyWallpaperServices>(new PerRequestLifetimeManager());
