@@ -13,21 +13,18 @@ namespace NewCRM.Application.Services
         private readonly IModifyDeskMemberServices _modifyDeskMemberServices;
         private readonly IModifyDockPostionServices _modifyDockPostionServices;
         private readonly ICreateNewFolderServices _createNewFolderServices;
-        private readonly IModifyDeskMemberPostionServices _modifyDeskMemberPostionServices;
         private readonly IMemberContext _memberContext;
         private readonly IDeskContext _deskContext;
 
         public DeskServices(IModifyDeskMemberServices modifyDeskMemberServices,
             IModifyDockPostionServices modifyDockPostionServices,
             ICreateNewFolderServices createNewFolderServices,
-            IModifyDeskMemberPostionServices modifyDeskMemberPostionServices,
             IMemberContext memberContext,
             IDeskContext deskContext)
         {
             _modifyDeskMemberServices = modifyDeskMemberServices;
             _modifyDockPostionServices = modifyDockPostionServices;
             _createNewFolderServices = createNewFolderServices;
-            _modifyDeskMemberPostionServices = modifyDeskMemberPostionServices;
             _memberContext = memberContext;
             _deskContext = deskContext;
         }
@@ -37,7 +34,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId).Validate(memberId);
 
             var result = _memberContext.GetMember(accountId, memberId, isFolder);
-            if (result == null)
+            if(result == null)
             {
                 throw new BusinessException($"未找到app");
             }
@@ -80,50 +77,49 @@ namespace NewCRM.Application.Services
         public void MemberInDock(Int32 accountId, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
-            _modifyDeskMemberPostionServices.MemberInDock(accountId, memberId);
+            _deskContext.MemberInDock(accountId, memberId);
         }
 
         public void MemberOutDock(Int32 accountId, Int32 memberId, Int32 deskId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
-
-            _modifyDeskMemberPostionServices.MemberOutDock(accountId, memberId, deskId);
+            _deskContext.MemberOutDock(accountId, memberId, deskId);
         }
 
         public void DockToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(folderId);
-            _modifyDeskMemberPostionServices.DockToFolder(accountId, memberId, folderId);
+            _deskContext.DockToFolder(accountId, memberId, folderId);
         }
 
         public void FolderToDock(Int32 accountId, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
-            _modifyDeskMemberPostionServices.FolderToDock(accountId, memberId);
+            _deskContext.FolderToDock(accountId, memberId);
         }
 
         public void DeskToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(folderId);
-            _modifyDeskMemberPostionServices.DeskToFolder(accountId, memberId, folderId);
+            _deskContext.DeskToFolder(accountId, memberId, folderId);
         }
 
         public void FolderToDesk(Int32 accountId, Int32 memberId, Int32 deskId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
-            _modifyDeskMemberPostionServices.FolderToDesk(accountId, memberId, deskId);
+            _deskContext.FolderToDesk(accountId, memberId, deskId);
         }
 
         public void FolderToOtherFolder(Int32 accountId, Int32 memberId, Int32 folderId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(folderId);
-            _modifyDeskMemberPostionServices.FolderToOtherFolder(accountId, memberId, folderId);
+            _deskContext.FolderToOtherFolder(accountId, memberId, folderId);
         }
 
         public void DeskToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
-            _modifyDeskMemberPostionServices.DeskToOtherDesk(accountId, memberId, deskId);
+            _deskContext.DeskToOtherDesk(accountId, memberId, deskId);
         }
 
         public void ModifyFolderInfo(Int32 accountId, String memberName, String memberIcon, Int32 memberId)
@@ -153,7 +149,7 @@ namespace NewCRM.Application.Services
         public void DockToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
-            _modifyDeskMemberPostionServices.DockToOtherDesk(accountId, memberId, deskId);
+            _deskContext.DockToOtherDesk(accountId, memberId, deskId);
         }
 
         public void ModifyMemberIcon(Int32 accountId, Int32 memberId, String newIcon)
