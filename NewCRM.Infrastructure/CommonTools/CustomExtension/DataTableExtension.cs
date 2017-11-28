@@ -17,7 +17,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         {
             if(dataTable == null || dataTable.Rows.Count == 0)
             {
-                throw new BusinessException("转换失败");
+                return new List<T>();
             }
 
             return ConvertToList<T>(dataTable);
