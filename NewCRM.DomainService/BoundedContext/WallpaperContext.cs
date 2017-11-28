@@ -133,7 +133,6 @@ SELECT a.Id,a.Url FROM dbo.Wallpapers AS a WHERE a.Id={newWallpaperId} AND a.IsD
             }
         }
 
-
         public void ModifyWallpaperMode(Int32 accountId, String newMode)
         {
             ValidateParameter.Validate(accountId).Validate(newMode);
