@@ -106,5 +106,10 @@ namespace NewCRM.Domain.Services.Interface
         /// </summary>
         /// <returns></returns>
         List<AppType> GetAppTypes();
+
+        /// <summary>
+        /// 获取今日推荐
+        /// </summary>
+        dynamic GetTodayRecommend(Int32 accountId);
     }
 }

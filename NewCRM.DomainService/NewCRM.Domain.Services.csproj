@@ -55,13 +55,11 @@
     <Compile Include="BoundedContext\WallpaperContext.cs" />
     <Compile Include="Interface\IAppContext.cs" />
     <Compile Include="BoundedContext\MemberContext.cs" />
-    <Compile Include="BoundedContext\RecommendAppServices.cs" />
     <Compile Include="BoundedContext\AccountContext.cs" />
     <Compile Include="Interface\IAccountContext.cs" />
     <Compile Include="Interface\IDeskContext.cs" />
     <Compile Include="Interface\ILoggerContext.cs" />
     <Compile Include="Interface\IMemberContext.cs" />
-    <Compile Include="Interface\IRecommendAppServices.cs" />
     <Compile Include="Interface\ISecurityContext.cs" />
     <Compile Include="Interface\ISkinContext.cs" />
     <Compile Include="Interface\IWallpaperContext.cs" />

@@ -1,10 +1,8 @@
 using System;
 using NewCRM.Application.Services;
 using NewCRM.Application.Services.Interface;
-using NewCRM.Domain.Services.BoundedContext.Agent;
-using NewCRM.Domain.Services.BoundedContextMember;
+using NewCRM.Domain.Services.BoundedContext;
 using NewCRM.Domain.Services.Interface;
-using NewCRM.Repository.DataBaseProvider.Redis.InternalHelper;
 using Unity;
 using Unity.AspNet.Mvc;
 
@@ -56,7 +54,17 @@ namespace NewCRM.Web
             container.RegisterType<IWallpaperServices, WallpaperServices>(new PerRequestLifetimeManager());
             container.RegisterType<ISkinServices, SkinServices>(new PerRequestLifetimeManager());
             container.RegisterType<ILoggerServices, LoggerServices>(new PerRequestLifetimeManager());
+
             container.RegisterType<IAccountContext, AccountContext>(new PerRequestLifetimeManager());
+            container.RegisterType<IAppContext, AppContext>(new PerRequestLifetimeManager());
+            container.RegisterType<IDeskContext, DeskContext>(new PerRequestLifetimeManager());
+            container.RegisterType<ILoggerContext, LoggerContext>(new PerRequestLifetimeManager());
+            container.RegisterType<IMemberContext, MemberContext>(new PerRequestLifetimeManager());
+            container.RegisterType<IAppContext, AppContext>(new PerRequestLifetimeManager());
+            container.RegisterType<IAppContext, AppContext>(new PerRequestLifetimeManager());
+            container.RegisterType<IAppContext, AppContext>(new PerRequestLifetimeManager());
+            container.RegisterType<IAppContext, AppContext>(new PerRequestLifetimeManager());
+
         }
     }
 }

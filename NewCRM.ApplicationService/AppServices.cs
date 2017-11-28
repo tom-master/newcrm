@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Domain;
-using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
@@ -15,17 +14,14 @@ namespace NewCRM.Application.Services
     public class AppServices : BaseServiceContext, IAppServices
     {
         private readonly IMemberContext _memberServices;
-        private readonly IRecommendAppServices _recommendAppServices;
         private readonly IAppContext _appContext;
         private readonly IDeskContext _deskContext;
 
         public AppServices(IMemberContext memberServices,
-            IRecommendAppServices recommendAppServices,
             IAppContext appContext,
             IDeskContext deskContext)
         {
             _memberServices = memberServices;
-            _recommendAppServices = recommendAppServices;
             _appContext = appContext;
             _deskContext = deskContext;
         }
@@ -115,7 +111,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var result = _recommendAppServices.GetTodayRecommend(accountId);
+            var result = _appContext.GetTodayRecommend(accountId);
             if(result == null)
             {
                 return new TodayRecommendAppDto();
