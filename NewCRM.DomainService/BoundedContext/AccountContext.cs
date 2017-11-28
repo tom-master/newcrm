@@ -14,7 +14,7 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewCRM.Repository.StorageProvider;
 
-namespace NewCRM.Domain.Services.BoundedContext.Agent
+namespace NewCRM.Domain.Services.BoundedContext
 {
     public class AccountContext : BaseServiceContext, IAccountContext
     {

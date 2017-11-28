@@ -7,7 +7,7 @@ using NewCRM.Domain.Services.Interface;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewCRM.Repository.StorageProvider;
 
-namespace NewCRM.Domain.Services.BoundedContextMember
+namespace NewCRM.Domain.Services.BoundedContext
 {
     public class LoggerContext : BaseServiceContext, ILoggerContext
     {

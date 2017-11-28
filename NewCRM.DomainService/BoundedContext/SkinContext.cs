@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Repository.StorageProvider;
 
-namespace NewCRM.Domain.Services.BoundedContextMember
+namespace NewCRM.Domain.Services.BoundedContext
 {
     public class SkinContext : BaseServiceContext, ISkinContext
     {

@@ -9,7 +9,7 @@ using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewCRM.Repository.StorageProvider;
 
-namespace NewCRM.Domain.Services.BoundedContextMember
+namespace NewCRM.Domain.Services.BoundedContext
 {
     public class MemberContext : BaseServiceContext, IMemberContext
     {

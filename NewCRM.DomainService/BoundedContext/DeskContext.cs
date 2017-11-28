@@ -6,7 +6,7 @@ using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Repository.StorageProvider;
 
-namespace NewCRM.Domain.Services.BoundedContextMember
+namespace NewCRM.Domain.Services.BoundedContext
 {
     public class DeskContext : BaseServiceContext, IDeskContext
     {
