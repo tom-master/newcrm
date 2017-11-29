@@ -29,7 +29,8 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.IsOnDock,
                             a.IsDraw,
                             a.IsOpenMax,
-                            a.IsSetbar
+                            a.IsSetbar,
+                            a.DeskIndex
                             FROM dbo.Members AS a WHERE a.AccountId={accountId} AND a.IsDeleted=0";
                 return dataStore.SqlGetDataTable(sql).AsList<Member>().ToList();
             }

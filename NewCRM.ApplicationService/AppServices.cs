@@ -33,13 +33,13 @@ namespace NewCRM.Application.Services
             var result = _memberServices.GetMembers(accountId);
             var deskGroup = result.GroupBy(a => a.DeskIndex);
             var deskDictionary = new Dictionary<String, IList<dynamic>>();
-            foreach(var desk in deskGroup)
+            foreach (var desk in deskGroup)
             {
                 var members = desk.ToList();
                 var deskMembers = new List<dynamic>();
-                foreach(var member in desk.ToList())
+                foreach (var member in members)
                 {
-                    if(member.MemberType == MemberType.Folder)
+                    if (member.MemberType == MemberType.Folder)
                     {
                         deskMembers.Add(new
                         {
@@ -72,7 +72,7 @@ namespace NewCRM.Application.Services
                     }
                     else
                     {
-                        if(member.FolderId == 0)
+                        if (member.FolderId == 0)
                         {
                             var internalType = member.MemberType.ToString().ToLower();
                             deskMembers.Add(new
@@ -92,7 +92,7 @@ namespace NewCRM.Application.Services
                         }
                     }
                 }
-                deskDictionary.Add(desk.ToString(), deskMembers);
+                deskDictionary.Add(desk.Key.ToString(), deskMembers);
             }
 
             return deskDictionary;
@@ -112,7 +112,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId);
 
             var result = _appContext.GetTodayRecommend(accountId);
-            if(result == null)
+            if (result == null)
             {
                 return new TodayRecommendAppDto();
             }
@@ -221,7 +221,7 @@ namespace NewCRM.Application.Services
         public IEnumerable<AppStyleDto> GetAllAppStyles()
         {
             var descriptions = GetEnumDescriptions(typeof(AppStyle));
-            foreach(var description in descriptions)
+            foreach (var description in descriptions)
             {
                 yield return new AppStyleDto
                 {
@@ -238,7 +238,7 @@ namespace NewCRM.Application.Services
 
             appStates.AddRange(GetEnumDescriptions(typeof(AppAuditState)));
             appStates.AddRange(GetEnumDescriptions(typeof(AppReleaseState)));
-            foreach(var appState in appStates)
+            foreach (var appState in appStates)
             {
                 yield return new AppStateDto
                 {
@@ -264,11 +264,11 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(direction);
 
-            if(direction.ToLower() == "x")
+            if (direction.ToLower() == "x")
             {
                 _deskContext.ModifyMemberDirectionToX(accountId);
             }
-            else if(direction.ToLower() == "y")
+            else if (direction.ToLower() == "y")
             {
                 _deskContext.ModifyMemberDirectionToY(accountId);
             }
@@ -302,7 +302,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId).Validate(appId).Validate(starCount, true);
 
             var isInstall = _appContext.IsInstallApp(accountId, appId);
-            if(!isInstall)
+            if (!isInstall)
             {
                 throw new BusinessException("您还没有安装这个App，因此不能打分");
             }

@@ -14,7 +14,6 @@ namespace NewCRM.Web.Controllers
     public class IndexController : BaseController
     {
         private readonly IAppServices _appServices;
-
         private readonly IDeskServices _deskServices;
 
         public IndexController(IAppServices appServices, IDeskServices deskServices)
@@ -22,7 +21,6 @@ namespace NewCRM.Web.Controllers
             _appServices = appServices;
             _deskServices = deskServices;
         }
-
 
         #region 页面
 
@@ -49,7 +47,6 @@ namespace NewCRM.Web.Controllers
         }
 
         #endregion
-
 
         /// <summary>
         /// 解锁屏幕

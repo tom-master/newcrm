@@ -56,7 +56,7 @@ namespace NewCRM.Application.Services
                 WallpaperWidth = wallpaper.Width,
                 WallpaperHeigth = wallpaper.Height,
                 WallpaperSource = wallpaper.Source.ToString().ToLower(),
-                WallpaperMode = config.ToString().ToLower()
+                WallpaperMode = config.WallpaperMode.ToString().ToLower()
             };
         }
 

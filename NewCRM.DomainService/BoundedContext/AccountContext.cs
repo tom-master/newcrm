@@ -132,7 +132,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                 var sql = $@"SELECT 
                             a.Id,
                             a.Skin,
-                            a.Face,
+                            a.AccountFace,
                             a.AppSize,
                             a.AppVerticalSpacing,
                             a.AppHorizontalSpacing,
@@ -214,7 +214,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             using(var dataStore = new DataStore())
             {
                 var sql = $@"SELECT 
-                            a.Face,
+                            a1.AccountFace,
                             a.AddTime,
                             a.Id,
                             a.IsAdmin,
@@ -224,7 +224,10 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.LastModifyTime,
                             a.Name,
                             a.LockScreenPassword
-                            FROM dbo.Accounts AS a WHERE a.Id={accountId} AND a.IsDeleted=0 AND a.IsDisable=0";
+                            FROM dbo.Accounts AS a 
+                            INNER JOIN dbo.Configs AS a1
+                            ON a1.AccountId=a.Id
+                            WHERE a.Id={accountId} AND a.IsDeleted=0 AND a.IsDisable=0";
                 return dataStore.SqlGetDataTable(sql).AsSignal<Account>();
             }
         }
