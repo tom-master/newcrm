@@ -122,11 +122,11 @@ namespace NewCRM.Application.Services
                 Id = result.Id,
                 Name = result.Name,
                 UseCount = result.UseCount,
-                AppIcon = result.IconUrl,
-                StartCount = result.AppStars,
+                AppIcon = result.AppIcon,
+                StartCount = result.StartCount,
                 IsInstall = result.IsInstall,
                 Remark = result.Remark,
-                Style = result.AppStyle
+                Style = result.Style
             };
         }
 

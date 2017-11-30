@@ -6,6 +6,7 @@ using System.Text;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
+using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewCRM.Repository.StorageProvider;
@@ -686,7 +687,7 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
         /// <summary>
         /// 获取今日推荐App
         /// </summary>
-        public dynamic GetTodayRecommend(int accountId)
+        public TodayRecommendAppDto GetTodayRecommend(int accountId)
         {
             ValidateParameter.Validate(accountId);
 
@@ -715,15 +716,15 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                 }
                 while (dataReader.Read())
                 {
-                    return new 
+                    return new TodayRecommendAppDto
                     {
                         UseCount = Int32.Parse(dataReader["UseCount"].ToString()),
                         Id = Int32.Parse(dataReader["Id"].ToString()),
                         Name = dataReader["Name"].ToString(),
-                        IconUrl = dataReader["IconUrl"].ToString(),
+                        AppIcon = dataReader["IconUrl"].ToString(),
                         Remark = dataReader["Remark"].ToString(),
-                        AppStyle = Int32.Parse(dataReader["AppStyle"].ToString()),
-                        AppStars = Int32.Parse(dataReader["AppStars"].ToString()),
+                        Style = dataReader["AppStyle"].ToString(),
+                        StartCount = Int32.Parse(dataReader["AppStars"].ToString()),
                         IsInstall = Int32.Parse(dataReader["IsInstall"].ToString()) > 0 ? true : false
                     };
                 }

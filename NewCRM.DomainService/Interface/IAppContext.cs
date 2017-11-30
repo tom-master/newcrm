@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NewCRM.Domain.Entitys.System;
+using NewCRM.Dto;
 
 namespace NewCRM.Domain.Services.Interface
 {
@@ -110,6 +111,6 @@ namespace NewCRM.Domain.Services.Interface
         /// <summary>
         /// 获取今日推荐
         /// </summary>
-        dynamic GetTodayRecommend(Int32 accountId);
+        TodayRecommendAppDto GetTodayRecommend(Int32 accountId);
     }
 }
