@@ -184,7 +184,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 	                            FROM dbo.Accounts AS a 
 	                            INNER JOIN dbo.Configs AS a1
 	                            ON a1.AccountId=a.Id AND a1.IsDeleted=0
-	                            WHERE a.IsDeleted=0 {where} ";
+	                            {where} ";
                     totalCount = (Int32)dataStore.SqlScalar(sql, new List<SqlParameter> { new SqlParameter("@name", accountName) });
                 }
                 #endregion
@@ -194,11 +194,11 @@ namespace NewCRM.Domain.Services.BoundedContext
                     var sql = $@"SELECT TOP {pageSize} * FROM 
                             (
 	                            SELECT ROW_NUMBER() OVER(ORDER BY a.Id DESC) AS rownumber,
-                                a.Id,a.IsAdmin,a.Name,a.IsDisable,a1.Face 
+                                a.Id,a.IsAdmin,a.Name,a.IsDisable,a1.AccountFace 
 	                            FROM dbo.Accounts AS a 
 	                            INNER JOIN dbo.Configs AS a1
 	                            ON a1.AccountId=a.Id AND a1.IsDeleted=0
-	                            WHERE a.IsDeleted=0 {where} 
+	                            {where} 
                             ) AS a2 WHERE a2.rownumber>{pageSize}*({pageIndex}-1)";
 
                     return dataStore.SqlGetDataTable(sql, new List<SqlParameter> { new SqlParameter("@name", accountName) }).AsList<Account>().ToList();
