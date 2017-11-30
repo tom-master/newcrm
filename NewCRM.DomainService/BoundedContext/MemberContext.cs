@@ -67,7 +67,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                     a.IsSetbar,
                     a.Name,
                     a.Width
-                    FROM dbo.Members AS a WHERE a.AccountId={accountId} AND a.Id={memberId} {where} AND a.IsDeleted=0";
+                    FROM dbo.Members AS a WHERE a.AccountId={accountId} AND a.AppId={memberId} {where} AND a.IsDeleted=0";
                 return dataStore.SqlGetDataTable(sql).AsSignal<Member>();
             }
         }

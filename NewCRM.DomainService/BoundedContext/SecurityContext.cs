@@ -169,14 +169,14 @@ UPDATE dbo.RolePowers SET IsDeleted=1 WHERE RoleId={roleId}";
                 #region sql
                 {
                     var sql = $@"SELECT TOP {pageSize} * FROM 
-(
-	 SELECT
-	ROW_NUMBER() OVER(ORDER BY a.Id DESC) AS rownumber,
-	a.Name,
-	a.RoleIdentity,
-	a.Remark
-	FROM dbo.Roles AS a WHERE {where} AND a.IsDeleted=0
-) AS aa WHERE aa.rownumber>{pageSize}*({pageIndex}-1)";
+                                (
+	                                 SELECT
+	                                ROW_NUMBER() OVER(ORDER BY a.Id DESC) AS rownumber,
+	                                a.Name,
+	                                a.RoleIdentity,
+	                                a.Remark
+	                                FROM dbo.Roles AS a WHERE 1=1 {where} AND a.IsDeleted=0
+                                ) AS aa WHERE aa.rownumber>{pageSize}*({pageIndex}-1)";
 
                     return dataStore.SqlGetDataTable(sql).AsList<Role>().ToList();
                 }
