@@ -150,7 +150,7 @@ namespace NewCRM.Application.Services
                 AccountId = app.AccountId,
                 AddTime = app.AddTime.ToString("yyyy-MM-dd"),
                 UseCount = app.UseCount,
-                StartCount = app.StarCount,
+                StartCount = app.StarCount, 
                 Name = app.Name,
                 IconUrl = app.IconUrl,
                 Remark = app.Remark,
