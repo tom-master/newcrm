@@ -177,7 +177,7 @@ namespace NewCRM.Application.Services
                 IconUrl = app.IconUrl,
                 AppAuditState = (Int32)app.AppAuditState,
                 IsRecommand = app.IsRecommand,
-                IsCreater = app.AccountId == accountId
+                AccountId = app.AccountId
             }).ToList();
         }
 

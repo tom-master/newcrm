@@ -178,7 +178,8 @@ namespace NewCRM.Domain.Services.BoundedContext
 	                    a.IconUrl,
 	                    a.AppAuditState,
 	                    a.IsRecommand,
-                        a.AppTypeId
+                        a.AppTypeId,
+                        a.AccountId
 	                    FROM dbo.Apps AS a {where} 
                     ) AS aa WHERE aa.rownumber>{pageSize}*({pageIndex}-1)";
                     return dataStore.SqlGetDataTable(sql).AsList<App>().ToList();
@@ -314,21 +315,21 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                                 {app.Width},         -- Width - int
                                 {app.Height},         -- Height - int
                                 0,         -- UseCount - int
-                                {app.IsMax},      -- IsMax - bit
-                                {app.IsFull},      -- IsFull - bit
-                                {app.IsSetbar},      -- IsSetbar - bit
-                                {app.IsOpenMax},      -- IsOpenMax - bit
+                                {app.IsMax.ParseToInt32()},      -- IsMax - bit
+                                {app.IsFull.ParseToInt32()},      -- IsFull - bit
+                                {app.IsSetbar.ParseToInt32()},      -- IsSetbar - bit
+                                {app.IsOpenMax.ParseToInt32()},      -- IsOpenMax - bit
                                 0,      -- IsLock - bit
-                                {app.IsSystem},      -- IsSystem - bit
-                                {app.IsFlash},      -- IsFlash - bit
-                                {app.IsDraw},      -- IsDraw - bit
-                                {app.IsResize},      -- IsResize - bit
+                                {app.IsSystem.ParseToInt32()},      -- IsSystem - bit
+                                {app.IsFlash.ParseToInt32()},      -- IsFlash - bit
+                                {app.IsDraw.ParseToInt32()},      -- IsDraw - bit
+                                {app.IsResize.ParseToInt32()},      -- IsResize - bit
                                 {app.AccountId},         -- AccountId - int
                                 {app.AppTypeId},         -- AppTypeId - int
                                 0,      -- IsRecommand - bit
                                 {(Int32)app.AppAuditState},         -- AppAuditState - int
                                 {(Int32)AppReleaseState.UnRelease},         -- AppReleaseState - int
-                                {app.AppStyle},         -- AppStyle - int
+                                {(Int32)app.AppStyle},         -- AppStyle - int
                                 0,      -- IsDeleted - bit
                                 GETDATE(), -- AddTime - datetime
                                 GETDATE()  -- LastModifyTime - datetime
@@ -342,7 +343,7 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
             ValidateParameter.Validate(appId);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Apps SET AppAuditState={AppAuditState.Pass} WHERE Id={appId} AND IsDeleted=0";
+                var sql = $@"UPDATE dbo.Apps SET AppAuditState={(Int32)AppAuditState.Pass} WHERE Id={appId} AND IsDeleted=0";
                 dataStore.SqlExecute(sql);
             }
         }
@@ -352,7 +353,7 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
             ValidateParameter.Validate(appId);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Apps SET AppAuditState={AppAuditState.Deny} WHERE Id={appId} AND IsDeleted=0";
+                var sql = $@"UPDATE dbo.Apps SET AppAuditState={(Int32)AppAuditState.Deny} WHERE Id={appId} AND IsDeleted=0";
                 dataStore.SqlExecute(sql);
             }
         }

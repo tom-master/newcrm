@@ -40,7 +40,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult AppAudit(Int32 appId)
         {
             AppDto appResult = null;
-            if(appId != 0)// 如果appId为0则是新创建app
+            if (appId != 0)// 如果appId为0则是新创建app
             {
                 appResult = _appServices.GetApp(appId);
                 ViewData["AppState"] = appResult.AppAuditState;
@@ -61,8 +61,14 @@ namespace NewCRM.Web.Controllers
         {
             var response = new ResponseModels<IList<AppDto>>();
             Int32 totalCount;
-            var result = _appServices.GetAccountAllApps(Account.Id, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
-            if(result != null)
+            var result = _appServices.GetAccountAllApps(0, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
+
+            for (int i = 0; i < result.Count; i++)
+            {
+                result[i].IsCreater = result[i].AccountId == Account.Id;
+            }
+
+            if (result != null)
             {
                 response.TotalCount = totalCount;
                 response.IsSuccess = true;

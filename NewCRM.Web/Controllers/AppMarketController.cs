@@ -232,7 +232,7 @@ namespace NewCRM.Web.Controllers
             var response = new ResponseModel();
 
             var appDto = WrapperAppDto(forms);
-            appDto.AccountId = Int32.Parse(forms["accountId"]);
+            appDto.AccountId = Account.Id;
 
             _appServices.CreateNewApp(appDto);
             response.IsSuccess = true;
