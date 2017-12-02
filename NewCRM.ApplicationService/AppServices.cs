@@ -208,7 +208,8 @@ namespace NewCRM.Application.Services
                 Height = result.Height,
                 AppAuditState = (Int32)result.AppAuditState,
                 AppReleaseState = (Int32)result.AppReleaseState,
-                AppTypeId = result.AppTypeId
+                AppTypeId = result.AppTypeId,
+                AccountName = result.AccountName
             };
         }
 

@@ -55,7 +55,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                     case 3:
                         {
 
-                            orderBy.Append($@" ORDER BY aa.AppStars DESC");
+                            orderBy.Append($@" ORDER BY aa.StarCount DESC");
                             //filter.OrderByDescending(app => app.AppStars.Sum(s => s.StartNum) * 1.0);
                             break;
                         }
@@ -197,9 +197,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.IconUrl,
                             a.Remark,
                             a.UseCount,
-                            (
-	                            SELECT SUM(a1.StartNum) FROM dbo.AppStars AS a1 WHERE a1.AppId={appId} AND a1.IsDeleted=0
-                            ) AS StarCount,
+                            CAST(ISNULL(SUM(a1.StartNum) OVER(PARTITION BY a1.AppId ORDER BY a1.Id),0) AS INT) AS StarCount,
                             a.AddTime,
                             a.AccountId,
                             a.Id,
@@ -212,8 +210,14 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.Height,
                             a.AppAuditState,
                             a.AppReleaseState,
-                            a.AppTypeId
-                            FROM dbo.Apps AS a WHERE a.Id={appId} AND a.IsDeleted=0";
+                            a.AppTypeId,
+                            a2.Name AS AccountName
+                            FROM dbo.Apps AS a 
+                            LEFT JOIN dbo.AppStars AS a1
+                            ON a1.AppId=a.Id AND a1.IsDeleted=0
+                            LEFT JOIN dbo.Accounts AS a2
+                            ON a2.Id=a.AccountId AND a2.IsDeleted=0 AND a2.IsDisable=0
+                            WHERE a.Id={appId} AND a.IsDeleted=0";
                 return dataStore.SqlGetDataTable(sql).AsSignal<App>();
             }
         }

@@ -88,6 +88,8 @@ namespace NewCRM.Dto
 
         public Boolean IsCreater { get; set; }
 
+        public String AccountName { get; set; }
+
         #endregion
     }
 }

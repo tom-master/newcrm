@@ -128,6 +128,8 @@ namespace NewCRM.Domain.Entitys.System
 
         public Int32 StarCount { get; private set; }
 
+        public String AccountName { get; set; }
+
         #endregion
 
         #region ctor
