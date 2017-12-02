@@ -135,7 +135,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                 if (appStyleId != 0)
                 {
                     var appStyle = EnumExtensions.ParseToEnum<AppStyle>(appStyleId);
-                    where.Append($@" AND a.AppStyle={appStyle}");
+                    where.Append($@" AND a.AppStyle={(Int32)appStyle}");
                 }
 
                 if ((appState + "").Length > 0)
@@ -145,14 +145,14 @@ namespace NewCRM.Domain.Services.BoundedContext
                     if (stats[0] == "AppReleaseState")
                     {
                         var appReleaseState = EnumExtensions.ParseToEnum<AppReleaseState>(Int32.Parse(stats[1]));
-                        where.Append($@" AND a.AppReleaseState={appReleaseState} ");
+                        where.Append($@" AND a.AppReleaseState={(Int32)appReleaseState} ");
                     }
 
                     //app应用审核状态
                     if (stats[0] == "AppAuditState")
                     {
                         var appAuditState = EnumExtensions.ParseToEnum<AppAuditState>(Int32.Parse(stats[1]));
-                        where.Append($@" AND a.AppAuditState={appAuditState}");
+                        where.Append($@" AND a.AppAuditState={(Int32)appAuditState}");
                     }
                 }
 
