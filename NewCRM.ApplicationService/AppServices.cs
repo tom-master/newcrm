@@ -165,8 +165,8 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
 
             var result = _appContext.GetAccountApps(accountId, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
-
             var appTypes = GetAppTypes();
+
             return result.Select(app => new AppDto
             {
                 Name = app.Name,

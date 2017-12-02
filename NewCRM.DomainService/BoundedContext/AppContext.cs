@@ -177,7 +177,8 @@ namespace NewCRM.Domain.Services.BoundedContext
 	                    a.Id,
 	                    a.IconUrl,
 	                    a.AppAuditState,
-	                    a.IsRecommand
+	                    a.IsRecommand,
+                        a.AppTypeId
 	                    FROM dbo.Apps AS a {where} 
                     ) AS aa WHERE aa.rownumber>{pageSize}*({pageIndex}-1)";
                     return dataStore.SqlGetDataTable(sql).AsList<App>().ToList();
