@@ -21,7 +21,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             using (var dataStore = new DataStore())
             {
                 var where = new StringBuilder();
-                where.Append($@" WHERE 1=1 AND a.IsDeleted=0 AND a.AppAuditState={AppAuditState.Pass} AND a.AppReleaseState={AppReleaseState.Release} ");
+                where.Append($@" WHERE 1=1 AND a.IsDeleted=0 AND a.AppAuditState={(Int32)AppAuditState.Pass} AND a.AppReleaseState={(Int32)AppReleaseState.Release} ");
 
                 var orderBy = new StringBuilder();
                 if (appTypeId != 0 && appTypeId != -1)//全部app
@@ -63,21 +63,9 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                 #region totalCount
                 {
-                    var sql = $@"SELECT 
-	                        ROW_NUMBER() OVER(ORDER BY a.Id DESC) AS rownumber,
-	                        a.AppTypeId,
-	                        a.AccountId,
-	                        a.AddTime,
-	                        a.UseCount,
-	                        (
-		                        SELECT SUM(a1.StartNum) FROM dbo.AppStars AS a1 WHERE a1.AccountId=0 AND a1.AppId=0 AND a1.IsDeleted=0
-	                        ) AS StartCount,
-	                        a.Name,
-	                        a.IconUrl,
-	                        a.Remark,
-	                        a.AppStyle,
-	                        a.Id
-	                        FROM dbo.Apps AS a {where}";
+                    var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a 
+                                LEFT JOIN dbo.AppStars AS a1
+                                ON a1.AppId=a.Id AND a1.IsDeleted=0 {where}";
                     totalCount = (Int32)dataStore.SqlScalar(sql);
                 }
                 #endregion
@@ -85,26 +73,29 @@ namespace NewCRM.Domain.Services.BoundedContext
                 #region sql
                 {
                     var sql = $@"SELECT TOP {pageSize} * FROM 
-                        (
-	                        SELECT 
-	                        ROW_NUMBER() OVER(ORDER BY a.Id DESC) AS rownumber,
-	                        a.AppTypeId,
-	                        a.AccountId,
-	                        a.AddTime,
-	                        a.UseCount,
-	                        (
-		                        SELECT SUM(a1.StartNum) FROM dbo.AppStars AS a1 WHERE a1.AccountId={accountId} AND a1.AppId=0 AND a1.IsDeleted=0
-	                        ) AS StartCount,
-	                        a.Name,
-	                        a.IconUrl,
-	                        a.Remark,
-	                        a.AppStyle,
-	                        a.Id,
-	(
-		SELECT COUNT(*) FROM dbo.Members AS a1 WHERE a1.AccountId={accountId} AND a1.IsDeleted=0
-	) AS IsInstall
-	                        FROM dbo.Apps AS a {where}
-                        ) AS aa WHERE aa.rownumber>{pageSize}*({pageIndex}-1)  {orderBy}";
+                                (
+	                                SELECT 
+	                                ROW_NUMBER() OVER(ORDER BY a.Id DESC) AS rownumber,
+	                                a.AppTypeId,
+	                                a.AccountId,
+	                                a.AddTime,
+	                                a.UseCount,
+	                                CAST(ISNULL(SUM(a1.StartNum) OVER(PARTITION BY a1.AppId ORDER BY a1.Id),0) AS INT) AS StarCount,
+	                                a.Name,
+	                                a.IconUrl,
+	                                a.Remark,
+	                                a.AppStyle,
+	                                a.Id,
+	                                (
+		                                CASE (SELECT COUNT(*) FROM dbo.Members AS a1 WHERE a1.AccountId=4 AND a1.AppId=a.Id AND a1.IsDeleted=0)
+											WHEN 1 THEN CAST(1 AS BIT)
+											WHEN 0 THEN CAST(0 AS BIT)
+										END
+	                                ) AS IsInstall
+	                                FROM dbo.Apps AS a
+                                    LEFT JOIN dbo.AppStars AS a1
+                                    ON a1.AppId=a.Id AND a1.IsDeleted=0 {where}
+                                ) AS aa WHERE aa.rownumber>{pageSize}*({pageIndex}-1)  {orderBy}";
 
                     return dataStore.SqlGetDataTable(sql).AsList<App>().ToList();
                 }

@@ -275,6 +275,7 @@
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 5
             }, function (responseText) {
+                
                 if (responseText.IsSuccess) {
                     var liTemplate = Handlebars.compile($("#li-template").html());
                     $('.app-list').html(liTemplate(responseText));
@@ -295,7 +296,7 @@
                 return parseFloat(score).toFixed(1);
             });
 
-            Handlebars.registerHelper('appIsInstall', function (isInstall, options) {
+            Handlebars.registerHelper('IsInstall', function (isInstall, options) {
                 if (isInstall) {
                     return options.fn(this);
                 } else {

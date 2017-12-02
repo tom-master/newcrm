@@ -155,7 +155,8 @@ namespace NewCRM.Application.Services
                 IconUrl = app.IconUrl,
                 Remark = app.Remark,
                 AppStyle = (Int32)app.AppStyle,
-                Id = app.Id
+                Id = app.Id,
+                IsInstall = app.IsInstall
             }).ToList();
         }
 

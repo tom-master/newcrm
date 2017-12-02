@@ -15,7 +15,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         /// <returns></returns>
         public static IList<T> AsList<T>(this DataTable dataTable) where T : class, new()
         {
-            if(dataTable == null || dataTable.Rows.Count == 0)
+            if (dataTable == null || dataTable.Rows.Count == 0)
             {
                 return new List<T>();
             }
@@ -35,17 +35,17 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         private static List<T> ConvertToList<T>(DataTable dt) where T : class, new()
         {
             var list = new List<T>();
-            foreach(DataRow dr in dt.Rows)
+            foreach (DataRow dr in dt.Rows)
             {
                 var t = new T();
                 PropertyInfo[] propertys = t.GetType().GetProperties();
-                foreach(PropertyInfo propertyInfo in propertys)
+                foreach (PropertyInfo propertyInfo in propertys)
                 {
                     var tempName = propertyInfo.Name;
-                    if(dt.Columns.Contains(tempName))
+                    if (dt.Columns.Contains(tempName))
                     {
                         var value = dr[tempName];
-                        if(value != DBNull.Value)
+                        if (value != DBNull.Value)
                         {
                             propertyInfo.SetValue(t, value, null);
                         }
