@@ -21,7 +21,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
             var type = enumeration.GetType();
             var enumArray = enumeration.ToString().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-            foreach(var members in enumArray.Select(enumItem => type.GetMember(enumItem.Trim())).Where(members => members.Length > 0))
+            foreach (var members in enumArray.Select(enumItem => type.GetMember(enumItem.Trim())).Where(members => members.Length > 0))
             {
                 returnValue.Append(members[0].ToDescription() + " 或 ");
             }
@@ -36,9 +36,8 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         /// </summary>
         public static T ParseToEnum<T>(String value) where T : struct
         {
-            var enumConst = Enum.GetName(typeof(T), value);
             T t;
-            if(Enum.TryParse(enumConst, true, out t))
+            if (Enum.TryParse(value, true, out t))
             {
                 return t;
             }
@@ -51,7 +50,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
         /// </summary>
         public static T ParseToEnum<T>(Int32 value) where T : struct
         {
-            return ParseToEnum<T>(value.ToString());
+            return (T)Enum.ToObject(typeof(T), value);
         }
     }
 }

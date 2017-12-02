@@ -242,6 +242,7 @@
                     });
                 }
             }).on('click', '.btn-run', function () {
+                debugger
                 if ($(this).attr('app_type') === 'app') {
                     window.parent.HROS.window.create($(this).attr('real_app_id'));
                 } else {

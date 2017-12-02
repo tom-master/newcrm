@@ -715,7 +715,7 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                         Name = dataReader["Name"].ToString(),
                         AppIcon = dataReader["IconUrl"].ToString(),
                         Remark = dataReader["Remark"].ToString(),
-                        Style = dataReader["AppStyle"].ToString(),
+                        Style = EnumExtensions.ParseToEnum<AppStyle>(dataReader["AppStyle"].ToString()).ToString().ToLower(),
                         StartCount = Int32.Parse(dataReader["AppStars"].ToString()),
                         IsInstall = Int32.Parse(dataReader["IsInstall"].ToString()) > 0 ? true : false
                     };
