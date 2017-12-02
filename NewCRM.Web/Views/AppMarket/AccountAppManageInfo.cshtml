@@ -197,6 +197,7 @@
                 });
 
                 $('#btn-preview').on('click', function () {
+                    debugger
                     if (form.check()) {
                         if ($('input[name="val_type"]:checked').val() === 'app') {
                             window.parent.parent.parent.HROS.window.createTemp({
