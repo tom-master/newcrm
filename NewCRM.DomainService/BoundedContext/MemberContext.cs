@@ -44,7 +44,11 @@ namespace NewCRM.Domain.Services.BoundedContext
                 var where = new StringBuilder();
                 if (isFolder)
                 {
-                    where.Append($@" AND a.MemberType={(Int32)MemberType.Folder}");
+                    where.Append($@" AND a.Id={memberId} AND a.MemberType={(Int32)MemberType.Folder}");
+                }
+                else
+                {
+                    where.Append($@" AND a.AppId={memberId}");
                 }
 
                 var sql = $@"SELECT 
@@ -67,7 +71,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                     a.IsSetbar,
                     a.Name,
                     a.Width
-                    FROM dbo.Members AS a WHERE a.AccountId={accountId} AND a.AppId={memberId} {where} AND a.IsDeleted=0";
+                    FROM dbo.Members AS a WHERE a.AccountId={accountId} {where} AND a.IsDeleted=0";
                 return dataStore.SqlGetDataTable(sql).AsSignal<Member>();
             }
         }
@@ -75,7 +79,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         public void ModifyFolderInfo(Int32 accountId, String memberName, String memberIcon, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberName).Validate(memberIcon).Validate(memberId);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE Members SET Name=@name,IconUrl=@url WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
                 var parameters = new List<SqlParameter>
@@ -83,14 +87,14 @@ namespace NewCRM.Domain.Services.BoundedContext
                     new SqlParameter("@name",memberName),
                     new SqlParameter("@url",memberIcon)
                 };
-                dataStore.SqlExecute(sql,parameters);
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
         public void ModifyMemberIcon(Int32 accountId, Int32 memberId, String newIcon)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(newIcon);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Members SET IconUrl=@url WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
                 dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@url", newIcon) });
@@ -100,7 +104,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         public void ModifyMemberInfo(Int32 accountId, Member member)
         {
             ValidateParameter.Validate(accountId).Validate(member);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Members SET IconUrl='{member.IconUrl}',Name='{member.Name}',Width={member.Width},Height={member.Height},IsResize={member.IsResize.ParseToInt32()},IsOpenMax={member.IsOpenMax.ParseToInt32()},IsFlash={member.IsFlash.ParseToInt32()} WHERE Id={member.Id} AND AccountId={accountId} AND IsDeleted=0";
                 dataStore.SqlExecute(sql);
@@ -110,7 +114,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         public void RemoveMember(Int32 accountId, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 dataStore.OpenTransaction();
                 try
@@ -123,7 +127,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                     }
                     #endregion
 
-                    if(isFolder)
+                    if (isFolder)
                     {
                         #region 将文件夹内的成员移出
                         {
@@ -159,7 +163,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                     dataStore.Commit();
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     dataStore.Rollback();
                     throw;
