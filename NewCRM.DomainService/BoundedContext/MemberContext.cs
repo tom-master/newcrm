@@ -30,7 +30,8 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.IsDraw,
                             a.IsOpenMax,
                             a.IsSetbar,
-                            a.DeskIndex
+                            a.DeskIndex,
+                            a.FolderId
                             FROM dbo.Members AS a WHERE a.AccountId={accountId} AND a.IsDeleted=0";
                 return dataStore.SqlGetDataTable(sql).AsList<Member>().ToList();
             }
