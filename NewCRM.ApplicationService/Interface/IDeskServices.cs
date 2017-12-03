@@ -85,7 +85,7 @@ namespace NewCRM.Application.Services.Interface
         /// <summary>
         /// 创建新的文件夹
         /// </summary>
-        void CreateNewFolder(String folderName, String folderImg, Int32 deskId);
+        void CreateNewFolder(String folderName, String folderImg, Int32 deskId,Int32 accountId);
 
         /// <summary>
         /// 从码头移动到另一个桌面

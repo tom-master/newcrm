@@ -92,6 +92,6 @@ namespace NewCRM.Domain.Services.Interface
         /// <summary>
         /// 创建文件夹
         /// </summary>
-        void CreateNewFolder(Int32 deskId, String folderName, String folderImg);
+        void CreateNewFolder(Int32 deskId, String folderName, String folderImg,Int32 accountId);
     }
 }

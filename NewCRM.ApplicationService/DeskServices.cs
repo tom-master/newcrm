@@ -131,10 +131,10 @@ namespace NewCRM.Application.Services
             _memberContext.ModifyMemberInfo(accountId, member.ConvertToModel<MemberDto, Member>());
         }
 
-        public void CreateNewFolder(String folderName, String folderImg, Int32 deskId)
+        public void CreateNewFolder(String folderName, String folderImg, Int32 deskId,Int32 accountId)
         {
             ValidateParameter.Validate(folderName).Validate(folderImg).Validate(deskId);
-            _deskContext.CreateNewFolder(deskId, folderName, folderImg);
+            _deskContext.CreateNewFolder(deskId, folderName, folderImg, accountId);
         }
 
         public void DockToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId)

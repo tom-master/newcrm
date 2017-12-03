@@ -170,6 +170,7 @@ namespace NewCRM.Web.Controllers
         /// 新建文件夹
         /// </summary>
         /// <returns></returns>
+        [HttpPost]
         public ActionResult CreateNewFolder(String folderName, String folderImg, Int32 deskId)
         {
             #region 参数验证
@@ -177,7 +178,7 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             var response = new ResponseModel();
-            _deskServices.CreateNewFolder(folderName, folderImg, deskId);
+            _deskServices.CreateNewFolder(folderName, folderImg, deskId,Account.Id);
             response.IsSuccess = true;
             response.Message = "新建文件夹成功";
 

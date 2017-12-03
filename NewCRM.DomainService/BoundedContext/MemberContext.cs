@@ -83,7 +83,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                     new SqlParameter("@name",memberName),
                     new SqlParameter("@url",memberIcon)
                 };
-                dataStore.SqlExecute(sql);
+                dataStore.SqlExecute(sql,parameters);
             }
         }
 

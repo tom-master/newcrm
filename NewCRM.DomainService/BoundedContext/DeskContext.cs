@@ -197,7 +197,7 @@ UPDATE dbo.Configs SET AppSize={newSize} WHERE AccountId={accountId} AND IsDelet
             }
         }
 
-        public void CreateNewFolder(Int32 deskId, String folderName, String folderImg)
+        public void CreateNewFolder(Int32 deskId, String folderName, String folderImg,Int32 accountId)
         {
             ValidateParameter.Validate(deskId).Validate(folderImg).Validate(folderName);
 
@@ -246,12 +246,12 @@ UPDATE dbo.Configs SET AppSize={newSize} WHERE AccountId={accountId} AND IsDelet
                                 0,      -- IsFlash - bit
                                 0,      -- IsDraw - bit
                                 0,      -- IsResize - bit
-                                {folder.MemberType},         -- MemberType - int
-                                1,         -- DeskIndex - int
+                                {(Int32)folder.MemberType},         -- MemberType - int
+                                {deskId},         -- DeskIndex - int
                                 0,      -- IsDeleted - bit
                                 GETDATE(), -- AddTime - datetime
                                 GETDATE(), -- LastModifyTime - datetime
-                                0          -- AccountId - int
+                                {accountId}          -- AccountId - int
                             )";
                 dataStore.SqlExecute(sql);
             }
