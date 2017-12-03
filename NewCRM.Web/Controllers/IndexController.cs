@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using NewCRM.Application.Services.Interface;
+using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
@@ -106,9 +107,9 @@ namespace NewCRM.Web.Controllers
             var response = new ResponseModel<ConfigDto>();
             var result = AccountServices.GetConfig(Account.Id);
 
-            if (result.WallpaperSource=="bing")
+            if (result.IsBing)
             {
-                result.WallpaperSource = "bing";
+                result.WallpaperSource = WallpaperSource.Bing.ToString().ToLower();
                 result.WallpaperUrl = AsyncContext.Run(BingHelper.GetEverydayBackgroundImageAsync);
             }
 

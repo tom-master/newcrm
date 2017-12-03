@@ -141,7 +141,8 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.AppXy,
                             a.DockPosition,
                             a.WallpaperMode,
-                            a.WallpaperId
+                            a.WallpaperId,
+                            a.IsBing
                             FROM dbo.Configs AS a WHERE a.AccountId={accountId} AND a.IsDeleted=0";
                 return dataStore.SqlGetDataTable(sql).AsSignal<Config>();
             }

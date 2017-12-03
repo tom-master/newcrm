@@ -56,7 +56,8 @@ namespace NewCRM.Application.Services
                 WallpaperWidth = wallpaper.Width,
                 WallpaperHeigth = wallpaper.Height,
                 WallpaperSource = wallpaper.Source.ToString().ToLower(),
-                WallpaperMode = config.WallpaperMode.ToString().ToLower()
+                WallpaperMode = config.WallpaperMode.ToString().ToLower(),
+                IsBing = config.IsBing
             };
         }
 
@@ -82,7 +83,7 @@ namespace NewCRM.Application.Services
             var roles = _accountContext.GetRoles(account.Id);
             var powers = _accountContext.GetPowers();
 
-            if(account == null)
+            if (account == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
             }

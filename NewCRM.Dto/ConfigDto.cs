@@ -83,5 +83,7 @@ namespace NewCRM.Dto
         /// </summary>
         public Int32 DefaultDeskCount { get; set; }
 
+        public Boolean IsBing { get; set; }
+
     }
 }

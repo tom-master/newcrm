@@ -5,7 +5,7 @@
 
     var desks = (Int32)ViewData["Desks"];
 }
- 
+
 <div class="title">默认桌面(登录后默认显示)</div>
 <div class="input-label">
     <label class="label-text">默认显示：</label>
@@ -14,7 +14,7 @@
             for (int i = 1; i <= desks; i++)
             {<text>
             <label class="radio" style="margin-right: 10px">
-                <input type="radio" name="desk"  value="@i" @{ if (i == accountConfig.DefaultDeskNumber) { <text> checked="checked" </text>     } }>第@{@i}桌面
+                <input type="radio" name="desk" value="@i" @{ if (i == accountConfig.DefaultDeskNumber) { <text> checked="checked" </text>       } }>第@{@i}桌面
             </label>
             </text>
     }
@@ -25,12 +25,28 @@
 <div class="input-label">
     <label class="label-text">来自：</label>
     <div class="label-box form-inline control-group">
-        <label class="radio" style="margin-right: 10px">
-            <input type="radio" name="wallpapersource" value="bing" @{ if (accountConfig.AppXy == "bing") { <text> checked="checked" </text>                             } } />Bing
-        </label>
-        <label class="radio">
-            <input type="radio" name="wallpapersource" value="system" @{ if (accountConfig.AppXy == "system") { <text> checked="checked" </text>                             } } />系统自带
-        </label>
+        @{
+            if (accountConfig.IsBing)
+            {
+                <label class="radio" style="margin-right: 10px">
+                    <input type="radio" name="wallpapersource" value="bing" checked="checked" />Bing
+                </label>
+                <label class="radio">
+                    <input type="radio" name="wallpapersource" value="system" />系统自带
+                </label>
+            }
+            else
+            {
+                <label class="radio" style="margin-right: 10px">
+                    <input type="radio" name="wallpapersource" value="bing" />Bing
+                </label>
+                <label class="radio">
+                    <input type="radio" name="wallpapersource" value="system" checked="checked" />系统自带
+                </label>
+            }
+
+        }
+
     </div>
 </div>
 
@@ -39,10 +55,10 @@
     <label class="label-text">排列方式：</label>
     <div class="label-box form-inline control-group">
         <label class="radio" style="margin-right: 10px">
-            <input type="radio" name="appxy" value="x" @{ if (accountConfig.AppXy == "x") { <text> checked="checked" </text>                            } } />横向排列
+            <input type="radio" name="appxy" value="x" @{ if (accountConfig.AppXy == "x") { <text> checked="checked" </text>                              } } />横向排列
         </label>
         <label class="radio">
-            <input type="radio" name="appxy" value="y" @{ if (accountConfig.AppXy == "y") { <text> checked="checked" </text>                            } } />纵向排列
+            <input type="radio" name="appxy" value="y" @{ if (accountConfig.AppXy == "y") { <text> checked="checked" </text>                              } } />纵向排列
         </label>
     </div>
 </div>
@@ -83,7 +99,7 @@
             <td colspan="3">
                 <div class="set_top form-inline">
                     <label class="radio">
-                        <input type="radio" name="dockpos" value="top" @{ if (accountConfig.DockPosition== "top") { <text> checked="checked" </text>                        } }>顶部
+                        <input type="radio" name="dockpos" value="top" @{ if (accountConfig.DockPosition == "top") { <text> checked="checked" </text>                          } }>顶部
                     </label>
                 </div>
             </td>
@@ -92,18 +108,18 @@
             <td width="75">
                 <div class="set_left form-inline">
                     <label class="radio">
-                        <input type="radio" name="dockpos" value="left" @{ if (accountConfig.DockPosition== "left") { <text> checked="checked" </text>                       } }>左侧
+                        <input type="radio" name="dockpos" value="left" @{ if (accountConfig.DockPosition == "left") { <text> checked="checked" </text>                         } }>左侧
                     </label>
                 </div>
             </td>
             <td class="set_view set_view_@{var position = accountConfig.DockPosition; <text>@position</text>}"></td>
             <td width="75">
-                <div class="set_right form-inline"><label class="radio"><input type="radio" name="dockpos" value="right" @{ if (accountConfig.DockPosition== "right") { <text> checked="checked" </text>                       } }>右侧</label></div>
+                <div class="set_right form-inline"><label class="radio"><input type="radio" name="dockpos" value="right" @{ if (accountConfig.DockPosition == "right") { <text> checked="checked" </text>                         } }>右侧</label></div>
             </td>
         </tr>
         <tr>
             <td colspan="3">
-                <div class="set_none form-inline"><label class="radio"><input type="radio" name="dockpos" value="none" @{ if (accountConfig.DockPosition== "none") { <text> checked="checked" </text>                      } }>停用并隐藏（如果应用码头存在应用，则会将应用转移到当前桌面）</label></div>
+                <div class="set_none form-inline"><label class="radio"><input type="radio" name="dockpos" value="none" @{ if (accountConfig.DockPosition == "none") { <text> checked="checked" </text>                        } }>停用并隐藏（如果应用码头存在应用，则会将应用转移到当前桌面）</label></div>
             </td>
         </tr>
     </table>
@@ -116,6 +132,11 @@
                 var desk = $('input[name="desk"]:checked').val();
                 window.parent.HROS.deskTop.updateDefaultDesk(desk);
             });
+            $('input[name="wallpapersource"]').change(function () {
+                var val = $('input[name="wallpapersource"]:checked').val();
+                window.parent.HROS.deskTop.modifyWallpaperSource(val);
+            });
+
             $('input[name="appxy"]').change(function () {
                 var xy = $('input[name="appxy"]:checked').val();
                 window.parent.HROS.app.updateXY(xy);

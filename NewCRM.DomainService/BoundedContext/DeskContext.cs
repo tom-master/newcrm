@@ -264,7 +264,7 @@ UPDATE dbo.Configs SET AppSize={newSize} WHERE AccountId={accountId} AND IsDelet
 
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Configs SET IsBing={(source.ToLower() == "bing" ? 1 : 0)} WHERE AccountId={accountId} AND IsDeleted=0";
+                var sql = $@"UPDATE dbo.Configs SET IsBing={(source.ToLower() == WallpaperSource.Bing.ToString().ToLower() ? 1 : 0)} WHERE AccountId={accountId} AND IsDeleted=0";
                 dataStore.SqlExecute(sql);
             }
         }
