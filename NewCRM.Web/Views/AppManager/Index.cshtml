@@ -162,10 +162,10 @@
                         $.post('@Url.Action("RemoveApp", "AppManager")', {
                             appId: appid
                         }, function (responseText) {
-                            if (typeof responseText.js !== 'undefined') {
-                                $('body').append(responseText.js);
-                            } else {
+                            if (responseText.IsSuccess) {
                                 $('#pagination').trigger('currentPage');
+                            } else {
+                                ZENG.msgbox.fail(responseText.Message);
                             }
                         });
                     },
@@ -175,10 +175,10 @@
                 var appid = $(this).attr('appid');
 
                 $.post('@Url.Action("Recommend", "AppManager")', { appId: appid }, function (responseText) {
-                    if (typeof responseText.js !== 'undefined') {
-                        $('body').append(responseText.js);
-                    } else {
+                    if (responseText.IsSuccess) {
                         $('#pagination').trigger('currentPage');
+                    } else {
+                        ZENG.msgbox.fail(responseText.Message);
                     }
                 });
 

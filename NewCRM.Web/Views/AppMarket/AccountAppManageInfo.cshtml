@@ -115,48 +115,40 @@
                     },
                     ajaxPost: true,
                     callback: function (responseText) {
-                        if (typeof responseText.js !== 'undefined') {
-                            $('body').append(responseText.js);
-                        } else {
-                            if (typeof responseText.success !== 'undefined') {
-                                if ($('input[name="id"]').val() !== '') {
-                                    if (responseText.success === 1) {
-                                        $.dialog({
-                                            id: 'ajaxedit',
-                                            content: '修改成功，是否继续修改？',
-                                            okVal: '是',
-                                            ok: function () {
-                                                $.dialog.list['ajaxedit'].close();
-                                            },
-                                            cancel: function () {
-                                                window.parent.closeDetailIframe(function () {
-                                                    window.parent.$('#pagination').trigger('currentPage');
-                                                });
-                                            }
+                        if (responseText.IsSuccess) {
+                            if ($('input[name="id"]').val() !== '') {
+                                $.dialog({
+                                    id: 'ajaxedit',
+                                    content: '修改成功，是否继续修改？',
+                                    okVal: '是',
+                                    ok: function () {
+                                        $.dialog.list['ajaxedit'].close();
+                                    },
+                                    cancel: function () {
+                                        window.parent.closeDetailIframe(function () {
+                                            window.parent.$('#pagination').trigger('currentPage');
                                         });
                                     }
-                                } else {
-                                    if (responseText.success === 1) {
-                                        $.dialog({
-                                            id: 'ajaxedit',
-                                            content: '添加成功，是否继续添加？',
-                                            okVal: '是',
-                                            ok: function () {
-                                                location.reload();
-                                                return false;
-                                            },
-                                            cancel: function () {
-                                                window.parent.closeDetailIframe(function () {
-                                                    window.parent.$('#pagination').trigger('currentPage');
-                                                });
-                                            }
+                                });
+                            } else {
+                                $.dialog({
+                                    id: 'ajaxedit',
+                                    content: '添加成功，是否继续添加？',
+                                    okVal: '是',
+                                    ok: function () {
+                                        location.reload();
+                                        return false;
+                                    },
+                                    cancel: function () {
+                                        window.parent.closeDetailIframe(function () {
+                                            window.parent.$('#pagination').trigger('currentPage');
                                         });
                                     }
-                                }
+                                });
                             }
+                        } else {
+                            ZENG.msgbox.fail(responseText.Message)
                         }
-
-
                     }
                 });
                 $('input[name="val_type"]').change(function () {
@@ -197,7 +189,7 @@
                 });
 
                 $('#btn-preview').on('click', function () {
-                    debugger
+
                     if (form.check()) {
                         if ($('input[name="val_type"]:checked').val() === 'app') {
                             window.parent.parent.parent.HROS.window.createTemp({
@@ -232,16 +224,13 @@
                         content: '确认审核通过该应用？',
                         ok: function () {
                             $.post('@Url.Action("Pass","AppManager")', { appId: appid }, function (responseText) {
-
-                                if (typeof responseText.js !== 'undefined') {
-                                    $('body').append(responseText.js);
-                                } else {
+                                if (responseText.IsSuccess) {
                                     window.parent.closeDetailIframe(function () {
                                         window.parent.$('#pagination').trigger('currentPage');
                                     });
+                                } else {
+                                    ZENG.msgbox.fail(responseText.Message)
                                 }
-
-
                             });
 
                         },
@@ -255,15 +244,13 @@
                         content: '确认不通过该应用？',
                         ok: function () {
                             $.post('@Url.Action("Deny","AppManager")', { appId: appid }, function (responseText) {
-                                if (typeof responseText.js !== 'undefined') {
-                                    $('body').append(responseText.js);
-                                } else {
+                                if (responseText.IsSuccess) {
                                     window.parent.closeDetailIframe(function () {
                                         window.parent.$('#pagination').trigger('currentPage');
                                     });
+                                } else {
+                                    ZENG.msgbox.fail(responseText.Message)
                                 }
-
-
                             });
                         },
                         cancel: true
@@ -277,14 +264,13 @@
                         content: '确认发布该应用？',
                         ok: function () {
                             $.post('@Url.Action("ReleaseApp", "AppMarket")', { appId: appid }, function (responseText) {
-                                if (typeof responseText.js !== 'undefined') {
-                                    $('body').append(responseText.js);
-                                } else {
+                                if (responseText.IsSuccess) {
                                     window.parent.closeDetailIframe(function () {
                                         window.parent.$('#pagination').trigger('currentPage');
                                     });
+                                } else {
+                                    ZENG.msgbox.fail(responseText.Message)
                                 }
-
                             });
                         },
                         cancel: true

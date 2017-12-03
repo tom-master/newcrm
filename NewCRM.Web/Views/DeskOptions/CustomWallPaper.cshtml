@@ -99,17 +99,12 @@
                 event.stopPropagation();
                 var id = $(this).parent().attr('id');
                 $.post("@Url.Action("DeleteWallPaper", "DeskOptions")", { wallPaperId: id }, function (responseText) {
-                    if (typeof responseText.js !== 'undefined') {
-                        $('body').append(responseText.js);
+                    if (responseText.IsSuccess) {
+                        ZENG.msgbox.success('壁纸移除成功');
+                        $('#' + id).remove();
                     } else {
-                        if (responseText.IsSuccess) {
-                            ZENG.msgbox.success('壁纸移除成功');
-                            $('#' + id).remove();
-                        } else {
-                            ZENG.msgbox.fail(responseText.Message);
-                        }
+                        ZENG.msgbox.fail(responseText.Message);
                     }
-
                 });
             });
 
@@ -123,9 +118,7 @@
 
         function GetAllUploadWallPaper() {
             $.get("@Url.Action("GetAllUploadWallPaper", "DeskOptions")", function (responseText) {
-                if (typeof responseText.js !== 'undefined') {
-                    $('body').append(responseText.js);
-                } else {
+                if (responseText.IsSuccess) {
                     if (typeof responseText.wallPapers !== 'undefined') {
                         var liElement = '';
                         $.each(responseText.wallPapers, function (k, v) {
@@ -133,6 +126,8 @@
                         });
                         $('.view').children('ul').append(liElement);
                     }
+                } else {
+                    ZENG.msgbox.fail(responseText.Message);
                 }
                 
             });
