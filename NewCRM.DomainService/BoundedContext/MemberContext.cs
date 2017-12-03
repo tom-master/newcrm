@@ -102,7 +102,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId).Validate(member);
             using(var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Members SET IconUrl={member.IconUrl},Name={member.Name},Width={member.Width},Height={member.Height},IsResize={member.IsResize},IsOpenMax={member.IsOpenMax},IsFlash={member.IsFlash} WHERE Id={member.Id} AND AccountId={accountId} AND IsDeleted=0";
+                var sql = $@"UPDATE dbo.Members SET IconUrl='{member.IconUrl}',Name='{member.Name}',Width={member.Width},Height={member.Height},IsResize={member.IsResize.ParseToInt32()},IsOpenMax={member.IsOpenMax.ParseToInt32()},IsFlash={member.IsFlash.ParseToInt32()} WHERE Id={member.Id} AND AccountId={accountId} AND IsDeleted=0";
                 dataStore.SqlExecute(sql);
             }
         }

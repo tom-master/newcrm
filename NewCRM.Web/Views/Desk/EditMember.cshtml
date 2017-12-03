@@ -59,28 +59,28 @@
                 <label class="label-text">窗口是否拉伸：</label>
                 <div class="label-box form-inline control-group">
                     <label class="radio" style="margin-right: 10px">
-                        <input type="radio" name="val_isresize" value="1" @{if (Model.IsResize) { <text> checked="checked" </text>                    }}>是
+                        <input type="radio" name="val_isresize" value="1" @{if (Model.IsResize) { <text> checked="checked" </text>                     }}>是
                     </label>
                     <label class="radio">
-                        <input type="radio" name="val_isresize" value="0" @{ if (!Model.IsResize) { <text> checked="checked" </text>                    } }>否
+                        <input type="radio" name="val_isresize" value="0" @{ if (!Model.IsResize) { <text> checked="checked" </text>                     } }>否
                     </label>
                 </div>
             </div>
-            <div class="input-label input-label-isopenmax" @{ if (!Model.IsResize) { <text> style="display: none" </text>                   } }>
+            <div class="input-label input-label-isopenmax" @{ if (!Model.IsResize) { <text> style="display: none" </text>                    } }>
                 <label class="label-text">打开默认最大化：</label>
                 <div class="label-box form-inline control-group">
-                    <label class="radio" style="margin-right:10px"><input type="radio" name="val_isopenmax" value="1" @{if (Model.IsOpenMax) { <text> checked="checked" </text>                    }}>是</label>
-                    <label class="radio"><input type="radio" name="val_isopenmax" value="0" @{if (!Model.IsOpenMax) { <text> checked="checked" </text>                    }}>否</label>
+                    <label class="radio" style="margin-right:10px"><input type="radio" name="val_isopenmax" value="1" @{if (Model.IsOpenMax) { <text> checked="checked" </text>                     }}>是</label>
+                    <label class="radio"><input type="radio" name="val_isopenmax" value="0" @{if (!Model.IsOpenMax) { <text> checked="checked" </text>                     }}>否</label>
                 </div>
             </div>
-            <div class="input-label input-label-isflash" @{ if (!Model.IsFlash) { <text> style="display: none" </text>   } }>
+            <div class="input-label input-label-isflash" @{ if (!Model.IsFlash) { <text> style="display: none" </text>    } }>
                 <label class="label-text">是否为Flash：</label>
                 <div class="label-box form-inline control-group">
                     <label class="radio" style="margin-right: 10px">
-                        <input type="radio" name="val_isflash" value="1" @{if (Model.IsFlash) { <text> checked="checked" </text>  }}>是
+                        <input type="radio" name="val_isflash" value="1" @{if (Model.IsFlash) { <text> checked="checked" </text>   }}>是
                     </label>
                     <label class="radio" style="margin-right: 10px">
-                        <input type="radio" name="val_isflash" value="0" @{if (!Model.IsFlash) { <text> checked="checked" </text>  }}>否
+                        <input type="radio" name="val_isflash" value="0" @{if (!Model.IsFlash) { <text> checked="checked" </text>   }}>否
                     </label>
                     <span class="txt">[<a href="javascript:;" rel="tooltip" title="如何设置为Flash应用，当窗口非当前窗口时，会显示遮罩层">?</a>]</span>
                 </div>
@@ -178,7 +178,7 @@
                             window.parent.$.dialog.list['editdialog'].close();
                         }, 1000);
                     } else {
-                        ZENG.msgbox.success(responseText.Message);
+                        ZENG.msgbox.fail(responseText.Message);
                     }
                 }
             });

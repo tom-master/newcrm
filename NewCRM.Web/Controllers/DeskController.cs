@@ -103,6 +103,7 @@ namespace NewCRM.Web.Controllers
         /// 修改成员信息
         /// </summary>
         /// <returns></returns>
+        [HttpPost]
         public ActionResult ModifyMemberInfo(FormCollection forms)
         {
             var memberDto = new MemberDto
@@ -119,7 +120,7 @@ namespace NewCRM.Web.Controllers
             };
 
             var response = new ResponseModel();
-            _deskServices.ModifyMemberInfo(Int32.Parse(forms["accountId"]), memberDto);
+            _deskServices.ModifyMemberInfo(Account.Id, memberDto);
             response.IsSuccess = true;
             response.Message = "修改成员信息成功";
 
