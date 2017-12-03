@@ -148,5 +148,11 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(memberId).Validate(newIcon);
             _memberContext.ModifyMemberIcon(accountId, memberId, newIcon);
         }
+
+        public void ModifyWallpaperSource(String source, Int32 accountId)
+        {
+            ValidateParameter.Validate(source).Validate(accountId);
+            _deskContext.ModifyWallpaperSource(source, accountId);
+        }
     }
 }

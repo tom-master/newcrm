@@ -336,5 +336,25 @@ namespace NewCRM.Web.Controllers
 
             return Json(response);
         }
+
+        /// <summary>
+        /// 修改壁纸来源
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ModifyWallpaperSource(String source)
+        {
+            #region 参数验证
+            Parameter.Validate(source);
+            #endregion
+
+            var response = new ResponseModel();
+            _deskServices.ModifyWallpaperSource(source, Account.Id);
+            response.IsSuccess = true;
+            response.Message = "更改壁纸来源成功";
+
+            return Json(response);
+
+        }
     }
 }

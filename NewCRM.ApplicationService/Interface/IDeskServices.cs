@@ -1,5 +1,5 @@
 ﻿using System;
-using NewCRM.Dto; 
+using NewCRM.Dto;
 
 namespace NewCRM.Application.Services.Interface
 {
@@ -85,7 +85,7 @@ namespace NewCRM.Application.Services.Interface
         /// <summary>
         /// 创建新的文件夹
         /// </summary>
-        void CreateNewFolder(String folderName, String folderImg, Int32 deskId,Int32 accountId);
+        void CreateNewFolder(String folderName, String folderImg, Int32 deskId, Int32 accountId);
 
         /// <summary>
         /// 从码头移动到另一个桌面
@@ -96,6 +96,11 @@ namespace NewCRM.Application.Services.Interface
         /// 更新桌面成员的图标
         /// </summary>
         void ModifyMemberIcon(Int32 accountId, Int32 memberId, String newIcon);
+
+        /// <summary>
+        /// 更新壁纸来源
+        /// </summary>
+        void ModifyWallpaperSource(String source, Int32 accountId);
 
         #endregion
     }

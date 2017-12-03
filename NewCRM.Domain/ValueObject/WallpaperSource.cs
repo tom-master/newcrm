@@ -9,9 +9,15 @@ namespace NewCRM.Domain.ValueObject
     {
         [Description("系统")]
         System = 1,
+
         [Description("网络")]
         Web = 2,
+
         [Description("上传")]
-        Upload = 3
+        Upload = 3,
+
+        [Description("Bing")]
+        Bing=4
+
     }
 }

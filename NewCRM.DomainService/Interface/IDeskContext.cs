@@ -92,6 +92,11 @@ namespace NewCRM.Domain.Services.Interface
         /// <summary>
         /// 创建文件夹
         /// </summary>
-        void CreateNewFolder(Int32 deskId, String folderName, String folderImg,Int32 accountId);
+        void CreateNewFolder(Int32 deskId, String folderName, String folderImg, Int32 accountId);
+
+        /// <summary>
+        /// 修改壁纸来源
+        /// </summary>
+        void ModifyWallpaperSource(String source, Int32 accountId);
     }
 }

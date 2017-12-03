@@ -53,6 +53,11 @@ namespace NewCRM.Domain.Entitys.System
         public WallpaperMode WallpaperMode { get; private set; }
 
         /// <summary>
+        /// 壁纸来源
+        /// </summary>
+        public Boolean IsBing { get; private set; }
+
+        /// <summary>
         /// app排列方向
         /// </summary>
         public AppAlignMode AppXy { get; private set; }

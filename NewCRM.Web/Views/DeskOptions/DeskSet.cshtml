@@ -21,6 +21,19 @@
         }
     </div>
 </div>
+<div class="title">桌面壁纸来源设置</div>
+<div class="input-label">
+    <label class="label-text">来自：</label>
+    <div class="label-box form-inline control-group">
+        <label class="radio" style="margin-right: 10px">
+            <input type="radio" name="wallpapersource" value="bing" @{ if (accountConfig.AppXy == "bing") { <text> checked="checked" </text>                             } } />Bing
+        </label>
+        <label class="radio">
+            <input type="radio" name="wallpapersource" value="system" @{ if (accountConfig.AppXy == "system") { <text> checked="checked" </text>                             } } />系统自带
+        </label>
+    </div>
+</div>
+
 <div class="title">桌面图标设置</div>
 <div class="input-label">
     <label class="label-text">排列方式：</label>
@@ -185,7 +198,6 @@
 
             //更新应用码头位置
             $('input[name="dockpos"]').change(function () {
-
                 var pos = $('input[name="dockpos"]:checked').val();
                 $('.set_view').removeClass('set_view_top set_view_left set_view_right set_view_none');
                 $('.set_view').addClass('set_view_' + pos);
