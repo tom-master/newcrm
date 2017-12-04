@@ -29,9 +29,6 @@ namespace NewCRM.Web
 #else
             BundleTable.EnableOptimizations = false;
 #endif
-
-
-
         }
     }
 }

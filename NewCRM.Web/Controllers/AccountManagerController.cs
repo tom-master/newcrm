@@ -23,7 +23,6 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 首页
         /// </summary>
-        /// <returns></returns>
         public ActionResult Index()
         {
             return View();
@@ -32,11 +31,9 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 创建新账户
         /// </summary>
-        /// <param name="accountId"></param>
-        /// <returns></returns>
         public ActionResult CreateNewAccount(Int32 accountId = 0)
         {
-            if(accountId != 0)
+            if (accountId != 0)
             {
                 ViewData["Account"] = AccountServices.GetAccount(accountId);
             }
@@ -51,8 +48,8 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 获取所有账户
         /// </summary>
-        /// <returns></returns>
-        public ActionResult GetAllAccounts(String accountName, String accountType, Int32 pageIndex, Int32 pageSize)
+        [HttpGet]
+        public ActionResult Accounts(String accountName, String accountType, Int32 pageIndex, Int32 pageSize)
         {
             var response = new ResponseModels<IList<AccountDto>>();
 
@@ -62,7 +59,7 @@ namespace NewCRM.Web.Controllers
 
             Int32 totalCount;
             var accounts = AccountServices.GetAccounts(accountName, accountType, pageIndex, pageSize, out totalCount);
-            if(accounts != null)
+            if (accounts != null)
             {
                 response.TotalCount = totalCount;
                 response.Message = "获取账户列表成功";
@@ -76,12 +73,12 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 创建新账户
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult NewAccount(FormCollection forms)
         {
             var response = new ResponseModel<AccountDto>();
             var dto = WapperAccountDto(forms);
-            if(dto.Id == 0)
+            if (dto.Id == 0)
             {
                 AccountServices.AddNewAccount(dto);
 
@@ -103,7 +100,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 检查账户名是否已经存在
         /// </summary>
-        /// <returns></returns>
+        [HttpGet]
         public ActionResult CheckAccountNameExist(String param)
         {
             var response = new ResponseModel<dynamic>();
@@ -117,7 +114,6 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 移除账户
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public ActionResult RemoveAccount(Int32 accountId)
         {
@@ -132,11 +128,11 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 修改账户为禁用状态
         /// </summary>
-        /// <returns></returns>
+        [HttpGet]
         public ActionResult ChangeAccountDisableStatus(String isDisable)
         {
             var response = new ResponseModel<String>();
-            if(Boolean.Parse(isDisable))
+            if (Boolean.Parse(isDisable))
             {
                 AccountServices.Disable(Account.Id);
 
@@ -160,7 +156,7 @@ namespace NewCRM.Web.Controllers
         private AccountDto WapperAccountDto(FormCollection forms)
         {
             List<RoleDto> roleIds = new List<RoleDto>();
-            if((forms["val_roleIds"] + "").Length > 0)
+            if ((forms["val_roleIds"] + "").Length > 0)
             {
                 roleIds = forms["val_roleIds"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(role => new RoleDto
                 {
