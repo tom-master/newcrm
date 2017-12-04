@@ -49,8 +49,8 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 获取所有app类型
         /// </summary>
-        /// <returns></returns>
-        public ActionResult GetAllAppTypes(Int32 pageIndex, Int32 pageSize, String searchText)
+        [HttpGet]
+        public ActionResult GetAppTypes(Int32 pageIndex, Int32 pageSize, String searchText)
         {
             var response = new ResponseModels<IList<AppTypeDto>>();
             var result = _appServices.GetAppTypes().Where(appType => searchText.Length == 0 || appType.Name.Contains(searchText)).OrderByDescending(d => d.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
@@ -66,7 +66,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 删除app类型
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult DeleteAppType(Int32 appTypeId)
         {
             #region 参数验证
@@ -86,7 +86,7 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult NewAppType(FormCollection forms, Int32 appTypeId = 0)
+        public ActionResult CreateAppType(FormCollection forms, Int32 appTypeId = 0)
         {
             #region 参数验证
             Parameter.Validate(forms);

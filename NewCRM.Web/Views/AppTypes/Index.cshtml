@@ -99,7 +99,7 @@
         }
 
         function getPageList(current_page) {
-            $.get('@Url.Action("GetAllAppTypes", "AppTypes")', {
+            $.get('@Url.Action("GetAppTypes", "AppTypes")', {
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 10,
                 searchText: $('#searchText').val()
