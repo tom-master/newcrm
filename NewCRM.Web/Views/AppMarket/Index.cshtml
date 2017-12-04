@@ -269,7 +269,7 @@
 
             var outSideSearchText = '@Request["searchText"]';
 
-            $.get('@Url.Action("GetAllApps", "AppMarket")', {
+            $.get('@Url.Action("GetApps", "AppMarket")', {
                 appTypeId: appTypeId,
                 orderId: orderId,
                 searchText: outSideSearchText === '' ? $('#searchText').val() : outSideSearchText,

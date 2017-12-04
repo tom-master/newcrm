@@ -192,7 +192,7 @@
                 appStateResult = $appStates.attr('data-type') + ',' + $appStates.attr('value');
             }
 
-            $.get('@Url.Action("GetAccountAllApps", "AppMarket")',
+            $.get('@Url.Action("GetAccountApps", "AppMarket")',
             {
                 searchText: $('#appName').val(),
                 appTypeId: $('#appType').find("option:selected").attr('value'),

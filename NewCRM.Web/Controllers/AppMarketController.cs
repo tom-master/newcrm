@@ -96,10 +96,9 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 获取所有的app
         /// </summary>
-        /// <returns></returns>
-        public ActionResult GetAllApps(Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize)
+        [HttpGet]
+        public ActionResult GetApps(Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize)
         {
-
             var response = new ResponseModels<IList<AppDto>>();
 
             Int32 totalCount;
@@ -122,7 +121,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 给app打分
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult ModifyAppStart(Int32 appId, Int32 starCount)
         {
             #region 参数验证
@@ -140,7 +139,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 安装app
         /// </summary>
-        /// <returns></returns> 
+        [HttpPost]
         public ActionResult InstallApp(Int32 appId, Int32 deskNum)
         {
             #region 参数验证
@@ -158,8 +157,8 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 获取开发者（用户）的app
         /// </summary>
-        /// <returns></returns>
-        public ActionResult GetAccountAllApps(String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize)
+        [HttpGet]
+        public ActionResult GetAccountApps(String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize)
         {
             var response = new ResponseModels<IList<AppDto>>();
             Int32 totalCount = 0;
@@ -182,8 +181,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 修改app信息
         /// </summary>
-        /// <param name="forms"></param>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult ModifyAppInfo(FormCollection forms)
         {
             #region 参数验证
@@ -201,7 +199,6 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 更新图标
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public ActionResult UploadIcon(Int32 appId, String newIcon)
         {
@@ -210,7 +207,6 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             var response = new ResponseModel();
-
             _appServices.ModifyAppIcon(Account.Id, appId, newIcon);
 
             response.IsSuccess = true;
@@ -222,8 +218,8 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 创建新的app
         /// </summary>
-        /// <returns></returns>
-        public ActionResult CreateNewApp(FormCollection forms)
+        [HttpPost]
+        public ActionResult CreateApp(FormCollection forms)
         {
             #region 参数验证
             Parameter.Validate(forms);
@@ -233,8 +229,8 @@ namespace NewCRM.Web.Controllers
 
             var appDto = WrapperAppDto(forms);
             appDto.AccountId = Account.Id;
-
             _appServices.CreateNewApp(appDto);
+
             response.IsSuccess = true;
             response.Message = "app创建成功";
 
@@ -244,7 +240,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 审核通过后发布app
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult ReleaseApp(Int32 appId)
         {
             #region 参数验证
@@ -262,7 +258,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 删除用户开发的app
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult RemoveApp(Int32 appId)
         {
             #region 参数验证
