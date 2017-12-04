@@ -210,7 +210,7 @@
                 appStateResult = $appStates.attr('data-type') + ',' + $appStates.attr('value');
             }
 
-            $.get('@Url.Action("GetAllApps", "AppManager")',
+            $.get('@Url.Action("GetApps", "AppManager")',
             {
                 searchText: $('#appName').val(),
                 appTypeId: $('#appType').find("option:selected").attr('value'),
@@ -229,14 +229,6 @@
                     } else {
                         ZENG.msgbox.fail(responseText.Message);
                     }
-                    //[Description("暂不审核")]
-                    //Wait = 1,
-                    //    [Description("通过")]
-                    //Pass = 2,
-                    //    [Description("未通过")]
-                    //Deny = 3,
-                    //    [Description("未审核")]
-                    //UnAuditState = 4
             });
 
             Handlebars.registerHelper("isAudit", function (v1, options) {

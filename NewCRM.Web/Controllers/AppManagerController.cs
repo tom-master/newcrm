@@ -23,7 +23,6 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 首页
         /// </summary>
-        /// <returns></returns>
         public ActionResult Index()
         {
             ViewData["AppTypes"] = _appServices.GetAppTypes();
@@ -36,7 +35,6 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// app审核
         /// </summary>
-        /// <returns></returns>
         public ActionResult AppAudit(Int32 appId)
         {
             AppDto appResult = null;
@@ -56,36 +54,29 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 获取所有的app
         /// </summary>
-        /// <returns></returns>
-        public ActionResult GetAllApps(String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize)
+        [HttpGet]
+        public ActionResult GetApps(String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize)
         {
             var response = new ResponseModels<IList<AppDto>>();
             Int32 totalCount;
             var result = _appServices.GetAccountAllApps(0, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
 
-            for (int i = 0; i < result.Count; i++)
+            foreach (AppDto appDto in result)
             {
-                result[i].IsCreater = result[i].AccountId == Account.Id;
+                appDto.IsCreater = appDto.AccountId == Account.Id;
             }
 
-            if (result != null)
-            {
-                response.TotalCount = totalCount;
-                response.IsSuccess = true;
-                response.Message = "获取app列表成功";
-                response.Model = result;
-            }
-            else
-            {
-                response.Message = "获取app列表失败";
-            }
+            response.TotalCount = totalCount;
+            response.IsSuccess = true;
+            response.Message = "获取app列表成功";
+            response.Model = result;
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
         /// app审核通过
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult Pass(Int32 appId)
         {
             #region 参数验证	
@@ -103,7 +94,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// app审核不通过
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult Deny(Int32 appId)
         {
             #region 参数验证	
@@ -121,7 +112,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 设置app为今日推荐
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult Recommend(Int32 appId)
         {
             #region 参数验证	
@@ -139,7 +130,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 删除app
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult RemoveApp(Int32 appId)
         {
             #region 参数验证	
