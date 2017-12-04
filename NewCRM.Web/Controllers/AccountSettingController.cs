@@ -1,9 +1,7 @@
-﻿using NewCRM.Infrastructure.CommonTools;
-using NewCRM.Web.Controllers.ControllerHelper;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System;
 using System.Web.Mvc;
+using NewCRM.Infrastructure.CommonTools;
+using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
@@ -14,7 +12,6 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 首页
         /// </summary>
-        /// <returns></returns>
         public ActionResult Index()
         {
             return View(AccountServices.GetAccount(Account.Id));
@@ -25,7 +22,6 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         ///上传账户头像
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public ActionResult ModifyAccountFace(String accountFace)
         {
@@ -40,7 +36,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 修改账户登陆密码
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult ModifyAccountPassword(FormCollection forms)
         {
             #region 参数验证
@@ -58,7 +54,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 修改锁屏密码
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult ModifyLockScreenPassword(FormCollection forms)
         {
             #region 参数验证
@@ -77,7 +73,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 检查旧密码和输入的密码是否一致
         /// </summary>
-        /// <returns></returns>
+        [HttpGet]
         public ActionResult CheckPassword(String param)
         {
             #region 参数验证
