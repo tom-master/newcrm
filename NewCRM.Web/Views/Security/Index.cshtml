@@ -112,7 +112,7 @@
 
         function getPageList(current_page) {
             ZENG.msgbox.loading('正在加载中，请稍后...');
-            $.get('@Url.Action("GetAllRoles", "Security")', {
+            $.get('@Url.Action("GetRoles", "Security")', {
                 roleName: $('#roleName').val(),
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 5

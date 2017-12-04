@@ -12,7 +12,6 @@ namespace NewCRM.Web.Controllers
     public class SecurityController : BaseController
     {
         private readonly ISecurityServices _securityServices;
-
         private readonly IAppServices _appServices;
 
         public SecurityController(ISecurityServices securityServices, IAppServices appServices)
@@ -91,8 +90,8 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 获取所有的角色
         /// </summary>
-        /// <returns></returns>
-        public ActionResult GetAllRoles(String roleName, Int32 pageIndex, Int32 pageSize)
+        [HttpGet]
+        public ActionResult GetRoles(String roleName, Int32 pageIndex, Int32 pageSize)
         {
             #region 参数验证
             Parameter.Validate(roleName);
@@ -112,7 +111,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 移除角色
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult RemoveRole(Int32 roleId)
         {
             #region 参数验证
@@ -130,8 +129,8 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 添加角色
         /// </summary>
-        /// <returns></returns>
-        public ActionResult NewRole(FormCollection forms, Int32 roleId = 0)
+        [HttpPost]
+        public ActionResult CreateRole(FormCollection forms, Int32 roleId = 0)
         {
             #region 参数验证
             Parameter.Validate(forms);
@@ -157,7 +156,6 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 将权限附加到角色中
         /// </summary>
-        /// <returns></returns>
         [HttpPost]
         public ActionResult AddPowerToRole(FormCollection forms)
         {
@@ -183,7 +181,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 选择系统app
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult SelectSystemApp(String appIds)
         {
             var response = new ResponseModel<IList<AppDto>>();
