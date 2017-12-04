@@ -37,7 +37,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 桌面元素移动
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult MemberMove(String moveType, Int32 memberId, Int32 from, Int32 to)
         {
             #region 参数验证
@@ -74,9 +74,11 @@ namespace NewCRM.Web.Controllers
                     _deskServices.DockToOtherDesk(Account.Id, memberId, to);
                     break;
             }
-            var response = new ResponseModel();
-            response.IsSuccess = true;
-            response.Message = "移动成功";
+            var response = new ResponseModel
+            {
+                IsSuccess = true,
+                Message = "移动成功"
+            };
 
             return Json(response);
         }
@@ -84,7 +86,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 修改文件夹的信息
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult ModifyFolderInfo(String name, String icon, Int32 memberId)
         {
             #region 参数验证
@@ -102,7 +104,6 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 修改成员信息
         /// </summary>
-        /// <returns></returns>
         [HttpPost]
         public ActionResult ModifyMemberInfo(FormCollection forms)
         {
@@ -130,7 +131,6 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 更新图标
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public ActionResult UploadIcon(Int32 memberId, String newIcon)
         {
@@ -150,8 +150,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 卸载桌面的成员
         /// </summary>
-        /// <param name="memberId"></param>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult UnInstallMember(Int32 memberId)
         {
             #region 参数验证
