@@ -73,6 +73,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 账户登出
         /// </summary>
+        [HttpPost]
         public void Logout()
         {
             Response.Cookies.Add(new HttpCookie("memberID")
@@ -84,7 +85,6 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 初始化皮肤
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public ActionResult GetSkin()
         {
@@ -100,7 +100,6 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 初始化壁纸
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public ActionResult GetWallpaper()
         {
@@ -123,7 +122,6 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 初始化应用码头
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public ActionResult GetDockPos()
         {
@@ -139,7 +137,6 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 获取我的应用
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public ActionResult GetAccountDeskMembers()
         {
@@ -155,7 +152,6 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 获取用户头像
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public ActionResult GetAccountFace()
         {
@@ -171,7 +167,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 创建一个窗口
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult CreateWindow(Int32 id, String type)
         {
             var response = new ResponseModel<dynamic>();
