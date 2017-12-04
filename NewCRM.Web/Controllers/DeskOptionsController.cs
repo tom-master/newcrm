@@ -14,11 +14,8 @@ namespace NewCRM.Web.Controllers
     {
 
         private readonly IWallpaperServices _wallpaperServices;
-
         private readonly ISkinServices _skinServices;
-
         private readonly IDeskServices _deskServices;
-
         private readonly IAppServices _appServices;
 
         public DeskOptionsController(IWallpaperServices wallpaperServices,
@@ -82,7 +79,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 设置壁纸显示模式
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult ModifyWallpaperDisplayModel(String wallPaperShowType)
         {
             #region 参数验证
@@ -100,7 +97,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 设置壁纸
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult ModifyWallpaper(Int32 wallpaperId)
         {
             #region 参数验证
@@ -118,8 +115,8 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 载入用户之前上传的壁纸
         /// </summary>
-        /// <returns></returns>
-        public ActionResult GetAllUploadWallPaper()
+        [HttpGet]
+        public ActionResult GetUploadWallPapers()
         {
             var response = new ResponseModel<IList<WallpaperDto>>();
             var result = _wallpaperServices.GetUploadWallpaper(Account.Id);
@@ -133,7 +130,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 删除上传的壁纸
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult DeleteWallPaper(Int32 wallPaperId)
         {
             #region 参数验证
@@ -151,7 +148,6 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 上传壁纸     
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public ActionResult UploadWallPaper(WallpaperDto wallpaper)
         {
@@ -178,7 +174,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 网络壁纸
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public async Task<ActionResult> WebWallPaper(String webUrl)
         {
             var response = new ResponseModel<Tuple<Int32, String>>();
@@ -194,8 +190,8 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 获取全部的皮肤
         /// </summary>
-        /// <returns></returns>
-        public ActionResult GetAllSkin()
+        [HttpGet]
+        public ActionResult GetSkins()
         {
             var response = new ResponseModel<dynamic>();
 
@@ -212,7 +208,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 更换皮肤
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult ModifySkin(String skin)
         {
             #region 参数验证
@@ -231,7 +227,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 更换默认显示的桌面
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult ModifyDefaultDesk(Int32 deskNum)
         {
             #region 参数验证
@@ -249,7 +245,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 更换图标的排列方向
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult ModifyAppXy(String appXy)
         {
             #region 参数验证
@@ -268,7 +264,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 更改图标大小
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult ModifyAppSize(Int32 appSize)
         {
             #region 参数验证
@@ -286,7 +282,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 更改应用图标的垂直间距
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult ModifyAppVertical(Int32 appVertical)
         {
             #region 参数验证
@@ -304,7 +300,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 更改图标的水平间距
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult ModifyAppHorizontal(Int32 appHorizontal)
         {
             #region 参数验证
@@ -322,7 +318,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 更改码头的位置
         /// </summary>
-        /// <returns></returns>
+        [HttpPost]
         public ActionResult ModifyDockPosition(String pos, Int32 deskNum)
         {
             #region 参数验证
@@ -340,7 +336,6 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 修改壁纸来源
         /// </summary>
-        /// <returns></returns>
         [HttpPost]
         public ActionResult ModifyWallpaperSource(String source)
         {

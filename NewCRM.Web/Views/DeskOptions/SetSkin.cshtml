@@ -21,7 +21,7 @@
 
         function loadAllSkin(callback) {
             ZENG.msgbox.loading('正在加载中，请稍后...');
-            $.post('@Url.Action("GetAllSkin", "DeskOptions")', { __: Date.now }, function (responseText) {
+            $.post('@Url.Action("GetSkins", "DeskOptions")', { __: Date.now }, function (responseText) {
                 ZENG.msgbox.hide();
                 if (responseText.IsSuccess) {
                     var html = '';

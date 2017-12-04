@@ -117,7 +117,7 @@
         });
 
         function GetAllUploadWallPaper() {
-            $.get("@Url.Action("GetAllUploadWallPaper", "DeskOptions")", function (responseText) {
+            $.get("@Url.Action("GetUploadWallPapers", "DeskOptions")", function (responseText) {
                 if (responseText.IsSuccess) {
                     if (typeof responseText.wallPapers !== 'undefined') {
                         var liElement = '';
