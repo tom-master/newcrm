@@ -32,7 +32,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 获取日志列表
         /// </summary>
-        /// <returns></returns>
+        [HttpGet]
         public ActionResult GetLogs(Int32 accountId, Int32 loglevel, Int32 pageIndex, Int32 pageSize)
         {
             var response = new ResponseModels<IList<LogDto>>();
