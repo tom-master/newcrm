@@ -3,13 +3,14 @@ using System.Web.Mvc;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
+using NewLib.Validate;
 using Unity.Attributes;
 
 namespace NewCRM.Web.Controllers.ControllerHelper
 {
     public class BaseController : Controller
     {
-        protected Parameter Parameter => new Parameter();
+        protected ParameterValidate Parameter => new  ParameterValidate();
 
         [Dependency]
         protected IAccountServices AccountServices { get; set; }

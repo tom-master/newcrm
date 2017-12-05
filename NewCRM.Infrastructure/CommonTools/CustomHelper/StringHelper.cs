@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NewLib.Validate;
 using Newtonsoft.Json;
 
 namespace NewCRM.Infrastructure.CommonTools.CustomHelper
@@ -9,7 +10,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
     /// </summary>
     public sealed class StringHelper
     {
-        private static readonly Parameter _parameter = new Parameter();
+        private static readonly ParameterValidate _parameter = new ParameterValidate();
 
         public static Int32[] GetIntArrayFromString(String commaSeparatedString)
         {

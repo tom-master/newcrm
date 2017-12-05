@@ -1,4 +1,5 @@
 ﻿using NewCRM.Infrastructure.CommonTools.CustomHelper;
+using NewLib.Validate;
 
 namespace NewCRM.Domain
 {
@@ -8,6 +9,6 @@ namespace NewCRM.Domain
         /// <summary>
         /// 参数验证
         /// </summary>
-        public Parameter ValidateParameter => new Parameter();
+        public ParameterValidate ValidateParameter => new ParameterValidate();
     }
 }

@@ -36,6 +36,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\NewCRM.Dto\bin\Debug\NewCRM.Dto.dll</HintPath>
     </Reference>
+    <Reference Include="NewLib">
+      <HintPath>..\..\dev\Newlib\NewLib\bin\Debug\NewLib.dll</HintPath>
+    </Reference>
     <Reference Include="NewLib.Security">
       <HintPath>..\..\dev\Newlib\NewLib.Security\bin\Debug\NewLib.Security.dll</HintPath>
     </Reference>
