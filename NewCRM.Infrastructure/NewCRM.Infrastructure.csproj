@@ -61,13 +61,10 @@
     <Compile Include="CommonTools\CustomExtension\QueryExtensions.cs" />
     <Compile Include="CommonTools\CustomExtension\TypeExtensions.cs" />
     <Compile Include="CommonTools\CustomHelper\BingHelper.cs" />
-    <Compile Include="CommonTools\CustomHelper\Parameter.cs" />
     <Compile Include="CommonTools\CustomHelper\StringHelper.cs" />
     <Compile Include="CommonTools\ProfileManager.cs" />
     <Compile Include="CommonTools\ResponseModel.cs" />
     <Compile Include="CommonTools\ResponseType.cs" />
-    <Compile Include="CommonTools\PasswordUtil.cs" />
-    <Compile Include="CommonTools\T4\T4ModelInfo.cs" />
     <Compile Include="JsonNet.PrivateSettersContractResolvers\PrivateSettersContractResolvers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
