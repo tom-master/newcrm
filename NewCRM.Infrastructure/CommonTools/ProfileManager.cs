@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
+using NewLib.Security;
 
 namespace NewCRM.Infrastructure.CommonTools
 {
@@ -26,9 +27,9 @@ namespace NewCRM.Infrastructure.CommonTools
         private static void Reload()
         {
             var config = ConfigurationManager.OpenMappedExeConfiguration(new ExeConfigurationFileMap { ExeConfigFilename = $@"{AppDomain.CurrentDomain.BaseDirectory}/WebSite.config" }, ConfigurationUserLevel.None);
-            FileUrl = config.AppSettings.Settings["FileUrl"].Value;
-            RedisConnection = config.AppSettings.Settings["RedisConnection"].Value;
-            RedisPrefix = config.AppSettings.Settings["RedisPrefix"].Value;
+            FileUrl = SensitiveDataSafetyProvider.Decrypt(config.AppSettings.Settings["FileUrl"].Value);
+            RedisConnection = SensitiveDataSafetyProvider.Decrypt(config.AppSettings.Settings["RedisConnection"].Value);
+            RedisPrefix = SensitiveDataSafetyProvider.Decrypt(config.AppSettings.Settings["RedisPrefix"].Value);
         }
 
         public static String FileUrl { get; private set; }
