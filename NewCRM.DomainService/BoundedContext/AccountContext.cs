@@ -13,6 +13,7 @@ using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewCRM.Repository.StorageProvider;
+using NewLib.Security;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {

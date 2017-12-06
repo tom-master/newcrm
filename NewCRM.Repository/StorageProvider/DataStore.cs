@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using NewLib.Security;
 
 namespace NewCRM.Repository.StorageProvider
 {
@@ -14,7 +15,8 @@ namespace NewCRM.Repository.StorageProvider
 
         public DataStore(string connectionName = default(String))
         {
-            _connection = connectionName == default(String) ? new SqlConnection(ConfigurationManager.ConnectionStrings["NewCrm"].ToString()) : new SqlConnection(ConfigurationManager.ConnectionStrings[connectionName].ToString());
+            var conn = SensitiveDataSafetyProvider.Decrypt(ConfigurationManager.ConnectionStrings["NewCrm"].ToString());
+            _connection = connectionName == default(String) ? new SqlConnection(conn) : new SqlConnection(conn);
         }
 
         #region 事务处理
@@ -35,9 +37,9 @@ namespace NewCRM.Repository.StorageProvider
         /// <returns></returns>
         protected SqlTransaction GetNonceTransaction()
         {
-            if(UseTransaction)
+            if (UseTransaction)
             {
-                if(_dataTransaction == null)
+                if (_dataTransaction == null)
                 {
                     UseTransaction = true;
                     _dataTransaction = _connection.BeginTransaction();
@@ -52,7 +54,7 @@ namespace NewCRM.Repository.StorageProvider
         /// </summary>
         public virtual void Commit()
         {
-            if(UseTransaction)
+            if (UseTransaction)
             {
                 _dataTransaction.Commit();
             }
@@ -66,7 +68,7 @@ namespace NewCRM.Repository.StorageProvider
         /// </summary>
         public virtual void Rollback()
         {
-            if(UseTransaction)
+            if (UseTransaction)
             {
                 _dataTransaction?.Rollback();
             }
@@ -80,7 +82,7 @@ namespace NewCRM.Repository.StorageProvider
 
         protected virtual void Open()
         {
-            if(_connection.State == ConnectionState.Closed)
+            if (_connection.State == ConnectionState.Closed)
             {
                 _connection.Open();
             }
@@ -89,9 +91,9 @@ namespace NewCRM.Repository.StorageProvider
         public virtual int SqlExecute(string sqlStr, CommandType commandType = CommandType.Text)
         {
             Open();
-            using(SqlCommand cmd = _connection.CreateCommand())
+            using (SqlCommand cmd = _connection.CreateCommand())
             {
-                if(UseTransaction)
+                if (UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
@@ -104,9 +106,9 @@ namespace NewCRM.Repository.StorageProvider
         public virtual object SqlScalar(string sqlStr, CommandType commandType = CommandType.Text)
         {
             Open();
-            using(SqlCommand cmd = _connection.CreateCommand())
+            using (SqlCommand cmd = _connection.CreateCommand())
             {
-                if(UseTransaction)
+                if (UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
@@ -122,9 +124,9 @@ namespace NewCRM.Repository.StorageProvider
         public DataTable SqlGetDataTable(string sqlStr, CommandType commandType = CommandType.Text)
         {
             Open();
-            using(SqlCommand cmd = _connection.CreateCommand())
+            using (SqlCommand cmd = _connection.CreateCommand())
             {
-                if(UseTransaction)
+                if (UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
@@ -140,9 +142,9 @@ namespace NewCRM.Repository.StorageProvider
         public SqlDataReader SqlGetDataReader(string sqlStr, CommandType commandType = CommandType.Text)
         {
             Open();
-            using(SqlCommand cmd = _connection.CreateCommand())
+            using (SqlCommand cmd = _connection.CreateCommand())
             {
-                if(UseTransaction)
+                if (UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
@@ -155,9 +157,9 @@ namespace NewCRM.Repository.StorageProvider
         public SqlDataReader SqlGetDataReader(string sqlStr, CommandBehavior behavior, CommandType commandType = CommandType.Text)
         {
             Open();
-            using(SqlCommand cmd = _connection.CreateCommand())
+            using (SqlCommand cmd = _connection.CreateCommand())
             {
-                if(UseTransaction)
+                if (UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
@@ -172,15 +174,15 @@ namespace NewCRM.Repository.StorageProvider
         public int SqlExecute(string sqlStr, List<SqlParameter> parameters, CommandType commandType = CommandType.Text)
         {
             Open();
-            using(SqlCommand cmd = _connection.CreateCommand())
+            using (SqlCommand cmd = _connection.CreateCommand())
             {
-                if(UseTransaction)
+                if (UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
                 cmd.CommandType = commandType;
                 cmd.CommandText = sqlStr;
-                if(parameters.Any())
+                if (parameters.Any())
                 {
                     cmd.Parameters.AddRange(parameters.ToArray());
                 }
@@ -193,15 +195,15 @@ namespace NewCRM.Repository.StorageProvider
         public DataTable SqlGetDataTable(string sqlStr, List<SqlParameter> parameters, CommandType commandType = CommandType.Text)
         {
             Open();
-            using(SqlCommand cmd = _connection.CreateCommand())
+            using (SqlCommand cmd = _connection.CreateCommand())
             {
-                if(UseTransaction)
+                if (UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
                 cmd.CommandType = commandType;
                 cmd.CommandText = sqlStr;
-                if(parameters.Any())
+                if (parameters.Any())
                 {
                     cmd.Parameters.AddRange(parameters.ToArray());
                 }
@@ -216,16 +218,16 @@ namespace NewCRM.Repository.StorageProvider
         public object SqlScalar(string sqlStr, List<SqlParameter> parameters, CommandType commandType = CommandType.Text)
         {
             Open();
-            using(SqlCommand cmd = _connection.CreateCommand())
+            using (SqlCommand cmd = _connection.CreateCommand())
             {
-                if(UseTransaction)
+                if (UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
                 cmd.CommandType = commandType;
                 cmd.CommandText = sqlStr;
                 //参数化
-                if(parameters.Any())
+                if (parameters.Any())
                 {
                     cmd.Parameters.AddRange(parameters.ToArray());
                 }
@@ -239,16 +241,16 @@ namespace NewCRM.Repository.StorageProvider
         public SqlDataReader SqlGetDataReader(string sqlStr, List<SqlParameter> parameters, CommandType commandType = CommandType.Text)
         {
             Open();
-            using(SqlCommand cmd = _connection.CreateCommand())
+            using (SqlCommand cmd = _connection.CreateCommand())
             {
-                if(UseTransaction)
+                if (UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
                 cmd.CommandType = commandType;
                 cmd.CommandText = sqlStr;
                 //参数化
-                if(parameters.Any())
+                if (parameters.Any())
                 {
                     cmd.Parameters.AddRange(parameters.ToArray());
                 }
@@ -271,14 +273,14 @@ namespace NewCRM.Repository.StorageProvider
 
         protected virtual void Dispose(bool disposing)
         {
-            if(!disposed)
+            if (!disposed)
             {
-                if(!disposing)
+                if (!disposing)
                     return;
 
-                if(_connection != null)
+                if (_connection != null)
                 {
-                    if(_connection.State != ConnectionState.Closed)
+                    if (_connection.State != ConnectionState.Closed)
                     {
                         _connection.Close();
                     }
