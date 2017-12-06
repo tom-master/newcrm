@@ -512,7 +512,6 @@
     <Content Include="Scripts\HoorayUI\js\webuploader-0.1.5\webuploader.nolog.min.js" />
     <Content Include="Scripts\HoorayUI\js\webuploader-0.1.5\webuploader.withoutimage.js" />
     <Content Include="Scripts\HoorayUI\js\webuploader-0.1.5\webuploader.withoutimage.min.js" />
-    <None Include="Properties\PublishProfiles\Test.pubxml" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
     <Content Include="Views\AppMarket\AccountAppManageNewApp.cshtml" />
     <Content Include="Views\Security\AttachmentPower.cshtml" />
@@ -527,6 +526,7 @@
     <Content Include="Views\Security\AddSystemAppGotoPower.cshtml" />
     <Content Include="Views\Log\Index.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\release.pubxml" />
     <None Include="Views\Security\CreateNewRole.cshtml" />
     <Content Include="Views\AccountManager\Index.cshtml" />
     <Content Include="Views\AccountManager\CreateNewAccount.cshtml" />
