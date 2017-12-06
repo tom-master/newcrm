@@ -230,7 +230,7 @@
   <ItemGroup>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Properties\PublishProfiles\Test.pubxml.user" />
+    <Content Include="Properties\PublishProfiles\release.pubxml.user" />
     <Content Include="Scripts\dynamicBackground.js" />
     <Content Include="Scripts\handlebars-v4.0.5.js" />
     <Content Include="Scripts\HoorayUI\css\globle.css" />
