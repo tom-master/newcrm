@@ -12,6 +12,7 @@ namespace NewCRM.Infrastructure.CommonTools.CustomHelper
         private static readonly String _bingUrlPrefix = "http://www.bing.com/";
         private static DateTime _dateTime;
         private static String _image;
+
         public static async Task<String> GetEverydayBackgroundImageAsync()
         {
             if ((DateTime.Now - _dateTime).Days < 1)

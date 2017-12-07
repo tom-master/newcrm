@@ -55,8 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommonTools\CustomException\BusinessException.cs" />
-    <Compile Include="CommonTools\CustomException\ComponentException.cs" />
+    <Compile Include="CommonTools\BusinessException.cs" />
     <Compile Include="CommonTools\CustomExtension\BooleanExtension.cs" />
     <Compile Include="CommonTools\CustomExtension\DataTableExtension.cs" />
     <Compile Include="CommonTools\CustomExtension\EnumExtensions.cs" />
@@ -65,8 +64,7 @@
     <Compile Include="CommonTools\CustomExtension\PropertySortCondition.cs" />
     <Compile Include="CommonTools\CustomExtension\QueryExtensions.cs" />
     <Compile Include="CommonTools\CustomExtension\TypeExtensions.cs" />
-    <Compile Include="CommonTools\CustomHelper\BingHelper.cs" />
-    <Compile Include="CommonTools\CustomHelper\StringHelper.cs" />
+    <Compile Include="CommonTools\BingHelper.cs" />
     <Compile Include="CommonTools\ProfileManager.cs" />
     <Compile Include="CommonTools\ResponseModel.cs" />
     <Compile Include="CommonTools\ResponseType.cs" />
@@ -80,7 +78,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="CommonTools\CustomHelper\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
