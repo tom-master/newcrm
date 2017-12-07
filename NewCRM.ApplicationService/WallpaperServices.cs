@@ -12,6 +12,7 @@ using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools;
+using NewLib;
 
 namespace NewCRM.Application.Services
 {
@@ -70,12 +71,12 @@ namespace NewCRM.Application.Services
             var imageTitle = Path.GetFileNameWithoutExtension(url);
             Image image;
 
-            using(var stream = await new HttpClient().GetStreamAsync(new Uri(url)))
-            using(image = Image.FromStream(stream))
+            using (var stream = await new HttpClient().GetStreamAsync(new Uri(url)))
+            using (image = Image.FromStream(stream))
             {
-                var wallpaperMd5 = CalculateFile.Calculate(stream);
+                var wallpaperMd5 = FileHelper.GetMD5(stream);
                 var webWallpaper = GetUploadWallpaper(wallpaperMd5);
-                if(webWallpaper != null)
+                if (webWallpaper != null)
                 {
                     return new Tuple<Int32, String>(webWallpaper.Id, webWallpaper.ShortUrl);
                 }
