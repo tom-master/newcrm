@@ -10,6 +10,7 @@ using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
+using NewLib;
 using NewLib.Security;
 
 namespace NewCRM.Application.Services
@@ -133,7 +134,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountDto);
 
             var account = accountDto.ConvertToModel<AccountDto, Account>();
-            var accountType = EnumExtensions.ParseToEnum<AccountType>(account.IsAdmin ? 2 /*管理员*/ : 1 /*用户*/);
+            var accountType = EnumExtensions.ToEnum<AccountType>(account.IsAdmin ? 2 /*管理员*/ : 1 /*用户*/);
             var internalNewAccount = new Account(account.Name, PasswordUtil.CreateDbPassword(account.LoginPassword), account.Roles, accountType);
 
             _accountContext.AddNewAccount(internalNewAccount);

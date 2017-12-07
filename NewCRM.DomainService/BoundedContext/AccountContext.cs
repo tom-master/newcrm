@@ -12,6 +12,7 @@ using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewCRM.Repository.StorageProvider;
+using NewLib;
 using NewLib.Security;
 
 namespace NewCRM.Domain.Services.BoundedContext
@@ -173,7 +174,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
             if(!String.IsNullOrEmpty(accountType))
             {
-                var isAdmin = (EnumExtensions.ParseToEnum<AccountType>(Int32.Parse(accountType)) == AccountType.Admin) ? 1 : 0;
+                var isAdmin = (EnumExtensions.ToEnum<AccountType>(Int32.Parse(accountType)) == AccountType.Admin) ? 1 : 0;
                 where.Append($@" AND a.IsAdmin={isAdmin}");
             }
 

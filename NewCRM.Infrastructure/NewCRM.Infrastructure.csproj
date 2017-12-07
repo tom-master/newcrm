@@ -58,16 +58,10 @@
     <Compile Include="CommonTools\BusinessException.cs" />
     <Compile Include="CommonTools\CustomExtension\BooleanExtension.cs" />
     <Compile Include="CommonTools\CustomExtension\DataTableExtension.cs" />
-    <Compile Include="CommonTools\CustomExtension\EnumExtensions.cs" />
     <Compile Include="CommonTools\CustomExtension\ExpressionExtension.cs" />
-    <Compile Include="CommonTools\CustomExtension\ObjectExtensions.cs" />
-    <Compile Include="CommonTools\CustomExtension\PropertySortCondition.cs" />
-    <Compile Include="CommonTools\CustomExtension\QueryExtensions.cs" />
-    <Compile Include="CommonTools\CustomExtension\TypeExtensions.cs" />
     <Compile Include="CommonTools\BingHelper.cs" />
     <Compile Include="CommonTools\ProfileManager.cs" />
     <Compile Include="CommonTools\ResponseModel.cs" />
-    <Compile Include="CommonTools\ResponseType.cs" />
     <Compile Include="JsonNet.PrivateSettersContractResolvers\PrivateSettersContractResolvers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

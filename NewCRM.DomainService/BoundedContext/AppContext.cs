@@ -10,6 +10,7 @@ using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewCRM.Repository.StorageProvider;
+using NewLib;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {
@@ -134,7 +135,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                 //应用样式
                 if (appStyleId != 0)
                 {
-                    var appStyle = EnumExtensions.ParseToEnum<AppStyle>(appStyleId);
+                    var appStyle = EnumExtensions.ToEnum<AppStyle>(appStyleId);
                     where.Append($@" AND a.AppStyle={(Int32)appStyle}");
                 }
 
@@ -144,14 +145,14 @@ namespace NewCRM.Domain.Services.BoundedContext
                     var stats = appState.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                     if (stats[0] == "AppReleaseState")
                     {
-                        var appReleaseState = EnumExtensions.ParseToEnum<AppReleaseState>(Int32.Parse(stats[1]));
+                        var appReleaseState = EnumExtensions.ToEnum<AppReleaseState>(Int32.Parse(stats[1]));
                         where.Append($@" AND a.AppReleaseState={(Int32)appReleaseState} ");
                     }
 
                     //app应用审核状态
                     if (stats[0] == "AppAuditState")
                     {
-                        var appAuditState = EnumExtensions.ParseToEnum<AppAuditState>(Int32.Parse(stats[1]));
+                        var appAuditState = EnumExtensions.ToEnum<AppAuditState>(Int32.Parse(stats[1]));
                         where.Append($@" AND a.AppAuditState={(Int32)appAuditState}");
                     }
                 }
@@ -720,7 +721,7 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                         Name = dataReader["Name"].ToString(),
                         AppIcon = dataReader["IconUrl"].ToString(),
                         Remark = dataReader["Remark"].ToString(),
-                        Style = EnumExtensions.ParseToEnum<AppStyle>(dataReader["AppStyle"].ToString()).ToString().ToLower(),
+                        Style = EnumExtensions.ToEnum<AppStyle>(dataReader["AppStyle"].ToString()).ToString().ToLower(),
                         StartCount = Int32.Parse(dataReader["AppStars"].ToString()),
                         IsInstall = Int32.Parse(dataReader["IsInstall"].ToString()) > 0 ? true : false
                     };
