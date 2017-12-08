@@ -87,7 +87,7 @@ namespace NewCRM.Repository.StorageProvider
                 _connection.Open();
             }
         }
-
+         
         public virtual int SqlExecute(string sqlStr, CommandType commandType = CommandType.Text)
         {
             Open();
