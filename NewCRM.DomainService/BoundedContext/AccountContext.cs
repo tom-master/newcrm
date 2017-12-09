@@ -225,7 +225,8 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.LastLoginTime,
                             a.LastModifyTime,
                             a.Name,
-                            a.LockScreenPassword
+                            a.LockScreenPassword,
+                            a.LoginPassword
                             FROM dbo.Accounts AS a 
                             INNER JOIN dbo.Configs AS a1
                             ON a1.AccountId=a.Id
@@ -417,6 +418,7 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
 
             using(var dataStore = new DataStore())
             {
+                dataStore.OpenTransaction();
                 try
                 {
                     if(!String.IsNullOrEmpty(accountDto.LoginPassword))
@@ -424,7 +426,7 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
                         #region 修改密码
                         {
                             var newPassword = PasswordUtil.CreateDbPassword(accountDto.LoginPassword);
-                            var sql = $@"UPDATE dbo.Accounts SET LoginPassword={newPassword} WHERE Id={accountDto.Id} AND IsDeleted=0 AND IsDisable=0";
+                            var sql = $@"UPDATE dbo.Accounts SET LoginPassword='{newPassword}' WHERE Id={accountDto.Id} AND IsDeleted=0 AND IsDisable=0";
 
                             dataStore.SqlExecute(sql);
                         }
@@ -441,7 +443,7 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
 
                             foreach(var item in accountDto.Roles)
                             {
-                                sqlBuilder.Append($@"INSERT dbo.AccountRoles
+                                sqlBuilder.Append($@" INSERT dbo.AccountRoles
                                             ( AccountId ,
                                               RoleId ,
                                               IsDeleted ,
@@ -449,7 +451,7 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
                                               LastModifyTime
                                             )
                                     VALUES  ( {accountDto.Id} , -- AccountId - int
-                                              {item} , -- RoleId - int
+                                              {item.RoleId} , -- RoleId - int
                                               0 , -- IsDeleted - bit
                                               GETDATE() , -- AddTime - datetime
                                               GETDATE()  -- LastModifyTime - datetime

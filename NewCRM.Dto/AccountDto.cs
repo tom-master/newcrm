@@ -9,7 +9,6 @@ namespace NewCRM.Dto
         /// <summary>
         /// 用户名
         /// </summary>
-        [Required(AllowEmptyStrings = true)]
         public String Name { get; set; }
 
         /// <summary>
@@ -20,19 +19,16 @@ namespace NewCRM.Dto
         /// <summary>
         /// 密码
         /// </summary>
-        [Required(AllowEmptyStrings = true)]
         public String Password { get; set; }
 
         /// <summary>
         /// 锁屏密码
         /// </summary>
-        [Required(AllowEmptyStrings = true)]
         public String LockScreenPassword { get; set; }
 
         /// <summary>
         /// 用户类型
         /// </summary>
-        [Required(AllowEmptyStrings = true), StringLength(3)]
         public Boolean IsAdmin { get; set; }
 
         /// <summary>

@@ -101,6 +101,7 @@ namespace NewCRM.Application.Services
                 LastLoginTime = account.LastLoginTime.ToString("yyyy-MM-dd"),
                 LastModifyTime = account.LastModifyTime.ToString("yyyy-MM-dd"),
                 LockScreenPassword = account.LockScreenPassword,
+                Password = account.LoginPassword,
                 Name = account.Name,
                 Roles = roles.Select(s => new RoleDto
                 {

@@ -169,7 +169,7 @@ namespace NewCRM.Web.Controllers
                 Id = Account.Id,
                 Name = forms["val_accountname"],
                 Password = forms["val_password"],
-                IsAdmin = Int32.Parse(forms["val_type"]) == 1,
+                IsAdmin = Int32.Parse(forms["val_type"]) == 2,
                 Roles = roleIds
             };
         }

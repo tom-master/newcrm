@@ -74,14 +74,14 @@
                 </div>
             </div>
             <div class="input-label input-label-permission @{
-                                                               if (!accountResult.IsAdmin)
-                                                               {
+                if (!accountResult.IsAdmin)
+                {
                                                                    <text> hide </text>
-                                                               }
-                                                               else
-                                                               {
+                }
+                else
+                {
                                                                    <text> show </text>
-                                                               }
+                }
                                                            }">
                 <label class="label-text">用户角色：</label>
                 <div class="label-box form-inline">
@@ -106,7 +106,7 @@
                             }
                         }
                     }
-                    <input type="hidden" name="val_roleIds" id="roleIds" value="" />
+                    <input type="hidden" name="val_roleIds" id="roleIds" value="@String.Join(",",accountResult.Roles.Select(s=>s.Id).Intersect(roles.Select(a=>a.Id)))" />
                     <span class="help-inline"></span>
                 </div>
             </div>
