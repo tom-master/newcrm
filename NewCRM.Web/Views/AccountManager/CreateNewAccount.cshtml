@@ -47,14 +47,14 @@
                         if (accountResult.Password == null)
                         {
                             <text>
-                                <input type="password" name="val_password" datatype="*" nullmsg="请输入用户密码" />
+                                <input type="password" name="val_password" datatype="*" id="pwd" nullmsg="请输入用户密码" />
                                 <span class="help-inline"></span>
                             </text>
                         }
                         else
                         {
                             <text>
-                                <input type="password" name="val_password">
+                                <input type="password" name="val_password" id="pwd">
                                 <span class="help-inline">[如果无需修改则不填]</span>
                             </text>
                         }
@@ -65,11 +65,11 @@
                 <label class="label-text">用户类型：</label>
                 <div class="label-box form-inline">
                     <label class="radio" style="margin-right: 10px">
-                        <input type="radio" name="val_type" value="1" @{ if (accountResult.IsAdmin) { <text> checked="checked" </text>       } }>用户
+                        <input type="radio" name="val_type" value="1" @{ if (accountResult.IsAdmin) { <text> checked="checked" </text>          } }>用户
                     </label>
 
                     <label class="radio" style="margin-right: 10px">
-                        <input type="radio" name="val_type" value="2" @{ if (accountResult.IsAdmin) { <text> checked="checked" </text>       } }>管理员
+                        <input type="radio" name="val_type" value="2" @{ if (accountResult.IsAdmin) { <text> checked="checked" </text>          } }>管理员
                     </label>
                 </div>
             </div>
@@ -145,19 +145,28 @@
                     var response = responseText;
                     if (response.IsSuccess) {
                         if ($('input[name="id"]').val()) {
-                            $.dialog({
-                                id: 'ajaxedit',
-                                content: '修改成功，是否继续修改？',
-                                okVal: '是',
-                                ok: function () {
-                                    $.dialog.list['ajaxedit'].close();
-                                },
-                                cancel: function () {
-                                    window.parent.closeDetailIframe(function () {
-                                        window.parent.$('#pagination').trigger('currentPage');
-                                    });
-                                }
-                            });
+
+                            if ($('#pwd').val() !== '') {
+                                ZENG.msgbox.success('您修改了登陆密码，请重新登陆');
+                                setTimeout(function () {
+                                    debugger
+                                    top.location.reload()
+                                }, 1000)
+                            } else {
+                                $.dialog({
+                                    id: 'ajaxedit',
+                                    content: '修改成功，是否继续修改？',
+                                    okVal: '是',
+                                    ok: function () {
+                                        $.dialog.list['ajaxedit'].close();
+                                    },
+                                    cancel: function () {
+                                        window.parent.closeDetailIframe(function () {
+                                            window.parent.$('#pagination').trigger('currentPage');
+                                        });
+                                    }
+                                });
+                            }
                         } else {
                             $.dialog({
                                 id: 'ajaxedit',

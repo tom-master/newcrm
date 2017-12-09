@@ -13,10 +13,10 @@
             </h1>
             <form id="loginForm">
                 <div>
-                    <input type="text" name="accountname" value="admin" class="accountname" placeholder="用户名" autocomplete="off" />
+                    <input type="text" name="accountname" id="accountname" value="admin" class="accountname" placeholder="用户名" autocomplete="off" />
                 </div>
                 <div>
-                    <input type="password" name="password" value="" class="password" placeholder="密码" oncontextmenu="return false" onpaste="return false" />
+                    <input type="password" name="password" id="password" value="" class="password" placeholder="密码" oncontextmenu="return false" onpaste="return false" />
                 </div>
                 <button id="login">登 陆</button>
             </form>
@@ -24,11 +24,16 @@
     </div>
 </div>
 <script src="@Url.Content("~/Scripts/jquery-3.2.1.min.js")"></script>
-<script src="@Url.Content("~/Scripts/HoorayUI/js/validate/Validform_v5.3.2/Validform_v5.3.2_min.js")"></script>
 <script src="@Url.Content("~/Scripts/dynamicBackground.js")"></script>
 <script>
     $(function () {
         $("#login").click(function (event) {
+
+            if ($('#accountname').val() === '' || $('#password').val() === '') {
+                alert("请输入用户名和密码")
+                return false;
+            }
+
             event.preventDefault();
             $('form').fadeOut(500);
             $('.wrapper').addClass('form-success');

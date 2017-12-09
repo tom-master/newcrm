@@ -20,7 +20,7 @@ namespace NewCRM.Domain.Entitys.Agent
         /// <summary>
         /// 登陆密码
         /// </summary>
-        [Required, MinLength(6)]
+        [MinLength(6)]
         public String LoginPassword { get; private set; }
 
         /// <summary>

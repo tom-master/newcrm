@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Dto;
@@ -88,7 +89,14 @@ namespace NewCRM.Web.Controllers
             else
             {
                 AccountServices.ModifyAccount(dto);
-
+                if (!String.IsNullOrEmpty(dto.Password))
+                {
+                    Response.Cookies.Add(new HttpCookie("memberID")
+                    {
+                        Value = Account.Id.ToString(),
+                        Expires = DateTime.Now.AddDays(-1)
+                    });
+                }
                 response.Message = "修改账户成功";
                 response.IsSuccess = true;
             }

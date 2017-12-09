@@ -61,7 +61,9 @@
     };
 
     function alertInfo(msg) {
-        ZENG.msgbox.info(msg);
+        setTimeout(function () {
+            top.ZENG.msgbox.info(msg);
+        }, 2000)
     }
 </script>
 
