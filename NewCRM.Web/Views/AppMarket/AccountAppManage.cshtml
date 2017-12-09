@@ -201,7 +201,7 @@
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 4
                 }, function (responseText) {
-                ZENG.msgbox.hide();
+                //ZENG.msgbox.hide();
                 var tableTemplate = Handlebars.compile($("#table-template").html());
                 $('.list-con').html(tableTemplate(responseText));
                 $('.list-count').text(responseText.totalCount);

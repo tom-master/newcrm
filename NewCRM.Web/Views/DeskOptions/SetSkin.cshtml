@@ -22,7 +22,7 @@
         function loadAllSkin(callback) {
             ZENG.msgbox.loading('正在加载中，请稍后...');
             $.post('@Url.Action("GetSkins", "DeskOptions")', { __: Date.now }, function (responseText) {
-                ZENG.msgbox.hide();
+                //ZENG.msgbox.hide();
                 if (responseText.IsSuccess) {
                     var html = '';
                     $.each(responseText.Model.data, function (k, v) {
@@ -49,7 +49,7 @@
                         window.parent.ZENG.msgbox.success("皮肤设置成功，如果没有更新请刷新页面");
                         setTimeout(function () {
                             window.parent.HROS.base.getSkin(skin, function () {
-                                window.parent.ZENG.msgbox.hide();
+                                //window.parent.ZENG.msgbox.hide();
                             });
                         }, 2000);
                     } else {

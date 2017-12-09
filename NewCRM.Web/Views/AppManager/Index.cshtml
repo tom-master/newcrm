@@ -220,7 +220,7 @@
                 pageSize: 7
                 }, function (responseText) {
                     if (responseText.IsSuccess) {
-                        ZENG.msgbox.hide();
+                        //ZENG.msgbox.hide();
                         var tableTemplate = Handlebars.compile($("#table-template").html());
                         $('.list-con').html(tableTemplate(responseText));
                         $('.list-count').text(responseText.TotalCount);

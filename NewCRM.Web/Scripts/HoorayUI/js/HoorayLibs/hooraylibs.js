@@ -2360,236 +2360,209 @@ jQuery.extend(jQuery.easing, {
  */
 window.ZENG = window.ZENG || {};
 ZENG.dom = {
-    getById: function (a) {
-        return document.getElementById(a);
-    },
-    get: function (a) {
-        return (typeof (a) == "string") ? document.getElementById(a) : a;
-    },
-    createElementIn: function (d, f, e, c) {
-        var a = (f = ZENG.dom.get(f) || document.body).ownerDocument.createElement(d || "div"),
-            b;
-        if (typeof (c) == "object") {
-            for (b in c) {
-                if (b == "class") {
-                    a.className = c[b];
+    getById: function (id) {
+        return document.getElementById(id);
+    }, get: function (e) {
+        return (typeof (e) == "string") ? document.getElementById(e) : e;
+    }, createElementIn: function (tagName, elem, insertFirst, attrs) {
+        var _e = (elem = ZENG.dom.get(elem) || document.body).ownerDocument.createElement(tagName || "div"), k;
+        if (typeof (attrs) == 'object') {
+            for (k in attrs) {
+                if (k == "class") {
+                    _e.className = attrs[k];
+                } else if (k == "style") {
+                    _e.style.cssText = attrs[k];
                 } else {
-                    if (b == "style") {
-                        a.style.cssText = c[b];
-                    } else {
-                        a[b] = c[b];
-                    }
+                    _e[k] = attrs[k];
                 }
             }
         }
-        e ? f.insertBefore(a, f.firstChild) : f.appendChild(a);
-        return a;
-    },
-    getStyle: function (b, f) {
-        b = ZENG.dom.get(b);
-        if (!b || b.nodeType == 9) {
+        insertFirst ? elem.insertBefore(_e, elem.firstChild) : elem.appendChild(_e);
+        return _e;
+    }, getStyle: function (el, property) {
+        el = ZENG.dom.get(el);
+        if (!el || el.nodeType == 9) {
             return null;
         }
-        var a = document.defaultView && document.defaultView.getComputedStyle,
-            c = !a ? null : document.defaultView.getComputedStyle(b, ""),
-            d = "";
-        switch (f) {
+        var w3cMode = document.defaultView && document.defaultView.getComputedStyle, computed = !w3cMode ? null : document.defaultView.getComputedStyle(el, ''), value = "";
+        switch (property) {
             case "float":
-                f = a ? "cssFloat" : "styleFloat";
+                property = w3cMode ? "cssFloat" : "styleFloat";
                 break;
             case "opacity":
-                if (!a) {
-                    var h = 100;
+                if (!w3cMode) {
+                    var val = 100;
                     try {
-                        h = b.filters["DXImageTransform.Microsoft.Alpha"].opacity;
-                    } catch (g) {
+                        val = el.filters['DXImageTransform.Microsoft.Alpha'].opacity;
+                    } catch (e) {
                         try {
-                            h = b.filters("alpha").opacity;
-                        } catch (g) { }
+                            val = el.filters('alpha').opacity;
+                        } catch (e) {
+                        }
                     }
-                    return h / 100;
+                    return val / 100;
                 } else {
-                    return parseFloat((c || b.style)[f]);
+                    return parseFloat((computed || el.style)[property]);
                 }
                 break;
             case "backgroundPositionX":
-                if (a) {
-                    f = "backgroundPosition";
-                    return ((c || b.style)[f]).split(" ")[0];
+                if (w3cMode) {
+                    property = "backgroundPosition";
+                    return ((computed || el.style)[property]).split(" ")[0];
                 }
                 break;
             case "backgroundPositionY":
-                if (a) {
-                    f = "backgroundPosition";
-                    return ((c || b.style)[f]).split(" ")[1];
+                if (w3cMode) {
+                    property = "backgroundPosition";
+                    return ((computed || el.style)[property]).split(" ")[1];
                 }
                 break;
         }
-        if (a) {
-            return (c || b.style)[f];
+        if (w3cMode) {
+            return (computed || el.style)[property];
         } else {
-            return (b.currentStyle[f] || b.style[f]);
+            return (el.currentStyle[property] || el.style[property]);
         }
-    },
-    setStyle: function (c, g, h) {
-        if (!(c = ZENG.dom.get(c)) || c.nodeType != 1) {
+    }, setStyle: function (el, properties, value) {
+        if (!(el = ZENG.dom.get(el)) || el.nodeType != 1) {
             return false;
         }
-        var e, b = true,
-            d = (e = document.defaultView) && e.getComputedStyle,
-            f = /z-?index|font-?weight|opacity|zoom|line-?height/i;
-        if (typeof (g) == "string") {
-            e = g;
-            g = {};
-            g[e] = h;
+        var tmp, bRtn = true, w3cMode = (tmp = document.defaultView) && tmp.getComputedStyle, rexclude = /z-?index|font-?weight|opacity|zoom|line-?height/i;
+        if (typeof (properties) == 'string') {
+            tmp = properties;
+            properties = {};
+            properties[tmp] = value;
         }
-        for (var a in g) {
-            h = g[a];
-            if (a == "float") {
-                a = d ? "cssFloat" : "styleFloat";
-            } else {
-                if (a == "opacity") {
-                    if (!d) {
-                        a = "filter";
-                        h = h >= 1 ? "" : ("alpha(opacity=" + Math.round(h * 100) + ")");
-                    }
-                } else {
-                    if (a == "backgroundPositionX" || a == "backgroundPositionY") {
-                        e = a.slice(-1) == "X" ? "Y" : "X";
-                        if (d) {
-                            var i = ZENG.dom.getStyle(c, "backgroundPosition" + e);
-                            a = "backgroundPosition";
-                            typeof (h) == "number" && (h = h + "px");
-                            h = e == "Y" ? (h + " " + (i || "top")) : ((i || "left") + " " + h);
-                        }
-                    }
+        for (var prop in properties) {
+            value = properties[prop];
+            if (prop == 'float') {
+                prop = w3cMode ? "cssFloat" : "styleFloat";
+            } else if (prop == 'opacity') {
+                if (!w3cMode) {
+                    prop = 'filter';
+                    value = value >= 1 ? '' : ('alpha(opacity=' + Math.round(value * 100) + ')');
+                }
+            } else if (prop == 'backgroundPositionX' || prop == 'backgroundPositionY') {
+                tmp = prop.slice(-1) == 'X' ? 'Y' : 'X';
+                if (w3cMode) {
+                    var v = ZENG.dom.getStyle(el, "backgroundPosition" + tmp);
+                    prop = 'backgroundPosition';
+                    typeof (value) == 'number' && (value = value + 'px');
+                    value = tmp == 'Y' ? (value + " " + (v || "top")) : ((v || 'left') + " " + value);
                 }
             }
-            if (typeof c.style[a] != "undefined") {
-                c.style[a] = h + (typeof h === "number" && !f.test(a) ? "px" : "");
-                b = b && true;
+            if (typeof el.style[prop] != "undefined") {
+                el.style[prop] = value + (typeof value === "number" && !rexclude.test(prop) ? 'px' : '');
+                bRtn = bRtn && true;
             } else {
-                b = b && false;
+                bRtn = bRtn && false;
             }
         }
-        return b;
-    },
-    getScrollTop: function (a) {
-        var b = a || document;
-        return Math.max(b.documentElement.scrollTop, b.body.scrollTop);
-    },
-    getClientHeight: function (a) {
-        var b = a || document;
-        return b.compatMode == "CSS1Compat" ? b.documentElement.clientHeight : b.body.clientHeight;
+        return bRtn;
+    }, getScrollTop: function (doc) {
+        var _doc = doc || document;
+        return Math.max(_doc.documentElement.scrollTop, _doc.body.scrollTop);
+    }, getClientHeight: function (doc) {
+        var _doc = doc || document;
+        return _doc.compatMode == "CSS1Compat" ? _doc.documentElement.clientHeight : _doc.body.clientHeight;
     }
 };
+
 ZENG.string = {
-    RegExps: {
-        trim: /^\s+|\s+$/g,
-        ltrim: /^\s+/,
-        rtrim: /\s+$/,
-        nl2br: /\n/g,
-        s2nb: /[\x20]{2}/g,
-        URIencode: /[\x09\x0A\x0D\x20\x21-\x29\x2B\x2C\x2F\x3A-\x3F\x5B-\x5E\x60\x7B-\x7E]/g,
-        escHTML: {
-            re_amp: /&/g,
-            re_lt: /</g,
-            re_gt: />/g,
-            re_apos: /\x27/g,
-            re_quot: /\x22/g
-        },
-        escString: {
-            bsls: /\\/g,
-            sls: /\//g,
-            nl: /\n/g,
-            rt: /\r/g,
-            tab: /\t/g
-        },
-        restXHTML: {
-            re_amp: /&/g,
-            re_lt: /</g,
-            re_gt: />/g,
-            re_apos: /&(?:apos|#0?39);/g,
-            re_quot: /"/g
-        },
-        write: /\{(\d{1,2})(?:\:([xodQqb]))?\}/g,
-        isURL: /^(?:ht|f)tp(?:s)?\:\/\/(?:[\w\-\.]+)\.\w+/i,
-        cut: /[\x00-\xFF]/,
-        getRealLen: {
-            r0: /[^\x00-\xFF]/g,
-            r1: /[\x00-\xFF]/g
-        },
-        format: /\{([\d\w\.]+)\}/g
-    },
-    commonReplace: function (a, c, b) {
-        return a.replace(c, b);
-    },
-    format: function (c) {
-        var b = Array.prototype.slice.call(arguments),
-            a;
-        c = String(b.shift());
-        if (b.length == 1 && typeof (b[0]) == "object") {
-            b = b[0];
+    RegExps: { trim: /^\s+|\s+$/g, ltrim: /^\s+/, rtrim: /\s+$/, nl2br: /\n/g, s2nb: /[\x20]{2}/g, URIencode: /[\x09\x0A\x0D\x20\x21-\x29\x2B\x2C\x2F\x3A-\x3F\x5B-\x5E\x60\x7B-\x7E]/g, escHTML: { re_amp: /&/g, re_lt: /</g, re_gt: />/g, re_apos: /\x27/g, re_quot: /\x22/g }, escString: { bsls: /\\/g, sls: /\//g, nl: /\n/g, rt: /\r/g, tab: /\t/g }, restXHTML: { re_amp: /&amp;/g, re_lt: /&lt;/g, re_gt: /&gt;/g, re_apos: /&(?:apos|#0?39);/g, re_quot: /&quot;/g }, write: /\{(\d{1,2})(?:\:([xodQqb]))?\}/g, isURL: /^(?:ht|f)tp(?:s)?\:\/\/(?:[\w\-\.]+)\.\w+/i, cut: /[\x00-\xFF]/, getRealLen: { r0: /[^\x00-\xFF]/g, r1: /[\x00-\xFF]/g }, format: /\{([\d\w\.]+)\}/g }, commonReplace: function (s, p, r) {
+        return s.replace(p, r);
+    }, format: function (str) {
+        var args = Array.prototype.slice.call(arguments), v;
+        str = String(args.shift());
+        if (args.length == 1 && typeof (args[0]) == 'object') {
+            args = args[0];
         }
         ZENG.string.RegExps.format.lastIndex = 0;
-        return c.replace(ZENG.string.RegExps.format,
-            function (d, e) {
-                a = ZENG.object.route(b, e);
-                return a === undefined ? d : a;
-            });
+        return str.replace(ZENG.string.RegExps.format, function (m, n) {
+            v = ZENG.object.route(args, n);
+            return v === undefined ? m : v;
+        });
     }
 };
+
+
 ZENG.object = {
     routeRE: /([\d\w_]+)/g,
-    route: function (d, c) {
-        d = d || {};
-        c = String(c);
-        var b = ZENG.object.routeRE,
-            a;
-        b.lastIndex = 0;  
-        while ((a = b.exec(c)) !== null) {
-            d = d[a[0]];
-            if (d === undefined || d === null) {
+    route: function (obj, path) {
+        obj = obj || {};
+        path = String(path);
+        var r = ZENG.object.routeRE, m;
+        r.lastIndex = 0;
+        while ((m = r.exec(path)) !== null) {
+            obj = obj[m[0]];
+            if (obj === undefined || obj === null) {
                 break;
             }
         }
-        return d;
+        return obj;
     }
 };
-var ua = ZENG.userAgent = {},
-    agent = navigator.userAgent;
-ua.ie = 9 - ((agent.indexOf("Trident/5.0") > -1) ? 0 : 1) - (window.XDomainRequest ? 0 : 1) - (window.XMLHttpRequest ? 0 : 1);
-if (typeof (ZENG.msgbox) == "undefined") {
+
+
+
+var ua = ZENG.userAgent = {}, agent = navigator.userAgent;
+ua.ie = 9 - ((agent.indexOf('Trident/5.0') > -1) ? 0 : 1) - (window.XDomainRequest ? 0 : 1) - (window.XMLHttpRequest ? 0 : 1);
+
+
+
+if (typeof (ZENG.msgbox) == 'undefined') {
     ZENG.msgbox = {};
 }
 ZENG.msgbox._timer = null;
-ZENG.msgbox.loadingAnimationPath = ZENG.msgbox.loadingAnimationPath || ("gb_tip_loading.gif");
-ZENG.msgbox.show = function (c, g, h, a) {
-    if (typeof (a) == "number") {
-        a = {
-            topPosition: a
-        };
+ZENG.msgbox.loadingAnimationPath = ZENG.msgbox.loadingAnimationPath || ("loading.gif");
+ZENG.msgbox.show = function (msgHtml, type, timeout, opts) {
+    if (typeof (opts) == 'number') {
+        opts = { topPosition: opts };
     }
-    a = a || {};
-    var j = ZENG.msgbox,
-        i = '<span class="zeng_msgbox_layer" style="display:none;z-index:10000;" id="mode_tips_v2"><span class="gtl_ico_{type}"></span>{loadIcon}{msgHtml}<span class="gtl_end"></span></span>',
-        d = '<span class="gtl_ico_loading"></span>',
-        e = [0, 0, 0, 0, "succ", "fail", "clear"],
-        b,
-        f;
-    j._loadCss && j._loadCss(a.cssPath);
-    b = ZENG.dom.get("q_Msgbox") || ZENG.dom.createElementIn("div", document.body, false, {
-        className: "zeng_msgbox_layer_wrap"
-    });
-    b.id = "q_Msgbox";
-    b.style.display = "";
-    b.innerHTML = ZENG.string.format(i, {
-        type: e[g] || "hits",
-        msgHtml: c || "",
-        loadIcon: g == 6 ? d : ""
-    });
-    j._setPosition(b, h, a.topPosition);
+    opts = opts || {};
+    var _s = ZENG.msgbox,
+        template = '<span class="zeng_msgbox_layer zeng_msgbox_layer_{layerStyle}" style="display:none;z-index:10000;" id="mode_tips_v2"><span class="gtl_ico_{type}"></span>{loadIcon}{msgHtml}<span class="gtl_end"></span></span>', loading = '<span class="gtl_ico_loading"></span>', typeClass = [0, 0, 0, 0, "succ", "fail", "clear"], mBox, tips;
+    _s._loadCss && _s._loadCss(opts.cssPath);
+    mBox = ZENG.dom.get("q_Msgbox") || ZENG.dom.createElementIn("div", document.body, false, { className: "zeng_msgbox_layer_wrap" });
+    mBox.id = "q_Msgbox";
+    mBox.style.display = "";
+    mBox.innerHTML = ZENG.string.format(template, { type: typeClass[type] || "hits", msgHtml: msgHtml || "", loadIcon: type == 6 ? loading : "", layerStyle: type == 6 ? 'loading' : "normal" });
+    _s._setPosition(mBox, timeout, opts.topPosition);
 };
+ZENG.msgbox._setPosition = function (tips, timeout, topPosition) {
+    timeout = timeout || 5000;
+    var _s = ZENG.msgbox, bt = ZENG.dom.getScrollTop(), ch = ZENG.dom.getClientHeight(), t = Math.floor(ch / 2) - 40;
+    ZENG.dom.setStyle(tips, "top", ((document.compatMode == "BackCompat" || ZENG.userAgent.ie < 7) ? bt : 0) + ((typeof (topPosition) == "number") ? topPosition : t) + "px");
+    clearTimeout(_s._timer);
+    tips.firstChild.style.display = "";
+
+    timeout && (_s._timer = setTimeout(_s.hide, timeout));
+};
+ZENG.msgbox.hide = function (timeout) {
+
+    var _s = ZENG.msgbox;
+    if (timeout) {
+        clearTimeout(_s._timer);
+        _s._timer = setTimeout(_s._hide, timeout);
+    } else {
+        _s._hide();
+    }
+};
+ZENG.msgbox._hide = function () {
+    var _mBox = ZENG.dom.get("q_Msgbox"), _s = ZENG.msgbox;
+    clearTimeout(_s._timer);
+    if (_mBox) {
+        var _tips = _mBox.firstChild;
+        ZENG.dom.setStyle(_mBox, "display", "none");
+    }
+};
+
+if (typeof define === "function") {
+    // AMD. Register as an anonymous module.
+    module.exports = ZENG;
+} else {
+    window.ZENG = ZENG;
+}
 
 ZENG.msgbox.info = function (msg, timeout) {
     ZENG.msgbox.show(msg, 1, timeout || 2000);
@@ -2601,38 +2574,7 @@ ZENG.msgbox.fail = function (msg, timeout) {
     ZENG.msgbox.show(msg, 5, timeout || 2000);
 };
 ZENG.msgbox.loading = function (msg) {
-    ZENG.msgbox.show(msg, 6, 8000);
-};
-
-
-ZENG.msgbox._setPosition = function (a, f, d) {
-    f = f || 5000;
-    var g = ZENG.msgbox,
-        b = ZENG.dom.getScrollTop(),
-        e = ZENG.dom.getClientHeight(),
-        c = Math.floor(e / 2) - 40;
-    ZENG.dom.setStyle(a, "top", ((document.compatMode == "BackCompat" || ZENG.userAgent.ie < 7) ? b : 0) + ((typeof (d) == "number") ? d : c) + "px");
-    clearTimeout(g._timer);
-    a.firstChild.style.display = "";
-    f && (g._timer = setTimeout(g.hide, f));
-};
-ZENG.msgbox.hide = function (a) {
-    var b = ZENG.msgbox;
-    if (a) {
-        clearTimeout(b._timer);
-        b._timer = setTimeout(b._hide, a);
-    } else {
-        b._hide();
-    }
-};
-ZENG.msgbox._hide = function () {
-    var a = ZENG.dom.get("q_Msgbox"),
-        b = ZENG.msgbox;
-    clearTimeout(b._timer);
-    if (a) {
-        var c = a.firstChild;
-        ZENG.dom.setStyle(a, "display", "none");
-    }
+    ZENG.msgbox.show(msg, 6, 2000);
 };
 
 /**
