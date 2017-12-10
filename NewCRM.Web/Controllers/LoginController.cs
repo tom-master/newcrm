@@ -18,6 +18,13 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
+
+            var accountId = Request.Cookies["memberID"];
+            if (accountId != null)
+            {
+                return RedirectToAction("Desktop", "Index");
+            }
+
             return View();
         }
 
@@ -36,7 +43,7 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             var account = AccountServices.Login(loginParameter.Name, loginParameter.Password);
-            if(account != null)
+            if (account != null)
             {
                 response.Message = "登陆成功";
                 response.IsSuccess = true;

@@ -54,7 +54,7 @@
                         $('.loading').hide();
                         location.href = '@Url.Action("Desktop", "Index")';
                     } else {
-                        $('.log .tip').text(responseText.Message).show();
+                        window.location.reload();
                     }
                 }
             });
