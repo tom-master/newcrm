@@ -28,6 +28,7 @@ namespace NewCRM.Domain.Entitys.Security
         [MaxLength(50)]
         public String Remark { get; private set; }
 
+        public Boolean IsAllowDisable { get; set; }
 
         public IList<RolePower> Powers { get; private set; }
 
@@ -37,11 +38,12 @@ namespace NewCRM.Domain.Entitys.Security
         /// <summary>
         /// 实例化一个角色对象
         /// </summary>
-        public Role(String name, String roleIdentity, String remark = default(String))
+        public Role(String name, String roleIdentity, String remark = default(String), Boolean isAllowDisable = default(Boolean))
         {
             Name = name;
             Remark = remark;
             RoleIdentity = roleIdentity;
+            IsAllowDisable = isAllowDisable;
             Powers = new List<RolePower>();
         }
 

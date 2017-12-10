@@ -23,7 +23,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         {
             ValidateParameter.Validate(accountName).Validate(password);
 
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 Account result = null;
                 try
@@ -38,12 +38,12 @@ namespace NewCRM.Domain.Services.BoundedContext
                                     ON a1.AccountId=a.Id 
                                     WHERE a.Name=@name AND a.IsDeleted=0 AND a.IsDisable=0";
                         result = dataStore.SqlGetDataTable(sql, new List<SqlParameter> { new SqlParameter("@name", accountName) }).AsSignal<Account>();
-                        if(result == null)
+                        if (result == null)
                         {
                             throw new BusinessException($"该用户不存在或被禁用{accountName}");
                         }
 
-                        if(!PasswordUtil.ComparePasswords(result.LoginPassword, password))
+                        if (!PasswordUtil.ComparePasswords(result.LoginPassword, password))
                         {
                             throw new BusinessException("密码错误");
                         }
@@ -82,7 +82,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                     dataStore.Commit();
                     return result;
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     dataStore.Rollback();
                     throw;
@@ -94,7 +94,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         {
             ValidateParameter.Validate(accountId);
 
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 try
                 {
@@ -116,7 +116,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                     dataStore.Commit();
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     dataStore.Rollback();
                     throw;
@@ -128,7 +128,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         {
             ValidateParameter.Validate(accountId);
 
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT 
                             a.Id,
@@ -153,7 +153,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         {
             ValidateParameter.Validate(wallPaperId);
 
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT a.Url,a.Width,a.Height,a.Source FROM dbo.Wallpapers AS a WHERE a.Id={wallPaperId} AND a.IsDeleted=0";
 
@@ -167,18 +167,18 @@ namespace NewCRM.Domain.Services.BoundedContext
 
             var where = new StringBuilder();
             where.Append("WHERE 1=1 AND a.IsDeleted=0 ");
-            if(!String.IsNullOrEmpty(accountName))
+            if (!String.IsNullOrEmpty(accountName))
             {
                 where.Append(" AND a.Name=@name");
             }
 
-            if(!String.IsNullOrEmpty(accountType))
+            if (!String.IsNullOrEmpty(accountType))
             {
                 var isAdmin = (EnumExtensions.ToEnum<AccountType>(Int32.Parse(accountType)) == AccountType.Admin) ? 1 : 0;
                 where.Append($@" AND a.IsAdmin={isAdmin}");
             }
 
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 #region totalCount
                 {
@@ -213,7 +213,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         {
             ValidateParameter.Validate(accountId);
 
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT 
                             a1.AccountFace,
@@ -238,7 +238,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         public List<Role> GetRoles(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT
                             a1.Id,
@@ -254,10 +254,9 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public List<RolePower> GetPowers()
         {
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT a.RoleId,a.AppId FROM dbo.RolePowers AS a WHERE a.IsDeleted=0";
-
                 return dataStore.SqlGetDataTable(sql).AsList<RolePower>().ToList();
             }
         }
@@ -266,11 +265,9 @@ namespace NewCRM.Domain.Services.BoundedContext
         {
             ValidateParameter.Validate(accountName);
 
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
-                var sql = $@"
-SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
-
+                var sql = $@"SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
                 return (Int32)dataStore.SqlScalar(sql, new List<SqlParameter> { new SqlParameter("@name", accountName) }) != 0 ? false : true;
             }
         }
@@ -278,7 +275,7 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
         public String GetOldPassword(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT a.LoginPassword FROM dbo.Accounts AS a WHERE a.Id={accountId} AND a.IsDeleted=0 AND a.IsDisable=0";
 
@@ -290,7 +287,7 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
         {
             ValidateParameter.Validate(account);
 
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 try
                 {
@@ -381,7 +378,7 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
                     #region 用户角色
                     {
                         var sqlBuilder = new StringBuilder();
-                        foreach(var item in account.Roles)
+                        foreach (var item in account.Roles)
                         {
                             sqlBuilder.Append($@"INSERT dbo.AccountRoles
                                 ( AccountId ,
@@ -404,7 +401,7 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
 
                     dataStore.Commit();
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     dataStore.Rollback();
                     throw;
@@ -416,12 +413,12 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
         {
             ValidateParameter.Validate(accountDto);
 
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 dataStore.OpenTransaction();
                 try
                 {
-                    if(!String.IsNullOrEmpty(accountDto.LoginPassword))
+                    if (!String.IsNullOrEmpty(accountDto.LoginPassword))
                     {
                         #region 修改密码
                         {
@@ -436,12 +433,12 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
                     #region 修改账户角色
                     {
 
-                        if(accountDto.Roles.Any())
+                        if (accountDto.Roles.Any())
                         {
                             var sqlBuilder = new StringBuilder();
                             sqlBuilder.Append($@"UPDATE dbo.AccountRoles SET IsDeleted=1 WHERE AccountId={accountDto.Id} AND IsDeleted=0");
 
-                            foreach(var item in accountDto.Roles)
+                            foreach (var item in accountDto.Roles)
                             {
                                 sqlBuilder.Append($@" INSERT dbo.AccountRoles
                                             ( AccountId ,
@@ -464,7 +461,7 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
 
                     dataStore.Commit();
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     dataStore.Rollback();
                     throw;
@@ -476,7 +473,7 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
         {
             ValidateParameter.Validate(accountId);
 
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Accounts SET IsDisable=0 WHERE Id={accountId} AND IsDeleted=0";
                 dataStore.SqlExecute(sql);
@@ -486,17 +483,32 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
         public void Disable(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Accounts SET IsDisable=1 WHERE Id={accountId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql);
+                #region 前置条件验证
+                {
+                    var sql = $@"SELECT COUNT(*) FROM dbo.Roles AS a
+                                INNER JOIN dbo.AccountRoles AS a1
+                                ON a1.AccountId={accountId} AND a1.RoleId=a.Id AND a1.IsDeleted=0
+                                WHERE a.IsDeleted=0 AND a.IsAllowDisable=0";
+                    var result = (Int32)dataStore.SqlScalar(sql);
+                    if (result > 0)
+                    {
+                        throw new BusinessException("当前用户拥有管理员角色，因此不能禁用或删除");
+                    }
+                }
+                #endregion
+                {
+                    var sql = $@"UPDATE dbo.Accounts SET IsDisable=1 WHERE Id={accountId} AND IsDeleted=0";
+                    dataStore.SqlExecute(sql);
+                }
             }
         }
 
         public void ModifyAccountFace(Int32 accountId, String newFace)
         {
             ValidateParameter.Validate(accountId).Validate(newFace);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Configs SET Face=@face WHERE AccountId={accountId} AND IsDeleted=0";
                 dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@face", newFace) });
@@ -506,7 +518,7 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
         public void ModifyPassword(Int32 accountId, String newPassword)
         {
             ValidateParameter.Validate(accountId).Validate(newPassword);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Accounts SET LoginPassword=@password WHERE Id={accountId} AND IsDeleted=0 AND IsDisable=0";
                 dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@password", newPassword) });
@@ -516,7 +528,7 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
         public void ModifyLockScreenPassword(Int32 accountId, String newScreenPassword)
         {
             ValidateParameter.Validate(accountId).Validate(newScreenPassword);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Accounts SET LockScreenPassword=@password WHERE Id={accountId} AND IsDeleted=0 AND IsDisable=0";
                 dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@password", newScreenPassword) });
@@ -527,7 +539,7 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
         {
             ValidateParameter.Validate(accountId);
 
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 dataStore.OpenTransaction();
 
@@ -536,8 +548,8 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
                     #region 前置条件验证
                     {
                         var sql = $@"SELECT a.IsAdmin FROM dbo.Accounts AS a WHERE a.Id={accountId} AND a.IsDeleted=0 AND a.IsDisable=0";
-                        var isAdmin = (Int32)dataStore.SqlScalar(sql) == 1 ? true : false;
-                        if(isAdmin)
+                        var isAdmin = Boolean.Parse(dataStore.SqlScalar(sql).ToString());
+                        if (isAdmin)
                         {
                             throw new BusinessException("不能删除管理员");
                         }
@@ -574,7 +586,7 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
 
                     dataStore.Commit();
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     dataStore.Rollback();
                     throw;
@@ -585,7 +597,7 @@ SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
         public Boolean UnlockScreen(Int32 accountId, String unlockPassword)
         {
             ValidateParameter.Validate(accountId).Validate(unlockPassword);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Id={accountId} AND a.LockScreenPassword=@password AND a.IsDeleted=0 AND a.IsDisable=0";
                 return (Int32)dataStore.SqlScalar(sql) > 0 ? true : false;

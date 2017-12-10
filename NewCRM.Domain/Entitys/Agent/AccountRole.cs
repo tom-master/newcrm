@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using NewCRM.Domain.Entitys.Security;
 
 namespace NewCRM.Domain.Entitys.Agent
 {
