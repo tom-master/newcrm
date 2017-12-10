@@ -116,7 +116,7 @@ namespace NewCRM.Web.Controllers
             response.IsSuccess = true;
             response.Model = result ? new { status = "y", info = "" } : new { status = "n", info = "用户名已存在" };
 
-            return Json(response);
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult ChangeAccountDisableStatus(String isDisable)
         {
             var response = new ResponseModel<String>();
-            if (Boolean.Parse(isDisable))
+            if (!Boolean.Parse(isDisable))
             {
                 AccountServices.Disable(Account.Id);
 
@@ -155,8 +155,7 @@ namespace NewCRM.Web.Controllers
                 response.Message = "启用账户成功";
             }
 
-
-            return Json(response);
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
 
         #region private method

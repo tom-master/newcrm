@@ -82,14 +82,16 @@ namespace NewCRM.Application.Services
         public AccountDto GetAccount(Int32 accountId)
         {
             var account = _accountContext.GetAccount(accountId);
-            var roles = _accountContext.GetRoles(account.Id);
-            var powers = _accountContext.GetPowers();
 
             if (account == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
             }
 
+            var roles = _accountContext.GetRoles(account.Id);
+            var powers = _accountContext.GetPowers();
+
+         
             return new AccountDto
             {
                 AccountFace = account.AccountFace,

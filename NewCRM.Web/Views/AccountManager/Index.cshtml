@@ -116,12 +116,13 @@
             });
 
             $('.list-con').on('click', '.do-disable', function () {
+                debugger
                 var memberid = $(this).attr('memberid');
                 var name = $(this).parent().prev().text();
-                var isDisable = $(this).attr('isDisable');
+                var isDisable = $(this).attr('isDisable')==='false';
                 art.dialog({
                     id: 'edit',
-                    content: !isDisable ? '确定要启用 “' + name + '” 该账户么？' : '确定要禁用 “' + name + '” 该账户么？',
+                    content: isDisable ? '确定要启用 “' + name + '” 该账户么？' : '确定要禁用 “' + name + '” 该账户么？',
                     ok: function () {
                         $.get('@Url.Action("ChangeAccountDisableStatus", "AccountManager")', { accountId: parseInt(memberid), isDisable: isDisable },
                             function (responseText) {
