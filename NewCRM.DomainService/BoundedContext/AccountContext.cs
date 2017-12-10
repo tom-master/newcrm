@@ -608,8 +608,13 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId).Validate(unlockPassword);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Id={accountId} AND a.LockScreenPassword=@password AND a.IsDeleted=0 AND a.IsDisable=0";
-                return (Int32)dataStore.SqlScalar(sql) > 0 ? true : false;
+                #region 获取锁屏密码
+                {
+                    var sql = $@"SELECT a.LockScreenPassword FROM dbo.Accounts AS a WHERE a.Id={accountId} AND a.IsDeleted=0 AND a.IsDisable=0";
+                    var password = dataStore.SqlScalar(sql).ToString();
+                    return PasswordUtil.ComparePasswords(password, unlockPassword);
+                }
+                #endregion
             }
         }
     }
