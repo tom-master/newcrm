@@ -65,11 +65,11 @@
                 <label class="label-text">用户类型：</label>
                 <div class="label-box form-inline">
                     <label class="radio" style="margin-right: 10px">
-                        <input type="radio" name="val_type" value="1" @{ if (accountResult.IsAdmin) { <text> checked="checked" </text>          } }>用户
+                        <input type="radio" name="val_type" value="1" @{ if (accountResult.IsAdmin) { <text> checked="checked" </text>             } }>用户
                     </label>
 
                     <label class="radio" style="margin-right: 10px">
-                        <input type="radio" name="val_type" value="2" @{ if (accountResult.IsAdmin) { <text> checked="checked" </text>          } }>管理员
+                        <input type="radio" name="val_type" value="2" @{ if (accountResult.IsAdmin) { <text> checked="checked" </text>             } }>管理员
                     </label>
                 </div>
             </div>
@@ -86,27 +86,27 @@
                 <label class="label-text">用户角色：</label>
                 <div class="label-box form-inline">
                     @{
-                        foreach (var roleDto in roles)
+                        foreach (var item in roles)
                         {
-                            if (accountResult.Roles != null && accountResult.Roles.Any(role => role.Id == roleDto.Id))
+                            if (accountResult.Roles != null && accountResult.Roles.Any(role => role.Id == item.Id))
                             {
-                                <text>
-                                    <label class="checkbox" style="margin-right: 10px">
-                                        <input type="checkbox" onclick="javascript: selectorPower();" name="val_permission_id" id="@roleDto.Id" checked="checked">
-                                        @roleDto.Name
-                                    </label>
-                                </text>
+                                <label class="checkbox" style="margin-right: 10px">
+                                    <input type="checkbox" onclick="javascript: selectorpower();" name="val_permission_id" id="@item.Id" ch checked="checked">
+                                    @item.Name
+                                </label>
+                                <input type="hidden" name="val_roleIds" id="roleIds" value="@String.Join(",",accountResult.Roles.Select(s=>s.Id).Intersect(roles.Select(a=>a.Id)))" />
                             }
                             else
                             {
                                 <label class="checkbox" style="margin-right: 10px">
-                                    <input type="checkbox" onclick="javascript: selectorPower();" name="val_permission_id" id="@roleDto.Id">
-                                    @roleDto.Name
+                                    <input type="checkbox" onclick="javascript: selectorPower();" name="val_permission_id" id="@item.Id">
+                                    @item.Name
                                 </label>
+                                <input type="hidden" name="val_roleIds" id="roleIds" value="" />
                             }
                         }
                     }
-                    <input type="hidden" name="val_roleIds" id="roleIds" value="@String.Join(",",accountResult.Roles.Select(s=>s.Id).Intersect(roles.Select(a=>a.Id)))" />
+
                     <span class="help-inline"></span>
                 </div>
             </div>
@@ -149,7 +149,6 @@
                             if ($('#pwd').val() !== '') {
                                 ZENG.msgbox.success('您修改了登陆密码，请重新登陆');
                                 setTimeout(function () {
-                                    debugger
                                     top.location.reload()
                                 }, 1000)
                             } else {

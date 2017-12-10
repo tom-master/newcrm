@@ -108,15 +108,11 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 检查账户名是否已经存在
         /// </summary>
-        [HttpGet]
+        [HttpPost]
         public ActionResult CheckAccountNameExist(String param)
         {
-            var response = new ResponseModel<dynamic>();
             var result = AccountServices.CheckAccountNameExist(param);
-            response.IsSuccess = true;
-            response.Model = result ? new { status = "y", info = "" } : new { status = "n", info = "用户名已存在" };
-
-            return Json(response, JsonRequestBehavior.AllowGet);
+            return Json(result ? new { status = "y", info = "" } : new { status = "n", info = "用户名已存在" });
         }
 
         /// <summary>
@@ -137,7 +133,7 @@ namespace NewCRM.Web.Controllers
         /// 修改账户为禁用状态
         /// </summary>
         [HttpGet]
-        public ActionResult ChangeAccountDisableStatus(Int32 accountId,String isDisable)
+        public ActionResult ChangeAccountDisableStatus(Int32 accountId, String isDisable)
         {
             var response = new ResponseModel<String>();
             if (!Boolean.Parse(isDisable))
@@ -173,7 +169,7 @@ namespace NewCRM.Web.Controllers
 
             return new AccountDto
             {
-                Id = Account.Id,
+                Id = String.IsNullOrEmpty(forms["id"]) ? 0 : Int32.Parse(forms["id"]),
                 Name = forms["val_accountname"],
                 Password = forms["val_password"],
                 IsAdmin = Int32.Parse(forms["val_type"]) == 2,

@@ -312,7 +312,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                                   AddTime ,
                                   LastModifyTime ,
                                   WallpaperId ,
-                                  Face
+                                  AccountFace
                                 )
                         VALUES  ( N'{config.Skin}' , -- Skin - nvarchar(max)
                                   {config.AppSize} , -- AppSize - int
@@ -322,13 +322,13 @@ namespace NewCRM.Domain.Services.BoundedContext
                                   {config.DefaultDeskCount} , -- DefaultDeskCount - int
                                   {(Int32)config.WallpaperMode} , -- WallpaperMode - int
                                   {(Int32)config.AppXy} , -- AppXy - int
-                                  {config.DockPosition} , -- DockPosition - int
+                                  {(Int32)config.DockPosition} , -- DockPosition - int
                                   0 , -- IsDeleted - bit
                                   GETDATE() , -- AddTime - datetime
                                   GETDATE() , -- LastModifyTime - datetime
-                                  0 , -- WallpaperId - int
+                                  3 , -- WallpaperId - int
                                   N'{config.Face}'  -- Face - nvarchar(150)
-                                ) SELECT @@IDENTITY AS Id";
+                                ) SELECT CAST(@@IDENTITY AS INT) AS Id";
                         configId = (Int32)dataStore.SqlScalar(sql);
                     }
                     #endregion
@@ -348,7 +348,8 @@ namespace NewCRM.Domain.Services.BoundedContext
                               AddTime ,
                               LastModifyTime ,
                               ConfigId ,
-                              TitleId
+                              TitleId,
+                              IsBing
                             )
                     VALUES  ( 
                               @name , -- Name - nvarchar(max)
@@ -362,16 +363,24 @@ namespace NewCRM.Domain.Services.BoundedContext
                               GETDATE() , -- AddTime - datetime
                               GETDATE() , -- LastModifyTime - datetime
                               {configId} , -- ConfigId - int
-                              0  -- TitleId - int
-                            ) SELECT @@IDENTITY AS Id";
+                              0,  -- TitleId - int
+                              0
+                            ) SELECT CAST(@@IDENTITY AS INT) AS Id";
                         var parameters = new List<SqlParameter>
+                        {
+                            new SqlParameter("@name",account.Name),
+                            new SqlParameter("@loginPassword",account.LoginPassword),
+                            new SqlParameter("@lockScreenPassword",account.LockScreenPassword),
+                            new SqlParameter("@isAdmin",account.IsAdmin),
+                        };
+                        accountId = (Int32)dataStore.SqlScalar(sql, parameters);
+                    }
+                    #endregion
+
+                    #region 更新用户的配置
                     {
-                        new SqlParameter("@name",account.Name),
-                        new SqlParameter("@loginPassword",account.LoginPassword),
-                        new SqlParameter("@lockScreenPassword",account.LockScreenPassword),
-                        new SqlParameter("@isAdmin",account.IsAdmin),
-                    };
-                        accountId = (Int32)dataStore.SqlScalar(sql);
+                        var sql = $@"UPDATE dbo.Configs SET AccountId={accountId} WHERE IsDeleted=0 AND AccountId=0";
+                        dataStore.SqlExecute(sql);
                     }
                     #endregion
 
