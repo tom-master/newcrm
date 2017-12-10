@@ -137,19 +137,19 @@ namespace NewCRM.Web.Controllers
         /// 修改账户为禁用状态
         /// </summary>
         [HttpGet]
-        public ActionResult ChangeAccountDisableStatus(String isDisable)
+        public ActionResult ChangeAccountDisableStatus(Int32 accountId,String isDisable)
         {
             var response = new ResponseModel<String>();
             if (!Boolean.Parse(isDisable))
             {
-                AccountServices.Disable(Account.Id);
+                AccountServices.Disable(accountId);
 
                 response.IsSuccess = true;
                 response.Message = "禁用账户成功";
             }
             else
             {
-                AccountServices.Enable(Account.Id);
+                AccountServices.Enable(accountId);
 
                 response.IsSuccess = true;
                 response.Message = "启用账户成功";
