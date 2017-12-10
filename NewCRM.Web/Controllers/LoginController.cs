@@ -55,7 +55,7 @@ namespace NewCRM.Web.Controllers
 
                 Response.Cookies.Add(new HttpCookie("Account")
                 {
-                    Value = JsonConvert.SerializeObject(new { AccountFace = account.AccountFace, Name = account.Name }),
+                    Value = JsonConvert.SerializeObject(new { AccountFace = ProfileManager.FileUrl + account.AccountFace, Name = account.Name }),
                     Expires = loginParameter.IsRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddMinutes(30)
                 });
             }
