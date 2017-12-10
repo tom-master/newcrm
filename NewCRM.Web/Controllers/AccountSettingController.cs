@@ -86,7 +86,7 @@ namespace NewCRM.Web.Controllers
             response.IsSuccess = true;
             response.Model = result ? new { status = "y", info = "" } : new { status = "n", info = "原始密码错误" };
 
-            return Json(response);
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
     }
 }

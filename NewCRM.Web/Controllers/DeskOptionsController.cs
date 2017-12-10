@@ -168,7 +168,7 @@ namespace NewCRM.Web.Controllers
             response.Message = "壁纸上传成功";
             response.IsSuccess = true;
             response.Model = new { Id = wallpaperResult.Item1, Url = wallpaperResult.Item2 };
-            return Json(response);
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace NewCRM.Web.Controllers
             response.Message = "获取皮肤列表成功";
             response.Model = new { data = result, currentSkin = AccountServices.GetConfig(Account.Id).Skin };
 
-            return Json(response);
+            return Json(response, JsonRequestBehavior.AllowGet);
 
         }
 

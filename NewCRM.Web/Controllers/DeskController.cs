@@ -144,7 +144,7 @@ namespace NewCRM.Web.Controllers
             response.IsSuccess = true;
             response.Message = "更新图标成功";
 
-            return Json(response);
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
