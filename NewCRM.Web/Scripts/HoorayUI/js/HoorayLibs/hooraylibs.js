@@ -2573,7 +2573,7 @@ ZENG.msgbox.fail = function (msg, timeout) {
     ZENG.msgbox.show(msg, 5, timeout || 2000);
 };
 ZENG.msgbox.loading = function (msg) {
-    ZENG.msgbox.show(msg, 6, 2000);
+    ZENG.msgbox.show(msg, 6, 1000);
 };
 
 /**
