@@ -6,6 +6,7 @@ using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewCRM.Repository.StorageProvider;
+using NewLib;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {
@@ -26,7 +27,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId).Validate(defaultDeskNumber).Validate(newPosition);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Configs SET DockPosition=0 WHERE AccountId={accountId} AND DefaultDeskNumber={defaultDeskNumber} AND IsDeleted=0";
+                var sql = $@"UPDATE dbo.Configs SET DockPosition={(Int32)EnumExtensions.ToEnum<DockPostion>(newPosition)} WHERE AccountId={accountId} AND DefaultDeskNumber={defaultDeskNumber} AND IsDeleted=0";
                 dataStore.SqlExecute(sql);
             }
         }
