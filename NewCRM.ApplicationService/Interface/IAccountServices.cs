@@ -14,7 +14,7 @@ namespace NewCRM.Application.Services.Interface
         /// <param name="accountName"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        AccountDto Login(String accountName, String password);
+        AccountDto Login(String accountName, String password, String requestIp);
 
         /// <summary>
         /// 获取登陆用户的配置文件

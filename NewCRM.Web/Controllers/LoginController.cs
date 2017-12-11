@@ -42,7 +42,7 @@ namespace NewCRM.Web.Controllers
             Parameter.Validate(loginParameter);
             #endregion
 
-            var account = AccountServices.Login(loginParameter.Name, loginParameter.Password);
+            var account = AccountServices.Login(loginParameter.Name, loginParameter.Password, Request.ServerVariables["REMOTE_ADDR"].ToString());
             if (account != null)
             {
                 response.Message = "登陆成功";

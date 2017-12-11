@@ -19,7 +19,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 {
     public class AccountContext : BaseServiceContext, IAccountContext
     {
-        public Account Validate(String accountName, String password)
+        public Account Validate(String accountName, String password, String requestIp)
         {
             ValidateParameter.Validate(accountName).Validate(password);
 
@@ -52,7 +52,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                     #region 设置用户在线
                     {
-                        var sql = $@"UPDATE dbo.Accounts SET IsOnline=1 WHERE Id={result.Id} AND IsDeleted=0 AND IsDisable=0";
+                        var sql = $@"UPDATE dbo.Accounts SET IsOnline=1,LastLoginTime=GETDATE() WHERE Id={result.Id} AND IsDeleted=0 AND IsDisable=0";
                         dataStore.SqlExecute(sql);
                     }
                     #endregion
@@ -68,7 +68,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                                         LastModifyTime
                                     )
                                     VALUES
-                                    (   N'{(Dns.GetHostEntry(Dns.GetHostName()).AddressList[0]).ToString()}',       -- IpAddress - nvarchar(max)
+                                    (   N'{requestIp}',       -- IpAddress - nvarchar(max)
                                         {result.Id},         -- AccountId - int
                                         {0},      -- IsDeleted - bit
                                         GETDATE(), -- AddTime - datetime

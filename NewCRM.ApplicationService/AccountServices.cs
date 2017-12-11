@@ -24,11 +24,11 @@ namespace NewCRM.Application.Services
             _accountContext = accountContext;
         }
 
-        public AccountDto Login(String accountName, String password)
+        public AccountDto Login(String accountName, String password, String requestIp)
         {
             ValidateParameter.Validate(accountName).Validate(password);
 
-            var account = _accountContext.Validate(accountName, password);
+            var account = _accountContext.Validate(accountName, password, requestIp);
             return new AccountDto
             {
                 Name = account.Name,
@@ -91,7 +91,7 @@ namespace NewCRM.Application.Services
             var roles = _accountContext.GetRoles(account.Id);
             var powers = _accountContext.GetPowers();
 
-         
+
             return new AccountDto
             {
                 AccountFace = account.AccountFace,
