@@ -130,7 +130,7 @@ SELECT COUNT(*) FROM dbo.Wallpapers AS a WHERE a.AccountId={wallpaper.AccountId}
                             a.Title,
                             a.Url,
                             a.Width
-                            FROM dbo.Wallpapers AS a WHERE a.IsDeleted=0";
+                            FROM dbo.Wallpapers AS a WHERE a.Source={(Int32)WallpaperSource.System} AND a.IsDeleted=0";
                 return dataStore.SqlGetDataTable(sql).AsList<Wallpaper>().ToList();
             }
         }
@@ -182,7 +182,7 @@ SELECT COUNT(*) FROM dbo.Wallpapers AS a WHERE a.AccountId={wallpaper.AccountId}
 
                 #region 移除壁纸
                 {
-                    var sql = $@"UPDATE dbo.Wallpapers SET IsDeleted=1 WHERE Id={wallpaperId} AccountId={accountId} AND IsDeleted=0";
+                    var sql = $@"UPDATE dbo.Wallpapers SET IsDeleted=1 WHERE Id={wallpaperId} AND AccountId={accountId} AND IsDeleted=0";
                     dataStore.SqlExecute(sql);
                 }
                 #endregion

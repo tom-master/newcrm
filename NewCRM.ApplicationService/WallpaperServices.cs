@@ -59,7 +59,7 @@ namespace NewCRM.Application.Services
                 ShortUrl = s.ShortUrl,
                 Source = (Int32)s.Source,
                 Title = s.Title,
-                Url = s.Url,
+                Url = ProfileManager.FileUrl + s.Url,
                 Width = s.Width
             }).ToList();
         }

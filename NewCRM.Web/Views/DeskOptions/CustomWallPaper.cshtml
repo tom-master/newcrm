@@ -129,13 +129,11 @@
         function GetAllUploadWallPaper() {
             $.get("@Url.Action("GetUploadWallPapers", "DeskOptions")", function (responseText) {
                 if (responseText.IsSuccess) {
-                    if (typeof responseText.wallPapers !== 'undefined') {
-                        var liElement = '';
-                        $.each(responseText.wallPapers, function (k, v) {
-                            liElement += '<li id="' + v.Id + '" style="background:url(' + v.ShortUrl + ')"><a href="javascript:;">删 除</a></li>';
-                        });
-                        $('.view').children('ul').append(liElement);
-                    }
+                    var liElement = '';
+                    $.each(responseText.Model, function (k, v) {
+                        liElement += '<li id="' + v.Id + '" style="background:url(' + v.Url + ')"><a href="javascript:;">删 除</a></li>';
+                    });
+                    $('.view').children('ul').append(liElement);
                 } else {
                     ZENG.msgbox.fail(responseText.Message);
                 }
