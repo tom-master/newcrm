@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace NewCRM.FileServices
 {
@@ -11,6 +12,8 @@ namespace NewCRM.FileServices
         {
             // Web API configuration and services
 
+            //[EnableCors(origins: "*", headers: "*", methods: "POST,OPTIONS")]
+            config.EnableCors(new EnableCorsAttribute(origins: "*", headers: "*", methods: "POST,OPTIONS"));
             // Web API routes
             config.MapHttpAttributeRoutes();
 

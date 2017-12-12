@@ -39,12 +39,13 @@
                         $.get('@Url.Action("ModifyAccountFace", "AccountSetting")', { accountFace: msg.content.avatarUrls }, function (responseText) {
                             if (responseText.IsSuccess) {
                                 ZENG.msgbox.success('账户头像上传成功，刷新查看');
-                                debugger
                                 window.parent.HROS.startmenu.getAvatar();
                             } else {
-                                ZENG.msgbox.fail('账户头像上传失败');
+                                ZENG.msgbox.fail('账户头像保存失败');
                             }
                         })
+                    } else {
+                        ZENG.msgbox.fail('账户头像上传失败');
                     }
                     break;
             }

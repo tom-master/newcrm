@@ -4,8 +4,10 @@ using System.Configuration;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace NewCRM.FileServices.Controllers
 {
@@ -15,10 +17,11 @@ namespace NewCRM.FileServices.Controllers
         private static readonly String _fileStoragePath = ConfigurationManager.AppSettings["FileStorage"];
         private static readonly String[] _denyUploadTypes = { ".exe", ".bat", ".bat" };
 
-        [Route("upload"), HttpPost]
+        [Route("upload"), HttpPost,HttpOptions]
         public IHttpActionResult Upload()
         {
             var responses = new List<dynamic>();
+
             try
             {
                 var request = HttpContext.Current.Request;
@@ -85,7 +88,7 @@ namespace NewCRM.FileServices.Controllers
                     }
                     else
                     {
-                        fileExtension = file.FileName.Substring(file.FileName.LastIndexOf(".", StringComparison.Ordinal));
+                        fileExtension = file.FileName.Substring(file.FileName.LastIndexOf(".", StringComparison.Ordinal)+1);
                     }
 
                     if (_denyUploadTypes.Any(d => d.ToLower() == fileExtension))
@@ -118,18 +121,18 @@ namespace NewCRM.FileServices.Controllers
                             {
                                 return Json(new { avatarUrls = fileFullPath.Substring(fileFullPath.IndexOf("/", StringComparison.Ordinal)) + fileName, msg = "", success = true });
                             }
-                            using (Image originalImage = Image.FromFile(fileFullPath + fileName))
+                        }
+                        using (Image originalImage = Image.FromFile(fileFullPath + fileName))
+                        {
+                            responses.Add(new
                             {
-                                responses.Add(new
-                                {
-                                    IsSuccess = true,
-                                    originalImage.Width,
-                                    originalImage.Height,
-                                    Title = fileName,
-                                    Url = fileFullPath.Substring(fileFullPath.IndexOf("/", StringComparison.Ordinal)) + fileName,
-                                    Md5 = md5,
-                                });
-                            }
+                                IsSuccess = true,
+                                originalImage.Width,
+                                originalImage.Height,
+                                Title = fileName,
+                                Url = fileFullPath.Substring(fileFullPath.IndexOf("/", StringComparison.Ordinal)) + fileName,
+                                Md5 = md5,
+                            });
                         }
                     }
                 }

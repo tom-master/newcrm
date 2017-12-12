@@ -155,11 +155,11 @@ namespace NewCRM.Web.Controllers
 
             var wallpaperResult = _wallpaperServices.AddWallpaper(new WallpaperDto
             {
-                Title = wallpaper.Title,
+                Title = wallpaper.Title.Substring(0, 9),
                 Width = wallpaper.Width,
                 Height = wallpaper.Height,
                 Url = wallpaper.Url,
-                Source = 0,
+                Source = wallpaper.Source,
                 AccountId = Account.Id,
                 Md5 = wallpaper.Md5,
                 ShortUrl = ""
@@ -167,7 +167,7 @@ namespace NewCRM.Web.Controllers
 
             response.Message = "壁纸上传成功";
             response.IsSuccess = true;
-            response.Model = new { Id = wallpaperResult.Item1, Url = wallpaperResult.Item2 };
+            response.Model = new { Id = wallpaperResult.Item1, Url = ProfileManager.FileUrl + wallpaperResult.Item2 };
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 

@@ -71,49 +71,32 @@
                 }
             });
             upload.on('uploadSuccess', function (file, cb) {
-                debugger
-                if (typeof cb.value !== 'undefined') {
-                    if (cb.value === 0) {
-                        ZENG.msgbox.fail(cb.msg);
-                    } else if (cb.value === 1) {
-                        ZENG.msgbox.fail(cb.msg);
-                    } else {
-                        ZENG.msgbox.fail('未知错误');
-                    }
-                } else {
-
+                if (cb[0].IsSuccess) {
                     var model = {
-                        //Title = wallpaper.Title,
-                        //Width = wallpaper.Width,
-                        //Height = wallpaper.Height,
-                        //Url = wallpaper.Url,
-                        //Source = 0,
-                        //AccountId = Account.Id,
-                        //Md5 = wallpaper.Md5,
-                        //ShortUrl = ""
+                        Title: cb[0].Title,
+                        Width: cb[0].Width,
+                        Height: cb[0].Height,
+                        Url: cb[0].Url,
+                        Source: 3,
+                        AccountId: '@accountConfig.AccountId',
+                        Md5: cb[0].Md5,
+                        ShortUrl: ""
                     };
-                   $.ajax({
+                    $.ajax({
                         type: 'POST',
                         url: '@Url.Action("UploadWallPaper", "DeskOptions")',
-                        data: { wallpaper:model },
+                        data: { wallpaper: model },
                         success: function (responseText) {
                             if (responseText.IsSuccess) {
-                                $('.loading').hide();
-                                location.href = '@Url.Action("Desktop", "Index")';
+                                $('.wapppapercustom .view ul').append('<li id="' + responseText.Model.Id + '" style="background-image:url(' + responseText.Model.Url + ')"><a href="javascript:;">删 除</a></li>');
+                                window.parent.HROS.wallpaper.update($('#wallpapertype').val(), responseText.Model.Id);
+                                upload.removeFile(file);
                             } else {
-                                window.location.reload();
+                                ZENG.msgbox.fail("壁纸上传失败");
                             }
                         }
                     });
-
-
-                    $('.wapppapercustom .view ul').append('<li id="' + cb.Id + '" style="background-image:url(' + cb.Url + ')"><a href="javascript:;">删 除</a></li>');
-                    window.parent.HROS.wallpaper.update($('#wallpapertype').val(), cb.Id);
-                    upload.removeFile(file);
                 }
-
-
-
             });
             $('#wallpapertype').on('change', function () {
                 window.parent.HROS.wallpaper.update($('#wallpapertype').val(), '');

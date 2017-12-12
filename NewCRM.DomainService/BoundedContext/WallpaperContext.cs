@@ -15,14 +15,14 @@ namespace NewCRM.Domain.Services.BoundedContext
         public Tuple<int, string> AddWallpaper(Wallpaper wallpaper)
         {
             ValidateParameter.Validate(wallpaper);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 #region 前置条件验证
                 {
                     var sql = $@"
 SELECT COUNT(*) FROM dbo.Wallpapers AS a WHERE a.AccountId={wallpaper.AccountId} AND a.IsDeleted=0";
                     var result = (Int32)dataStore.SqlScalar(sql);
-                    if(result >= 6)
+                    if (result >= 6)
                     {
                         throw new BusinessException("最多只能上传6张图片");
                     }
@@ -58,7 +58,7 @@ SELECT COUNT(*) FROM dbo.Wallpapers AS a WHERE a.AccountId={wallpaper.AccountId}
                               0 , -- IsDeleted - bit
                               GETDATE() , -- AddTime - datetime
                               GETDATE()  -- LastModifyTime - datetime
-                            ) SELECT @@IDENTITY AS Identity";
+                            ) SELECT CAST(@@IDENTITY AS INT) AS Ide";
 
                     newWallpaperId = (Int32)dataStore.SqlScalar(sql);
                 }
@@ -66,11 +66,13 @@ SELECT COUNT(*) FROM dbo.Wallpapers AS a WHERE a.AccountId={wallpaper.AccountId}
 
                 #region 获取返回值
                 {
-                    var sql = $@"
-SELECT a.Id,a.Url FROM dbo.Wallpapers AS a WHERE a.Id={newWallpaperId} AND a.IsDeleted=0";
-
+                    var sql = $@"SELECT a.Id,a.Url FROM dbo.Wallpapers AS a WHERE a.Id={newWallpaperId} AND a.IsDeleted=0";
                     var result = dataStore.SqlGetDataReader(sql);
-                    return new Tuple<int, string>(Int32.Parse(result["Id"].ToString()), result["Url"].ToString());
+                    while (result.Read())
+                    {
+                        return new Tuple<int, string>(Int32.Parse(result["Id"].ToString()), result["Url"].ToString());
+                    }
+                    return null;
                 }
                 #endregion
             }
@@ -78,7 +80,7 @@ SELECT a.Id,a.Url FROM dbo.Wallpapers AS a WHERE a.Id={newWallpaperId} AND a.IsD
 
         public Wallpaper GetUploadWallpaper(string md5)
         {
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT
                             a.AccountId,
@@ -97,7 +99,7 @@ SELECT a.Id,a.Url FROM dbo.Wallpapers AS a WHERE a.Id={newWallpaperId} AND a.IsD
 
         public List<Wallpaper> GetUploadWallpaper(int accountId)
         {
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT
                             a.AccountId,
@@ -116,7 +118,7 @@ SELECT a.Id,a.Url FROM dbo.Wallpapers AS a WHERE a.Id={newWallpaperId} AND a.IsD
 
         public List<Wallpaper> GetWallpapers()
         {
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT
                             a.AccountId,
@@ -138,9 +140,9 @@ SELECT a.Id,a.Url FROM dbo.Wallpapers AS a WHERE a.Id={newWallpaperId} AND a.IsD
             ValidateParameter.Validate(accountId).Validate(newMode);
 
             WallpaperMode wallpaperMode;
-            if(Enum.TryParse(newMode, true, out wallpaperMode))
+            if (Enum.TryParse(newMode, true, out wallpaperMode))
             {
-                using(var dataStore = new DataStore())
+                using (var dataStore = new DataStore())
                 {
                     var sql = $@"UPDATE dbo.Configs SET WallpaperMode={(Int32)wallpaperMode} WHERE AccountId={accountId} AND IsDeleted=0";
                     dataStore.SqlExecute(sql);
@@ -155,7 +157,7 @@ SELECT a.Id,a.Url FROM dbo.Wallpapers AS a WHERE a.Id={newWallpaperId} AND a.IsD
         public void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId)
         {
             ValidateParameter.Validate(accountId).Validate(newWallpaperId);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Configs SET WallpaperId={newWallpaperId} WHERE AccountId={accountId} AND IsDeleted=0";
                 dataStore.SqlExecute(sql);
@@ -165,13 +167,13 @@ SELECT a.Id,a.Url FROM dbo.Wallpapers AS a WHERE a.Id={newWallpaperId} AND a.IsD
         public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
         {
             ValidateParameter.Validate(accountId).Validate(wallpaperId);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 #region 前置条件验证
                 {
                     var sql = $@"SELECT COUNT(*) FROM dbo.Configs AS a WHERE a.AccountId={accountId} AND a.WallpaperId={wallpaperId} AND a.IsDeleted=0";
                     var result = (Int32)dataStore.SqlExecute(sql);
-                    if(result > 0)
+                    if (result > 0)
                     {
                         throw new BusinessException("当前壁纸正在使用中，不能删除");
                     }
