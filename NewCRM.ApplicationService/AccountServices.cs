@@ -59,7 +59,8 @@ namespace NewCRM.Application.Services
                 WallpaperHeigth = wallpaper.Height,
                 WallpaperSource = wallpaper.Source.ToString().ToLower(),
                 WallpaperMode = config.WallpaperMode.ToString().ToLower(),
-                IsBing = config.IsBing
+                IsBing = config.IsBing,
+                AccountId = config.AccountId
             };
         }
 

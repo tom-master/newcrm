@@ -17,11 +17,11 @@
     <div class="fr">
         <label>显示方式：</label>
         <select name="wallpapertype" id="wallpapertype" style="width: 100px">
-            <option name="fill" value="fill" @{ if (accountConfig.WallpaperMode == "Fill") { <text> selected="selected" </text>                } }>填充</option>
-            <option name="adapted" value="adapted" @{if (accountConfig.WallpaperMode == "Adapted") { <text> selected="selected" </text>               }}>适应</option>
-            <option name="tile" value="tile" @{ if (accountConfig.WallpaperMode == "Tile") { <text> selected="selected" </text>               } }>平铺</option>
-            <option name="draw" value="draw" @{ if (accountConfig.WallpaperMode == "Draw") { <text> selected="selected" </text>               } }>拉伸</option>
-            <option name="center" value="center" @{ if (accountConfig.WallpaperMode == "Center") { <text> selected="selected" </text>               } }>居中</option>
+            <option name="fill" value="fill" @{ if (accountConfig.WallpaperMode == "Fill") { <text> selected="selected" </text>  } }>填充</option>
+            <option name="adapted" value="adapted" @{if (accountConfig.WallpaperMode == "Adapted") { <text> selected="selected" </text>  }}>适应</option>
+            <option name="tile" value="tile" @{ if (accountConfig.WallpaperMode == "Tile") { <text> selected="selected" </text>  } }>平铺</option>
+            <option name="draw" value="draw" @{ if (accountConfig.WallpaperMode == "Draw") { <text> selected="selected" </text>  } }>拉伸</option>
+            <option name="center" value="center" @{ if (accountConfig.WallpaperMode == "Center") { <text> selected="selected" </text>  } }>居中</option>
         </select>
     </div>
 </div>
@@ -50,7 +50,7 @@
                 // swf文件路径
                 swf: '~/Scripts/HoorayUI/js/webuploader-0.1.5/Uploader.swf',
                 // 文件接收服务端。
-                server: '@Url.Action("UploadWallPaper", "DeskOptions")',
+                server: 'http://39.106.106.137:8080/api/filestorage/upload?accountId=@accountConfig.AccountId&uploadtype=face',
                 // 选择文件的按钮。可选。
                 // 内部根据当前运行是创建，可能是input元素，也可能是flash.
                 pick: {
@@ -71,6 +71,7 @@
                 }
             });
             upload.on('uploadSuccess', function (file, cb) {
+                debugger
                 if (typeof cb.value !== 'undefined') {
                     if (cb.value === 0) {
                         ZENG.msgbox.fail(cb.msg);
@@ -80,6 +81,32 @@
                         ZENG.msgbox.fail('未知错误');
                     }
                 } else {
+
+                    var model = {
+                        Title = wallpaper.Title,
+                        Width = wallpaper.Width,
+                        Height = wallpaper.Height,
+                        Url = wallpaper.Url,
+                        Source = 0,
+                        AccountId = Account.Id,
+                        Md5 = wallpaper.Md5,
+                        ShortUrl = ""
+                    };
+                   $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("UploadWallPaper", "DeskOptions")',
+                        data: { wallpaper=model },
+                        success: function (responseText) {
+                            if (responseText.IsSuccess) {
+                                $('.loading').hide();
+                                location.href = '@Url.Action("Desktop", "Index")';
+                            } else {
+                                window.location.reload();
+                            }
+                        }
+                    });
+
+
                     $('.wapppapercustom .view ul').append('<li id="' + cb.Id + '" style="background-image:url(' + cb.Url + ')"><a href="javascript:;">删 除</a></li>');
                     window.parent.HROS.wallpaper.update($('#wallpapertype').val(), cb.Id);
                     upload.removeFile(file);
@@ -129,7 +156,7 @@
                 } else {
                     ZENG.msgbox.fail(responseText.Message);
                 }
-                
+
             });
         }
 

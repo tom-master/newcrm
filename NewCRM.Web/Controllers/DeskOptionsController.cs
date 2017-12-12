@@ -148,7 +148,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 上传壁纸     
         /// </summary>
-        [HttpGet]
+        [HttpPost]
         public ActionResult UploadWallPaper(WallpaperDto wallpaper)
         {
             var response = new ResponseModel<dynamic>();
