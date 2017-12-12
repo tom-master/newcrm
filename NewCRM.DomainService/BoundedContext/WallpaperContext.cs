@@ -159,7 +159,7 @@ SELECT COUNT(*) FROM dbo.Wallpapers AS a WHERE a.AccountId={wallpaper.AccountId}
             ValidateParameter.Validate(accountId).Validate(newWallpaperId);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Configs SET WallpaperId={newWallpaperId} WHERE AccountId={accountId} AND IsDeleted=0";
+                var sql = $@"UPDATE dbo.Configs SET IsBing=0,WallpaperId={newWallpaperId} WHERE AccountId={accountId} AND IsDeleted=0";
                 dataStore.SqlExecute(sql);
             }
         }
