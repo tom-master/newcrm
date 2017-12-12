@@ -46,7 +46,7 @@ namespace NewCRM.Application.Services
             {
                 Id = config.Id,
                 Skin = config.Skin,
-                AccountFace = config.Face,
+                AccountFace = config.AccountFace,
                 AppSize = config.AppSize,
                 AppVerticalSpacing = config.AppVerticalSpacing,
                 AppHorizontalSpacing = config.AppHorizontalSpacing,

@@ -20,7 +20,7 @@ namespace NewCRM.Domain.Entitys.System
         /// 用户头像
         /// </summary>
         [Required]
-        public String Face { get; private set; }
+        public String AccountFace { get; private set; }
 
         /// <summary>
         /// app尺寸
@@ -85,7 +85,7 @@ namespace NewCRM.Domain.Entitys.System
         {
             AppXy = AppAlignMode.X;
             DockPosition = DockPostion.Top;
-            Face = @"\Scripts\HoorayUI\img\ui\avatar_48.jpg";
+            AccountFace = @"\Scripts\HoorayUI\img\ui\avatar_48.jpg";
             Skin = "default";
             WallpaperMode = WallpaperMode.Fill;
             AppSize = 48;

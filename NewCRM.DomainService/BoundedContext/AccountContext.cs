@@ -328,7 +328,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                                   GETDATE() , -- AddTime - datetime
                                   GETDATE() , -- LastModifyTime - datetime
                                   3 , -- WallpaperId - int
-                                  N'{config.Face}'  -- Face - nvarchar(150)
+                                  N'{config.AccountFace}'  -- Face - nvarchar(150)
                                 ) SELECT CAST(@@IDENTITY AS INT) AS Id";
                         configId = (Int32)dataStore.SqlScalar(sql);
                     }
@@ -520,7 +520,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId).Validate(newFace);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Configs SET Face=@face WHERE AccountId={accountId} AND IsDeleted=0";
+                var sql = $@"UPDATE dbo.Configs SET AccountFace=@face WHERE AccountId={accountId} AND IsDeleted=0";
                 dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@face", newFace) });
             }
         }

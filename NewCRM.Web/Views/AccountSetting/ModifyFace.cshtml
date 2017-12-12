@@ -39,6 +39,7 @@
                         $.get('@Url.Action("ModifyAccountFace", "AccountSetting")', { accountFace: msg.content.avatarUrls }, function (responseText) {
                             if (responseText.IsSuccess) {
                                 ZENG.msgbox.success('账户头像上传成功，刷新查看');
+                                debugger
                                 window.parent.HROS.startmenu.getAvatar();
                             } else {
                                 ZENG.msgbox.fail('账户头像上传失败');
