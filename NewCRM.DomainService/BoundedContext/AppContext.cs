@@ -597,7 +597,8 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                                 a.IsSetbar,
                                 a.IsOpenMax,
                                 a.IsFlash,
-                                a.IsDraw
+                                a.IsDraw,
+                                a.IsIconByUpload
                                 FROM  dbo.Apps AS a WHERE a.AppAuditState={(Int32)AppAuditState.Pass} AND a.AppReleaseState={(Int32)AppReleaseState.Release} AND a.IsDeleted=0 AND a.Id={appId}";
                         app = dataStore.SqlGetDataTable(sql).AsSignal<App>();
                     }
@@ -634,7 +635,8 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                               AddTime ,
                               LastModifyTime ,
                               AccountId ,
-                              DeskIndex
+                              DeskIndex,
+                              IsIconByUpload
                             )
                     VALUES  ( {newMember.AppId} , -- AppId - int
                               {newMember.Width} , -- Width - int
@@ -657,7 +659,8 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                               GETDATE() , -- AddTime - datetime
                               GETDATE() , -- LastModifyTime - datetime
                               {accountId} , -- AccountId - int
-                              {deskNum}  -- DeskIndex - int
+                              {deskNum},  -- DeskIndex - int
+                              {(app.IsIconByUpload ? 1 : 0)}
                             )";
                         dataStore.SqlExecute(sql);
                     }
