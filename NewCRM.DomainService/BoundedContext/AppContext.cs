@@ -598,7 +598,7 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                                 a.IsOpenMax,
                                 a.IsFlash,
                                 a.IsDraw
-                                FROM  dbo.Apps AS a WHERE a.AppAuditState={AppAuditState.Pass} AND a.AppReleaseState={AppReleaseState.Release} AND a.IsDeleted=0 AND a.Id={appId}";
+                                FROM  dbo.Apps AS a WHERE a.AppAuditState={(Int32)AppAuditState.Pass} AND a.AppReleaseState={(Int32)AppReleaseState.Release} AND a.IsDeleted=0 AND a.Id={appId}";
                         app = dataStore.SqlGetDataTable(sql).AsSignal<App>();
                     }
                     #endregion
@@ -644,21 +644,22 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                               N'{newMember.IconUrl}' , -- IconUrl - nvarchar(max)
                               N'{newMember.AppUrl}' , -- AppUrl - nvarchar(max)
                               0 , -- IsOnDock - bit
-                              {newMember.IsMax} , -- IsMax - bit
-                              {newMember.IsFull} , -- IsFull - bit
-                              {newMember.IsSetbar} , -- IsSetbar - bit
-                              {newMember.IsOpenMax} , -- IsOpenMax - bit
-                              {newMember.IsLock} , -- IsLock - bit
-                              {newMember.IsFlash} , -- IsFlash - bit
-                              {newMember.IsDraw} , -- IsDraw - bit
-                              {newMember.IsResize} , -- IsResize - bit
-                              {newMember.MemberType} , -- MemberType - int
+                              {newMember.IsMax.ParseToInt32()} , -- IsMax - bit
+                              {newMember.IsFull.ParseToInt32()} , -- IsFull - bit
+                              {newMember.IsSetbar.ParseToInt32()} , -- IsSetbar - bit
+                              {newMember.IsOpenMax.ParseToInt32()} , -- IsOpenMax - bit
+                              {newMember.IsLock.ParseToInt32()} , -- IsLock - bit
+                              {newMember.IsFlash.ParseToInt32()} , -- IsFlash - bit
+                              {newMember.IsDraw.ParseToInt32()} , -- IsDraw - bit
+                              {newMember.IsResize.ParseToInt32()} , -- IsResize - bit
+                              {(Int32)newMember.MemberType} , -- MemberType - int
                               0 , -- IsDeleted - bit
                               GETDATE() , -- AddTime - datetime
                               GETDATE() , -- LastModifyTime - datetime
                               {accountId} , -- AccountId - int
                               {deskNum}  -- DeskIndex - int
                             )";
+                        dataStore.SqlExecute(sql);
                     }
                     #endregion
 
