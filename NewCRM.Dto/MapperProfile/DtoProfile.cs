@@ -100,7 +100,8 @@ namespace NewCRM.Dto.MapperProfile
                     app => app.AppReleaseState,
                     dto => dto.MapFrom(w => EnumOp.ConvertEnum(typeof(AppReleaseState), w.AppReleaseState)))
                 .ForMember(app => app.AppTypeId, dto => dto.MapFrom(w => w.AppTypeId))
-                .ForMember(app => app.AppStyle, dto => dto.MapFrom(w => EnumOp.ConvertEnum(typeof(AppStyle), w.AppStyle)));
+                .ForMember(app => app.AppStyle, dto => dto.MapFrom(w => EnumOp.ConvertEnum(typeof(AppStyle), w.AppStyle)))
+                .ForMember(app => app.IsIconByUpload, dto => dto.MapFrom(w => w.IsIconByUpload));
         }
     }
 

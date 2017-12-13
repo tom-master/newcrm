@@ -92,7 +92,8 @@ namespace NewCRM.Domain.Services.BoundedContext
 											WHEN 1 THEN CAST(1 AS BIT)
 											WHEN 0 THEN CAST(0 AS BIT)
 										END
-	                                ) AS IsInstall
+	                                ) AS IsInstall,
+                                    a.IsIconByUpload
 	                                FROM dbo.Apps AS a
                                     LEFT JOIN dbo.AppStars AS a1
                                     ON a1.AppId=a.Id AND a1.IsDeleted=0 {where}
@@ -180,7 +181,8 @@ namespace NewCRM.Domain.Services.BoundedContext
 	                    a.AppAuditState,
 	                    a.IsRecommand,
                         a.AppTypeId,
-                        a.AccountId
+                        a.AccountId,
+                        a.IsIconByUpload
 	                    FROM dbo.Apps AS a {where} 
                     ) AS aa WHERE aa.rownumber>{pageSize}*({pageIndex}-1)";
                     return dataStore.SqlGetDataTable(sql).AsList<App>().ToList();
@@ -213,7 +215,8 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.AppAuditState,
                             a.AppReleaseState,
                             a.AppTypeId,
-                            a2.Name AS AccountName
+                            a2.Name AS AccountName,
+                            a.IsIconByUpload
                             FROM dbo.Apps AS a 
                             LEFT JOIN dbo.AppStars AS a1
                             ON a1.AppId=a.Id AND a1.IsDeleted=0
@@ -430,7 +433,7 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
             {
                 #region 发布app
                 {
-                    var sql = $@"UPDATE dbo.Apps SET AppReleaseState={AppReleaseState.Release} WHERE Id={appId} AND IsDeleted=0 AND AppAuditState={AppAuditState.Pass}";
+                    var sql = $@"UPDATE dbo.Apps SET AppReleaseState={(Int32)AppReleaseState.Release} WHERE Id={appId} AND IsDeleted=0 AND AppAuditState={(Int32)AppAuditState.Pass}";
                     dataStore.SqlExecute(sql);
                 }
                 #endregion
@@ -443,7 +446,7 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
             using (var dataStore = new DataStore())
             {
                 var set = new StringBuilder();
-                set.Append($@" IconUrl={app.IconUrl},Name={app.Name},AppTypeId={app.AppTypeId},AppUrl={app.AppUrl},Width={app.Width},Height={app.Height},AppStyle={app.AppStyle},IsResize={app.IsResize},IsOpenMax={app.IsOpenMax},IsFlash={app.IsFlash},Remark={app.Remark} ");
+                set.Append($@" IsIconByUpload={(app.IsIconByUpload ? 1 : 0)} ,IconUrl='{app.IconUrl}',Name='{app.Name}',AppTypeId={app.AppTypeId},AppUrl='{app.AppUrl}',Width={app.Width},Height={app.Height},AppStyle={(Int32)app.AppStyle},IsResize={app.IsResize.ParseToInt32()},IsOpenMax={app.IsOpenMax.ParseToInt32()},IsFlash={app.IsFlash.ParseToInt32()},Remark='{app.Remark}' ");
                 if (app.AppAuditState == AppAuditState.Wait)
                 {
                     set.Append($@" ,AppAuditState={(Int32)AppAuditState.Wait} ");
@@ -452,7 +455,10 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                 {
                     set.Append($@" ,AppAuditState={(Int32)AppAuditState.UnAuditState} ");
                 }
-                dataStore.SqlExecute(set.ToString());
+
+                var sql = $@"UPDATE Apps SET {set} WHERE AccountId={accountId} AND Id={app.Id} AND IsDeleted=0";
+
+                dataStore.SqlExecute(sql.ToString());
             }
         }
 
@@ -549,7 +555,7 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
             ValidateParameter.Validate(accountId).Validate(appId).Validate(newIcon);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Apps SET IconUrl=@url WHERE Id={appId} AND AccountId={accountId} AND AppAuditState={(Int32)AppAuditState.Pass} AND AppReleaseState={(Int32)AppReleaseState.Release} AND IsDeleted=0";
+                var sql = $@"UPDATE dbo.Apps SET IconUrl=@url WHERE Id={appId} AND AccountId={accountId}  AND IsDeleted=0 --AND AppAuditState={(Int32)AppAuditState.Pass} AND AppReleaseState={(Int32)AppReleaseState.Release}";
 
                 dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@url", newIcon) });
             }

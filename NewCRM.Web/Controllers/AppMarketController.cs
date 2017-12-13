@@ -189,7 +189,7 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             var response = new ResponseModel();
-            _appServices.ModifyAccountAppInfo(Int32.Parse(forms["accountId"]), WrapperAppDto(forms));
+            _appServices.ModifyAccountAppInfo(Account.Id, WrapperAppDto(forms));
             response.IsSuccess = true;
             response.Message = "修改app信息成功";
 
@@ -199,18 +199,19 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 更新图标
         /// </summary>
-        [HttpGet]
+        [HttpPost]
         public ActionResult UploadIcon(Int32 appId, String newIcon)
         {
             #region 参数验证
             Parameter.Validate(appId).Validate(newIcon);
             #endregion
 
-            var response = new ResponseModel();
+            var response = new ResponseModel<String>();
             _appServices.ModifyAppIcon(Account.Id, appId, newIcon);
 
             response.IsSuccess = true;
             response.Message = "更新图标成功";
+            response.Model = ProfileManager.FileUrl + newIcon;
 
             return Json(response, JsonRequestBehavior.AllowGet);
         }
@@ -294,7 +295,8 @@ namespace NewCRM.Web.Controllers
                 IsFlash = Int32.Parse(forms["val_isflash"]) == 1,
                 Remark = forms["val_remark"],
                 AppAuditState = Int32.Parse(forms["val_verifytype"]),
-                AppReleaseState = 2 //未发布
+                AppReleaseState = 2, //未发布
+                IsIconByUpload = Int32.Parse(forms["isIconByUpload"]) == 1
             };
 
             if ((forms["val_Id"] + "").Length > 0)

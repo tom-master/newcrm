@@ -3,6 +3,7 @@
 @model AppDto
 <form action="@Url.Action("ModifyAppInfo","AppMarket")" method="post" name="form" id="form">
     <input type="hidden" name="val_Id" value="@Model.Id">
+    <input type="hidden" id="isIconByUpload" name="isIconByUpload" value="0" />
     <div class="creatbox">
         <div class="middle">
             <p class="detile-title">
@@ -52,9 +53,9 @@
                         @{
                             foreach (var appTypeDto in (List<AppTypeDto>)ViewData["AppTypes"])
                             {<text>
-                            <option value="@appTypeDto.Id" @{ if (appTypeDto.Id == Model.AppTypeId) { <text> selected="selected" </text>    } }>@appTypeDto.Name</option>
+                                    <option value="@appTypeDto.Id" @{ if (appTypeDto.Id == Model.AppTypeId) { <text> selected="selected" </text>  } }>@appTypeDto.Name</option>
                             </text>
-    }
+                        }
                         }
                     </select>
                     <span class="help-inline"></span>
@@ -83,32 +84,32 @@
                 <label class="label-text">应用类型：</label>
                 <div class="label-box form-inline control-group">
                     <label class="radio" style="margin-right:10px">
-                        <input type="radio" name="val_type" value="1" @{ if (Model.AppStyle == 1) { <text> checked="checked" </text>              } }>应用
+                        <input type="radio" name="val_type" value="1" @{ if (Model.AppStyle == 1) { <text> checked="checked" </text>  } }>应用
                     </label>
                     <label class="radio">
-                        <input type="radio" name="val_type" value="2" @{ if (Model.AppStyle == 2) { <text> checked="checked" </text>             } }>挂件
+                        <input type="radio" name="val_type" value="2" @{ if (Model.AppStyle == 2) { <text> checked="checked" </text>  } }>挂件
                     </label>
                 </div>
             </div>
-            <div class="input-label input-label-isresize" @{ if (Model.AppStyle == 2) { <text> style="display:none" </text>                } }>
+            <div class="input-label input-label-isresize" @{ if (Model.AppStyle == 2) { <text> style="display:none" </text>  } }>
                 <label class="label-text">窗口是否拉伸：</label>
                 <div class="label-box form-inline control-group">
-                    <label class="radio" style="margin-right:10px"><input type="radio" name="val_isresize" value="1" @{ if (Model.IsResize) { <text> checked="checked" </text>              } }>是</label>
-                    <label class="radio"><input type="radio" name="val_isresize" value="0" @{ if (!Model.IsResize) { <text> checked="checked" </text>              } }>否</label>
+                    <label class="radio" style="margin-right:10px"><input type="radio" name="val_isresize" value="1" @{ if (Model.IsResize) { <text> checked="checked" </text>  } }>是</label>
+                    <label class="radio"><input type="radio" name="val_isresize" value="0" @{ if (!Model.IsResize) { <text> checked="checked" </text>  } }>否</label>
                 </div>
             </div>
-            <div class="input-label input-label-isopenmax" @{ if (Model.AppStyle == 2 || Model.IsResize == false) { <text> style="display:none" </text>                } }>
+            <div class="input-label input-label-isopenmax" @{ if (Model.AppStyle == 2 || Model.IsResize == false) { <text> style="display:none" </text>  } }>
                 <label class="label-text">打开默认最大化：</label>
                 <div class="label-box form-inline control-group">
-                    <label class="radio" style="margin-right:10px"><input type="radio" name="val_isopenmax" value="1" @{ if (Model.IsOpenMax) { <text> checked="checked" </text>              } }>是</label>
-                    <label class="radio"><input type="radio" name="val_isopenmax" value="0" @{ if (!Model.IsOpenMax) { <text> checked="checked" </text>              } }>否</label>
+                    <label class="radio" style="margin-right:10px"><input type="radio" name="val_isopenmax" value="1" @{ if (Model.IsOpenMax) { <text> checked="checked" </text>  } }>是</label>
+                    <label class="radio"><input type="radio" name="val_isopenmax" value="0" @{ if (!Model.IsOpenMax) { <text> checked="checked" </text>  } }>否</label>
                 </div>
             </div>
-            <div class="input-label input-label-isflash" @{ if (Model.AppStyle == 2) { <text> style="display:none" </text>                } }>
+            <div class="input-label input-label-isflash" @{ if (Model.AppStyle == 2) { <text> style="display:none" </text>  } }>
                 <label class="label-text">是否为Flash：</label>
                 <div class="label-box form-inline control-group">
-                    <label class="radio" style="margin-right:10px"><input type="radio" name="val_isflash" value="1" @{ if (Model.IsFlash) { <text> checked="checked" </text>              } }>是</label>
-                    <label class="radio" style="margin-right:10px"><input type="radio" name="val_isflash" value="0" @{ if (!Model.IsFlash) { <text> checked="checked" </text>              } }>否</label>
+                    <label class="radio" style="margin-right:10px"><input type="radio" name="val_isflash" value="1" @{ if (Model.IsFlash) { <text> checked="checked" </text>  } }>是</label>
+                    <label class="radio" style="margin-right:10px"><input type="radio" name="val_isflash" value="0" @{ if (!Model.IsFlash) { <text> checked="checked" </text>  } }>否</label>
                     <span class="txt">[<a href="javascript:;" rel="tooltip" title="如何设置为Flash应用，当窗口非当前窗口时，会显示遮罩层">?</a>]</span>
                 </div>
             </div>
@@ -125,12 +126,12 @@
                         <div class="input-label">
                             <label class="label-text">是否提交审核：</label>
                             <div class="label-box form-inline control-group">
-                                <label class="radio" style="margin-right:10px"><input type="radio" name="val_verifytype" value="1" @{ if (Model.AppAuditState == 1) { <text> checked="checked" </text>              } }>暂时不提交</label>
-                                <label class="radio"><input type="radio" name="val_verifytype" value="4" @{ if (Model.AppAuditState == 4) { <text> checked="checked" </text>              } }>提交审核</label>
+                                <label class="radio" style="margin-right:10px"><input type="radio" name="val_verifytype" value="1" @{ if (Model.AppAuditState == 1) { <text> checked="checked" </text>  } }>暂时不提交</label>
+                                <label class="radio"><input type="radio" name="val_verifytype" value="4" @{ if (Model.AppAuditState == 4) { <text> checked="checked" </text>  } }>提交审核</label>
                             </div>
                         </div>
                     </text>
-    }
+                }
             }
         </div>
     </div>
@@ -139,10 +140,10 @@
             @{
                 if (Model.AppAuditState != 2)
                 {<text>
-                <a class="btn" id="btn-preview" href="javascript:;"><i class="icon-eye-open"></i> 预览应用</a>
-                <a class="btn btn-primary fr" id="btn-submit" href="javascript:;"><i class="icon-white icon-ok"></i> 确定</a>
+                        <a class="btn" id="btn-preview" href="javascript:;"><i class="icon-eye-open"></i> 预览应用</a>
+                        <a class="btn btn-primary fr" id="btn-submit" href="javascript:;"><i class="icon-white icon-ok"></i> 确定</a>
                 </text>
-                }
+            }
             }
             <a class="btn fr" href="javascript:window.parent.closeDetailIframe();" style="margin-right:10px"><i class="icon-chevron-up"></i> 返回应用列表</a>
         </div>

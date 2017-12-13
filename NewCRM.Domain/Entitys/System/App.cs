@@ -130,6 +130,8 @@ namespace NewCRM.Domain.Entitys.System
 
         public String AccountName { get; set; }
 
+        public Boolean IsIconByUpload { get; set; }
+
         #endregion
 
         #region ctor
@@ -186,6 +188,7 @@ namespace NewCRM.Domain.Entitys.System
             AppReleaseState = appReleaseState;
             UseCount = 0;
             IsRecommand = false;
+            IsIconByUpload = false;
         }
 
         public App() { }

@@ -90,6 +90,8 @@ namespace NewCRM.Dto
 
         public String AccountName { get; set; }
 
+        public Boolean IsIconByUpload { get; set; }
+
         #endregion
     }
 }

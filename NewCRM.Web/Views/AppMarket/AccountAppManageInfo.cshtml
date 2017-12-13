@@ -6,7 +6,7 @@
 @{
     if (Model != null)
     {
-        if ((Int32)ViewData["AppState"] == 2)
+        if ((Int32)ViewData["AppState"] == 2)//已通过
         {
             <text>
                 @Html.Partial("~/Views/AppMarket/AccountAppManageDetail.cshtml", Model)
@@ -15,7 +15,7 @@
 
         else
         {
-            if ((Int32)ViewData["AppState"] == 4 || (Int32)ViewData["AppState"] == 3)
+            if ((Int32)ViewData["AppState"] == 4 || (Int32)ViewData["AppState"] == 3)//未审核或未通过
             {
                 <text>
                     @Html.Partial("~/Views/AppManager/AppAudit.cshtml", Model)
@@ -37,7 +37,6 @@
     }
 
 
-
     @section ChildrenCss{
         <link href="@Url.Content("~/Scripts/HoorayUI/js/webuploader-0.1.5/webuploader.css")" rel="stylesheet" />
     }
@@ -51,7 +50,7 @@
                     // swf文件路径
                     swf: '../../js/webuploader-0.1.5/Uploader.swf',
                     // 文件接收服务端。
-                    server: '@Url.Action("UploadIcon", "AppMarket")',
+                    server: 'http://39.106.106.137:8080/api/filestorage/upload?accountId=@Model.AccountId&uploadtype=icon',
                     // 选择文件的按钮。可选。
                     // 内部根据当前运行是创建，可能是input元素，也可能是flash.
                     pick: {
@@ -87,9 +86,28 @@
                     }, 48, 48);
                 });
                 uploader.on('uploadSuccess', function (file, cb) {
-                    $('.shortcutview img').attr('src', cb.iconPath);
-                    $('#val_icon').val(cb.iconPath);
-                    uploader.removeFile(file);
+
+                        if (cb[0].IsSuccess) {
+                            var urlPart = cb[0].Url
+                                $.ajax({
+                                type: 'POST',
+                                url: '@Url.Action("UploadIcon", "AppMarket")',
+                                data: { appId: '@Model.Id', newIcon: urlPart },
+                                success: function (responseText) {
+                                    debugger
+                                    if (responseText.IsSuccess) {
+                                        $('#isIconByUpload').val('1');
+                                        $('.shortcutview img').attr('src', responseText.Model);
+                                        $('#val_icon').val(urlPart);
+                                        uploader.removeFile(file);
+                                    } else {
+                                        ZENG.msgbox.fail("图标保存失败");
+                                    }
+                                }
+                            });
+                        } else {
+                            ZENG.msgbox.fail("图标上传失败");
+                        }
                 });
 
 
@@ -183,13 +201,13 @@
 
                 //选择应用图片
                 $('.shortcut-selicon a').click(function () {
+                    $('#isIconByUpload').val('1');
                     $('.shortcutview img').remove();
                     $('.shortcutview').addClass('bgnone').append($(this).html());
                     $('#val_icon').val($(this).children('img').attr('valsrc')).focusout();
                 });
 
                 $('#btn-preview').on('click', function () {
-
                     if (form.check()) {
                         if ($('input[name="val_type"]:checked').val() === 'app') {
                             window.parent.parent.parent.HROS.window.createTemp({
