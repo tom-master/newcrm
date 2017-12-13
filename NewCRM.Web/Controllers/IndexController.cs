@@ -187,7 +187,8 @@ namespace NewCRM.Web.Controllers
                 isDraw = internalMemberResult.IsDraw,
                 isOpenMax = internalMemberResult.IsOpenMax,
                 isSetbar = internalMemberResult.IsSetbar,
-                url = internalMemberResult.AppUrl
+                url = internalMemberResult.AppUrl,
+                isResize = internalMemberResult.IsResize
             };
 
             return Json(response);
