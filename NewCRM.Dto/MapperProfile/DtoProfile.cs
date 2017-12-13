@@ -62,7 +62,8 @@ namespace NewCRM.Dto.MapperProfile
              .ForMember(member => member.IsResize, dto => dto.MapFrom(w => w.IsResize))
              .ForMember(member => member.AppUrl, dto => dto.MapFrom(w => w.AppUrl))
              .ForMember(member => member.DeskIndex, dto => dto.MapFrom(w => w.DeskIndex))
-             .ForMember(member => member.AccountId, dto => dto.MapFrom(w => w.AccountId));
+             .ForMember(member => member.AccountId, dto => dto.MapFrom(w => w.AccountId))
+             .ForMember(member => member.IsIconByUpload, dto => dto.MapFrom(w => w.IsIconByUpload));
         }
     }
 

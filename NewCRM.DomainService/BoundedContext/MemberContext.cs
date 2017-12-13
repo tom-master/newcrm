@@ -73,7 +73,8 @@ namespace NewCRM.Domain.Services.BoundedContext
                     a.IsSetbar,
                     a.Name,
                     a.Width,
-                    a.AccountId
+                    a.AccountId,
+                    a.IsIconByUpload
                     FROM dbo.Members AS a WHERE a.AccountId={accountId} {where} AND a.IsDeleted=0";
                 return dataStore.SqlGetDataTable(sql).AsSignal<Member>();
             }
@@ -99,7 +100,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(newIcon);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Members SET IsIconByUpload =1, IconUrl=@url WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
+                var sql = $@"UPDATE dbo.Members SET IconUrl=@url WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
                 dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@url", newIcon) });
             }
         }
@@ -109,7 +110,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId).Validate(member);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Members SET IconUrl='{member.IconUrl}',Name='{member.Name}',Width={member.Width},Height={member.Height},IsResize={member.IsResize.ParseToInt32()},IsOpenMax={member.IsOpenMax.ParseToInt32()},IsFlash={member.IsFlash.ParseToInt32()} WHERE Id={member.Id} AND AccountId={accountId} AND IsDeleted=0";
+                var sql = $@"UPDATE dbo.Members SET IsIconByUpload ={(member.IsIconByUpload ? 1 : 0)},IconUrl='{member.IconUrl}',Name='{member.Name}',Width={member.Width},Height={member.Height},IsResize={member.IsResize.ParseToInt32()},IsOpenMax={member.IsOpenMax.ParseToInt32()},IsFlash={member.IsFlash.ParseToInt32()} WHERE Id={member.Id} AND AccountId={accountId} AND IsDeleted=0";
                 dataStore.SqlExecute(sql);
             }
         }

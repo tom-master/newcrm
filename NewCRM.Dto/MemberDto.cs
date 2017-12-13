@@ -107,6 +107,8 @@ namespace NewCRM.Dto
         /// </summary>
         public Int32 AccountId { get; set; }
 
+        public Boolean IsIconByUpload { get; set; }
+
         #endregion
     }
 }

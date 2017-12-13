@@ -117,7 +117,8 @@ namespace NewCRM.Web.Controllers
                 IsResize = Int32.Parse(forms["val_isresize"]) == 1,
                 IsOpenMax = Int32.Parse(forms["val_isopenmax"]) == 1,
                 IsFlash = Int32.Parse(forms["val_isflash"]) == 1,
-                MemberType = forms["membertype"]
+                MemberType = forms["membertype"],
+                IsIconByUpload = Int32.Parse(forms["isIconByUpload"]) == 1
             };
 
             var response = new ResponseModel();

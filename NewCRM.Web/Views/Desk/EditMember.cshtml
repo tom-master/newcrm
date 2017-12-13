@@ -10,6 +10,7 @@
 <form action="@Url.Action("ModifyMemberInfo","Desk")" method="post" name="form" id="form">
     <input type="hidden" name="id" value="@Model.Id">
     <input type="hidden" name="membertype" value="@Model.MemberType" />
+    <input type="hidden" id="isIconByUpload" name="isIconByUpload" value="0" />
     <div class="creatbox">
         <div class="middle">
             <div class="input-label">
@@ -142,14 +143,16 @@
             });
             uploader.on('uploadSuccess', function (file, cb) {
                 if (cb[0].IsSuccess) {
+                    var urlPart = cb[0].Url
                      $.ajax({
                         type: 'POST',
                         url: '@Url.Action("UploadIcon", "Desk")',
-                        data: { memberId: '@Model.Id', newIcon: cb[0].Url },
+                        data: { memberId: '@Model.Id', newIcon: urlPart },
                         success: function (responseText) {
                             if (responseText.IsSuccess) {
+                                $('#isIconByUpload').val('1');
                                 $('.shortcutview img').attr('src', responseText.Model);
-                                $('#val_icon').val(responseText.Model);
+                                $('#val_icon').val(urlPart);
                                 uploader.removeFile(file);
                             } else {
                                 ZENG.msgbox.fail("图标保存失败");
@@ -159,14 +162,6 @@
                 } else {
                     ZENG.msgbox.fail("图标上传失败");
                 }
-
-                //if (typeof cb.iconPath === 'undefined') {
-                //    ZENG.msgbox.info(cb.msg);
-                //} else {
-                //    $('.shortcutview img').attr('src', cb.iconPath);
-                //    $('#val_icon').val(cb.iconPath);
-                //    uploader.removeFile(file);
-                //}
             });
             $('#form').Validform({
                 btnSubmit: '#btn-submit',
@@ -209,10 +204,12 @@
                 }
             });
             //选择应用图片
-            $('.shortcut-selicon a').click(function() {
+            $('.shortcut-selicon a').click(function () {
+                debugger
                 $('.shortcutview img').remove();
                 $('.shortcutview').append($(this).html());
                 $('#val_icon').val($(this).children('img').attr('valsrc')).focusout();
+                $('#isIconByUpload').val('0')
             });
 
         });

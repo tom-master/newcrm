@@ -4,6 +4,7 @@ using NewCRM.Domain;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Dto;
+using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Application.Services
@@ -36,7 +37,7 @@ namespace NewCRM.Application.Services
                 DeskIndex = result.DeskIndex,
                 FolderId = result.FolderId,
                 Height = result.Height,
-                IconUrl = result.IconUrl,
+                IconUrl = result.IsIconByUpload ? ProfileManager.FileUrl + result.IconUrl : result.IconUrl,
                 Id = result.Id,
                 IsDraw = result.IsDraw,
                 IsFlash = result.IsFlash,
