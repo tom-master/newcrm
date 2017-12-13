@@ -31,7 +31,8 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.IsOpenMax,
                             a.IsSetbar,
                             a.DeskIndex,
-                            a.FolderId
+                            a.FolderId,
+                            a.IsIconByUpload
                             FROM dbo.Members AS a WHERE a.AccountId={accountId} AND a.IsDeleted=0";
                 return dataStore.SqlGetDataTable(sql).AsList<Member>().ToList();
             }
@@ -71,7 +72,8 @@ namespace NewCRM.Domain.Services.BoundedContext
                     a.IsResize,
                     a.IsSetbar,
                     a.Name,
-                    a.Width
+                    a.Width,
+                    a.AccountId
                     FROM dbo.Members AS a WHERE a.AccountId={accountId} {where} AND a.IsDeleted=0";
                 return dataStore.SqlGetDataTable(sql).AsSignal<Member>();
             }
@@ -97,7 +99,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(newIcon);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Members SET IconUrl=@url WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
+                var sql = $@"UPDATE dbo.Members SET IsIconByUpload =1, IconUrl=@url WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
                 dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@url", newIcon) });
             }
         }

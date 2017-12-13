@@ -59,28 +59,28 @@
                 <label class="label-text">窗口是否拉伸：</label>
                 <div class="label-box form-inline control-group">
                     <label class="radio" style="margin-right: 10px">
-                        <input type="radio" name="val_isresize" value="1" @{if (Model.IsResize) { <text> checked="checked" </text>                     }}>是
+                        <input type="radio" name="val_isresize" value="1" @{if (Model.IsResize) { <text> checked="checked" </text>  }}>是
                     </label>
                     <label class="radio">
-                        <input type="radio" name="val_isresize" value="0" @{ if (!Model.IsResize) { <text> checked="checked" </text>                     } }>否
+                        <input type="radio" name="val_isresize" value="0" @{ if (!Model.IsResize) { <text> checked="checked" </text>  } }>否
                     </label>
                 </div>
             </div>
-            <div class="input-label input-label-isopenmax" @{ if (!Model.IsResize) { <text> style="display: none" </text>                    } }>
+            <div class="input-label input-label-isopenmax" @{ if (!Model.IsResize) { <text> style="display: none" </text>  } }>
                 <label class="label-text">打开默认最大化：</label>
                 <div class="label-box form-inline control-group">
-                    <label class="radio" style="margin-right:10px"><input type="radio" name="val_isopenmax" value="1" @{if (Model.IsOpenMax) { <text> checked="checked" </text>                     }}>是</label>
-                    <label class="radio"><input type="radio" name="val_isopenmax" value="0" @{if (!Model.IsOpenMax) { <text> checked="checked" </text>                     }}>否</label>
+                    <label class="radio" style="margin-right:10px"><input type="radio" name="val_isopenmax" value="1" @{if (Model.IsOpenMax) { <text> checked="checked" </text>  }}>是</label>
+                    <label class="radio"><input type="radio" name="val_isopenmax" value="0" @{if (!Model.IsOpenMax) { <text> checked="checked" </text>  }}>否</label>
                 </div>
             </div>
-            <div class="input-label input-label-isflash" @{ if (!Model.IsFlash) { <text> style="display: none" </text>    } }>
+            <div class="input-label input-label-isflash" @{ if (!Model.IsFlash) { <text> style="display: none" </text>  } }>
                 <label class="label-text">是否为Flash：</label>
                 <div class="label-box form-inline control-group">
                     <label class="radio" style="margin-right: 10px">
-                        <input type="radio" name="val_isflash" value="1" @{if (Model.IsFlash) { <text> checked="checked" </text>   }}>是
+                        <input type="radio" name="val_isflash" value="1" @{if (Model.IsFlash) { <text> checked="checked" </text>  }}>是
                     </label>
                     <label class="radio" style="margin-right: 10px">
-                        <input type="radio" name="val_isflash" value="0" @{if (!Model.IsFlash) { <text> checked="checked" </text>   }}>否
+                        <input type="radio" name="val_isflash" value="0" @{if (!Model.IsFlash) { <text> checked="checked" </text>  }}>否
                     </label>
                     <span class="txt">[<a href="javascript:;" rel="tooltip" title="如何设置为Flash应用，当窗口非当前窗口时，会显示遮罩层">?</a>]</span>
                 </div>
@@ -105,7 +105,7 @@
                 // swf文件路径
                 swf: '~/Scripts/HoorayUI/js/webuploader-0.1.5/Uploader.swf',
                 // 文件接收服务端。
-                server: '@Url.Action("UploadIcon", "Desk")',
+                server: 'http://39.106.106.137:8080/api/filestorage/upload?accountId=@Model.AccountId&uploadtype=icon',
                 // 选择文件的按钮。可选。
                 // 内部根据当前运行是创建，可能是input元素，也可能是flash.
                 pick: {
@@ -140,14 +140,33 @@
                     $img.attr('src', src);
                 }, 48, 48);
             });
-            uploader.on('uploadSuccess', function(file, cb) {
-                if (typeof cb.iconPath === 'undefined') {
-                    ZENG.msgbox.info(cb.msg);
+            uploader.on('uploadSuccess', function (file, cb) {
+                if (cb[0].IsSuccess) {
+                     $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("UploadIcon", "Desk")',
+                        data: { memberId: '@Model.Id', newIcon: cb[0].Url },
+                        success: function (responseText) {
+                            if (responseText.IsSuccess) {
+                                $('.shortcutview img').attr('src', responseText.Model);
+                                $('#val_icon').val(responseText.Model);
+                                uploader.removeFile(file);
+                            } else {
+                                ZENG.msgbox.fail("图标保存失败");
+                            }
+                        }
+                    });
                 } else {
-                    $('.shortcutview img').attr('src', cb.iconPath);
-                    $('#val_icon').val(cb.iconPath);
-                    uploader.removeFile(file);
+                    ZENG.msgbox.fail("图标上传失败");
                 }
+
+                //if (typeof cb.iconPath === 'undefined') {
+                //    ZENG.msgbox.info(cb.msg);
+                //} else {
+                //    $('.shortcutview img').attr('src', cb.iconPath);
+                //    $('#val_icon').val(cb.iconPath);
+                //    uploader.removeFile(file);
+                //}
             });
             $('#form').Validform({
                 btnSubmit: '#btn-submit',

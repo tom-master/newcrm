@@ -13,7 +13,7 @@ namespace NewCRM.Application.Services
         private readonly IMemberContext _memberContext;
         private readonly IDeskContext _deskContext;
 
-        public DeskServices( IMemberContext memberContext,
+        public DeskServices(IMemberContext memberContext,
             IDeskContext deskContext)
         {
             _memberContext = memberContext;
@@ -25,7 +25,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId).Validate(memberId);
 
             var result = _memberContext.GetMember(accountId, memberId, isFolder);
-            if(result == null)
+            if (result == null)
             {
                 throw new BusinessException($"未找到app");
             }
@@ -49,7 +49,8 @@ namespace NewCRM.Application.Services
                 IsSetbar = result.IsSetbar,
                 MemberType = result.MemberType.ToString(),
                 Name = result.Name,
-                Width = result.Width
+                Width = result.Width,
+                AccountId = result.AccountId
             };
         }
 
@@ -131,7 +132,7 @@ namespace NewCRM.Application.Services
             _memberContext.ModifyMemberInfo(accountId, member.ConvertToModel<MemberDto, Member>());
         }
 
-        public void CreateNewFolder(String folderName, String folderImg, Int32 deskId,Int32 accountId)
+        public void CreateNewFolder(String folderName, String folderImg, Int32 deskId, Int32 accountId)
         {
             ValidateParameter.Validate(folderName).Validate(folderImg).Validate(deskId);
             _deskContext.CreateNewFolder(deskId, folderName, folderImg, accountId);

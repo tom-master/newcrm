@@ -131,18 +131,19 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 更新图标
         /// </summary>
-        [HttpGet]
+        [HttpPost]
         public ActionResult UploadIcon(Int32 memberId, String newIcon)
         {
             #region 参数验证
             Parameter.Validate(memberId).Validate(newIcon);
             #endregion
 
-            var response = new ResponseModel();
+            var response = new ResponseModel<String>();
             _deskServices.ModifyMemberIcon(Account.Id, memberId, newIcon);
 
             response.IsSuccess = true;
             response.Message = "更新图标成功";
+            response.Model = ProfileManager.FileUrl + newIcon;
 
             return Json(response, JsonRequestBehavior.AllowGet);
         }
@@ -177,7 +178,7 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             var response = new ResponseModel();
-            _deskServices.CreateNewFolder(folderName, folderImg, deskId,Account.Id);
+            _deskServices.CreateNewFolder(folderName, folderImg, deskId, Account.Id);
             response.IsSuccess = true;
             response.Message = "新建文件夹成功";
 

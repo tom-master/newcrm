@@ -110,6 +110,8 @@ namespace NewCRM.Domain.Entitys.System
         /// </summary>
         public Int32 AccountId { get; set; }
 
+        public Boolean IsIconByUpload { get; set; }
+
         #endregion
 
         #region public ctor
@@ -149,6 +151,7 @@ namespace NewCRM.Domain.Entitys.System
             AppUrl = appUrl;
             MemberType = appId == 0 ? MemberType.Folder : MemberType.App;
             DeskIndex = 1;
+            IsIconByUpload = false;
         }
 
         /// <summary>
@@ -165,6 +168,7 @@ namespace NewCRM.Domain.Entitys.System
             IconUrl = iconUrl;
             DeskIndex = 1;
             MemberType = appId == 0 ? MemberType.Folder : MemberType.App;
+            IsIconByUpload = false;
         }
 
         public Member()

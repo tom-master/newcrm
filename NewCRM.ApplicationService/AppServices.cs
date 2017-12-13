@@ -7,6 +7,7 @@ using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
+using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Application.Services
@@ -17,9 +18,7 @@ namespace NewCRM.Application.Services
         private readonly IAppContext _appContext;
         private readonly IDeskContext _deskContext;
 
-        public AppServices(IMemberContext memberServices,
-            IAppContext appContext,
-            IDeskContext deskContext)
+        public AppServices(IMemberContext memberServices, IAppContext appContext, IDeskContext deskContext)
         {
             _memberServices = memberServices;
             _appContext = appContext;
@@ -47,7 +46,7 @@ namespace NewCRM.Application.Services
                             memberId = member.Id,
                             appId = member.AppId,
                             name = member.Name,
-                            icon = member.IconUrl,
+                            icon = member.IsIconByUpload ? ProfileManager.FileUrl + member.IconUrl : member.IconUrl,
                             width = member.Width,
                             height = member.Height,
                             isOnDock = member.IsOnDock,
@@ -60,7 +59,7 @@ namespace NewCRM.Application.Services
                                 memberId = app.Id,
                                 appId = app.AppId,
                                 name = app.Name,
-                                icon = app.IconUrl,
+                                icon = member.IsIconByUpload ? ProfileManager.FileUrl + member.IconUrl : member.IconUrl,
                                 width = app.Width,
                                 height = app.Height,
                                 isOnDock = app.IsOnDock,
@@ -81,7 +80,7 @@ namespace NewCRM.Application.Services
                                 memberId = member.Id,
                                 appId = member.AppId,
                                 name = member.Name,
-                                icon = member.IconUrl,
+                                icon = member.IsIconByUpload ? ProfileManager.FileUrl + member.IconUrl : member.IconUrl,
                                 width = member.Width,
                                 height = member.Height,
                                 isOnDock = member.IsOnDock,
@@ -150,7 +149,7 @@ namespace NewCRM.Application.Services
                 AccountId = app.AccountId,
                 AddTime = app.AddTime.ToString("yyyy-MM-dd"),
                 UseCount = app.UseCount,
-                StartCount = app.StarCount, 
+                StartCount = app.StarCount,
                 Name = app.Name,
                 IconUrl = app.IconUrl,
                 Remark = app.Remark,
