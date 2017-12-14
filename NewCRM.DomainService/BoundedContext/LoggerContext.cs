@@ -14,7 +14,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         public void AddLogger(Log log)
         {
             ValidateParameter.Validate(log);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var sql = $@"INSERT dbo.Logs
                             ( LogLevelEnum ,
@@ -43,17 +43,17 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public IList<Log> GetLogs(int accountId, int logLevel, int pageIndex, int pageSize, out int totalCount)
         {
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var where = new StringBuilder();
-                if(accountId != 0)
+                if (accountId != 0)
                 {
                     where.Append($@" AND a.AccountId={accountId}");
                 }
                 #region totalCount
                 {
                     var sql = $@"SELECT COUNT(*) FROM dbo.Logs AS a WHERE 1=1 {where}";
-                    totalCount = (Int32)dataStore.SqlScalar(sql);
+                    totalCount = dataStore.FindSingleValue<Int32>(sql);
                 }
                 #endregion
 
@@ -70,7 +70,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 	                                a.Track
 	                                FROM dbo.Logs AS a WHERE 1=1 {where}
                                 ) AS aa WHERE aa.rownumber>{pageSize}*({pageIndex}-1)";
-                    return dataStore.SqlGetDataTable(sql).AsList<Log>().ToList();
+                    return dataStore.Find<Log>(sql);
                 }
                 #endregion
             }
