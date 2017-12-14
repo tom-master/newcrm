@@ -37,7 +37,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                                     INNER JOIN dbo.Configs AS a1
                                     ON a1.AccountId=a.Id 
                                     WHERE a.Name=@name AND a.IsDeleted=0 AND a.IsDisable=0";
-                        result = dataStore.SqlGetDataTable(sql, new List<SqlParameter> { new SqlParameter("@name", accountName) }).AsSignal<Account>();
+                        result = dataStore.Find<Account>(sql, new List<SqlParameter> { new SqlParameter("@name", accountName) }).FirstOrDefault();
                         if (result == null)
                         {
                             throw new BusinessException($"该用户不存在或被禁用{accountName}");
@@ -70,7 +70,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                                     VALUES
                                     (   N'{requestIp}',       -- IpAddress - nvarchar(max)
                                         {result.Id},         -- AccountId - int
-                                        {0},      -- IsDeleted - bit
+                                        0,      -- IsDeleted - bit
                                         GETDATE(), -- AddTime - datetime
                                         GETDATE()  -- LastModifyTime - datetime
                                     )";

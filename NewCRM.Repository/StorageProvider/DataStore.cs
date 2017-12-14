@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewLib.Security;
 
 namespace NewCRM.Repository.StorageProvider
@@ -15,8 +16,8 @@ namespace NewCRM.Repository.StorageProvider
 
         public DataStore(string connectionName = default(String))
         {
-            var conn = SensitiveDataSafetyProvider.Decrypt(ConfigurationManager.ConnectionStrings["NewCrm"].ToString());
-            _connection = connectionName == default(String) ? new SqlConnection(conn) : new SqlConnection(conn);
+            var conn = SensitiveDataSafetyProvider.Decrypt(ConfigurationManager.ConnectionStrings[connectionName ?? "NewCrm"].ToString());
+            _connection = new SqlConnection(conn);
         }
 
         #region 事务处理
@@ -103,7 +104,7 @@ namespace NewCRM.Repository.StorageProvider
             }
         }
 
-        public virtual object SqlScalar(string sqlStr, CommandType commandType = CommandType.Text)
+        public virtual TModel FindOne<TModel>(string sqlStr, CommandType commandType = CommandType.Text) where TModel : class, new()
         {
             Open();
             using (SqlCommand cmd = _connection.CreateCommand())
@@ -114,14 +115,19 @@ namespace NewCRM.Repository.StorageProvider
                 }
                 cmd.CommandType = commandType;
                 cmd.CommandText = sqlStr;
-                object obj = cmd.ExecuteScalar();
+                TModel obj = cmd.ExecuteScalar() as TModel;
                 cmd.Parameters.Clear();
-                return obj;
+                if (obj != null)
+                {
+                    return obj;
+                }
+
+                return default(TModel);
             }
         }
 
 
-        public DataTable SqlGetDataTable(string sqlStr, CommandType commandType = CommandType.Text)
+        public IList<TModel> Find<TModel>(string sqlStr, CommandType commandType = CommandType.Text) where TModel : class, new()
         {
             Open();
             using (SqlCommand cmd = _connection.CreateCommand())
@@ -133,9 +139,9 @@ namespace NewCRM.Repository.StorageProvider
                 cmd.CommandType = commandType;
                 cmd.CommandText = sqlStr;
                 SqlDataReader dr = cmd.ExecuteReader();
-                DataTable tempDt = new DataTable("tmpDt");
-                tempDt.Load(dr, LoadOption.Upsert);
-                return tempDt;
+                DataTable dataTable = new DataTable("tmpDt");
+                dataTable.Load(dr, LoadOption.Upsert);
+                return dataTable.AsList<TModel>();
             }
         }
 
@@ -192,7 +198,7 @@ namespace NewCRM.Repository.StorageProvider
             }
         }
 
-        public DataTable SqlGetDataTable(string sqlStr, List<SqlParameter> parameters, CommandType commandType = CommandType.Text)
+        public IList<TModel> Find<TModel>(string sqlStr, List<SqlParameter> parameters, CommandType commandType = CommandType.Text) where TModel : class, new()
         {
             Open();
             using (SqlCommand cmd = _connection.CreateCommand())
@@ -209,13 +215,13 @@ namespace NewCRM.Repository.StorageProvider
                 }
 
                 IDataReader dr = cmd.ExecuteReader();
-                DataTable tmpDt = new DataTable("tmpDt");
+                var tmpDt = new DataTable("tmpDt");
                 tmpDt.Load(dr, LoadOption.Upsert);
-                return tmpDt;
+                return tmpDt.AsList<TModel>();
             }
         }
 
-        public object SqlScalar(string sqlStr, List<SqlParameter> parameters, CommandType commandType = CommandType.Text)
+        public TModel FindOne<TModel>(string sqlStr, List<SqlParameter> parameters, CommandType commandType = CommandType.Text) where TModel : class, new()
         {
             Open();
             using (SqlCommand cmd = _connection.CreateCommand())
@@ -232,9 +238,13 @@ namespace NewCRM.Repository.StorageProvider
                     cmd.Parameters.AddRange(parameters.ToArray());
                 }
 
-                object obj = cmd.ExecuteScalar();
+                TModel obj = cmd.ExecuteScalar() as TModel;
                 cmd.Parameters.Clear();
-                return obj;
+                if (obj != null)
+                {
+                    return obj;
+                }
+                return default(TModel);
             }
         }
 

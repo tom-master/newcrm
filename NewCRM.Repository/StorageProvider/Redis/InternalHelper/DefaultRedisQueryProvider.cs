@@ -1,11 +1,10 @@
-﻿using JsonNet.PrivateSettersContractResolvers;
-using Newtonsoft.Json;
-using StackExchange.Redis;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Unity.Attributes;
+using JsonNet.PrivateSettersContractResolvers;
+using Newtonsoft.Json;
+using StackExchange.Redis;
 
 namespace NewCRM.Repository.DataBaseProvider.Redis.InternalHelper
 {
@@ -18,11 +17,10 @@ namespace NewCRM.Repository.DataBaseProvider.Redis.InternalHelper
         private readonly ConnectionMultiplexer _conn;
         private String _customKey;
 
-		#region 构造函数
+        #region 构造函数
 
 
-		[InjectionConstructor]
-		public DefaultRedisQueryProvider() : this(0, null)
+        public DefaultRedisQueryProvider() : this(0, null)
         {
 
         }
@@ -32,7 +30,7 @@ namespace NewCRM.Repository.DataBaseProvider.Redis.InternalHelper
         {
         }
 
-		public DefaultRedisQueryProvider(Int32 dbNum, String readWriteHosts)
+        public DefaultRedisQueryProvider(Int32 dbNum, String readWriteHosts)
         {
             DbNum = dbNum;
             _conn =
