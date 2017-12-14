@@ -17,5 +17,7 @@ namespace NewCRM.Dto
         public String Remark { get; set; }
 
         public String Style { get; set; }
+
+        public Boolean IsIconByUpload { get; set; }
     }
 }

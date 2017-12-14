@@ -111,22 +111,13 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(accountId);
 
             var result = _appContext.GetTodayRecommend(accountId);
+            result.AppIcon = result.IsIconByUpload ? ProfileManager.FileUrl + result.AppIcon : result.AppIcon;
             if (result == null)
             {
                 return new TodayRecommendAppDto();
             }
 
-            return new TodayRecommendAppDto
-            {
-                Id = result.Id,
-                Name = result.Name,
-                UseCount = result.UseCount,
-                AppIcon = result.AppIcon,
-                StartCount = result.StartCount,
-                IsInstall = result.IsInstall,
-                Remark = result.Remark,
-                Style = result.Style
-            };
+            return result;
         }
 
         public Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount(Int32 accountId)

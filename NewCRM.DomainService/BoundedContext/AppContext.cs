@@ -714,7 +714,8 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                             ) AS  AppStars,
                             (
 	                            SELECT COUNT(*) FROM dbo.Members AS a1 WHERE a1.AccountId={accountId} AND a1.IsDeleted=0
-                            ) AS IsInstall
+                            ) AS IsInstall,
+                            
                             FROM dbo.Apps AS a 
                             WHERE a.AppAuditState={(Int32)AppAuditState.Pass} AND a.AppReleaseState={(Int32)AppReleaseState.Release} AND a.IsRecommand=1";
                 var dataReader = dataStore.SqlGetDataReader(sql);
@@ -733,7 +734,8 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                         Remark = dataReader["Remark"].ToString(),
                         Style = EnumExtensions.ToEnum<AppStyle>(dataReader["AppStyle"].ToString()).ToString().ToLower(),
                         StartCount = Int32.Parse(dataReader["AppStars"].ToString()),
-                        IsInstall = Int32.Parse(dataReader["IsInstall"].ToString()) > 0 ? true : false
+                        IsInstall = Int32.Parse(dataReader["IsInstall"].ToString()) > 0 ? true : false,
+                        IsIconByUpload = Boolean.Parse(dataReader["IsIconByUpload"].ToString())
                     };
                 }
                 return null;
