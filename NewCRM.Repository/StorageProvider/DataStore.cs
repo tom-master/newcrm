@@ -89,45 +89,71 @@ namespace NewCRM.Repository.StorageProvider
             }
         }
 
-        public virtual int SqlExecute(string sqlStr, CommandType commandType = CommandType.Text)
+        public virtual TValue FindSingleValue<TValue>(string sqlStr, CommandType commandType = CommandType.Text)
         {
             Open();
-            using (SqlCommand cmd = _connection.CreateCommand())
+            try
             {
-                if (UseTransaction)
+                using (SqlCommand cmd = _connection.CreateCommand())
                 {
-                    cmd.Transaction = GetNonceTransaction();
+                    if (UseTransaction)
+                    {
+                        cmd.Transaction = GetNonceTransaction();
+                    }
+                    cmd.CommandType = commandType;
+                    cmd.CommandText = sqlStr;
+                    TValue obj = (TValue)cmd.ExecuteScalar();
+                    cmd.Parameters.Clear();
+                    return obj;
                 }
-                cmd.CommandType = commandType;
-                cmd.CommandText = sqlStr;
-                return cmd.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public virtual TValue FindSingleValue<TValue>(string sqlStr, IEnumerable<SqlParameter> parameters, CommandType commandType = CommandType.Text)
+        {
+            Open();
+            try
+            {
+                using (SqlCommand cmd = _connection.CreateCommand())
+                {
+                    if (UseTransaction)
+                    {
+                        cmd.Transaction = GetNonceTransaction();
+                    }
+                    cmd.CommandType = commandType;
+                    cmd.CommandText = sqlStr;
+                    //参数化
+                    if (parameters.Any())
+                    {
+                        cmd.Parameters.AddRange(parameters.ToArray());
+                    }
+
+                    TValue obj = (TValue)cmd.ExecuteScalar();
+                    cmd.Parameters.Clear();
+                    return obj;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         public virtual TModel FindOne<TModel>(string sqlStr, CommandType commandType = CommandType.Text) where TModel : class, new()
         {
-            Open();
-            using (SqlCommand cmd = _connection.CreateCommand())
-            {
-                if (UseTransaction)
-                {
-                    cmd.Transaction = GetNonceTransaction();
-                }
-                cmd.CommandType = commandType;
-                cmd.CommandText = sqlStr;
-                TModel obj = cmd.ExecuteScalar() as TModel;
-                cmd.Parameters.Clear();
-                if (obj != null)
-                {
-                    return obj;
-                }
-
-                return default(TModel);
-            }
+            return Find<TModel>(sqlStr, commandType).FirstOrDefault();
         }
 
+        public virtual TModel FindOne<TModel>(string sqlStr, IEnumerable<SqlParameter> parameters, CommandType commandType = CommandType.Text) where TModel : class, new()
+        {
+            return Find<TModel>(sqlStr, parameters, commandType).FirstOrDefault();
+        }
 
-        public IList<TModel> Find<TModel>(string sqlStr, CommandType commandType = CommandType.Text) where TModel : class, new()
+        public virtual List<TModel> Find<TModel>(string sqlStr, CommandType commandType = CommandType.Text) where TModel : class, new()
         {
             Open();
             using (SqlCommand cmd = _connection.CreateCommand())
@@ -141,64 +167,11 @@ namespace NewCRM.Repository.StorageProvider
                 SqlDataReader dr = cmd.ExecuteReader();
                 DataTable dataTable = new DataTable("tmpDt");
                 dataTable.Load(dr, LoadOption.Upsert);
-                return dataTable.AsList<TModel>();
+                return dataTable.AsList<TModel>().ToList();
             }
         }
 
-        public SqlDataReader SqlGetDataReader(string sqlStr, CommandType commandType = CommandType.Text)
-        {
-            Open();
-            using (SqlCommand cmd = _connection.CreateCommand())
-            {
-                if (UseTransaction)
-                {
-                    cmd.Transaction = GetNonceTransaction();
-                }
-                cmd.CommandType = commandType;
-                cmd.CommandText = sqlStr;
-                return cmd.ExecuteReader();
-            }
-        }
-
-        public SqlDataReader SqlGetDataReader(string sqlStr, CommandBehavior behavior, CommandType commandType = CommandType.Text)
-        {
-            Open();
-            using (SqlCommand cmd = _connection.CreateCommand())
-            {
-                if (UseTransaction)
-                {
-                    cmd.Transaction = GetNonceTransaction();
-                }
-                cmd.CommandType = commandType;
-                cmd.CommandText = sqlStr;
-                return cmd.ExecuteReader(behavior);
-            }
-        }
-
-        #region 执行带参数的sql语句
-
-        public int SqlExecute(string sqlStr, List<SqlParameter> parameters, CommandType commandType = CommandType.Text)
-        {
-            Open();
-            using (SqlCommand cmd = _connection.CreateCommand())
-            {
-                if (UseTransaction)
-                {
-                    cmd.Transaction = GetNonceTransaction();
-                }
-                cmd.CommandType = commandType;
-                cmd.CommandText = sqlStr;
-                if (parameters.Any())
-                {
-                    cmd.Parameters.AddRange(parameters.ToArray());
-                }
-                int count = cmd.ExecuteNonQuery();
-                cmd.Parameters.Clear();
-                return count;
-            }
-        }
-
-        public IList<TModel> Find<TModel>(string sqlStr, List<SqlParameter> parameters, CommandType commandType = CommandType.Text) where TModel : class, new()
+        public virtual List<TModel> Find<TModel>(string sqlStr, IEnumerable<SqlParameter> parameters, CommandType commandType = CommandType.Text) where TModel : class, new()
         {
             Open();
             using (SqlCommand cmd = _connection.CreateCommand())
@@ -217,11 +190,11 @@ namespace NewCRM.Repository.StorageProvider
                 IDataReader dr = cmd.ExecuteReader();
                 var tmpDt = new DataTable("tmpDt");
                 tmpDt.Load(dr, LoadOption.Upsert);
-                return tmpDt.AsList<TModel>();
+                return tmpDt.AsList<TModel>().ToList();
             }
         }
 
-        public TModel FindOne<TModel>(string sqlStr, List<SqlParameter> parameters, CommandType commandType = CommandType.Text) where TModel : class, new()
+        public virtual SqlDataReader SqlGetDataReader(string sqlStr, CommandType commandType = CommandType.Text)
         {
             Open();
             using (SqlCommand cmd = _connection.CreateCommand())
@@ -232,19 +205,60 @@ namespace NewCRM.Repository.StorageProvider
                 }
                 cmd.CommandType = commandType;
                 cmd.CommandText = sqlStr;
-                //参数化
+                return cmd.ExecuteReader();
+            }
+        }
+
+        public virtual SqlDataReader SqlGetDataReader(string sqlStr, CommandBehavior behavior, CommandType commandType = CommandType.Text)
+        {
+            Open();
+            using (SqlCommand cmd = _connection.CreateCommand())
+            {
+                if (UseTransaction)
+                {
+                    cmd.Transaction = GetNonceTransaction();
+                }
+                cmd.CommandType = commandType;
+                cmd.CommandText = sqlStr;
+                return cmd.ExecuteReader(behavior);
+            }
+        }
+
+        #region 执行带参数的sql语句
+
+        public virtual int SqlExecute(string sqlStr, CommandType commandType = CommandType.Text)
+        {
+            Open();
+            using (SqlCommand cmd = _connection.CreateCommand())
+            {
+                if (UseTransaction)
+                {
+                    cmd.Transaction = GetNonceTransaction();
+                }
+                cmd.CommandType = commandType;
+                cmd.CommandText = sqlStr;
+                return cmd.ExecuteNonQuery();
+            }
+        }
+
+        public virtual int SqlExecute(string sqlStr, List<SqlParameter> parameters, CommandType commandType = CommandType.Text)
+        {
+            Open();
+            using (SqlCommand cmd = _connection.CreateCommand())
+            {
+                if (UseTransaction)
+                {
+                    cmd.Transaction = GetNonceTransaction();
+                }
+                cmd.CommandType = commandType;
+                cmd.CommandText = sqlStr;
                 if (parameters.Any())
                 {
                     cmd.Parameters.AddRange(parameters.ToArray());
                 }
-
-                TModel obj = cmd.ExecuteScalar() as TModel;
+                int count = cmd.ExecuteNonQuery();
                 cmd.Parameters.Clear();
-                if (obj != null)
-                {
-                    return obj;
-                }
-                return default(TModel);
+                return count;
             }
         }
 

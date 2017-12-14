@@ -146,7 +146,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.IsBing,
                             a.AccountId
                             FROM dbo.Configs AS a WHERE a.AccountId={accountId} AND a.IsDeleted=0";
-                return dataStore.SqlGetDataTable(sql).AsSignal<Config>();
+                return dataStore.Find<Config>(sql).FirstOrDefault();
             }
         }
 
@@ -157,8 +157,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT a.Url,a.Width,a.Height,a.Source FROM dbo.Wallpapers AS a WHERE a.Id={wallPaperId} AND a.IsDeleted=0";
-
-                return dataStore.SqlGetDataTable(sql).AsSignal<Wallpaper>();
+                return dataStore.Find<Wallpaper>(sql).FirstOrDefault();
             }
         }
 
@@ -188,7 +187,8 @@ namespace NewCRM.Domain.Services.BoundedContext
 	                            INNER JOIN dbo.Configs AS a1
 	                            ON a1.AccountId=a.Id AND a1.IsDeleted=0
 	                            {where} ";
-                    totalCount = (Int32)dataStore.SqlScalar(sql, new List<SqlParameter> { new SqlParameter("@name", accountName) });
+
+                    totalCount = dataStore.FindSingleValue<Int32>(sql, new List<SqlParameter> { new SqlParameter("@name", accountName) });
                 }
                 #endregion
 
@@ -204,7 +204,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 	                            {where} 
                             ) AS a2 WHERE a2.rownumber>{pageSize}*({pageIndex}-1)";
 
-                    return dataStore.SqlGetDataTable(sql, new List<SqlParameter> { new SqlParameter("@name", accountName) }).AsList<Account>().ToList();
+                    return dataStore.Find<Account>(sql, new List<SqlParameter> { new SqlParameter("@name", accountName) });
                 }
                 #endregion
             }
@@ -232,7 +232,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             INNER JOIN dbo.Configs AS a1
                             ON a1.AccountId=a.Id
                             WHERE a.Id={accountId} AND a.IsDeleted=0 AND a.IsDisable=0";
-                return dataStore.SqlGetDataTable(sql).AsSignal<Account>();
+                return dataStore.FindOne<Account>(sql);
             }
         }
 
@@ -249,7 +249,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             INNER JOIN dbo.Roles AS a1
                             ON a1.Id=a.RoleId AND a1.IsDeleted=0 
                             WHERE a.AccountId={accountId} AND a.IsDeleted=0 ";
-                return dataStore.SqlGetDataTable(sql).AsList<Role>().ToList();
+                return dataStore.Find<Role>(sql);
             }
         }
 
@@ -258,7 +258,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT a.RoleId,a.AppId FROM dbo.RolePowers AS a WHERE a.IsDeleted=0";
-                return dataStore.SqlGetDataTable(sql).AsList<RolePower>().ToList();
+                return dataStore.Find<RolePower>(sql);
             }
         }
 
@@ -269,7 +269,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT COUNT(*) FROM dbo.Accounts AS a WHERE a.Name=@name AND a.IsDeleted=0";
-                return (Int32)dataStore.SqlScalar(sql, new List<SqlParameter> { new SqlParameter("@name", accountName) }) != 0 ? false : true;
+                return dataStore.FindSingleValue<Int32>(sql, new List<SqlParameter> { new SqlParameter("@name", accountName) }) != 0 ? false : true;
             }
         }
 
@@ -280,7 +280,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             {
                 var sql = $@"SELECT a.LoginPassword FROM dbo.Accounts AS a WHERE a.Id={accountId} AND a.IsDeleted=0 AND a.IsDisable=0";
 
-                return dataStore.SqlScalar(sql).ToString();
+                return dataStore.FindSingleValue<String>(sql);
             }
         }
 
@@ -330,7 +330,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                                   3 , -- WallpaperId - int
                                   N'{config.AccountFace}'  -- Face - nvarchar(150)
                                 ) SELECT CAST(@@IDENTITY AS INT) AS Id";
-                        configId = (Int32)dataStore.SqlScalar(sql);
+                        configId = dataStore.FindSingleValue<Int32>(sql);
                     }
                     #endregion
 
@@ -374,7 +374,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             new SqlParameter("@lockScreenPassword",account.LockScreenPassword),
                             new SqlParameter("@isAdmin",account.IsAdmin),
                         };
-                        accountId = (Int32)dataStore.SqlScalar(sql, parameters);
+                        accountId = dataStore.FindSingleValue<Int32>(sql, parameters);
                     }
                     #endregion
 
@@ -501,7 +501,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                                 INNER JOIN dbo.AccountRoles AS a1
                                 ON a1.AccountId={accountId} AND a1.RoleId=a.Id AND a1.IsDeleted=0
                                 WHERE a.IsDeleted=0 AND a.IsAllowDisable=0";
-                    var result = (Int32)dataStore.SqlScalar(sql);
+                    var result = dataStore.FindSingleValue<Int32>(sql);
                     if (result > 0)
                     {
                         throw new BusinessException("当前用户拥有管理员角色，因此不能禁用或删除");
@@ -558,7 +558,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                     #region 前置条件验证
                     {
                         var sql = $@"SELECT a.IsAdmin FROM dbo.Accounts AS a WHERE a.Id={accountId} AND a.IsDeleted=0 AND a.IsDisable=0";
-                        var isAdmin = Boolean.Parse(dataStore.SqlScalar(sql).ToString());
+                        var isAdmin = Boolean.Parse(dataStore.FindSingleValue<String>(sql));
                         if (isAdmin)
                         {
                             throw new BusinessException("不能删除管理员");
@@ -612,7 +612,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                 #region 获取锁屏密码
                 {
                     var sql = $@"SELECT a.LockScreenPassword FROM dbo.Accounts AS a WHERE a.Id={accountId} AND a.IsDeleted=0 AND a.IsDisable=0";
-                    var password = dataStore.SqlScalar(sql).ToString();
+                    var password = dataStore.FindSingleValue<String>(sql);
                     return PasswordUtil.ComparePasswords(password, unlockPassword);
                 }
                 #endregion
