@@ -22,7 +22,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                 {
                     var sql = $@"
 SELECT COUNT(*) FROM dbo.Roles AS a WHERE a.Name=@name AND a.IsDeleted=0";
-                    var result = (Int32)dataStore.SqlScalar(sql, new List<SqlParameter> { new SqlParameter("@name", role.Name) });
+                    var result = dataStore.FindSingleValue<Int32>(sql, new List<SqlParameter> { new SqlParameter("@name", role.Name) });
                     if (result > 0)
                     {
                         throw new BusinessException($@"角色:{role.Name} 已经存在");
@@ -116,8 +116,8 @@ UPDATE dbo.RolePowers SET IsDeleted=1 WHERE RoleId={roleId}";
                 #region 检查app是否为系统app
                 {
                     var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a WHERE a.Id={accessAppId} AND a.IsDeleted=0 AND a.IsSystem=1";
-                    var result = dataStore.SqlScalar(sql);
-                    if ((Int32)result <= 0)
+                    var result = dataStore.FindSingleValue<Int32>(sql);
+                    if (result <= 0)
                     {
                         return true;
                     }
@@ -126,7 +126,7 @@ UPDATE dbo.RolePowers SET IsDeleted=1 WHERE RoleId={roleId}";
 
                 {
                     var sql = $@"SELECT a.AppId FROM dbo.RolePowers AS a WHERE a.RoleId IN({String.Join(",", roleIds)}) AND a.IsDeleted=0";
-                    var result = dataStore.SqlGetDataTable(sql).AsList<RolePower>().ToList();
+                    var result = dataStore.Find<RolePower>(sql);
                     return result.Any(a => a.AppId == accessAppId);
                 }
             }
@@ -141,7 +141,7 @@ UPDATE dbo.RolePowers SET IsDeleted=1 WHERE RoleId={roleId}";
                             a.AppId
                             FROM dbo.RolePowers AS a 
                             WHERE a.IsDeleted=0";
-                return dataStore.SqlGetDataTable(sql).AsList<RolePower>().ToList();
+                return dataStore.Find<RolePower>(sql);
             }
         }
 
@@ -156,7 +156,7 @@ UPDATE dbo.RolePowers SET IsDeleted=1 WHERE RoleId={roleId}";
                             a.Remark
                             FROM dbo.Roles AS a 
                             WHERE a.Id={roleId} AND a.IsDeleted=0";
-                return dataStore.SqlGetDataTable(sql).AsSignal<Role>();
+                return dataStore.FindOne<Role>(sql);
             }
         }
 
@@ -176,7 +176,7 @@ UPDATE dbo.RolePowers SET IsDeleted=1 WHERE RoleId={roleId}";
 	                            FROM dbo.Roles AS a 
                                 WHERE 1=1 {where} AND a.IsDeleted=0";
 
-                    totalCount = (Int32)dataStore.SqlScalar(sql);
+                    totalCount = dataStore.FindSingleValue<Int32>(sql);
                 }
                 #endregion
 
@@ -193,7 +193,7 @@ UPDATE dbo.RolePowers SET IsDeleted=1 WHERE RoleId={roleId}";
 	                                FROM dbo.Roles AS a WHERE 1=1 {where} AND a.IsDeleted=0
                                 ) AS aa WHERE aa.rownumber>{pageSize}*({pageIndex}-1)";
 
-                    return dataStore.SqlGetDataTable(sql).AsList<Role>().ToList();
+                    return dataStore.Find<Role>(sql);
                 }
                 #endregion
             }
@@ -206,9 +206,8 @@ UPDATE dbo.RolePowers SET IsDeleted=1 WHERE RoleId={roleId}";
             {
                 #region 前置条件验证
                 {
-                    var sql = $@"
-SELECT COUNT(*) FROM dbo.Roles AS a WHERE a.Name=@name AND a.IsDeleted=0";
-                    var result = (Int32)dataStore.SqlScalar(sql, new List<SqlParameter> { new SqlParameter("@name", role.Name) });
+                    var sql = $@"SELECT COUNT(*) FROM dbo.Roles AS a WHERE a.Name=@name AND a.IsDeleted=0";
+                    var result = dataStore.FindSingleValue<Int32>(sql, new List<SqlParameter> { new SqlParameter("@name", role.Name) });
                     if (result > 0)
                     {
                         throw new BusinessException($@"角色:{role.Name} 已经存在");
@@ -218,8 +217,7 @@ SELECT COUNT(*) FROM dbo.Roles AS a WHERE a.Name=@name AND a.IsDeleted=0";
 
                 #region 修改角色
                 {
-                    var sql = $@"
-UPDATE dbo.Roles SET Name=@name,RoleIdentity=@identity WHERE Id={role.Id} AND IsDeleted=0";
+                    var sql = $@"UPDATE dbo.Roles SET Name=@name,RoleIdentity=@identity WHERE Id={role.Id} AND IsDeleted=0";
                     var parameters = new List<SqlParameter>
                     {
                         new SqlParameter("@name",role.Name),
@@ -242,7 +240,7 @@ UPDATE dbo.Roles SET Name=@name,RoleIdentity=@identity WHERE Id={role.Id} AND Is
                     #region 前置条件验证
                     {
                         var sql = $@"SELECT COUNT(*) FROM dbo.AccountRoles AS a WHERE a.RoleId={roleId} AND a.IsDeleted=0";
-                        var result = (Int32)dataStore.SqlScalar(sql);
+                        var result = dataStore.FindSingleValue<Int32>(sql);
                         if (result > 0)
                         {
                             throw new BusinessException("当前角色已绑定了账户，无法删除");
