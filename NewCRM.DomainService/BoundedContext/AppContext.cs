@@ -67,7 +67,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                     var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a 
                                 LEFT JOIN dbo.AppStars AS a1
                                 ON a1.AppId=a.Id AND a1.IsDeleted=0 {where}";
-                    totalCount = (Int32)dataStore.SqlScalar(sql);
+                    totalCount = dataStore.FindSingleValue<Int32>(sql);
                 }
                 #endregion
 
@@ -99,7 +99,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                                     ON a1.AppId=a.Id AND a1.IsDeleted=0 {where}
                                 ) AS aa WHERE aa.rownumber>{pageSize}*({pageIndex}-1)  {orderBy}";
 
-                    return dataStore.SqlGetDataTable(sql).AsList<App>().ToList();
+                    return dataStore.Find<App>(sql);
                 }
                 #endregion
             }
@@ -163,7 +163,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                 #region totalCount
                 {
                     var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a {where} ";
-                    totalCount = (Int32)dataStore.SqlScalar(sql);
+                    totalCount = dataStore.FindSingleValue<Int32>(sql);
                 }
                 #endregion
 
@@ -185,7 +185,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                         a.IsIconByUpload
 	                    FROM dbo.Apps AS a {where} 
                     ) AS aa WHERE aa.rownumber>{pageSize}*({pageIndex}-1)";
-                    return dataStore.SqlGetDataTable(sql).AsList<App>().ToList();
+                    return dataStore.Find<App>(sql);
                 }
                 #endregion
             }
@@ -223,7 +223,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             LEFT JOIN dbo.Accounts AS a2
                             ON a2.Id=a.AccountId AND a2.IsDeleted=0 AND a2.IsDisable=0
                             WHERE a.Id={appId} AND a.IsDeleted=0";
-                return dataStore.SqlGetDataTable(sql).AsSignal<App>();
+                return dataStore.FindOne<App>(sql);
             }
         }
 
@@ -234,7 +234,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             {
                 var sql = $@"
 SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={accountId} AND a.IsDeleted=0";
-                return (Int32)dataStore.SqlScalar(sql) > 0 ? true : false;
+                return dataStore.FindSingleValue<Int32>(sql) > 0 ? true : false;
             }
         }
 
@@ -250,7 +250,7 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                 }
 
                 var sql = $@"SELECT a.Id,a.Name,a.IconUrl FROM dbo.Apps AS a {where}";
-                return dataStore.SqlGetDataTable(sql).AsList<App>().ToList();
+                return dataStore.Find<App>(sql);
             }
         }
 
@@ -470,7 +470,7 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                 #region 前置条件验证
                 {
                     var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a WHERE a.AppTypeId={appTypeId} AND a.IsDeleted=0";
-                    if ((Int32)dataStore.SqlScalar(sql) > 0)
+                    if (dataStore.FindSingleValue<Int32>(sql) > 0)
                     {
                         throw new BusinessException($@"当前分类下已有绑定app,不能删除当前分类");
                     }
@@ -494,7 +494,7 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                 #region 前置条件验证
                 {
                     var sql = $@"SELECT COUNT(*) FROM dbo.AppTypes AS a WHERE a.Name=@name AND a.IsDeleted=0";
-                    var result = (Int32)dataStore.SqlScalar(sql, new List<SqlParameter> { new SqlParameter("@name", appType.Name) });
+                    var result = dataStore.FindSingleValue<Int32>(sql, new List<SqlParameter> { new SqlParameter("@name", appType.Name) });
                     if (result > 0)
                     {
                         throw new BusinessException($@"分类:{appType.Name},已存在");
@@ -533,7 +533,7 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                 #region 前置条件验证
                 {
                     var sql = $@"SELECT COUNT(*) FROM dbo.AppTypes AS a WHERE a.Name=@name AND a.IsDeleted=0";
-                    var result = (Int32)dataStore.SqlScalar(sql, new List<SqlParameter> { new SqlParameter("@name", appTypeName) });
+                    var result = dataStore.FindSingleValue<Int32>(sql, new List<SqlParameter> { new SqlParameter("@name", appTypeName) });
                     if (result > 0)
                     {
                         throw new BusinessException($@"分类:{appTypeName},已存在");
@@ -567,7 +567,7 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
             using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT a.Id FROM dbo.Apps AS a WHERE a.AccountId={accountId} AND a.IsDeleted=0";
-                var result = dataStore.SqlGetDataTable(sql).AsList<App>();
+                var result = dataStore.Find<App>(sql);
                 return new Tuple<int, int>(result.Count, result.Count(a => a.AppReleaseState == AppReleaseState.UnRelease));
             }
         }
@@ -600,7 +600,7 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                                 a.IsDraw,
                                 a.IsIconByUpload
                                 FROM  dbo.Apps AS a WHERE a.AppAuditState={(Int32)AppAuditState.Pass} AND a.AppReleaseState={(Int32)AppReleaseState.Release} AND a.IsDeleted=0 AND a.Id={appId}";
-                        app = dataStore.SqlGetDataTable(sql).AsSignal<App>();
+                        app = dataStore.FindOne<App>(sql);
                     }
                     #endregion
 
@@ -688,7 +688,7 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
             using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT a.Id,a.Name FROM dbo.AppTypes AS a WHERE a.IsDeleted=0";
-                return dataStore.SqlGetDataTable(sql).AsList<AppType>().ToList();
+                return dataStore.Find<AppType>(sql);
             }
         }
 
