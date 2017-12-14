@@ -165,7 +165,7 @@ UPDATE dbo.Configs SET AppSize={newSize} WHERE AccountId={accountId} AND IsDelet
                     #region 查询成员是否在应用码头中
                     {
                         var sql = $@"SELECT COUNT(*) FROM dbo.Members AS a WHERE a.Id=0 AND a.AccountId=0 AND a.IsDeleted=0 AND IsOnDock=1";
-                        if ((Int32)dataStore.SqlScalar(sql) > 0)
+                        if (dataStore.FindSingleValue<Int32>(sql) > 0)
                         {
                             set.Append($@" ,IsOnDock=0");
                         }
