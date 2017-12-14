@@ -238,13 +238,13 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
             }
         }
 
-        public List<App> GetSystemApp(IEnumerable<int> appIds = null)
+        public List<App> GetSystemApp(IEnumerable<Int32> appIds = default(IEnumerable<Int32>))
         {
             using (var dataStore = new DataStore())
             {
                 var where = new StringBuilder();
-                where.Append(" WHERE 1=1 a.IsSystem=1 AND a.IsDeleted=0");
-                if (appIds.Any())
+                where.Append(" WHERE 1=1 AND a.IsSystem=1 AND a.IsDeleted=0");
+                if (appIds != default(IEnumerable<Int32>) && appIds.Any())
                 {
                     where.Append($@" AND a.Id IN({String.Join(",", appIds)})");
                 }
