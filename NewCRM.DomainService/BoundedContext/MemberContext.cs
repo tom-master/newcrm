@@ -34,7 +34,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.FolderId,
                             a.IsIconByUpload
                             FROM dbo.Members AS a WHERE a.AccountId={accountId} AND a.IsDeleted=0";
-                return dataStore.SqlGetDataTable(sql).AsList<Member>().ToList();
+                return dataStore.Find<Member>(sql);
             }
         }
 
@@ -76,7 +76,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                     a.AccountId,
                     a.IsIconByUpload
                     FROM dbo.Members AS a WHERE a.AccountId={accountId} {where} AND a.IsDeleted=0";
-                return dataStore.SqlGetDataTable(sql).AsSignal<Member>();
+                return dataStore.FindOne<Member>(sql);
             }
         }
 
@@ -127,7 +127,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                     #region 判断是否为文件夹
                     {
                         var sql = $@"SELECT a.MemberType FROM dbo.Members AS a WHERE a.Id={memberId} AND a.AccountId={accountId} AND a.IsDeleted=0";
-                        isFolder = ((Int32)dataStore.SqlScalar(sql)) == (Int32)MemberType.Folder;
+                        isFolder = (dataStore.FindSingleValue<Int32>(sql)) == (Int32)MemberType.Folder;
                     }
                     #endregion
 
@@ -147,7 +147,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                         #region 获取appId
                         {
                             var sql = $@"SELECT a.AppId FROM dbo.Members AS a WHERE a.Id={memberId} AND a.AccountId={accountId} AND a.IsDeleted=0";
-                            appId = (Int32)dataStore.SqlScalar(sql);
+                            appId = dataStore.FindSingleValue<Int32>(sql);
                         }
                         #endregion
 
