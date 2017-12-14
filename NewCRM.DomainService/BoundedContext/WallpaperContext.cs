@@ -19,9 +19,8 @@ namespace NewCRM.Domain.Services.BoundedContext
             {
                 #region 前置条件验证
                 {
-                    var sql = $@"
-SELECT COUNT(*) FROM dbo.Wallpapers AS a WHERE a.AccountId={wallpaper.AccountId} AND a.IsDeleted=0";
-                    var result = (Int32)dataStore.SqlScalar(sql);
+                    var sql = $@"SELECT COUNT(*) FROM dbo.Wallpapers AS a WHERE a.AccountId={wallpaper.AccountId} AND a.IsDeleted=0";
+                    var result = dataStore.FindSingleValue<Int32>(sql);
                     if (result >= 6)
                     {
                         throw new BusinessException("最多只能上传6张图片");
@@ -60,17 +59,17 @@ SELECT COUNT(*) FROM dbo.Wallpapers AS a WHERE a.AccountId={wallpaper.AccountId}
                               GETDATE()  -- LastModifyTime - datetime
                             ) SELECT CAST(@@IDENTITY AS INT) AS Ide";
 
-                    newWallpaperId = (Int32)dataStore.SqlScalar(sql);
+                    newWallpaperId = dataStore.FindSingleValue<Int32>(sql);
                 }
                 #endregion
 
                 #region 获取返回值
                 {
                     var sql = $@"SELECT a.Id,a.Url FROM dbo.Wallpapers AS a WHERE a.Id={newWallpaperId} AND a.IsDeleted=0";
-                    var result = dataStore.SqlGetDataReader(sql);
-                    while (result.Read())
+                    var result = dataStore.FindOne<Wallpaper>(sql);
+                    if (result != null)
                     {
-                        return new Tuple<int, string>(Int32.Parse(result["Id"].ToString()), result["Url"].ToString());
+                        return new Tuple<int, string>(result.Id, result.Url);
                     }
                     return null;
                 }
@@ -93,7 +92,7 @@ SELECT COUNT(*) FROM dbo.Wallpapers AS a WHERE a.AccountId={wallpaper.AccountId}
                             a.Url,
                             a.Width
                             FROM dbo.Wallpapers AS a WHERE a.Md5={md5} AND a.IsDeleted=0";
-                return dataStore.SqlGetDataTable(sql).AsSignal<Wallpaper>();
+                return dataStore.FindOne<Wallpaper>(sql);
             }
         }
 
@@ -112,7 +111,7 @@ SELECT COUNT(*) FROM dbo.Wallpapers AS a WHERE a.AccountId={wallpaper.AccountId}
                             a.Url,
                             a.Width
                             FROM dbo.Wallpapers AS a WHERE a.AccountId={accountId} AND a.Source={(Int32)WallpaperSource.Upload} AND a.IsDeleted=0";
-                return dataStore.SqlGetDataTable(sql).AsList<Wallpaper>().ToList();
+                return dataStore.Find<Wallpaper>(sql);
             }
         }
 
@@ -131,7 +130,7 @@ SELECT COUNT(*) FROM dbo.Wallpapers AS a WHERE a.AccountId={wallpaper.AccountId}
                             a.Url,
                             a.Width
                             FROM dbo.Wallpapers AS a WHERE a.Source={(Int32)WallpaperSource.System} AND a.IsDeleted=0";
-                return dataStore.SqlGetDataTable(sql).AsList<Wallpaper>().ToList();
+                return dataStore.Find<Wallpaper>(sql);
             }
         }
 
