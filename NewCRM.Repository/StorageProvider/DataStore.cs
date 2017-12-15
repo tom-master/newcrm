@@ -4,11 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Threading;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
-using NewCRM.Repository.DataBaseProvider.CacheEvent;
-using NewCRM.Repository.DataBaseProvider.Redis.CacheEvent;
-using NewCRM.Repository.DataBaseProvider.Redis.InternalHelper;
 using NewLib.Security;
 
 namespace NewCRM.Repository.StorageProvider
@@ -17,8 +13,6 @@ namespace NewCRM.Repository.StorageProvider
     {
         private SqlConnection _connection;
         private SqlTransaction _dataTransaction;
-
-        private readonly ICacheQueryProvider _cacheQueryProvider = new DefaultRedisQueryProvider();
 
         public DataStore(string connectionName = default(String))
         {
@@ -127,13 +121,6 @@ namespace NewCRM.Repository.StorageProvider
         public virtual List<TModel> Find<TModel>(string sqlStr, CommandType commandType = CommandType.Text) where TModel : class, new()
         {
             Open();
-
-            var returnValues = _cacheQueryProvider.StringGet<List<TModel>>(sqlStr.Replace(" ", "").Replace(@"\r\n",""));
-            if (returnValues != null)
-            {
-                return returnValues;
-            }
-
             using (SqlCommand cmd = _connection.CreateCommand())
             {
                 if (UseTransaction)
@@ -146,7 +133,6 @@ namespace NewCRM.Repository.StorageProvider
                 DataTable dataTable = new DataTable("tmpDt");
                 dataTable.Load(dr, LoadOption.Upsert);
                 var result = dataTable.AsList<TModel>().ToList();
-                _cacheQueryProvider.StringSet(sqlStr.Replace(" ", ""), result);
                 return result;
             }
         }

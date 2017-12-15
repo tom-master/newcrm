@@ -3,8 +3,10 @@ using NewCRM.Application.Services;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Domain.Services.BoundedContext;
 using NewCRM.Domain.Services.Interface;
+using NewCRM.Repository.DataBaseProvider.Redis.InternalHelper;
 using Unity;
 using Unity.AspNet.Mvc;
+using Unity.Injection;
 
 namespace NewCRM.Web
 {
@@ -63,6 +65,7 @@ namespace NewCRM.Web
             container.RegisterType<ISecurityContext, SecurityContext>(new PerRequestLifetimeManager());
             container.RegisterType<ISkinContext, SkinContext>(new PerRequestLifetimeManager());
             container.RegisterType<IWallpaperContext, WallpaperContext>(new PerRequestLifetimeManager());
+            container.RegisterType<ICacheQueryProvider, DefaultRedisQueryProvider>();
 
         }
     }

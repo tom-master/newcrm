@@ -30,6 +30,7 @@ namespace NewCRM.Infrastructure.CommonTools
             FileUrl = SensitiveDataSafetyProvider.Decrypt(config.AppSettings.Settings["FileUrl"].Value);
             RedisConnection = SensitiveDataSafetyProvider.Decrypt(config.AppSettings.Settings["RedisConnection"].Value);
             RedisPrefix = SensitiveDataSafetyProvider.Decrypt(config.AppSettings.Settings["RedisPrefix"].Value);
+            RedisDbNum = Int32.Parse(config.AppSettings.Settings["RedisDb"].Value);
         }
 
         public static String FileUrl { get; private set; }
@@ -37,5 +38,7 @@ namespace NewCRM.Infrastructure.CommonTools
         public static String RedisConnection { get; private set; }
 
         public static String RedisPrefix { get; private set; }
+
+        public static Int32 RedisDbNum { get; private set; }
     }
 }

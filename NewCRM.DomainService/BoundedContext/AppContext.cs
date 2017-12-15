@@ -16,243 +16,6 @@ namespace NewCRM.Domain.Services.BoundedContext
 {
     public class AppContext : BaseServiceContext, IAppContext
     {
-        public List<App> GetApps(int accountId, int appTypeId, int orderId, string searchText, int pageIndex, int pageSize, out int totalCount)
-        {
-            ValidateParameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
-            using (var dataStore = new DataStore())
-            {
-                var where = new StringBuilder();
-                where.Append($@" WHERE 1=1 AND a.IsDeleted=0 AND a.AppAuditState={(Int32)AppAuditState.Pass} AND a.AppReleaseState={(Int32)AppReleaseState.Release} ");
-
-                var orderBy = new StringBuilder();
-                if (appTypeId != 0 && appTypeId != -1)//全部app
-                {
-                    where.Append($@" AND a.AppTypeId={appTypeId}");
-                }
-                else
-                {
-                    if (appTypeId == -1)//用户制作的app
-                    {
-                        where.Append($@" AND a.AccountId={accountId}");
-                    }
-                }
-                if (!String.IsNullOrEmpty(searchText))//关键字搜索
-                {
-                    where.Append($@" AND a.Name LIKE '%{searchText}%'");
-                }
-
-                switch (orderId)
-                {
-                    case 1:
-                        {
-                            orderBy.Append($@" ORDER BY aa.AddTime DESC");
-                            break;
-                        }
-                    case 2:
-                        {
-                            orderBy.Append($@" ORDER BY aa.UseCount DESC");
-                            break;
-                        }
-                    case 3:
-                        {
-
-                            orderBy.Append($@" ORDER BY aa.StarCount DESC");
-                            //filter.OrderByDescending(app => app.AppStars.Sum(s => s.StartNum) * 1.0);
-                            break;
-                        }
-                }
-
-                #region totalCount
-                {
-                    var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a 
-                                LEFT JOIN dbo.AppStars AS a1
-                                ON a1.AppId=a.Id AND a1.IsDeleted=0 {where}";
-                    totalCount = dataStore.FindSingleValue<Int32>(sql);
-                }
-                #endregion
-
-                #region sql
-                {
-                    var sql = $@"SELECT TOP {pageSize} * FROM 
-                                (
-	                                SELECT 
-	                                ROW_NUMBER() OVER(ORDER BY a.Id DESC) AS rownumber,
-	                                a.AppTypeId,
-	                                a.AccountId,
-	                                a.AddTime,
-	                                a.UseCount,
-	                                CAST(ISNULL(SUM(a1.StartNum) OVER(PARTITION BY a1.AppId ORDER BY a1.Id),0) AS INT) AS StarCount,
-	                                a.Name,
-	                                a.IconUrl,
-	                                a.Remark,
-	                                a.AppStyle,
-	                                a.Id,
-	                                (
-		                                CASE (SELECT COUNT(*) FROM dbo.Members AS a1 WHERE a1.AccountId=4 AND a1.AppId=a.Id AND a1.IsDeleted=0)
-											WHEN 1 THEN CAST(1 AS BIT)
-											WHEN 0 THEN CAST(0 AS BIT)
-										END
-	                                ) AS IsInstall,
-                                    a.IsIconByUpload
-	                                FROM dbo.Apps AS a
-                                    LEFT JOIN dbo.AppStars AS a1
-                                    ON a1.AppId=a.Id AND a1.IsDeleted=0 {where}
-                                ) AS aa WHERE aa.rownumber>{pageSize}*({pageIndex}-1)  {orderBy}";
-
-                    return dataStore.Find<App>(sql);
-                }
-                #endregion
-            }
-        }
-
-        public List<App> GetAccountApps(Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
-        {
-            ValidateParameter.Validate(accountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
-
-            using (var dataStore = new DataStore())
-            {
-                var where = new StringBuilder();
-                where.Append($@" WHERE 1=1 ");
-
-                #region 条件筛选
-
-                if (accountId != default(Int32))
-                {
-                    where.Append($@" AND a.AccountId={accountId}");
-                }
-
-                //应用名称
-                if (!String.IsNullOrEmpty(searchText))
-                {
-                    where.Append($@" AND a.Name LIKE '%{searchText}%'");
-                }
-
-                //应用所属类型
-                if (appTypeId != 0)
-                {
-                    where.Append($@" AND a.AppTypeId={appTypeId}");
-                }
-
-                //应用样式
-                if (appStyleId != 0)
-                {
-                    var appStyle = EnumExtensions.ToEnum<AppStyle>(appStyleId);
-                    where.Append($@" AND a.AppStyle={(Int32)appStyle}");
-                }
-
-                if ((appState + "").Length > 0)
-                {
-                    //app发布状态
-                    var stats = appState.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (stats[0] == "AppReleaseState")
-                    {
-                        var appReleaseState = EnumExtensions.ToEnum<AppReleaseState>(Int32.Parse(stats[1]));
-                        where.Append($@" AND a.AppReleaseState={(Int32)appReleaseState} ");
-                    }
-
-                    //app应用审核状态
-                    if (stats[0] == "AppAuditState")
-                    {
-                        var appAuditState = EnumExtensions.ToEnum<AppAuditState>(Int32.Parse(stats[1]));
-                        where.Append($@" AND a.AppAuditState={(Int32)appAuditState}");
-                    }
-                }
-
-                #endregion
-
-                #region totalCount
-                {
-                    var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a {where} ";
-                    totalCount = dataStore.FindSingleValue<Int32>(sql);
-                }
-                #endregion
-
-                #region sql
-                {
-                    var sql = $@"SELECT TOP {pageSize} * FROM 
-                    (
-	                    SELECT
-	                    ROW_NUMBER() OVER(ORDER BY a.Id DESC) AS rownumber,
-	                    a.Name,
-	                    a.AppStyle,
-	                    a.UseCount,
-	                    a.Id,
-	                    a.IconUrl,
-	                    a.AppAuditState,
-	                    a.IsRecommand,
-                        a.AppTypeId,
-                        a.AccountId,
-                        a.IsIconByUpload
-	                    FROM dbo.Apps AS a {where} 
-                    ) AS aa WHERE aa.rownumber>{pageSize}*({pageIndex}-1)";
-                    return dataStore.Find<App>(sql);
-                }
-                #endregion
-            }
-        }
-
-        public App GetApp(Int32 appId)
-        {
-            ValidateParameter.Validate(appId);
-            using (var dataStore = new DataStore())
-            {
-                var sql = $@"SELECT 
-                            a.Name,
-                            a.IconUrl,
-                            a.Remark,
-                            a.UseCount,
-                            CAST(ISNULL(SUM(a1.StartNum) OVER(PARTITION BY a1.AppId ORDER BY a1.Id),0) AS INT) AS StarCount,
-                            a.AddTime,
-                            a.AccountId,
-                            a.Id,
-                            a.IsResize,
-                            a.IsOpenMax,
-                            a.IsFlash,
-                            a.AppStyle,
-                            a.AppUrl,
-                            a.Width,
-                            a.Height,
-                            a.AppAuditState,
-                            a.AppReleaseState,
-                            a.AppTypeId,
-                            a2.Name AS AccountName,
-                            a.IsIconByUpload
-                            FROM dbo.Apps AS a 
-                            LEFT JOIN dbo.AppStars AS a1
-                            ON a1.AppId=a.Id AND a1.IsDeleted=0
-                            LEFT JOIN dbo.Accounts AS a2
-                            ON a2.Id=a.AccountId AND a2.IsDeleted=0 AND a2.IsDisable=0
-                            WHERE a.Id={appId} AND a.IsDeleted=0";
-                return dataStore.FindOne<App>(sql);
-            }
-        }
-
-        public bool IsInstallApp(int accountId, int appId)
-        {
-            ValidateParameter.Validate(accountId).Validate(appId);
-            using (var dataStore = new DataStore())
-            {
-                var sql = $@"
-SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={accountId} AND a.IsDeleted=0";
-                return dataStore.FindSingleValue<Int32>(sql) > 0 ? true : false;
-            }
-        }
-
-        public List<App> GetSystemApp(IEnumerable<Int32> appIds = default(IEnumerable<Int32>))
-        {
-            using (var dataStore = new DataStore())
-            {
-                var where = new StringBuilder();
-                where.Append(" WHERE 1=1 AND a.IsSystem=1 AND a.IsDeleted=0");
-                if (appIds != default(IEnumerable<Int32>) && appIds.Any())
-                {
-                    where.Append($@" AND a.Id IN({String.Join(",", appIds)})");
-                }
-
-                var sql = $@"SELECT a.Id,a.Name,a.IconUrl FROM dbo.Apps AS a {where}";
-                return dataStore.Find<App>(sql);
-            }
-        }
 
         public void ModifyAppStar(int accountId, int appId, int starCount)
         {
@@ -561,17 +324,6 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
             }
         }
 
-        public Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount(Int32 accountId)
-        {
-            ValidateParameter.Validate(accountId);
-            using (var dataStore = new DataStore())
-            {
-                var sql = $@"SELECT a.Id FROM dbo.Apps AS a WHERE a.AccountId={accountId} AND a.IsDeleted=0";
-                var result = dataStore.Find<App>(sql);
-                return new Tuple<int, int>(result.Count, result.Count(a => a.AppReleaseState == AppReleaseState.UnRelease));
-            }
-        }
-
         public void Install(Int32 accountId, Int32 appId, Int32 deskNum)
         {
             ValidateParameter.Validate(accountId).Validate(appId).Validate(deskNum);
@@ -683,6 +435,17 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
             }
         }
 
+        public Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount(Int32 accountId)
+        {
+            ValidateParameter.Validate(accountId);
+            using (var dataStore = new DataStore())
+            {
+                var sql = $@"SELECT a.Id FROM dbo.Apps AS a WHERE a.AccountId={accountId} AND a.IsDeleted=0";
+                var result = dataStore.Find<App>(sql);
+                return new Tuple<int, int>(result.Count, result.Count(a => a.AppReleaseState == AppReleaseState.UnRelease));
+            }
+        }
+
         public List<AppType> GetAppTypes()
         {
             using (var dataStore = new DataStore())
@@ -692,9 +455,6 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
             }
         }
 
-        /// <summary>
-        /// 获取今日推荐App
-        /// </summary>
         public TodayRecommendAppDto GetTodayRecommend(int accountId)
         {
             ValidateParameter.Validate(accountId);
@@ -715,31 +475,248 @@ SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={acc
                             (
 	                            SELECT COUNT(*) FROM dbo.Members AS a1 WHERE a1.AccountId={accountId} AND a1.IsDeleted=0
                             ) AS IsInstall,
-                            
+                            a.IsIconByUpload
                             FROM dbo.Apps AS a 
                             WHERE a.AppAuditState={(Int32)AppAuditState.Pass} AND a.AppReleaseState={(Int32)AppReleaseState.Release} AND a.IsRecommand=1";
-                var dataReader = dataStore.SqlGetDataReader(sql);
-                if (!dataReader.HasRows)
-                {
-                    return null;
-                }
-                while (dataReader.Read())
-                {
-                    return new TodayRecommendAppDto
-                    {
-                        UseCount = Int32.Parse(dataReader["UseCount"].ToString()),
-                        Id = Int32.Parse(dataReader["Id"].ToString()),
-                        Name = dataReader["Name"].ToString(),
-                        AppIcon = dataReader["IconUrl"].ToString(),
-                        Remark = dataReader["Remark"].ToString(),
-                        Style = EnumExtensions.ToEnum<AppStyle>(dataReader["AppStyle"].ToString()).ToString().ToLower(),
-                        StartCount = Int32.Parse(dataReader["AppStars"].ToString()),
-                        IsInstall = Int32.Parse(dataReader["IsInstall"].ToString()) > 0 ? true : false,
-                        IsIconByUpload = Boolean.Parse(dataReader["IsIconByUpload"].ToString())
-                    };
-                }
-                return null;
+                return dataStore.FindOne<TodayRecommendAppDto>(sql);
             }
         }
+
+        public List<App> GetApps(int accountId, int appTypeId, int orderId, string searchText, int pageIndex, int pageSize, out int totalCount)
+        {
+            ValidateParameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
+            using (var dataStore = new DataStore())
+            {
+                var where = new StringBuilder();
+                where.Append($@" WHERE 1=1 AND a.IsDeleted=0 AND a.AppAuditState={(Int32)AppAuditState.Pass} AND a.AppReleaseState={(Int32)AppReleaseState.Release} ");
+
+                var orderBy = new StringBuilder();
+                if (appTypeId != 0 && appTypeId != -1)//全部app
+                {
+                    where.Append($@" AND a.AppTypeId={appTypeId}");
+                }
+                else
+                {
+                    if (appTypeId == -1)//用户制作的app
+                    {
+                        where.Append($@" AND a.AccountId={accountId}");
+                    }
+                }
+                if (!String.IsNullOrEmpty(searchText))//关键字搜索
+                {
+                    where.Append($@" AND a.Name LIKE '%{searchText}%'");
+                }
+
+                switch (orderId)
+                {
+                    case 1:
+                        {
+                            orderBy.Append($@" ORDER BY aa.AddTime DESC");
+                            break;
+                        }
+                    case 2:
+                        {
+                            orderBy.Append($@" ORDER BY aa.UseCount DESC");
+                            break;
+                        }
+                    case 3:
+                        {
+
+                            orderBy.Append($@" ORDER BY aa.StarCount DESC");
+                            break;
+                        }
+                }
+
+                #region totalCount
+                {
+                    var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a 
+                                LEFT JOIN dbo.AppStars AS a1
+                                ON a1.AppId=a.Id AND a1.IsDeleted=0 {where}";
+                    totalCount = dataStore.FindSingleValue<Int32>(sql);
+                }
+                #endregion
+
+                #region sql
+                {
+                    var sql = $@"SELECT TOP {pageSize} * FROM 
+                                (
+	                                SELECT 
+	                                ROW_NUMBER() OVER(ORDER BY a.Id DESC) AS rownumber,
+	                                a.AppTypeId,
+	                                a.AccountId,
+	                                a.AddTime,
+	                                a.UseCount,
+	                                CAST(ISNULL(SUM(a1.StartNum) OVER(PARTITION BY a1.AppId ORDER BY a1.Id),0) AS INT) AS StarCount,
+	                                a.Name,
+	                                a.IconUrl,
+	                                a.Remark,
+	                                a.AppStyle,
+	                                a.Id,
+	                                (
+		                                CASE (SELECT COUNT(*) FROM dbo.Members AS a1 WHERE a1.AccountId=4 AND a1.AppId=a.Id AND a1.IsDeleted=0)
+											WHEN 1 THEN CAST(1 AS BIT)
+											WHEN 0 THEN CAST(0 AS BIT)
+										END
+	                                ) AS IsInstall,
+                                    a.IsIconByUpload
+	                                FROM dbo.Apps AS a
+                                    LEFT JOIN dbo.AppStars AS a1
+                                    ON a1.AppId=a.Id AND a1.IsDeleted=0 {where}
+                                ) AS aa WHERE aa.rownumber>{pageSize}*({pageIndex}-1)  {orderBy}";
+
+                    return dataStore.Find<App>(sql);
+                }
+                #endregion
+            }
+        }
+
+        public List<App> GetAccountApps(Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+        {
+            ValidateParameter.Validate(accountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
+
+            using (var dataStore = new DataStore())
+            {
+                var where = new StringBuilder();
+                where.Append($@" WHERE 1=1 ");
+
+                #region 条件筛选
+
+                if (accountId != default(Int32))
+                {
+                    where.Append($@" AND a.AccountId={accountId}");
+                }
+
+                //应用名称
+                if (!String.IsNullOrEmpty(searchText))
+                {
+                    where.Append($@" AND a.Name LIKE '%{searchText}%'");
+                }
+
+                //应用所属类型
+                if (appTypeId != 0)
+                {
+                    where.Append($@" AND a.AppTypeId={appTypeId}");
+                }
+
+                //应用样式
+                if (appStyleId != 0)
+                {
+                    var appStyle = EnumExtensions.ToEnum<AppStyle>(appStyleId);
+                    where.Append($@" AND a.AppStyle={(Int32)appStyle}");
+                }
+
+                if ((appState + "").Length > 0)
+                {
+                    //app发布状态
+                    var stats = appState.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (stats[0] == "AppReleaseState")
+                    {
+                        var appReleaseState = EnumExtensions.ToEnum<AppReleaseState>(Int32.Parse(stats[1]));
+                        where.Append($@" AND a.AppReleaseState={(Int32)appReleaseState} ");
+                    }
+
+                    //app应用审核状态
+                    if (stats[0] == "AppAuditState")
+                    {
+                        var appAuditState = EnumExtensions.ToEnum<AppAuditState>(Int32.Parse(stats[1]));
+                        where.Append($@" AND a.AppAuditState={(Int32)appAuditState}");
+                    }
+                }
+
+                #endregion
+
+                #region totalCount
+                {
+                    var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a {where} ";
+                    totalCount = dataStore.FindSingleValue<Int32>(sql);
+                }
+                #endregion
+
+                #region sql
+                {
+                    var sql = $@"SELECT TOP {pageSize} * FROM 
+                    (
+	                    SELECT
+	                    ROW_NUMBER() OVER(ORDER BY a.Id DESC) AS rownumber,
+	                    a.Name,
+	                    a.AppStyle,
+	                    a.UseCount,
+	                    a.Id,
+	                    a.IconUrl,
+	                    a.AppAuditState,
+	                    a.IsRecommand,
+                        a.AppTypeId,
+                        a.AccountId,
+                        a.IsIconByUpload
+	                    FROM dbo.Apps AS a {where} 
+                    ) AS aa WHERE aa.rownumber>{pageSize}*({pageIndex}-1)";
+                    return dataStore.Find<App>(sql);
+                }
+                #endregion
+            }
+        }
+
+        public App GetApp(Int32 appId)
+        {
+            ValidateParameter.Validate(appId);
+            using (var dataStore = new DataStore())
+            {
+                var sql = $@"SELECT 
+                            a.Name,
+                            a.IconUrl,
+                            a.Remark,
+                            a.UseCount,
+                            CAST(ISNULL(SUM(a1.StartNum) OVER(PARTITION BY a1.AppId ORDER BY a1.Id),0) AS INT) AS StarCount,
+                            a.AddTime,
+                            a.AccountId,
+                            a.Id,
+                            a.IsResize,
+                            a.IsOpenMax,
+                            a.IsFlash,
+                            a.AppStyle,
+                            a.AppUrl,
+                            a.Width,
+                            a.Height,
+                            a.AppAuditState,
+                            a.AppReleaseState,
+                            a.AppTypeId,
+                            a2.Name AS AccountName,
+                            a.IsIconByUpload
+                            FROM dbo.Apps AS a 
+                            LEFT JOIN dbo.AppStars AS a1
+                            ON a1.AppId=a.Id AND a1.IsDeleted=0
+                            LEFT JOIN dbo.Accounts AS a2
+                            ON a2.Id=a.AccountId AND a2.IsDeleted=0 AND a2.IsDisable=0
+                            WHERE a.Id={appId} AND a.IsDeleted=0";
+                return dataStore.FindOne<App>(sql);
+            }
+        }
+
+        public Boolean IsInstallApp(int accountId, int appId)
+        {
+            ValidateParameter.Validate(accountId).Validate(appId);
+            using (var dataStore = new DataStore())
+            {
+                var sql = $@"SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={accountId} AND a.IsDeleted=0";
+                return dataStore.FindSingleValue<Int32>(sql) > 0 ? true : false;
+            }
+        }
+
+        public List<App> GetSystemApp(IEnumerable<Int32> appIds = default(IEnumerable<Int32>))
+        {
+            using (var dataStore = new DataStore())
+            {
+                var where = new StringBuilder();
+                where.Append(" WHERE 1=1 AND a.IsSystem=1 AND a.IsDeleted=0");
+                if (appIds != default(IEnumerable<Int32>) && appIds.Any())
+                {
+                    where.Append($@" AND a.Id IN({String.Join(",", appIds)})");
+                }
+
+                var sql = $@"SELECT a.Id,a.Name,a.IconUrl FROM dbo.Apps AS a {where}";
+                return dataStore.Find<App>(sql);
+            }
+        }
+
     }
 }

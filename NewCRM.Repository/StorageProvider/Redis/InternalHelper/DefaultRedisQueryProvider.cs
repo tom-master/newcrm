@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JsonNet.PrivateSettersContractResolvers;
+using NewCRM.Infrastructure.CommonTools;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
@@ -19,20 +20,10 @@ namespace NewCRM.Repository.DataBaseProvider.Redis.InternalHelper
 
         #region 构造函数
 
-
-        public DefaultRedisQueryProvider() : this(0, null)
+        public DefaultRedisQueryProvider()
         {
-
-        }
-
-        public DefaultRedisQueryProvider(Int32 dbNum)
-                : this(dbNum, null)
-        {
-        }
-
-        public DefaultRedisQueryProvider(Int32 dbNum, String readWriteHosts)
-        {
-            DbNum = dbNum;
+            var readWriteHosts = "";
+            DbNum = ProfileManager.RedisDbNum;
             _conn =
                 String.IsNullOrWhiteSpace(readWriteHosts) ?
                 RedisConnectionHelp.Instance :
