@@ -11,7 +11,7 @@ namespace NewCRM.Domain.Services.Interface
         /// <summary>
         /// 验证用户是否合法
         /// </summary>
-        Account Validate(String accountName, String password,String requestIp);
+        Account Validate(String accountName, String password, String requestIp);
 
         /// <summary>
         /// 用户登出

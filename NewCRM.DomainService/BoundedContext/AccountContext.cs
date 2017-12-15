@@ -135,7 +135,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         {
             ValidateParameter.Validate(accountId);
 
-            var redisKey = $@"NewCrm:{nameof(Config)}:AccountId:{accountId}";
+            var redisKey = $@"NewCrm:Desktop:{nameof(Config)}:AccountId:{accountId}";
             var redisResult = _cacheQueryProvider.StringGet<Config>(redisKey);
             if (redisResult != null)
             {
