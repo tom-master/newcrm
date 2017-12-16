@@ -4,6 +4,8 @@ using System.Linq;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Domain;
 using NewCRM.Domain.Entitys.Agent;
+using NewCRM.Domain.Entitys.Security;
+using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
@@ -38,8 +40,8 @@ namespace NewCRM.Application.Services
 
         public ConfigDto GetConfig(Int32 accountId)
         {
-            var config = _accountContext.GetConfig(accountId);
-            var wallpaper = _accountContext.GetWallpaper(config.WallpaperId);
+            var config = ExecuteSingle(CacheKey.Config(accountId), () => _accountContext.GetConfig(accountId));
+            var wallpaper = ExecuteSingle(CacheKey.Wallpaper(accountId), () => _accountContext.GetWallpaper(config.WallpaperId));
 
             return new ConfigDto
             {
@@ -81,16 +83,15 @@ namespace NewCRM.Application.Services
 
         public AccountDto GetAccount(Int32 accountId)
         {
-            var account = _accountContext.GetAccount(accountId);
+            var account = ExecuteSingle(CacheKey.Account(accountId), () => _accountContext.GetAccount(accountId));
 
             if (account == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
             }
 
-            var roles = _accountContext.GetRoles(account.Id);
+            var roles = ExecuteList(CacheKey.Roles(account.Id), () => _accountContext.GetRoles(account.Id));
             var powers = _accountContext.GetPowers();
-
 
             return new AccountDto
             {
