@@ -8,6 +8,7 @@ using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
 using NewCRM.Web.Controllers.ControllerHelper;
+using NewLib;
 using Nito.AsyncEx;
 
 namespace NewCRM.Web.Controllers

@@ -93,11 +93,6 @@
     </EmbeddedResource>
   </ItemGroup>-->
   <ItemGroup>
-    <Compile Include="StorageProvider\Redis\CacheEvent\ICacheCreateEvent.cs" />
-    <Compile Include="StorageProvider\Redis\CacheEvent\ICacheModifyEvent.cs" />
-    <Compile Include="StorageProvider\Redis\InternalHelper\ICacheQueryProvider.cs" />
-    <Compile Include="StorageProvider\Redis\InternalHelper\RedisConnectionHelp.cs" />
-    <Compile Include="StorageProvider\Redis\InternalHelper\DefaultRedisQueryProvider.cs" />
     <Compile Include="StorageProvider\DataStore.cs" />
   </ItemGroup>
   <ItemGroup>

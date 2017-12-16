@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Web.Controllers.ControllerHelper;
+using NewLib;
 using Newtonsoft.Json;
 
 namespace NewCRM.Web.Controllers

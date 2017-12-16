@@ -40,6 +40,9 @@
     <Reference Include="NewLib">
       <HintPath>..\..\dev\Newlib\NewLib\bin\Debug\NewLib.dll</HintPath>
     </Reference>
+    <Reference Include="NewLib.Data">
+      <HintPath>..\..\dev\Newlib\NewLib.Data\bin\Debug\NewLib.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

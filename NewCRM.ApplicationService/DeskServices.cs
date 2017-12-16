@@ -6,6 +6,7 @@ using NewCRM.Domain.Services.Interface;
 using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
+using NewLib;
 
 namespace NewCRM.Application.Services
 {

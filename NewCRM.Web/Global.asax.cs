@@ -1,4 +1,5 @@
 ﻿using NewCRM.Infrastructure.CommonTools;
+using NewLib;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;

@@ -9,7 +9,6 @@ using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomException;
-using NewCRM.Repository.DataBaseProvider.Redis.InternalHelper;
 using NewCRM.Repository.StorageProvider;
 using NewLib;
 using NewLib.Security;
@@ -18,14 +17,6 @@ namespace NewCRM.Domain.Services.BoundedContext
 {
     public class AccountContext : BaseServiceContext, IAccountContext
     {
-        private readonly ICacheQueryProvider _cacheQueryProvider;
-
-        public AccountContext(ICacheQueryProvider cacheQueryProvider)
-        {
-            _cacheQueryProvider = cacheQueryProvider;
-        }
-
-
         public Account Validate(String accountName, String password, String requestIp)
         {
             ValidateParameter.Validate(accountName).Validate(password);
@@ -135,13 +126,6 @@ namespace NewCRM.Domain.Services.BoundedContext
         {
             ValidateParameter.Validate(accountId);
 
-            var redisKey = $@"NewCrm:Desktop:{nameof(Config)}:AccountId:{accountId}";
-            var redisResult = _cacheQueryProvider.StringGet<Config>(redisKey);
-            if (redisResult != null)
-            {
-                return redisResult;
-            }
-
             using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT 
@@ -161,7 +145,6 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.AccountId
                             FROM dbo.Configs AS a WHERE a.AccountId={accountId} AND a.IsDeleted=0";
                 var result = dataStore.Find<Config>(sql).FirstOrDefault();
-                _cacheQueryProvider.StringSet(redisKey, result);
                 return result;
             }
         }
