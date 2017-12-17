@@ -15,8 +15,7 @@ namespace NewCRM.Application.Services
         private readonly IMemberContext _memberContext;
         private readonly IDeskContext _deskContext;
 
-        public DeskServices(IMemberContext memberContext,
-            IDeskContext deskContext)
+        public DeskServices(IMemberContext memberContext, IDeskContext deskContext)
         {
             _memberContext = memberContext;
             _deskContext = deskContext;
@@ -25,7 +24,6 @@ namespace NewCRM.Application.Services
         public MemberDto GetMember(Int32 accountId, Int32 memberId, Boolean isFolder)
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
-
             var result = _memberContext.GetMember(accountId, memberId, isFolder);
             if (result == null)
             {
@@ -60,78 +58,91 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(newDefaultDeskNumber);
             _deskContext.ModifyDefaultDeskNumber(accountId, newDefaultDeskNumber);
+            RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
         public void ModifyDockPosition(Int32 accountId, Int32 defaultDeskNumber, String newPosition)
         {
             ValidateParameter.Validate(accountId).Validate(defaultDeskNumber).Validate(newPosition);
             _deskContext.ModifyDockPosition(accountId, defaultDeskNumber, newPosition);
+            RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
         public void MemberInDock(Int32 accountId, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
             _deskContext.MemberInDock(accountId, memberId);
+            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
         }
 
         public void MemberOutDock(Int32 accountId, Int32 memberId, Int32 deskId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
             _deskContext.MemberOutDock(accountId, memberId, deskId);
+            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
         }
 
         public void DockToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(folderId);
             _deskContext.DockToFolder(accountId, memberId, folderId);
+            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
         }
 
         public void FolderToDock(Int32 accountId, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
             _deskContext.FolderToDock(accountId, memberId);
+            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
         }
 
         public void DeskToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(folderId);
             _deskContext.DeskToFolder(accountId, memberId, folderId);
+            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
         }
 
         public void FolderToDesk(Int32 accountId, Int32 memberId, Int32 deskId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
             _deskContext.FolderToDesk(accountId, memberId, deskId);
+            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
         }
 
         public void FolderToOtherFolder(Int32 accountId, Int32 memberId, Int32 folderId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(folderId);
             _deskContext.FolderToOtherFolder(accountId, memberId, folderId);
+            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
         }
 
         public void DeskToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
             _deskContext.DeskToOtherDesk(accountId, memberId, deskId);
+            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
         }
 
         public void ModifyFolderInfo(Int32 accountId, String memberName, String memberIcon, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberName).Validate(memberIcon).Validate(memberId);
             _memberContext.ModifyFolderInfo(accountId, memberName, memberIcon, memberId);
+            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
         }
 
-        public void RemoveMember(Int32 accountId, Int32 memberId)
+        public void UninstallMember(Int32 accountId, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
-            _memberContext.RemoveMember(accountId, memberId);
+            _memberContext.UninstallMember(accountId, memberId);
+            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
         }
 
         public void ModifyMemberInfo(Int32 accountId, MemberDto member)
         {
             ValidateParameter.Validate(accountId).Validate(member);
             _memberContext.ModifyMemberInfo(accountId, member.ConvertToModel<MemberDto, Member>());
+            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
         }
 
         public void CreateNewFolder(String folderName, String folderImg, Int32 deskId, Int32 accountId)
@@ -144,12 +155,14 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
             _deskContext.DockToOtherDesk(accountId, memberId, deskId);
+            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
         }
 
         public void ModifyMemberIcon(Int32 accountId, Int32 memberId, String newIcon)
         {
             ValidateParameter.Validate(memberId).Validate(newIcon);
             _memberContext.ModifyMemberIcon(accountId, memberId, newIcon);
+            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
         }
 
         public void ModifyWallpaperSource(String source, Int32 accountId)

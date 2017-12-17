@@ -29,9 +29,9 @@ namespace NewCRM.Domain.Services.Interface
         void ModifyMemberInfo(Int32 accountId, Member member);
 
         /// <summary>
-        /// 移除用户的桌面app成员
+        /// 卸载用户的桌面app成员
         /// </summary>
-        void RemoveMember(Int32 accountId, Int32 memberId);
+        void UninstallMember(Int32 accountId, Int32 memberId);
 
         /// <summary>
         ///修改桌面成员的Icon

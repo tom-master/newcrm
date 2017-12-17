@@ -115,7 +115,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             }
         }
 
-        public void RemoveMember(Int32 accountId, Int32 memberId)
+        public void UninstallMember(Int32 accountId, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
             using (var dataStore = new DataStore())

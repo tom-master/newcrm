@@ -154,14 +154,14 @@ namespace NewCRM.Web.Controllers
         /// 卸载桌面的成员
         /// </summary>
         [HttpPost]
-        public ActionResult UnInstallMember(Int32 memberId)
+        public ActionResult UninstallMember(Int32 memberId)
         {
             #region 参数验证
             Parameter.Validate(memberId);
             #endregion
 
             var response = new ResponseModel();
-            _deskServices.RemoveMember(Account.Id, memberId);
+            _deskServices.UninstallMember(Account.Id, memberId);
             response.IsSuccess = true;
             response.Message = "卸载成功";
 

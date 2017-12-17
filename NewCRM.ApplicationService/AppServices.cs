@@ -30,7 +30,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var result = GetCache(CacheKey.DeskMembers(accountId), () => _memberServices.GetMembers(accountId));
+            var result = GetCache(CacheKey.Desktop(accountId), () => _memberServices.GetMembers(accountId));
             var deskGroup = result.GroupBy(a => a.DeskIndex);
             var deskDictionary = new Dictionary<String, IList<dynamic>>();
             foreach (var desk in deskGroup)
@@ -308,7 +308,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(appId).Validate(deskNum);
             _appContext.Install(accountId, appId, deskNum);
-            RemoveOldKeyWhenModify(CacheKey.DeskMembers(accountId));
+            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
         }
 
         public void ModifyAccountAppInfo(Int32 accountId, AppDto appDto)

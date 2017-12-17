@@ -35,9 +35,9 @@ namespace NewCRM.Infrastructure.CommonTools
             return $@"{_cachePrefix}:Powers";
         }
 
-        public static String DeskMembers(Int32 accountId)
+        public static String Desktop(Int32 accountId)
         {
-            return $@"{_cachePrefix}:DeskMembers:AccountId:{accountId}";
+            return $@"{_cachePrefix}:Desktop:AccountId:{accountId}";
         }
 
         public static String AppTypes()

@@ -73,9 +73,9 @@ namespace NewCRM.Application.Services.Interface
         void ModifyFolderInfo(Int32 accountId, String memberName, String memberIcon, Int32 memberId);
 
         /// <summary>
-        /// 移除用户的桌面app成员
+        /// 卸载用户的桌面app成员
         /// </summary>
-        void RemoveMember(Int32 accountId, Int32 memberId);
+        void UninstallMember(Int32 accountId, Int32 memberId);
 
         /// <summary>
         /// 修改成员信息
