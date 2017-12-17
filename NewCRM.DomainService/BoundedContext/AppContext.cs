@@ -353,13 +353,13 @@ namespace NewCRM.Domain.Services.BoundedContext
                                 a.IsIconByUpload
                                 FROM  dbo.Apps AS a WHERE a.AppAuditState={(Int32)AppAuditState.Pass} AND a.AppReleaseState={(Int32)AppReleaseState.Release} AND a.IsDeleted=0 AND a.Id={appId}";
                         app = dataStore.FindOne<App>(sql);
+
+                        if (app == null)
+                        {
+                            throw new BusinessException($"获取应用失败，请刷新重试");
+                        }
                     }
                     #endregion
-
-                    if (app == null)
-                    {
-                        throw new BusinessException($"应用添加失败，请刷新重试");
-                    }
 
                     #region 添加桌面成员
                     {
@@ -470,7 +470,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.AppStyle,
                             (
 	                            SELECT COUNT(*) FROM dbo.AppStars AS a1
-	                            WHERE a1.AccountId={accountId} AND a1.AppId=a.Id AND a1.IsDeleted=0
+	                            WHERE a1.AppId=a.Id AND a1.IsDeleted=0
                             ) AS  AppStars,
                             (
 	                            SELECT COUNT(*) FROM dbo.Members AS a1 WHERE a1.AccountId={accountId} AND a1.IsDeleted=0

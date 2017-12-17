@@ -30,7 +30,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId);
 
-            var result = _memberServices.GetMembers(accountId);
+            var result = GetCache(CacheKey.DeskMembers(accountId), () => _memberServices.GetMembers(accountId));
             var deskGroup = result.GroupBy(a => a.DeskIndex);
             var deskDictionary = new Dictionary<String, IList<dynamic>>();
             foreach (var desk in deskGroup)
@@ -100,7 +100,8 @@ namespace NewCRM.Application.Services
 
         public List<AppTypeDto> GetAppTypes()
         {
-            return _appContext.GetAppTypes().Select(s => new AppTypeDto
+            var result = GetCache(CacheKey.AppTypes(), () => _appContext.GetAppTypes());
+            return result.Select(s => new AppTypeDto
             {
                 Id = s.Id,
                 Name = s.Name
@@ -124,10 +125,7 @@ namespace NewCRM.Application.Services
         public Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
-
-            var result = _appContext.GetAccountDevelopAppCountAndNotReleaseAppCount(accountId);
-            return result;
-
+            return _appContext.GetAccountDevelopAppCountAndNotReleaseAppCount(accountId);
         }
 
         public List<AppDto> GetAllApps(Int32 accountId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
@@ -177,7 +175,7 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(appId);
 
             var result = _appContext.GetApp(appId);
-            var appTypes = GetAppTypes();
+            var appTypes = GetCache(CacheKey.AppTypes(), () => GetAppTypes());
 
             return new AppDto
             {
@@ -270,25 +268,28 @@ namespace NewCRM.Application.Services
             {
                 throw new BusinessException($"未能识别的App排列方向:{direction.ToLower()}");
             }
-
+            RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
         public void ModifyAppIconSize(Int32 accountId, Int32 newSize)
         {
             ValidateParameter.Validate(accountId).Validate(newSize);
             _deskContext.ModifyMemberDisplayIconSize(accountId, newSize);
+            RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
         public void ModifyAppVerticalSpacing(Int32 accountId, Int32 newSize)
         {
             ValidateParameter.Validate(accountId).Validate(newSize);
             _deskContext.ModifyMemberHorizontalSpacing(accountId, newSize);
+            RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
         public void ModifyAppHorizontalSpacing(Int32 accountId, Int32 newSize)
         {
             ValidateParameter.Validate(accountId).Validate(newSize);
             _deskContext.ModifyMemberVerticalSpacing(accountId, newSize);
+            RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
         public void ModifyAppStar(Int32 accountId, Int32 appId, Int32 starCount)
@@ -307,6 +308,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(appId).Validate(deskNum);
             _appContext.Install(accountId, appId, deskNum);
+            RemoveOldKeyWhenModify(CacheKey.DeskMembers(accountId));
         }
 
         public void ModifyAccountAppInfo(Int32 accountId, AppDto appDto)
@@ -330,6 +332,7 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(appTypeId);
             _appContext.DeleteAppType(appTypeId);
+            RemoveOldKeyWhenModify(CacheKey.AppTypes());
         }
 
         public void CreateNewAppType(AppTypeDto appTypeDto)
@@ -337,12 +340,14 @@ namespace NewCRM.Application.Services
             ValidateParameter.Validate(appTypeDto);
             var appType = appTypeDto.ConvertToModel<AppTypeDto, AppType>();
             _appContext.CreateNewAppType(appType);
+            RemoveOldKeyWhenModify(CacheKey.AppTypes());
         }
 
         public void ModifyAppType(AppTypeDto appTypeDto, Int32 appTypeId)
         {
             ValidateParameter.Validate(appTypeDto).Validate(appTypeId);
             _appContext.ModifyAppType(appTypeDto.Name, appTypeId);
+            RemoveOldKeyWhenModify(CacheKey.AppTypes());
         }
 
         public void Pass(Int32 appId)
