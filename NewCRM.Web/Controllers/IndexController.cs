@@ -15,12 +15,10 @@ namespace NewCRM.Web.Controllers
 {
     public class IndexController : BaseController
     {
-        private readonly IAppServices _appServices;
         private readonly IDeskServices _deskServices;
 
         public IndexController(IAppServices appServices, IDeskServices deskServices)
         {
-            _appServices = appServices;
             _deskServices = deskServices;
         }
 
@@ -142,7 +140,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult GetAccountDeskMembers()
         {
             var response = new ResponseModel<IDictionary<String, IList<dynamic>>>();
-            var result = _appServices.GetDeskMembers(Account.Id);
+            var result = _deskServices.GetDeskMembers(Account.Id);
             response.IsSuccess = true;
             response.Message = "获取我的应用成功";
             response.Model = result;

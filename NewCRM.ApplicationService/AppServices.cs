@@ -15,87 +15,13 @@ namespace NewCRM.Application.Services
 {
     public class AppServices : BaseServiceContext, IAppServices
     {
-        private readonly IMemberContext _memberServices;
         private readonly IAppContext _appContext;
         private readonly IDeskContext _deskContext;
 
-        public AppServices(IMemberContext memberServices, IAppContext appContext, IDeskContext deskContext)
+        public AppServices(IAppContext appContext, IDeskContext deskContext)
         {
-            _memberServices = memberServices;
             _appContext = appContext;
             _deskContext = deskContext;
-        }
-
-        public IDictionary<String, IList<dynamic>> GetDeskMembers(Int32 accountId)
-        {
-            ValidateParameter.Validate(accountId);
-
-            var result = GetCache(CacheKey.Desktop(accountId), () => _memberServices.GetMembers(accountId));
-            var deskGroup = result.GroupBy(a => a.DeskIndex);
-            var deskDictionary = new Dictionary<String, IList<dynamic>>();
-            foreach (var desk in deskGroup)
-            {
-                var members = desk.ToList();
-                var deskMembers = new List<dynamic>();
-                foreach (var member in members)
-                {
-                    if (member.MemberType == MemberType.Folder)
-                    {
-                        deskMembers.Add(new
-                        {
-                            type = member.MemberType.ToString().ToLower(),
-                            memberId = member.Id,
-                            appId = member.AppId,
-                            name = member.Name,
-                            icon = member.IsIconByUpload ? ProfileManager.FileUrl + member.IconUrl : member.IconUrl,
-                            width = member.Width,
-                            height = member.Height,
-                            isOnDock = member.IsOnDock,
-                            isDraw = member.IsDraw,
-                            isOpenMax = member.IsOpenMax,
-                            isSetbar = member.IsSetbar,
-                            apps = members.Where(m => m.FolderId == member.Id).Select(app => new
-                            {
-                                type = app.MemberType.ToString().ToLower(),
-                                memberId = app.Id,
-                                appId = app.AppId,
-                                name = app.Name,
-                                icon = member.IsIconByUpload ? ProfileManager.FileUrl + member.IconUrl : member.IconUrl,
-                                width = app.Width,
-                                height = app.Height,
-                                isOnDock = app.IsOnDock,
-                                isDraw = app.IsDraw,
-                                isOpenMax = app.IsOpenMax,
-                                isSetbar = app.IsSetbar,
-                            })
-                        });
-                    }
-                    else
-                    {
-                        if (member.FolderId == 0)
-                        {
-                            var internalType = member.MemberType.ToString().ToLower();
-                            deskMembers.Add(new
-                            {
-                                type = internalType,
-                                memberId = member.Id,
-                                appId = member.AppId,
-                                name = member.Name,
-                                icon = member.IsIconByUpload ? ProfileManager.FileUrl + member.IconUrl : member.IconUrl,
-                                width = member.Width,
-                                height = member.Height,
-                                isOnDock = member.IsOnDock,
-                                isDraw = member.IsDraw,
-                                isOpenMax = member.IsOpenMax,
-                                isSetbar = member.IsSetbar
-                            });
-                        }
-                    }
-                }
-                deskDictionary.Add(desk.Key.ToString(), deskMembers);
-            }
-
-            return deskDictionary;
         }
 
         public List<AppTypeDto> GetAppTypes()

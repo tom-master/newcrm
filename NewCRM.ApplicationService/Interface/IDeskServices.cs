@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NewCRM.Dto;
 
 namespace NewCRM.Application.Services.Interface
@@ -7,6 +8,11 @@ namespace NewCRM.Application.Services.Interface
     {
         #region have return value
 
+        /// <summary>
+        /// 获取桌面的成员
+        /// </summary>
+        /// <returns></returns>
+        IDictionary<String, IList<dynamic>> GetDeskMembers(Int32 accountId);
 
         /// <summary>
         /// 根据用户id获取桌面的成员

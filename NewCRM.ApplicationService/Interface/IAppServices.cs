@@ -6,13 +6,7 @@ namespace NewCRM.Application.Services.Interface
     public interface IAppServices
     {
         #region have return value
-
-        /// <summary>
-        /// 获取桌面的成员
-        /// </summary>
-        /// <returns></returns>
-        IDictionary<String, IList<dynamic>> GetDeskMembers(Int32 accountId);
-
+         
         /// <summary>
         /// 获取所有的app类型
         /// </summary>
