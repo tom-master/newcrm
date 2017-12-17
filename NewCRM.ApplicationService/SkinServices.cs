@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Domain;
 using NewCRM.Domain.Services.Interface;
+using NewCRM.Infrastructure.CommonTools;
 
 namespace NewCRM.Application.Services
 {
@@ -39,7 +40,8 @@ namespace NewCRM.Application.Services
         public void ModifySkin(Int32 accountId, String newSkin)
         {
             ValidateParameter.Validate(accountId).Validate(newSkin);
-            
+            _skinContext.ModifySkin(accountId, newSkin);
+            RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
         #region private method

@@ -7,6 +7,7 @@ using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Entitys.Security;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Dto;
+using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Application.Services

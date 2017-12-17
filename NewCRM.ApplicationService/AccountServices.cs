@@ -89,7 +89,7 @@ namespace NewCRM.Application.Services
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
             }
 
-            var roles = GetCache(CacheKey.Roles(account.Id), () => _accountContext.GetRoles(account.Id));
+            var roles = GetCache(CacheKey.AccountRoles(account.Id), () => _accountContext.GetRoles(account.Id));
             var powers = GetCache(CacheKey.Powers(), () => _accountContext.GetPowers());
 
             return new AccountDto

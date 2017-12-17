@@ -118,12 +118,14 @@ namespace NewCRM.Application.Services
         {
             ValidateParameter.Validate(accountId).Validate(newMode);
             _wallpaperContext.ModifyWallpaperMode(accountId, newMode);
+            RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
         public void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId)
         {
             ValidateParameter.Validate(accountId).Validate(newWallpaperId);
             _wallpaperContext.ModifyWallpaper(accountId, newWallpaperId);
+            RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
         public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)

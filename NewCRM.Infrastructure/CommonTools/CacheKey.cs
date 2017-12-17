@@ -25,7 +25,7 @@ namespace NewCRM.Infrastructure.CommonTools
             return $@"{_cachePrefix}:Account:AccountId:{accountId}";
         }
 
-        public static String Roles(Int32 accountId)
+        public static String AccountRoles(Int32 accountId)
         {
             return $@"{_cachePrefix}:Roles:AccountId:{accountId}";
         }
