@@ -16,7 +16,7 @@ namespace NewCRM.Domain
         /// </summary>
         protected ParameterValidate ValidateParameter => new ParameterValidate();
 
-        protected TModel ExecuteSingle<TModel>(String cacheKey, Func<TModel> func) where TModel : DomainModelBase
+        protected TModel GetCache<TModel>(String cacheKey, Func<TModel> func)
         {
             var cacheResult = _cacheQuery.StringGet<TModel>(cacheKey);
             if (cacheResult != null)
@@ -28,7 +28,8 @@ namespace NewCRM.Domain
             _cacheQuery.StringSet(cacheKey, dbResult);
             return dbResult;
         }
-        protected IList<TModel> ExecuteList<TModel>(String cacheKey, Func<IList<TModel>> func) where TModel : DomainModelBase
+
+        protected IList<TModel> GetCache<TModel>(String cacheKey, Func<IList<TModel>> func)
         {
             var cacheResult = _cacheQuery.StringGet<IList<TModel>>(cacheKey);
             if (cacheResult != null)
@@ -39,6 +40,17 @@ namespace NewCRM.Domain
             var dbResult = func();
             _cacheQuery.StringSet(cacheKey, dbResult);
             return dbResult;
+        }
+
+        /// <summary>
+        /// 更新时移除旧的缓存键
+        /// </summary>
+        protected void RemoveOldKeyWhenModify(String cacheKey)
+        {
+            if (_cacheQuery.KeyExists(cacheKey))
+            {
+                _cacheQuery.KeyDelete(cacheKey);
+            }
         }
     }
 }
