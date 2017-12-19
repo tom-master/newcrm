@@ -172,7 +172,7 @@
             }).on('click', '.do-recommend', function () {
                 var appid = $(this).attr('appid');
 
-                $.post('@Url.Action("Recommend", "AppManager")', { appId: appid }, function (responseText) {
+                $.post('/AppManager/Recommend', { appId: appid }, function (responseText) {
                     if (responseText.IsSuccess) {
                         $('#pagination').trigger('currentPage');
                     } else {
@@ -208,7 +208,7 @@
                 appStateResult = $appStates.attr('data-type') + ',' + $appStates.attr('value');
             }
 
-            $.get('@Url.Action("GetApps", "AppManager")',
+            $.get('/AppManager/GetApps',
             {
                 searchText: $('#appName').val(),
                 appTypeId: $('#appType').find("option:selected").attr('value'),
@@ -261,7 +261,6 @@
                 } else {
                     return options.inverse(this);
                 }
-
             });
         }
     </script>
