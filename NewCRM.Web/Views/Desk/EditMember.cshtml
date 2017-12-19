@@ -7,7 +7,7 @@
     <link href="@Url.Content("~/Scripts/HoorayUI/js/webuploader-0.1.5/webuploader.css")" rel="stylesheet" />
 }
 
-<form action="@Url.Action("ModifyMemberInfo","Desk")" method="post" name="form" id="form">
+<form action="/Desk/ModifyMemberInfo" method="post" name="form" id="form">
     <input type="hidden" name="id" value="@Model.Id">
     <input type="hidden" name="membertype" value="@Model.MemberType" />
     <input type="hidden" id="isIconByUpload" name="isIconByUpload" value="0" />
@@ -146,7 +146,7 @@
                     var urlPart = cb[0].Url
                      $.ajax({
                         type: 'POST',
-                        url: '@Url.Action("UploadIcon", "Desk")',
+                        url: '/Desk/UploadIcon',
                         data: { memberId: '@Model.Id', newIcon: urlPart },
                         success: function (responseText) {
                             if (responseText.IsSuccess) {

@@ -6,7 +6,7 @@
         <label>类目名称：</label>
         <input type="text" name="searchText" id="searchText" class="span2">
         <a class="btn" menu="search" href="javascript:;" style="margin-left:10px"><i class="icon-search"></i> 搜索</a>
-        <a class="btn btn-primary fr" href="javascript:openDetailIframe('@Url.Action("CreateNewAppType","AppTypes")');"><i class="icon-white icon-plus"></i> 创建新类目</a>
+        <a class="btn btn-primary fr" href="javascript:openDetailIframe('/AppTypes/CreateNewAppType');"><i class="icon-white icon-plus"></i> 创建新类目</a>
     </div>
 </div>
 <table class="list-table">
@@ -47,7 +47,7 @@
                 {{Name}}
             </td>
             <td>
-                <a href="javascript:openDetailIframe('@Url.Action("CreateNewAppType","AppTypes")?appTypeId={{Id}}');" class="btn btn-link">编辑</a>
+                <a href="javascript:openDetailIframe('/AppTypes/CreateNewAppType?appTypeId={{Id}}');" class="btn btn-link">编辑</a>
                 <a href="javascript:;" class="btn btn-link do-del" categoryid="{{Id}}">删除</a>
             </td>
         </tr>
@@ -68,7 +68,7 @@
                     //content: '删除 “' + name + '” 类目时，会将该类目下的所有应用归类到「未分类」类目下，是否继续？',
                     content:'删除后将不可恢复！是否继续？',
                     ok: function () {
-                        $.post('@Url.Action("DeleteAppType", "AppTypes")', { appTypeId: categoryid },
+                        $.post('/AppTypes/DeleteAppType', { appTypeId: categoryid },
                             function(responseText) {
                                 if (responseText.IsSuccess) {
                                     $('#pagination').trigger('currentPage');
@@ -99,7 +99,7 @@
         }
 
         function getPageList(current_page) {
-            $.get('@Url.Action("GetAppTypes", "AppTypes")', {
+            $.get('/AppTypes/GetAppTypes', {
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 10,
                 searchText: $('#searchText').val()

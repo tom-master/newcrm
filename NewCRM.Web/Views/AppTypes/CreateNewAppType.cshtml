@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
 }
 
-<form action="@Url.Action("CreateAppType","AppTypes")?appTypeId=@Request["appTypeId"]" method="post" name="form" id="form">
+<form action="/AppTypes/CreateAppType?appTypeId=@Request["appTypeId"]" method="post" name="form" id="form">
     <input type="hidden" name="ac" value="edit">
     <div class="creatbox">
         <div class="middle">
