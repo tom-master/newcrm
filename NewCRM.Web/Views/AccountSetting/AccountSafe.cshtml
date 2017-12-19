@@ -2,7 +2,7 @@
     <div class="input-label">
         <label class="label-text">原密码：</label>
         <div class="label-box form-inline control-group">
-            <input type="password" datatype="*6-18" ajaxurl="@Url.Action("CheckPassword","AccountSetting")" nullmsg="请输入原密码" errormsg="密码长度为6-18个字符">
+            <input type="password" datatype="*6-18" ajaxurl="/AccountSetting/CheckPassword" nullmsg="请输入原密码" errormsg="密码长度为6-18个字符">
             <p class="help-inline infomsg" style="display:none">请输入原密码，密码长度为6-18个字符</p>
             <span class="help-inline"></span>
         </div>
@@ -27,7 +27,7 @@
         <a class="btn" id="form-submit" href="javascript:;">修改</a>
     </div>
 </form>
-<form action="@Url.Action("ModifyLockScreenPassword", "AccountSetting")" method="post" name="form2" id="form2">
+<form action="/AccountSetting/ModifyLockScreenPassword" method="post" name="form2" id="form2">
     <input type="hidden" name="ac" value="editLockPassword">
     <div class="input-label">
         <label class="label-text">锁屏密码：</label>
