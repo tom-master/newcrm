@@ -125,7 +125,6 @@ namespace NewCRM.Domain.Services.BoundedContext
         public Config GetConfig(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
-
             using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT 
