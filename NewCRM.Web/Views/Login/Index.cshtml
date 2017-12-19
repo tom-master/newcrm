@@ -52,7 +52,7 @@
                 success: function (responseText) {
                     if (responseText.IsSuccess) {
                         $('.loading').hide();
-                        location.href = '@Url.Action("Desktop", "Index")';
+                        location.href = '/Index/Desktop';
                     } else {
                         window.location.reload();
                     }
