@@ -26,7 +26,7 @@
             <label>名称：</label>
             <input type="text" name="search_1" id="appName" class="span5">
             <a class="btn" menu="search" href="javascript:;" style="margin-left:10px"><i class="icon-search"></i> 搜索</a>
-            <a class="btn btn-primary fr" href="javascript:openDetailIframe('@Url.Action("AccountAppManageInfo","AppMarket")?appId=0');"><i class="icon-white icon-plus"></i> 添加新应用</a>
+            <a class="btn btn-primary fr" href="javascript:openDetailIframe('/AppMarket/AccountAppManageInfo?appId=0');"><i class="icon-white icon-plus"></i> 添加新应用</a>
         </div>
         <div class="control-group">
             <label>分类：</label>
@@ -115,23 +115,23 @@
             <td>{{UseCount}}</td>
             {{#compare AppAuditState 1}}
             <td>
-                <a href="javascript:openDetailIframe('@Url.Action("AccountAppManageInfo", "AppMarket")?appId={{Id}}');" class="btn btn-link">查看详情</a>
+                <a href="javascript:openDetailIframe('/AppMarket/AccountAppManageInfo?appId={{Id}}');" class="btn btn-link">查看详情</a>
                 <a href="javascript:;" class="btn btn-link do-del" appid="{{Id}}">删除</a>
             </td>
             {{else}}
             <td>
 
                 {{#isAudit AppAuditState}}
-                    {{#if IsRecommand }}
-                    <a href="javascript:;" class="btn btn-link do-recommend" appid="{{Id}}">今日推荐</a>
-                    {{else}}
-                    <a href="javascript:;" class="btn btn-link do-recommend" appid="{{Id}}">设为今日推荐</a>
-                    {{/if}}
+                {{#if IsRecommand }}
+                <a href="javascript:;" class="btn btn-link do-recommend" appid="{{Id}}">今日推荐</a>
+                {{else}}
+                <a href="javascript:;" class="btn btn-link do-recommend" appid="{{Id}}">设为今日推荐</a>
+                {{/if}}
                 {{else}}
                 {{/isAudit}}
 
 
-                <a href="javascript:openDetailIframe('@Url.Action("AccountAppManageInfo", "AppMarket")?appId={{Id}}');" class="btn btn-link">查看详情</a>
+                <a href="javascript:openDetailIframe('/AppMarket/AccountAppManageInfo?appId={{Id}}');" class="btn btn-link">查看详情</a>
 
                 {{#if IsCreater}}
                 {{#remove IsRecommand}}
@@ -159,9 +159,7 @@
                     id: 'del',
                     content: '确定要删除 “' + appname + '” 该应用么？',
                     ok: function () {
-                        $.post('@Url.Action("RemoveApp", "AppManager")', {
-                            appId: appid
-                        }, function (responseText) {
+                        $.post('/AppManager/RemoveApp', {  appId: appid }, function (responseText) {
                             if (responseText.IsSuccess) {
                                 $('#pagination').trigger('currentPage');
                             } else {

@@ -51,7 +51,6 @@
                 {
                     <text>
                         @Html.Partial("~/Views/AccountSetting/BaseInfo.cshtml", Model);
-
                     </text>
                     break;
                 }
@@ -78,11 +77,11 @@
                 $(v).removeClass('focus');
             });
             if (value === 'baseinfo') {
-                location.href = '@Url.Action("Index","AccountSetting")?target=baseinfo';
+                location.href = '/AccountSetting/Index?target=baseinfo';
             } else if (value === 'modifyface') {
-                location.href = '@Url.Action("Index","AccountSetting")?target=modifyface';
+                location.href = '/AccountSetting/Index?target=modifyface';
             } else if (value === 'accountsafe') {
-                location.href = '@Url.Action("Index","AccountSetting")?target=accountsafe';
+                location.href = '/AccountSetting/Index?target=accountsafe';
             }
         });
 

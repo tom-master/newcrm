@@ -1,6 +1,6 @@
 ﻿@using NewCRM.Dto
 @model AppDto
-<form action="@Url.Action("ModifyAppInfo","AppMarket")" method="post" name="form" id="form">
+<form action="/AppMarket/ModifyAppInfo" method="post" name="form" id="form">
     <input type="hidden" name="val_Id" value="@Model.Id">
     <input type="hidden" id="isIconByUpload" name="isIconByUpload" value="0" />
     <div class="creatbox">
