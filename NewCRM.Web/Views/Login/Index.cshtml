@@ -54,7 +54,12 @@
                         $('.loading').hide();
                         location.href = '/Index/Desktop';
                     } else {
-                        window.location.reload();
+                        $('.loading').hide();
+                        $('#parentDiv').show();
+                        $('form').fadeIn(500);
+                        $('.wrapper').removeClass('form-success');
+                        //window.location.reload();
+                        alert('账号或密码错误')
                     }
                 }
             });
