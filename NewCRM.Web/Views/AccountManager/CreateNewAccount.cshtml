@@ -10,10 +10,8 @@
     }
 }
 
-<form action="@Url.Action("NewAccount", "AccountManager")" method="post" name="form" id="form">
-
+<form action="/AccountManager/NewAccount" method="post" name="form" id="form">
     <input type="hidden" name="id" value="@Request["accountId"]">
-
     <div class="creatbox">
         <div class="middle">
             <p class="detile-title">
@@ -26,7 +24,7 @@
                         if (accountResult.Name == null)
                         {
                             <text>
-                                <input type="text" name="val_accountname" datatype="s4-12" ajaxurl="@Url.Action("CheckAccountNameExist", "AccountManager")" nullmsg="请输入用户名" errormsg="用户名长度为4-12个字符">
+                                <input type="text" name="val_accountname" datatype="s4-12" ajaxurl="/AccountManager/CheckAccountNameExist" nullmsg="请输入用户名" errormsg="用户名长度为4-12个字符">
                             </text>
                         }
                         else
@@ -65,11 +63,11 @@
                 <label class="label-text">用户类型：</label>
                 <div class="label-box form-inline">
                     <label class="radio" style="margin-right: 10px">
-                        <input type="radio" name="val_type" value="1" @{ if (accountResult.IsAdmin) { <text> checked="checked" </text>             } }>用户
+                        <input type="radio" name="val_type" value="1" @{ if (accountResult.IsAdmin) { <text> checked="checked" </text>  } }>用户
                     </label>
 
                     <label class="radio" style="margin-right: 10px">
-                        <input type="radio" name="val_type" value="2" @{ if (accountResult.IsAdmin) { <text> checked="checked" </text>             } }>管理员
+                        <input type="radio" name="val_type" value="2" @{ if (accountResult.IsAdmin) { <text> checked="checked" </text>  } }>管理员
                     </label>
                 </div>
             </div>
@@ -106,7 +104,6 @@
                             }
                         }
                     }
-
                     <span class="help-inline"></span>
                 </div>
             </div>
