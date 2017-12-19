@@ -35,11 +35,7 @@
             }
 
             event.preventDefault();
-            $('form').fadeOut(500);
-            $('.wrapper').addClass('form-success');
-
-            $('.loading').show();
-            $('#parentDiv').hide();
+            beginLogin();
             var loginParameter = {
                 Name: $('.accountname').val(),
                 Password: $('.password').val(),
@@ -54,15 +50,28 @@
                         $('.loading').hide();
                         location.href = '/Index/Desktop';
                     } else {
-                        $('.loading').hide();
-                        $('#parentDiv').show();
-                        $('form').fadeIn(500);
-                        $('.wrapper').removeClass('form-success');
-                        //window.location.reload();
+                        endLogin();
                         alert('账号或密码错误')
                     }
                 }
             });
         });
     });
+
+    function beginLogin() {
+        $('form').fadeOut(500);
+        $('.wrapper').addClass('form-success');
+
+        $('.loading').show();
+        $('#parentDiv').hide();
+    }
+
+    function endLogin() {
+        $('form').fadeIn(500);
+        $('.wrapper').removeClass('form-success');
+
+        $('.loading').hide();
+        $('#parentDiv').show();
+        //window.location.reload();
+    }
 </script>
