@@ -12,7 +12,6 @@
                 @Html.Partial("~/Views/AppMarket/AccountAppManageDetail.cshtml", Model)
             </text>
         }
-
         else
         {
             if ((Int32)ViewData["AppState"] == 4 || (Int32)ViewData["AppState"] == 3)//未审核或未通过
@@ -91,10 +90,9 @@
                             var urlPart = cb[0].Url
                                 $.ajax({
                                 type: 'POST',
-                                url: '@Url.Action("UploadIcon", "AppMarket")',
+                                url: '/AppMarket/UploadIcon',
                                 data: { appId: '@Model.Id', newIcon: urlPart },
                                 success: function (responseText) {
-                                    debugger
                                     if (responseText.IsSuccess) {
                                         $('#isIconByUpload').val('1');
                                         $('.shortcutview img').attr('src', responseText.Model);
@@ -241,7 +239,7 @@
                         id: 'del',
                         content: '确认审核通过该应用？',
                         ok: function () {
-                            $.post('@Url.Action("Pass","AppManager")', { appId: appid }, function (responseText) {
+                            $.post('/AppManager/Pass', { appId: appid }, function (responseText) {
                                 if (responseText.IsSuccess) {
                                     window.parent.closeDetailIframe(function () {
                                         window.parent.$('#pagination').trigger('currentPage');
@@ -261,7 +259,7 @@
                         id: 'del',
                         content: '确认不通过该应用？',
                         ok: function () {
-                            $.post('@Url.Action("Deny","AppManager")', { appId: appid }, function (responseText) {
+                            $.post('/AppManager/Deny', { appId: appid }, function (responseText) {
                                 if (responseText.IsSuccess) {
                                     window.parent.closeDetailIframe(function () {
                                         window.parent.$('#pagination').trigger('currentPage');
@@ -281,7 +279,7 @@
                         id: 'del',
                         content: '确认发布该应用？',
                         ok: function () {
-                            $.post('@Url.Action("ReleaseApp", "AppMarket")', { appId: appid }, function (responseText) {
+                            $.post('/AppMarket/ReleaseApp', { appId: appid }, function (responseText) {
                                 if (responseText.IsSuccess) {
                                     window.parent.closeDetailIframe(function () {
                                         window.parent.$('#pagination').trigger('currentPage');

@@ -36,7 +36,7 @@
 
             <h3>今日推荐</h3>
             <div class="commend-container">
-                <a href="javascript:openDetailIframe2('@Url.Action("AppDetail","AppMarket")?appId=@todayRecommendApp.Id');">
+                <a href="javascript:openDetailIframe2('/AppMarket/AppDetail?appId=@todayRecommendApp.Id');">
                     <img src="@todayRecommendApp.AppIcon" alt="@todayRecommendApp.Name">
                 </a>
             </div>
@@ -73,8 +73,8 @@
                 <p>我开发的应用：<font style="font-weight:bold">@accountApp.Item1</font> 个</p>
                 <p>未发布的应用：<font style="font-weight:bold">@accountApp.Item2</font> 个</p>
                 <div class="text-center">
-                    <a href="javascript:openDetailIframe2('@Url.Action("AccountAppManage", "AppMarket")');" class="btn btn-primary">管理我的应用</a>
-                    <a href="javascript:openDetailIframe2('@Url.Action("AccountAppManage","AppMarket")?appId=0');" class="btn btn-danger">开发新应用</a>
+                    <a href="javascript:openDetailIframe2('/AppMarket/AccountAppManage');" class="btn btn-primary">管理我的应用</a>
+                    <a href="javascript:openDetailIframe2('/AppMarket/AccountAppManage?appId=0');" class="btn btn-danger">开发新应用</a>
                 </div>
             </div>
         </div>
@@ -108,10 +108,10 @@
     <script id="li-template" type="text/x-handlebars-template">
         {{#each Model}}
         <li>
-            <a href="javascript:openDetailIframe2('@Url.Action("AppDetail","AppMarket")?appId={{Id}}');">
+            <a href="javascript:openDetailIframe2('/AppMarket/AppDetail?appId={{Id}}');">
                 <img src="{{IconUrl}}">
             </a>
-            <a href="javascript:openDetailIframe2('@Url.Action("AppDetail","AppMarket")?appId={{Id}}');" class="app-name">{{Name}}</a>
+            <a href="javascript:openDetailIframe2('/AppMarket/AppDetail?appId={{Id}}');" class="app-name">{{Name}}</a>
             <span class="app-desc"></span>
             <span class="star-box">
                 <i style="width:{{scoreWidth StartCount}}%;"></i>
@@ -269,7 +269,7 @@
 
             var outSideSearchText = '@Request["searchText"]';
 
-            $.get('@Url.Action("GetApps", "AppMarket")', {
+            $.get('/AppMarket/GetApps', {
                 appTypeId: appTypeId,
                 orderId: orderId,
                 searchText: outSideSearchText === '' ? $('#searchText').val() : outSideSearchText,
