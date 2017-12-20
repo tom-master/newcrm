@@ -45,7 +45,7 @@ namespace NewCRM.Web
 
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
-
+             
             container.RegisterType<IAccountServices, AccountServices>(new PerRequestLifetimeManager());
             container.RegisterType<ISecurityServices, SecurityServices>(new PerRequestLifetimeManager());
             container.RegisterType<IAppServices, AppServices>(new PerRequestLifetimeManager());
