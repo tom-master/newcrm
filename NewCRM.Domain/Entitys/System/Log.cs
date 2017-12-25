@@ -58,6 +58,7 @@ namespace NewCRM.Domain.Entitys.System
 
         public Log()
         {
+               
         }
         #endregion
 
