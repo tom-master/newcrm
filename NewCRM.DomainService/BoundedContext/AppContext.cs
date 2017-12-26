@@ -471,9 +471,12 @@ namespace NewCRM.Domain.Services.BoundedContext
                             (
 	                            SELECT COUNT(*) FROM dbo.AppStars AS a1
 	                            WHERE a1.AppId=a.Id AND a1.IsDeleted=0
-                            ) AS  AppStars,
+                            ) AS AppStars,
                             (
-	                            SELECT COUNT(*) FROM dbo.Members AS a1 WHERE a1.AccountId={accountId} AND a1.IsDeleted=0
+	                            CASE (SELECT COUNT(*) FROM dbo.Members AS a1 WHERE a1.AccountId=4 AND a1.IsDeleted=0 AND a1.AppId=a.Id)
+								WHEN 0 THEN CAST(0 AS BIT)
+								ELSE CAST(1 AS BIT)
+								END
                             ) AS IsInstall,
                             a.IsIconByUpload
                             FROM dbo.Apps AS a 
