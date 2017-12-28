@@ -37,7 +37,7 @@ namespace NewCRM.Application.Services
         public TodayRecommendAppDto GetTodayRecommend(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);   
-
+              
             var result = _appContext.GetTodayRecommend(accountId);
             result.AppIcon = result.IsIconByUpload ? ProfileManager.FileUrl + result.AppIcon : result.AppIcon;
             if (result == null)
