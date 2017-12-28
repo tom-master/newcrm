@@ -47,7 +47,7 @@ namespace NewCRM.Application.Services
 
             return result;
         }
-
+         
         public Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
