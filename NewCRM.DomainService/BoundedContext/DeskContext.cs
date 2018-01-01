@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Text;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
@@ -17,8 +18,13 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId).Validate(newDefaultDeskNumber);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Configs SET DefaultDeskNumber={newDefaultDeskNumber} WHERE AccountId={accountId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql);
+                var sql = $@"UPDATE dbo.Configs SET DefaultDeskNumber=@DefaultDeskNumber WHERE AccountId=@AccountId AND IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@DefaultDeskNumber",newDefaultDeskNumber),
+                    new SqlParameter("@AccountId",accountId)
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -27,8 +33,14 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId).Validate(defaultDeskNumber).Validate(newPosition);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Configs SET DockPosition={(Int32)EnumExtensions.ToEnum<DockPostion>(newPosition)} WHERE AccountId={accountId} AND DefaultDeskNumber={defaultDeskNumber} AND IsDeleted=0";
-                dataStore.SqlExecute(sql);
+                var sql = $@"UPDATE dbo.Configs SET DockPosition=@DockPosition WHERE AccountId=@AccountId AND DefaultDeskNumber=@defaultDeskNumber AND IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@DockPosition",(Int32)EnumExtensions.ToEnum<DockPostion>(newPosition)),
+                    new SqlParameter("@AccountId",accountId),
+                    new SqlParameter("@DefaultDeskNumber",defaultDeskNumber)
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -37,8 +49,13 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Configs SET AppXy={(Int32)AppAlignMode.X} WHERE AccountId={accountId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql);
+                var sql = $@"UPDATE dbo.Configs SET AppXy=@AppXy WHERE AccountId=@AccountId AND IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@AppXy",(Int32)AppAlignMode.X),
+                    new SqlParameter("@AccountId",accountId)
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -47,8 +64,13 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Configs SET AppXy={(Int32)AppAlignMode.Y} WHERE AccountId={accountId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql);
+                var sql = $@"UPDATE dbo.Configs SET AppXy=@AppXy WHERE AccountId=@AccountId AND IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@AppXy",(Int32)AppAlignMode.Y),
+                    new SqlParameter("@AccountId",accountId)
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -57,9 +79,13 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId).Validate(newSize);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"
-UPDATE dbo.Configs SET AppSize={newSize} WHERE AccountId={accountId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql);
+                var sql = $@"UPDATE dbo.Configs SET AppSize=@AppSize WHERE AccountId=@AccountId AND IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@AppSize",newSize),
+                    new SqlParameter("@AccountId",accountId)
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -68,8 +94,13 @@ UPDATE dbo.Configs SET AppSize={newSize} WHERE AccountId={accountId} AND IsDelet
             ValidateParameter.Validate(accountId).Validate(newSize);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Configs SET AppVerticalSpacing={newSize} WHERE AccountId={accountId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql);
+                var sql = $@"UPDATE dbo.Configs SET AppVerticalSpacing=@AppVerticalSpacing WHERE AccountId=@AccountId AND IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@AppVerticalSpacing",newSize),
+                    new SqlParameter("@AccountId",accountId)
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -78,8 +109,13 @@ UPDATE dbo.Configs SET AppSize={newSize} WHERE AccountId={accountId} AND IsDelet
             ValidateParameter.Validate(accountId).Validate(newSize);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Configs SET AppHorizontalSpacing={newSize} WHERE AccountId={accountId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql);
+                var sql = $@"UPDATE dbo.Configs SET AppHorizontalSpacing=@AppHorizontalSpacing WHERE AccountId=@AccountId AND IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@AppHorizontalSpacing",newSize),
+                    new SqlParameter("@AccountId",accountId)
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -88,8 +124,13 @@ UPDATE dbo.Configs SET AppSize={newSize} WHERE AccountId={accountId} AND IsDelet
             ValidateParameter.Validate(accountId).Validate(memberId);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Members SET IsOnDock=1 WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql);
+                var sql = $@"UPDATE dbo.Members SET IsOnDock=1 WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@Id",memberId),
+                    new SqlParameter("@AccountId",accountId)
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -98,8 +139,13 @@ UPDATE dbo.Configs SET AppSize={newSize} WHERE AccountId={accountId} AND IsDelet
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Members SET IsOnDock=0 WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql);
+                var sql = $@"UPDATE dbo.Members SET IsOnDock=0 WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@Id",memberId),
+                    new SqlParameter("@AccountId",accountId)
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -108,8 +154,14 @@ UPDATE dbo.Configs SET AppSize={newSize} WHERE AccountId={accountId} AND IsDelet
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(folderId);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Members SET IsOnDock=0,FolderId={folderId} WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql);
+                var sql = $@"UPDATE dbo.Members SET IsOnDock=0,FolderId=@FolderId WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@FolderId",folderId),
+                    new SqlParameter("@Id",memberId),
+                    new SqlParameter("@AccountId",accountId)
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -118,8 +170,13 @@ UPDATE dbo.Configs SET AppSize={newSize} WHERE AccountId={accountId} AND IsDelet
             ValidateParameter.Validate(accountId).Validate(memberId);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Members SET IsOnDock=1,FolderId=0 WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql);
+                var sql = $@"UPDATE dbo.Members SET IsOnDock=1,FolderId=0 WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@Id",memberId),
+                    new SqlParameter("@AccountId",accountId)
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -128,8 +185,14 @@ UPDATE dbo.Configs SET AppSize={newSize} WHERE AccountId={accountId} AND IsDelet
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(folderId);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Members SET FolderId={folderId} WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql);
+                var sql = $@"UPDATE dbo.Members SET FolderId=@FolderId WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@FolderId",folderId),
+                    new SqlParameter("@Id",memberId),
+                    new SqlParameter("@AccountId",accountId)
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -138,8 +201,14 @@ UPDATE dbo.Configs SET AppSize={newSize} WHERE AccountId={accountId} AND IsDelet
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Members SET FolderId=0,DeskIndex={deskId} WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql);
+                var sql = $@"UPDATE dbo.Members SET FolderId=0,DeskIndex=@DeskIndex WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@DeskIndex",deskId),
+                    new SqlParameter("@Id",memberId),
+                    new SqlParameter("@AccountId",accountId)
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -148,8 +217,14 @@ UPDATE dbo.Configs SET AppSize={newSize} WHERE AccountId={accountId} AND IsDelet
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(folderId);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Members SET FolderId={folderId} WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql);
+                var sql = $@"UPDATE dbo.Members SET FolderId=@FolderId WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@FolderId",folderId),
+                    new SqlParameter("@Id",memberId),
+                    new SqlParameter("@AccountId",accountId)
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -174,8 +249,14 @@ UPDATE dbo.Configs SET AppSize={newSize} WHERE AccountId={accountId} AND IsDelet
 
                     #region 成员移动到其他桌面
                     {
-                        var sql = $@"UPDATE dbo.Members SET DeskIndex={deskId} WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
-                        dataStore.SqlExecute(sql);
+                        var sql = $@"UPDATE dbo.Members SET DeskIndex=@DeskIndex {set} WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+                        var parameters = new List<SqlParameter>
+                        {
+                            new SqlParameter("@DeskIndex",deskId),
+                            new SqlParameter("@Id",memberId),
+                            new SqlParameter("@AccountId",accountId)
+                        };
+                        dataStore.SqlExecute(sql, parameters);
                     }
                     #endregion
 
@@ -194,8 +275,14 @@ UPDATE dbo.Configs SET AppSize={newSize} WHERE AccountId={accountId} AND IsDelet
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Members SET IsOnDock=0,DeskIndex={deskId} WHERE Id={memberId} AND AccountId={accountId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql);
+                var sql = $@"UPDATE dbo.Members SET IsOnDock=0,DeskIndex=@DeskIndex WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@DeskIndex",deskId),
+                    new SqlParameter("@Id",memberId),
+                    new SqlParameter("@AccountId",accountId)
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -233,11 +320,11 @@ UPDATE dbo.Configs SET AppSize={newSize} WHERE AccountId={accountId} AND IsDelet
                             )
                             VALUES
                             (   0,         -- AppId - int
-                                {folder.Width},         -- Width - int
-                                {folder.Height},         -- Height - int
+                                @Width,         -- Width - int
+                                @Height,         -- Height - int
                                 0,         -- FolderId - int
-                                N'{folder.Name}',       -- Name - nvarchar(6)
-                                N'{folder.IconUrl}',       -- IconUrl - nvarchar(max)
+                                @Name,       -- Name - nvarchar(6)
+                                @IconUrl,       -- IconUrl - nvarchar(max)
                                 N'',       -- AppUrl - nvarchar(max)
                                 0,      -- IsOnDock - bit
                                 0,      -- IsMax - bit
@@ -248,14 +335,23 @@ UPDATE dbo.Configs SET AppSize={newSize} WHERE AccountId={accountId} AND IsDelet
                                 0,      -- IsFlash - bit
                                 0,      -- IsDraw - bit
                                 0,      -- IsResize - bit
-                                {(Int32)folder.MemberType},         -- MemberType - int
-                                {deskId},         -- DeskIndex - int
+                                @MemberType,         -- MemberType - int
+                                @deskId,         -- DeskIndex - int
                                 0,      -- IsDeleted - bit
                                 GETDATE(), -- AddTime - datetime
                                 GETDATE(), -- LastModifyTime - datetime
-                                {accountId}          -- AccountId - int
+                                @accountId          -- AccountId - int
                             )";
-                dataStore.SqlExecute(sql);
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@Width",folder.Width),
+                    new SqlParameter("@Height",folder.Height),
+                    new SqlParameter("@Name",folder.Name),
+                    new SqlParameter("@MemberType",(Int32)folder.MemberType),
+                    new SqlParameter("@deskId",deskId),
+                    new SqlParameter("@accountId",accountId),
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -265,8 +361,13 @@ UPDATE dbo.Configs SET AppSize={newSize} WHERE AccountId={accountId} AND IsDelet
 
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Configs SET IsBing={(source.ToLower() == WallpaperSource.Bing.ToString().ToLower() ? 1 : 0)} WHERE AccountId={accountId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql);
+                var sql = $@"UPDATE dbo.Configs SET IsBing=@IsBing WHERE AccountId=@AccountId AND IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@IsBing",(source.ToLower() == WallpaperSource.Bing.ToString().ToLower() ? 1 : 0)),
+                    new SqlParameter("@AccountId",accountId)
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
     }
