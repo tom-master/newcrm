@@ -50,8 +50,12 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                     #region 设置用户在线
                     {
-                        var sql = $@"UPDATE dbo.Accounts SET IsOnline=1,LastLoginTime=GETDATE() WHERE Id={result.Id} AND IsDeleted=0 AND IsDisable=0";
-                        dataStore.SqlExecute(sql);
+                        var sql = $@"UPDATE dbo.Accounts SET IsOnline=1,LastLoginTime=GETDATE() WHERE Id=@accountId AND IsDeleted=0 AND IsDisable=0";
+                        var parameters = new List<SqlParameter>
+                        {
+                            new SqlParameter("@accountId",result.Id)
+                        };
+                        dataStore.SqlExecute(sql, parameters);
                     }
                     #endregion
 
@@ -66,14 +70,18 @@ namespace NewCRM.Domain.Services.BoundedContext
                                         LastModifyTime
                                     )
                                     VALUES
-                                    (   N'{requestIp}',       -- IpAddress - nvarchar(max)
-                                        {result.Id},         -- AccountId - int
+                                    (   @requestIp,       -- IpAddress - nvarchar(max)
+                                        @accountId,         -- AccountId - int
                                         0,      -- IsDeleted - bit
                                         GETDATE(), -- AddTime - datetime
                                         GETDATE()  -- LastModifyTime - datetime
                                     )";
-
-                        dataStore.SqlExecute(sql);
+                        var parameters = new List<SqlParameter>
+                        {
+                            new SqlParameter("@requestIp",requestIp),
+                            new SqlParameter("@accountId",result.Id)
+                        };
+                        dataStore.SqlExecute(sql, parameters);
                     }
                     #endregion
 
@@ -97,18 +105,18 @@ namespace NewCRM.Domain.Services.BoundedContext
                 try
                 {
                     dataStore.OpenTransaction();
-
+                    var parameters = new List<SqlParameter> { new SqlParameter("@accountId", accountId) };
                     #region 设置用户下线
                     {
-                        var sql = $@"UPDATE dbo.Accounts SET IsOnline=0 WHERE Id={accountId} AND IsDeleted=0 AND IsDisable=0";
-                        dataStore.SqlExecute(sql);
+                        var sql = $@"UPDATE dbo.Accounts SET IsOnline=0 WHERE Id=@accountId AND IsDeleted=0 AND IsDisable=0";
+                        dataStore.SqlExecute(sql, parameters);
                     }
                     #endregion
 
                     #region 将当前用户从在线列表中移除
                     {
-                        var sql = $@"UPDATE dbo.Onlines SET IsDeleted=1 WHERE AccountId={accountId} AND IsDeleted=0";
-                        dataStore.SqlExecute(sql);
+                        var sql = $@"UPDATE dbo.Onlines SET IsDeleted=1 WHERE AccountId=@accountId AND IsDeleted=0";
+                        dataStore.SqlExecute(sql, parameters);
                     }
                     #endregion
 
@@ -142,8 +150,9 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.WallpaperId,
                             a.IsBing,
                             a.AccountId
-                            FROM dbo.Configs AS a WHERE a.AccountId={accountId} AND a.IsDeleted=0";
-                var result = dataStore.Find<Config>(sql).FirstOrDefault();
+                            FROM dbo.Configs AS a WHERE a.AccountId=@accountId AND a.IsDeleted=0";
+                var parameters = new List<SqlParameter> { new SqlParameter("@accountId", accountId) };
+                var result = dataStore.Find<Config>(sql, parameters).FirstOrDefault();
                 return result;
             }
         }
@@ -154,8 +163,9 @@ namespace NewCRM.Domain.Services.BoundedContext
 
             using (var dataStore = new DataStore())
             {
-                var sql = $@"SELECT a.Url,a.Width,a.Height,a.Source FROM dbo.Wallpapers AS a WHERE a.Id={wallPaperId} AND a.IsDeleted=0";
-                return dataStore.Find<Wallpaper>(sql).FirstOrDefault();
+                var sql = $@"SELECT a.Url,a.Width,a.Height,a.Source FROM dbo.Wallpapers AS a WHERE a.Id=@wallpaperId AND a.IsDeleted=0";
+                var parameters = new List<SqlParameter> { new SqlParameter("@wallpaperId", wallPaperId) };
+                return dataStore.Find<Wallpaper>(sql, parameters).FirstOrDefault();
             }
         }
 
@@ -165,34 +175,33 @@ namespace NewCRM.Domain.Services.BoundedContext
 
             var where = new StringBuilder();
             where.Append("WHERE 1=1 AND a.IsDeleted=0 ");
+            var parameters = new List<SqlParameter>();
             if (!String.IsNullOrEmpty(accountName))
             {
+                parameters.Add(new SqlParameter("@name", accountName));
                 where.Append(" AND a.Name=@name");
             }
 
             if (!String.IsNullOrEmpty(accountType))
             {
                 var isAdmin = (EnumExtensions.ToEnum<AccountType>(Int32.Parse(accountType)) == AccountType.Admin) ? 1 : 0;
-                where.Append($@" AND a.IsAdmin={isAdmin}");
+                parameters.Add(new SqlParameter("@isAdmin", isAdmin));
+                where.Append($@" AND a.IsAdmin=@isAdmin");
             }
 
             using (var dataStore = new DataStore())
             {
                 #region totalCount
                 {
-                    var sql = $@"SELECT COUNT(*)
-	                            FROM dbo.Accounts AS a 
-	                            INNER JOIN dbo.Configs AS a1
-	                            ON a1.AccountId=a.Id AND a1.IsDeleted=0
-	                            {where} ";
-
-                    totalCount = dataStore.FindSingleValue<Int32>(sql, new List<SqlParameter> { new SqlParameter("@name", accountName) });
+                    var sql = $@"SELECT COUNT(*) FROM dbo.Accounts AS a 
+                                 INNER JOIN dbo.Configs AS a1 ON a1.AccountId=a.Id AND a1.IsDeleted=0 {where} ";
+                    totalCount = dataStore.FindSingleValue<Int32>(sql, parameters);
                 }
                 #endregion
 
                 #region sql
                 {
-                    var sql = $@"SELECT TOP {pageSize} * FROM 
+                    var sql = $@"SELECT TOP (@pageSize) * FROM 
                             (
 	                            SELECT ROW_NUMBER() OVER(ORDER BY a.Id DESC) AS rownumber,
                                 a.Id,a.IsAdmin,a.Name,a.IsDisable,a1.AccountFace 
@@ -200,9 +209,10 @@ namespace NewCRM.Domain.Services.BoundedContext
 	                            INNER JOIN dbo.Configs AS a1
 	                            ON a1.AccountId=a.Id AND a1.IsDeleted=0
 	                            {where} 
-                            ) AS a2 WHERE a2.rownumber>{pageSize}*({pageIndex}-1)";
-
-                    return dataStore.Find<Account>(sql, new List<SqlParameter> { new SqlParameter("@name", accountName) });
+                            ) AS a2 WHERE a2.rownumber>@pageSize*(@pageIndex-1)";
+                    parameters.Add(new SqlParameter("@pageSize", pageSize));
+                    parameters.Add(new SqlParameter("@pageIndex", pageIndex));
+                    return dataStore.Find<Account>(sql, parameters);
                 }
                 #endregion
             }
@@ -229,8 +239,9 @@ namespace NewCRM.Domain.Services.BoundedContext
                             FROM dbo.Accounts AS a 
                             INNER JOIN dbo.Configs AS a1
                             ON a1.AccountId=a.Id
-                            WHERE a.Id={accountId} AND a.IsDeleted=0 AND a.IsDisable=0";
-                return dataStore.FindOne<Account>(sql);
+                            WHERE a.Id=@accountId AND a.IsDeleted=0 AND a.IsDisable=0";
+                var parameters = new List<SqlParameter> { new SqlParameter("@accountId", accountId) };
+                return dataStore.FindOne<Account>(sql, parameters);
             }
         }
 
@@ -246,7 +257,8 @@ namespace NewCRM.Domain.Services.BoundedContext
                             FROM dbo.AccountRoles AS a
                             INNER JOIN dbo.Roles AS a1
                             ON a1.Id=a.RoleId AND a1.IsDeleted=0 
-                            WHERE a.AccountId={accountId} AND a.IsDeleted=0 ";
+                            WHERE a.AccountId=@accountId AND a.IsDeleted=0 ";
+                var parameters = new List<SqlParameter> { new SqlParameter("@accountId", accountId) };
                 return dataStore.Find<Role>(sql);
             }
         }
@@ -276,9 +288,9 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"SELECT a.LoginPassword FROM dbo.Accounts AS a WHERE a.Id={accountId} AND a.IsDeleted=0 AND a.IsDisable=0";
-
-                return dataStore.FindSingleValue<String>(sql);
+                var sql = $@"SELECT a.LoginPassword FROM dbo.Accounts AS a WHERE a.Id=@accountId AND a.IsDeleted=0 AND a.IsDisable=0";
+                var parameters = new List<SqlParameter> { new SqlParameter("@accountId", accountId) };
+                return dataStore.FindSingleValue<String>(sql, parameters);
             }
         }
 
