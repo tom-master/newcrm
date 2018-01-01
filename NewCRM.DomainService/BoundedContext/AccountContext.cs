@@ -325,25 +325,42 @@ namespace NewCRM.Domain.Services.BoundedContext
                                   WallpaperId ,
                                   AccountFace
                                 )
-                        VALUES  ( N'{config.Skin}' , -- Skin - nvarchar(max)
-                                  {config.AppSize} , -- AppSize - int
-                                  {config.AppVerticalSpacing} , -- AppVerticalSpacing - int
-                                  {config.AppHorizontalSpacing} , -- AppHorizontalSpacing - int
-                                  {config.DefaultDeskNumber} , -- DefaultDeskNumber - int
-                                  {config.DefaultDeskCount} , -- DefaultDeskCount - int
-                                  {(Int32)config.WallpaperMode} , -- WallpaperMode - int
-                                  {(Int32)config.AppXy} , -- AppXy - int
-                                  {(Int32)config.DockPosition} , -- DockPosition - int
+                        VALUES  ( @Skin , -- Skin - nvarchar(max)
+                                  @AppSize , -- AppSize - int
+                                  @AppVerticalSpacing , -- AppVerticalSpacing - int
+                                  @AppHorizontalSpacing , -- AppHorizontalSpacing - int
+                                  @DefaultDeskNumber , -- DefaultDeskNumber - int
+                                  @DefaultDeskCount , -- DefaultDeskCount - int
+                                  @WallpaperMode , -- WallpaperMode - int
+                                  @AppXy , -- AppXy - int
+                                  @DockPosition , -- DockPosition - int
                                   0 , -- IsDeleted - bit
                                   GETDATE() , -- AddTime - datetime
                                   GETDATE() , -- LastModifyTime - datetime
                                   3 , -- WallpaperId - int
-                                  N'{config.AccountFace}'  -- Face - nvarchar(150)
+                                  @AccountFace  -- Face - nvarchar(150)
                                 ) SELECT CAST(@@IDENTITY AS INT) AS Id";
-                        configId = dataStore.FindSingleValue<Int32>(sql);
+                        var parameters = new List<SqlParameter>
+                        {
+                            new SqlParameter("@Skin",config.Skin),
+                            new SqlParameter("@AppSize",config.AppSize),
+                            new SqlParameter("@AppVerticalSpacing",config.AppVerticalSpacing),
+                            new SqlParameter("@AppHorizontalSpacing",config.AppHorizontalSpacing),
+                            new SqlParameter("@DefaultDeskNumber",config.DefaultDeskNumber),
+                            new SqlParameter("@DefaultDeskCount",config.DefaultDeskCount),
+                            new SqlParameter("@WallpaperMode",(Int32)config.WallpaperMode),
+                            new SqlParameter("@AppXy",(Int32)config.AppXy),
+                            new SqlParameter("@DockPosition",(Int32)config.DockPosition),
+                            new SqlParameter("@AccountFace",config.AccountFace)
+                        };
+                        configId = dataStore.FindSingleValue<Int32>(sql, parameters);
                     }
                     #endregion
-
+                    if (configId == 0)
+                    {
+                        dataStore.Rollback();
+                        return;
+                    }
                     #region 新增用户
                     {
                         var sql = $@"INSERT dbo.Accounts
@@ -373,7 +390,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                               0 , -- IsDeleted - bit
                               GETDATE() , -- AddTime - datetime
                               GETDATE() , -- LastModifyTime - datetime
-                              {configId} , -- ConfigId - int
+                              @configId , -- ConfigId - int
                               0,  -- TitleId - int
                               0
                             ) SELECT CAST(@@IDENTITY AS INT) AS Id";
@@ -383,15 +400,23 @@ namespace NewCRM.Domain.Services.BoundedContext
                             new SqlParameter("@loginPassword",account.LoginPassword),
                             new SqlParameter("@lockScreenPassword",account.LockScreenPassword),
                             new SqlParameter("@isAdmin",account.IsAdmin),
+                            new SqlParameter("@configId",configId)
                         };
                         accountId = dataStore.FindSingleValue<Int32>(sql, parameters);
                     }
                     #endregion
 
+                    if (accountId == 0)
+                    {
+                        dataStore.Rollback();
+                        return;
+                    }
+
                     #region 更新用户的配置
                     {
-                        var sql = $@"UPDATE dbo.Configs SET AccountId={accountId} WHERE IsDeleted=0 AND AccountId=0";
-                        dataStore.SqlExecute(sql);
+                        var sql = $@"UPDATE dbo.Configs SET AccountId=@accountId WHERE IsDeleted=0 AND AccountId=0";
+                        var parameters = new List<SqlParameter> { new SqlParameter("@accountId", account) };
+                        dataStore.SqlExecute(sql, parameters);
                     }
                     #endregion
 
@@ -443,16 +468,15 @@ namespace NewCRM.Domain.Services.BoundedContext
                         #region 修改密码
                         {
                             var newPassword = PasswordUtil.CreateDbPassword(accountDto.LoginPassword);
-                            var sql = $@"UPDATE dbo.Accounts SET LoginPassword='{newPassword}' WHERE Id={accountDto.Id} AND IsDeleted=0 AND IsDisable=0";
-
-                            dataStore.SqlExecute(sql);
+                            var sql = $@"UPDATE dbo.Accounts SET LoginPassword=@newPassword WHERE Id=@accountId AND IsDeleted=0 AND IsDisable=0";
+                            var parameters = new List<SqlParameter> { new SqlParameter("@newPassword", newPassword), new SqlParameter("@accountId", accountDto.Id) };
+                            dataStore.SqlExecute(sql, parameters);
                         }
                         #endregion
                     }
 
                     #region 修改账户角色
                     {
-
                         if (accountDto.Roles.Any())
                         {
                             var sqlBuilder = new StringBuilder();
@@ -495,8 +519,9 @@ namespace NewCRM.Domain.Services.BoundedContext
 
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Accounts SET IsDisable=0 WHERE Id={accountId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql);
+                var sql = $@"UPDATE dbo.Accounts SET IsDisable=0 WHERE Id=@accountId AND IsDeleted=0";
+                var parameters = new List<SqlParameter> { new SqlParameter("@accountId", accountId) };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -505,13 +530,14 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId);
             using (var dataStore = new DataStore())
             {
+                var parameters = new List<SqlParameter> { new SqlParameter("@accountId", accountId) };
                 #region 前置条件验证
                 {
                     var sql = $@"SELECT COUNT(*) FROM dbo.Roles AS a
                                 INNER JOIN dbo.AccountRoles AS a1
-                                ON a1.AccountId={accountId} AND a1.RoleId=a.Id AND a1.IsDeleted=0
+                                ON a1.AccountId=@accountId AND a1.RoleId=a.Id AND a1.IsDeleted=0
                                 WHERE a.IsDeleted=0 AND a.IsAllowDisable=0";
-                    var result = dataStore.FindSingleValue<Int32>(sql);
+                    var result = dataStore.FindSingleValue<Int32>(sql, parameters);
                     if (result > 0)
                     {
                         throw new BusinessException("当前用户拥有管理员角色，因此不能禁用或删除");
@@ -519,8 +545,8 @@ namespace NewCRM.Domain.Services.BoundedContext
                 }
                 #endregion
                 {
-                    var sql = $@"UPDATE dbo.Accounts SET IsDisable=1 WHERE Id={accountId} AND IsDeleted=0";
-                    dataStore.SqlExecute(sql);
+                    var sql = $@"UPDATE dbo.Accounts SET IsDisable=1 WHERE Id=@accountId AND IsDeleted=0";
+                    dataStore.SqlExecute(sql, parameters);
                 }
             }
         }
@@ -530,8 +556,8 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId).Validate(newFace);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Configs SET AccountFace=@face WHERE AccountId={accountId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@face", newFace) });
+                var sql = $@"UPDATE dbo.Configs SET AccountFace=@face WHERE AccountId=@accountId AND IsDeleted=0";
+                dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@face", newFace), new SqlParameter("@accountId", accountId) });
             }
         }
 
@@ -540,8 +566,8 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId).Validate(newPassword);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Accounts SET LoginPassword=@password WHERE Id={accountId} AND IsDeleted=0 AND IsDisable=0";
-                dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@password", newPassword) });
+                var sql = $@"UPDATE dbo.Accounts SET LoginPassword=@password WHERE Id=@accountId AND IsDeleted=0 AND IsDisable=0";
+                dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@password", newPassword), new SqlParameter("@accountId", accountId) });
             }
         }
 
@@ -550,8 +576,8 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId).Validate(newScreenPassword);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Accounts SET LockScreenPassword=@password WHERE Id={accountId} AND IsDeleted=0 AND IsDisable=0";
-                dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@password", newScreenPassword) });
+                var sql = $@"UPDATE dbo.Accounts SET LockScreenPassword=@password WHERE Id=@accountId AND IsDeleted=0 AND IsDisable=0";
+                dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@password", newScreenPassword), new SqlParameter("@accountId", accountId) });
             }
         }
 
@@ -562,13 +588,16 @@ namespace NewCRM.Domain.Services.BoundedContext
             using (var dataStore = new DataStore())
             {
                 dataStore.OpenTransaction();
-
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@accountId",accountId)
+                };
                 try
                 {
                     #region 前置条件验证
                     {
-                        var sql = $@"SELECT a.IsAdmin FROM dbo.Accounts AS a WHERE a.Id={accountId} AND a.IsDeleted=0 AND a.IsDisable=0";
-                        var isAdmin = Boolean.Parse(dataStore.FindSingleValue<String>(sql));
+                        var sql = $@"SELECT a.IsAdmin FROM dbo.Accounts AS a WHERE a.Id=@accountId AND a.IsDeleted=0 AND a.IsDisable=0";
+                        var isAdmin = Boolean.Parse(dataStore.FindSingleValue<String>(sql, parameters));
                         if (isAdmin)
                         {
                             throw new BusinessException("不能删除管理员");
@@ -578,29 +607,29 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                     #region 移除账户
                     {
-                        var sql = $@"UPDATE dbo.Accounts SET IsDeleted=1 WHERE Id={accountId} AND IsDeleted=0 AND IsDisable=0";
-                        dataStore.SqlExecute(sql);
+                        var sql = $@"UPDATE dbo.Accounts SET IsDeleted=1 WHERE Id=@accountId AND IsDeleted=0 AND IsDisable=0";
+                        dataStore.SqlExecute(sql, parameters);
                     }
                     #endregion
 
                     #region 移除账户配置
                     {
-                        var sql = $@"UPDATE dbo.Configs SET IsDeleted=1 WHERE AccountId={accountId} AND IsDeleted=0";
-                        dataStore.SqlExecute(sql);
+                        var sql = $@"UPDATE dbo.Configs SET IsDeleted=1 WHERE AccountId=@accountId AND IsDeleted=0";
+                        dataStore.SqlExecute(sql, parameters);
                     }
                     #endregion
 
                     #region 移除用户角色
                     {
-                        var sql = $@"UPDATE dbo.AccountRoles SET IsDeleted=1 WHERE AccountId={accountId} AND IsDeleted=0";
-                        dataStore.SqlExecute(sql);
+                        var sql = $@"UPDATE dbo.AccountRoles SET IsDeleted=1 WHERE AccountId=@accountId AND IsDeleted=0";
+                        dataStore.SqlExecute(sql, parameters);
                     }
                     #endregion
 
                     #region 移除用户安装的app
                     {
-                        var sql = $@"UPDATE dbo.Members SET IsDeleted=0 WHERE AccountId={accountId}";
-                        dataStore.SqlExecute(sql);
+                        var sql = $@"UPDATE dbo.Members SET IsDeleted=0 WHERE AccountId=@accountId";
+                        dataStore.SqlExecute(sql, parameters);
                     }
                     #endregion
 
@@ -621,8 +650,12 @@ namespace NewCRM.Domain.Services.BoundedContext
             {
                 #region 获取锁屏密码
                 {
-                    var sql = $@"SELECT a.LockScreenPassword FROM dbo.Accounts AS a WHERE a.Id={accountId} AND a.IsDeleted=0 AND a.IsDisable=0";
-                    var password = dataStore.FindSingleValue<String>(sql);
+                    var sql = $@"SELECT a.LockScreenPassword FROM dbo.Accounts AS a WHERE a.Id=@accountId AND a.IsDeleted=0 AND a.IsDisable=0";
+                    var parameters = new List<SqlParameter>
+                    {
+                        new SqlParameter("@accountId",accountId)
+                    };
+                    var password = dataStore.FindSingleValue<String>(sql, parameters);
                     return PasswordUtil.ComparePasswords(password, unlockPassword);
                 }
                 #endregion
