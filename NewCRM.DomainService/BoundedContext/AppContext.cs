@@ -153,7 +153,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(appId);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Apps SET AppAuditState={(Int32)AppAuditState.Deny} WHERE Id={appId} AND IsDeleted=0";
+                var sql = $@"UPDATE dbo.Apps SET AppAuditState=@AppAuditState WHERE Id=@appId AND IsDeleted=0";
                 var parameters = new List<SqlParameter>
                 {
                     new SqlParameter("@AppAuditState",(Int32)AppAuditState.Deny),
@@ -242,11 +242,12 @@ namespace NewCRM.Domain.Services.BoundedContext
             {
                 #region 发布app
                 {
-                    var sql = $@"UPDATE dbo.Apps SET AppReleaseState={(Int32)AppReleaseState.Release} WHERE Id={appId} AND IsDeleted=0 AND AppAuditState={(Int32)AppAuditState.Pass}";
+                    var sql = $@"UPDATE dbo.Apps SET AppReleaseState=@AppReleaseState WHERE Id=@appId AND IsDeleted=0 AND AppAuditState=@AppAuditState";
                     var parameters = new List<SqlParameter>
                     {
                         new SqlParameter("@AppReleaseState",(Int32)AppReleaseState.Release),
-                        new SqlParameter("@AppAuditState",(Int32)AppAuditState.Pass)
+                        new SqlParameter("@AppAuditState",(Int32)AppAuditState.Pass),
+                        new SqlParameter("@appId",appId)
                     };
                     dataStore.SqlExecute(sql, parameters);
                 }
@@ -260,19 +261,38 @@ namespace NewCRM.Domain.Services.BoundedContext
             using (var dataStore = new DataStore())
             {
                 var set = new StringBuilder();
-                set.Append($@" IsIconByUpload={(app.IsIconByUpload ? 1 : 0)} ,IconUrl='{app.IconUrl}',Name='{app.Name}',AppTypeId={app.AppTypeId},AppUrl='{app.AppUrl}',Width={app.Width},Height={app.Height},AppStyle={(Int32)app.AppStyle},IsResize={app.IsResize.ParseToInt32()},IsOpenMax={app.IsOpenMax.ParseToInt32()},IsFlash={app.IsFlash.ParseToInt32()},Remark='{app.Remark}' ");
+                set.Append($@" IsIconByUpload=@IsIconByUpload ,IconUrl=@IconUrl,Name=@Name,AppTypeId=@AppTypeId,AppUrl=@AppUrl,Width=@Width,Height=@Height,AppStyle=@AppStyle,IsResize=@IsResize,IsOpenMax=@IsOpenMax,IsFlash=@IsFlash,Remark=@Remark ");
+
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@IsIconByUpload",(app.IsIconByUpload ? 1 : 0)),
+                    new SqlParameter("@IconUrl",app.IconUrl),
+                    new SqlParameter("@Name",app.Name),
+                    new SqlParameter("@AppTypeId",app.AppTypeId),
+                    new SqlParameter("@AppUrl",app.AppUrl),
+                    new SqlParameter("@Width",app.Width),
+                    new SqlParameter("@Height",app.Height),
+                    new SqlParameter("@AppStyle",(Int32)app.AppStyle),
+                    new SqlParameter("@IsResize",app.IsResize.ParseToInt32()),
+                    new SqlParameter("@IsOpenMax",app.IsOpenMax.ParseToInt32()),
+                    new SqlParameter("@IsFlash",app.IsFlash.ParseToInt32()),
+                    new SqlParameter("@Remark",app.Remark),
+                };
                 if (app.AppAuditState == AppAuditState.Wait)
                 {
-                    set.Append($@" ,AppAuditState={(Int32)AppAuditState.Wait} ");
+                    parameters.Add(new SqlParameter("@AppAuditState", (Int32)AppAuditState.Wait));
+                    set.Append($@" ,AppAuditState=@AppAuditState ");
                 }
                 else
                 {
-                    set.Append($@" ,AppAuditState={(Int32)AppAuditState.UnAuditState} ");
+                    parameters.Add(new SqlParameter("@AppAuditState", (Int32)AppAuditState.UnAuditState));
+                    set.Append($@" ,AppAuditState=@AppAuditState ");
                 }
 
-                var sql = $@"UPDATE Apps SET {set} WHERE AccountId={accountId} AND Id={app.Id} AND IsDeleted=0";
-
-                dataStore.SqlExecute(sql.ToString());
+                var sql = $@"UPDATE Apps SET {set} WHERE AccountId=@accountId AND Id=@appId AND IsDeleted=0";
+                parameters.Add(new SqlParameter("@accountId", accountId));
+                parameters.Add(new SqlParameter("@appId", app.Id));
+                dataStore.SqlExecute(sql.ToString(), parameters);
             }
         }
 
@@ -281,10 +301,14 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(appTypeId);
             using (var dataStore = new DataStore())
             {
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@AppTypeId",appTypeId)
+                };
                 #region 前置条件验证
                 {
-                    var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a WHERE a.AppTypeId={appTypeId} AND a.IsDeleted=0";
-                    if (dataStore.FindSingleValue<Int32>(sql) > 0)
+                    var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a WHERE a.AppTypeId=@AppTypeId AND a.IsDeleted=0";
+                    if (dataStore.FindSingleValue<Int32>(sql, parameters) > 0)
                     {
                         throw new BusinessException($@"当前分类下已有绑定app,不能删除当前分类");
                     }
@@ -293,8 +317,8 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                 #region 移除app分类
                 {
-                    var sql = $@"UPDATE dbo.AppTypes SET IsDeleted=1 WHERE Id={appTypeId}";
-                    dataStore.SqlExecute(sql);
+                    var sql = $@"UPDATE dbo.AppTypes SET IsDeleted=1 WHERE Id=@AppTypeId";
+                    dataStore.SqlExecute(sql, parameters);
                 }
                 #endregion
             }
