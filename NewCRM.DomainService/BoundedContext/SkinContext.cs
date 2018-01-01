@@ -13,10 +13,10 @@ namespace NewCRM.Domain.Services.BoundedContext
         public void ModifySkin(int accountId, string newSkin)
         {
             ValidateParameter.Validate(accountId).Validate(newSkin);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Configs SET Skin=@skin WHERE AccountId={accountId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@skin", newSkin) });
+                var sql = $@"UPDATE dbo.Configs SET Skin=@skin WHERE AccountId=@AccountId AND IsDeleted=0";
+                dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@skin", newSkin), new SqlParameter("@AccountId", accountId) });
             }
         }
     }
