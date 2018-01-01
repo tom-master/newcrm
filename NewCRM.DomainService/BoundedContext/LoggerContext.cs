@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using NewCRM.Domain.Entitys.System;
@@ -27,17 +28,26 @@ namespace NewCRM.Domain.Services.BoundedContext
                               AddTime ,
                               LastModifyTime
                             )
-                    VALUES  ( {(Int32)log.LogLevelEnum} , -- LogLevelEnum - int
-                              N'{log.Controller}' , -- Controller - nvarchar(max)
-                              N'{log.Action}' , -- Action - nvarchar(max)
-                              N'{log.ExceptionMessage}' , -- ExceptionMessage - nvarchar(max)
-                              N'{log.Track}' , -- Track - nvarchar(max)
-                              {log.AccountId} , -- AccountId - int
+                    VALUES  ( @LogLevelEnum , -- LogLevelEnum - int
+                              @Controller , -- Controller - nvarchar(max)
+                              @Action , -- Action - nvarchar(max)
+                              @ExceptionMessage , -- ExceptionMessage - nvarchar(max)
+                              @Track , -- Track - nvarchar(max)
+                              @AccountId , -- AccountId - int
                               0 , -- IsDeleted - bit
                               GETDATE() , -- AddTime - datetime
                               GETDATE()  -- LastModifyTime - datetime
                             )";
-                dataStore.SqlExecute(sql);
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@LogLevelEnum",(Int32)log.LogLevelEnum),
+                    new SqlParameter("@Controller",log.Controller),
+                    new SqlParameter("@Action",log.Action),
+                    new SqlParameter("@ExceptionMessage",log.ExceptionMessage),
+                    new SqlParameter("@Track",log.Track),
+                    new SqlParameter("@AccountId",log.AccountId),
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -46,20 +56,22 @@ namespace NewCRM.Domain.Services.BoundedContext
             using (var dataStore = new DataStore())
             {
                 var where = new StringBuilder();
+                var parameters = new List<SqlParameter>();
                 if (accountId != 0)
                 {
-                    where.Append($@" AND a.AccountId={accountId}");
+                    parameters.Add(new SqlParameter("AccountId", accountId));
+                    where.Append($@" AND a.AccountId=@AccountId");
                 }
                 #region totalCount
                 {
                     var sql = $@"SELECT COUNT(*) FROM dbo.Logs AS a WHERE 1=1 {where}";
-                    totalCount = dataStore.FindSingleValue<Int32>(sql);
+                    totalCount = dataStore.FindSingleValue<Int32>(sql, parameters);
                 }
                 #endregion
 
                 #region sql
                 {
-                    var sql = $@"SELECT TOP {pageSize} * FROM 
+                    var sql = $@"SELECT TOP (@pageSize) * FROM 
                                 (
 	                                SELECT
 	                                ROW_NUMBER() OVER(ORDER BY a.Id DESC) AS rownumber, 
@@ -69,8 +81,10 @@ namespace NewCRM.Domain.Services.BoundedContext
 	                                a.ExceptionMessage,
 	                                a.Track
 	                                FROM dbo.Logs AS a WHERE 1=1 {where}
-                                ) AS aa WHERE aa.rownumber>{pageSize}*({pageIndex}-1)";
-                    return dataStore.Find<Log>(sql);
+                                ) AS aa WHERE aa.rownumber>@pageSize*(@pageIndex-1)";
+                    parameters.Add(new SqlParameter("@pageIndex", pageIndex));
+                    parameters.Add(new SqlParameter("@pageSize", pageSize));
+                    return dataStore.Find<Log>(sql, parameters);
                 }
                 #endregion
             }
