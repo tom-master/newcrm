@@ -351,13 +351,18 @@ namespace NewCRM.Domain.Services.BoundedContext
                                     LastModifyTime
                                 )
                                 VALUES
-                                (   N'{appType.Name}',       -- Name - nvarchar(6)
-                                    N'{appType.Remark}',       -- Remark - nvarchar(50)
+                                (   @Name,       -- Name - nvarchar(6)
+                                    @Remark,       -- Remark - nvarchar(50)
                                     0,      -- IsDeleted - bit
                                     GETDATE(), -- AddTime - datetime
                                     GETDATE()  -- LastModifyTime - datetime
                                 )";
-                    dataStore.SqlExecute(sql);
+                    var parameters = new List<SqlParameter>
+                    {
+                        new SqlParameter("@Name",appType.Name),
+                        new SqlParameter("@Remark",appType.Remark)
+                    };
+                    dataStore.SqlExecute(sql, parameters);
                 }
                 #endregion
             }
@@ -381,8 +386,8 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                 #region 更新app分类
                 {
-                    var sql = $@"UPDATE dbo.AppTypes SET Name=@name WHERE Id={appTypeId} AND IsDeleted=0";
-                    dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@name", appTypeName) });
+                    var sql = $@"UPDATE dbo.AppTypes SET Name=@name WHERE Id=@Id AND IsDeleted=0";
+                    dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@name", appTypeName), new SqlParameter("Id", appTypeId) });
                 }
                 #endregion
             }
@@ -393,9 +398,8 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId).Validate(appId).Validate(newIcon);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Apps SET IconUrl=@url WHERE Id={appId} AND AccountId={accountId}  AND IsDeleted=0 --AND AppAuditState={(Int32)AppAuditState.Pass} AND AppReleaseState={(Int32)AppReleaseState.Release}";
-
-                dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@url", newIcon) });
+                var sql = $@"UPDATE dbo.Apps SET IconUrl=@url WHERE Id=@appId AND AccountId=@accountId AND IsDeleted=0 ";
+                dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@url", newIcon), new SqlParameter("@appId", appId), new SqlParameter("@accountId", accountId) });
             }
         }
 
@@ -426,8 +430,14 @@ namespace NewCRM.Domain.Services.BoundedContext
                                 a.IsFlash,
                                 a.IsDraw,
                                 a.IsIconByUpload
-                                FROM  dbo.Apps AS a WHERE a.AppAuditState={(Int32)AppAuditState.Pass} AND a.AppReleaseState={(Int32)AppReleaseState.Release} AND a.IsDeleted=0 AND a.Id={appId}";
-                        app = dataStore.FindOne<App>(sql);
+                                FROM  dbo.Apps AS a WHERE a.AppAuditState=@AppAuditState AND a.AppReleaseState=@AppReleaseState AND a.IsDeleted=0 AND a.Id=@Id";
+                        var parameters = new List<SqlParameter>
+                        {
+                            new SqlParameter("@AppAuditState",(Int32)AppAuditState.Pass),
+                            new SqlParameter("@AppReleaseState",(Int32)AppReleaseState.Release),
+                            new SqlParameter("@Id",appId)
+                        };
+                        app = dataStore.FindOne<App>(sql, parameters);
 
                         if (app == null)
                         {
@@ -465,38 +475,63 @@ namespace NewCRM.Domain.Services.BoundedContext
                               DeskIndex,
                               IsIconByUpload
                             )
-                    VALUES  ( {newMember.AppId} , -- AppId - int
-                              {newMember.Width} , -- Width - int
-                              {newMember.Height} , -- Height - int
+                    VALUES  ( @AppId , -- AppId - int
+                              @Width , -- Width - int
+                              @Height , -- Height - int
                               0 , -- FolderId - int
-                              N'{newMember.Name}' , -- Name - nvarchar(6)
-                              N'{newMember.IconUrl}' , -- IconUrl - nvarchar(max)
-                              N'{newMember.AppUrl}' , -- AppUrl - nvarchar(max)
+                              @Name , -- Name - nvarchar(6)
+                              @IconUrl , -- IconUrl - nvarchar(max)
+                              @AppUrl , -- AppUrl - nvarchar(max)
                               0 , -- IsOnDock - bit
-                              {newMember.IsMax.ParseToInt32()} , -- IsMax - bit
-                              {newMember.IsFull.ParseToInt32()} , -- IsFull - bit
-                              {newMember.IsSetbar.ParseToInt32()} , -- IsSetbar - bit
-                              {newMember.IsOpenMax.ParseToInt32()} , -- IsOpenMax - bit
-                              {newMember.IsLock.ParseToInt32()} , -- IsLock - bit
-                              {newMember.IsFlash.ParseToInt32()} , -- IsFlash - bit
-                              {newMember.IsDraw.ParseToInt32()} , -- IsDraw - bit
-                              {newMember.IsResize.ParseToInt32()} , -- IsResize - bit
-                              {(Int32)newMember.MemberType} , -- MemberType - int
+                              @IsMax , -- IsMax - bit
+                              @IsFull , -- IsFull - bit
+                              @IsSetbar , -- IsSetbar - bit
+                              @IsOpenMax , -- IsOpenMax - bit
+                              @IsLock , -- IsLock - bit
+                              @IsFlash , -- IsFlash - bit
+                              @IsDraw , -- IsDraw - bit
+                              @IsResize , -- IsResize - bit
+                              @MemberType , -- MemberType - int
                               0 , -- IsDeleted - bit
                               GETDATE() , -- AddTime - datetime
                               GETDATE() , -- LastModifyTime - datetime
-                              {accountId} , -- AccountId - int
-                              {deskNum},  -- DeskIndex - int
-                              {(app.IsIconByUpload ? 1 : 0)}
+                              @accountId , -- AccountId - int
+                              @deskNum,  -- DeskIndex - int
+                              @IsIconByUpload
                             )";
-                        dataStore.SqlExecute(sql);
+                        var parameters = new List<SqlParameter>
+                        {
+                            new SqlParameter("@AppId",newMember.AppId),
+                            new SqlParameter("@Width",newMember.Width),
+                            new SqlParameter("@Height",newMember.Height),
+                            new SqlParameter("@Name",newMember.Name),
+                            new SqlParameter("@IconUrl",newMember.IconUrl),
+                            new SqlParameter("@AppUrl",newMember.AppUrl),
+                            new SqlParameter("@IsMax",newMember.IsMax.ParseToInt32()),
+                            new SqlParameter("@IsFull",newMember.IsFull.ParseToInt32()),
+                            new SqlParameter("@IsSetbar",newMember.IsSetbar.ParseToInt32()),
+                            new SqlParameter("@IsOpenMax",newMember.IsOpenMax.ParseToInt32()),
+                            new SqlParameter("@IsLock",newMember.IsLock.ParseToInt32()),
+                            new SqlParameter("@IsFlash",newMember.IsFlash.ParseToInt32()),
+                            new SqlParameter("@IsDraw",newMember.IsDraw.ParseToInt32()),
+                            new SqlParameter("@IsResize",newMember.IsResize.ParseToInt32()),
+                            new SqlParameter("@MemberType",(Int32)newMember.MemberType),
+                            new SqlParameter("@accountId",accountId),
+                            new SqlParameter("@deskNum",deskNum),
+                            new SqlParameter("@IsIconByUpload",(app.IsIconByUpload ? 1 : 0)),
+                        };
+                        dataStore.SqlExecute(sql, parameters);
                     }
                     #endregion
 
                     #region 更改app使用数量
                     {
-                        var sql = $@"UPDATE dbo.Apps SET UseCount=UseCount+1 WHERE Id={app.Id} AND IsDeleted=0";
-                        dataStore.SqlExecute(sql);
+                        var sql = $@"UPDATE dbo.Apps SET UseCount=UseCount+1 WHERE Id=@appId AND IsDeleted=0";
+                        var parameters = new List<SqlParameter>
+                        {
+                            new SqlParameter("@appId",app.Id)
+                        };
+                        dataStore.SqlExecute(sql, parameters);
                     }
                     #endregion
 
@@ -515,8 +550,12 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"SELECT a.Id FROM dbo.Apps AS a WHERE a.AccountId={accountId} AND a.IsDeleted=0";
-                var result = dataStore.Find<App>(sql);
+                var sql = $@"SELECT a.Id FROM dbo.Apps AS a WHERE a.AccountId=@accountId AND a.IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@accountId",accountId)
+                };
+                var result = dataStore.Find<App>(sql, parameters);
                 return new Tuple<int, int>(result.Count, result.Count(a => a.AppReleaseState == AppReleaseState.UnRelease));
             }
         }
@@ -555,8 +594,13 @@ namespace NewCRM.Domain.Services.BoundedContext
                             ) AS IsInstall,
                             a.IsIconByUpload
                             FROM dbo.Apps AS a 
-                            WHERE a.AppAuditState={(Int32)AppAuditState.Pass} AND a.AppReleaseState={(Int32)AppReleaseState.Release} AND a.IsRecommand=1";
-                return dataStore.FindOne<TodayRecommendAppDto>(sql);
+                            WHERE a.AppAuditState=@AppAuditState AND a.AppReleaseState=@AppReleaseState AND a.IsRecommand=1";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@AppAuditState",(Int32)AppAuditState.Pass),
+                    new SqlParameter("@AppReleaseState",(Int32)AppReleaseState.Release)
+                };
+                return dataStore.FindOne<TodayRecommendAppDto>(sql, parameters);
             }
         }
 
@@ -565,26 +609,32 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
             using (var dataStore = new DataStore())
             {
-                var where = new StringBuilder();
-                where.Append($@" WHERE 1=1 AND a.IsDeleted=0 AND a.AppAuditState={(Int32)AppAuditState.Pass} AND a.AppReleaseState={(Int32)AppReleaseState.Release} ");
+                var parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("@AppAuditState", (Int32)AppAuditState.Pass));
+                parameters.Add(new SqlParameter("@AppReleaseState", (Int32)AppReleaseState.Release));
 
-                var orderBy = new StringBuilder();
+                var where = new StringBuilder();
+                where.Append($@" WHERE 1=1 AND a.IsDeleted=0 AND a.AppAuditState=@AppAuditState AND a.AppReleaseState=@AppReleaseState");
                 if (appTypeId != 0 && appTypeId != -1)//全部app
                 {
-                    where.Append($@" AND a.AppTypeId={appTypeId}");
+                    parameters.Add(new SqlParameter("@AppTypeId", appTypeId));
+                    where.Append($@" AND a.AppTypeId=@AppTypeId");
                 }
                 else
                 {
                     if (appTypeId == -1)//用户制作的app
                     {
-                        where.Append($@" AND a.AccountId={accountId}");
+                        parameters.Add(new SqlParameter("@accountId", accountId));
+                        where.Append($@" AND a.AccountId=@accountId");
                     }
                 }
                 if (!String.IsNullOrEmpty(searchText))//关键字搜索
                 {
-                    where.Append($@" AND a.Name LIKE '%{searchText}%'");
+                    parameters.Add(new SqlParameter("@Name", $@"%{searchText}%"));
+                    where.Append($@" AND a.Name LIKE @Name");
                 }
 
+                var orderBy = new StringBuilder();
                 switch (orderId)
                 {
                     case 1:
@@ -610,13 +660,13 @@ namespace NewCRM.Domain.Services.BoundedContext
                     var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a 
                                 LEFT JOIN dbo.AppStars AS a1
                                 ON a1.AppId=a.Id AND a1.IsDeleted=0 {where}";
-                    totalCount = dataStore.FindSingleValue<Int32>(sql);
+                    totalCount = dataStore.FindSingleValue<Int32>(sql, parameters);
                 }
                 #endregion
 
                 #region sql
                 {
-                    var sql = $@"SELECT TOP {pageSize} * FROM 
+                    var sql = $@"SELECT TOP (@pageSize) * FROM 
                                 (
 	                                SELECT 
 	                                ROW_NUMBER() OVER(ORDER BY a.Id DESC) AS rownumber,
@@ -640,9 +690,10 @@ namespace NewCRM.Domain.Services.BoundedContext
 	                                FROM dbo.Apps AS a
                                     LEFT JOIN dbo.AppStars AS a1
                                     ON a1.AppId=a.Id AND a1.IsDeleted=0 {where}
-                                ) AS aa WHERE aa.rownumber>{pageSize}*({pageIndex}-1)  {orderBy}";
-
-                    return dataStore.Find<App>(sql);
+                                ) AS aa WHERE aa.rownumber>@pageSize*(@pageIndex-1) {orderBy}";
+                    parameters.Add(new SqlParameter("@pageSize", pageSize));
+                    parameters.Add(new SqlParameter("@pageIndex", pageIndex));
+                    return dataStore.Find<App>(sql, parameters);
                 }
                 #endregion
             }
@@ -656,31 +707,35 @@ namespace NewCRM.Domain.Services.BoundedContext
             {
                 var where = new StringBuilder();
                 where.Append($@" WHERE 1=1 ");
-
+                var parameters = new List<SqlParameter>();
                 #region 条件筛选
 
                 if (accountId != default(Int32))
                 {
-                    where.Append($@" AND a.AccountId={accountId}");
+                    parameters.Add(new SqlParameter("@accountId", accountId));
+                    where.Append($@" AND a.AccountId=@accountId");
                 }
 
                 //应用名称
                 if (!String.IsNullOrEmpty(searchText))
                 {
-                    where.Append($@" AND a.Name LIKE '%{searchText}%'");
+                    parameters.Add(new SqlParameter("@Name", $@"%{searchText}%"));
+                    where.Append($@" AND a.Name LIKE @Name");
                 }
 
                 //应用所属类型
                 if (appTypeId != 0)
                 {
-                    where.Append($@" AND a.AppTypeId={appTypeId}");
+                    parameters.Add(new SqlParameter("AppTypeId", appTypeId));
+                    where.Append($@" AND a.AppTypeId=@AppTypeId");
                 }
 
                 //应用样式
                 if (appStyleId != 0)
                 {
                     var appStyle = EnumExtensions.ToEnum<AppStyle>(appStyleId);
-                    where.Append($@" AND a.AppStyle={(Int32)appStyle}");
+                    parameters.Add(new SqlParameter("@AppStyle", (Int32)appStyle));
+                    where.Append($@" AND a.AppStyle=@AppStyle");
                 }
 
                 if ((appState + "").Length > 0)
@@ -690,14 +745,16 @@ namespace NewCRM.Domain.Services.BoundedContext
                     if (stats[0] == "AppReleaseState")
                     {
                         var appReleaseState = EnumExtensions.ToEnum<AppReleaseState>(Int32.Parse(stats[1]));
-                        where.Append($@" AND a.AppReleaseState={(Int32)appReleaseState} ");
+                        parameters.Add(new SqlParameter("AppReleaseState", (Int32)appReleaseState));
+                        where.Append($@" AND a.AppReleaseState=@AppReleaseState ");
                     }
 
                     //app应用审核状态
                     if (stats[0] == "AppAuditState")
                     {
                         var appAuditState = EnumExtensions.ToEnum<AppAuditState>(Int32.Parse(stats[1]));
-                        where.Append($@" AND a.AppAuditState={(Int32)appAuditState}");
+                        parameters.Add(new SqlParameter("@AppAuditState", (Int32)appAuditState));
+                        where.Append($@" AND a.AppAuditState=@AppAuditState");
                     }
                 }
 
@@ -706,13 +763,13 @@ namespace NewCRM.Domain.Services.BoundedContext
                 #region totalCount
                 {
                     var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a {where} ";
-                    totalCount = dataStore.FindSingleValue<Int32>(sql);
+                    totalCount = dataStore.FindSingleValue<Int32>(sql, parameters);
                 }
                 #endregion
 
                 #region sql
                 {
-                    var sql = $@"SELECT TOP {pageSize} * FROM 
+                    var sql = $@"SELECT TOP (@pageSize) * FROM 
                     (
 	                    SELECT
 	                    ROW_NUMBER() OVER(ORDER BY a.Id DESC) AS rownumber,
@@ -727,8 +784,10 @@ namespace NewCRM.Domain.Services.BoundedContext
                         a.AccountId,
                         a.IsIconByUpload
 	                    FROM dbo.Apps AS a {where} 
-                    ) AS aa WHERE aa.rownumber>{pageSize}*({pageIndex}-1)";
-                    return dataStore.Find<App>(sql);
+                    ) AS aa WHERE aa.rownumber>@pageSize*(@pageIndex-1)";
+                    parameters.Add(new SqlParameter("@pageIndex", pageIndex));
+                    parameters.Add(new SqlParameter("@pageSize", pageSize));
+                    return dataStore.Find<App>(sql, parameters);
                 }
                 #endregion
             }
@@ -765,8 +824,12 @@ namespace NewCRM.Domain.Services.BoundedContext
                             ON a1.AppId=a.Id AND a1.IsDeleted=0
                             LEFT JOIN dbo.Accounts AS a2
                             ON a2.Id=a.AccountId AND a2.IsDeleted=0 AND a2.IsDisable=0
-                            WHERE a.Id={appId} AND a.IsDeleted=0";
-                return dataStore.FindOne<App>(sql);
+                            WHERE a.Id=@Id AND a.IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@Id",appId)
+                };
+                return dataStore.FindOne<App>(sql, parameters);
             }
         }
 
@@ -775,8 +838,13 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId).Validate(appId);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId={appId} AND a.AccountId={accountId} AND a.IsDeleted=0";
-                return dataStore.FindSingleValue<Int32>(sql) > 0 ? true : false;
+                var sql = $@"SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId=@Id AND a.AccountId=@AccountId AND a.IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@Id",appId),
+                    new SqlParameter("@AccountId",accountId)
+                };
+                return dataStore.FindSingleValue<Int32>(sql, parameters) > 0 ? true : false;
             }
         }
 
