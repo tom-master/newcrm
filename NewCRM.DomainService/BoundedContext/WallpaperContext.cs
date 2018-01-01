@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
@@ -19,8 +20,12 @@ namespace NewCRM.Domain.Services.BoundedContext
             {
                 #region 前置条件验证
                 {
-                    var sql = $@"SELECT COUNT(*) FROM dbo.Wallpapers AS a WHERE a.AccountId={wallpaper.AccountId} AND a.IsDeleted=0";
-                    var result = dataStore.FindSingleValue<Int32>(sql);
+                    var sql = $@"SELECT COUNT(*) FROM dbo.Wallpapers AS a WHERE a.AccountId=@AccountId AND a.IsDeleted=0";
+                    var parameters = new List<SqlParameter>
+                    {
+                        new SqlParameter("@AccountId",wallpaper.AccountId)
+                    };
+                    var result = dataStore.FindSingleValue<Int32>(sql, parameters);
                     if (result >= 6)
                     {
                         throw new BusinessException("最多只能上传6张图片");
@@ -45,28 +50,43 @@ namespace NewCRM.Domain.Services.BoundedContext
                               AddTime ,
                               LastModifyTime
                             )
-                    VALUES  ( N'{wallpaper.Title}' , -- Title - nvarchar(max)
-                              N'{wallpaper.Url}' , -- Url - nvarchar(max)
-                              N'{wallpaper.ShortUrl}' , -- ShortUrl - nvarchar(max)
-                              {(Int32)wallpaper.Source} , -- Source - int
-                              N'{wallpaper.Description}' , -- Description - nvarchar(50)
-                              {wallpaper.Width} , -- Width - int
-                              {wallpaper.Height} , -- Height - int
-                              {wallpaper.AccountId} , -- AccountId - int
-                              N'{wallpaper.Md5}' , -- Md5 - nvarchar(max)
+                    VALUES  ( @Title , -- Title - nvarchar(max)
+                              @Url , -- Url - nvarchar(max)
+                              @ShortUrl , -- ShortUrl - nvarchar(max)
+                              @Source , -- Source - int
+                              @Description , -- Description - nvarchar(50)
+                              @Width , -- Width - int
+                              @Height , -- Height - int
+                              @AccountId , -- AccountId - int
+                              @Md5 , -- Md5 - nvarchar(max)
                               0 , -- IsDeleted - bit
                               GETDATE() , -- AddTime - datetime
                               GETDATE()  -- LastModifyTime - datetime
                             ) SELECT CAST(@@IDENTITY AS INT) AS Ide";
-
-                    newWallpaperId = dataStore.FindSingleValue<Int32>(sql);
+                    var parameters = new List<SqlParameter>
+                    {
+                        new SqlParameter("@Title",wallpaper.Title),
+                        new SqlParameter("@Url",wallpaper.Url),
+                        new SqlParameter("@ShortUrl",wallpaper.ShortUrl),
+                        new SqlParameter("@Source",(Int32)wallpaper.Source),
+                        new SqlParameter("@Description",wallpaper.Description),
+                        new SqlParameter("@Width",wallpaper.Width),
+                        new SqlParameter("@Height",wallpaper.Height),
+                        new SqlParameter("@AccountId",wallpaper.AccountId),
+                        new SqlParameter("@Md5",wallpaper.Md5)
+                    };
+                    newWallpaperId = dataStore.FindSingleValue<Int32>(sql, parameters);
                 }
                 #endregion
 
                 #region 获取返回值
                 {
-                    var sql = $@"SELECT a.Id,a.Url FROM dbo.Wallpapers AS a WHERE a.Id={newWallpaperId} AND a.IsDeleted=0";
-                    var result = dataStore.FindOne<Wallpaper>(sql);
+                    var sql = $@"SELECT a.Id,a.Url FROM dbo.Wallpapers AS a WHERE a.Id=@parameters AND a.IsDeleted=0";
+                    var parameters = new List<SqlParameter>
+                    {
+                        new SqlParameter("@Id",newWallpaperId)
+                    };
+                    var result = dataStore.FindOne<Wallpaper>(sql, parameters);
                     if (result != null)
                     {
                         return new Tuple<int, string>(result.Id, result.Url);
@@ -91,8 +111,12 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.Title,
                             a.Url,
                             a.Width
-                            FROM dbo.Wallpapers AS a WHERE a.Md5={md5} AND a.IsDeleted=0";
-                return dataStore.FindOne<Wallpaper>(sql);
+                            FROM dbo.Wallpapers AS a WHERE a.Md5=@Md5 AND a.IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@Md5",md5)
+                };
+                return dataStore.FindOne<Wallpaper>(sql, parameters);
             }
         }
 
@@ -110,8 +134,13 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.Title,
                             a.Url,
                             a.Width
-                            FROM dbo.Wallpapers AS a WHERE a.AccountId={accountId} AND a.Source={(Int32)WallpaperSource.Upload} AND a.IsDeleted=0";
-                return dataStore.Find<Wallpaper>(sql);
+                            FROM dbo.Wallpapers AS a WHERE a.AccountId=@AccountId AND a.Source=@Source AND a.IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@AccountId",accountId),
+                    new SqlParameter("@Source",(Int32)WallpaperSource.Upload)
+                };
+                return dataStore.Find<Wallpaper>(sql, parameters);
             }
         }
 
@@ -129,8 +158,12 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.Title,
                             a.Url,
                             a.Width
-                            FROM dbo.Wallpapers AS a WHERE a.Source={(Int32)WallpaperSource.System} AND a.IsDeleted=0";
-                return dataStore.Find<Wallpaper>(sql);
+                            FROM dbo.Wallpapers AS a WHERE a.Source=@Source AND a.IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@Source",(Int32)WallpaperSource.System)
+                };
+                return dataStore.Find<Wallpaper>(sql, parameters);
             }
         }
 
@@ -143,8 +176,13 @@ namespace NewCRM.Domain.Services.BoundedContext
             {
                 using (var dataStore = new DataStore())
                 {
-                    var sql = $@"UPDATE dbo.Configs SET WallpaperMode={(Int32)wallpaperMode} WHERE AccountId={accountId} AND IsDeleted=0";
-                    dataStore.SqlExecute(sql);
+                    var sql = $@"UPDATE dbo.Configs SET WallpaperMode=@WallpaperMode WHERE AccountId=@accountId AND IsDeleted=0";
+                    var parameters = new List<SqlParameter>
+                    {
+                        new SqlParameter("@WallpaperMode",(Int32)wallpaperMode),
+                        new SqlParameter("@AccountId",accountId)
+                    };
+                    dataStore.SqlExecute(sql, parameters);
                 }
             }
             else
@@ -158,8 +196,13 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId).Validate(newWallpaperId);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Configs SET IsBing=0,WallpaperId={newWallpaperId} WHERE AccountId={accountId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql);
+                var sql = $@"UPDATE dbo.Configs SET IsBing=0,WallpaperId=@WallpaperId WHERE AccountId=@AccountId AND IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@WallpaperId",newWallpaperId),
+                    new SqlParameter("@AccountId",accountId)
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -168,10 +211,16 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(accountId).Validate(wallpaperId);
             using (var dataStore = new DataStore())
             {
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@WallpaperId",wallpaperId),
+                    new SqlParameter("@AccountId",accountId)
+                };
                 #region 前置条件验证
                 {
-                    var sql = $@"SELECT COUNT(*) FROM dbo.Configs AS a WHERE a.AccountId={accountId} AND a.WallpaperId={wallpaperId} AND a.IsDeleted=0";
-                    var result = (Int32)dataStore.SqlExecute(sql);
+                    var sql = $@"SELECT COUNT(*) FROM dbo.Configs AS a WHERE a.AccountId=@AccountId AND a.WallpaperId=@WallpaperId AND a.IsDeleted=0";
+
+                    var result = dataStore.FindSingleValue<Int32>(sql, parameters);
                     if (result > 0)
                     {
                         throw new BusinessException("当前壁纸正在使用中，不能删除");
@@ -181,8 +230,8 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                 #region 移除壁纸
                 {
-                    var sql = $@"UPDATE dbo.Wallpapers SET IsDeleted=1 WHERE Id={wallpaperId} AND AccountId={accountId} AND IsDeleted=0";
-                    dataStore.SqlExecute(sql);
+                    var sql = $@"UPDATE dbo.Wallpapers SET IsDeleted=1 WHERE Id=@WallpaperId AND AccountId=@AccountId AND IsDeleted=0";
+                    dataStore.SqlExecute(sql, parameters);
                 }
                 #endregion
             }
