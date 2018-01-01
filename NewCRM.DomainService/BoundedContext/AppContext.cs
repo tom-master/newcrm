@@ -31,14 +31,20 @@ namespace NewCRM.Domain.Services.BoundedContext
                               LastModifyTime ,
                               AppId
                             )
-                    VALUES  ( {accountId} , -- AccountId - int
-                              {starCount} , -- StartNum - float
+                    VALUES  ( @accountId , -- AccountId - int
+                              @starCount , -- StartNum - float
                               0 , -- IsDeleted - bit
                               GETDATE() , -- AddTime - datetime
                               GETDATE() , -- LastModifyTime - datetime
-                              {appId}  -- AppId - int
+                              @appId  -- AppId - int
                             )";
-                dataStore.SqlExecute(sql);
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@accountId",accountId),
+                    new SqlParameter("@starCount",starCount),
+                    new SqlParameter("@appId",appId)
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -75,33 +81,55 @@ namespace NewCRM.Domain.Services.BoundedContext
                                 LastModifyTime
                             )
                             VALUES
-                            (   N'{app.Name}',       -- Name - nvarchar(6)
-                                N'{app.IconUrl}',       -- IconUrl - nvarchar(max)
-                                N'{app.AppUrl}',       -- AppUrl - nvarchar(max)
-                                N'{app.Remark}',       -- Remark - nvarchar(50)
-                                {app.Width},         -- Width - int
-                                {app.Height},         -- Height - int
+                            (   @Name,       -- Name - nvarchar(6)
+                                @IconUrl,       -- IconUrl - nvarchar(max)
+                                @AppUrl,       -- AppUrl - nvarchar(max)
+                                @Remark,       -- Remark - nvarchar(50)
+                                @Width,         -- Width - int
+                                @Height,         -- Height - int
                                 0,         -- UseCount - int
-                                {app.IsMax.ParseToInt32()},      -- IsMax - bit
-                                {app.IsFull.ParseToInt32()},      -- IsFull - bit
-                                {app.IsSetbar.ParseToInt32()},      -- IsSetbar - bit
-                                {app.IsOpenMax.ParseToInt32()},      -- IsOpenMax - bit
+                                @IsMax,      -- IsMax - bit
+                                @IsFull,      -- IsFull - bit
+                                @IsSetbar,      -- IsSetbar - bit
+                                @IsOpenMax,      -- IsOpenMax - bit
                                 0,      -- IsLock - bit
-                                {app.IsSystem.ParseToInt32()},      -- IsSystem - bit
-                                {app.IsFlash.ParseToInt32()},      -- IsFlash - bit
-                                {app.IsDraw.ParseToInt32()},      -- IsDraw - bit
-                                {app.IsResize.ParseToInt32()},      -- IsResize - bit
-                                {app.AccountId},         -- AccountId - int
-                                {app.AppTypeId},         -- AppTypeId - int
+                                @IsSystem,      -- IsSystem - bit
+                                @IsFlash,      -- IsFlash - bit
+                                @IsDraw,      -- IsDraw - bit
+                                @IsResize,      -- IsResize - bit
+                                @AccountId,         -- AccountId - int
+                                @AppTypeId,         -- AppTypeId - int
                                 0,      -- IsRecommand - bit
-                                {(Int32)app.AppAuditState},         -- AppAuditState - int
-                                {(Int32)AppReleaseState.UnRelease},         -- AppReleaseState - int
-                                {(Int32)app.AppStyle},         -- AppStyle - int
+                                @AppAuditState,         -- AppAuditState - int
+                                @UnRelease,         -- AppReleaseState - int
+                                @AppStyle,         -- AppStyle - int
                                 0,      -- IsDeleted - bit
                                 GETDATE(), -- AddTime - datetime
                                 GETDATE()  -- LastModifyTime - datetime
                             )";
-                dataStore.SqlExecute(sql);
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@Name",app.Name),
+                    new SqlParameter("@IconUrl",app.IconUrl),
+                    new SqlParameter("@AppUrl",app.AppUrl),
+                    new SqlParameter("@Remark",app.Remark),
+                    new SqlParameter("@Width",app.Width),
+                    new SqlParameter("@Height",app.Height),
+                    new SqlParameter("@IsMax",app.IsMax.ParseToInt32()),
+                    new SqlParameter("@IsFull",app.IsFull.ParseToInt32()),
+                    new SqlParameter("@IsSetbar",app.IsSetbar.ParseToInt32()),
+                    new SqlParameter("@IsOpenMax",app.IsOpenMax.ParseToInt32()),
+                    new SqlParameter("@IsSystem",app.IsSystem.ParseToInt32()),
+                    new SqlParameter("@IsFlash",app.IsFlash.ParseToInt32()),
+                    new SqlParameter("@IsDraw",app.IsDraw.ParseToInt32()),
+                    new SqlParameter("@IsResize",app.IsResize.ParseToInt32()),
+                    new SqlParameter("@AccountId",app.AccountId),
+                    new SqlParameter("@AppTypeId",app.AppTypeId),
+                    new SqlParameter("@AppAuditState",(Int32)app.AppAuditState),
+                    new SqlParameter("@UnRelease",(Int32)AppReleaseState.UnRelease),
+                    new SqlParameter("@AppStyle",(Int32)app.AppStyle),
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -110,8 +138,13 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(appId);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Apps SET AppAuditState={(Int32)AppAuditState.Pass} WHERE Id={appId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql);
+                var sql = $@"UPDATE dbo.Apps SET AppAuditState=@AppAuditState WHERE Id=@appId AND IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@AppAuditState",(Int32)AppAuditState.Pass),
+                    new SqlParameter("@appId",appId)
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -121,7 +154,12 @@ namespace NewCRM.Domain.Services.BoundedContext
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Apps SET AppAuditState={(Int32)AppAuditState.Deny} WHERE Id={appId} AND IsDeleted=0";
-                dataStore.SqlExecute(sql);
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@AppAuditState",(Int32)AppAuditState.Deny),
+                    new SqlParameter("@appId",appId)
+                };
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -142,8 +180,12 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                     #region 设置新的推荐app
                     {
-                        var sql = $@"UPDATE dbo.Apps SET IsRecommand=1 WHERE Id={appId} AND IsDeleted=0";
-                        dataStore.SqlExecute(sql);
+                        var sql = $@"UPDATE dbo.Apps SET IsRecommand=1 WHERE Id=@appId AND IsDeleted=0";
+                        var parameters = new List<SqlParameter>
+                        {
+                            new SqlParameter("@appId",appId)
+                        };
+                        dataStore.SqlExecute(sql, parameters);
                     }
                     #endregion
 
@@ -165,17 +207,21 @@ namespace NewCRM.Domain.Services.BoundedContext
                 dataStore.OpenTransaction();
                 try
                 {
+                    var parameters = new List<SqlParameter>
+                    {
+                        new SqlParameter("@appId",appId)
+                    };
                     #region 移除app的评分
                     {
-                        var sql = $@"UPDATE dbo.AppStars SET IsDeleted=1 WHERE AppId={appId}";
-                        dataStore.SqlExecute(sql);
+                        var sql = $@"UPDATE dbo.AppStars SET IsDeleted=1 WHERE AppId=@appId";
+                        dataStore.SqlExecute(sql, parameters);
                     }
                     #endregion
 
                     #region 移除app
                     {
-                        var sql = $@"UPDATE dbo.Apps SET IsDeleted=1 WHERE Id={appId}";
-                        dataStore.SqlExecute(sql);
+                        var sql = $@"UPDATE dbo.Apps SET IsDeleted=1 WHERE Id=@appId";
+                        dataStore.SqlExecute(sql, parameters);
                     }
                     #endregion
 
@@ -197,7 +243,12 @@ namespace NewCRM.Domain.Services.BoundedContext
                 #region 发布app
                 {
                     var sql = $@"UPDATE dbo.Apps SET AppReleaseState={(Int32)AppReleaseState.Release} WHERE Id={appId} AND IsDeleted=0 AND AppAuditState={(Int32)AppAuditState.Pass}";
-                    dataStore.SqlExecute(sql);
+                    var parameters = new List<SqlParameter>
+                    {
+                        new SqlParameter("@AppReleaseState",(Int32)AppReleaseState.Release),
+                        new SqlParameter("@AppAuditState",(Int32)AppAuditState.Pass)
+                    };
+                    dataStore.SqlExecute(sql, parameters);
                 }
                 #endregion
             }
