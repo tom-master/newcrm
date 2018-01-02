@@ -200,7 +200,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                 var parameters = new List<SqlParameter>
                 {
                     new SqlParameter("@WallpaperId",newWallpaperId),
-                    new SqlParameter("@AccountId",accountId)
+                    new SqlParameter("@AccountId",accountId)  
                 };
                 dataStore.SqlExecute(sql, parameters);
             }
