@@ -50,12 +50,16 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                     #region 设置用户在线
                     {
-                        var sql = $@"UPDATE dbo.Accounts SET IsOnline=1,LastLoginTime=GETDATE() WHERE Id=@accountId AND IsDeleted=0 AND IsDisable=0";
+                        var sql = $@"UPDATE dbo.Accounts SET IsOnline=1,LastLoginTime=GETDATE() WHERE Id=@accountId AND IsDeleted=0 AND IsDisable=0 SELECT CAST(@@ROWCOUNT AS INT)";
                         var parameters = new List<SqlParameter>
                         {
                             new SqlParameter("@accountId",result.Id)
                         };
-                        dataStore.SqlExecute(sql, parameters);
+                        var rowCount = dataStore.FindSingleValue<Int32>(sql, parameters);
+                        if (rowCount == 0)
+                        {
+                            throw new BusinessException("设置用户在线状态失败");
+                        }
                     }
                     #endregion
 
@@ -75,13 +79,17 @@ namespace NewCRM.Domain.Services.BoundedContext
                                         0,      -- IsDeleted - bit
                                         GETDATE(), -- AddTime - datetime
                                         GETDATE()  -- LastModifyTime - datetime
-                                    )";
+                                    ) SELECT CAST(@@ROWCOUNT AS INT)";
                         var parameters = new List<SqlParameter>
                         {
                             new SqlParameter("@requestIp",requestIp),
                             new SqlParameter("@accountId",result.Id)
                         };
-                        dataStore.SqlExecute(sql, parameters);
+                        var rowCount = dataStore.FindSingleValue<Int32>(sql, parameters);
+                        if (rowCount == 0)
+                        {
+                            throw new BusinessException("添加在线列表失败");
+                        }
                     }
                     #endregion
 
@@ -171,7 +179,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public List<Account> GetAccounts(string accountName, string accountType, int pageIndex, int pageSize, out int totalCount)
         {
-            ValidateParameter.Validate(accountName).Validate(pageIndex).Validate(pageSize);
+            ValidateParameter.Validate(pageIndex).Validate(pageSize);
 
             var where = new StringBuilder();
             where.Append("WHERE 1=1 AND a.IsDeleted=0 ");
