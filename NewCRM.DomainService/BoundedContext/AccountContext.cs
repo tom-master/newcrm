@@ -116,15 +116,23 @@ namespace NewCRM.Domain.Services.BoundedContext
                     var parameters = new List<SqlParameter> { new SqlParameter("@accountId", accountId) };
                     #region 设置用户下线
                     {
-                        var sql = $@"UPDATE dbo.Accounts SET IsOnline=0 WHERE Id=@accountId AND IsDeleted=0 AND IsDisable=0";
-                        dataStore.SqlExecute(sql, parameters);
+                        var sql = $@"UPDATE dbo.Accounts SET IsOnline=0 WHERE Id=@accountId AND IsDeleted=0 AND IsDisable=0 SELECT CAST(@@ROWCOUNT AS INT)";
+                        var rowCount = dataStore.FindSingleValue<Int32>(sql, parameters);
+                        if (rowCount == 0)
+                        {
+                            throw new BusinessException("设置用户下线状态失败");
+                        }
                     }
                     #endregion
 
                     #region 将当前用户从在线列表中移除
                     {
-                        var sql = $@"UPDATE dbo.Onlines SET IsDeleted=1 WHERE AccountId=@accountId AND IsDeleted=0";
-                        dataStore.SqlExecute(sql, parameters);
+                        var sql = $@"UPDATE dbo.Onlines SET IsDeleted=1 WHERE AccountId=@accountId AND IsDeleted=0 SELECT CAST(@@ROWCOUNT AS INT)";
+                        var rowCount = dataStore.FindSingleValue<Int32>(sql, parameters);
+                        if (rowCount == 0)
+                        {
+                            throw new BusinessException("将用户移出在线列表时失败");
+                        }
                     }
                     #endregion
 
@@ -366,8 +374,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                     #endregion
                     if (configId == 0)
                     {
-                        dataStore.Rollback();
-                        return;
+                        throw new BusinessException("初始化配置时失败");
                     }
                     #region 新增用户
                     {
@@ -416,15 +423,18 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                     if (accountId == 0)
                     {
-                        dataStore.Rollback();
-                        return;
+                        throw new BusinessException("初始化用户时失败");
                     }
 
                     #region 更新用户的配置
                     {
-                        var sql = $@"UPDATE dbo.Configs SET AccountId=@accountId WHERE IsDeleted=0 AND AccountId=0";
-                        var parameters = new List<SqlParameter> { new SqlParameter("@accountId", account) };
-                        dataStore.SqlExecute(sql, parameters);
+                        var sql = $@"UPDATE dbo.Configs SET AccountId=@accountId WHERE IsDeleted=0 AND Id=@id SELECT CAST(@@ROWCOUNT AS INT)";
+                        var parameters = new List<SqlParameter> { new SqlParameter("@accountId", accountId), new SqlParameter("@id", configId) };
+                        var rowCount = dataStore.FindSingleValue<Int32>(sql, parameters);
+                        if (rowCount == 0)
+                        {
+                            throw new BusinessException("更新用户配置失败");
+                        }
                     }
                     #endregion
 
@@ -448,7 +458,6 @@ namespace NewCRM.Domain.Services.BoundedContext
                                 )");
                         }
                         dataStore.SqlExecute(sqlBuilder.ToString());
-
                     }
                     #endregion
 
@@ -476,9 +485,13 @@ namespace NewCRM.Domain.Services.BoundedContext
                         #region 修改密码
                         {
                             var newPassword = PasswordUtil.CreateDbPassword(accountDto.LoginPassword);
-                            var sql = $@"UPDATE dbo.Accounts SET LoginPassword=@newPassword WHERE Id=@accountId AND IsDeleted=0 AND IsDisable=0";
+                            var sql = $@"UPDATE dbo.Accounts SET LoginPassword=@newPassword WHERE Id=@accountId AND IsDeleted=0 AND IsDisable=0 SELECT CAST(@@ROWCOUNT AS INT)";
                             var parameters = new List<SqlParameter> { new SqlParameter("@newPassword", newPassword), new SqlParameter("@accountId", accountDto.Id) };
-                            dataStore.SqlExecute(sql, parameters);
+                            var rowCount = dataStore.FindSingleValue<Int32>(sql, parameters);
+                            if (rowCount == 0)
+                            {
+                                throw new BusinessException("修改登陆密码失败");
+                            }
                         }
                         #endregion
                     }
