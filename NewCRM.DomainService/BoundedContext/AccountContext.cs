@@ -623,7 +623,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                         {
                             throw new BusinessException("不能删除管理员");
                         }
-                    }
+                    } 
                     #endregion
 
                     #region 移除账户
