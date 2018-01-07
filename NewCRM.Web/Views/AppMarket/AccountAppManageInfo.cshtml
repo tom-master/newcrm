@@ -97,7 +97,7 @@
                             $.ajax({
                                 type: 'POST',
                                 url: '/AppMarket/UploadIcon',
-                                data: { appId: '0', newIcon: urlPart },
+                                data: { appId: '@Request["AppId"]', newIcon: urlPart },
                                 success: function (responseText) {
                                     if (responseText.IsSuccess) {
                                         $('#isIconByUpload').val('1');
