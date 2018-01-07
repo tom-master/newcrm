@@ -36,8 +36,8 @@ namespace NewCRM.Application.Services
 
         public TodayRecommendAppDto GetTodayRecommend(Int32 accountId)
         {
-            ValidateParameter.Validate(accountId);   
-              
+            ValidateParameter.Validate(accountId);
+
             var result = _appContext.GetTodayRecommend(accountId);
             result.AppIcon = result.IsIconByUpload ? ProfileManager.FileUrl + result.AppIcon : result.AppIcon;
             if (result == null)
@@ -47,7 +47,7 @@ namespace NewCRM.Application.Services
 
             return result;
         }
-         
+
         public Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
@@ -250,6 +250,7 @@ namespace NewCRM.Application.Services
             var app = appDto.ConvertToModel<AppDto, App>();
             var internalApp = new App(app.Name, app.IconUrl, app.AppUrl, app.Width, app.Height, app.AppTypeId, app.AppAuditState, AppReleaseState.UnRelease, app.AppStyle, app.AccountId,
                 app.Remark, app.IsMax, app.IsFull, app.IsSetbar, app.IsOpenMax, app.IsFlash, app.IsDraw, app.IsResize);
+            internalApp.IsIconByUpload = appDto.IsIconByUpload;
             _appContext.CreateNewApp(internalApp);
 
         }

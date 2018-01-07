@@ -78,7 +78,8 @@ namespace NewCRM.Domain.Services.BoundedContext
                                 AppStyle,
                                 IsDeleted,
                                 AddTime,
-                                LastModifyTime
+                                LastModifyTime,
+                                IsIconByUpload
                             )
                             VALUES
                             (   @Name,       -- Name - nvarchar(6)
@@ -105,7 +106,8 @@ namespace NewCRM.Domain.Services.BoundedContext
                                 @AppStyle,         -- AppStyle - int
                                 0,      -- IsDeleted - bit
                                 GETDATE(), -- AddTime - datetime
-                                GETDATE()  -- LastModifyTime - datetime
+                                GETDATE()  -- LastModifyTime - datetime,
+                                @IsIconByUpload
                             )";
                 var parameters = new List<SqlParameter>
                 {
@@ -128,6 +130,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                     new SqlParameter("@AppAuditState",(Int32)app.AppAuditState),
                     new SqlParameter("@UnRelease",(Int32)AppReleaseState.UnRelease),
                     new SqlParameter("@AppStyle",(Int32)app.AppStyle),
+                    new SqlParameter("@IsIconByUpload",app.IsIconByUpload)
                 };
                 dataStore.SqlExecute(sql, parameters);
             }

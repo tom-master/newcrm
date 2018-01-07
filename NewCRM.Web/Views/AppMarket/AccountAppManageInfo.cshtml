@@ -90,6 +90,7 @@
                     if (cb[0].IsSuccess) {
                         var urlPart = cb[0].Url
                         if (parseInt('@Request["AppId"]') === 0) {
+                            $('#isIconByUpload').val('1');
                             $('#val_icon').val(urlPart)
                         } else
                         {
