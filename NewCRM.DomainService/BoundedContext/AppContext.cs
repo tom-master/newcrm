@@ -579,7 +579,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.UseCount,
                             a.Id,
                             a.Name,
-                            a.IconUrl,
+                            a.IconUrl AS AppIcon,
                             a.Remark,
                             a.AppStyle,
                             (
@@ -592,7 +592,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 								ELSE CAST(1 AS BIT)
 								END
                             ) AS IsInstall,
-                            a.IsIconByUpload
+                            ISNULL(a.IsIconByUpload,0) AS IsIconByUpload
                             FROM dbo.Apps AS a 
                             WHERE a.AppAuditState=@AppAuditState AND a.AppReleaseState=@AppReleaseState AND a.IsRecommand=1";
                 var parameters = new List<SqlParameter>

@@ -36,7 +36,6 @@ namespace NewCRM.Web.Controllers
             {
                 ViewData["AppTypes"] = _appServices.GetAppTypes().Where(w => w.Name != "系统").ToList();
             }
-
             ViewData["TodayRecommendApp"] = _appServices.GetTodayRecommend(Account.Id);
             ViewData["AccountName"] = Account.Name;
             ViewData["AccountApp"] = _appServices.GetAccountDevelopAppCountAndNotReleaseAppCount(Account.Id);
