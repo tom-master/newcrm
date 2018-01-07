@@ -1,4 +1,5 @@
 ﻿using System;
+using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Dto
 {
@@ -10,13 +11,13 @@ namespace NewCRM.Dto
 
         public String AppIcon { get; set; }
 
-        public Double StartCount { get; set; }
+        public Double AppStars { get; set; }
 
         public Boolean IsInstall { get; set; }
 
         public String Remark { get; set; }
 
-        public String Style { get; set; }
+        public AppStyle Style { get; set; }
 
         public Boolean IsIconByUpload { get; set; }
     }

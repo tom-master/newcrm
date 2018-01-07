@@ -86,7 +86,7 @@ namespace NewCRM.Web.Controllers
                 ViewData["AppState"] = result.AppAuditState;
             }
             ViewData["AppTypes"] = _appServices.GetAppTypes();
-
+            ViewData["AccountId"] = Account.Id;
             return View(result);
         }
 

@@ -50,7 +50,7 @@
                     if (todayRecommendApp.IsInstall)
                     {
                         <text>
-                            <a href="javascript:;" real_app_id="@todayRecommendApp.Id" app_type="@todayRecommendApp.Style" class="btn-run">打开应用</a>
+                            <a href="javascript:;" real_app_id="@todayRecommendApp.Id" app_type="@todayRecommendApp.Style.ToString().ToLower()" class="btn-run">打开应用</a>
                         </text>
                     }
                     else
@@ -63,7 +63,7 @@
 
             </div>
             <span class="star-box">
-                <i style="width:@{var c = todayRecommendApp.StartCount*20; <text>@c%</text>}"></i>
+                <i style="width:@{var c = todayRecommendApp.AppStars*20; <text>@c%</text>}"></i>
             </span>
         </div>
         <div class="mbox develop">
@@ -242,7 +242,6 @@
                     });
                 }
             }).on('click', '.btn-run', function () {
-                debugger
                 if ($(this).attr('app_type') === 'app') {
                     window.parent.HROS.window.create($(this).attr('real_app_id'));
                 } else {

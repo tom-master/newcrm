@@ -1,6 +1,7 @@
 ﻿@model NewCRM.Dto.AppDto
 @{
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
+    var accountId = ViewData["AccountId"].ToString() ?? "0";
 }
 
 @{
@@ -43,13 +44,14 @@
     @section ChildrenScript{
         <script>
             $(function () {
+                debugger
                 var uploader = WebUploader.create({
                     // 选完文件后，是否自动上传。
                     auto: true,
                     // swf文件路径
                     swf: '../../js/webuploader-0.1.5/Uploader.swf',
                     // 文件接收服务端。
-                    server: 'http://39.106.106.137:8080/api/filestorage/upload?accountId=@Model.AccountId&uploadtype=icon',
+                    server: 'http://39.106.106.137:8080/api/filestorage/upload?accountId=@accountId&uploadtype=icon',
                     // 选择文件的按钮。可选。
                     // 内部根据当前运行是创建，可能是input元素，也可能是flash.
                     pick: {
@@ -85,13 +87,16 @@
                     }, 48, 48);
                 });
                 uploader.on('uploadSuccess', function (file, cb) {
-
-                        if (cb[0].IsSuccess) {
-                            var urlPart = cb[0].Url
-                                $.ajax({
+                    if (cb[0].IsSuccess) {
+                        var urlPart = cb[0].Url
+                        if (parseInt('@Request["AppId"]') === 0) {
+                            $('#val_icon').val(urlPart)
+                        } else
+                        {
+                            $.ajax({
                                 type: 'POST',
                                 url: '/AppMarket/UploadIcon',
-                                data: { appId: '@Model.Id', newIcon: urlPart },
+                                data: { appId: '0', newIcon: urlPart },
                                 success: function (responseText) {
                                     if (responseText.IsSuccess) {
                                         $('#isIconByUpload').val('1');
@@ -103,9 +108,10 @@
                                     }
                                 }
                             });
-                        } else {
-                            ZENG.msgbox.fail("图标上传失败");
                         }
+                    } else {
+                        ZENG.msgbox.fail("图标上传失败");
+                    }
                 });
 
 

@@ -581,24 +581,24 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.Name,
                             a.IconUrl AS AppIcon,
                             a.Remark,
-                            a.AppStyle,
+                            a.AppStyle AS Style,
+                            CAST(ISNULL(SUM(a1.StartNum) OVER(PARTITION BY a1.AppId ORDER BY a1.Id),0) AS INT) AS AppStars,
                             (
-	                            SELECT COUNT(*) FROM dbo.AppStars AS a1
-	                            WHERE a1.AppId=a.Id AND a1.IsDeleted=0
-                            ) AS AppStars,
-                            (
-	                            CASE (SELECT COUNT(*) FROM dbo.Members AS a1 WHERE a1.AccountId=4 AND a1.IsDeleted=0 AND a1.AppId=a.Id)
-								WHEN 0 THEN CAST(0 AS BIT)
+	                            CASE 
+								WHEN a2.Id IS NULL THEN CAST(0 AS BIT)
 								ELSE CAST(1 AS BIT)
 								END
                             ) AS IsInstall,
                             ISNULL(a.IsIconByUpload,0) AS IsIconByUpload
-                            FROM dbo.Apps AS a 
+                             FROM dbo.Apps AS a 
+							LEFT JOIN dbo.AppStars AS a1 ON a1.AppId=a.Id AND a1.IsDeleted=0
+							LEFT JOIN dbo.Members AS a2 ON a2.AccountId=@accountId AND a2.IsDeleted=0 AND a2.AppId=a.Id
                             WHERE a.AppAuditState=@AppAuditState AND a.AppReleaseState=@AppReleaseState AND a.IsRecommand=1";
                 var parameters = new List<SqlParameter>
                 {
                     new SqlParameter("@AppAuditState",(Int32)AppAuditState.Pass),
-                    new SqlParameter("@AppReleaseState",(Int32)AppReleaseState.Release)
+                    new SqlParameter("@AppReleaseState",(Int32)AppReleaseState.Release),
+                    new SqlParameter("@accountId",accountId)
                 };
                 return dataStore.FindOne<TodayRecommendAppDto>(sql, parameters);
             }
