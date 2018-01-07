@@ -31,7 +31,6 @@ namespace NewCRM.Web.Controllers
         public ActionResult Desktop()
         {
             ViewBag.Title = "桌面";
-
             if (Request.Cookies["memberID"] != null)
             {
                 var account = Account;

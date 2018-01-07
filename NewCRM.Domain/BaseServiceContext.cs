@@ -9,7 +9,7 @@ namespace NewCRM.Domain
 
     public class BaseServiceContext
     {
-        private readonly ICacheQueryProvider _cacheQuery = new DefaultRedisQueryProvider();
+        private static readonly ICacheQueryProvider _cacheQuery = new DefaultRedisQueryProvider();
 
         /// <summary>
         /// 参数验证

@@ -275,7 +275,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             ON a1.Id=a.RoleId AND a1.IsDeleted=0 
                             WHERE a.AccountId=@accountId AND a.IsDeleted=0 ";
                 var parameters = new List<SqlParameter> { new SqlParameter("@accountId", accountId) };
-                return dataStore.Find<Role>(sql);
+                return dataStore.Find<Role>(sql,parameters);
             }
         }
 
