@@ -15,17 +15,31 @@ namespace NewCRM.Web.Filter
         public void OnException(ExceptionContext filterContext)
         {
             filterContext.ExceptionHandled = true;
-            var response = new ResponseModel<String>
+
+            var isAjaxRequest = filterContext.RequestContext.HttpContext.Request.IsAjaxRequest();
+            if (isAjaxRequest)
             {
-                IsSuccess = false,
-                Message = filterContext.Exception is BusinessException ? filterContext.Exception.Message : "出现未知错误，请重试",
-            };
-            filterContext.Result = new JsonResult
+                filterContext.Result = new JsonResult
+                {
+                    Data = new ResponseModel<String>
+                    {
+                        IsSuccess = false,
+                        Message = filterContext.Exception is BusinessException ? filterContext.Exception.Message : "出现未知错误，请重试",
+                    },
+                    ContentEncoding = Encoding.UTF8,
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
+            }
+            else
             {
-                Data = response,
-                ContentEncoding = Encoding.UTF8,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
+                var notPermissionMessage = $@"<script>top.alertInfo('出现未知错误，请重试')</script>";
+                filterContext.Result = new ContentResult
+                {
+                    ContentEncoding = Encoding.UTF8,
+                    Content = notPermissionMessage
+                };
+            }
+
 
             DependencyResolver.Current.GetService<ILoggerServices>().AddLogger(new LogDto
             {
