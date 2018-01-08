@@ -60,8 +60,13 @@
         });
     };
 
-    function alertInfo(msg) {
-        top.ZENG.msgbox.info(msg);
+    function alertInfo(msg, type) {
+        if (type) {
+            top.ZENG.msgbox.info(msg);
+        } else {
+            top.ZENG.msgbox.fail(msg);
+        }
+
     }
 </script>
 
