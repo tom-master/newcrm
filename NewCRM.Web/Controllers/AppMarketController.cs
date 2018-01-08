@@ -27,8 +27,6 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-
-            throw new ArgumentException("wasd");
             if (Account.IsAdmin)
             {
                 ViewData["AppTypes"] = _appServices.GetAppTypes();
