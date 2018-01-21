@@ -164,7 +164,7 @@ namespace NewCRM.Web.Controllers
             var result = _appServices.GetAccountAllApps(Account.Id, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
             if (result != null)
             {
-                response.TotalCount = totalCount;
+                response.TotalCount = totalCount; 
                 response.IsSuccess = true;
                 response.Message = "app列表获取成功";
                 response.Model = result;
