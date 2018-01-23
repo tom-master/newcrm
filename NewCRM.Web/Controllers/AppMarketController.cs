@@ -144,7 +144,7 @@ namespace NewCRM.Web.Controllers
             #region 参数验证
             Parameter.Validate(appId).Validate(deskNum);
             #endregion
-
+             
             var response = new ResponseModel();
             _appServices.InstallApp(Account.Id, appId, deskNum);
             response.IsSuccess = true;
