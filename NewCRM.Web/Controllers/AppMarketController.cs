@@ -117,7 +117,7 @@ namespace NewCRM.Web.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
-        /// <summary>
+        /// <summary> 
         /// 给app打分
         /// </summary>
         [HttpPost]
