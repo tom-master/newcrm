@@ -607,7 +607,9 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.IconUrl AS AppIcon,
                             a.Remark,
                             a.AppStyle AS Style,
-                            CAST(ISNULL(SUM(a1.StartNum) OVER(PARTITION BY a1.AppId ORDER BY a1.Id),0) AS INT) AS AppStars,
+                            (
+		                        SELECT AVG(stars.StartNum) FROM dbo.AppStars AS stars WHERE stars.AppId=a.Id AND stars.IsDeleted=0 GROUP BY stars.AppId
+                            ) AS AppStars,
                             (
 	                            CASE 
 								WHEN a2.Id IS NULL THEN CAST(0 AS BIT)
@@ -615,8 +617,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 								END
                             ) AS IsInstall,
                             ISNULL(a.IsIconByUpload,0) AS IsIconByUpload
-                             FROM dbo.Apps AS a 
-							LEFT JOIN dbo.AppStars AS a1 ON a1.AppId=a.Id AND a1.IsDeleted=0
+                            FROM dbo.Apps AS a 
 							LEFT JOIN dbo.Members AS a2 ON a2.AccountId=@accountId AND a2.IsDeleted=0 AND a2.AppId=a.Id
                             WHERE a.AppAuditState=@AppAuditState AND a.AppReleaseState=@AppReleaseState AND a.IsRecommand=1";
                 var parameters = new List<SqlParameter>
@@ -699,7 +700,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 	                                    a.AddTime,
 	                                    a.UseCount,
 	                                    (
-		                                    SELECT AVG(stars.StartNum) FROM dbo.AppStars AS stars WHERE stars.AppId=a.Id  AND stars.IsDeleted=0 GROUP BY stars.AppId
+		                                    SELECT AVG(stars.StartNum) FROM dbo.AppStars AS stars WHERE stars.AppId=a.Id AND stars.IsDeleted=0 GROUP BY stars.AppId
 	                                    ) AS StarCount,
 	                                    a.Name,
 	                                    a.IconUrl,
@@ -829,7 +830,9 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.IconUrl,
                             a.Remark,
                             a.UseCount,
-                            CAST(ISNULL(SUM(a1.StartNum) OVER(PARTITION BY a1.AppId ORDER BY a1.Id),0) AS INT) AS StarCount,
+                            (
+		                      SELECT AVG(stars.StartNum) FROM dbo.AppStars AS stars WHERE stars.AppId=a.Id AND stars.IsDeleted=0 GROUP BY stars.AppId
+	                        ) AS StarCount,
                             a.AddTime,
                             a.AccountId,
                             a.Id,
@@ -846,8 +849,6 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a2.Name AS AccountName,
                             a.IsIconByUpload
                             FROM dbo.Apps AS a 
-                            LEFT JOIN dbo.AppStars AS a1
-                            ON a1.AppId=a.Id AND a1.IsDeleted=0
                             LEFT JOIN dbo.Accounts AS a2
                             ON a2.Id=a.AccountId AND a2.IsDeleted=0 AND a2.IsDisable=0
                             WHERE a.Id=@Id AND a.IsDeleted=0";
