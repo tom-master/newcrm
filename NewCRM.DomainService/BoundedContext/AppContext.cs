@@ -674,7 +674,6 @@ namespace NewCRM.Domain.Services.BoundedContext
                         }
                     case 3:
                         {
-
                             orderBy.Append($@" ORDER BY aa.StarCount DESC");
                             break;
                         }
@@ -694,27 +693,29 @@ namespace NewCRM.Domain.Services.BoundedContext
                     var sql = $@"SELECT TOP (@pageSize) * FROM 
                                 (
 	                                SELECT 
-	                                ROW_NUMBER() OVER(ORDER BY a.Id DESC) AS rownumber,
-	                                a.AppTypeId,
-	                                a.AccountId,
-	                                a.AddTime,
-	                                a.UseCount,
-	                                CAST(ISNULL(SUM(a1.StartNum) OVER(PARTITION BY a1.AppId ORDER BY a1.Id),0) AS INT) AS StarCount,
-	                                a.Name,
-	                                a.IconUrl,
-	                                a.Remark,
-	                                a.AppStyle,
-	                                a.Id,
-	                                (
-		                                CASE (SELECT COUNT(*) FROM dbo.Members AS a1 WHERE a1.AccountId=4 AND a1.AppId=a.Id AND a1.IsDeleted=0)
-											WHEN 1 THEN CAST(1 AS BIT)
-											WHEN 0 THEN CAST(0 AS BIT)
-										END
-	                                ) AS IsInstall,
-                                    a.IsIconByUpload
-	                                FROM dbo.Apps AS a
-                                    LEFT JOIN dbo.AppStars AS a1
-                                    ON a1.AppId=a.Id AND a1.IsDeleted=0 {where}
+	                                    ROW_NUMBER() OVER(ORDER BY a.AddTime DESC) AS rownumber,
+	                                    a.AppTypeId,
+	                                    a.AccountId,
+	                                    a.AddTime,
+	                                    a.UseCount,
+	                                    (
+		                                    SELECT AVG(stars.StartNum) FROM dbo.AppStars AS stars WHERE stars.AppId=a.Id  AND stars.IsDeleted=0 GROUP BY stars.AppId
+	                                    ) AS StarCount,
+	                                    a.Name,
+	                                    a.IconUrl,
+	                                    a.Remark,
+	                                    a.AppStyle,
+	                                    a.Id,
+	                                    (
+		                                    CASE 
+			                                    WHEN a1.Id IS NOT NULL THEN CAST(1 AS BIT)
+			                                    ELSE CAST(0 AS BIT)
+		                                    END
+	                                    ) AS IsInstall,
+                                        a.IsIconByUpload
+	                                    FROM dbo.Apps AS a
+	                                    LEFT JOIN dbo.Members AS a1 ON a1.AccountId=a.AccountId AND a1.AppId=a.Id AND a.IsDeleted=0
+                                        {where}
                                 ) AS aa WHERE aa.rownumber>@pageSize*(@pageIndex-1) {orderBy}";
                     parameters.Add(new SqlParameter("@pageSize", pageSize));
                     parameters.Add(new SqlParameter("@pageIndex", pageIndex));
