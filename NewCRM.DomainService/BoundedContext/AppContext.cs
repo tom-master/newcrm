@@ -23,7 +23,25 @@ namespace NewCRM.Domain.Services.BoundedContext
 
             using (var dataStore = new DataStore())
             {
-                var sql = $@"INSERT dbo.AppStars
+                #region 
+                {
+                    var sql = $@"SELECT COUNT(*) FROM dbo.AppStars AS a WHERE a.AccountId=@accountId AND a.AppId=@appId AND a.IsDeleted=0";
+                    var parameters = new List<SqlParameter>
+                    {
+                        new SqlParameter("@accountId",accountId),
+                        new SqlParameter("@appId",appId)
+                    };
+                    var result = dataStore.FindSingleValue<Int32>(sql, parameters);
+                    if (result > 0)
+                    {
+                        throw new BusinessException("您已为这个应用打分");
+                    }
+                }
+                #endregion
+
+                #region sql
+                {
+                    var sql = $@"INSERT dbo.AppStars
                             ( AccountId ,
                               StartNum ,
                               IsDeleted ,
@@ -38,13 +56,17 @@ namespace NewCRM.Domain.Services.BoundedContext
                               GETDATE() , -- LastModifyTime - datetime
                               @appId  -- AppId - int
                             )";
-                var parameters = new List<SqlParameter>
-                {
-                    new SqlParameter("@accountId",accountId),
-                    new SqlParameter("@starCount",starCount),
-                    new SqlParameter("@appId",appId)
-                };
-                dataStore.SqlExecute(sql, parameters);
+                    var parameters = new List<SqlParameter>
+                    {
+                        new SqlParameter("@accountId",accountId),
+                        new SqlParameter("@starCount",starCount),
+                        new SqlParameter("@appId",appId)
+                    };
+                    dataStore.SqlExecute(sql, parameters);
+                }
+                #endregion
+
+
             }
         }
 
