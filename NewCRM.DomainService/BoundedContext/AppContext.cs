@@ -48,7 +48,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                               AddTime ,
                               LastModifyTime ,
                               AppId
-                            )
+                            ) 
                     VALUES  ( @accountId , -- AccountId - int
                               @starCount , -- StartNum - float
                               0 , -- IsDeleted - bit
