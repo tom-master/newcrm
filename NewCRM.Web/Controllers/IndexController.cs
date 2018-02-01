@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
 using System.Web.Mvc;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Domain.ValueObject;
@@ -74,10 +73,7 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public void Logout()
         {
-            Response.Cookies.Add(new HttpCookie("memberID")
-            {
-                Expires = DateTime.Now.AddDays(-1)
-            });
+            base.Logout();
         }
 
         /// <summary>

@@ -47,7 +47,7 @@ namespace NewCRM.Web.Controllers
             AccountServices.ModifyPassword(Account.Id, forms["password"]);
             response.Message = "账户密码修改成功";
             response.IsSuccess = true;
-
+            Logout();
             return Json(response);
         }
 
@@ -80,13 +80,8 @@ namespace NewCRM.Web.Controllers
             Parameter.Validate(param);
             #endregion
 
-            var response = new ResponseModel<dynamic>();
             var result = AccountServices.CheckPassword(Account.Id, param);
-
-            response.IsSuccess = true;
-            response.Model = result ? new { status = "y", info = "" } : new { status = "n", info = "原始密码错误" };
-
-            return Json(response, JsonRequestBehavior.AllowGet);
+            return Json(result ? new { status = "y", info = "" } : new { status = "n", info = "原始密码错误" }, JsonRequestBehavior.AllowGet);
         }
     }
 }

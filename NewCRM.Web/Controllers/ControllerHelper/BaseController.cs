@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using System.Web.Mvc;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Dto;
@@ -10,7 +11,7 @@ namespace NewCRM.Web.Controllers.ControllerHelper
 {
     public class BaseController : Controller
     {
-        protected ParameterValidate Parameter => new  ParameterValidate();
+        protected ParameterValidate Parameter => new ParameterValidate();
 
         [Dependency]
         protected IAccountServices AccountServices { get; set; }
@@ -26,6 +27,14 @@ namespace NewCRM.Web.Controllers.ControllerHelper
                 }
                 return null;
             }
+        }
+
+        protected void Logout()
+        {
+            Response.Cookies.Add(new HttpCookie("memberID")
+            {
+                Expires = DateTime.Now.AddDays(-1)
+            });
         }
     }
 }
