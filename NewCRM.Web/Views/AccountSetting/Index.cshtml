@@ -106,13 +106,39 @@
                     }
                 }
             },
-            ajaxPost: true,
-            callback: function (responseText) {
-                if (responseText.IsSuccess) {
-                    window.parent.ZENG.msgbox.success('登陆密码修改成功，请刷新页面后重新登陆');
-                } else {
-                    window.parent.ZENG.msgbox.fail('修改失败');
-                }
+            ajaxPost: false,
+            callback: function (form) {
+
+                $.dialog({
+                    title: '温馨提示',
+                    icon: 'warning',
+                    content: '在更新登陆密码时，是否将锁屏密码一并修改为登陆密码？',
+                    button: [
+                        {
+                            name: '否',
+                            callback: function () {
+                                $('#lockPwdIsEqLoginPwd').val('0')
+                                form[0].submit()
+                            },
+                            focus: true
+                        },
+                        {
+                            name: '是',
+                            callback: function () {
+                                $('#lockPwdIsEqLoginPwd').val('1')
+                                form[0].submit()
+                            }
+                        }
+                    ]
+                });
+
+                return false;
+
+                //if (responseText.IsSuccess) {
+                //    window.parent.ZENG.msgbox.success('登陆密码修改成功，请刷新页面后重新登陆');
+                //} else {
+                //    window.parent.ZENG.msgbox.fail('修改失败');
+                //}
             }
         });
         $('#form2').Validform({

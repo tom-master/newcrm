@@ -175,10 +175,10 @@ namespace NewCRM.Application.Services
             RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
-        public void ModifyPassword(Int32 accountId, String newPassword)
+        public void ModifyPassword(Int32 accountId, String newPassword, Boolean isTogetherSetLockPassword)
         {
             ValidateParameter.Validate(newPassword);
-            _accountContext.ModifyPassword(accountId, PasswordUtil.CreateDbPassword(newPassword));
+            _accountContext.ModifyPassword(accountId, PasswordUtil.CreateDbPassword(newPassword), isTogetherSetLockPassword);
         }
 
         public void ModifyLockScreenPassword(Int32 accountId, String newScreenPassword)

@@ -68,21 +68,16 @@ namespace NewCRM.Application.Services.Interface
         /// <summary>
         /// 修改账户密码
         /// </summary>
-        /// <param name="accountId"></param>
-        /// <param name="newPassword"></param>
-        void ModifyPassword(Int32 accountId, String newPassword);
+        void ModifyPassword(Int32 accountId, String newPassword, Boolean isTogetherSetLockPassword);
 
         /// <summary>
         /// 修改锁屏密码
         /// </summary>
-        /// <param name="accountId"></param>
-        /// <param name="newScreenPassword"></param>
         void ModifyLockScreenPassword(Int32 accountId, String newScreenPassword);
 
         /// <summary>
         /// 修改用户
         /// </summary>
-        /// <param name="account"></param>
         void ModifyAccount(AccountDto account);
 
         /// <summary>

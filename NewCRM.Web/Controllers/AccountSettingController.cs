@@ -44,7 +44,7 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             var response = new ResponseModel();
-            AccountServices.ModifyPassword(Account.Id, forms["password"]);
+            AccountServices.ModifyPassword(Account.Id, forms["password"], Int32.Parse(forms["lockPwdIsEqLoginPwd"]) == 1);
             response.Message = "账户密码修改成功";
             response.IsSuccess = true;
             Logout();

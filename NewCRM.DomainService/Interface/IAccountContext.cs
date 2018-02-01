@@ -86,7 +86,7 @@ namespace NewCRM.Domain.Services.Interface
         /// <summary>
         /// 修改账户密码
         /// </summary>
-        void ModifyPassword(Int32 accountId, String newPassword);
+        void ModifyPassword(Int32 accountId, String newPassword, Boolean isTogetherSetLockPassword);
 
         /// <summary>
         /// 修改锁屏密码

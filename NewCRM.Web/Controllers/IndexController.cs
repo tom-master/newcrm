@@ -50,7 +50,7 @@ namespace NewCRM.Web.Controllers
         /// 解锁屏幕
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         public ActionResult UnlockScreen(String unlockPassword)
         {
             #region 参数验证

@@ -275,7 +275,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             ON a1.Id=a.RoleId AND a1.IsDeleted=0 
                             WHERE a.AccountId=@accountId AND a.IsDeleted=0 ";
                 var parameters = new List<SqlParameter> { new SqlParameter("@accountId", accountId) };
-                return dataStore.Find<Role>(sql,parameters);
+                return dataStore.Find<Role>(sql, parameters);
             }
         }
 
@@ -582,13 +582,23 @@ namespace NewCRM.Domain.Services.BoundedContext
             }
         }
 
-        public void ModifyPassword(Int32 accountId, String newPassword)
+        public void ModifyPassword(Int32 accountId, String newPassword, Boolean isTogetherSetLockPassword)
         {
             ValidateParameter.Validate(accountId).Validate(newPassword);
             using (var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE dbo.Accounts SET LoginPassword=@password WHERE Id=@accountId AND IsDeleted=0 AND IsDisable=0";
-                dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@password", newPassword), new SqlParameter("@accountId", accountId) });
+                var lockPassword = "";
+                var parameters = new List<SqlParameter>();
+                if (isTogetherSetLockPassword)
+                {
+                    lockPassword = ",LockScreenPassword=@lockPassword";
+                    parameters.Add(new SqlParameter("@lockPassword", newPassword));
+                }
+                var sql = $@"UPDATE dbo.Accounts SET LoginPassword=@password {lockPassword} WHERE Id=@accountId AND IsDeleted=0 AND IsDisable=0";
+                parameters.Add(new SqlParameter("@password", newPassword));
+                parameters.Add(new SqlParameter("@accountId", accountId));
+
+                dataStore.SqlExecute(sql, parameters);
             }
         }
 
@@ -623,7 +633,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                         {
                             throw new BusinessException("不能删除管理员");
                         }
-                    } 
+                    }
                     #endregion
 
                     #region 移除账户

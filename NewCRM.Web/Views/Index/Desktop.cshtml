@@ -50,7 +50,7 @@
                         @{
                             for (int i = 1; i <= desks; i++)
                             {
-                                
+
                                 <text>
                                     <a class="pagination pagination-@i" href="javascript:void(0);" index="@i" title="切换至桌面@{@i}，快捷键：Ctrl + @i">
                                         <span class="pagination-icon-bg"></span>
@@ -121,20 +121,20 @@
                             <div class="scrollBar"></div>
                         </div>
                     </div>
-    }
-    else
-    {
-        <div class="folderItem" style="width:@{
+                }
+                else
+                {
+                    <div class="folderItem" style="width:@{
             <text>@width%</text>}" data-deskname="桌面@{@i}">
-            <div class="folder_bg folder_bg@{@i}"></div>
-            <div class="folderOuter">
-                <div class="folderInner" desk="@i"></div>
-                <div class="scrollBar"></div>
-            </div>
-            <div class="amg_line_y"></div>
-        </div>
-        }
-    }
+                        <div class="folder_bg folder_bg@{@i}"></div>
+                        <div class="folderOuter">
+                            <div class="folderInner" desk="@i"></div>
+                            <div class="scrollBar"></div>
+                        </div>
+                        <div class="amg_line_y"></div>
+                    </div>
+                }
+            }
         }
     </div>
 </div>
@@ -142,7 +142,7 @@
 @section ParentScript{
 
     <script>
-        $(function () { 
+        $(function () {
             document.body.onselectstart = document.body.ondrag = function () {
                 return false;
             };
@@ -157,6 +157,7 @@
             HROS.CONFIG.appHorizontalSpacing = '@accountConfig.AppHorizontalSpacing';
             HROS.CONFIG.appVerticalSpacing = '@accountConfig.AppVerticalSpacing';
             HROS.CONFIG.deskCount = parseInt('@desks');
+            HROS.CONFIG.lockPwdAndLoginPwd = '@(account.Password==account.LockScreenPassword?1:0)'
             HROS.base.init();
         });
 
