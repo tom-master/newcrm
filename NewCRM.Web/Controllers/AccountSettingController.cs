@@ -73,7 +73,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 检查旧密码和输入的密码是否一致
         /// </summary>
-        [HttpGet]
+        [HttpPost]
         public ActionResult CheckPassword(String param)
         {
             #region 参数验证
