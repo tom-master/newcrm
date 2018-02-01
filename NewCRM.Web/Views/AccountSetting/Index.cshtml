@@ -108,7 +108,6 @@
             },
             ajaxPost: false,
             callback: function (form) {
-
                 $.dialog({
                     title: '温馨提示',
                     icon: 'warning',
@@ -119,6 +118,10 @@
                             callback: function () {
                                 $('#lockPwdIsEqLoginPwd').val('0')
                                 form[0].submit()
+                                $('#hform').load(function () {
+                                    debugger
+                                    var a = $(this)
+                                })
                             },
                             focus: true
                         },
@@ -127,6 +130,10 @@
                             callback: function () {
                                 $('#lockPwdIsEqLoginPwd').val('1')
                                 form[0].submit()
+                                $('#hform').load(function () {
+                                    debugger
+                                    var a = $(this)
+                                })
                             }
                         }
                     ]
@@ -141,6 +148,9 @@
                 //}
             }
         });
+
+
+
         $('#form2').Validform({
             btnSubmit: '#form-submit2',
             postonce: false,
