@@ -65,8 +65,6 @@ namespace NewCRM.Domain.Services.BoundedContext
                     dataStore.SqlExecute(sql, parameters);
                 }
                 #endregion
-
-
             }
         }
 
