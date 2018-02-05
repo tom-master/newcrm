@@ -119,8 +119,12 @@
                                 $('#lockPwdIsEqLoginPwd').val('0')
                                 form[0].submit()
                                 $('#hform').load(function () {
-                                    
-                                    var a = $(this)
+                                    var responseText = $(this);
+                                    if (responseText.IsSuccess) {
+                                        window.parent.ZENG.msgbox.success('登陆密码修改成功，请刷新页面后重新登陆');
+                                    } else {
+                                        window.parent.ZENG.msgbox.fail('修改失败');
+                                    }
                                 })
                             },
                             focus: true
@@ -131,8 +135,12 @@
                                 $('#lockPwdIsEqLoginPwd').val('1')
                                 form[0].submit()
                                 $('#hform').load(function () {
-                                    
-                                    var a = $(this)
+                                    var responseText = $(this);
+                                    if (responseText.IsSuccess) {
+                                        window.parent.ZENG.msgbox.success('登陆密码修改成功，请刷新页面后重新登陆');
+                                    } else {
+                                        window.parent.ZENG.msgbox.fail('修改失败');
+                                    }
                                 })
                             }
                         }
