@@ -318,8 +318,5 @@ namespace NewCRM.Repository.StorageProvider
 
 
         #endregion
-
-        #region 缓存事件
-        #endregion
     }
 }
