@@ -45,7 +45,7 @@ namespace NewCRM.Web.Controllers
             Parameter.Validate(moveType).Validate(memberId);
             #endregion
 
-            switch (moveType)
+            switch(moveType)
             {
                 case "desk-dock": //成员从桌面移动到码头
                     _deskServices.MemberInDock(Account.Id, memberId);
@@ -185,6 +185,17 @@ namespace NewCRM.Web.Controllers
             response.Message = "新建文件夹成功";
 
             return Json(response);
+        }
+
+        /// <summary>
+        /// 检查成员名称
+        /// </summary>
+        [HttpPost]
+        public ActionResult CheckMemberName(String name)
+        {
+            Parameter.Validate(name);
+            var result = _deskServices.CheckMemberName(name);
+            return Json(!result ? new { status = "y", info = "" } : new { status = "n", info = "成员名称已存在" });
         }
     }
 }

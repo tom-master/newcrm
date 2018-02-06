@@ -16,7 +16,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         public List<Member> GetMembers(Int32 accountId)
         {
             ValidateParameter.Validate(accountId);
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
             {
                 var sql = $@"SELECT 
                             a.MemberType,
@@ -45,11 +45,11 @@ namespace NewCRM.Domain.Services.BoundedContext
         public Member GetMember(Int32 accountId, Int32 memberId, Boolean isFolder)
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
             {
                 var where = new StringBuilder();
                 var parameters = new List<SqlParameter>();
-                if (isFolder)
+                if(isFolder)
                 {
                     parameters.Add(new SqlParameter("@Id", memberId));
                     parameters.Add(new SqlParameter("@MemberType", (Int32)MemberType.Folder));
@@ -89,27 +89,47 @@ namespace NewCRM.Domain.Services.BoundedContext
             }
         }
 
+        public Boolean CheckMemberName(String name)
+        {
+            ValidateParameter.Validate(name);
+
+            using(var dataStore = new DataStore())
+            {
+                var sql = $@"SELECT COUNT(*) FROM dbo.Members AS a WHERE a.Name=@name AND a.IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@name",name)
+                };
+
+                return dataStore.FindSingleValue<Int32>(sql, parameters) > 0;
+            }
+        }
+
         public void ModifyFolderInfo(Int32 accountId, String memberName, String memberIcon, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberName).Validate(memberIcon).Validate(memberId);
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
             {
-                var sql = $@"UPDATE Members SET Name=@name,IconUrl=@url WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
-                var parameters = new List<SqlParameter>
+                #region sql
                 {
-                    new SqlParameter("@Id",memberId),
-                    new SqlParameter("@AccountId",accountId),
-                    new SqlParameter("@name",memberName),
-                    new SqlParameter("@url",memberIcon)
-                };
-                dataStore.SqlExecute(sql, parameters);
+                    var sql = $@"UPDATE Members SET Name=@name,IconUrl=@url WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+                    var parameters = new List<SqlParameter>
+                    {
+                        new SqlParameter("@Id",memberId),
+                        new SqlParameter("@AccountId",accountId),
+                        new SqlParameter("@name",memberName),
+                        new SqlParameter("@url",memberIcon)
+                    };
+                    dataStore.SqlExecute(sql, parameters);
+                }
+                #endregion
             }
         }
 
         public void ModifyMemberIcon(Int32 accountId, Int32 memberId, String newIcon)
         {
             ValidateParameter.Validate(accountId).Validate(memberId).Validate(newIcon);
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Members SET IconUrl=@url WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
                 var parameters = new List<SqlParameter>
@@ -125,7 +145,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         public void ModifyMemberInfo(Int32 accountId, Member member)
         {
             ValidateParameter.Validate(accountId).Validate(member);
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Members SET IsIconByUpload=@IsIconByUpload,IconUrl=@IconUrl,Name=@Name,Width=@Width,Height=@Height,IsResize=@IsResize,IsOpenMax=@IsOpenMax,IsFlash=@IsFlash WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
                 var parameters = new List<SqlParameter>
@@ -148,7 +168,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         public void UninstallMember(Int32 accountId, Int32 memberId)
         {
             ValidateParameter.Validate(accountId).Validate(memberId);
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
             {
                 dataStore.OpenTransaction();
                 try
@@ -167,7 +187,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                     }
                     #endregion
 
-                    if (isFolder)
+                    if(isFolder)
                     {
                         #region 将文件夹内的成员移出
                         {
@@ -224,7 +244,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                     dataStore.Commit();
                 }
-                catch (Exception)
+                catch(Exception)
                 {
                     dataStore.Rollback();
                     throw;

@@ -19,6 +19,11 @@ namespace NewCRM.Domain.Services.Interface
         Member GetMember(Int32 accountId, Int32 memberId, Boolean isFolder);
 
         /// <summary>
+        /// 检查成员名称
+        /// </summary>
+        Boolean CheckMemberName(String name);
+
+        /// <summary>
         /// 修改文件夹的信息
         /// </summary>
         void ModifyFolderInfo(Int32 accountId, String memberName, String memberIcon, Int32 memberId);

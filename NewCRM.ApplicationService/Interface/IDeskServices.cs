@@ -19,6 +19,12 @@ namespace NewCRM.Application.Services.Interface
         /// </summary>
         MemberDto GetMember(Int32 accountId, Int32 memberId, Boolean isFolder = default(Boolean));
 
+
+        /// <summary>
+        /// 检查成员名称
+        /// </summary>
+        Boolean CheckMemberName(String name);
+
         #endregion
 
         #region not have return value

@@ -737,6 +737,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                 var where = new StringBuilder();
                 where.Append($@" WHERE 1=1 ");
                 var parameters = new List<SqlParameter>();
+
                 #region 条件筛选
 
                 if(accountId != default(Int32))
@@ -892,6 +893,5 @@ namespace NewCRM.Domain.Services.BoundedContext
                 return dataStore.Find<App>(sql);
             }
         }
-
     }
 }

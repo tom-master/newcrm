@@ -192,7 +192,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 检查应用名称
         /// </summary>
-        [HttpGet]
+        [HttpPost]
         public ActionResult CheckAppName(String name)
         {
             Parameter.Validate(name);
@@ -204,6 +204,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 检查应用Url
         /// </summary>
+        [HttpPost]
         public ActionResult CheckAppUrl(String url)
         {
             Parameter.Validate(url);
