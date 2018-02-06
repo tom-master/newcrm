@@ -59,7 +59,6 @@
     <Compile Include="CommonTools\CacheKey.cs" />
     <Compile Include="CommonTools\CustomExtension\BooleanExtension.cs" />
     <Compile Include="CommonTools\CustomExtension\DataTableExtension.cs" />
-    <Compile Include="CommonTools\CustomExtension\ExpressionExtension.cs" />
     <Compile Include="CommonTools\BingHelper.cs" />
     <Compile Include="CommonTools\ResponseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
