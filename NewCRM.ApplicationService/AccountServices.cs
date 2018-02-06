@@ -83,7 +83,7 @@ namespace NewCRM.Application.Services
         {
             var account = GetCache(CacheKey.Account(accountId), () => _accountContext.GetAccount(accountId));
 
-            if (account == null)
+            if(account == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
             }
@@ -129,6 +129,12 @@ namespace NewCRM.Application.Services
 
             var result = _accountContext.GetOldPassword(accountId);
             return PasswordUtil.ComparePasswords(result, oldAccountPassword);
+        }
+
+        public Boolean UnlockScreen(Int32 accountId, String unlockPassword)
+        {
+            ValidateParameter.Validate(unlockPassword);
+            return _accountContext.UnlockScreen(accountId, unlockPassword);
         }
 
         public void AddNewAccount(AccountDto accountDto)
@@ -194,10 +200,16 @@ namespace NewCRM.Application.Services
             _accountContext.RemoveAccount(accountId);
         }
 
-        public Boolean UnlockScreen(Int32 accountId, String unlockPassword)
+        public Boolean CheckAppName(string name)
         {
-            ValidateParameter.Validate(unlockPassword);
-            return _accountContext.UnlockScreen(accountId, unlockPassword);
+            ValidateParameter.Validate(name);
+            return _accountContext.CheckAppName(name);
+        }
+
+        public Boolean CheckAppUrl(string url)
+        {
+            ValidateParameter.Validate(url);
+            return _accountContext.CheckAppUrl(url);
         }
     }
 }

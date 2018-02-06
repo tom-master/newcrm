@@ -15,10 +15,12 @@ namespace NewCRM.Web.Controllers
     public class IndexController : BaseController
     {
         private readonly IDeskServices _deskServices;
+        private readonly IAppServices _appServices;
 
         public IndexController(IAppServices appServices, IDeskServices deskServices)
         {
             _deskServices = deskServices;
+            _appServices = appServices;
         }
 
         #region 页面
@@ -30,7 +32,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult Desktop()
         {
             ViewBag.Title = "桌面";
-            if (Request.Cookies["memberID"] != null)
+            if(Request.Cookies["memberID"] != null)
             {
                 var account = Account;
                 account.AccountFace = ProfileManager.FileUrl + account.AccountFace;
@@ -59,7 +61,7 @@ namespace NewCRM.Web.Controllers
 
             var response = new ResponseModel();
             var result = AccountServices.UnlockScreen(Account.Id, unlockPassword);
-            if (result)
+            if(result)
             {
                 response.IsSuccess = true;
             }
@@ -73,6 +75,7 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public void Logout()
         {
+            AccountServices.Logout(Account.Id);
             base.Logout();
         }
 
@@ -100,7 +103,7 @@ namespace NewCRM.Web.Controllers
             var response = new ResponseModel<ConfigDto>();
             var result = AccountServices.GetConfig(Account.Id);
 
-            if (result.IsBing)
+            if(result.IsBing)
             {
                 result.WallpaperSource = WallpaperSource.Bing.ToString().ToLower();
                 result.WallpaperUrl = AsyncContext.Run(BingHelper.GetEverydayBackgroundImageAsync);
@@ -186,6 +189,29 @@ namespace NewCRM.Web.Controllers
             };
 
             return Json(response);
+        }
+
+        /// <summary>
+        /// 检查应用名称
+        /// </summary>
+        [HttpGet]
+        public ActionResult CheckAppName(String name)
+        {
+            Parameter.Validate(name);
+
+            var result = AccountServices.CheckAppName(name);
+            return Json(!result ? new { status = "y", info = "" } : new { status = "n", info = "应用名称已存在" });
+        }
+
+        /// <summary>
+        /// 检查应用Url
+        /// </summary>
+        public ActionResult CheckAppUrl(String url)
+        {
+            Parameter.Validate(url);
+
+            var result = AccountServices.CheckAppUrl(url);
+            return Json(!result ? new { status = "y", info = "" } : new { status = "n", info = "应用Url已存在" });
         }
     }
 }

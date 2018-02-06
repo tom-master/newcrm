@@ -61,6 +61,16 @@ namespace NewCRM.Application.Services.Interface
         /// <returns></returns>
         Boolean UnlockScreen(Int32 accountId, String unlockPassword);
 
+        /// <summary>
+        /// 检查app名称是否已经存在
+        /// </summary>
+        Boolean CheckAppName(String name);
+
+        /// <summary>
+        /// 检查appUrl是否存在
+        /// </summary>
+        Boolean CheckAppUrl(String url);
+
         #endregion
 
         #region not have return value
