@@ -166,12 +166,28 @@
             },
             ajaxPost: true,
             callback: function (responseText) {
-                debugger
-                if (responseText.IsSuccess) {
-                    window.parent.ZENG.msgbox.success('修改成功');
-                } else {
-                    window.parent.ZENG.msgbox.fail('修改失败');
-                }
+                $.dialog({
+                    title: '温馨提示',
+                    icon: 'warning',
+                    content: '确认修改锁屏密码？',
+                    button: [
+                        {
+                            name: '是',
+                            callback: function () {
+                                $('#lockPwdIsEqLoginPwd').val('0')
+                                form[0].submit()
+                            },
+                            focus: true
+                        },
+                        {
+                            name: '否',
+                            callback: function () {
+                                return false;
+                            }
+                        }
+                    ]
+                });
+                return false;
             }
         });
 
