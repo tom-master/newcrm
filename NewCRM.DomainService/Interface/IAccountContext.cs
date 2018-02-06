@@ -59,6 +59,21 @@ namespace NewCRM.Domain.Services.Interface
         String GetOldPassword(Int32 accountId);
 
         /// <summary>
+        /// 解除屏幕锁定
+        /// </summary>
+        Boolean UnlockScreen(Int32 accountId, String unlockPassword);
+
+        /// <summary>
+        /// 检查app名称是否已经存在
+        /// </summary>
+        Boolean CheckAppName(String name);
+
+        /// <summary>
+        /// 检查appUrl是否存在
+        /// </summary>
+        Boolean CheckAppUrl(String url);
+
+        /// <summary>
         /// 添加新账户
         /// </summary>
         void AddNewAccount(Account accountDto);
@@ -98,9 +113,6 @@ namespace NewCRM.Domain.Services.Interface
         /// </summary>
         void RemoveAccount(Int32 accountId);
 
-        /// <summary>
-        /// 解除屏幕锁定
-        /// </summary>
-        Boolean UnlockScreen(Int32 accountId, String unlockPassword);
+
     }
 }
