@@ -217,17 +217,6 @@ namespace NewCRM.Domain.Services.BoundedContext
             ValidateParameter.Validate(role);
             using(var dataStore = new DataStore())
             {
-                #region 前置条件验证
-                {
-                    var sql = $@"SELECT COUNT(*) FROM dbo.Roles AS a WHERE a.Name=@name AND a.IsDeleted=0";
-                    var result = dataStore.FindSingleValue<Int32>(sql, new List<SqlParameter> { new SqlParameter("@name", role.Name) });
-                    if(result > 0)
-                    {
-                        throw new BusinessException($@"角色:{role.Name} 已经存在");
-                    }
-                }
-                #endregion
-
                 #region 修改角色
                 {
                     var sql = $@"UPDATE dbo.Roles SET Name=@name,RoleIdentity=@identity WHERE Id=@Id AND IsDeleted=0";
