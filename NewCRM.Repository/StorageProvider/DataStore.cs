@@ -38,9 +38,9 @@ namespace NewCRM.Repository.StorageProvider
         /// <returns></returns>
         protected SqlTransaction GetNonceTransaction()
         {
-            if (UseTransaction)
+            if(UseTransaction)
             {
-                if (_dataTransaction == null)
+                if(_dataTransaction == null)
                 {
                     UseTransaction = true;
                     _dataTransaction = _connection.BeginTransaction();
@@ -55,7 +55,7 @@ namespace NewCRM.Repository.StorageProvider
         /// </summary>
         public virtual void Commit()
         {
-            if (UseTransaction)
+            if(UseTransaction)
             {
                 _dataTransaction.Commit();
             }
@@ -69,7 +69,7 @@ namespace NewCRM.Repository.StorageProvider
         /// </summary>
         public virtual void Rollback()
         {
-            if (UseTransaction)
+            if(UseTransaction)
             {
                 _dataTransaction?.Rollback();
             }
@@ -81,22 +81,22 @@ namespace NewCRM.Repository.StorageProvider
 
         #endregion
 
-        protected virtual void Open()
+        private void Open()
         {
-            if (_connection.State == ConnectionState.Closed)
+            if(_connection.State == ConnectionState.Closed)
             {
                 _connection.Open();
             }
         }
 
-        public virtual TValue FindSingleValue<TValue>(string sqlStr, CommandType commandType = CommandType.Text)
+        public TValue FindSingleValue<TValue>(string sqlStr, CommandType commandType = CommandType.Text)
         {
             Open();
             try
             {
-                using (SqlCommand cmd = _connection.CreateCommand())
+                using(SqlCommand cmd = _connection.CreateCommand())
                 {
-                    if (UseTransaction)
+                    if(UseTransaction)
                     {
                         cmd.Transaction = GetNonceTransaction();
                     }
@@ -107,23 +107,23 @@ namespace NewCRM.Repository.StorageProvider
                     return obj;
                 }
             }
-            catch (Exception)
+            catch(Exception)
             {
                 throw;
             }
         }
 
-        public virtual TModel FindOne<TModel>(string sqlStr, CommandType commandType = CommandType.Text) where TModel : class, new()
+        public TModel FindOne<TModel>(string sqlStr, CommandType commandType = CommandType.Text) where TModel : class, new()
         {
             return Find<TModel>(sqlStr, commandType).FirstOrDefault();
         }
 
-        public virtual List<TModel> Find<TModel>(string sqlStr, CommandType commandType = CommandType.Text) where TModel : class, new()
+        public List<TModel> Find<TModel>(string sqlStr, CommandType commandType = CommandType.Text) where TModel : class, new()
         {
             Open();
-            using (SqlCommand cmd = _connection.CreateCommand())
+            using(SqlCommand cmd = _connection.CreateCommand())
             {
-                if (UseTransaction)
+                if(UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
@@ -137,12 +137,12 @@ namespace NewCRM.Repository.StorageProvider
             }
         }
 
-        public virtual SqlDataReader SqlGetDataReader(string sqlStr, CommandType commandType = CommandType.Text)
+        public SqlDataReader SqlGetDataReader(string sqlStr, CommandType commandType = CommandType.Text)
         {
             Open();
-            using (SqlCommand cmd = _connection.CreateCommand())
+            using(SqlCommand cmd = _connection.CreateCommand())
             {
-                if (UseTransaction)
+                if(UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
@@ -152,12 +152,12 @@ namespace NewCRM.Repository.StorageProvider
             }
         }
 
-        public virtual SqlDataReader SqlGetDataReader(string sqlStr, CommandBehavior behavior, CommandType commandType = CommandType.Text)
+        public SqlDataReader SqlGetDataReader(string sqlStr, CommandBehavior behavior, CommandType commandType = CommandType.Text)
         {
             Open();
-            using (SqlCommand cmd = _connection.CreateCommand())
+            using(SqlCommand cmd = _connection.CreateCommand())
             {
-                if (UseTransaction)
+                if(UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
@@ -169,12 +169,12 @@ namespace NewCRM.Repository.StorageProvider
 
         #region 执行带参数的sql语句
 
-        public virtual int SqlExecute(string sqlStr, CommandType commandType = CommandType.Text)
+        public int SqlExecute(string sqlStr, CommandType commandType = CommandType.Text)
         {
             Open();
-            using (SqlCommand cmd = _connection.CreateCommand())
+            using(SqlCommand cmd = _connection.CreateCommand())
             {
-                if (UseTransaction)
+                if(UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
@@ -184,18 +184,18 @@ namespace NewCRM.Repository.StorageProvider
             }
         }
 
-        public virtual int SqlExecute(string sqlStr, IEnumerable<SqlParameter> parameters, CommandType commandType = CommandType.Text)
+        public int SqlExecute(string sqlStr, IEnumerable<SqlParameter> parameters, CommandType commandType = CommandType.Text)
         {
             Open();
-            using (SqlCommand cmd = _connection.CreateCommand())
+            using(SqlCommand cmd = _connection.CreateCommand())
             {
-                if (UseTransaction)
+                if(UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
                 cmd.CommandType = commandType;
                 cmd.CommandText = sqlStr;
-                if (parameters.Any())
+                if(parameters.Any())
                 {
                     cmd.Parameters.AddRange(parameters.ToArray());
                 }
@@ -208,16 +208,16 @@ namespace NewCRM.Repository.StorageProvider
         public SqlDataReader SqlGetDataReader(string sqlStr, IEnumerable<SqlParameter> parameters, CommandType commandType = CommandType.Text)
         {
             Open();
-            using (SqlCommand cmd = _connection.CreateCommand())
+            using(SqlCommand cmd = _connection.CreateCommand())
             {
-                if (UseTransaction)
+                if(UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
                 cmd.CommandType = commandType;
                 cmd.CommandText = sqlStr;
                 //参数化
-                if (parameters.Any())
+                if(parameters.Any())
                 {
                     cmd.Parameters.AddRange(parameters.ToArray());
                 }
@@ -227,21 +227,21 @@ namespace NewCRM.Repository.StorageProvider
             }
         }
 
-        public virtual TValue FindSingleValue<TValue>(string sqlStr, IEnumerable<SqlParameter> parameters, CommandType commandType = CommandType.Text)
+        public TValue FindSingleValue<TValue>(string sqlStr, IEnumerable<SqlParameter> parameters, CommandType commandType = CommandType.Text)
         {
             Open();
             try
             {
-                using (SqlCommand cmd = _connection.CreateCommand())
+                using(SqlCommand cmd = _connection.CreateCommand())
                 {
-                    if (UseTransaction)
+                    if(UseTransaction)
                     {
                         cmd.Transaction = GetNonceTransaction();
                     }
                     cmd.CommandType = commandType;
                     cmd.CommandText = sqlStr;
                     //参数化
-                    if (parameters.Any())
+                    if(parameters.Any())
                     {
                         cmd.Parameters.AddRange(parameters.ToArray());
                     }
@@ -251,29 +251,29 @@ namespace NewCRM.Repository.StorageProvider
                     return obj;
                 }
             }
-            catch (Exception)
+            catch(Exception)
             {
                 throw;
             }
         }
 
-        public virtual TModel FindOne<TModel>(string sqlStr, IEnumerable<SqlParameter> parameters, CommandType commandType = CommandType.Text) where TModel : class, new()
+        public TModel FindOne<TModel>(string sqlStr, IEnumerable<SqlParameter> parameters, CommandType commandType = CommandType.Text) where TModel : class, new()
         {
             return Find<TModel>(sqlStr, parameters, commandType).FirstOrDefault();
         }
 
-        public virtual List<TModel> Find<TModel>(string sqlStr, IEnumerable<SqlParameter> parameters, CommandType commandType = CommandType.Text) where TModel : class, new()
+        public List<TModel> Find<TModel>(string sqlStr, IEnumerable<SqlParameter> parameters, CommandType commandType = CommandType.Text) where TModel : class, new()
         {
             Open();
-            using (SqlCommand cmd = _connection.CreateCommand())
+            using(SqlCommand cmd = _connection.CreateCommand())
             {
-                if (UseTransaction)
+                if(UseTransaction)
                 {
                     cmd.Transaction = GetNonceTransaction();
                 }
                 cmd.CommandType = commandType;
                 cmd.CommandText = sqlStr;
-                if (parameters.Any())
+                if(parameters.Any())
                 {
                     cmd.Parameters.AddRange(parameters.ToArray());
                 }
@@ -298,19 +298,19 @@ namespace NewCRM.Repository.StorageProvider
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposed)
+            if(!disposed)
             {
-                if (!disposing)
+                if(!disposing)
                     return;
 
-                if (_connection != null)
+                if(_connection != null)
                 {
-                    if (_connection.State != ConnectionState.Closed)
+                    if(_connection.State != ConnectionState.Closed)
                     {
                         _connection.Close();
                     }
-                    //_connection.Dispose();
-                    //_connection = null;
+                    _connection.Dispose();
+                    _connection = null;
                 }
                 disposed = true;
             }
@@ -319,9 +319,7 @@ namespace NewCRM.Repository.StorageProvider
 
         #endregion
 
-
         #region 缓存事件
         #endregion
-
     }
 }
