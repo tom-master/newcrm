@@ -47,7 +47,7 @@ namespace NewCRM.Web.Controllers
             AccountServices.ModifyPassword(Account.Id, forms["password"], Int32.Parse(forms["lockPwdIsEqLoginPwd"]) == 1);
             response.Message = "账户密码修改成功";
             response.IsSuccess = true;
-            Logout();
+            InternalLogout();
             return Json(response);
         }
 

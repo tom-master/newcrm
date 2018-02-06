@@ -15,12 +15,10 @@ namespace NewCRM.Web.Controllers
     public class IndexController : BaseController
     {
         private readonly IDeskServices _deskServices;
-        private readonly IAppServices _appServices;
 
-        public IndexController(IAppServices appServices, IDeskServices deskServices)
+        public IndexController(IDeskServices deskServices)
         {
             _deskServices = deskServices;
-            _appServices = appServices;
         }
 
         #region 页面
@@ -76,7 +74,7 @@ namespace NewCRM.Web.Controllers
         public void Logout()
         {
             AccountServices.Logout(Account.Id);
-            base.Logout();
+            InternalLogout();
         }
 
         /// <summary>

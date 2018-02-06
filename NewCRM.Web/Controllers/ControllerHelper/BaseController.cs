@@ -29,7 +29,7 @@ namespace NewCRM.Web.Controllers.ControllerHelper
             }
         }
 
-        protected void Logout()
+        protected void InternalLogout()
         {
             Response.Cookies.Add(new HttpCookie("memberID")
             {
