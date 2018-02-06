@@ -16,19 +16,8 @@ namespace NewCRM.Domain.Services.BoundedContext
         public void AddNewRole(Role role)
         {
             ValidateParameter.Validate(role);
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
             {
-                #region 前置条件验证
-                {
-                    var sql = $@"SELECT COUNT(*) FROM dbo.Roles AS a WHERE a.Name=@name AND a.IsDeleted=0";
-                    var result = dataStore.FindSingleValue<Int32>(sql, new List<SqlParameter> { new SqlParameter("@name", role.Name) });
-                    if (result > 0)
-                    {
-                        throw new BusinessException($@"角色:{role.Name} 已经存在");
-                    }
-                }
-                #endregion
-
                 #region 添加角色
                 {
                     var sql = $@"INSERT dbo.Roles
@@ -55,12 +44,12 @@ namespace NewCRM.Domain.Services.BoundedContext
         public void AddPowerToCurrentRole(int roleId, IEnumerable<int> powerIds)
         {
             ValidateParameter.Validate(roleId).Validate(powerIds);
-            if (!powerIds.Any())
+            if(!powerIds.Any())
             {
                 throw new BusinessException("权限列表为空");
             }
 
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
             {
                 dataStore.OpenTransaction();
                 try
@@ -79,7 +68,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                     #region 添加角色权限
                     {
                         var sqlBuilder = new StringBuilder();
-                        foreach (var item in powerIds)
+                        foreach(var item in powerIds)
                         {
                             sqlBuilder.Append($@"INSERT dbo.RolePowers
                                                     ( RoleId ,
@@ -101,7 +90,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                     dataStore.Commit();
                 }
-                catch (Exception)
+                catch(Exception)
                 {
                     dataStore.Rollback();
                     throw;
@@ -112,7 +101,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         public bool CheckPermissions(int accessAppId, params int[] roleIds)
         {
             ValidateParameter.Validate(accessAppId).Validate(roleIds);
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
             {
 
                 #region 检查app是否为系统app
@@ -123,7 +112,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                         new SqlParameter("@Id",accessAppId)
                     };
                     var result = dataStore.FindSingleValue<Int32>(sql, parameters);
-                    if (result <= 0)
+                    if(result <= 0)
                     {
                         return true;
                     }
@@ -138,9 +127,23 @@ namespace NewCRM.Domain.Services.BoundedContext
             }
         }
 
+        public bool CheckRoleName(string name)
+        {
+            ValidateParameter.Validate(name);
+            using(var dataStore = new DataStore())
+            {
+                var sql = $@"SELECT COUNT(*) FROM dbo.Roles AS a WHERE a.Name=@name AND a.IsDeleted=0";
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@name",name)
+                };
+                return dataStore.FindSingleValue<Int32>(sql, parameters) > 0;
+            }
+        }
+
         public IList<RolePower> GetPowers()
         {
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
             {
                 var sql = $@"SELECT
                             a.RoleId,
@@ -154,7 +157,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         public Role GetRole(int roleId)
         {
             ValidateParameter.Validate(roleId);
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
             {
                 var sql = $@"SELECT
                             a.Name,
@@ -169,11 +172,11 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public List<Role> GetRoles(string roleName, int pageIndex, int pageSize, out int totalCount)
         {
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
             {
                 var where = new StringBuilder();
                 var parameters = new List<SqlParameter>();
-                if (!String.IsNullOrEmpty(roleName))
+                if(!String.IsNullOrEmpty(roleName))
                 {
                     parameters.Add(new SqlParameter("@roleName", $@"%{roleName}%"));
                     where.Append($@" AND a.Name LIKE @roleName");
@@ -212,13 +215,13 @@ namespace NewCRM.Domain.Services.BoundedContext
         public void ModifyRole(Role role)
         {
             ValidateParameter.Validate(role);
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
             {
                 #region 前置条件验证
                 {
                     var sql = $@"SELECT COUNT(*) FROM dbo.Roles AS a WHERE a.Name=@name AND a.IsDeleted=0";
                     var result = dataStore.FindSingleValue<Int32>(sql, new List<SqlParameter> { new SqlParameter("@name", role.Name) });
-                    if (result > 0)
+                    if(result > 0)
                     {
                         throw new BusinessException($@"角色:{role.Name} 已经存在");
                     }
@@ -243,7 +246,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         public void RemoveRole(int roleId)
         {
             ValidateParameter.Validate(roleId);
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
             {
                 dataStore.OpenTransaction();
                 try
@@ -256,7 +259,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                     {
                         var sql = $@"SELECT COUNT(*) FROM dbo.AccountRoles AS a WHERE a.RoleId=@roleId AND a.IsDeleted=0";
                         var result = dataStore.FindSingleValue<Int32>(sql, parameters);
-                        if (result > 0)
+                        if(result > 0)
                         {
                             throw new BusinessException("当前角色已绑定了账户，无法删除");
                         }
@@ -279,7 +282,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                     dataStore.Commit();
                 }
-                catch (Exception)
+                catch(Exception)
                 {
                     dataStore.Rollback();
                     throw;

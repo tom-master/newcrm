@@ -20,7 +20,6 @@ namespace NewCRM.Web.Controllers
             _appServices = appServices;
         }
 
-
         #region 页面
 
         #region 角色
@@ -85,7 +84,6 @@ namespace NewCRM.Web.Controllers
 
         #endregion
 
-        #region 角色
 
         /// <summary>
         /// 获取所有的角色
@@ -194,7 +192,17 @@ namespace NewCRM.Web.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
-        #endregion
+        /// <summary>
+        /// 检查角色名称
+        /// </summary>
+        [HttpPost]
+        public ActionResult CheckRoleName(String name)
+        {
+            Parameter.Validate(name);
+            var result = _securityServices.CheckRoleName(name);
+            return Json(!result ? new { status = "y", info = "" } : new { status = "n", info = "角色名称已存在" });
+        }
+
 
         #region private method
 

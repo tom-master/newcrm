@@ -23,6 +23,16 @@ namespace NewCRM.Domain.Services.Interface
         List<Role> GetRoles(String roleName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
 
         /// <summary>
+        /// 检查授权
+        /// </summary>
+        Boolean CheckPermissions(int accessAppId, params int[] roleIds);
+
+        /// <summary>
+        /// 检查角色名称
+        /// </summary>
+        Boolean CheckRoleName(String name);
+
+        /// <summary>
         /// 移除角色
         /// </summary>
         void RemoveRole(Int32 roleId);
@@ -42,9 +52,6 @@ namespace NewCRM.Domain.Services.Interface
         /// </summary>
         void AddPowerToCurrentRole(Int32 roleId, IEnumerable<Int32> powerIds);
 
-        /// <summary>
-        /// 检查授权
-        /// </summary>
-        bool CheckPermissions(int accessAppId, params int[] roleIds);
+
     }
 }

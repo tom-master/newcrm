@@ -23,6 +23,11 @@ namespace NewCRM.Application.Services.Interface
         /// </summary>
         Boolean CheckPermissions(Int32 accessAppId, params Int32[] roleIds);
 
+        /// <summary>
+        /// 检查角色名称
+        /// </summary>
+        Boolean CheckRoleName(String name);
+
         #endregion
 
         #region not have return value

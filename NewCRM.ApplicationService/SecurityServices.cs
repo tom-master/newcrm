@@ -21,8 +21,6 @@ namespace NewCRM.Application.Services
             _securityContext = securityContext;
         }
 
-        #region Role
-
         public RoleDto GetRole(Int32 roleId)
         {
             ValidateParameter.Validate(roleId);
@@ -54,6 +52,18 @@ namespace NewCRM.Application.Services
             }).ToList();
         }
 
+        public Boolean CheckPermissions(Int32 accessAppId, params Int32[] roleIds)
+        {
+            ValidateParameter.Validate(accessAppId).Validate(roleIds);
+            return _securityContext.CheckPermissions(accessAppId, roleIds);
+        }
+
+        public bool CheckRoleName(string name)
+        {
+            ValidateParameter.Validate(name);
+            return _securityContext.CheckRoleName(name);
+        }
+
         public void RemoveRole(Int32 roleId)
         {
             ValidateParameter.Validate(roleId);
@@ -78,12 +88,5 @@ namespace NewCRM.Application.Services
             _securityContext.AddPowerToCurrentRole(roleId, powerIds);
         }
 
-        #endregion
-
-        public Boolean CheckPermissions(Int32 accessAppId, params Int32[] roleIds)
-        {
-            ValidateParameter.Validate(accessAppId).Validate(roleIds);
-            return _securityContext.CheckPermissions(accessAppId, roleIds);
-        }
     }
 }
