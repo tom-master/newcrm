@@ -150,16 +150,17 @@ namespace NewCRM.Dto.MapperProfile
         /// </summary>
         /// <returns></returns>
         internal static Enum ConvertEnum(Type target, Int32 value)
-            // ReSharper disable once AssignNullToNotNullAttribute
-            => (Enum)Enum.Parse(target, Enum.GetName(target, value), true);
+        {
+            return (Enum)Enum.Parse(target, Enum.GetName(target, value), true);
+        }
 
         /// <summary>
         /// 转换枚举
         /// </summary>
-        /// <param name="target"></param>
-        /// <param name="value"></param>
         /// <returns></returns>
-        internal static Enum ConvertEnum(Type target, String value) => (Enum)Enum.Parse(target, value, true);
-
+        internal static Enum ConvertEnum(Type target, String value)
+        {
+            return (Enum)Enum.Parse(target, value, true);
+        }
     }
 }

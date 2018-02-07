@@ -35,7 +35,7 @@
             <select name="appType" id="appType" style="width:140px">
                 <option value="0">全部</option>
                 @{
-                    foreach (var appType in (List<AppTypeDto>)ViewData["AppTypes"])
+                    foreach(var appType in (List<AppTypeDto>)ViewData["AppTypes"])
                     {
                         <text>
                             <option value="@appType.Id">@appType.Name</option></text>
@@ -46,7 +46,7 @@
             <select name="appStyle" id="appStyle" style="width:140px">
                 <option value="0">全部</option>
                 @{
-                    foreach (var appStyle in (List<AppStyleDto>)ViewData["AppStyles"])
+                    foreach(var appStyle in (List<AppStyleDto>)ViewData["AppStyles"])
                     {
                         <text>
                             <option value="@appStyle.Id">@appStyle.Name</option></text>
@@ -57,7 +57,7 @@
             <select name="appState" id="appState" style="width: 140px">
                 <option value="0">全部</option>
                 @{
-                    foreach (var appState in (List<AppStateDto>)ViewData["AppStates"])
+                    foreach(var appState in (List<AppStateDto>)ViewData["AppStates"])
                     {
                         <text>
                             <option value="@appState.Id" data-type="@appState.Type">@appState.Name</option></text>
@@ -97,7 +97,7 @@
     </tfoot>
 </table>
 @{
-    if ((Request["appId"] + "").Length > 0)
+    if((Request["appId"] + "").Length > 0)
     {
         <text>
             <div id="detailIframe" style="background:#fff;position:fixed;z-index:1;top:0;left:0;width:100%; height: 100%;">
@@ -135,26 +135,26 @@
                 <a href="javascript:openDetailIframe('/AppMarket/AccountAppManageInfo?appId={{Id}}');" class="btn btn-mini btn-link">详情</a>
                 <a href="javascript:;" class="btn btn-link do-del" appId="{{Id}}">删除</a>
             </td>
-             
+
         </tr>
         {{/each}}
     </script>
     <script>
-        $(function() {
+        $(function () {
             $('html').css({ 'overflow-y': 'hidden' });
 
             //加载列表
             getPageList(0);
             //删除
-            $('.list-con').on('click', '.do-del', function() {
+            $('.list-con').on('click', '.do-del', function () {
                 var appId = $(this).attr('appId');
                 var appname = $(this).parents('tr').children('td:first-child').text();
                 $.dialog({
                     id: 'del',
                     content: '确定要删除 “' + appname + '” 该应用么？',
-                    ok: function() {
+                    ok: function () {
                         $.post('/AppMarket/RemoveApp', { appId: appId }, function (responseText) {
-                            if (typeof responseText.js!=='undefined') {
+                            if (typeof responseText.js !== 'undefined') {
                                 $('body').append(responseText.js);
                             } else {
                                 $('#pagination').trigger('currentPage');
@@ -165,7 +165,7 @@
                 });
             });
             //搜索
-            $('a[menu=search]').click(function() {
+            $('a[menu=search]').click(function () {
                 getPageList(0);
             });
         });
@@ -200,7 +200,7 @@
                 appState: appStateResult,
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 4
-                }, function (responseText) {
+            }, function (responseText) {
                 //ZENG.msgbox.hide();
                 var tableTemplate = Handlebars.compile($("#table-template").html());
                 $('.list-con').html(tableTemplate(responseText));
@@ -209,7 +209,7 @@
                 initPagination(current_page);
             });
 
-            Handlebars.registerHelper('convertstyle', function(appStyle) {
+            Handlebars.registerHelper('convertstyle', function (appStyle) {
                 if (appStyle === 1) {
                     return '应用';
                 } else {
