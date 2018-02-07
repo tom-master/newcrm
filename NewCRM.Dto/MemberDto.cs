@@ -5,7 +5,6 @@ namespace NewCRM.Dto
 {
     public sealed class MemberDto : BaseDto
     {
-        #region public property
 
         /// <summary>
         /// 应用Id
@@ -109,6 +108,5 @@ namespace NewCRM.Dto
 
         public Boolean IsIconByUpload { get; set; }
 
-        #endregion
     }
 }

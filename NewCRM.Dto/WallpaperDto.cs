@@ -13,19 +13,16 @@ namespace NewCRM.Dto
         /// <summary>
         /// 标题
         /// </summary>
-        [Required, StringLength(10)]
         public String Title { get; set; }
 
         /// <summary>
         /// 图片地址
         /// </summary>
-        [Required]
         public String Url { get; set; }
 
         /// <summary>
         /// 短URL
         /// </summary>
-        [StringLength(50)]
         public String ShortUrl { get; set; }
 
         /// <summary>

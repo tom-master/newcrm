@@ -8,13 +8,11 @@ namespace NewCRM.Dto
         /// <summary>
         /// 皮肤
         /// </summary>
-        [Required, StringLength(10)]
         public String Skin { get; set; }
 
         /// <summary>
         /// 用户头像
         /// </summary>
-        [Required]
         public String AccountFace { get; set; }
 
         /// <summary>
@@ -40,25 +38,21 @@ namespace NewCRM.Dto
         /// <summary>
         /// app排列方向
         /// </summary>
-        [Required]
         public String AppXy { get; set; }
 
         /// <summary>
         /// 码头位置
         /// </summary>
-        [Required]
         public String DockPosition { get; set; }
 
         /// <summary>
         /// 壁纸
         /// </summary>
-        [Required]
         public String WallpaperUrl { get; set; }
 
         /// <summary>
         /// 壁纸宽
         /// </summary>
-
         public Int32 WallpaperWidth { get; set; }
 
         /// <summary>
@@ -69,13 +63,11 @@ namespace NewCRM.Dto
         /// <summary>
         /// 壁纸来源
         /// </summary>
-        [Required, StringLength(10)]
         public String WallpaperSource { get; set; }
 
         /// <summary>
         /// 壁纸的展示模式
         /// </summary>
-        [Required, StringLength(10)]
         public String WallpaperMode { get; set; }
 
         /// <summary>

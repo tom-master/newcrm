@@ -5,7 +5,6 @@ namespace NewCRM.Dto
 {
     public sealed class AppTypeDto : BaseDto
     {
-        [Required]
         public String Name { get; set; }
     }
 }

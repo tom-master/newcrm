@@ -10,19 +10,16 @@ namespace NewCRM.Dto
         /// <summary>
         /// 名称
         /// </summary>
-        [Required, StringLength(10)]
         public String Name { get; set; }
 
         /// <summary>
         /// 图标地址
         /// </summary>
-        [Required]
         public String IconUrl { get; set; }
 
         /// <summary>
         /// 备注
         /// </summary>
-        [StringLength(30)]
         public String Remark { get; set; }
 
         /// <summary>
