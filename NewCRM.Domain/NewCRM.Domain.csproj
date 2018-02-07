@@ -86,8 +86,6 @@
     <Compile Include="Entitys\System\AppStar.cs" />
     <Compile Include="KeyGenerators\RedisKeyGenerator.cs" />
     <Compile Include="KeyGenerators\IKeyGenerator.cs" />
-    <Compile Include="UnitWork\IUnitOfWork.cs" />
-    <Compile Include="UnitWork\IUnitOfWorkContext.cs" />
     <Compile Include="ValueObject\AppAuditState.cs" />
     <Compile Include="ValueObject\AppStyle.cs" />
     <Compile Include="Entitys\System\AppType.cs" />
