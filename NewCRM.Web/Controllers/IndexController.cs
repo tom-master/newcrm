@@ -189,28 +189,5 @@ namespace NewCRM.Web.Controllers
             return Json(response);
         }
 
-        /// <summary>
-        /// 检查应用名称
-        /// </summary>
-        [HttpPost]
-        public ActionResult CheckAppName(String name)
-        {
-            Parameter.Validate(name);
-
-            var result = AccountServices.CheckAppName(name);
-            return Json(!result ? new { status = "y", info = "" } : new { status = "n", info = "应用名称已存在" });
-        }
-
-        /// <summary>
-        /// 检查应用Url
-        /// </summary>
-        [HttpPost]
-        public ActionResult CheckAppUrl(String url)
-        {
-            Parameter.Validate(url);
-
-            var result = AccountServices.CheckAppUrl(url);
-            return Json(!result ? new { status = "y", info = "" } : new { status = "n", info = "应用Url已存在" });
-        }
     }
 }
