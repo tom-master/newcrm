@@ -191,10 +191,10 @@ namespace NewCRM.Web.Controllers
         /// 检查成员名称
         /// </summary>
         [HttpPost]
-        public ActionResult CheckMemberName(String name)
+        public ActionResult CheckMemberName(String param)
         {
-            Parameter.Validate(name);
-            var result = _deskServices.CheckMemberName(name);
+            Parameter.Validate(param);
+            var result = _deskServices.CheckMemberName(param);
             return Json(!result ? new { status = "y", info = "" } : new { status = "n", info = "成员名称已存在" });
         }
     }
