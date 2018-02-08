@@ -4,6 +4,7 @@ using System.Linq;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Domain;
 using NewCRM.Domain.Entitys.Agent;
+using NewCRM.Domain.Services;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
@@ -25,7 +26,7 @@ namespace NewCRM.Application.Services
 
         public AccountDto Login(String accountName, String password, String requestIp)
         {
-            ValidateParameter.Validate(accountName).Validate(password);
+            Parameter.Validate(accountName).Validate(password);
 
             var account = _accountContext.Validate(accountName, password, requestIp);
             return new AccountDto
@@ -65,7 +66,7 @@ namespace NewCRM.Application.Services
 
         public List<AccountDto> GetAccounts(String accountName, String accountType, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
-            ValidateParameter.Validate(accountName).Validate(pageIndex).Validate(pageSize);
+            Parameter.Validate(accountName).Validate(pageIndex).Validate(pageSize);
 
             var result = _accountContext.GetAccounts(accountName, accountType, pageIndex, pageSize, out totalCount);
 
@@ -83,7 +84,7 @@ namespace NewCRM.Application.Services
         {
             var account = GetCache(CacheKey.Account(accountId), () => _accountContext.GetAccount(accountId));
 
-            if(account == null)
+            if (account == null)
             {
                 throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
             }
@@ -119,13 +120,13 @@ namespace NewCRM.Application.Services
 
         public Boolean CheckAccountNameExist(String accountName)
         {
-            ValidateParameter.Validate(accountName);
+            Parameter.Validate(accountName);
             return _accountContext.CheckAccountNameExist(accountName);
         }
 
         public Boolean CheckPassword(Int32 accountId, String oldAccountPassword)
         {
-            ValidateParameter.Validate(oldAccountPassword);
+            Parameter.Validate(oldAccountPassword);
 
             var result = _accountContext.GetOldPassword(accountId);
             return PasswordUtil.ComparePasswords(result, oldAccountPassword);
@@ -133,13 +134,13 @@ namespace NewCRM.Application.Services
 
         public Boolean UnlockScreen(Int32 accountId, String unlockPassword)
         {
-            ValidateParameter.Validate(unlockPassword);
+            Parameter.Validate(unlockPassword);
             return _accountContext.UnlockScreen(accountId, unlockPassword);
         }
 
         public void AddNewAccount(AccountDto accountDto)
         {
-            ValidateParameter.Validate(accountDto);
+            Parameter.Validate(accountDto);
 
             var account = accountDto.ConvertToModel<AccountDto, Account>();
             var accountType = EnumExtensions.ToEnum<AccountType>(account.IsAdmin ? 2 /*管理员*/ : 1 /*用户*/);
@@ -150,7 +151,7 @@ namespace NewCRM.Application.Services
 
         public void ModifyAccount(AccountDto accountDto)
         {
-            ValidateParameter.Validate(accountDto);
+            Parameter.Validate(accountDto);
 
             var account = accountDto.ConvertToModel<AccountDto, Account>();
             _accountContext.ModifyAccount(account);
@@ -158,57 +159,57 @@ namespace NewCRM.Application.Services
 
         public void Logout(Int32 accountId)
         {
-            ValidateParameter.Validate(accountId);
+            Parameter.Validate(accountId);
             _accountContext.Logout(accountId);
         }
 
         public void Enable(Int32 accountId)
         {
-            ValidateParameter.Validate(accountId);
+            Parameter.Validate(accountId);
             _accountContext.Enable(accountId);
         }
 
         public void Disable(Int32 accountId)
         {
-            ValidateParameter.Validate(accountId);
+            Parameter.Validate(accountId);
             _accountContext.Disable(accountId);
         }
 
         public void ModifyAccountFace(Int32 accountId, String newFace)
         {
-            ValidateParameter.Validate(newFace);
+            Parameter.Validate(newFace);
             _accountContext.ModifyAccountFace(accountId, newFace);
             RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
         public void ModifyPassword(Int32 accountId, String newPassword, Boolean isTogetherSetLockPassword)
         {
-            ValidateParameter.Validate(newPassword);
+            Parameter.Validate(newPassword);
             _accountContext.ModifyPassword(accountId, PasswordUtil.CreateDbPassword(newPassword), isTogetherSetLockPassword);
         }
 
         public void ModifyLockScreenPassword(Int32 accountId, String newScreenPassword)
         {
-            ValidateParameter.Validate(newScreenPassword);
+            Parameter.Validate(newScreenPassword);
             _accountContext.ModifyLockScreenPassword(accountId, PasswordUtil.CreateDbPassword(newScreenPassword));
             RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
         public void RemoveAccount(Int32 accountId)
         {
-            ValidateParameter.Validate(accountId);
+            Parameter.Validate(accountId);
             _accountContext.RemoveAccount(accountId);
         }
 
         public Boolean CheckAppName(string name)
         {
-            ValidateParameter.Validate(name);
+            Parameter.Validate(name);
             return _accountContext.CheckAppName(name);
         }
 
         public Boolean CheckAppUrl(string url)
         {
-            ValidateParameter.Validate(url);
+            Parameter.Validate(url);
             return _accountContext.CheckAppUrl(url);
         }
     }

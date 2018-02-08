@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using NewCRM.Application.Services.Interface;
-using NewCRM.Domain;
 using NewCRM.Domain.Entitys.System;
+using NewCRM.Domain.Services;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Dto;
 
@@ -20,7 +20,7 @@ namespace NewCRM.Application.Services
 
         public void AddLogger(LogDto log)
         {
-            ValidateParameter.Validate(log);
+            Parameter.Validate(log);
             _loggerContext.AddLogger(log.ConvertToModel<LogDto, Log>());
         }
 

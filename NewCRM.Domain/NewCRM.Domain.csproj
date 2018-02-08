@@ -77,7 +77,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseServiceContext.cs" />
     <Compile Include="Entitys\Agent\Account.cs" />
     <Compile Include="Entitys\Agent\AccountRole.cs" />
     <Compile Include="Entitys\DomainModelBase.cs" />

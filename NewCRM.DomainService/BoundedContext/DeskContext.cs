@@ -15,7 +15,7 @@ namespace NewCRM.Domain.Services.BoundedContext
     {
         public void ModifyDefaultDeskNumber(Int32 accountId, Int32 newDefaultDeskNumber)
         {
-            ValidateParameter.Validate(accountId).Validate(newDefaultDeskNumber);
+            Parameter.Validate(accountId).Validate(newDefaultDeskNumber);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Configs SET DefaultDeskNumber=@DefaultDeskNumber WHERE AccountId=@AccountId AND IsDeleted=0";
@@ -30,7 +30,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ModifyDockPosition(Int32 accountId, Int32 defaultDeskNumber, String newPosition)
         {
-            ValidateParameter.Validate(accountId).Validate(defaultDeskNumber).Validate(newPosition);
+            Parameter.Validate(accountId).Validate(defaultDeskNumber).Validate(newPosition);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Configs SET DockPosition=@DockPosition WHERE AccountId=@AccountId AND DefaultDeskNumber=@defaultDeskNumber AND IsDeleted=0";
@@ -46,7 +46,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ModifyMemberDirectionToX(int accountId)
         {
-            ValidateParameter.Validate(accountId);
+            Parameter.Validate(accountId);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Configs SET AppXy=@AppXy WHERE AccountId=@AccountId AND IsDeleted=0";
@@ -61,7 +61,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ModifyMemberDirectionToY(int accountId)
         {
-            ValidateParameter.Validate(accountId);
+            Parameter.Validate(accountId);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Configs SET AppXy=@AppXy WHERE AccountId=@AccountId AND IsDeleted=0";
@@ -76,7 +76,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ModifyMemberDisplayIconSize(int accountId, int newSize)
         {
-            ValidateParameter.Validate(accountId).Validate(newSize);
+            Parameter.Validate(accountId).Validate(newSize);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Configs SET AppSize=@AppSize WHERE AccountId=@AccountId AND IsDeleted=0";
@@ -91,7 +91,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ModifyMemberHorizontalSpacing(int accountId, int newSize)
         {
-            ValidateParameter.Validate(accountId).Validate(newSize);
+            Parameter.Validate(accountId).Validate(newSize);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Configs SET AppVerticalSpacing=@AppVerticalSpacing WHERE AccountId=@AccountId AND IsDeleted=0";
@@ -106,7 +106,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ModifyMemberVerticalSpacing(int accountId, int newSize)
         {
-            ValidateParameter.Validate(accountId).Validate(newSize);
+            Parameter.Validate(accountId).Validate(newSize);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Configs SET AppHorizontalSpacing=@AppHorizontalSpacing WHERE AccountId=@AccountId AND IsDeleted=0";
@@ -121,7 +121,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void MemberInDock(Int32 accountId, Int32 memberId)
         {
-            ValidateParameter.Validate(accountId).Validate(memberId);
+            Parameter.Validate(accountId).Validate(memberId);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Members SET IsOnDock=1 WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
@@ -136,7 +136,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void MemberOutDock(Int32 accountId, Int32 memberId, Int32 deskId)
         {
-            ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
+            Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Members SET IsOnDock=0 WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
@@ -151,7 +151,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void DockToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
         {
-            ValidateParameter.Validate(accountId).Validate(memberId).Validate(folderId);
+            Parameter.Validate(accountId).Validate(memberId).Validate(folderId);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Members SET IsOnDock=0,FolderId=@FolderId WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
@@ -167,7 +167,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void FolderToDock(Int32 accountId, Int32 memberId)
         {
-            ValidateParameter.Validate(accountId).Validate(memberId);
+            Parameter.Validate(accountId).Validate(memberId);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Members SET IsOnDock=1,FolderId=0 WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
@@ -182,7 +182,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void DeskToFolder(Int32 accountId, Int32 memberId, Int32 folderId)
         {
-            ValidateParameter.Validate(accountId).Validate(memberId).Validate(folderId);
+            Parameter.Validate(accountId).Validate(memberId).Validate(folderId);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Members SET FolderId=@FolderId WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
@@ -198,7 +198,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void FolderToDesk(Int32 accountId, Int32 memberId, Int32 deskId)
         {
-            ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
+            Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Members SET FolderId=0,DeskIndex=@DeskIndex WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
@@ -214,7 +214,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void FolderToOtherFolder(Int32 accountId, Int32 memberId, Int32 folderId)
         {
-            ValidateParameter.Validate(accountId).Validate(memberId).Validate(folderId);
+            Parameter.Validate(accountId).Validate(memberId).Validate(folderId);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Members SET FolderId=@FolderId WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
@@ -230,7 +230,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void DeskToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId)
         {
-            ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
+            Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
             using (var dataStore = new DataStore())
             {
                 dataStore.OpenTransaction();
@@ -272,7 +272,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void DockToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId)
         {
-            ValidateParameter.Validate(accountId).Validate(memberId).Validate(deskId);
+            Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Members SET IsOnDock=0,DeskIndex=@DeskIndex WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
@@ -288,7 +288,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void CreateNewFolder(Int32 deskId, String folderName, String folderImg, Int32 accountId)
         {
-            ValidateParameter.Validate(deskId).Validate(folderImg).Validate(folderName);
+            Parameter.Validate(deskId).Validate(folderImg).Validate(folderName);
 
             var folder = new Member(folderName, folderImg, 0);
             using (var dataStore = new DataStore())
@@ -357,7 +357,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ModifyWallpaperSource(String source, Int32 accountId)
         {
-            ValidateParameter.Validate(source).Validate(accountId);
+            Parameter.Validate(source).Validate(accountId);
 
             using (var dataStore = new DataStore())
             {

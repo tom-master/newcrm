@@ -15,7 +15,7 @@ namespace NewCRM.Domain.Services.BoundedContext
     {
         public List<Member> GetMembers(Int32 accountId)
         {
-            ValidateParameter.Validate(accountId);
+            Parameter.Validate(accountId);
             using(var dataStore = new DataStore())
             {
                 var sql = $@"SELECT 
@@ -44,7 +44,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public Member GetMember(Int32 accountId, Int32 memberId, Boolean isFolder)
         {
-            ValidateParameter.Validate(accountId).Validate(memberId);
+            Parameter.Validate(accountId).Validate(memberId);
             using(var dataStore = new DataStore())
             {
                 var where = new StringBuilder();
@@ -91,7 +91,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public Boolean CheckMemberName(String name)
         {
-            ValidateParameter.Validate(name);
+            Parameter.Validate(name);
 
             using(var dataStore = new DataStore())
             {
@@ -107,7 +107,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ModifyFolderInfo(Int32 accountId, String memberName, String memberIcon, Int32 memberId)
         {
-            ValidateParameter.Validate(accountId).Validate(memberName).Validate(memberIcon).Validate(memberId);
+            Parameter.Validate(accountId).Validate(memberName).Validate(memberIcon).Validate(memberId);
             using(var dataStore = new DataStore())
             {
                 #region sql
@@ -128,7 +128,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ModifyMemberIcon(Int32 accountId, Int32 memberId, String newIcon)
         {
-            ValidateParameter.Validate(accountId).Validate(memberId).Validate(newIcon);
+            Parameter.Validate(accountId).Validate(memberId).Validate(newIcon);
             using(var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Members SET IconUrl=@url WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
@@ -144,7 +144,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ModifyMemberInfo(Int32 accountId, Member member)
         {
-            ValidateParameter.Validate(accountId).Validate(member);
+            Parameter.Validate(accountId).Validate(member);
             using(var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Members SET IsIconByUpload=@IsIconByUpload,IconUrl=@IconUrl,Name=@Name,Width=@Width,Height=@Height,IsResize=@IsResize,IsOpenMax=@IsOpenMax,IsFlash=@IsFlash WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
@@ -167,7 +167,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void UninstallMember(Int32 accountId, Int32 memberId)
         {
-            ValidateParameter.Validate(accountId).Validate(memberId);
+            Parameter.Validate(accountId).Validate(memberId);
             using(var dataStore = new DataStore())
             {
                 dataStore.OpenTransaction();

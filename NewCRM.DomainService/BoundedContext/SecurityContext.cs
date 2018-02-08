@@ -15,7 +15,7 @@ namespace NewCRM.Domain.Services.BoundedContext
     {
         public void AddNewRole(Role role)
         {
-            ValidateParameter.Validate(role);
+            Parameter.Validate(role);
             using(var dataStore = new DataStore())
             {
                 #region 添加角色
@@ -43,7 +43,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void AddPowerToCurrentRole(int roleId, IEnumerable<int> powerIds)
         {
-            ValidateParameter.Validate(roleId).Validate(powerIds);
+            Parameter.Validate(roleId).Validate(powerIds);
             if(!powerIds.Any())
             {
                 throw new BusinessException("权限列表为空");
@@ -100,7 +100,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public bool CheckPermissions(int accessAppId, params int[] roleIds)
         {
-            ValidateParameter.Validate(accessAppId).Validate(roleIds);
+            Parameter.Validate(accessAppId).Validate(roleIds);
             using(var dataStore = new DataStore())
             {
 
@@ -129,7 +129,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public bool CheckRoleName(string name)
         {
-            ValidateParameter.Validate(name);
+            Parameter.Validate(name);
             using(var dataStore = new DataStore())
             {
                 var sql = $@"SELECT COUNT(*) FROM dbo.Roles AS a WHERE a.Name=@name AND a.IsDeleted=0";
@@ -156,7 +156,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public Role GetRole(int roleId)
         {
-            ValidateParameter.Validate(roleId);
+            Parameter.Validate(roleId);
             using(var dataStore = new DataStore())
             {
                 var sql = $@"SELECT
@@ -214,7 +214,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ModifyRole(Role role)
         {
-            ValidateParameter.Validate(role);
+            Parameter.Validate(role);
             using(var dataStore = new DataStore())
             {
                 #region 修改角色
@@ -234,7 +234,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void RemoveRole(int roleId)
         {
-            ValidateParameter.Validate(roleId);
+            Parameter.Validate(roleId);
             using(var dataStore = new DataStore())
             {
                 dataStore.OpenTransaction();

@@ -4,17 +4,14 @@ using NewCRM.Domain.Entitys;
 using NewLib.Data.Redis.InternalHelper;
 using NewLib.Validate;
 
-namespace NewCRM.Domain
+namespace NewCRM.Domain.Services
 {
 
     public class BaseServiceContext
     {
         private static readonly ICacheQueryProvider _cacheQuery = new DefaultRedisQueryProvider();
 
-        /// <summary>
-        /// 参数验证
-        /// </summary>
-        protected ParameterValidate ValidateParameter => new ParameterValidate();
+        protected ParameterValidate Parameter => new ParameterValidate();
 
         protected TModel GetCache<TModel>(String cacheKey, Func<TModel> func)
         {

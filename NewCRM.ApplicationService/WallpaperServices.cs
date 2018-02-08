@@ -6,8 +6,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using NewCRM.Application.Services.Interface;
-using NewCRM.Domain;
 using NewCRM.Domain.Entitys.System;
+using NewCRM.Domain.Services;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
@@ -43,13 +43,13 @@ namespace NewCRM.Application.Services
 
         public Tuple<Int32, String> AddWallpaper(WallpaperDto wallpaperDto)
         {
-            ValidateParameter.Validate(wallpaperDto);
+            Parameter.Validate(wallpaperDto);
             return _wallpaperContext.AddWallpaper(wallpaperDto.ConvertToModel<WallpaperDto, Wallpaper>());
         }
 
         public List<WallpaperDto> GetUploadWallpaper(Int32 accountId)
         {
-            ValidateParameter.Validate(accountId);
+            Parameter.Validate(accountId);
             return _wallpaperContext.GetUploadWallpaper(accountId).Select(s => new WallpaperDto
             {
                 AccountId = s.AccountId,
@@ -66,7 +66,7 @@ namespace NewCRM.Application.Services
 
         public async Task<Tuple<Int32, String>> AddWebWallpaper(Int32 accountId, String url)
         {
-            ValidateParameter.Validate(accountId).Validate(url);
+            Parameter.Validate(accountId).Validate(url);
 
             var imageTitle = Path.GetFileNameWithoutExtension(url);
             Image image;
@@ -98,7 +98,7 @@ namespace NewCRM.Application.Services
 
         public WallpaperDto GetUploadWallpaper(String md5)
         {
-            ValidateParameter.Validate(md5);
+            Parameter.Validate(md5);
             var result = _wallpaperContext.GetUploadWallpaper(md5);
             return new WallpaperDto
             {
@@ -116,21 +116,21 @@ namespace NewCRM.Application.Services
 
         public void ModifyWallpaperMode(Int32 accountId, String newMode)
         {
-            ValidateParameter.Validate(accountId).Validate(newMode);
+            Parameter.Validate(accountId).Validate(newMode);
             _wallpaperContext.ModifyWallpaperMode(accountId, newMode);
             RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
         public void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId)
         {
-            ValidateParameter.Validate(accountId).Validate(newWallpaperId);
+            Parameter.Validate(accountId).Validate(newWallpaperId);
             _wallpaperContext.ModifyWallpaper(accountId, newWallpaperId);
             RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
         public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
         {
-            ValidateParameter.Validate(accountId).Validate(wallpaperId);
+            Parameter.Validate(accountId).Validate(wallpaperId);
             _wallpaperContext.RemoveWallpaper(accountId, wallpaperId);
         }
     }

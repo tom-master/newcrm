@@ -19,7 +19,7 @@ namespace NewCRM.Domain.Services.BoundedContext
     {
         public Account Validate(String accountName, String password, String requestIp)
         {
-            ValidateParameter.Validate(accountName).Validate(password);
+            Parameter.Validate(accountName).Validate(password);
 
             using (var dataStore = new DataStore())
             {
@@ -106,7 +106,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public Config GetConfig(Int32 accountId)
         {
-            ValidateParameter.Validate(accountId);
+            Parameter.Validate(accountId);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT 
@@ -133,7 +133,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public Wallpaper GetWallpaper(Int32 wallPaperId)
         {
-            ValidateParameter.Validate(wallPaperId);
+            Parameter.Validate(wallPaperId);
 
             using (var dataStore = new DataStore())
             {
@@ -145,7 +145,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public List<Account> GetAccounts(string accountName, string accountType, int pageIndex, int pageSize, out int totalCount)
         {
-            ValidateParameter.Validate(pageIndex).Validate(pageSize);
+            Parameter.Validate(pageIndex).Validate(pageSize);
 
             var where = new StringBuilder();
             where.Append("WHERE 1=1 AND a.IsDeleted=0 ");
@@ -194,7 +194,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public Account GetAccount(int accountId)
         {
-            ValidateParameter.Validate(accountId);
+            Parameter.Validate(accountId);
 
             using (var dataStore = new DataStore())
             {
@@ -221,7 +221,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public List<Role> GetRoles(Int32 accountId)
         {
-            ValidateParameter.Validate(accountId);
+            Parameter.Validate(accountId);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT
@@ -248,7 +248,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public Boolean CheckAccountNameExist(string accountName)
         {
-            ValidateParameter.Validate(accountName);
+            Parameter.Validate(accountName);
 
             using (var dataStore = new DataStore())
             {
@@ -259,7 +259,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public String GetOldPassword(Int32 accountId)
         {
-            ValidateParameter.Validate(accountId);
+            Parameter.Validate(accountId);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT a.LoginPassword FROM dbo.Accounts AS a WHERE a.Id=@accountId AND a.IsDeleted=0 AND a.IsDisable=0";
@@ -270,7 +270,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public Boolean UnlockScreen(Int32 accountId, String unlockPassword)
         {
-            ValidateParameter.Validate(accountId).Validate(unlockPassword);
+            Parameter.Validate(accountId).Validate(unlockPassword);
             using (var dataStore = new DataStore())
             {
                 #region 获取锁屏密码
@@ -289,7 +289,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void Logout(Int32 accountId)
         {
-            ValidateParameter.Validate(accountId);
+            Parameter.Validate(accountId);
 
             using (var dataStore = new DataStore())
             {
@@ -331,7 +331,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void AddNewAccount(Account account)
         {
-            ValidateParameter.Validate(account);
+            Parameter.Validate(account);
 
             using (var dataStore = new DataStore())
             {
@@ -492,7 +492,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ModifyAccount(Account accountDto)
         {
-            ValidateParameter.Validate(accountDto);
+            Parameter.Validate(accountDto);
 
             using (var dataStore = new DataStore())
             {
@@ -555,7 +555,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void Enable(Int32 accountId)
         {
-            ValidateParameter.Validate(accountId);
+            Parameter.Validate(accountId);
 
             using (var dataStore = new DataStore())
             {
@@ -567,7 +567,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void Disable(Int32 accountId)
         {
-            ValidateParameter.Validate(accountId);
+            Parameter.Validate(accountId);
             using (var dataStore = new DataStore())
             {
                 var parameters = new List<SqlParameter> { new SqlParameter("@accountId", accountId) };
@@ -593,7 +593,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ModifyAccountFace(Int32 accountId, String newFace)
         {
-            ValidateParameter.Validate(accountId).Validate(newFace);
+            Parameter.Validate(accountId).Validate(newFace);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Configs SET AccountFace=@face WHERE AccountId=@accountId AND IsDeleted=0";
@@ -603,7 +603,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ModifyPassword(Int32 accountId, String newPassword, Boolean isTogetherSetLockPassword)
         {
-            ValidateParameter.Validate(accountId).Validate(newPassword);
+            Parameter.Validate(accountId).Validate(newPassword);
             using (var dataStore = new DataStore())
             {
                 var lockPassword = "";
@@ -623,7 +623,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ModifyLockScreenPassword(Int32 accountId, String newScreenPassword)
         {
-            ValidateParameter.Validate(accountId).Validate(newScreenPassword);
+            Parameter.Validate(accountId).Validate(newScreenPassword);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Accounts SET LockScreenPassword=@password WHERE Id=@accountId AND IsDeleted=0 AND IsDisable=0";
@@ -633,7 +633,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void RemoveAccount(Int32 accountId)
         {
-            ValidateParameter.Validate(accountId);
+            Parameter.Validate(accountId);
 
             using (var dataStore = new DataStore())
             {
@@ -695,7 +695,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public bool CheckAppName(string name)
         {
-            ValidateParameter.Validate(name);
+            Parameter.Validate(name);
 
             using (var dataStore = new DataStore())
             {
@@ -710,7 +710,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public bool CheckAppUrl(string url)
         {
-            ValidateParameter.Validate(url);
+            Parameter.Validate(url);
 
             using (var dataStore = new DataStore())
             {

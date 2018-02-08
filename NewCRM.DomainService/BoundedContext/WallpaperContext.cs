@@ -15,7 +15,7 @@ namespace NewCRM.Domain.Services.BoundedContext
     {
         public Tuple<int, string> AddWallpaper(Wallpaper wallpaper)
         {
-            ValidateParameter.Validate(wallpaper);
+            Parameter.Validate(wallpaper);
             using (var dataStore = new DataStore())
             {
                 #region 前置条件验证
@@ -169,7 +169,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ModifyWallpaperMode(Int32 accountId, String newMode)
         {
-            ValidateParameter.Validate(accountId).Validate(newMode);
+            Parameter.Validate(accountId).Validate(newMode);
 
             WallpaperMode wallpaperMode;
             if (Enum.TryParse(newMode, true, out wallpaperMode))
@@ -193,7 +193,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId)
         {
-            ValidateParameter.Validate(accountId).Validate(newWallpaperId);
+            Parameter.Validate(accountId).Validate(newWallpaperId);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Configs SET IsBing=0,WallpaperId=@WallpaperId WHERE AccountId=@AccountId AND IsDeleted=0";
@@ -208,7 +208,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
         {
-            ValidateParameter.Validate(accountId).Validate(wallpaperId);
+            Parameter.Validate(accountId).Validate(wallpaperId);
             using (var dataStore = new DataStore())
             {
                 var parameters = new List<SqlParameter>

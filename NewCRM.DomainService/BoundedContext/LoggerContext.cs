@@ -12,7 +12,7 @@ namespace NewCRM.Domain.Services.BoundedContext
     {
         public void AddLogger(Log log)
         {
-            ValidateParameter.Validate(log);
+            Parameter.Validate(log);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"INSERT dbo.Logs

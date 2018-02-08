@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using NewCRM.Application.Services.Interface;
-using NewCRM.Domain;
 using NewCRM.Domain.Entitys.System;
+using NewCRM.Domain.Services;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
@@ -36,7 +36,7 @@ namespace NewCRM.Application.Services
 
         public TodayRecommendAppDto GetTodayRecommend(Int32 accountId)
         {
-            ValidateParameter.Validate(accountId);
+            Parameter.Validate(accountId);
 
             var result = _appContext.GetTodayRecommend(accountId);
             result.AppIcon = result.IsIconByUpload ? ProfileManager.FileUrl + result.AppIcon : result.AppIcon;
@@ -50,13 +50,13 @@ namespace NewCRM.Application.Services
 
         public Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount(Int32 accountId)
         {
-            ValidateParameter.Validate(accountId);
+            Parameter.Validate(accountId);
             return _appContext.GetAccountDevelopAppCountAndNotReleaseAppCount(accountId);
         }
 
         public List<AppDto> GetAllApps(Int32 accountId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
-            ValidateParameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
+            Parameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
 
             var result = _appContext.GetApps(accountId, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
             return result.Select(app => new AppDto
@@ -77,7 +77,7 @@ namespace NewCRM.Application.Services
 
         public List<AppDto> GetAccountAllApps(Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
-            ValidateParameter.Validate(accountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
+            Parameter.Validate(accountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
 
             var result = _appContext.GetAccountApps(accountId, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
             var appTypes = GetAppTypes();
@@ -98,7 +98,7 @@ namespace NewCRM.Application.Services
 
         public AppDto GetApp(Int32 appId)
         {
-            ValidateParameter.Validate(appId);
+            Parameter.Validate(appId);
 
             var result = _appContext.GetApp(appId);
             var appTypes = GetCache(CacheKey.AppTypes(), () => GetAppTypes());
@@ -131,7 +131,7 @@ namespace NewCRM.Application.Services
 
         public Boolean IsInstallApp(Int32 accountId, Int32 appId)
         {
-            ValidateParameter.Validate(accountId).Validate(appId);
+            Parameter.Validate(accountId).Validate(appId);
             var result = _appContext.IsInstallApp(accountId, appId);
             return result;
         }
@@ -180,13 +180,13 @@ namespace NewCRM.Application.Services
 
         public Boolean CheckAppTypeName(String appTypeName)
         {
-            ValidateParameter.Validate(appTypeName);
+            Parameter.Validate(appTypeName);
             return _appContext.CheckAppTypeName(appTypeName);
         }
 
         public void ModifyAppDirection(Int32 accountId, String direction)
         {
-            ValidateParameter.Validate(accountId).Validate(direction);
+            Parameter.Validate(accountId).Validate(direction);
 
             if (direction.ToLower() == "x")
             {
@@ -205,28 +205,28 @@ namespace NewCRM.Application.Services
 
         public void ModifyAppIconSize(Int32 accountId, Int32 newSize)
         {
-            ValidateParameter.Validate(accountId).Validate(newSize);
+            Parameter.Validate(accountId).Validate(newSize);
             _deskContext.ModifyMemberDisplayIconSize(accountId, newSize);
             RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
         public void ModifyAppVerticalSpacing(Int32 accountId, Int32 newSize)
         {
-            ValidateParameter.Validate(accountId).Validate(newSize);
+            Parameter.Validate(accountId).Validate(newSize);
             _deskContext.ModifyMemberHorizontalSpacing(accountId, newSize);
             RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
         public void ModifyAppHorizontalSpacing(Int32 accountId, Int32 newSize)
         {
-            ValidateParameter.Validate(accountId).Validate(newSize);
+            Parameter.Validate(accountId).Validate(newSize);
             _deskContext.ModifyMemberVerticalSpacing(accountId, newSize);
             RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
         public void ModifyAppStar(Int32 accountId, Int32 appId, Int32 starCount)
         {
-            ValidateParameter.Validate(accountId).Validate(appId).Validate(starCount, true);
+            Parameter.Validate(accountId).Validate(appId).Validate(starCount, true);
 
             var isInstall = _appContext.IsInstallApp(accountId, appId);
             if (!isInstall)
@@ -238,20 +238,20 @@ namespace NewCRM.Application.Services
 
         public void InstallApp(Int32 accountId, Int32 appId, Int32 deskNum)
         {
-            ValidateParameter.Validate(accountId).Validate(appId).Validate(deskNum);
+            Parameter.Validate(accountId).Validate(appId).Validate(deskNum);
             _appContext.Install(accountId, appId, deskNum);
             RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
         }
 
         public void ModifyAccountAppInfo(Int32 accountId, AppDto appDto)
         {
-            ValidateParameter.Validate(accountId).Validate(appDto);
+            Parameter.Validate(accountId).Validate(appDto);
             _appContext.ModifyAccountAppInfo(accountId, appDto.ConvertToModel<AppDto, App>());
         }
 
         public void CreateNewApp(AppDto appDto)
         {
-            ValidateParameter.Validate(appDto);
+            Parameter.Validate(appDto);
 
             var app = appDto.ConvertToModel<AppDto, App>();
             var internalApp = new App(app.Name, app.IconUrl, app.AppUrl, app.Width, app.Height, app.AppTypeId, app.AppAuditState, AppReleaseState.UnRelease, app.AppStyle, app.AccountId,
@@ -263,14 +263,14 @@ namespace NewCRM.Application.Services
 
         public void RemoveAppType(Int32 appTypeId)
         {
-            ValidateParameter.Validate(appTypeId);
+            Parameter.Validate(appTypeId);
             _appContext.DeleteAppType(appTypeId);
             RemoveOldKeyWhenModify(CacheKey.AppTypes());
         }
 
         public void CreateNewAppType(AppTypeDto appTypeDto)
         {
-            ValidateParameter.Validate(appTypeDto);
+            Parameter.Validate(appTypeDto);
             var appType = appTypeDto.ConvertToModel<AppTypeDto, AppType>();
             _appContext.CreateNewAppType(appType);
             RemoveOldKeyWhenModify(CacheKey.AppTypes());
@@ -278,44 +278,44 @@ namespace NewCRM.Application.Services
 
         public void ModifyAppType(AppTypeDto appTypeDto, Int32 appTypeId)
         {
-            ValidateParameter.Validate(appTypeDto).Validate(appTypeId);
+            Parameter.Validate(appTypeDto).Validate(appTypeId);
             _appContext.ModifyAppType(appTypeDto.Name, appTypeId);
             RemoveOldKeyWhenModify(CacheKey.AppTypes());
         }
 
         public void Pass(Int32 appId)
         {
-            ValidateParameter.Validate(appId);
+            Parameter.Validate(appId);
             _appContext.Pass(appId);
         }
 
         public void Deny(Int32 appId)
         {
-            ValidateParameter.Validate(appId);
+            Parameter.Validate(appId);
             _appContext.Deny(appId);
         }
 
         public void SetTodayRecommandApp(Int32 appId)
         {
-            ValidateParameter.Validate(appId);
+            Parameter.Validate(appId);
             _appContext.SetTodayRecommandApp(appId);
         }
 
         public void RemoveApp(Int32 appId)
         {
-            ValidateParameter.Validate(appId);
+            Parameter.Validate(appId);
             _appContext.RemoveApp(appId);
         }
 
         public void ReleaseApp(Int32 appId)
         {
-            ValidateParameter.Validate(appId);
+            Parameter.Validate(appId);
             _appContext.ReleaseApp(appId);
         }
 
         public void ModifyAppIcon(Int32 accountId, Int32 appId, String newIcon)
         {
-            ValidateParameter.Validate(accountId).Validate(appId).Validate(newIcon);
+            Parameter.Validate(accountId).Validate(appId).Validate(newIcon);
             _appContext.ModifyAppIcon(accountId, appId, newIcon);
         }
 

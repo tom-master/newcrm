@@ -38,6 +38,10 @@
     <Reference Include="NewLib">
       <HintPath>..\..\dev\Newlib\NewLib\bin\Debug\NewLib.dll</HintPath>
     </Reference>
+    <Reference Include="NewLib.Data, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dev\Newlib\NewLib.Data\bin\Debug\NewLib.Data.dll</HintPath>
+    </Reference>
     <Reference Include="NewLib.Security">
       <HintPath>..\..\dev\Newlib\NewLib.Security\bin\Debug\NewLib.Security.dll</HintPath>
     </Reference>
@@ -53,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseServiceContext.cs" />
     <Compile Include="BoundedContext\AppContext.cs" />
     <Compile Include="BoundedContext\DeskContext.cs" />
     <Compile Include="BoundedContext\LoggerContext.cs" />

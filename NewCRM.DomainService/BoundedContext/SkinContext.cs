@@ -12,7 +12,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         /// </summary>
         public void ModifySkin(int accountId, string newSkin)
         {
-            ValidateParameter.Validate(accountId).Validate(newSkin);
+            Parameter.Validate(accountId).Validate(newSkin);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Configs SET Skin=@skin WHERE AccountId=@AccountId AND IsDeleted=0";

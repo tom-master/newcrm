@@ -19,7 +19,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ModifyAppStar(int accountId, int appId, int starCount)
         {
-            ValidateParameter.Validate(accountId).Validate(appId).Validate(starCount);
+            Parameter.Validate(accountId).Validate(appId).Validate(starCount);
 
             using (var dataStore = new DataStore())
             {
@@ -162,7 +162,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void Pass(Int32 appId)
         {
-            ValidateParameter.Validate(appId);
+            Parameter.Validate(appId);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Apps SET AppAuditState=@AppAuditState WHERE Id=@appId AND IsDeleted=0";
@@ -177,7 +177,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void Deny(Int32 appId)
         {
-            ValidateParameter.Validate(appId);
+            Parameter.Validate(appId);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Apps SET AppAuditState=@AppAuditState WHERE Id=@appId AND IsDeleted=0";
@@ -192,7 +192,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void SetTodayRecommandApp(Int32 appId)
         {
-            ValidateParameter.Validate(appId);
+            Parameter.Validate(appId);
             using (var dataStore = new DataStore())
             {
                 dataStore.OpenTransaction();
@@ -228,7 +228,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void RemoveApp(Int32 appId)
         {
-            ValidateParameter.Validate(appId);
+            Parameter.Validate(appId);
             using (var dataStore = new DataStore())
             {
                 dataStore.OpenTransaction();
@@ -264,7 +264,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ReleaseApp(Int32 appId)
         {
-            ValidateParameter.Validate(appId);
+            Parameter.Validate(appId);
             using (var dataStore = new DataStore())
             {
                 #region 发布app
@@ -284,7 +284,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ModifyAccountAppInfo(Int32 accountId, App app)
         {
-            ValidateParameter.Validate(accountId).Validate(accountId).Validate(app);
+            Parameter.Validate(accountId).Validate(accountId).Validate(app);
             using (var dataStore = new DataStore())
             {
                 var set = new StringBuilder();
@@ -325,7 +325,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void DeleteAppType(Int32 appTypeId)
         {
-            ValidateParameter.Validate(appTypeId);
+            Parameter.Validate(appTypeId);
             using (var dataStore = new DataStore())
             {
                 var parameters = new List<SqlParameter>
@@ -353,7 +353,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void CreateNewAppType(AppType appType)
         {
-            ValidateParameter.Validate(appType);
+            Parameter.Validate(appType);
             using (var dataStore = new DataStore())
             {
                 #region 前置条件验证
@@ -397,7 +397,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ModifyAppType(String appTypeName, Int32 appTypeId)
         {
-            ValidateParameter.Validate(appTypeName).Validate(appTypeId);
+            Parameter.Validate(appTypeName).Validate(appTypeId);
             using (var dataStore = new DataStore())
             {
                 #region 前置条件验证
@@ -422,7 +422,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void ModifyAppIcon(Int32 accountId, Int32 appId, String newIcon)
         {
-            ValidateParameter.Validate(accountId).Validate(appId).Validate(newIcon);
+            Parameter.Validate(accountId).Validate(appId).Validate(newIcon);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"UPDATE dbo.Apps SET IconUrl=@url WHERE Id=@appId AND AccountId=@accountId AND IsDeleted=0 ";
@@ -432,7 +432,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public void Install(Int32 accountId, Int32 appId, Int32 deskNum)
         {
-            ValidateParameter.Validate(accountId).Validate(appId).Validate(deskNum);
+            Parameter.Validate(accountId).Validate(appId).Validate(deskNum);
 
             using (var dataStore = new DataStore())
             {
@@ -574,7 +574,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount(Int32 accountId)
         {
-            ValidateParameter.Validate(accountId);
+            Parameter.Validate(accountId);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT a.Id FROM dbo.Apps AS a WHERE a.AccountId=@accountId AND a.IsDeleted=0";
@@ -598,7 +598,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public TodayRecommendAppDto GetTodayRecommend(int accountId)
         {
-            ValidateParameter.Validate(accountId);
+            Parameter.Validate(accountId);
 
             using (var dataStore = new DataStore())
             {
@@ -634,7 +634,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public List<App> GetApps(int accountId, int appTypeId, int orderId, string searchText, int pageIndex, int pageSize, out int totalCount)
         {
-            ValidateParameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
+            Parameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
             using (var dataStore = new DataStore())
             {
                 var parameters = new List<SqlParameter>();
@@ -730,7 +730,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public List<App> GetAccountApps(Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
-            ValidateParameter.Validate(accountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
+            Parameter.Validate(accountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
 
             using (var dataStore = new DataStore())
             {
@@ -825,7 +825,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public App GetApp(Int32 appId)
         {
-            ValidateParameter.Validate(appId);
+            Parameter.Validate(appId);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT 
@@ -865,7 +865,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public Boolean IsInstallApp(int accountId, int appId)
         {
-            ValidateParameter.Validate(accountId).Validate(appId);
+            Parameter.Validate(accountId).Validate(appId);
             using (var dataStore = new DataStore())
             {
                 var sql = $@"SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId=@Id AND a.AccountId=@AccountId AND a.IsDeleted=0";
@@ -896,7 +896,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public Boolean CheckAppTypeName(String appTypeName)
         {
-            ValidateParameter.Validate(appTypeName);
+            Parameter.Validate(appTypeName);
 
             using (var dataStore = new DataStore())
             {

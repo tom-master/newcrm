@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NewCRM.Application.Services.Interface;
-using NewCRM.Domain;
+using NewCRM.Domain.Services;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Infrastructure.CommonTools;
 
@@ -21,7 +21,7 @@ namespace NewCRM.Application.Services
 
         public IDictionary<String, dynamic> GetAllSkin(String skinPath)
         {
-            ValidateParameter.Validate(skinPath);
+            Parameter.Validate(skinPath);
 
             IDictionary<String, dynamic> dataDictionary = new Dictionary<String, dynamic>();
             Directory.GetFiles(skinPath, "*.css").ToList().ForEach(path =>
@@ -39,7 +39,7 @@ namespace NewCRM.Application.Services
 
         public void ModifySkin(Int32 accountId, String newSkin)
         {
-            ValidateParameter.Validate(accountId).Validate(newSkin);
+            Parameter.Validate(accountId).Validate(newSkin);
             _skinContext.ModifySkin(accountId, newSkin);
             RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
@@ -48,7 +48,7 @@ namespace NewCRM.Application.Services
 
         private String GetLocalImagePath(String fileName, String fullPath)
         {
-            ValidateParameter.Validate(fileName).Validate(fullPath);
+            Parameter.Validate(fileName).Validate(fullPath);
 
             var dic = Directory.GetFiles(fullPath, "preview.png", SearchOption.AllDirectories).ToList();
             foreach (var dicItem in from dicItem in dic let regex = new Regex(fileName) where regex.IsMatch(dicItem) select dicItem)
