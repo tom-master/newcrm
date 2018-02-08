@@ -45,7 +45,7 @@ namespace NewCRM.Web.Controllers
             Parameter.Validate(moveType).Validate(memberId);
             #endregion
 
-            switch(moveType)
+            switch (moveType)
             {
                 case "desk-dock": //成员从桌面移动到码头
                     _deskServices.MemberInDock(Account.Id, memberId);
