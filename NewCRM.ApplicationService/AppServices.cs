@@ -178,6 +178,12 @@ namespace NewCRM.Application.Services
             }).ToList();
         }
 
+        public Boolean CheckAppTypeName(String appTypeName)
+        {
+            ValidateParameter.Validate(appTypeName);
+            return _appContext.CheckAppTypeName(appTypeName);
+        }
+
         public void ModifyAppDirection(Int32 accountId, String direction)
         {
             ValidateParameter.Validate(accountId).Validate(direction);
@@ -317,6 +323,7 @@ namespace NewCRM.Application.Services
         // <summary>
         // <summary> 获取传入的枚举类型的字面量的描述
         private static IEnumerable<dynamic> GetEnumDescriptions(Type enumType) => enumType.GetFields().Where(field => field.CustomAttributes.Any()).Select(s => new { s.CustomAttributes.ToArray()[0].ConstructorArguments[0].Value, Id = s.GetRawConstantValue(), Type = enumType.Name }).Cast<dynamic>().ToList();
+
         #endregion
     }
 }

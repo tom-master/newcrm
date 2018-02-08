@@ -67,6 +67,11 @@ namespace NewCRM.Application.Services.Interface
         /// <returns></returns>
         List<AppDto> GetSystemApp(IEnumerable<Int32> appIds = default(IEnumerable<Int32>));
 
+        /// <summary>
+        /// 检查应用类型
+        /// </summary>
+        Boolean CheckAppTypeName(String appTypeName);
+        
         #endregion
 
         #region not have return value

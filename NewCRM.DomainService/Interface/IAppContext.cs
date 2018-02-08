@@ -32,6 +32,28 @@ namespace NewCRM.Domain.Services.Interface
         /// </summary>
         List<App> GetSystemApp(IEnumerable<Int32> appIds = default(IEnumerable<Int32>));
 
+
+        /// <summary>
+        /// 获取当前账户下已开发和未发布的app
+        /// </summary>
+        Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount(Int32 accountId);
+
+        /// <summary>
+        /// 获取所有App类型
+        /// </summary>
+        /// <returns></returns>
+        List<AppType> GetAppTypes();
+
+        /// <summary>
+        /// 获取今日推荐
+        /// </summary>
+        TodayRecommendAppDto GetTodayRecommend(Int32 accountId);
+
+        /// <summary>
+        /// 检查应用类型名称
+        /// </summary>
+        Boolean CheckAppTypeName(String appTypeName);
+
         /// <summary>
         /// 更改app评分
         /// </summary>
@@ -97,20 +119,5 @@ namespace NewCRM.Domain.Services.Interface
         /// </summary> 
         void Install(Int32 accountId, Int32 appId, Int32 deskNum);
 
-        /// <summary>
-        /// 获取当前账户下已开发和未发布的app
-        /// </summary>
-        Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount(Int32 accountId);
-
-        /// <summary>
-        /// 获取所有App类型
-        /// </summary>
-        /// <returns></returns>
-        List<AppType> GetAppTypes();
-
-        /// <summary>
-        /// 获取今日推荐
-        /// </summary>
-        TodayRecommendAppDto GetTodayRecommend(Int32 accountId);
     }
 }

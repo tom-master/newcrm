@@ -33,7 +33,7 @@ namespace NewCRM.Web.Controllers
         /// 创建新的类目
         /// </summary>
         /// <returns></returns>
-        public ActionResult CreateNewAppType(Int32 appTypeId=0)
+        public ActionResult CreateNewAppType(Int32 appTypeId = 0)
         {
             AppTypeDto result = null;
             if (appTypeId != 0)
@@ -105,6 +105,18 @@ namespace NewCRM.Web.Controllers
             response.Message = "app类型创建成功";
 
             return Json(response);
+        }
+
+
+        /// <summary>
+        /// 检查应用类型名称
+        /// </summary>
+        [HttpPost]
+        public ActionResult CheckAppTypeName(String param)
+        {
+            Parameter.Validate(param);
+            var result = _appServices.CheckAppTypeName(param);
+            return Json(!result ? new { status = "y", info = "" } : new { status = "n", info = "类型名称已存在" });
         }
 
         #region private method
