@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using NewCRM.Domain.Services.Interface;
-using NewCRM.Repository.StorageProvider;
+using NewLib.Data.SqlMapper.InternalDataStore;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Text;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
-using NewCRM.Repository.StorageProvider;
+using NewLib.Data.SqlMapper.InternalDataStore;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {

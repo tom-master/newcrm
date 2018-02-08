@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Text;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
-using NewCRM.Repository.StorageProvider;
+using NewLib.Data.SqlMapper.InternalDataStore;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {

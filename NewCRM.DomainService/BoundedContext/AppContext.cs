@@ -9,8 +9,8 @@ using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
-using NewCRM.Repository.StorageProvider;
 using NewLib;
+using NewLib.Data.SqlMapper.InternalDataStore;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {

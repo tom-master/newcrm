@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomException;
-using NewCRM.Infrastructure.CommonTools.CustomExtension;
-using NewCRM.Repository.StorageProvider;
+using NewLib.Data.SqlMapper.InternalDataStore;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {
@@ -200,7 +198,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                 var parameters = new List<SqlParameter>
                 {
                     new SqlParameter("@WallpaperId",newWallpaperId),
-                    new SqlParameter("@AccountId",accountId)  
+                    new SqlParameter("@AccountId",accountId)
                 };
                 dataStore.SqlExecute(sql, parameters);
             }

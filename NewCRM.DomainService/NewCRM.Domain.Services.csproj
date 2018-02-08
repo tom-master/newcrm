@@ -85,10 +85,6 @@
       <Project>{0C635AA2-3953-4AA0-A07F-CF8B1B7BBC6E}</Project>
       <Name>NewCRM.Dto</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NewCRM.Repository\NewCRM.Repository.csproj">
-      <Project>{951B196F-22E6-4C4C-B7CA-8AF239BBF34E}</Project>
-      <Name>NewCRM.Repository</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

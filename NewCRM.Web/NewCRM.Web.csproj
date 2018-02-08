@@ -222,10 +222,6 @@
       <Project>{457EE31D-B485-4D98-A0A2-1FF2F58123D9}</Project>
       <Name>NewCRM.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NewCRM.Repository\NewCRM.Repository.csproj">
-      <Project>{951B196F-22E6-4C4C-B7CA-8AF239BBF34E}</Project>
-      <Name>NewCRM.Repository</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
