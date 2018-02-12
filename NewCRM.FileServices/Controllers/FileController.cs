@@ -105,16 +105,12 @@ namespace NewCRM.FileServices.Controllers
                         {
                             if(middlePath == UploadType.Icon)
                             {
-                                var image = GetReducedImage(49, 49, originalImage, tempFile);
-                                responses.Add(new
-                                {
-                                    IsSuccess = true,
-                                    Url = tempFile.Url,
-                                });
+                                GetReducedImage(49, 49, originalImage, tempFile);
+                                responses.Add(new { IsSuccess = true, Url = tempFile.Url });
                             }
                             else if(middlePath == UploadType.Face)
                             {
-                                var image = GetReducedImage(20, 20, originalImage, tempFile);
+                                GetReducedImage(20, 20, originalImage, tempFile);
                                 return Json(new { avatarUrls = tempFile.Url, msg = "", success = true });
                             }
                             else
@@ -195,14 +191,13 @@ namespace NewCRM.FileServices.Controllers
             {
                 Path = fileFullPath,
                 Name = fileName,
-                FullPath = $@"{fileFullPath}{fileName}",
-                Url = ""
+                FullPath = $@"{fileFullPath}{fileName}"
             };
-            tempFile.Url = tempFile.FullPath.Substring(tempFile.FullPath.IndexOf("/", StringComparison.Ordinal));
+            tempFile.ResetUrl();
             return tempFile;
         }
 
-        public Image GetReducedImage(int width, int height, Image imageFrom, TempFile tempFile)
+        public void GetReducedImage(int width, int height, Image imageFrom, TempFile tempFile)
         {
             // 源图宽度及高度 
             int imageFromWidth = imageFrom.Width;
@@ -212,7 +207,7 @@ namespace NewCRM.FileServices.Controllers
                 // 生成的缩略图实际宽度及高度.如果指定的高和宽比原图大，则返回原图；否则按照指定高宽生成图片
                 if(width >= imageFromWidth && height >= imageFromHeight)
                 {
-                    return imageFrom;
+                    return;
                 }
                 else
                 {
@@ -220,11 +215,14 @@ namespace NewCRM.FileServices.Controllers
                     //调用Image对象自带的GetThumbnailImage()进行图片缩略
                     Image reducedImage = imageFrom.GetThumbnailImage(width, height, callb, IntPtr.Zero);
                     //将图片以指定的格式保存到到指定的位置
-                    reducedImage.Save($@"{tempFile.FullPath}", ImageFormat.Png);
-                    return reducedImage;
+                    var newName = $@"small_{Guid.NewGuid().ToString().Replace("-", "")}.png";
+                    var newFileFullPath = $@"{tempFile.Path}{newName}";
+                    tempFile.FullPath = newFileFullPath;
+                    tempFile.ResetUrl();
+                    reducedImage.Save(newFileFullPath, ImageFormat.Png);
                 }
             }
-            catch(Exception)
+            catch(Exception ex)
             {
                 //抛出异常
                 throw new Exception("转换失败，请重试！");
@@ -249,4 +247,14 @@ public class TempFile
     public String FullPath { get; set; }
 
     public String Url { get; set; }
+
+    public void ResetUrl()
+    {
+        if(String.IsNullOrEmpty(FullPath))
+        {
+            return;
+        }
+
+        Url = FullPath.Substring(FullPath.IndexOf("/", StringComparison.Ordinal));
+    }
 }
