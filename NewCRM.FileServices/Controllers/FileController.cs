@@ -101,30 +101,30 @@ namespace NewCRM.FileServices.Controllers
                         var bytes = new byte[file.InputStream.Length];
                         file.InputStream.Position = 0;
 
-                        string fileFullPath, fileName;
-                        CreateFilePath(accountId, middlePath, fileExtension, out fileFullPath, out fileName);
+
+                        TempFile tempFile = CreateFilePath(accountId, middlePath, fileExtension);
 
                         var md5 = CalculateFile.Calculate(file.InputStream);
                         file.InputStream.Position = 0;
-                        using(var fileStream = new FileStream(fileFullPath + fileName, FileMode.Create, FileAccess.Write))
+                        using(var fileStream = new FileStream(tempFile.FullPath, FileMode.Create, FileAccess.Write))
                         {
                             file.InputStream.Read(bytes, 0, bytes.Length);
                             fileStream.Write(bytes, 0, bytes.Length);
 
                             if(uploadtype.ToLower() == UploadType.Face.ToString().ToLower())
                             {
-                                return Json(new { avatarUrls = fileFullPath.Substring(fileFullPath.IndexOf("/", StringComparison.Ordinal)) + fileName, msg = "", success = true });
+                                return Json(new { avatarUrls = tempFile.Url, msg = "", success = true });
                             }
                         }
-                        using(Image originalImage = Image.FromFile(fileFullPath + fileName))
+                        using(Image originalImage = Image.FromFile(tempFile.FullPath))
                         {
                             responses.Add(new
                             {
                                 IsSuccess = true,
                                 originalImage.Width,
                                 originalImage.Height,
-                                Title = fileName,
-                                Url = fileFullPath.Substring(fileFullPath.IndexOf("/", StringComparison.Ordinal)) + fileName,
+                                Title = "",
+                                Url = tempFile.Url,
                                 Md5 = md5,
                             });
                         }
@@ -179,14 +179,24 @@ namespace NewCRM.FileServices.Controllers
             return fileExtension.ToLower();
         }
 
-        private static void CreateFilePath(String accountId, String middlePath, String fileExtension, out String fileFullPath, out String fileName)
+        private static TempFile CreateFilePath(String accountId, String middlePath, String fileExtension)
         {
-            fileFullPath = $@"{_fileStoragePath}/{accountId}/{middlePath}/";
-            fileName = $@"{Guid.NewGuid().ToString().Replace("-", "")}.{fileExtension}";
+            var fileFullPath = $@"{_fileStoragePath}/{accountId}/{middlePath}/";
+            var fileName = $@"{Guid.NewGuid().ToString().Replace("-", "")}.{fileExtension}";
             if(!Directory.Exists(fileFullPath))
             {
                 Directory.CreateDirectory(fileFullPath);
             }
+
+            var tempFile = new TempFile
+            {
+                Path = fileFullPath,
+                Name = fileName,
+                FullPath = $@"{fileFullPath}{fileName}",
+                Url = ""
+            };
+            tempFile.Url = tempFile.FullPath.Substring(tempFile.FullPath.IndexOf("/", StringComparison.Ordinal));
+            return tempFile;
         }
     }
 }
@@ -196,4 +206,15 @@ public enum UploadType
     Wallpaper = 1,
     Face = 2,
     Icon = 3
+}
+
+public class TempFile
+{
+    public String Path { get; set; }
+
+    public String Name { get; set; }
+
+    public String FullPath { get; set; }
+
+    public String Url { get; set; }
 }
