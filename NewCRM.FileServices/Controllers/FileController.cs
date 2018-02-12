@@ -72,36 +72,21 @@ namespace NewCRM.FileServices.Controllers
                     return Json(responses);
                 }
 
-                var middlePath = "";
-                if(uploadtype.ToLower() == UploadType.Wallpaper.ToString().ToLower())
+                var middlePath = GetUploadType(uploadtype);
+                if(String.IsNullOrEmpty(middlePath))
                 {
-                    middlePath = UploadType.Wallpaper.ToString();
+                    responses.Add(new
+                    {
+                        IsSuccess = false,
+                        Message = $@"{uploadtype}:未被识别为有效的上传类型"
+                    });
+                    return Json(responses);
                 }
-                else if(uploadtype.ToLower() == UploadType.Face.ToString().ToLower())
-                {
-                    middlePath = UploadType.Face.ToString();
-                }
-                else if(uploadtype.ToLower() == UploadType.Icon.ToString().ToLower())
-                {
-                    middlePath = UploadType.Icon.ToString();
-                } 
 
                 for(int i = 0 ; i < files.Count ; i++)
                 {
                     var file = files[i];
-                    string fileExtension;
-                    if(file.FileName.StartsWith("__avatar"))
-                    {
-                        fileExtension = file.ContentType.Substring(file.ContentType.LastIndexOf("/", StringComparison.Ordinal) + 1);
-                        if(fileExtension == "jpeg")
-                        {
-                            fileExtension = "jpg";
-                        }
-                    }
-                    else
-                    {
-                        fileExtension = file.FileName.Substring(file.FileName.LastIndexOf(".", StringComparison.Ordinal) + 1);
-                    }
+                    string fileExtension = GetFileExtension(file);
 
                     if(_denyUploadTypes.Any(d => d.ToLower() == fileExtension))
                     {
@@ -115,13 +100,9 @@ namespace NewCRM.FileServices.Controllers
                     {
                         var bytes = new byte[file.InputStream.Length];
                         file.InputStream.Position = 0;
-                        
-                        var fileFullPath = $@"{_fileStoragePath}/{accountId}/{middlePath}/";
-                        var fileName = $@"{Guid.NewGuid().ToString().Replace("-", "")}.{fileExtension}";
-                        if(!Directory.Exists(fileFullPath))
-                        {
-                            Directory.CreateDirectory(fileFullPath);
-                        }
+
+                        string fileFullPath, fileName;
+                        CreateFilePath(accountId, middlePath, fileExtension, out fileFullPath, out fileName);
 
                         var md5 = CalculateFile.Calculate(file.InputStream);
                         file.InputStream.Position = 0;
@@ -160,6 +141,52 @@ namespace NewCRM.FileServices.Controllers
             }
 
             return Json(responses);
+        }
+
+        private static string GetUploadType(string uploadtype)
+        {
+            if(uploadtype.ToLower() == UploadType.Wallpaper.ToString().ToLower())
+            {
+                return UploadType.Wallpaper.ToString().ToLower();
+            }
+            else if(uploadtype.ToLower() == UploadType.Face.ToString().ToLower())
+            {
+                return UploadType.Face.ToString().ToLower();
+            }
+            else if(uploadtype.ToLower() == UploadType.Icon.ToString().ToLower())
+            {
+                return UploadType.Icon.ToString().ToLower();
+            }
+            return "";
+        }
+
+        private static string GetFileExtension(HttpPostedFile file)
+        {
+            string fileExtension;
+            if(file.FileName.StartsWith("__avatar"))
+            {
+                fileExtension = file.ContentType.Substring(file.ContentType.LastIndexOf("/", StringComparison.Ordinal) + 1);
+                if(fileExtension == "jpeg")
+                {
+                    fileExtension = "jpg";
+                }
+            }
+            else
+            {
+                fileExtension = file.FileName.Substring(file.FileName.LastIndexOf(".", StringComparison.Ordinal) + 1);
+            }
+
+            return fileExtension.ToLower();
+        }
+
+        private static void CreateFilePath(String accountId, String middlePath, String fileExtension, out String fileFullPath, out String fileName)
+        {
+            fileFullPath = $@"{_fileStoragePath}/{accountId}/{middlePath}/";
+            fileName = $@"{Guid.NewGuid().ToString().Replace("-", "")}.{fileExtension}";
+            if(!Directory.Exists(fileFullPath))
+            {
+                Directory.CreateDirectory(fileFullPath);
+            }
         }
     }
 }
