@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -73,15 +74,6 @@ namespace NewCRM.FileServices.Controllers
                 }
 
                 var middlePath = GetUploadType(uploadtype);
-                if(String.IsNullOrEmpty(middlePath))
-                {
-                    responses.Add(new
-                    {
-                        IsSuccess = false,
-                        Message = $@"{uploadtype}:未被识别为有效的上传类型"
-                    });
-                    return Json(responses);
-                }
 
                 for(int i = 0 ; i < files.Count ; i++)
                 {
@@ -101,32 +93,42 @@ namespace NewCRM.FileServices.Controllers
                         var bytes = new byte[file.InputStream.Length];
                         file.InputStream.Position = 0;
 
-
                         TempFile tempFile = CreateFilePath(accountId, middlePath, fileExtension);
-
                         var md5 = CalculateFile.Calculate(file.InputStream);
                         file.InputStream.Position = 0;
                         using(var fileStream = new FileStream(tempFile.FullPath, FileMode.Create, FileAccess.Write))
                         {
                             file.InputStream.Read(bytes, 0, bytes.Length);
                             fileStream.Write(bytes, 0, bytes.Length);
-
-                            if(uploadtype.ToLower() == UploadType.Face.ToString().ToLower())
-                            {
-                                return Json(new { avatarUrls = tempFile.Url, msg = "", success = true });
-                            }
                         }
                         using(Image originalImage = Image.FromFile(tempFile.FullPath))
                         {
-                            responses.Add(new
+                            if(middlePath == UploadType.Icon)
                             {
-                                IsSuccess = true,
-                                originalImage.Width,
-                                originalImage.Height,
-                                Title = "",
-                                Url = tempFile.Url,
-                                Md5 = md5,
-                            });
+                                var image = GetReducedImage(49, 49, originalImage, tempFile);
+                                responses.Add(new
+                                {
+                                    IsSuccess = true,
+                                    Url = tempFile.Url,
+                                });
+                            }
+                            else if(middlePath == UploadType.Face)
+                            {
+                                var image = GetReducedImage(20, 20, originalImage, tempFile);
+                                return Json(new { avatarUrls = tempFile.Url, msg = "", success = true });
+                            }
+                            else
+                            {
+                                responses.Add(new
+                                {
+                                    IsSuccess = true,
+                                    originalImage.Width,
+                                    originalImage.Height,
+                                    Title = "",
+                                    Url = tempFile.Url,
+                                    Md5 = md5,
+                                });
+                            }
                         }
                     }
                 }
@@ -143,21 +145,22 @@ namespace NewCRM.FileServices.Controllers
             return Json(responses);
         }
 
-        private static string GetUploadType(string uploadtype)
+        private static UploadType GetUploadType(string uploadtype)
         {
             if(uploadtype.ToLower() == UploadType.Wallpaper.ToString().ToLower())
             {
-                return UploadType.Wallpaper.ToString().ToLower();
+                return UploadType.Wallpaper;
             }
             else if(uploadtype.ToLower() == UploadType.Face.ToString().ToLower())
             {
-                return UploadType.Face.ToString().ToLower();
+                return UploadType.Face;
             }
             else if(uploadtype.ToLower() == UploadType.Icon.ToString().ToLower())
             {
-                return UploadType.Icon.ToString().ToLower();
+                return UploadType.Icon;
             }
-            return "";
+
+            throw new Exception($@"{uploadtype}:未被识别为有效的上传类型");
         }
 
         private static string GetFileExtension(HttpPostedFile file)
@@ -179,7 +182,7 @@ namespace NewCRM.FileServices.Controllers
             return fileExtension.ToLower();
         }
 
-        private static TempFile CreateFilePath(String accountId, String middlePath, String fileExtension)
+        private static TempFile CreateFilePath(String accountId, UploadType middlePath, String fileExtension)
         {
             var fileFullPath = $@"{_fileStoragePath}/{accountId}/{middlePath}/";
             var fileName = $@"{Guid.NewGuid().ToString().Replace("-", "")}.{fileExtension}";
@@ -197,6 +200,35 @@ namespace NewCRM.FileServices.Controllers
             };
             tempFile.Url = tempFile.FullPath.Substring(tempFile.FullPath.IndexOf("/", StringComparison.Ordinal));
             return tempFile;
+        }
+
+        public Image GetReducedImage(int width, int height, Image imageFrom, TempFile tempFile)
+        {
+            // 源图宽度及高度 
+            int imageFromWidth = imageFrom.Width;
+            int imageFromHeight = imageFrom.Height;
+            try
+            {
+                // 生成的缩略图实际宽度及高度.如果指定的高和宽比原图大，则返回原图；否则按照指定高宽生成图片
+                if(width >= imageFromWidth && height >= imageFromHeight)
+                {
+                    return imageFrom;
+                }
+                else
+                {
+                    Image.GetThumbnailImageAbort callb = new Image.GetThumbnailImageAbort(() => { return false; });
+                    //调用Image对象自带的GetThumbnailImage()进行图片缩略
+                    Image reducedImage = imageFrom.GetThumbnailImage(width, height, callb, IntPtr.Zero);
+                    //将图片以指定的格式保存到到指定的位置
+                    reducedImage.Save($@"{tempFile.FullPath}", ImageFormat.Png);
+                    return reducedImage;
+                }
+            }
+            catch(Exception)
+            {
+                //抛出异常
+                throw new Exception("转换失败，请重试！");
+            }
         }
     }
 }
