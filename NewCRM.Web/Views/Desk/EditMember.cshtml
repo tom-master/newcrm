@@ -1,4 +1,5 @@
-﻿@model NewCRM.Dto.MemberDto
+﻿@using NewLib
+@model NewCRM.Dto.MemberDto
 @{
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
 }
@@ -106,7 +107,7 @@
                 // swf文件路径
                 swf: '~/Scripts/HoorayUI/js/webuploader-0.1.5/Uploader.swf',
                 // 文件接收服务端。
-                server: 'http://39.106.106.137:8080/api/filestorage/upload?accountId=@Model.AccountId&uploadtype=icon',
+                server: '@(ProfileManager.UploadUrl)/api/filestorage/upload?accountId=@Model.AccountId&uploadtype=icon',
                 // 选择文件的按钮。可选。
                 // 内部根据当前运行是创建，可能是input元素，也可能是flash.
                 pick: {
@@ -142,6 +143,7 @@
                 }, 48, 48);
             });
             uploader.on('uploadSuccess', function (file, cb) {
+                
                 if (cb[0].IsSuccess) {
                     var urlPart = cb[0].Url
                      $.ajax({

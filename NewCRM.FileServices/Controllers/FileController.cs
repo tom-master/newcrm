@@ -28,7 +28,7 @@ namespace NewCRM.FileServices.Controllers
                 var request = HttpContext.Current.Request;
                 var accountId = request["accountId"];
 
-                if(String.IsNullOrEmpty(accountId))
+                if (String.IsNullOrEmpty(accountId))
                 {
                     responses.Add(new
                     {
@@ -40,7 +40,7 @@ namespace NewCRM.FileServices.Controllers
                 }
 
                 var files = request.Files;
-                if(files.Count == 0)
+                if (files.Count == 0)
                 {
                     responses.Add(new
                     {
@@ -52,7 +52,7 @@ namespace NewCRM.FileServices.Controllers
                 }
 
                 var uploadtype = request["uploadtype"];
-                if(String.IsNullOrEmpty(uploadtype))
+                if (String.IsNullOrEmpty(uploadtype))
                 {
                     responses.Add(new
                     {
@@ -63,7 +63,7 @@ namespace NewCRM.FileServices.Controllers
                     return Json(responses);
                 }
 
-                if(String.IsNullOrEmpty(_fileStoragePath))
+                if (String.IsNullOrEmpty(_fileStoragePath))
                 {
                     responses.Add(new
                     {
@@ -75,12 +75,12 @@ namespace NewCRM.FileServices.Controllers
 
                 var middlePath = GetUploadType(uploadtype);
 
-                for(int i = 0 ; i < files.Count ; i++)
+                for (int i = 0; i < files.Count; i++)
                 {
                     var file = files[i];
                     string fileExtension = GetFileExtension(file);
 
-                    if(_denyUploadTypes.Any(d => d.ToLower() == fileExtension))
+                    if (_denyUploadTypes.Any(d => d.ToLower() == fileExtension))
                     {
                         responses.Add(new
                         {
@@ -96,19 +96,19 @@ namespace NewCRM.FileServices.Controllers
                         TempFile tempFile = CreateFilePath(accountId, middlePath, fileExtension);
                         var md5 = CalculateFile.Calculate(file.InputStream);
                         file.InputStream.Position = 0;
-                        using(var fileStream = new FileStream(tempFile.FullPath, FileMode.Create, FileAccess.Write))
+                        using (var fileStream = new FileStream(tempFile.FullPath, FileMode.Create, FileAccess.Write))
                         {
                             file.InputStream.Read(bytes, 0, bytes.Length);
                             fileStream.Write(bytes, 0, bytes.Length);
                         }
-                        using(Image originalImage = Image.FromFile(tempFile.FullPath))
+                        using (Image originalImage = Image.FromFile(tempFile.FullPath))
                         {
-                            if(middlePath == UploadType.Icon)
+                            if (middlePath == UploadType.Icon)
                             {
                                 GetReducedImage(49, 49, originalImage, tempFile);
-                                responses.Add(new { IsSuccess = true, Url = tempFile.Url });
+                                responses.Add(new { IsSuccess = true, tempFile.Url });
                             }
-                            else if(middlePath == UploadType.Face)
+                            else if (middlePath == UploadType.Face)
                             {
                                 GetReducedImage(20, 20, originalImage, tempFile);
                                 return Json(new { avatarUrls = tempFile.Url, msg = "", success = true });
@@ -129,7 +129,7 @@ namespace NewCRM.FileServices.Controllers
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 responses.Add(new
                 {
@@ -143,15 +143,15 @@ namespace NewCRM.FileServices.Controllers
 
         private static UploadType GetUploadType(string uploadtype)
         {
-            if(uploadtype.ToLower() == UploadType.Wallpaper.ToString().ToLower())
+            if (uploadtype.ToLower() == UploadType.Wallpaper.ToString().ToLower())
             {
                 return UploadType.Wallpaper;
             }
-            else if(uploadtype.ToLower() == UploadType.Face.ToString().ToLower())
+            else if (uploadtype.ToLower() == UploadType.Face.ToString().ToLower())
             {
                 return UploadType.Face;
             }
-            else if(uploadtype.ToLower() == UploadType.Icon.ToString().ToLower())
+            else if (uploadtype.ToLower() == UploadType.Icon.ToString().ToLower())
             {
                 return UploadType.Icon;
             }
@@ -162,10 +162,10 @@ namespace NewCRM.FileServices.Controllers
         private static string GetFileExtension(HttpPostedFile file)
         {
             string fileExtension;
-            if(file.FileName.StartsWith("__avatar"))
+            if (file.FileName.StartsWith("__avatar"))
             {
                 fileExtension = file.ContentType.Substring(file.ContentType.LastIndexOf("/", StringComparison.Ordinal) + 1);
-                if(fileExtension == "jpeg")
+                if (fileExtension == "jpeg")
                 {
                     fileExtension = "jpg";
                 }
@@ -182,7 +182,7 @@ namespace NewCRM.FileServices.Controllers
         {
             var fileFullPath = $@"{_fileStoragePath}/{accountId}/{middlePath}/";
             var fileName = $@"{Guid.NewGuid().ToString().Replace("-", "")}.{fileExtension}";
-            if(!Directory.Exists(fileFullPath))
+            if (!Directory.Exists(fileFullPath))
             {
                 Directory.CreateDirectory(fileFullPath);
             }
@@ -205,7 +205,7 @@ namespace NewCRM.FileServices.Controllers
             try
             {
                 // 生成的缩略图实际宽度及高度.如果指定的高和宽比原图大，则返回原图；否则按照指定高宽生成图片
-                if(width >= imageFromWidth && height >= imageFromHeight)
+                if (width >= imageFromWidth && height >= imageFromHeight)
                 {
                     return;
                 }
@@ -222,7 +222,7 @@ namespace NewCRM.FileServices.Controllers
                     reducedImage.Save(newFileFullPath, ImageFormat.Png);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 //抛出异常
                 throw new Exception("转换失败，请重试！");
@@ -250,7 +250,7 @@ public class TempFile
 
     public void ResetUrl()
     {
-        if(String.IsNullOrEmpty(FullPath))
+        if (String.IsNullOrEmpty(FullPath))
         {
             return;
         }
