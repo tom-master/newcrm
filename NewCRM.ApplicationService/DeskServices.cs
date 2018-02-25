@@ -28,7 +28,7 @@ namespace NewCRM.Application.Services
         {
             Parameter.Validate(accountId).Validate(memberId);
             var result = _memberContext.GetMember(accountId, memberId, isFolder);
-            if(result == null)
+            if (result == null)
             {
                 throw new BusinessException($"未找到app");
             }
@@ -64,13 +64,13 @@ namespace NewCRM.Application.Services
             var result = GetCache(CacheKey.Desktop(accountId), () => _memberContext.GetMembers(accountId));
             var deskGroup = result.GroupBy(a => a.DeskIndex);
             var deskDictionary = new Dictionary<String, IList<dynamic>>();
-            foreach(var desk in deskGroup)
+            foreach (var desk in deskGroup)
             {
                 var members = desk.ToList();
                 var deskMembers = new List<dynamic>();
-                foreach(var member in members)
+                foreach (var member in members)
                 {
-                    if(member.MemberType == MemberType.Folder)
+                    if (member.MemberType == MemberType.Folder)
                     {
                         deskMembers.Add(new
                         {
@@ -103,7 +103,7 @@ namespace NewCRM.Application.Services
                     }
                     else
                     {
-                        if(member.FolderId == 0)
+                        if (member.FolderId == 0)
                         {
                             var internalType = member.MemberType.ToString().ToLower();
                             deskMembers.Add(new
@@ -250,8 +250,7 @@ namespace NewCRM.Application.Services
         {
             Parameter.Validate(source).Validate(accountId);
             _deskContext.ModifyWallpaperSource(source, accountId);
+            RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
-
-
     }
 }
