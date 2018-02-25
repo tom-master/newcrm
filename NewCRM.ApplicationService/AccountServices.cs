@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using NewCRM.Application.Services.Interface;
-using NewCRM.Domain;
 using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.Services;
 using NewCRM.Domain.Services.Interface;
@@ -152,7 +151,6 @@ namespace NewCRM.Application.Services
         public void ModifyAccount(AccountDto accountDto)
         {
             Parameter.Validate(accountDto);
-
             var account = accountDto.ConvertToModel<AccountDto, Account>();
             _accountContext.ModifyAccount(account);
         }
@@ -180,6 +178,7 @@ namespace NewCRM.Application.Services
             Parameter.Validate(newFace);
             _accountContext.ModifyAccountFace(accountId, newFace);
             RemoveOldKeyWhenModify(CacheKey.Config(accountId));
+            RemoveOldKeyWhenModify(CacheKey.Account(accountId));
         }
 
         public void ModifyPassword(Int32 accountId, String newPassword, Boolean isTogetherSetLockPassword)
