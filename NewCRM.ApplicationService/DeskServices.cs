@@ -39,7 +39,7 @@ namespace NewCRM.Application.Services
                 DeskIndex = result.DeskIndex,
                 FolderId = result.FolderId,
                 Height = result.Height,
-                IconUrl = result.IsIconByUpload ? ProfileManager.FileUrl + result.IconUrl : result.IconUrl,
+                IconUrl = result.IconUrl,
                 Id = result.Id,
                 IsDraw = result.IsDraw,
                 IsFlash = result.IsFlash,
@@ -53,7 +53,8 @@ namespace NewCRM.Application.Services
                 MemberType = result.MemberType.ToString(),
                 Name = result.Name,
                 Width = result.Width,
-                AccountId = result.AccountId
+                AccountId = result.AccountId,
+                IsIconByUpload = result.IsIconByUpload
             };
         }
 

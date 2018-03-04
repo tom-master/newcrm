@@ -11,14 +11,14 @@
 <form action="/Desk/ModifyMemberInfo" method="post" name="form" id="form">
     <input type="hidden" name="id" value="@Model.Id">
     <input type="hidden" name="membertype" value="@Model.MemberType" />
-    <input type="hidden" id="isIconByUpload" name="isIconByUpload" value="0" />
+    <input type="hidden" id="isIconByUpload" name="isIconByUpload" value="@(Model.IsIconByUpload?1:0)" />
     <div class="creatbox">
         <div class="middle">
             <div class="input-label">
                 <label class="label-text">应用图片：</label>
                 <div class="label-box form-inline control-group">
                     <div class="shortcutview">
-                        <img src="@Model.IconUrl">
+                        <img src="@(Model.IsIconByUpload?ProfileManager.FileUrl+Model.IconUrl:Model.IconUrl)">
                     </div>
                     <a href="javascript:;" id="upload" class="btn fl" style="position: relative;">选择图片</a>
                     <div class="shortcut-selicon">
@@ -143,7 +143,7 @@
                 }, 48, 48);
             });
             uploader.on('uploadSuccess', function (file, cb) {
-                
+
                 if (cb[0].IsSuccess) {
                     var urlPart = cb[0].Url
                      $.ajax({

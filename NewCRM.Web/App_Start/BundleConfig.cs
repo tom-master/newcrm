@@ -12,7 +12,7 @@ namespace NewCRM.Web
                 "~/Scripts/jquery-3.2.1.min.js",
                 "~/Scripts/HoorayJs/jquery-browser.js",
                 "~/Scripts/HoorayLibs/hooraylibs.js",
-                "~/Scripts/bootstrap/bootstrap.min.js",
+                "~/Scripts/bootstrap/js/bootstrap.min.js",
                 "~/Scripts/sugar/sugar-1.4.1.min.js",
                 "~/Scripts/HoorayJs/hros.min.js",
                 "~/Scripts/validate/Validform_v5.3.2/Validform_v5.3.2_min.js",
