@@ -420,7 +420,7 @@ namespace NewCRM.WebApi.Areas.HelpPage
         {
             if (sample is InvalidSample invalidSample)
             {
-                apiModel.ErrorMessages.Add(invalidSample.ErrorMessage);
+                apiModel.ErrorMessages.Add(invalidSample.GetErrorMessage());
             }
         }
     }

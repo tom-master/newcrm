@@ -16,14 +16,9 @@ namespace NewCRM.WebApi.Areas.HelpPage
         /// <param name="mediaType">The media type.</param>
         public HelpPageSampleKey(MediaTypeHeaderValue mediaType)
         {
-            if (mediaType == null)
-            {
-                throw new ArgumentNullException("mediaType");
-            }
-
             ActionName = String.Empty;
             ControllerName = String.Empty;
-            MediaType = mediaType;
+            MediaType = mediaType ?? throw new ArgumentNullException("mediaType");
             ParameterNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         }
 
@@ -33,15 +28,7 @@ namespace NewCRM.WebApi.Areas.HelpPage
         /// <param name="mediaType">The media type.</param>
         /// <param name="type">The CLR type.</param>
         public HelpPageSampleKey(MediaTypeHeaderValue mediaType, Type type)
-            : this(mediaType)
-        {
-            if (type == null)
-            {
-                throw new ArgumentNullException("type");
-            }
-
-            ParameterType = type;
-        }
+            : this(mediaType) => ParameterType = type ?? throw new ArgumentNullException("type");
 
         /// <summary>
         /// Creates a new <see cref="HelpPageSampleKey"/> based on <see cref="SampleDirection"/>, controller name, action name and parameter names.
@@ -56,21 +43,14 @@ namespace NewCRM.WebApi.Areas.HelpPage
             {
                 throw new InvalidEnumArgumentException("sampleDirection", (int)sampleDirection, typeof(SampleDirection));
             }
-            if (controllerName == null)
-            {
-                throw new ArgumentNullException("controllerName");
-            }
-            if (actionName == null)
-            {
-                throw new ArgumentNullException("actionName");
-            }
+
             if (parameterNames == null)
             {
                 throw new ArgumentNullException("parameterNames");
             }
 
-            ControllerName = controllerName;
-            ActionName = actionName;
+            ControllerName = controllerName ?? throw new ArgumentNullException("controllerName");
+            ActionName = actionName ?? throw new ArgumentNullException("actionName");
             ParameterNames = new HashSet<string>(parameterNames, StringComparer.OrdinalIgnoreCase);
             SampleDirection = sampleDirection;
         }
@@ -84,15 +64,7 @@ namespace NewCRM.WebApi.Areas.HelpPage
         /// <param name="actionName">Name of the action.</param>
         /// <param name="parameterNames">The parameter names.</param>
         public HelpPageSampleKey(MediaTypeHeaderValue mediaType, SampleDirection sampleDirection, string controllerName, string actionName, IEnumerable<string> parameterNames)
-            : this(sampleDirection, controllerName, actionName, parameterNames)
-        {
-            if (mediaType == null)
-            {
-                throw new ArgumentNullException("mediaType");
-            }
-
-            MediaType = mediaType;
-        }
+            : this(sampleDirection, controllerName, actionName, parameterNames) => MediaType = mediaType ?? throw new ArgumentNullException("mediaType");
 
         /// <summary>
         /// Gets the name of the controller.

@@ -637,9 +637,11 @@ namespace NewCRM.Domain.Services.BoundedContext
             Parameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
             using (var dataStore = new DataStore())
             {
-                var parameters = new List<SqlParameter>();
-                parameters.Add(new SqlParameter("@AppAuditState", (Int32)AppAuditState.Pass));
-                parameters.Add(new SqlParameter("@AppReleaseState", (Int32)AppReleaseState.Release));
+                var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@AppAuditState", (Int32)AppAuditState.Pass),
+                    new SqlParameter("@AppReleaseState", (Int32)AppReleaseState.Release)
+                };
 
                 var where = new StringBuilder();
                 where.Append($@" WHERE 1=1 AND a.IsDeleted=0 AND a.AppAuditState=@AppAuditState AND a.AppReleaseState=@AppReleaseState");

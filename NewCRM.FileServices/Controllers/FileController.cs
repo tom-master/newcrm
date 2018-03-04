@@ -121,7 +121,7 @@ namespace NewCRM.FileServices.Controllers
                                     originalImage.Width,
                                     originalImage.Height,
                                     Title = "",
-                                    Url = tempFile.Url,
+                                    tempFile.Url,
                                     Md5 = md5,
                                 });
                             }

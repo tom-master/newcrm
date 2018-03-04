@@ -7,25 +7,21 @@ namespace NewCRM.WebApi.Areas.HelpPage
     /// </summary>
     public class InvalidSample
     {
-        public InvalidSample(string errorMessage)
-        {
-            if (errorMessage == null)
-            {
-                throw new ArgumentNullException("errorMessage");
-            }
-            ErrorMessage = errorMessage;
-        }
+        public InvalidSample(string errorMessage) => SetErrorMessage(errorMessage ?? throw new ArgumentNullException("errorMessage"));
 
-        public string ErrorMessage { get; private set; }
+        private String errorMessage;
+
+        public String GetErrorMessage() => errorMessage;
+        private void SetErrorMessage(String value) => errorMessage = value;
 
         public override bool Equals(object obj)
         {
             var other = obj as InvalidSample;
-            return other != null && ErrorMessage == other.ErrorMessage;
+            return other != null && GetErrorMessage() == other.GetErrorMessage();
         }
 
-        public override int GetHashCode() => ErrorMessage.GetHashCode();
+        public override int GetHashCode() => GetErrorMessage().GetHashCode();
 
-        public override string ToString() => ErrorMessage;
+        public override string ToString() => GetErrorMessage();
     }
 }
