@@ -18,10 +18,7 @@ namespace NewCRM.Application.Services
     {
         private readonly IAccountContext _accountContext;
 
-        public AccountServices(IAccountContext accountContext)
-        {
-            _accountContext = accountContext;
-        }
+        public AccountServices(IAccountContext accountContext) => _accountContext = accountContext;
 
         public AccountDto Login(String accountName, String password, String requestIp)
         {

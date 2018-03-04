@@ -14,10 +14,7 @@ namespace NewCRM.Application.Services
     {
         private readonly ISecurityContext _securityContext;
 
-        public SecurityServices(ISecurityContext securityContext)
-        {
-            _securityContext = securityContext;
-        }
+        public SecurityServices(ISecurityContext securityContext) => _securityContext = securityContext;
 
         public RoleDto GetRole(Int32 roleId)
         {

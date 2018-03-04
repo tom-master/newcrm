@@ -14,10 +14,7 @@ namespace NewCRM.Web.Controllers
     {
         private readonly ISecurityServices _securityServices;
 
-        public AccountManagerController(ISecurityServices securityServices)
-        {
-            _securityServices = securityServices;
-        }
+        public AccountManagerController(ISecurityServices securityServices) => _securityServices = securityServices;
 
         #region 页面
 

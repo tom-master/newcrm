@@ -10,10 +10,7 @@ namespace NewCRM.Domain.Entitys
     {
         #region ctor
 
-        protected DomainModelBase()
-        {
-            IsDeleted = false;
-        }
+        protected DomainModelBase() => IsDeleted = false;
 
         #endregion
 

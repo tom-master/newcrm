@@ -14,10 +14,7 @@ namespace NewCRM.Web.Controllers
     {
         private readonly IAppServices _appServices;
 
-        public AppMarketController(IAppServices appServices)
-        {
-            _appServices = appServices;
-        }
+        public AppMarketController(IAppServices appServices) => _appServices = appServices;
 
         #region 页面
 

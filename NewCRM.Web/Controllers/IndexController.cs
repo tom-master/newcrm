@@ -16,10 +16,7 @@ namespace NewCRM.Web.Controllers
     {
         private readonly IDeskServices _deskServices;
 
-        public IndexController(IDeskServices deskServices)
-        {
-            _deskServices = deskServices;
-        }
+        public IndexController(IDeskServices deskServices) => _deskServices = deskServices;
 
         #region 页面
 

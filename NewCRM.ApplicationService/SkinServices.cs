@@ -14,10 +14,7 @@ namespace NewCRM.Application.Services
     {
         private readonly ISkinContext _skinContext;
 
-        public SkinServices(ISkinContext skinContext)
-        {
-            _skinContext = skinContext;
-        }
+        public SkinServices(ISkinContext skinContext) => _skinContext = skinContext;
 
         public IDictionary<String, dynamic> GetAllSkin(String skinPath)
         {

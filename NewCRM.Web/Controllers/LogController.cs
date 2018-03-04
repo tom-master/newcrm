@@ -12,10 +12,7 @@ namespace NewCRM.Web.Controllers
     {
         private readonly ILoggerServices _loggerServices;
 
-        public LogController(ILoggerServices loggerServices)
-        {
-            _loggerServices = loggerServices;
-        }
+        public LogController(ILoggerServices loggerServices) => _loggerServices = loggerServices;
 
         #region 页面
         /// <summary>

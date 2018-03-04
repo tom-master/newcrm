@@ -92,7 +92,6 @@ namespace NewCRM.Web.Controllers
             Parameter.Validate(roleName);
 
             #endregion
-            #endregion
 
             var response = new ResponseModels<IList<RoleDto>>();
             var result = _securityServices.GetRoles(roleName, pageIndex, pageSize, out var totalCount);

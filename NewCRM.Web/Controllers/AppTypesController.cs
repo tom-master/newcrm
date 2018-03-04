@@ -13,10 +13,7 @@ namespace NewCRM.Web.Controllers
     {
         private readonly IAppServices _appServices;
 
-        public AppTypesController(IAppServices appServices)
-        {
-            _appServices = appServices;
-        }
+        public AppTypesController(IAppServices appServices) => _appServices = appServices;
 
         #region 类目管理
 

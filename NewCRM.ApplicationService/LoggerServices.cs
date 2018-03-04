@@ -13,10 +13,7 @@ namespace NewCRM.Application.Services
     {
         private ILoggerContext _loggerContext;
 
-        public LoggerServices(ILoggerContext loggerContext)
-        {
-            _loggerContext = loggerContext;
-        }
+        public LoggerServices(ILoggerContext loggerContext) => _loggerContext = loggerContext;
 
         public void AddLogger(LogDto log)
         {
