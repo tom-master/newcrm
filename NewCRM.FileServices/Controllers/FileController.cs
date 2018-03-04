@@ -225,7 +225,7 @@ namespace NewCRM.FileServices.Controllers
             catch (Exception ex)
             {
                 //抛出异常
-                throw new Exception("转换失败，请重试！");
+                throw new Exception(ex.ToString());
             }
         }
     }

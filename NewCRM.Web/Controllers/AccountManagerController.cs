@@ -38,9 +38,8 @@ namespace NewCRM.Web.Controllers
             {
                 ViewData["Account"] = AccountServices.GetAccount(accountId);
             }
-            var totalCount = 0;
-            ViewData["Roles"] = _securityServices.GetRoles("", 1, 100, out totalCount);
 
+            ViewData["Roles"] = _securityServices.GetRoles("", 1, 100, out var totalCount);
             return View();
         }
 
@@ -56,10 +55,10 @@ namespace NewCRM.Web.Controllers
 
             #region 参数验证
             Parameter.Validate(accountName).Validate(accountType);
+
             #endregion
 
-            Int32 totalCount;
-            var accounts = AccountServices.GetAccounts(accountName, accountType, pageIndex, pageSize, out totalCount);
+            var accounts = AccountServices.GetAccounts(accountName, accountType, pageIndex, pageSize, out var totalCount);
             if (accounts != null)
             {
                 response.TotalCount = totalCount;
