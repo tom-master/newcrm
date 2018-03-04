@@ -28,14 +28,8 @@ namespace NewCRM.WebApi.Areas.HelpPage
             return other != null && Src == other.Src;
         }
 
-        public override int GetHashCode()
-        {
-            return Src.GetHashCode();
-        }
+        public override int GetHashCode() => Src.GetHashCode();
 
-        public override string ToString()
-        {
-            return Src;
-        }
+        public override string ToString() => Src;
     }
 }

@@ -149,18 +149,12 @@ namespace NewCRM.Dto.MapperProfile
         /// 转换枚举
         /// </summary>
         /// <returns></returns>
-        internal static Enum ConvertEnum(Type target, Int32 value)
-        {
-            return (Enum)Enum.Parse(target, Enum.GetName(target, value), true);
-        }
+        internal static Enum ConvertEnum(Type target, Int32 value) => (Enum)Enum.Parse(target, Enum.GetName(target, value), true);
 
         /// <summary>
         /// 转换枚举
         /// </summary>
         /// <returns></returns>
-        internal static Enum ConvertEnum(Type target, String value)
-        {
-            return (Enum)Enum.Parse(target, value, true);
-        }
+        internal static Enum ConvertEnum(Type target, String value) => (Enum)Enum.Parse(target, value, true);
     }
 }

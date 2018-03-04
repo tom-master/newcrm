@@ -86,14 +86,12 @@ namespace NewCRM.WebApi.Areas.HelpPage.Models
 
         private static IList<ParameterDescription> GetParameterDescriptions(ModelDescription modelDescription)
         {
-            var complexTypeModelDescription = modelDescription as ComplexTypeModelDescription;
-            if (complexTypeModelDescription != null)
+            if (modelDescription is ComplexTypeModelDescription complexTypeModelDescription)
             {
                 return complexTypeModelDescription.Properties;
             }
 
-            var collectionModelDescription = modelDescription as CollectionModelDescription;
-            if (collectionModelDescription != null)
+            if (modelDescription is CollectionModelDescription collectionModelDescription)
             {
                 complexTypeModelDescription = collectionModelDescription.ElementDescription as ComplexTypeModelDescription;
                 if (complexTypeModelDescription != null)

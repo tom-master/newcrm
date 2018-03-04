@@ -30,9 +30,6 @@ namespace NewCRM.Web
         /// <summary>
         /// Disposes the Unity container when the application is shut down.
         /// </summary>
-        public static void Shutdown()
-        {
-            UnityConfig.Container.Dispose();
-        }
+        public static void Shutdown() => UnityConfig.Container.Dispose();
     }
 }

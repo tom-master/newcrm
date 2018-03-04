@@ -10,39 +10,18 @@ namespace NewCRM.Infrastructure.CommonTools
     {
         private static readonly String _cachePrefix = "NewCrm";
 
-        public static String Config(Int32 accountId)
-        {
-            return $@"{_cachePrefix}:Config:AccountId:{accountId}";
-        }
+        public static String Config(Int32 accountId) => $@"{_cachePrefix}:Config:AccountId:{accountId}";
 
-        public static String Wallpaper(Int32 wallpaperId)
-        {
-            return $@"{_cachePrefix}:Wallpaper:WallpaperId:{wallpaperId}";
-        }
+        public static String Wallpaper(Int32 wallpaperId) => $@"{_cachePrefix}:Wallpaper:WallpaperId:{wallpaperId}";
 
-        public static String Account(Int32 accountId)
-        {
-            return $@"{_cachePrefix}:Account:AccountId:{accountId}";
-        }
+        public static String Account(Int32 accountId) => $@"{_cachePrefix}:Account:AccountId:{accountId}";
 
-        public static String AccountRoles(Int32 accountId)
-        {
-            return $@"{_cachePrefix}:Roles:AccountId:{accountId}";
-        }
+        public static String AccountRoles(Int32 accountId) => $@"{_cachePrefix}:Roles:AccountId:{accountId}";
 
-        public static String Powers()
-        {
-            return $@"{_cachePrefix}:Powers";
-        }
+        public static String Powers() => $@"{_cachePrefix}:Powers";
 
-        public static String Desktop(Int32 accountId)
-        {
-            return $@"{_cachePrefix}:Desktop:AccountId:{accountId}";
-        }
+        public static String Desktop(Int32 accountId) => $@"{_cachePrefix}:Desktop:AccountId:{accountId}";
 
-        public static String AppTypes()
-        {
-            return $@"{_cachePrefix}:AppTypes";
-        }
+        public static String AppTypes() => $@"{_cachePrefix}:AppTypes";
     }
 }

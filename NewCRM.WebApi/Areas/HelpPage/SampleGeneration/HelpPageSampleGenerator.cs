@@ -66,20 +66,14 @@ namespace NewCRM.WebApi.Areas.HelpPage
         /// </summary>
         /// <param name="api">The <see cref="ApiDescription"/>.</param>
         /// <returns>The samples keyed by media type.</returns>
-        public IDictionary<MediaTypeHeaderValue, object> GetSampleRequests(ApiDescription api)
-        {
-            return GetSample(api, SampleDirection.Request);
-        }
+        public IDictionary<MediaTypeHeaderValue, object> GetSampleRequests(ApiDescription api) => GetSample(api, SampleDirection.Request);
 
         /// <summary>
         /// Gets the response body samples for a given <see cref="ApiDescription"/>.
         /// </summary>
         /// <param name="api">The <see cref="ApiDescription"/>.</param>
         /// <returns>The samples keyed by media type.</returns>
-        public IDictionary<MediaTypeHeaderValue, object> GetSampleResponses(ApiDescription api)
-        {
-            return GetSample(api, SampleDirection.Response);
-        }
+        public IDictionary<MediaTypeHeaderValue, object> GetSampleResponses(ApiDescription api) => GetSample(api, SampleDirection.Response);
 
         /// <summary>
         /// Gets the request or response body samples.
@@ -351,8 +345,7 @@ namespace NewCRM.WebApi.Areas.HelpPage
 
         internal static Exception UnwrapException(Exception exception)
         {
-            var aggregateException = exception as AggregateException;
-            if (aggregateException != null)
+            if (exception is AggregateException aggregateException)
             {
                 return aggregateException.Flatten().InnerException;
             }
@@ -427,8 +420,7 @@ namespace NewCRM.WebApi.Areas.HelpPage
 
         private static object WrapSampleIfString(object sample)
         {
-            var stringSample = sample as string;
-            if (stringSample != null)
+            if (sample is string stringSample)
             {
                 return new TextSample(stringSample);
             }

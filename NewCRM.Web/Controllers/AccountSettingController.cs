@@ -12,10 +12,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 首页
         /// </summary>
-        public ActionResult Index()
-        {
-            return View(AccountServices.GetAccount(Account.Id));
-        }
+        public ActionResult Index() => View(AccountServices.GetAccount(Account.Id));
 
         #endregion
 

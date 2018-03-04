@@ -30,10 +30,7 @@ namespace NewCRM.WebApi.Areas.HelpPage
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns>An object of the given type.</returns>
-        public object GenerateObject(Type type)
-        {
-            return GenerateObject(type, new Dictionary<Type, object>());
-        }
+        public object GenerateObject(Type type) => GenerateObject(type, new Dictionary<Type, object>());
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Here we just want to return null if anything goes wrong.")]
         private object GenerateObject(Type type, Dictionary<Type, object> createdObjectReferences)
@@ -441,15 +438,9 @@ namespace NewCRM.WebApi.Areas.HelpPage
                 };
             }
 
-            public static bool CanGenerateObject(Type type)
-            {
-                return DefaultGenerators.ContainsKey(type);
-            }
+            public static bool CanGenerateObject(Type type) => DefaultGenerators.ContainsKey(type);
 
-            public object GenerateObject(Type type)
-            {
-                return DefaultGenerators[type](++_index);
-            }
+            public object GenerateObject(Type type) => DefaultGenerators[type](++_index);
         }
     }
 }

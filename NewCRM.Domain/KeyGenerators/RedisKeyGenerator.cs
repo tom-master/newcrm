@@ -4,9 +4,6 @@ namespace NewCRM.Domain.KeyGenerators
 {
     public abstract class RedisKeyGenerator : IKeyGenerator
     {
-        public virtual String KeyGenerator()
-        {
-            throw new NotImplementedException();
-        }
+        public virtual String KeyGenerator() => throw new NotImplementedException();
     }
 }

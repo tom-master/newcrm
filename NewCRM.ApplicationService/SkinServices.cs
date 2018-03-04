@@ -59,10 +59,7 @@ namespace NewCRM.Application.Services
             return "";
         }
 
-        private String Get(String path, Func<String, Int32> filterFunc)
-        {
-            return path.Substring(filterFunc(path));
-        }
+        private String Get(String path, Func<String, Int32> filterFunc) => path.Substring(filterFunc(path));
 
         #endregion
 

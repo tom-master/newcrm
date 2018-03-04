@@ -22,10 +22,7 @@ namespace NewCRM.Web.Controllers
         /// 首页
         /// </summary>
         /// <returns></returns>
-        public ActionResult Index()
-        {
-            return View();
-        }
+        public ActionResult Index() => View();
 
         #endregion
 

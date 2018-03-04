@@ -62,9 +62,6 @@ namespace NewCRM.Domain.Entitys.System
         }
         #endregion
 
-        public override String KeyGenerator()
-        {
-            return $"NewCRM:{nameof(Log)}";
-        }
+        public override String KeyGenerator() => $"NewCRM:{nameof(Log)}";
     }
 }

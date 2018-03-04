@@ -24,14 +24,8 @@ namespace NewCRM.WebApi.Areas.HelpPage
             return other != null && Text == other.Text;
         }
 
-        public override int GetHashCode()
-        {
-            return Text.GetHashCode();
-        }
+        public override int GetHashCode() => Text.GetHashCode();
 
-        public override string ToString()
-        {
-            return Text;
-        }
+        public override string ToString() => Text;
     }
 }

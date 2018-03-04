@@ -8,9 +8,6 @@ namespace NewCRM.Infrastructure.CommonTools.CustomExtension
 {
     public static class BooleanExtension
     {
-        public static Int32 ParseToInt32(this Boolean boo)
-        {
-            return boo ? 1 : 0;
-        }
+        public static Int32 ParseToInt32(this Boolean boo) => boo ? 1 : 0;
     }
 }

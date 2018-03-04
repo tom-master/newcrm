@@ -24,10 +24,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 首页
         /// </summary>
-        public ActionResult Index()
-        {
-            return View();
-        }
+        public ActionResult Index() => View();
 
         /// <summary>
         /// 创建新账户

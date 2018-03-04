@@ -124,25 +124,16 @@ namespace NewCRM.Dto
         /// <returns></returns>
         public static TModel ConvertToModel<TDto, TModel>(this TDto source)
             where TDto : BaseDto
-            where TModel : DomainModelBase
-        {
-            return Mapper.Map<TModel>(source);
-        }
+            where TModel : DomainModelBase => Mapper.Map<TModel>(source);
 
         public static IEnumerable<TModel> ConvertToModels<TDto, TModel>(this IEnumerable<TDto> source)
             where TDto : BaseDto
-            where TModel : DomainModelBase
-        {
-            return Mapper.Map<IEnumerable<TModel>>(source);
-        }
+            where TModel : DomainModelBase => Mapper.Map<IEnumerable<TModel>>(source);
 
 
         public static TModel ConvertToModel<TDto, TModel>(this TDto source, TModel tt)
              where TDto : BaseDto
-             where TModel : DomainModelBase
-        {
-            return Mapper.Map(source, tt);
-        }
+             where TModel : DomainModelBase => Mapper.Map(source, tt);
 
         #endregion
     }
