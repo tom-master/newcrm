@@ -75,10 +75,10 @@ namespace NewCRM.FileServices.Controllers
 
                 var middlePath = GetUploadType(uploadtype);
 
-                for (int i = 0; i < files.Count; i++)
+                for (var i = 0; i < files.Count; i++)
                 {
                     var file = files[i];
-                    string fileExtension = GetFileExtension(file);
+                    var fileExtension = GetFileExtension(file);
 
                     if (_denyUploadTypes.Any(d => d.ToLower() == fileExtension))
                     {
@@ -93,7 +93,7 @@ namespace NewCRM.FileServices.Controllers
                         var bytes = new byte[file.InputStream.Length];
                         file.InputStream.Position = 0;
 
-                        TempFile tempFile = CreateFilePath(accountId, middlePath, fileExtension);
+                        var tempFile = CreateFilePath(accountId, middlePath, fileExtension);
                         var md5 = CalculateFile.Calculate(file.InputStream);
                         file.InputStream.Position = 0;
                         using (var fileStream = new FileStream(tempFile.FullPath, FileMode.Create, FileAccess.Write))
@@ -101,7 +101,7 @@ namespace NewCRM.FileServices.Controllers
                             file.InputStream.Read(bytes, 0, bytes.Length);
                             fileStream.Write(bytes, 0, bytes.Length);
                         }
-                        using (Image originalImage = Image.FromFile(tempFile.FullPath))
+                        using (var originalImage = Image.FromFile(tempFile.FullPath))
                         {
                             if (middlePath == UploadType.Icon)
                             {
@@ -200,8 +200,8 @@ namespace NewCRM.FileServices.Controllers
         public void GetReducedImage(int width, int height, Image imageFrom, TempFile tempFile)
         {
             // 源图宽度及高度 
-            int imageFromWidth = imageFrom.Width;
-            int imageFromHeight = imageFrom.Height;
+            var imageFromWidth = imageFrom.Width;
+            var imageFromHeight = imageFrom.Height;
             try
             {
                 // 生成的缩略图实际宽度及高度.如果指定的高和宽比原图大，则返回原图；否则按照指定高宽生成图片
@@ -213,7 +213,7 @@ namespace NewCRM.FileServices.Controllers
                 {
                     Image.GetThumbnailImageAbort callb = new Image.GetThumbnailImageAbort(() => { return false; });
                     //调用Image对象自带的GetThumbnailImage()进行图片缩略
-                    Image reducedImage = imageFrom.GetThumbnailImage(width, height, callb, IntPtr.Zero);
+                    var reducedImage = imageFrom.GetThumbnailImage(width, height, callb, IntPtr.Zero);
                     //将图片以指定的格式保存到到指定的位置
                     var newName = $@"small_{Guid.NewGuid().ToString().Replace("-", "")}.png";
                     var newFileFullPath = $@"{tempFile.Path}{newName}";

@@ -169,7 +169,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         {
             Parameter.Validate(accountId).Validate(newMode);
 
-            if (Enum.TryParse(newMode, true, out WallpaperMode wallpaperMode))
+            if (Enum.TryParse(newMode, true, out var wallpaperMode))
             {
                 using (var dataStore = new DataStore())
                 {

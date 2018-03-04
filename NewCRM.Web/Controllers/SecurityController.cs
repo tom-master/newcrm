@@ -93,11 +93,12 @@ namespace NewCRM.Web.Controllers
         {
             #region 参数验证
             Parameter.Validate(roleName);
+
+            #endregion
             #endregion
 
-            var totalCount = 0;
             var response = new ResponseModels<IList<RoleDto>>();
-            var result = _securityServices.GetRoles(roleName, pageIndex, pageSize, out totalCount);
+            var result = _securityServices.GetRoles(roleName, pageIndex, pageSize, out var totalCount);
             response.IsSuccess = true;
             response.Message = "获取角色列表成功";
             response.Model = result;
@@ -208,7 +209,7 @@ namespace NewCRM.Web.Controllers
 
         private static RoleDto WapperRoleDto(FormCollection forms)
         {
-            Int32 roleId = 0;
+            var roleId = 0;
             if((forms["roleId"] + "").Length > 0)
             {
                 roleId = Int32.Parse(forms["roleId"]);

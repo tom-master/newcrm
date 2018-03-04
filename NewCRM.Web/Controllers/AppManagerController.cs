@@ -58,10 +58,9 @@ namespace NewCRM.Web.Controllers
         public ActionResult GetApps(String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize)
         {
             var response = new ResponseModels<IList<AppDto>>();
-            Int32 totalCount;
-            var result = _appServices.GetAccountAllApps(0, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
+            var result = _appServices.GetAccountAllApps(0, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out var totalCount);
 
-            foreach (AppDto appDto in result)
+            foreach (var appDto in result)
             {
                 appDto.IsCreater = appDto.AccountId == Account.Id;
             }

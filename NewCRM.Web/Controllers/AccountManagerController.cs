@@ -157,7 +157,7 @@ namespace NewCRM.Web.Controllers
 
         private AccountDto WapperAccountDto(FormCollection forms)
         {
-            List<RoleDto> roleIds = new List<RoleDto>();
+            var roleIds = new List<RoleDto>();
             if ((forms["val_roleIds"] + "").Length > 0)
             {
                 roleIds = forms["val_roleIds"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(role => new RoleDto

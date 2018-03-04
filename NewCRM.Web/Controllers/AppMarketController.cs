@@ -100,8 +100,7 @@ namespace NewCRM.Web.Controllers
         {
             var response = new ResponseModels<IList<AppDto>>();
 
-            Int32 totalCount;
-            var result = _appServices.GetAllApps(Account.Id, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
+            var result = _appServices.GetAllApps(Account.Id, appTypeId, orderId, searchText, pageIndex, pageSize, out var totalCount);
             if (result != null)
             {
                 response.TotalCount = totalCount;
@@ -160,8 +159,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult GetAccountApps(String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize)
         {
             var response = new ResponseModels<IList<AppDto>>();
-            Int32 totalCount = 0;
-            var result = _appServices.GetAccountAllApps(Account.Id, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
+            var result = _appServices.GetAccountAllApps(Account.Id, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out var totalCount);
             if (result != null)
             {
                 response.TotalCount = totalCount; 
