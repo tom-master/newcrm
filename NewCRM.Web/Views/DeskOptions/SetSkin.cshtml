@@ -19,9 +19,8 @@
         });
 
 
-        function loadAllSkin(callback) {
-            ZENG.msgbox.loading('正在加载中，请稍后...');
-            $.get('/DeskOptions/GetSkins', function (responseText) {
+        function loadAllSkin(callback) { 
+            HORS.request.get('/DeskOptions/GetSkins', function (responseText) {
                 if (responseText.IsSuccess) {
                     var html = '';
                     $.each(responseText.Model.data, function (k, v) {
@@ -34,8 +33,7 @@
                     }
                 } else {
                     ZENG.msgbox.fail(responseText.Message);
-                }
-                ZHENG.msgbox.close()
+                } 
             });
         }
 

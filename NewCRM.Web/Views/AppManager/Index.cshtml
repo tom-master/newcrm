@@ -208,7 +208,7 @@
                 appStateResult = $appStates.attr('data-type') + ',' + $appStates.attr('value');
             }
 
-            $.get('/AppManager/GetApps',
+            HORS.request.get('/AppManager/GetApps',
             {
                 searchText: $('#appName').val(),
                 appTypeId: $('#appType').find("option:selected").attr('value'),
@@ -217,8 +217,7 @@
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 7
                 }, function (responseText) {
-                    if (responseText.IsSuccess) {
-                        //ZENG.msgbox.hide();
+                    if (responseText.IsSuccess) { 
                         var tableTemplate = Handlebars.compile($("#table-template").html());
                         $('.list-con').html(tableTemplate(responseText));
                         $('.list-count').text(responseText.TotalCount);

@@ -127,7 +127,7 @@
         });
 
         function GetAllUploadWallPaper() {
-            $.get("/DeskOptions/GetUploadWallPapers", function (responseText) {
+            HORS.request.get("/DeskOptions/GetUploadWallPapers", function (responseText) {
                 if (responseText.IsSuccess) {
                     var liElement = '';
                     $.each(responseText.Model, function (k, v) {

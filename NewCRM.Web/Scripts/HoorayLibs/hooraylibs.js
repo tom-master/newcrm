@@ -2860,3 +2860,33 @@ ZHENG.msgbox.close = function () {
         }
     }
 }());
+
+HORS.request = (function () {
+    return {
+        get: function (url, parameter, callback) {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json",
+                url: url,
+                data: Object.keys(parameter).length ? parameter : null,
+                beforeSend: function () {
+                    ZENG.msgbox.loading('正在加载中，请稍后...')
+                },
+                success: function (responseText) {
+                    if (callback) {
+                        callback && callback(responseText)
+                    }
+                },
+                complete: function () {
+                    ZHENG.msgbox.close()
+                },
+                error: function (data) {
+                    ZENG.msgbox.fail('加载失败,请重试......')
+                }
+            });
+        },
+        post: function (url, parameter, callback) {
+
+        }
+    }
+})();

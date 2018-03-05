@@ -25,7 +25,7 @@
         <div class="control-group">
             <label style="margin-left:10px">等级：</label>
             <select name="logLevel" id="logLevel" style="width:140px">
-                <option value="1" >信息</option>
+                <option value="1">信息</option>
                 <option value="2">警告</option>
                 <option value="3">调试</option>
                 <option value="4" selected="selected">错误</option>
@@ -106,13 +106,12 @@
             });
         }
 
-        function getPageList(current_page) {
-            ZENG.msgbox.loading('正在加载中，请稍后...');
-            $.get('/Log/GetAllLog', {
+        function getPageList(current_page) { 
+            HORS.request.get('/Log/GetAllLog', {
                 logLevel: $('#logLevel').find("option:selected").attr('value'),
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 5
-            }, function (responseText) { 
+            }, function (responseText) {
                 if (responseText.IsSuccess) {
                     var tableTemplate = Handlebars.compile($("#table-template").html());
                     $('.list-con').html(tableTemplate(responseText));
@@ -121,8 +120,7 @@
                     initPagination(current_page);
                 } else {
                     ZENG.msgbox.fail(responseText.Message);
-                }
-                ZHENG.msgbox.close()
+                } 
             });
         }
 

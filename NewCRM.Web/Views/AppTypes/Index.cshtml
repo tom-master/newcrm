@@ -99,7 +99,7 @@
         }
 
         function getPageList(current_page) {
-            $.get('/AppTypes/GetAppTypes', {
+            HORS.request.get('/AppTypes/GetAppTypes', {
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 10,
                 searchText: $('#searchText').val()
