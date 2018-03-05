@@ -101,7 +101,7 @@
                     id: 'edit',
                     content: '确定要删除 “' + name + '” 该账户么？',
                     ok: function () {
-                        $.post('/AccountManager/RemoveAccount', { accountId: memberid },
+                        HORS.request.post('/AccountManager/RemoveAccount', { accountId: memberid },
                             function (responseText) {
                                 if (responseText.IsSuccess) {
                                     $('#pagination').trigger('currentPage');
@@ -122,7 +122,7 @@
                     id: 'edit',
                     content: isDisable ? '确定要启用 “' + name + '” 该账户么？' : '确定要禁用 “' + name + '” 该账户么？',
                     ok: function () {
-                        $.post('/AccountManager/ChangeAccountStatus', { accountId: parseInt(memberid), isDisable: isDisable },
+                        HORS.request.post('/AccountManager/ChangeAccountStatus', { accountId: parseInt(memberid), isDisable: isDisable },
                             function (responseText) {
                                 if (responseText.IsSuccess) {
                                     $('#pagination').trigger('currentPage');

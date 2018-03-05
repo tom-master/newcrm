@@ -42,7 +42,7 @@
                 var skin = $(this).attr('skin');
                 $('.skin li').removeClass('selected');
                 $(this).addClass('selected');
-                $.post('/DeskOptions/ModifySkin', { skin: skin }, function (responseText) {
+                HORS.request.post('/DeskOptions/ModifySkin', { skin: skin }, function (responseText) {
                     if (responseText.IsSuccess) {
                         window.parent.ZENG.msgbox.success("皮肤设置成功，如果没有更新请刷新页面");
                         setTimeout(function () {

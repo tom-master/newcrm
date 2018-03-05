@@ -66,10 +66,10 @@
                 $.dialog({
                     id: 'ajaxedit',
                     //content: '删除 “' + name + '” 类目时，会将该类目下的所有应用归类到「未分类」类目下，是否继续？',
-                    content:'删除后将不可恢复！是否继续？',
+                    content: '删除后将不可恢复！是否继续？',
                     ok: function () {
-                        $.post('/AppTypes/RemoveAppType', { appTypeId: categoryid },
-                            function(responseText) {
+                        HORS.request.post('/AppTypes/RemoveAppType', { appTypeId: categoryid },
+                            function (responseText) {
                                 if (responseText.IsSuccess) {
                                     $('#pagination').trigger('currentPage');
                                 } else {

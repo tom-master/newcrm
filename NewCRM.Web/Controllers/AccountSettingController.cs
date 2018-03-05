@@ -16,7 +16,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult Index() => View(AccountServices.GetAccount(Account.Id));
 
         #endregion
-
+      
         /// <summary>
         ///上传账户头像
         /// </summary>

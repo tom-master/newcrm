@@ -2864,13 +2864,20 @@ ZHENG.msgbox.close = function () {
 HORS.request = (function () {
     return {
         get: function (url, parameter, callback) {
+            HORS.request.internalRequset(url, 'GET', parameter, callback)
+        },
+        post: function (url, parameter, callback) {
+            HORS.request.internalRequset(url, 'POST', parameter, callback)
+        },
+
+        internalRequset: function (url, method, parameter, callback) {
             $.ajax({
-                type: "GET",
-                contentType: "application/json",
+                type: method,
+                contentType: 'application/json',
                 url: url,
                 data: Object.keys(parameter).length ? parameter : null,
                 beforeSend: function () {
-                    ZENG.msgbox.loading('正在加载中，请稍后...')
+                    ZENG.msgbox.loading('正在载入中，请稍后...')
                 },
                 success: function (responseText) {
                     if (callback) {
@@ -2884,9 +2891,6 @@ HORS.request = (function () {
                     ZENG.msgbox.fail('加载失败,请重试......')
                 }
             });
-        },
-        post: function (url, parameter, callback) {
-
         }
     }
 })();

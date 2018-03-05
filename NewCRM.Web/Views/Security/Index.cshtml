@@ -78,7 +78,7 @@
                     id: 'ajaxedit',
                     content: '确定要删除 “' + name + '” 该角色？',
                     ok: function () {
-                        $.post('/Security/RemoveRole', { roleId: roleId }, function (responseText) {
+                        HORS.request.post('/Security/RemoveRole', { roleId: roleId }, function (responseText) {
                             if (responseText.IsSuccess) {
                                 setTimeout(function () {
                                     $('#pagination').trigger('currentPage');

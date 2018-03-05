@@ -97,7 +97,7 @@
                 var num = $(this).attr('num');
                 if (!isNaN(num) && /^[1-5]$/.test(num)) {
                     if (window.parent.parent.HROS.base.checkLogin()) {
-                        $.post('/AppMarket/ModifyAppStart',{ appId: '@Model.Id', starCount: num },function (responseText) {
+                        HORS.request.post('/AppMarket/ModifyAppStart', { appId: '@Model.Id', starCount: num }, function (responseText) {
                                 if (responseText.IsSuccess) {
                                     ZENG.msgbox.success("打分成功！");
                                     setTimeout(function () {
