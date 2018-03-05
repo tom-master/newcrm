@@ -51,13 +51,13 @@ namespace NewCRM.FileServices.Controllers
                     return Json(responses);
                 }
 
-                var uploadtype = request["uploadtype"];
-                if(String.IsNullOrEmpty(uploadtype))
+                var uploadType = request["uploadtype"];
+                if(String.IsNullOrEmpty(uploadType))
                 {
                     responses.Add(new
                     {
                         IsSuccess = false,
-                        Message = $@"{nameof(uploadtype)}参数验证失败"
+                        Message = $@"{nameof(uploadType)}参数验证失败"
                     });
 
                     return Json(responses);
@@ -73,12 +73,11 @@ namespace NewCRM.FileServices.Controllers
                     return Json(responses);
                 }
 
-                var middlePath = GetUploadType(uploadtype);
 
                 for(var i = 0 ; i < files.Count ; i++)
                 {
                     var file = files[i];
-                    var fileExtension = GetFileExtension(file);
+                    var fileExtension = RequestFile.GetFileExtension(file);
 
                     if(_denyUploadTypes.Any(d => d.ToLower() == fileExtension))
                     {
@@ -91,27 +90,36 @@ namespace NewCRM.FileServices.Controllers
                     else
                     {
                         var bytes = new byte[file.InputStream.Length];
-                        file.InputStream.Position = 0;
+                        var requestFile = CreateRequestFile(accountId, uploadType, fileExtension);
 
-                        var tempFile = CreateFilePath(accountId, middlePath, fileExtension);
-                        var md5 = Calculate(file.InputStream);
-                        file.InputStream.Position = 0;
-                        using(var fileStream = new FileStream(tempFile.FullPath, FileMode.Create, FileAccess.Write))
+                        using(var fileStream = new FileStream(requestFile.FullPath, FileMode.Create, FileAccess.Write))
                         {
                             file.InputStream.Read(bytes, 0, bytes.Length);
                             fileStream.Write(bytes, 0, bytes.Length);
                         }
-                        using(var originalImage = Image.FromFile(tempFile.FullPath))
+
+                        if(!File.Exists(requestFile.FullPath))
                         {
-                            if(middlePath == UploadType.Icon)
+                            responses.Add(new
                             {
-                                GetReducedImage(49, 49, originalImage, tempFile);
-                                responses.Add(new { IsSuccess = true, tempFile.Url });
+                                IsSuccess = false,
+                                Message = $@"文件上传失败"
+                            });
+                        }
+
+                        using(var originalImage = Image.FromFile(requestFile.FullPath))
+                        {
+                            requestFile.Image = originalImage;
+
+                            if(requestFile.FileType == FileType.Icon)
+                            {
+                                requestFile.GetReducedImage(49, 49);
+                                responses.Add(new { IsSuccess = true, requestFile.Url });
                             }
-                            else if(middlePath == UploadType.Face)
+                            else if(requestFile.FileType == FileType.Face)
                             {
-                                GetReducedImage(20, 20, originalImage, tempFile);
-                                return Json(new { avatarUrls = tempFile.Url, msg = "", success = true });
+                                requestFile.GetReducedImage(20, 20);
+                                return Json(new { avatarUrls = requestFile.Url, msg = "", success = true });
                             }
                             else
                             {
@@ -121,8 +129,8 @@ namespace NewCRM.FileServices.Controllers
                                     originalImage.Width,
                                     originalImage.Height,
                                     Title = "",
-                                    tempFile.Url,
-                                    Md5 = md5,
+                                    requestFile.Url,
+                                    Md5 = requestFile.Calculate(file.InputStream),
                                 });
                             }
                         }
@@ -134,52 +142,18 @@ namespace NewCRM.FileServices.Controllers
                 responses.Add(new
                 {
                     IsSuccess = false,
-                    Message = ex.GetType().Name
+                    Message = ex.ToString()
                 });
             }
 
             return Json(responses);
         }
 
-        private static UploadType GetUploadType(string uploadtype)
+        private static RequestFile CreateRequestFile(String accountId, String fileType, String fileExtension)
         {
-            if(uploadtype.ToLower() == UploadType.Wallpaper.ToString().ToLower())
-            {
-                return UploadType.Wallpaper;
-            }
-            else if(uploadtype.ToLower() == UploadType.Face.ToString().ToLower())
-            {
-                return UploadType.Face;
-            }
-            else if(uploadtype.ToLower() == UploadType.Icon.ToString().ToLower())
-            {
-                return UploadType.Icon;
-            }
+            var requestFile = new RequestFile();
 
-            throw new Exception($@"{uploadtype}:未被识别为有效的上传类型");
-        }
-
-        private static string GetFileExtension(HttpPostedFile file)
-        {
-            string fileExtension;
-            if(file.FileName.StartsWith("__avatar"))
-            {
-                fileExtension = file.ContentType.Substring(file.ContentType.LastIndexOf("/", StringComparison.Ordinal) + 1);
-                if(fileExtension == "jpeg")
-                {
-                    fileExtension = "jpg";
-                }
-            }
-            else
-            {
-                fileExtension = file.FileName.Substring(file.FileName.LastIndexOf(".", StringComparison.Ordinal) + 1);
-            }
-
-            return fileExtension.ToLower();
-        }
-
-        private static TempFile CreateFilePath(String accountId, UploadType middlePath, String fileExtension)
-        {
+            var middlePath = requestFile.GetFileType(fileType);
             var fileFullPath = $@"{_fileStoragePath}/{accountId}/{middlePath}/";
             var fileName = $@"{Guid.NewGuid().ToString().Replace("-", "")}.{fileExtension}";
             if(!Directory.Exists(fileFullPath))
@@ -187,81 +161,25 @@ namespace NewCRM.FileServices.Controllers
                 Directory.CreateDirectory(fileFullPath);
             }
 
-            var tempFile = new TempFile
-            {
-                Path = fileFullPath,
-                Name = fileName,
-                FullPath = $@"{fileFullPath}{fileName}"
-            };
-            tempFile.ResetUrl();
-            return tempFile;
+            requestFile.Path = fileFullPath;
+            requestFile.Name = fileName;
+            requestFile.FullPath = $@"{fileFullPath}{fileName}";
+            requestFile.FileType = middlePath;
+            requestFile.ResetUrl();
+            return requestFile;
         }
 
-        public void GetReducedImage(int width, int height, Image imageFrom, TempFile tempFile)
-        {
-            // 源图宽度及高度 
-            var imageFromWidth = imageFrom.Width;
-            var imageFromHeight = imageFrom.Height;
-            try
-            {
-                // 生成的缩略图实际宽度及高度.如果指定的高和宽比原图大，则返回原图；否则按照指定高宽生成图片
-                if(width >= imageFromWidth && height >= imageFromHeight)
-                {
-                    return;
-                }
-                else
-                {
-                    Image.GetThumbnailImageAbort callb = new Image.GetThumbnailImageAbort(() => { return false; });
-                    //调用Image对象自带的GetThumbnailImage()进行图片缩略
-                    var reducedImage = imageFrom.GetThumbnailImage(width, height, callb, IntPtr.Zero);
-                    //将图片以指定的格式保存到到指定的位置
-                    var newName = $@"small_{Guid.NewGuid().ToString().Replace("-", "")}.png";
-                    var newFileFullPath = $@"{tempFile.Path}{newName}";
-                    tempFile.FullPath = newFileFullPath;
-                    tempFile.ResetUrl();
-                    reducedImage.Save(newFileFullPath, ImageFormat.Png);
-                }
-            }
-            catch(Exception ex)
-            {
-                //抛出异常
-                throw new Exception(ex.ToString());
-            }
-        }
-
-        /// <summary>
-        /// 计算指定流的MD5值     /// </summary>
-        /// <param name="stream">指定需要计算的流</param>
-        /// <returns></returns>
-        public static String Calculate(Stream stream)
-        {
-            if(stream == null)
-            {
-                return "";
-            }
-            var md5 = new MD5CryptoServiceProvider();
-            md5.ComputeHash(stream);
-            var b = md5.Hash;
-            md5.Clear();
-            var sb = new StringBuilder(32);
-            foreach(var t in b)
-            {
-                sb.Append(t.ToString("X2"));
-            }
-
-            return sb.ToString();
-        }
     }
 }
 
-public enum UploadType
+public enum FileType
 {
     Wallpaper = 1,
     Face = 2,
     Icon = 3
 }
 
-public class TempFile
+public class RequestFile
 {
     public String Path { get; set; }
 
@@ -271,6 +189,10 @@ public class TempFile
 
     public String Url { get; set; }
 
+    public Image Image { get; set; }
+
+    public FileType FileType { get; set; }
+
     public void ResetUrl()
     {
         if(String.IsNullOrEmpty(FullPath))
@@ -279,5 +201,95 @@ public class TempFile
         }
 
         Url = FullPath.Substring(FullPath.IndexOf("/", StringComparison.Ordinal));
+    }
+
+    public FileType GetFileType(string fileType)
+    {
+        if(fileType.ToLower() == FileType.Wallpaper.ToString().ToLower())
+        {
+            return FileType.Wallpaper;
+        }
+        else if(fileType.ToLower() == FileType.Face.ToString().ToLower())
+        {
+            return FileType.Face;
+        }
+        else if(fileType.ToLower() == FileType.Icon.ToString().ToLower())
+        {
+            return FileType.Icon;
+        }
+
+        throw new Exception($@"{fileType}:未被识别为有效的上传类型");
+    }
+
+    public static string GetFileExtension(HttpPostedFile file)
+    {
+        string fileExtension;
+        if(file.FileName.StartsWith("__avatar"))
+        {
+            fileExtension = file.ContentType.Substring(file.ContentType.LastIndexOf("/", StringComparison.Ordinal) + 1);
+            if(fileExtension == "jpeg")
+            {
+                fileExtension = "jpg";
+            }
+        }
+        else
+        {
+            fileExtension = file.FileName.Substring(file.FileName.LastIndexOf(".", StringComparison.Ordinal) + 1);
+        }
+
+        return fileExtension.ToLower();
+    }
+
+    public void GetReducedImage(int width, int height)
+    {
+        // 源图宽度及高度 
+        var imageFromWidth = Image.Width;
+        var imageFromHeight = Image.Height;
+
+        try
+        {
+            // 生成的缩略图实际宽度及高度.如果指定的高和宽比原图大，则返回原图；否则按照指定高宽生成图片
+            if(width >= imageFromWidth && height >= imageFromHeight)
+            {
+                return;
+            }
+            else
+            {
+                Image.GetThumbnailImageAbort callb = new Image.GetThumbnailImageAbort(() => { return false; });
+
+                //调用Image对象自带的GetThumbnailImage()进行图片缩略
+                var reducedImage = Image.GetThumbnailImage(width, height, callb, IntPtr.Zero);
+
+                //将图片以指定的格式保存到到指定的位置
+                var newName = $@"small_{Guid.NewGuid().ToString().Replace("-", "")}.png";
+                var newFileFullPath = $@"{Path}{newName}";
+                FullPath = newFileFullPath;
+                ResetUrl();
+                reducedImage.Save(newFileFullPath, ImageFormat.Png);
+            }
+        }
+        catch(Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
+    }
+
+    public String Calculate(Stream stream)
+    {
+        if(stream == null)
+        {
+            return "";
+        }
+        var md5 = new MD5CryptoServiceProvider();
+        md5.ComputeHash(stream);
+        var b = md5.Hash;
+        md5.Clear();
+        var sb = new StringBuilder(32);
+        foreach(var t in b)
+        {
+            sb.Append(t.ToString("X2"));
+        }
+
+        return sb.ToString();
     }
 }
