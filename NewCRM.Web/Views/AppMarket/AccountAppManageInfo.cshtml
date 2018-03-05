@@ -96,7 +96,7 @@
                         {
                             $.ajax({
                                 type: 'POST',
-                                url: '/AppMarket/UploadIcon',
+                                url: '/AppMarket/ModifyAppIcon',
                                 data: { appId: '@Request["AppId"]', newIcon: urlPart },
                                 success: function (responseText) {
                                     if (responseText.IsSuccess) {

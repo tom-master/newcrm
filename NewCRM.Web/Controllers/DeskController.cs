@@ -131,7 +131,7 @@ namespace NewCRM.Web.Controllers
         /// 更新图标
         /// </summary>
         [HttpPost]
-        public ActionResult UploadIcon(Int32 memberId, String newIcon)
+        public ActionResult ModifyMemberIcon(Int32 memberId, String newIcon)
         {
             #region 参数验证
             Parameter.Validate(memberId).Validate(newIcon);

@@ -22,6 +22,7 @@ namespace NewCRM.Web.Controllers
         /// 首页
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult Index()
         {
             if (Account.IsAdmin)
@@ -43,6 +44,7 @@ namespace NewCRM.Web.Controllers
         /// app详情
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult AppDetail(Int32 appId)
         {
             #region 参数验证
@@ -60,6 +62,7 @@ namespace NewCRM.Web.Controllers
         /// 用户app管理
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult AccountAppManage()
         {
             ViewData["AppTypes"] = _appServices.GetAppTypes();
@@ -73,6 +76,7 @@ namespace NewCRM.Web.Controllers
         /// 我的应用
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult AccountAppManageInfo(Int32 appId)
         {
             AppDto result = null;
@@ -194,7 +198,7 @@ namespace NewCRM.Web.Controllers
         /// 更新图标
         /// </summary>
         [HttpPost]
-        public ActionResult UploadIcon(Int32 appId, String newIcon)
+        public ActionResult ModifyAppIcon(Int32 appId, String newIcon)
         {
             #region 参数验证
             Parameter.Validate(appId).Validate(newIcon);

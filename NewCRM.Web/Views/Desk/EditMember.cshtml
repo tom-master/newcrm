@@ -148,7 +148,7 @@
                     var urlPart = cb[0].Url
                      $.ajax({
                         type: 'POST',
-                        url: '/Desk/UploadIcon',
+                        url: '/Desk/ModifyMemberIcon',
                         data: { memberId: '@Model.Id', newIcon: urlPart },
                         success: function (responseText) {
                             if (responseText.IsSuccess) {
