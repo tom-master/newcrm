@@ -230,8 +230,7 @@ namespace NewCRM.FileServices.Controllers
         }
 
         /// <summary>
-        /// 计算指定流的MD5值
-        /// </summary>
+        /// 计算指定流的MD5值     /// </summary>
         /// <param name="stream">指定需要计算的流</param>
         /// <returns></returns>
         public static String Calculate(Stream stream)
