@@ -21,14 +21,16 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 首页
         /// </summary>
+        [HttpGet]
         public ActionResult Index() => View();
 
         /// <summary>
         /// 创建新账户
         /// </summary>
+        [HttpGet]
         public ActionResult CreateNewAccount(Int32 accountId = 0)
         {
-            if (accountId != 0)
+            if(accountId != 0)
             {
                 ViewData["Account"] = AccountServices.GetAccount(accountId);
             }
@@ -53,7 +55,7 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             var accounts = AccountServices.GetAccounts(accountName, accountType, pageIndex, pageSize, out var totalCount);
-            if (accounts != null)
+            if(accounts != null)
             {
                 response.TotalCount = totalCount;
                 response.Message = "获取账户列表成功";
@@ -72,7 +74,7 @@ namespace NewCRM.Web.Controllers
         {
             var response = new ResponseModel<AccountDto>();
             var dto = WapperAccountDto(forms);
-            if (dto.Id == 0)
+            if(dto.Id == 0)
             {
                 AccountServices.AddNewAccount(dto);
 
@@ -82,7 +84,7 @@ namespace NewCRM.Web.Controllers
             else
             {
                 AccountServices.ModifyAccount(dto);
-                if (!String.IsNullOrEmpty(dto.Password))
+                if(!String.IsNullOrEmpty(dto.Password))
                 {
                     Response.Cookies.Add(new HttpCookie("memberID")
                     {
@@ -111,7 +113,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 移除账户
         /// </summary>
-        [HttpGet]
+        [HttpPost]
         public ActionResult RemoveAccount(Int32 accountId)
         {
             var response = new ResponseModel<String>();
@@ -125,11 +127,11 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 修改账户为禁用状态
         /// </summary>
-        [HttpGet]
-        public ActionResult ChangeAccountDisableStatus(Int32 accountId, String isDisable)
+        [HttpPost]
+        public ActionResult ChangeAccountStatus(Int32 accountId, String isDisable)
         {
             var response = new ResponseModel<String>();
-            if (!Boolean.Parse(isDisable))
+            if(!Boolean.Parse(isDisable))
             {
                 AccountServices.Disable(accountId);
 
@@ -152,7 +154,7 @@ namespace NewCRM.Web.Controllers
         private AccountDto WapperAccountDto(FormCollection forms)
         {
             var roleIds = new List<RoleDto>();
-            if ((forms["val_roleIds"] + "").Length > 0)
+            if((forms["val_roleIds"] + "").Length > 0)
             {
                 roleIds = forms["val_roleIds"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(role => new RoleDto
                 {
