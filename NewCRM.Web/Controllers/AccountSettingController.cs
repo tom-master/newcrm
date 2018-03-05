@@ -12,6 +12,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 首页
         /// </summary>
+        [HttpGet]
         public ActionResult Index() => View(AccountServices.GetAccount(Account.Id));
 
         #endregion
@@ -19,7 +20,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         ///上传账户头像
         /// </summary>
-        [HttpGet]
+        [HttpPost]
         public ActionResult ModifyAccountFace(String accountFace)
         {
             var response = new ResponseModel();
