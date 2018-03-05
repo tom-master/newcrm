@@ -87,6 +87,7 @@ namespace NewCRM.Web.Controllers
             #region 参数验证
             Parameter.Validate(forms);
             #endregion
+
             var response = new ResponseModel();
             var appTypeDto = WrapperAppTypeDto(forms);
             if (appTypeId == 0)
@@ -110,7 +111,10 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public ActionResult CheckAppTypeName(String param)
         {
+            #region 参数验证
             Parameter.Validate(param);
+            #endregion
+
             var result = _appServices.CheckAppTypeName(param);
             return Json(!result ? new { status = "y", info = "" } : new { status = "n", info = "类型名称已存在" });
         }
