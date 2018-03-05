@@ -180,8 +180,8 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 选择系统app
         /// </summary>
-        [HttpPost]
-        public ActionResult SelectSystemApp(String appIds)
+        [HttpGet]
+        public ActionResult GetSystemApp(String appIds)
         {
             var response = new ResponseModel<IList<AppDto>>();
             var internalAppIds = appIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();

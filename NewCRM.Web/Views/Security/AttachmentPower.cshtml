@@ -134,8 +134,8 @@
                     ok: function () {
                         $('#val_apps_id').val($.dialog.data('appsid')).focusout();
                         $.ajax({
-                            type: 'POST',
-                            url: '/Security/SelectSystemApp',
+                            type: 'GET',
+                            url: '/Security/GetSystemApp',
                             data: { appIds: $.dialog.data('appsid') },
                             success: function (responseText) {
                                 if (responseText.IsSuccess) {
