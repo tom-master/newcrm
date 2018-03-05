@@ -21,12 +21,14 @@ namespace NewCRM.Web.Controllers
         /// 首页
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult Index() => View();
 
         /// <summary>
         /// 创建新的类目
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult CreateNewAppType(Int32 appTypeId = 0)
         {
             AppTypeDto result = null;
@@ -61,7 +63,7 @@ namespace NewCRM.Web.Controllers
         /// 删除app类型
         /// </summary>
         [HttpPost]
-        public ActionResult DeleteAppType(Int32 appTypeId)
+        public ActionResult RemoveAppType(Int32 appTypeId)
         {
             #region 参数验证
             Parameter.Validate(appTypeId);
