@@ -36,7 +36,7 @@
         ZENG.msgbox.loading('正在载入中，请稍后...');
         $('#detailIframe iframe').attr('src', url).on('load', function () {
             $('body').css('overflow', 'hidden');
-            ZHENG.msgbox.close()
+            ZENG.msgbox.close()
             $('#detailIframe').animate({ 'top': 0, 'opacity': 'show' }, 500);
         });
     };

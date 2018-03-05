@@ -153,7 +153,7 @@
                     id: 'del',
                     content: '确定要删除 “' + appname + '” 该应用么？',
                     ok: function () {
-                        HORS.request.post('/AppMarket/RemoveApp', { appId: appId }, function (responseText) {
+                        HROS.request.post('/AppMarket/RemoveApp', { appId: appId }, function (responseText) {
                             if (typeof responseText.js !== 'undefined') {
                                 $('body').append(responseText.js);
                             } else {
@@ -190,7 +190,7 @@
                 appStateResult = $appStates.attr('data-type') + ',' + $appStates.attr('value');
             }
 
-            HORS.request.get('/AppMarket/GetAccountApps',
+            HROS.request.get('/AppMarket/GetAccountApps',
             {
                 searchText: $('#appName').val(),
                 appTypeId: $('#appType').find("option:selected").attr('value'),

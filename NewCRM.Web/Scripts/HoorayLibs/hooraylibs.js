@@ -2567,10 +2567,9 @@ ZENG.msgbox.fail = function (msg, timeout) {
 ZENG.msgbox.loading = function (msg) {
     ZENG.msgbox.show(msg, 6, 10000);
 };
-ZHENG.msgbox.close = function () {
-    var _s = ZENG.msgbox;
-    clearTimeout(_s._timer)
-}
+ZENG.msgbox.close = function () {
+    ZENG.msgbox._hide()
+};
 
 /**
  * 全屏插件
@@ -2861,36 +2860,3 @@ ZHENG.msgbox.close = function () {
     }
 }());
 
-HORS.request = (function () {
-    return {
-        get: function (url, parameter, callback) {
-            HORS.request.internalRequset(url, 'GET', parameter, callback)
-        },
-        post: function (url, parameter, callback) {
-            HORS.request.internalRequset(url, 'POST', parameter, callback)
-        },
-
-        internalRequset: function (url, method, parameter, callback) {
-            $.ajax({
-                type: method,
-                contentType: 'application/json',
-                url: url,
-                data: Object.keys(parameter).length ? parameter : null,
-                beforeSend: function () {
-                    ZENG.msgbox.loading('正在载入中，请稍后...')
-                },
-                success: function (responseText) {
-                    if (callback) {
-                        callback && callback(responseText)
-                    }
-                },
-                complete: function () {
-                    ZHENG.msgbox.close()
-                },
-                error: function (data) {
-                    ZENG.msgbox.fail('加载失败,请重试......')
-                }
-            });
-        }
-    }
-})();

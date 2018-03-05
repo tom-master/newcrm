@@ -104,7 +104,7 @@
             $('.wapppapercustom .view').on('click', 'li a', function (event) {
                 event.stopPropagation();
                 var id = $(this).parent().attr('id');
-                HORS.request.post("/DeskOptions/RemoveWallpaper", { wallPaperId: id }, function (responseText) {
+                HROS.request.post("/DeskOptions/RemoveWallpaper", { wallPaperId: id }, function (responseText) {
                     if (responseText.IsSuccess) {
                         ZENG.msgbox.success('壁纸移除成功');
                         $('#' + id).remove();
@@ -122,7 +122,7 @@
         });
 
         function GetAllUploadWallPaper() {
-            HORS.request.get("/DeskOptions/GetUploadWallPapers", function (responseText) {
+            HROS.request.get("/DeskOptions/GetUploadWallPapers", function (responseText) {
                 if (responseText.IsSuccess) {
                     var liElement = '';
                     $.each(responseText.Model, function (k, v) {
@@ -141,7 +141,7 @@
             if (!webUrl) {
                 ZENG.msgbox.info('请输入一个合法的url地址');
             } else {
-                HORS.request.post("/DeskOptions/WebWallPaper", { webUrl: webUrl }, function (responseText) {
+                HROS.request.post("/DeskOptions/WebWallPaper", { webUrl: webUrl }, function (responseText) {
                     if (parseInt(responseText.Model.Item1) === 0) {
                         ZENG.msgbox.fail('未能获取到所指定的网络图片');
                     } else {

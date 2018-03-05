@@ -28,7 +28,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult Desktop()
         {
             ViewBag.Title = "桌面";
-            if(Request.Cookies["memberID"] != null)
+            if (Request.Cookies["memberID"] != null)
             {
                 var account = Account;
                 account.AccountFace = ProfileManager.FileUrl + account.AccountFace;
@@ -57,7 +57,7 @@ namespace NewCRM.Web.Controllers
 
             var response = new ResponseModel();
             var result = AccountServices.UnlockScreen(Account.Id, unlockPassword);
-            if(result)
+            if (result)
             {
                 response.IsSuccess = true;
             }
@@ -99,7 +99,7 @@ namespace NewCRM.Web.Controllers
             var response = new ResponseModel<ConfigDto>();
             var result = AccountServices.GetConfig(Account.Id);
 
-            if(result.IsBing)
+            if (result.IsBing)
             {
                 result.WallpaperSource = WallpaperSource.Bing.ToString().ToLower();
                 result.WallpaperUrl = AsyncContext.Run(BingHelper.GetEverydayBackgroundImageAsync);
@@ -178,7 +178,7 @@ namespace NewCRM.Web.Controllers
                 memberId = internalMemberResult.Id,
                 appId = internalMemberResult.AppId,
                 name = internalMemberResult.Name,
-                icon = internalMemberResult.IconUrl,
+                icon = internalMemberResult.IsIconByUpload ? ProfileManager.FileUrl + internalMemberResult.IconUrl : internalMemberResult.IconUrl,
                 width = internalMemberResult.Width,
                 height = internalMemberResult.Height,
                 isOnDock = internalMemberResult.IsOnDock,

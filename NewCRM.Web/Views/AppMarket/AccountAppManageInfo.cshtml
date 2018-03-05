@@ -241,7 +241,7 @@
                         id: 'del',
                         content: '确认审核通过该应用？',
                         ok: function () {
-                            HORS.request.post('/AppManager/Pass', { appId: appid }, function (responseText) {
+                            HROS.request.post('/AppManager/Pass', { appId: appid }, function (responseText) {
                                 if (responseText.IsSuccess) {
                                     window.parent.closeDetailIframe(function () {
                                         window.parent.$('#pagination').trigger('currentPage');
@@ -261,7 +261,7 @@
                         id: 'del',
                         content: '确认不通过该应用？',
                         ok: function () {
-                            HORS.request.post('/AppManager/Deny', { appId: appid }, function (responseText) {
+                            HROS.request.post('/AppManager/Deny', { appId: appid }, function (responseText) {
                                 if (responseText.IsSuccess) {
                                     window.parent.closeDetailIframe(function () {
                                         window.parent.$('#pagination').trigger('currentPage');
@@ -281,7 +281,7 @@
                         id: 'del',
                         content: '确认发布该应用？',
                         ok: function () {
-                            HORS.request.post('/AppMarket/ReleaseApp', { appId: appid }, function (responseText) {
+                            HROS.request.post('/AppMarket/ReleaseApp', { appId: appid }, function (responseText) {
                                 if (responseText.IsSuccess) {
                                     window.parent.closeDetailIframe(function () {
                                         window.parent.$('#pagination').trigger('currentPage');

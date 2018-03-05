@@ -107,7 +107,7 @@
         }
 
         function getPageList(current_page) { 
-            HORS.request.get('/Log/GetAllLog', {
+            HROS.request.get('/Log/GetAllLog', {
                 logLevel: $('#logLevel').find("option:selected").attr('value'),
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 5

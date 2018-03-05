@@ -159,7 +159,7 @@
                     id: 'del',
                     content: '确定要删除 “' + appname + '” 该应用么？',
                     ok: function () {
-                        HORS.request.post('/AppManager/RemoveApp', { appId: appid }, function (responseText) {
+                        HROS.request.post('/AppManager/RemoveApp', { appId: appid }, function (responseText) {
                             if (responseText.IsSuccess) {
                                 $('#pagination').trigger('currentPage');
                             } else {
@@ -171,7 +171,7 @@
                 });
             }).on('click', '.do-recommend', function () {
                 var appid = $(this).attr('appid');
-                HORS.request.post('/AppManager/Recommend', { appId: appid }, function (responseText) {
+                HROS.request.post('/AppManager/Recommend', { appId: appid }, function (responseText) {
                     if (responseText.IsSuccess) {
                         $('#pagination').trigger('currentPage');
                     } else {
@@ -206,7 +206,7 @@
                 appStateResult = $appStates.attr('data-type') + ',' + $appStates.attr('value');
             }
 
-            HORS.request.get('/AppManager/GetApps',
+            HROS.request.get('/AppManager/GetApps',
             {
                 searchText: $('#appName').val(),
                 appTypeId: $('#appType').find("option:selected").attr('value'),

@@ -19,7 +19,7 @@
         });
 
         function loadAllSkin(callback) {
-            HORS.request.get('/DeskOptions/GetSkins', {}, function (responseText) {
+            HROS.request.get('/DeskOptions/GetSkins', {}, function (responseText) {
                 if (responseText.IsSuccess) {
                     var html = '';
                     $.each(responseText.Model.data, function (k, v) {
@@ -41,7 +41,7 @@
                 var skin = $(this).attr('skin');
                 $('.skin li').removeClass('selected');
                 $(this).addClass('selected');
-                HORS.request.post('/DeskOptions/ModifySkin', { skin: skin }, function (responseText) {
+                HROS.request.post('/DeskOptions/ModifySkin', { skin: skin }, function (responseText) {
                     if (responseText.IsSuccess) {
                         window.parent.ZENG.msgbox.success("皮肤设置成功，如果没有更新请刷新页面");
                         setTimeout(function () {

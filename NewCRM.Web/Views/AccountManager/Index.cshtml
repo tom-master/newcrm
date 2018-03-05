@@ -101,7 +101,7 @@
                     id: 'edit',
                     content: '确定要删除 “' + name + '” 该账户么？',
                     ok: function () {
-                        HORS.request.post('/AccountManager/RemoveAccount', { accountId: memberid }, function (responseText) {
+                        HROS.request.post('/AccountManager/RemoveAccount', { accountId: memberid }, function (responseText) {
                             if (responseText.IsSuccess) {
                                 $('#pagination').trigger('currentPage');
                             } else {
@@ -121,7 +121,7 @@
                     id: 'edit',
                     content: isDisable ? '确定要启用 “' + name + '” 该账户么？' : '确定要禁用 “' + name + '” 该账户么？',
                     ok: function () {
-                        HORS.request.post('/AccountManager/ChangeAccountStatus', { accountId: parseInt(memberid), isDisable: isDisable }, function (responseText) {
+                        HROS.request.post('/AccountManager/ChangeAccountStatus', { accountId: parseInt(memberid), isDisable: isDisable }, function (responseText) {
                             if (responseText.IsSuccess) {
                                 $('#pagination').trigger('currentPage');
                             } else {
@@ -152,7 +152,7 @@
         }
 
         function getPageList(current_page) {
-            HORS.request.get('/AccountManager/Accounts', {
+            HROS.request.get('/AccountManager/Accounts', {
                 accountName: $('#accountName').val(),
                 accountType: $('#accountType').val(),
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
