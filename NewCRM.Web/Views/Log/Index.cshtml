@@ -112,8 +112,7 @@
                 logLevel: $('#logLevel').find("option:selected").attr('value'),
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 5
-            }, function (responseText) {
-                //ZENG.msgbox.hide();
+            }, function (responseText) { 
                 if (responseText.IsSuccess) {
                     var tableTemplate = Handlebars.compile($("#table-template").html());
                     $('.list-con').html(tableTemplate(responseText));
@@ -123,6 +122,7 @@
                 } else {
                     ZENG.msgbox.fail(responseText.Message);
                 }
+                ZHENG.msgbox.close()
             });
         }
 

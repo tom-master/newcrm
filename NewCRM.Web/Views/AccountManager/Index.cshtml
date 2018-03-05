@@ -171,8 +171,9 @@
 
                     initPagination(current_page);
                 } else {
-                    ZENG.msgbox.fila(responseText.Message);
+                    ZENG.msgbox.fail(responseText.Message);
                 }
+                ZHENG.msgbox.close()
             });
         }
 

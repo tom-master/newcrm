@@ -39,7 +39,7 @@
         $('#detailIframe iframe')
             .attr('src', url).on('load', function () {
                 $('body').css('overflow', 'hidden');
-                //ZENG.msgbox.hide();
+                ZHENG.msgbox.close()
                 $('#detailIframe').animate({ 'top': 0, 'opacity': 'show' }, 500);
             });
     };

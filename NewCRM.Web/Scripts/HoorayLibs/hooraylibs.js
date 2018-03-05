@@ -2467,7 +2467,6 @@ ZENG.dom = {
         return _doc.compatMode == "CSS1Compat" ? _doc.documentElement.clientHeight : _doc.body.clientHeight;
     }
 };
-
 ZENG.string = {
     RegExps: { trim: /^\s+|\s+$/g, ltrim: /^\s+/, rtrim: /\s+$/, nl2br: /\n/g, s2nb: /[\x20]{2}/g, URIencode: /[\x09\x0A\x0D\x20\x21-\x29\x2B\x2C\x2F\x3A-\x3F\x5B-\x5E\x60\x7B-\x7E]/g, escHTML: { re_amp: /&/g, re_lt: /</g, re_gt: />/g, re_apos: /\x27/g, re_quot: /\x22/g }, escString: { bsls: /\\/g, sls: /\//g, nl: /\n/g, rt: /\r/g, tab: /\t/g }, restXHTML: { re_amp: /&amp;/g, re_lt: /&lt;/g, re_gt: /&gt;/g, re_apos: /&(?:apos|#0?39);/g, re_quot: /&quot;/g }, write: /\{(\d{1,2})(?:\:([xodQqb]))?\}/g, isURL: /^(?:ht|f)tp(?:s)?\:\/\/(?:[\w\-\.]+)\.\w+/i, cut: /[\x00-\xFF]/, getRealLen: { r0: /[^\x00-\xFF]/g, r1: /[\x00-\xFF]/g }, format: /\{([\d\w\.]+)\}/g }, commonReplace: function (s, p, r) {
         return s.replace(p, r);
@@ -2484,8 +2483,6 @@ ZENG.string = {
         });
     }
 };
-
-
 ZENG.object = {
     routeRE: /([\d\w_]+)/g,
     route: function (obj, path) {
@@ -2502,13 +2499,8 @@ ZENG.object = {
         return obj;
     }
 };
-
-
-
 var ua = ZENG.userAgent = {}, agent = navigator.userAgent;
 ua.ie = 9 - ((agent.indexOf('Trident/5.0') > -1) ? 0 : 1) - (window.XDomainRequest ? 0 : 1) - (window.XMLHttpRequest ? 0 : 1);
-
-
 
 if (typeof (ZENG.msgbox) == 'undefined') {
     ZENG.msgbox = {};
@@ -2573,8 +2565,12 @@ ZENG.msgbox.fail = function (msg, timeout) {
     ZENG.msgbox.show(msg, 5, timeout || 2000);
 };
 ZENG.msgbox.loading = function (msg) {
-    ZENG.msgbox.show(msg, 6, 1000);
+    ZENG.msgbox.show(msg, 6, 10000);
 };
+ZHENG.msgbox.close = function () {
+    var _s = ZENG.msgbox;
+    clearTimeout(_s._timer)
+}
 
 /**
  * 全屏插件
@@ -2658,9 +2654,9 @@ ZENG.msgbox.loading = function (msg) {
                 var c = m;
                 if (j ? b = j(b, d) : g && (b = b.replace(/\n/g,
                     function () {
-                        return m++ ,
+                        return m++,
                             "$line=" + m + ";";
-                    })), 0 === b.indexOf("=")) {
+                })), 0 === b.indexOf("=")) {
                     var e = l && !/^=[=#]/.test(b);
                     if (b = b.replace(/^=[=#]?|[\s;]*$/g, ""), e) {
                         var f = b.replace(/\s*\([^\)]+\)/, "");
