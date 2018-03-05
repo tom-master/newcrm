@@ -128,7 +128,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                                 @AppStyle,         -- AppStyle - int
                                 0,      -- IsDeleted - bit
                                 GETDATE(), -- AddTime - datetime
-                                GETDATE()  -- LastModifyTime - datetime,
+                                GETDATE(),  -- LastModifyTime - datetime
                                 @IsIconByUpload
                             )";
                     var parameters = new List<SqlParameter>
@@ -152,7 +152,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                         new SqlParameter("@AppAuditState",(Int32)app.AppAuditState),
                         new SqlParameter("@UnRelease",(Int32)AppReleaseState.UnRelease),
                         new SqlParameter("@AppStyle",(Int32)app.AppStyle),
-                        new SqlParameter("@IsIconByUpload",app.IsIconByUpload)
+                        new SqlParameter("@IsIconByUpload",app.IsIconByUpload.ParseToInt32())
                     };
                     dataStore.SqlExecute(sql, parameters);
                 }
@@ -737,7 +737,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             using (var dataStore = new DataStore())
             {
                 var where = new StringBuilder();
-                where.Append($@" WHERE 1=1 ");
+                where.Append($@" WHERE 1=1 AND a.IsDeleted=0 ");
                 var parameters = new List<SqlParameter>();
 
                 #region 条件筛选
