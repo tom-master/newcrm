@@ -20,6 +20,7 @@ namespace NewCRM.Web.Controllers
         /// 页面
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult EditMember(Int32 memberId)
         {
             #region 参数验证
@@ -33,7 +34,7 @@ namespace NewCRM.Web.Controllers
         #endregion
 
         /// <summary>
-        /// 桌面元素移动
+        /// 桌面成员移动
         /// </summary>
         [HttpPost]
         public ActionResult MemberMove(String moveType, Int32 memberId, Int32 from, Int32 to)
