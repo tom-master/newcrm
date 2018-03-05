@@ -28,12 +28,14 @@ namespace NewCRM.Web.Controllers
         /// 首页
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult Index() => View();
 
         /// <summary>
         /// 创建新角色
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult CreateNewRole(Int32 roleId = default(Int32))
         {
             if(roleId != 0)
@@ -48,6 +50,7 @@ namespace NewCRM.Web.Controllers
         /// 向角色附加权限
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult AttachmentPower(Int32 roleId)
         {
             var role = new RoleDto();
@@ -70,6 +73,7 @@ namespace NewCRM.Web.Controllers
         /// 添加系统app到权限
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult AddSystemAppGotoPower()
         {
             ViewData["SystemApp"] = _appServices.GetSystemApp();

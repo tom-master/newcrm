@@ -17,9 +17,9 @@ namespace NewCRM.Web.Controllers
         /// 首页
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult Index()
-        {
-
+        { 
             var accountId = Request.Cookies["memberID"];
             if (accountId != null)
             {
