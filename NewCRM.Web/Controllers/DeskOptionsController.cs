@@ -359,7 +359,6 @@ namespace NewCRM.Web.Controllers
             response.Message = "更改壁纸来源成功";
 
             return Json(response);
-
         }
     }
 }

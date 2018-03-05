@@ -40,10 +40,10 @@ namespace NewCRM.Web.Controllers
         public ActionResult MemberMove(String moveType, Int32 memberId, Int32 from, Int32 to)
         {
             #region 参数验证
-            Parameter.Validate(moveType).Validate(memberId);
+            Parameter.Validate(moveType).Validate(memberId).Validate(from).Validate(to);
             #endregion
 
-            switch (moveType)
+            switch(moveType)
             {
                 case "desk-dock": //成员从桌面移动到码头
                     _deskServices.MemberInDock(Account.Id, memberId);
@@ -106,6 +106,10 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public ActionResult ModifyMemberInfo(FormCollection forms)
         {
+            #region 参数验证
+            Parameter.Validate(forms);
+            #endregion
+
             var memberDto = new MemberDto
             {
                 Id = Int32.Parse(forms["id"]),

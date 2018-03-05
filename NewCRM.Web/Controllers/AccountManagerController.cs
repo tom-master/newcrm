@@ -72,6 +72,10 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public ActionResult NewAccount(FormCollection forms)
         {
+            #region 参数验证
+            Parameter.Validate(forms);
+            #endregion
+
             var response = new ResponseModel<AccountDto>();
             var dto = WapperAccountDto(forms);
             if(dto.Id == 0)
@@ -106,6 +110,10 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public ActionResult CheckAccountNameExist(String param)
         {
+            #region 参数验证
+            Parameter.Validate(param);
+            #endregion
+
             var result = AccountServices.CheckAccountNameExist(param);
             return Json(result ? new { status = "y", info = "" } : new { status = "n", info = "用户名已存在" });
         }
@@ -116,6 +124,10 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public ActionResult RemoveAccount(Int32 accountId)
         {
+            #region 参数验证
+            Parameter.Validate(accountId);
+            #endregion
+
             var response = new ResponseModel<String>();
             AccountServices.RemoveAccount(accountId);
             response.IsSuccess = true;
@@ -130,6 +142,11 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public ActionResult ChangeAccountStatus(Int32 accountId, String isDisable)
         {
+
+            #region 参数验证
+            Parameter.Validate(accountId).Validate(isDisable);
+            #endregion
+
             var response = new ResponseModel<String>();
             if(!Boolean.Parse(isDisable))
             {
@@ -152,7 +169,7 @@ namespace NewCRM.Web.Controllers
         #region private method
 
         private AccountDto WapperAccountDto(FormCollection forms)
-        {
+        { 
             var roleIds = new List<RoleDto>();
             if((forms["val_roleIds"] + "").Length > 0)
             {

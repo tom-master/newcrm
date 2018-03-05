@@ -53,6 +53,10 @@ namespace NewCRM.Web.Controllers
         [HttpGet]
         public ActionResult AttachmentPower(Int32 roleId)
         {
+            #region 参数验证
+            Parameter.Validate(roleId);
+            #endregion
+
             var role = new RoleDto();
             if(roleId != 0)
             {
@@ -161,6 +165,7 @@ namespace NewCRM.Web.Controllers
             #region 参数验证
             Parameter.Validate(forms);
             #endregion
+
             var response = new ResponseModel();
             var powerIds = forms["val_apps_id"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
             if(powerIds.Any())

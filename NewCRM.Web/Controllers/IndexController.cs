@@ -163,6 +163,11 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public ActionResult CreateWindow(Int32 id, String type)
         {
+
+            #region 参数验证
+            Parameter.Validate(id).Validate(type);
+            #endregion
+
             var response = new ResponseModel<dynamic>();
             var internalMemberResult = type == "folder" ? _deskServices.GetMember(Account.Id, id, true) : _deskServices.GetMember(Account.Id, id);
             response.IsSuccess = true;

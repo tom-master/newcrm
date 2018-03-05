@@ -6,5 +6,5 @@ namespace NewCRM.Web.Controllers
     {
         // GET: Test
         public ActionResult Index() => View();
-    }
+    } 
 }

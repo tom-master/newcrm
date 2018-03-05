@@ -23,6 +23,10 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public ActionResult ModifyAccountFace(String accountFace)
         {
+            #region 参数验证
+            Parameter.Validate(accountFace);
+            #endregion
+
             var response = new ResponseModel();
             AccountServices.ModifyAccountFace(Account.Id, accountFace);
             response.IsSuccess = true;

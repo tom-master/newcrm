@@ -19,9 +19,9 @@ namespace NewCRM.Web.Controllers
         /// <returns></returns>
         [HttpGet]
         public ActionResult Index()
-        { 
+        {
             var accountId = Request.Cookies["memberID"];
-            if (accountId != null)
+            if(accountId != null)
             {
                 return RedirectToAction("Desktop", "Index");
             }
@@ -37,14 +37,15 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public ActionResult Landing(LoginParameter loginParameter)
         {
-            var response = new ResponseModel<AccountDto>();
 
             #region 参数验证
             Parameter.Validate(loginParameter);
             #endregion
 
+            var response = new ResponseModel<AccountDto>();
+
             var account = AccountServices.Login(loginParameter.Name, loginParameter.Password, Request.ServerVariables["REMOTE_ADDR"]);
-            if (account != null)
+            if(account != null)
             {
                 response.Message = "登陆成功";
                 response.IsSuccess = true;

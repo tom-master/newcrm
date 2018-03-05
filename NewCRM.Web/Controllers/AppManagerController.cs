@@ -150,7 +150,9 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public ActionResult CheckAppName(String param)
         {
+            #region 参数验证
             Parameter.Validate(param);
+            #endregion 
 
             var result = AccountServices.CheckAppName(param);
             return Json(!result ? new { status = "y", info = "" } : new { status = "n", info = "应用名称已存在" });
@@ -162,7 +164,9 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public ActionResult CheckAppUrl(String param)
         {
+            #region 参数验证
             Parameter.Validate(param);
+            #endregion
 
             var result = AccountServices.CheckAppUrl(param);
             return Json(!result ? new { status = "y", info = "" } : new { status = "n", info = "应用Url已存在" });
