@@ -20,6 +20,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 首页
         /// </summary>
+        [HttpGet]
         public ActionResult Index()
         {
             ViewData["AppTypes"] = _appServices.GetAppTypes();
@@ -32,6 +33,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// app审核
         /// </summary>
+        [HttpGet]
         public ActionResult AppAudit(Int32 appId)
         {
             AppDto appResult = null;
