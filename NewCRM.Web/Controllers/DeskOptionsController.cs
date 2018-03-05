@@ -37,6 +37,7 @@ namespace NewCRM.Web.Controllers
         /// 首页
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult SystemWallPaper()
         {
             ViewData["AccountConfig"] = AccountServices.GetConfig(Account.Id);
@@ -49,6 +50,7 @@ namespace NewCRM.Web.Controllers
         /// 自定义壁纸
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult CustomWallPaper()
         {
             ViewData["AccountConfig"] = AccountServices.GetConfig(Account.Id);
@@ -59,12 +61,14 @@ namespace NewCRM.Web.Controllers
         /// 设置皮肤
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult SetSkin() => View();
 
         /// <summary>
         /// 程序设置
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult DeskSet()
         {
             ViewData["AccountConfig"] = AccountServices.GetConfig(Account.Id);
@@ -129,7 +133,7 @@ namespace NewCRM.Web.Controllers
         /// 删除上传的壁纸
         /// </summary>
         [HttpPost]
-        public ActionResult DeleteWallPaper(Int32 wallPaperId)
+        public ActionResult RemoveWallpaper(Int32 wallPaperId)
         {
             #region 参数验证
             Parameter.Validate(wallPaperId);

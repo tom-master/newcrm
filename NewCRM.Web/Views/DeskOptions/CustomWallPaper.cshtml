@@ -108,7 +108,7 @@
             $('.wapppapercustom .view').on('click', 'li a', function (event) {
                 event.stopPropagation();
                 var id = $(this).parent().attr('id');
-                $.post("/DeskOptions/DeleteWallPaper", { wallPaperId: id }, function (responseText) {
+                $.post("/DeskOptions/RemoveWallpaper", { wallPaperId: id }, function (responseText) {
                     if (responseText.IsSuccess) {
                         ZENG.msgbox.success('壁纸移除成功');
                         $('#' + id).remove();
