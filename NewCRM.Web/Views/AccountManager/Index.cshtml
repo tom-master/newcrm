@@ -101,14 +101,13 @@
                     id: 'edit',
                     content: '确定要删除 “' + name + '” 该账户么？',
                     ok: function () {
-                        HORS.request.post('/AccountManager/RemoveAccount', { accountId: memberid },
-                            function (responseText) {
-                                if (responseText.IsSuccess) {
-                                    $('#pagination').trigger('currentPage');
-                                } else {
-                                    ZENG.msgbox.fail(responseText.Message);
-                                }
-                            });
+                        HORS.request.post('/AccountManager/RemoveAccount', { accountId: memberid }, function (responseText) {
+                            if (responseText.IsSuccess) {
+                                $('#pagination').trigger('currentPage');
+                            } else {
+                                ZENG.msgbox.fail(responseText.Message);
+                            }
+                        });
                     },
                     cancel: true
                 });
@@ -122,19 +121,17 @@
                     id: 'edit',
                     content: isDisable ? '确定要启用 “' + name + '” 该账户么？' : '确定要禁用 “' + name + '” 该账户么？',
                     ok: function () {
-                        HORS.request.post('/AccountManager/ChangeAccountStatus', { accountId: parseInt(memberid), isDisable: isDisable },
-                            function (responseText) {
-                                if (responseText.IsSuccess) {
-                                    $('#pagination').trigger('currentPage');
-                                } else {
-                                    ZENG.msgbox.fail(responseText.Message);
-                                }
-                            });
+                        HORS.request.post('/AccountManager/ChangeAccountStatus', { accountId: parseInt(memberid), isDisable: isDisable }, function (responseText) {
+                            if (responseText.IsSuccess) {
+                                $('#pagination').trigger('currentPage');
+                            } else {
+                                ZENG.msgbox.fail(responseText.Message);
+                            }
+                        });
                     },
                     cancel: true
                 });
             });
-
 
             //搜索
             $('a[menu=search]').click(function () {
@@ -163,7 +160,7 @@
             }, function (responseText) {
                 if (responseText.IsSuccess) {
                     var tableTemplate = Handlebars.compile($("#table-template").html());
-                    $('.list-con').html(tableTemplate(responseText)); 
+                    $('.list-con').html(tableTemplate(responseText));
                     $('#pagination_setting').attr('count', responseText.TotalCount);
                     $('.list-count').text(responseText.TotalCount);
 

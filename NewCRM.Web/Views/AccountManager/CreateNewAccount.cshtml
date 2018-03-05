@@ -141,8 +141,7 @@
                 callback: function (responseText) {
                     var response = responseText;
                     if (response.IsSuccess) {
-                        if ($('input[name="id"]').val()) {
-
+                        if ($('input[name="id"]').val()) { 
                             if ($('#pwd').val() !== '') {
                                 ZENG.msgbox.success('您修改了登陆密码，请重新登陆');
                                 setTimeout(function () {

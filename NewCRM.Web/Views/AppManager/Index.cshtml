@@ -33,7 +33,7 @@
             <select name="appType" id="appType" style="width:140px">
                 <option value="0">全部</option>
                 @{
-                    foreach (var appType in (List<AppTypeDto>)ViewData["AppTypes"])
+                    foreach(var appType in (List<AppTypeDto>)ViewData["AppTypes"])
                     {
                         <text>
                             <option value="@appType.Id">@appType.Name</option></text>
@@ -44,7 +44,7 @@
             <select name="appStyle" id="appStyle" style="width:140px">
                 <option value="0">全部</option>
                 @{
-                    foreach (var appStyle in (List<AppStyleDto>)ViewData["AppStyles"])
+                    foreach(var appStyle in (List<AppStyleDto>)ViewData["AppStyles"])
                     {
                         <text>
                             <option value="@appStyle.Id">@appStyle.Name</option></text>
@@ -55,7 +55,7 @@
             <select name="appState" id="appState" style="width: 140px">
                 <option value="0">全部</option>
                 @{
-                    foreach (var appState in (List<AppStateDto>)ViewData["AppStates"])
+                    foreach(var appState in (List<AppStateDto>)ViewData["AppStates"])
                     {
                         <text>
                             <option value="@appState.Id" data-type="@appState.Type">@appState.Name</option></text>
@@ -170,7 +170,7 @@
                     cancel: true
                 });
             }).on('click', '.do-recommend', function () {
-                var appid = $(this).attr('appid'); 
+                var appid = $(this).attr('appid');
                 HORS.request.post('/AppManager/Recommend', { appId: appid }, function (responseText) {
                     if (responseText.IsSuccess) {
                         $('#pagination').trigger('currentPage');
@@ -199,7 +199,6 @@
         }
 
         function getPageList(current_page) {
-
             var $appStates = $('#appState').find("option:selected");
 
             var appStateResult = '';
@@ -215,20 +214,20 @@
                 appState: appStateResult,
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 7
-                }, function (responseText) {
-                    if (responseText.IsSuccess) { 
-                        var tableTemplate = Handlebars.compile($("#table-template").html());
-                        $('.list-con').html(tableTemplate(responseText));
-                        $('.list-count').text(responseText.TotalCount);
-                        $('#pagination_setting').attr('count', parseInt(responseText.totalCount));
-                        initPagination(current_page);
-                    } else {
-                        ZENG.msgbox.fail(responseText.Message);
-                    }
+            }, function (responseText) {
+                if (responseText.IsSuccess) {
+                    var tableTemplate = Handlebars.compile($("#table-template").html());
+                    $('.list-con').html(tableTemplate(responseText));
+                    $('.list-count').text(responseText.TotalCount);
+                    $('#pagination_setting').attr('count', parseInt(responseText.totalCount));
+                    initPagination(current_page);
+                } else {
+                    ZENG.msgbox.fail(responseText.Message);
+                }
             });
 
             Handlebars.registerHelper("isAudit", function (v1, options) {
-                if (parseInt(v1)===2) {
+                if (parseInt(v1) === 2) {
                     return options.fn(this);
                 } else {
                     return options.inverse(this);
@@ -253,7 +252,7 @@
                 }
             });
 
-            Handlebars.registerHelper("remove", function(v1, options) {
+            Handlebars.registerHelper("remove", function (v1, options) {
                 if (v1) {
                     return options.fn(this);
                 } else {

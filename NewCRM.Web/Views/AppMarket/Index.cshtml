@@ -12,7 +12,7 @@
     <ul class="nav nav-tabs">
         <li class="all active" value="0"><a href="javascript:;" title="全部">全部</a></li>
         @{
-            foreach (var appType in appTypes)
+            foreach(var appType in appTypes)
             {
                 <li value="@appType.Id"><a href="javascript:;" title="@appType.Name">@appType.Name</a></li>
             }
@@ -47,7 +47,7 @@
                 </h4>
                 <div class="con" title="@todayRecommendApp.Remark">@todayRecommendApp.Remark</div>
                 @{
-                    if (todayRecommendApp.IsInstall)
+                    if(todayRecommendApp.IsInstall)
                     {
                         <text>
                             <a href="javascript:;" real_app_id="@todayRecommendApp.Id" app_type="@todayRecommendApp.Style.ToString().ToLower()" class="btn-run">打开应用</a>
@@ -187,8 +187,7 @@
                 getPageList(0);
             });
             //添加，删除，打开应用
-            $('.app-list').on('click', '.btn-add-s', function () {
-
+            $('.app-list').on('click', '.btn-add-s', function () { 
                 if (window.parent.HROS.base.checkLogin()) {
                     $(this).removeClass().addClass('btn-loading-s');
                     window.parent.HROS.app.add($(this).attr('real_app_id'), function () {
@@ -264,7 +263,7 @@
 
         function getPageList(current_page) {
             var appTypeId = $('#appType').val() === '' ? 0 : parseInt($('#appType').val());
-            var orderId = $('#order').val() === '' ? 1 : parseInt($('#order').val()); 
+            var orderId = $('#order').val() === '' ? 1 : parseInt($('#order').val());
             var outSideSearchText = '@Request["searchText"]';
 
             HORS.request.get('/AppMarket/GetApps', {
@@ -273,7 +272,7 @@
                 searchText: outSideSearchText === '' ? $('#searchText').val() : outSideSearchText,
                 pageIndex: current_page === 0 ? 1 : current_page + 1,
                 pageSize: 5
-            }, function (responseText) { 
+            }, function (responseText) {
                 if (responseText.IsSuccess) {
                     var liTemplate = Handlebars.compile($("#li-template").html());
                     $('.app-list').html(liTemplate(responseText));

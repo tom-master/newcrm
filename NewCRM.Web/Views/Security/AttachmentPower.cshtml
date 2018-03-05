@@ -3,7 +3,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
     var rolePowerResult = ViewData["RolePowerResult"] as RoleDto;
-    if (rolePowerResult == null)
+    if(rolePowerResult == null)
     {
         rolePowerResult = new RoleDto();
     }
@@ -20,7 +20,7 @@
                 <label class="label-text">角色名称：</label>
                 <div class="label-box form-inline control-group">
                     @{
-                        if (rolePowerResult.Name == null)
+                        if(rolePowerResult.Name == null)
                         {
                             <text> <input disabled="disabled" type="checkbox" name="val_name" value="" datatype="*" nullmsg="请输入权限名称"></text>
                         }
@@ -38,7 +38,7 @@
                 <div class="label-box form-inline control-group">
                     <div class="permissions_apps">
                         @{
-                            foreach (var appDto in Model)
+                            foreach(var appDto in Model)
                             {
                                 <div class="app" appid="@appDto.Id">
                                     <img src="@appDto.IconUrl" alt="@appDto.Name" title="@appDto.Name">
@@ -133,24 +133,19 @@
                     height: 300,
                     ok: function () {
                         $('#val_apps_id').val($.dialog.data('appsid')).focusout();
-                        $.ajax({
-                            type: 'GET',
-                            url: '/Security/GetSystemApp',
-                            data: { appIds: $.dialog.data('appsid') },
-                            success: function (responseText) {
-                                if (responseText.IsSuccess) {
-                                    var model = responseText.Model;
-                                    var msg = "";
-                                    for (var i = 0; i < model.length; i++) {
-                                        msg += '<div class="app" appid="' + model[i].Id + '">' +
-                                            ' <img src="' + model[i].IconUrl + '" alt="' + model[i].Name + '" title="' + model[i].Name + '">' +
-                                            '<span class="del">删</span>' +
-                                            '</div>';
-                                    }
-                                    $('.permissions_apps').html(msg);
+                        HROS.request.post('/Security/GetSystemApp',{ appIds: $.dialog.data('appsid') },function () {
+                            if (responseText.IsSuccess) {
+                                var model = responseText.Model;
+                                var msg = "";
+                                for (var i = 0; i < model.length; i++) {
+                                    msg += '<div class="app" appid="' + model[i].Id + '">' +
+                                        ' <img src="' + model[i].IconUrl + '" alt="' + model[i].Name + '" title="' + model[i].Name + '">' +
+                                        '<span class="del">删</span>' +
+                                        '</div>';
                                 }
+                                $('.permissions_apps').html(msg);
                             }
-                        });
+                        })
                     },
                     cancel: true
                 });
