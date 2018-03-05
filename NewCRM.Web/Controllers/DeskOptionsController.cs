@@ -153,6 +153,10 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public ActionResult UploadWallPaper(WallpaperDto wallpaper)
         {
+            #region 参数验证
+            Parameter.Validate(wallpaper);
+            #endregion
+
             var response = new ResponseModel<dynamic>();
 
             var wallpaperResult = _wallpaperServices.AddWallpaper(new WallpaperDto
@@ -179,6 +183,10 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> WebWallPaper(String webUrl)
         {
+            #region 参数验证
+            Parameter.Validate(webUrl);
+            #endregion
+
             var response = new ResponseModel<Tuple<Int32, String>>();
 
             var result = _wallpaperServices.AddWebWallpaper(Account.Id, webUrl);

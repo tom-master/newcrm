@@ -17,11 +17,11 @@
     <div class="fr">
         <label>显示方式：</label>
         <select name="wallpapertype" id="wallpapertype" style="width: 100px">
-            <option name="fill" value="fill" @{ if(accountConfig.WallpaperMode == "Fill") { <text> selected="selected" </text>      } }>填充</option>
-            <option name="adapted" value="adapted" @{if(accountConfig.WallpaperMode == "Adapted") { <text> selected="selected" </text>      }}>适应</option>
-            <option name="tile" value="tile" @{ if(accountConfig.WallpaperMode == "Tile") { <text> selected="selected" </text>      } }>平铺</option>
-            <option name="draw" value="draw" @{ if(accountConfig.WallpaperMode == "Draw") { <text> selected="selected" </text>      } }>拉伸</option>
-            <option name="center" value="center" @{ if(accountConfig.WallpaperMode == "Center") { <text> selected="selected" </text>      } }>居中</option>
+            <option name="fill" value="fill" @{ if(accountConfig.WallpaperMode == "Fill") { <text> selected="selected" </text>       } }>填充</option>
+            <option name="adapted" value="adapted" @{if(accountConfig.WallpaperMode == "Adapted") { <text> selected="selected" </text>       }}>适应</option>
+            <option name="tile" value="tile" @{ if(accountConfig.WallpaperMode == "Tile") { <text> selected="selected" </text>       } }>平铺</option>
+            <option name="draw" value="draw" @{ if(accountConfig.WallpaperMode == "Draw") { <text> selected="selected" </text>       } }>拉伸</option>
+            <option name="center" value="center" @{ if(accountConfig.WallpaperMode == "Center") { <text> selected="selected" </text>       } }>居中</option>
         </select>
     </div>
 </div>
@@ -141,11 +141,11 @@
             if (!webUrl) {
                 ZENG.msgbox.info('请输入一个合法的url地址');
             } else {
-                HORS.request.post("/DeskOptions/WebWallPaper", { webUrl: webUrl }, function (result) {
-                    if (parseInt(result.data.Item1) === 0) {
+                HORS.request.post("/DeskOptions/WebWallPaper", { webUrl: webUrl }, function (responseText) {
+                    if (parseInt(responseText.Model.Item1) === 0) {
                         ZENG.msgbox.fail('未能获取到所指定的网络图片');
                     } else {
-                        window.parent.HROS.wallpaper.update($('#wallpapertype').val(), parseInt(result.data.Item1));
+                        window.parent.HROS.wallpaper.update($('#wallpapertype').val(), parseInt(responseText.Model.Item1));
                     }
                 });
             }

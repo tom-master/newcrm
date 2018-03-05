@@ -11,15 +11,15 @@
 <ul class="skin" id="skinList"></ul>
 @section ChildrenScript
 {
-<script>
+    <script>
         $(function () {
             loadAllSkin(function () {
                 changeSkin();
             });
         });
 
-        function loadAllSkin(callback) { 
-            HORS.request.get('/DeskOptions/GetSkins', function (responseText) {
+        function loadAllSkin(callback) {
+            HORS.request.get('/DeskOptions/GetSkins', {}, function (responseText) {
                 if (responseText.IsSuccess) {
                     var html = '';
                     $.each(responseText.Model.data, function (k, v) {
@@ -32,7 +32,7 @@
                     }
                 } else {
                     ZENG.msgbox.fail(responseText.Message);
-                } 
+                }
             });
         }
 
@@ -55,5 +55,5 @@
                 });
             });
         }
-</script>
+    </script>
 }
