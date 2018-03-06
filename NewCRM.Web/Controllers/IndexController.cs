@@ -160,7 +160,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 创建一个窗口
         /// </summary>
-        [HttpGet]
+        [HttpPost]
         public ActionResult CreateWindow(Int32 id, String type)
         {
 
