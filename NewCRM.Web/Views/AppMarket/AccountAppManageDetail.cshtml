@@ -1,5 +1,5 @@
-﻿
-@model NewCRM.Dto.AppDto
+﻿@model NewCRM.Dto.AppDto
+@using NewLib
 <form action="" method="post" name="form" id="form">
     <div class="creatbox">
         <div class="middle">
@@ -17,7 +17,7 @@
             <div class="input-label">
                 <label class="label-text">应用图片：</label>
                 <div class="label-box form-inline control-group">
-                    <img src="@Model.IconUrl">
+                    <img src="@(Model.IsIconByUpload?ProfileManager.FileUrl+Model.IconUrl:Model.IconUrl)">
                 </div>
             </div>
             <div class="input-label">

@@ -89,10 +89,11 @@ namespace NewCRM.Application.Services
                 AppTypeName = appTypes.FirstOrDefault(appType => appType.Id == app.AppTypeId).Name,
                 UseCount = app.UseCount,
                 Id = app.Id,
-                IconUrl = app.IsIconByUpload ? ProfileManager.FileUrl + app.IconUrl : app.IconUrl,
+                IconUrl = app.IconUrl,
                 AppAuditState = (Int32)app.AppAuditState,
                 IsRecommand = app.IsRecommand,
-                AccountId = app.AccountId
+                AccountId = app.AccountId,
+                IsIconByUpload = app.IsIconByUpload
             }).ToList();
         }
 
@@ -106,7 +107,7 @@ namespace NewCRM.Application.Services
             return new AppDto
             {
                 Name = result.Name,
-                IconUrl = result.IsIconByUpload ? ProfileManager.FileUrl + result.IconUrl : result.IconUrl,
+                IconUrl = result.IconUrl,
                 Remark = result.Remark,
                 UseCount = result.UseCount,
                 StartCount = result.StarCount,
