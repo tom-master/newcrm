@@ -160,7 +160,7 @@ namespace NewCRM.Web.Controllers
         /// <summary>
         /// 创建一个窗口
         /// </summary>
-        [HttpPost]
+        [HttpGet]
         public ActionResult CreateWindow(Int32 id, String type)
         {
 
@@ -189,7 +189,7 @@ namespace NewCRM.Web.Controllers
                 isResize = internalMemberResult.IsResize
             };
 
-            return Json(response);
+            return Json(response,JsonRequestBehavior.AllowGet);
         }
 
     }
