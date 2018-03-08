@@ -1,8 +1,9 @@
 ﻿@using NewCRM.Dto
+@using NewLib
 @model AppDto
 <form action="/AppMarket/ModifyAppInfo" method="post" name="form" id="form">
     <input type="hidden" name="val_Id" value="@Model.Id">
-    <input type="hidden" id="isIconByUpload" name="isIconByUpload" value="0" />
+    <input type="hidden" id="isIconByUpload" name="isIconByUpload" value="@(Model.IsIconByUpload?1:0)" />
     <div class="creatbox">
         <div class="middle">
             <p class="detile-title">
@@ -14,7 +15,7 @@
                     @{
                         <text>
                             <div class="shortcutview">
-                                <img src="@Model.IconUrl">
+                                <img src="@(Model.IsIconByUpload?ProfileManager.FileUrl+Model.IconUrl:Model.IconUrl)">
                             </div>
                             <a href="javascript:;" id="upload" class="btn fl" style="position: relative;">选择图片</a>
                             <div class="shortcut-selicon">

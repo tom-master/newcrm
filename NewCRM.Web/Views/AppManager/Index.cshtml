@@ -1,4 +1,5 @@
 ﻿@using NewCRM.Dto
+@using NewLib
 @{
     Layout = "~/Views/Shared/_LayoutApps.cshtml";
 }
@@ -33,7 +34,7 @@
             <select name="appType" id="appType" style="width:140px">
                 <option value="0">全部</option>
                 @{
-                    foreach(var appType in (List<AppTypeDto>)ViewData["AppTypes"])
+                    foreach (var appType in (List<AppTypeDto>)ViewData["AppTypes"])
                     {
                         <text>
                             <option value="@appType.Id">@appType.Name</option></text>
@@ -44,7 +45,7 @@
             <select name="appStyle" id="appStyle" style="width:140px">
                 <option value="0">全部</option>
                 @{
-                    foreach(var appStyle in (List<AppStyleDto>)ViewData["AppStyles"])
+                    foreach (var appStyle in (List<AppStyleDto>)ViewData["AppStyles"])
                     {
                         <text>
                             <option value="@appStyle.Id">@appStyle.Name</option></text>
@@ -55,7 +56,7 @@
             <select name="appState" id="appState" style="width: 140px">
                 <option value="0">全部</option>
                 @{
-                    foreach(var appState in (List<AppStateDto>)ViewData["AppStates"])
+                    foreach (var appState in (List<AppStateDto>)ViewData["AppStates"])
                     {
                         <text>
                             <option value="@appState.Id" data-type="@appState.Type">@appState.Name</option></text>
@@ -107,7 +108,7 @@
         <tr class="list-bd">
             <td>{{Id}}</td>
             <td style="text-align:left;padding-left:15px">
-                <img src="{{IconUrl}}" alt="{{Name}}" class="appicon">
+                <img src="{{appendUrl IsIconByUpload IconUrl}}" alt="{{Name}}" class="appicon">
                 <span class="appname">{{Name}}</span>
             </td>
             <td>{{convertstyle AppStyle}}</td>
@@ -129,10 +130,7 @@
                 {{/if}}
                 {{else}}
                 {{/isAudit}}
-
-
                 <a href="javascript:openDetailIframe('/AppMarket/AccountAppManageInfo?appId={{Id}}');" class="btn btn-link">查看详情</a>
-
                 {{#if IsCreater}}
                 {{#remove IsRecommand}}
                 {{else}}
@@ -242,12 +240,17 @@
                 }
             });
 
+            Handlebars.registerHelper('appendUrl', function (v1, v2) {
+                if (v1) {
+                    return "@(ProfileManager.FileUrl)"+v2
+                }
+                return v2
+            })
+
             Handlebars.registerHelper("compare", function (v1, v2, options) {
                 if (v1 === v2 || v1 === 4) {
-                    //满足添加继续执行
                     return options.fn(this);
                 } else {
-                    //不满足条件执行{{else}}部分
                     return options.inverse(this);
                 }
             });

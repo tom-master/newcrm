@@ -189,7 +189,7 @@ namespace NewCRM.Web.Controllers
                 isResize = internalMemberResult.IsResize
             };
 
-            return Json(response);
+            return Json(response,JsonRequestBehavior.AllowGet);
         }
 
     }

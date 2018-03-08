@@ -33,7 +33,7 @@ namespace NewCRM.Web.Filter
                 return;
             }
             var account = DependencyResolver.Current.GetService<IAccountServices>().GetAccount(Int32.Parse(filterContext.HttpContext.Request.Cookies["memberID"].Value));
-            var appId = Int32.Parse(filterContext.RequestContext.HttpContext.Request.Form["id"]);
+            var appId = Int32.Parse(filterContext.RequestContext.HttpContext.Request.Params["id"]);
             var isPermission = DependencyResolver.Current.GetService<ISecurityServices>().CheckPermissions(appId, account.Roles.Select(role => role.Id).ToArray());
 
             if (!isPermission)
