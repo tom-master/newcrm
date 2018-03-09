@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Dto;
@@ -21,9 +22,9 @@ namespace NewCRM.Web.Controllers
         /// 首页
         /// </summary>
         [HttpGet]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            ViewData["AppTypes"] = _appServices.GetAppTypes();
+            ViewData["AppTypes"] = await _appServices.GetAppTypesAsync();
             ViewData["AppStyles"] = _appServices.GetAllAppStyles().ToList();
             ViewData["AppStates"] = _appServices.GetAllAppStates().Where(w => w.Name == "未审核" || w.Name == "已发布").ToList();
 
@@ -34,16 +35,16 @@ namespace NewCRM.Web.Controllers
         /// app审核
         /// </summary>
         [HttpGet]
-        public ActionResult AppAudit(Int32 appId)
+        public async Task<ActionResult> AppAudit(Int32 appId)
         {
             AppDto appResult = null;
             if (appId != 0)// 如果appId为0则是新创建app
             {
-                appResult = _appServices.GetApp(appId);
+                appResult = await _appServices.GetAppAsync(appId);
                 ViewData["AppState"] = appResult.AppAuditState;
             }
 
-            ViewData["AppTypes"] = _appServices.GetAppTypes();
+            ViewData["AppTypes"] = await _appServices.GetAppTypesAsync();
 
             return View(appResult);
         }
@@ -75,14 +76,14 @@ namespace NewCRM.Web.Controllers
         /// app审核通过
         /// </summary>
         [HttpPost]
-        public ActionResult Pass(Int32 appId)
+        public async Task<ActionResult> Pass(Int32 appId)
         {
             #region 参数验证	
             Parameter.Validate(appId);
             #endregion
 
             var response = new ResponseModel();
-            _appServices.Pass(appId);
+            await _appServices.PassAsync(appId);
             response.IsSuccess = true;
             response.Message = "app审核通过";
 
@@ -93,14 +94,14 @@ namespace NewCRM.Web.Controllers
         /// app审核不通过
         /// </summary>
         [HttpPost]
-        public ActionResult Deny(Int32 appId)
+        public async Task<ActionResult> DenyAsync(Int32 appId)
         {
             #region 参数验证	
             Parameter.Validate(appId);
             #endregion
 
             var response = new ResponseModel();
-            _appServices.Deny(appId);
+            await _appServices.DenyAsync(appId);
             response.IsSuccess = true;
             response.Message = "app审核不通过";
 
@@ -111,14 +112,14 @@ namespace NewCRM.Web.Controllers
         /// 设置app为今日推荐
         /// </summary>
         [HttpPost]
-        public ActionResult Recommend(Int32 appId)
+        public async Task<ActionResult> Recommend(Int32 appId)
         {
             #region 参数验证	
             Parameter.Validate(appId);
             #endregion
 
             var response = new ResponseModel();
-            _appServices.SetTodayRecommandApp(appId);
+            await _appServices.SetTodayRecommandAppAsync(appId);
             response.IsSuccess = true;
             response.Message = "设置成功";
 
@@ -129,14 +130,14 @@ namespace NewCRM.Web.Controllers
         /// 删除app
         /// </summary>
         [HttpPost]
-        public ActionResult RemoveApp(Int32 appId)
+        public async Task<ActionResult> RemoveApp(Int32 appId)
         {
             #region 参数验证	
             Parameter.Validate(appId);
             #endregion
 
             var response = new ResponseModel();
-            _appServices.RemoveApp(appId);
+            await _appServices.RemoveAppAsync(appId);
             response.IsSuccess = true;
             response.Message = "删除app成功";
 
@@ -148,13 +149,13 @@ namespace NewCRM.Web.Controllers
         /// 检查应用名称
         /// </summary>
         [HttpPost]
-        public ActionResult CheckAppName(String param)
+        public async Task<ActionResult> CheckAppName(String param)
         {
             #region 参数验证
             Parameter.Validate(param);
             #endregion 
 
-            var result = AccountServices.CheckAppName(param);
+            var result = await AccountServices.CheckAppNameAsync(param);
             return Json(!result ? new { status = "y", info = "" } : new { status = "n", info = "应用名称已存在" });
         }
 
@@ -162,13 +163,13 @@ namespace NewCRM.Web.Controllers
         /// 检查应用Url
         /// </summary>
         [HttpPost]
-        public ActionResult CheckAppUrl(String param)
+        public async Task<ActionResult> CheckAppUrl(String param)
         {
             #region 参数验证
             Parameter.Validate(param);
             #endregion
 
-            var result = AccountServices.CheckAppUrl(param);
+            var result = await AccountServices.CheckAppUrlAsync(param);
             return Json(!result ? new { status = "y", info = "" } : new { status = "n", info = "应用Url已存在" });
         }
     }

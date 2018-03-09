@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Dto;
@@ -29,12 +30,12 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult CreateNewAppType(Int32 appTypeId = 0)
+        public async Task<ActionResult> CreateNewAppType(Int32 appTypeId = 0)
         {
             AppTypeDto result = null;
             if (appTypeId != 0)
             {
-                result = _appServices.GetAppTypes().FirstOrDefault(appType => appType.Id == appTypeId);
+                result = (await _appServices.GetAppTypesAsync()).FirstOrDefault(appType => appType.Id == appTypeId);
             }
 
             return View(result);
@@ -46,10 +47,10 @@ namespace NewCRM.Web.Controllers
         /// 获取所有app类型
         /// </summary>
         [HttpGet]
-        public ActionResult GetAppTypes(Int32 pageIndex, Int32 pageSize, String searchText)
+        public async Task<ActionResult> GetAppTypes(Int32 pageIndex, Int32 pageSize, String searchText)
         {
             var response = new ResponseModels<IList<AppTypeDto>>();
-            var result = _appServices.GetAppTypes().Where(appType => searchText.Length == 0 || appType.Name.Contains(searchText)).OrderByDescending(d => d.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            var result = (await _appServices.GetAppTypesAsync()).Where(appType => searchText.Length == 0 || appType.Name.Contains(searchText)).OrderByDescending(d => d.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
             response.Message = "app类型获取成功";
             response.IsSuccess = true;
             response.Model = result;
@@ -63,14 +64,14 @@ namespace NewCRM.Web.Controllers
         /// 删除app类型
         /// </summary>
         [HttpPost]
-        public ActionResult RemoveAppType(Int32 appTypeId)
+        public async Task<ActionResult> RemoveAppType(Int32 appTypeId)
         {
             #region 参数验证
             Parameter.Validate(appTypeId);
             #endregion
 
             var response = new ResponseModel();
-            _appServices.RemoveAppType(appTypeId);
+            await _appServices.RemoveAppTypeAsync(appTypeId);
             response.IsSuccess = true;
             response.Message = "删除app类型成功";
 
@@ -82,7 +83,7 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult CreateAppType(FormCollection forms, Int32 appTypeId = 0)
+        public async Task<ActionResult> CreateAppType(FormCollection forms, Int32 appTypeId = 0)
         {
             #region 参数验证
             Parameter.Validate(forms);
@@ -92,11 +93,11 @@ namespace NewCRM.Web.Controllers
             var appTypeDto = WrapperAppTypeDto(forms);
             if (appTypeId == 0)
             {
-                _appServices.CreateNewAppType(appTypeDto);
+                await _appServices.CreateNewAppTypeAsync(appTypeDto);
             }
             else
             {
-                _appServices.ModifyAppType(appTypeDto, appTypeId);
+                await _appServices.ModifyAppTypeAsync(appTypeDto, appTypeId);
             }
             response.IsSuccess = true;
             response.Message = "app类型创建成功";
@@ -109,13 +110,13 @@ namespace NewCRM.Web.Controllers
         /// 检查应用类型名称
         /// </summary>
         [HttpPost]
-        public ActionResult CheckAppTypeName(String param)
+        public async Task<ActionResult> CheckAppTypeName(String param)
         {
             #region 参数验证
             Parameter.Validate(param);
             #endregion
 
-            var result = _appServices.CheckAppTypeName(param);
+            var result = await _appServices.CheckAppTypeNameAsync(param);
             return Json(!result ? new { status = "y", info = "" } : new { status = "n", info = "类型名称已存在" });
         }
 

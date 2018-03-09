@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Dto;
@@ -23,19 +24,19 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             if (Account.IsAdmin)
             {
-                ViewData["AppTypes"] = _appServices.GetAppTypes();
+                ViewData["AppTypes"] = await _appServices.GetAppTypesAsync();
             }
             else
             {
-                ViewData["AppTypes"] = _appServices.GetAppTypes().Where(w => w.Name != "系统").ToList();
+                ViewData["AppTypes"] = (await _appServices.GetAppTypesAsync()).Where(w => w.Name != "系统").ToList();
             }
-            ViewData["TodayRecommendApp"] = _appServices.GetTodayRecommend(Account.Id);
+            ViewData["TodayRecommendApp"] = await _appServices.GetTodayRecommendAsync(Account.Id);
             ViewData["AccountName"] = Account.Name;
-            ViewData["AccountApp"] = _appServices.GetAccountDevelopAppCountAndNotReleaseAppCount(Account.Id);
+            ViewData["AccountApp"] = await _appServices.GetAccountDevelopAppCountAndNotReleaseAppCountAsync(Account.Id);
 
             return View();
         }
@@ -45,14 +46,14 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult AppDetail(Int32 appId)
+        public async Task<ActionResult> AppDetail(Int32 appId)
         {
             #region 参数验证
             Parameter.Validate(appId);
             #endregion
 
-            ViewData["IsInstallApp"] = _appServices.IsInstallApp(Account.Id, appId);
-            var result = _appServices.GetApp(appId);
+            ViewData["IsInstallApp"] = await _appServices.IsInstallAppAsync(Account.Id, appId);
+            var result = await _appServices.GetAppAsync(appId);
             ViewData["AccountName"] = result.AccountName;
 
             return View(result);
@@ -63,9 +64,9 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult AccountAppManage()
+        public async Task<ActionResult> AccountAppManage()
         {
-            ViewData["AppTypes"] = _appServices.GetAppTypes();
+            ViewData["AppTypes"] = await _appServices.GetAppTypesAsync();
             ViewData["AppStyles"] = _appServices.GetAllAppStyles().ToList();
             ViewData["AppStates"] = _appServices.GetAllAppStates().ToList();
 
@@ -77,15 +78,15 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult AccountAppManageInfo(Int32 appId)
+        public async Task<ActionResult> AccountAppManageInfo(Int32 appId)
         {
             AppDto result = null;
             if (appId != 0)// 如果appId为0则是新创建app
             {
-                result = _appServices.GetApp(appId);
+                result = await _appServices.GetAppAsync(appId);
                 ViewData["AppState"] = result.AppAuditState;
             }
-            ViewData["AppTypes"] = _appServices.GetAppTypes();
+            ViewData["AppTypes"] = await _appServices.GetAppTypesAsync();
             ViewData["AccountId"] = Account.Id;
             return View(result);
         }
@@ -121,14 +122,14 @@ namespace NewCRM.Web.Controllers
         /// 给app打分
         /// </summary>
         [HttpPost]
-        public ActionResult ModifyAppStart(Int32 appId, Int32 starCount)
+        public async Task<ActionResult> ModifyAppStart(Int32 appId, Int32 starCount)
         {
             #region 参数验证
             Parameter.Validate(appId).Validate(starCount);
             #endregion
 
             var response = new ResponseModel();
-            _appServices.ModifyAppStar(Account.Id, appId, starCount);
+            await _appServices.ModifyAppStarAsync(Account.Id, appId, starCount);
             response.IsSuccess = true;
             response.Message = "打分成功";
 
@@ -139,20 +140,20 @@ namespace NewCRM.Web.Controllers
         /// 安装app
         /// </summary>
         [HttpPost]
-        public ActionResult InstallApp(Int32 appId, Int32 deskNum)
+        public async Task<ActionResult> InstallApp(Int32 appId, Int32 deskNum)
         {
             #region 参数验证
             Parameter.Validate(appId).Validate(deskNum);
             #endregion
-             
+
             var response = new ResponseModel();
-            _appServices.InstallApp(Account.Id, appId, deskNum);
+            await _appServices.InstallAppAsync(Account.Id, appId, deskNum);
             response.IsSuccess = true;
             response.Message = "安装成功";
 
             return Json(response);
         }
-         
+
         /// <summary>
         /// 获取开发者（用户）的app
         /// </summary>
@@ -163,7 +164,7 @@ namespace NewCRM.Web.Controllers
             var result = _appServices.GetAccountAllApps(Account.Id, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out var totalCount);
             if (result != null)
             {
-                response.TotalCount = totalCount; 
+                response.TotalCount = totalCount;
                 response.IsSuccess = true;
                 response.Message = "app列表获取成功";
                 response.Model = result;
@@ -180,14 +181,14 @@ namespace NewCRM.Web.Controllers
         /// 修改app信息
         /// </summary>
         [HttpPost]
-        public ActionResult ModifyAppInfo(FormCollection forms)
+        public async Task<ActionResult> ModifyAppInfo(FormCollection forms)
         {
             #region 参数验证
             Parameter.Validate(forms);
             #endregion
 
             var response = new ResponseModel();
-            _appServices.ModifyAccountAppInfo(Account.Id, WrapperAppDto(forms));
+            await _appServices.ModifyAccountAppInfoAsync(Account.Id, WrapperAppDto(forms));
             response.IsSuccess = true;
             response.Message = "修改app信息成功";
 
@@ -198,14 +199,14 @@ namespace NewCRM.Web.Controllers
         /// 更新图标
         /// </summary>
         [HttpPost]
-        public ActionResult ModifyAppIcon(Int32 appId, String newIcon)
+        public async Task<ActionResult> ModifyAppIcon(Int32 appId, String newIcon)
         {
             #region 参数验证
             Parameter.Validate(appId).Validate(newIcon);
             #endregion
 
             var response = new ResponseModel<String>();
-            _appServices.ModifyAppIcon(Account.Id, appId, newIcon);
+            await _appServices.ModifyAppIconAsync(Account.Id, appId, newIcon);
 
             response.IsSuccess = true;
             response.Message = "更新图标成功";
@@ -218,7 +219,7 @@ namespace NewCRM.Web.Controllers
         /// 创建新的app
         /// </summary>
         [HttpPost]
-        public ActionResult CreateApp(FormCollection forms)
+        public async Task<ActionResult> CreateApp(FormCollection forms)
         {
             #region 参数验证
             Parameter.Validate(forms);
@@ -228,7 +229,7 @@ namespace NewCRM.Web.Controllers
 
             var appDto = WrapperAppDto(forms);
             appDto.AccountId = Account.Id;
-            _appServices.CreateNewApp(appDto);
+            await _appServices.CreateNewAppAsync(appDto);
 
             response.IsSuccess = true;
             response.Message = "app创建成功";
@@ -240,14 +241,14 @@ namespace NewCRM.Web.Controllers
         /// 审核通过后发布app
         /// </summary>
         [HttpPost]
-        public ActionResult ReleaseApp(Int32 appId)
+        public async Task<ActionResult> ReleaseApp(Int32 appId)
         {
             #region 参数验证
             Parameter.Validate(appId);
             #endregion
 
             var response = new ResponseModel();
-            _appServices.ReleaseApp(appId);
+            await _appServices.ReleaseAppAsync(appId);
             response.IsSuccess = true;
             response.Message = "app发布成功";
 
@@ -258,14 +259,14 @@ namespace NewCRM.Web.Controllers
         /// 删除用户开发的app
         /// </summary>
         [HttpPost]
-        public ActionResult RemoveApp(Int32 appId)
+        public async Task<ActionResult> RemoveApp(Int32 appId)
         {
             #region 参数验证
             Parameter.Validate(appId);
             #endregion
 
             var response = new ResponseModel();
-            _appServices.RemoveApp(appId);
+            await _appServices.RemoveAppAsync(appId);
             response.IsSuccess = true;
             response.Message = "删除用户开发的app成功";
 

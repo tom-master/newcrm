@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using NewCRM.Application.Services.Interface;
@@ -28,11 +29,11 @@ namespace NewCRM.Web.Controllers
         /// 创建新账户
         /// </summary>
         [HttpGet]
-        public ActionResult CreateNewAccount(Int32 accountId = 0)
+        public async Task<ActionResult> CreateNewAccount(Int32 accountId = 0)
         {
-            if(accountId != 0)
+            if (accountId != 0)
             {
-                ViewData["Account"] = AccountServices.GetAccount(accountId);
+                ViewData["Account"] = await AccountServices.GetAccountAsync(accountId);
             }
 
             ViewData["Roles"] = _securityServices.GetRoles("", 1, 100, out var totalCount);
@@ -55,7 +56,7 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             var accounts = AccountServices.GetAccounts(accountName, accountType, pageIndex, pageSize, out var totalCount);
-            if(accounts != null)
+            if (accounts != null)
             {
                 response.TotalCount = totalCount;
                 response.Message = "获取账户列表成功";
@@ -70,7 +71,7 @@ namespace NewCRM.Web.Controllers
         /// 创建新账户
         /// </summary>
         [HttpPost]
-        public ActionResult NewAccount(FormCollection forms)
+        public async Task<ActionResult> NewAccount(FormCollection forms)
         {
             #region 参数验证
             Parameter.Validate(forms);
@@ -78,17 +79,17 @@ namespace NewCRM.Web.Controllers
 
             var response = new ResponseModel<AccountDto>();
             var dto = WapperAccountDto(forms);
-            if(dto.Id == 0)
+            if (dto.Id == 0)
             {
-                AccountServices.AddNewAccount(dto);
+                await AccountServices.AddNewAccountAsync(dto);
 
                 response.Message = "创建新账户成功";
                 response.IsSuccess = true;
             }
             else
             {
-                AccountServices.ModifyAccount(dto);
-                if(!String.IsNullOrEmpty(dto.Password))
+                await AccountServices.ModifyAccountAsync(dto);
+                if (!String.IsNullOrEmpty(dto.Password))
                 {
                     Response.Cookies.Add(new HttpCookie("memberID")
                     {
@@ -108,13 +109,13 @@ namespace NewCRM.Web.Controllers
         /// 检查账户名是否已经存在
         /// </summary>
         [HttpPost]
-        public ActionResult CheckAccountNameExist(String param)
+        public async Task<ActionResult> CheckAccountNameExist(String param)
         {
             #region 参数验证
             Parameter.Validate(param);
             #endregion
 
-            var result = AccountServices.CheckAccountNameExist(param);
+            var result = await AccountServices.CheckAccountNameExistAsync(param);
             return Json(result ? new { status = "y", info = "" } : new { status = "n", info = "用户名已存在" });
         }
 
@@ -122,14 +123,14 @@ namespace NewCRM.Web.Controllers
         /// 移除账户
         /// </summary>
         [HttpPost]
-        public ActionResult RemoveAccount(Int32 accountId)
+        public async Task<ActionResult> RemoveAccount(Int32 accountId)
         {
             #region 参数验证
             Parameter.Validate(accountId);
             #endregion
 
             var response = new ResponseModel<String>();
-            AccountServices.RemoveAccount(accountId);
+            await AccountServices.RemoveAccountAsync(accountId);
             response.IsSuccess = true;
             response.Message = "移除账户成功";
 
@@ -140,7 +141,7 @@ namespace NewCRM.Web.Controllers
         /// 修改账户为禁用状态
         /// </summary>
         [HttpPost]
-        public ActionResult ChangeAccountStatus(Int32 accountId, String isDisable)
+        public async Task<ActionResult> ChangeAccountStatus(Int32 accountId, String isDisable)
         {
 
             #region 参数验证
@@ -148,16 +149,15 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             var response = new ResponseModel<String>();
-            if(!Boolean.Parse(isDisable))
+            if (!Boolean.Parse(isDisable))
             {
-                AccountServices.Disable(accountId);
-
+                await AccountServices.DisableAsync(accountId);
                 response.IsSuccess = true;
                 response.Message = "禁用账户成功";
             }
             else
             {
-                AccountServices.Enable(accountId);
+                await AccountServices.EnableAsync(accountId);
 
                 response.IsSuccess = true;
                 response.Message = "启用账户成功";
@@ -169,9 +169,9 @@ namespace NewCRM.Web.Controllers
         #region private method
 
         private AccountDto WapperAccountDto(FormCollection forms)
-        { 
+        {
             var roleIds = new List<RoleDto>();
-            if((forms["val_roleIds"] + "").Length > 0)
+            if ((forms["val_roleIds"] + "").Length > 0)
             {
                 roleIds = forms["val_roleIds"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(role => new RoleDto
                 {

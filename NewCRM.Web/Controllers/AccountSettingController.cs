@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Web.Controllers.ControllerHelper;
@@ -13,22 +14,22 @@ namespace NewCRM.Web.Controllers
         /// 首页
         /// </summary>
         [HttpGet]
-        public ActionResult Index() => View(AccountServices.GetAccount(Account.Id));
+        public async Task<ActionResult> Index() => View(await AccountServices.GetAccountAsync(Account.Id));
 
         #endregion
-      
+
         /// <summary>
         ///上传账户头像
         /// </summary>
         [HttpPost]
-        public ActionResult ModifyAccountFace(String accountFace)
+        public async Task<ActionResult> ModifyAccountFace(String accountFace)
         {
             #region 参数验证
             Parameter.Validate(accountFace);
             #endregion
 
             var response = new ResponseModel();
-            AccountServices.ModifyAccountFace(Account.Id, accountFace);
+            await AccountServices.ModifyAccountFaceAsync(Account.Id, accountFace);
             response.IsSuccess = true;
             response.Model = "头像上传成功";
 
@@ -39,14 +40,14 @@ namespace NewCRM.Web.Controllers
         /// 修改账户登陆密码
         /// </summary>
         [HttpPost]
-        public ActionResult ModifyAccountPassword(FormCollection forms)
+        public async Task<ActionResult> ModifyAccountPassword(FormCollection forms)
         {
             #region 参数验证
             Parameter.Validate(forms);
             #endregion
 
             var response = new ResponseModel();
-            AccountServices.ModifyPassword(Account.Id, forms["password"], Int32.Parse(forms["lockPwdIsEqLoginPwd"]) == 1);
+            await AccountServices.ModifyPasswordAsync(Account.Id, forms["password"], Int32.Parse(forms["lockPwdIsEqLoginPwd"]) == 1);
             response.Message = "账户密码修改成功";
             response.IsSuccess = true;
             InternalLogout();
@@ -57,14 +58,14 @@ namespace NewCRM.Web.Controllers
         /// 修改锁屏密码
         /// </summary>
         [HttpPost]
-        public ActionResult ModifyLockScreenPassword(FormCollection forms)
+        public async Task<ActionResult> ModifyLockScreenPassword(FormCollection forms)
         {
             #region 参数验证
             Parameter.Validate(forms);
             #endregion
 
             var response = new ResponseModel();
-            AccountServices.ModifyLockScreenPassword(Account.Id, forms["lockpassword"]);
+            await AccountServices.ModifyLockScreenPasswordAsync(Account.Id, forms["lockpassword"]);
 
             response.Message = "锁屏密码修改成功";
             response.IsSuccess = true;
@@ -76,13 +77,13 @@ namespace NewCRM.Web.Controllers
         /// 检查旧密码和输入的密码是否一致
         /// </summary>
         [HttpPost]
-        public ActionResult CheckPassword(String param)
+        public async Task<ActionResult> CheckPasswordAsync(String param)
         {
             #region 参数验证
             Parameter.Validate(param);
             #endregion
 
-            var result = AccountServices.CheckPassword(Account.Id, param);
+            var result = await AccountServices.CheckPasswordAsync(Account.Id, param);
             return Json(result ? new { status = "y", info = "" } : new { status = "n", info = "原始密码错误" }, JsonRequestBehavior.AllowGet);
         }
     }
