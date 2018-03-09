@@ -105,7 +105,7 @@
                             if (responseText.IsSuccess) {
                                 $('#pagination').trigger('currentPage');
                             } else {
-                                ZENG.msgbox.fail(responseText.Message);
+                                NewCrm.msgbox.fail(responseText.Message);
                             }
                         });
                     },
@@ -125,7 +125,7 @@
                             if (responseText.IsSuccess) {
                                 $('#pagination').trigger('currentPage');
                             } else {
-                                ZENG.msgbox.fail(responseText.Message);
+                                NewCrm.msgbox.fail(responseText.Message);
                             }
                         });
                     },
@@ -166,7 +166,7 @@
 
                     initPagination(current_page);
                 } else {
-                    ZENG.msgbox.fail(responseText.Message);
+                    NewCrm.msgbox.fail(responseText.Message);
                 }
             });
         }

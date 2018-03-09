@@ -72,7 +72,7 @@
                             if (responseText.IsSuccess) {
                                 $('#pagination').trigger('currentPage');
                             } else {
-                                ZENG.msgbox.fail(responseText.Message);
+                                NewCrm.msgbox.fail(responseText.Message);
                             }
                         });
                     },
@@ -110,7 +110,7 @@
                     $('.list-con').html(template(responseText));
                     initPagination(current_page);
                 } else {
-                    ZENG.msgbox.fail(responseText.Message);
+                    NewCrm.msgbox.fail(responseText.Message);
                 }
             });
         }

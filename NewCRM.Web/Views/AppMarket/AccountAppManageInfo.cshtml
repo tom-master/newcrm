@@ -101,12 +101,12 @@
                                     $('#val_icon').val(urlPart);
                                     uploader.removeFile(file);
                                 } else {
-                                    ZENG.msgbox.fail("图标保存失败");
+                                    NewCrm.msgbox.fail("图标保存失败");
                                 }
                             })
                         }
                     } else {
-                        ZENG.msgbox.fail("图标上传失败");
+                        NewCrm.msgbox.fail("图标上传失败");
                     }
                 });
 
@@ -165,7 +165,7 @@
                                 });
                             }
                         } else {
-                            ZENG.msgbox.fail(responseText.Message)
+                            NewCrm.msgbox.fail(responseText.Message)
                         }
                     }
                 });
@@ -247,7 +247,7 @@
                                         window.parent.$('#pagination').trigger('currentPage');
                                     });
                                 } else {
-                                    ZENG.msgbox.fail(responseText.Message)
+                                    NewCrm.msgbox.fail(responseText.Message)
                                 }
                             });
 
@@ -267,7 +267,7 @@
                                         window.parent.$('#pagination').trigger('currentPage');
                                     });
                                 } else {
-                                    ZENG.msgbox.fail(responseText.Message)
+                                    NewCrm.msgbox.fail(responseText.Message)
                                 }
                             });
                         },
@@ -287,7 +287,7 @@
                                         window.parent.$('#pagination').trigger('currentPage');
                                     });
                                 } else {
-                                    ZENG.msgbox.fail(responseText.Message)
+                                    NewCrm.msgbox.fail(responseText.Message)
                                 }
                             });
                         },

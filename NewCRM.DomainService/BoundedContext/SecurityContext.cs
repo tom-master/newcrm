@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using NewCRM.Domain.Entitys.Security;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Infrastructure.CommonTools.CustomException;
@@ -12,164 +13,42 @@ namespace NewCRM.Domain.Services.BoundedContext
 {
     public class SecurityContext : BaseServiceContext, ISecurityContext
     {
-        public void AddNewRole(Role role)
+        public async Task<List<RolePower>> GetPowersAsync()
         {
-            Parameter.Validate(role);
-            using(var dataStore = new DataStore())
+            return Task.Run<IList<RolePower>>(() =>
             {
-                #region 添加角色
+                using(var dataStore = new DataStore())
                 {
-                    var sql = $@"INSERT dbo.Roles
-                                ( Name ,
-                                  RoleIdentity ,
-                                  Remark ,
-                                  IsDeleted ,
-                                  AddTime ,
-                                  LastModifyTime
-                                )
-                        VALUES  ( @name , -- Name - nvarchar(6)
-                                  @RoleIdentity , -- RoleIdentity - nvarchar(20)
-                                  @Remark , -- Remark - nvarchar(50)
-                                  0 , -- IsDeleted - bit
-                                  GETDATE() , -- AddTime - datetime
-                                  GETDATE()  -- LastModifyTime - datetime
-                                )";
-                    dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@name", role.Name), new SqlParameter("@RoleIdentity", role.RoleIdentity), new SqlParameter("@Remark", role.Remark) });
-                }
-                #endregion
-            }
-        }
-
-        public void AddPowerToCurrentRole(int roleId, IEnumerable<int> powerIds)
-        {
-            Parameter.Validate(roleId).Validate(powerIds);
-            if(!powerIds.Any())
-            {
-                throw new BusinessException("权限列表为空");
-            }
-
-            using(var dataStore = new DataStore())
-            {
-                dataStore.OpenTransaction();
-                try
-                {
-                    #region 移除之前的角色权限
-                    {
-                        var sql = $@"UPDATE dbo.RolePowers SET IsDeleted=1 WHERE RoleId=@RoleId";
-                        var parameters = new List<SqlParameter>
-                        {
-                            new SqlParameter("@RoleId",roleId)
-                        };
-                        dataStore.SqlExecute(sql, parameters);
-                    }
-                    #endregion
-
-                    #region 添加角色权限
-                    {
-                        var sqlBuilder = new StringBuilder();
-                        foreach(var item in powerIds)
-                        {
-                            sqlBuilder.Append($@"INSERT dbo.RolePowers
-                                                    ( RoleId ,
-                                                      AppId ,
-                                                      IsDeleted ,
-                                                      AddTime ,
-                                                      LastModifyTime
-                                                    )
-                                            VALUES  ( {roleId} , -- RoleId - int
-                                                      {item}, -- AppId - int
-                                                      0 , -- IsDeleted - bit
-                                                      GETDATE() , -- AddTime - datetime
-                                                      GETDATE()  -- LastModifyTime - datetime
-                                                    )");
-                        }
-                        dataStore.SqlExecute(sqlBuilder.ToString());
-                    }
-                    #endregion
-
-                    dataStore.Commit();
-                }
-                catch(Exception)
-                {
-                    dataStore.Rollback();
-                    throw;
-                }
-            }
-        }
-
-        public bool CheckPermissions(int accessAppId, params int[] roleIds)
-        {
-            Parameter.Validate(accessAppId).Validate(roleIds);
-            using(var dataStore = new DataStore())
-            {
-
-                #region 检查app是否为系统app
-                {
-                    var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a WHERE a.Id=@Id AND a.IsDeleted=0 AND a.IsSystem=1";
-                    var parameters = new List<SqlParameter>
-                    {
-                        new SqlParameter("@Id",accessAppId)
-                    };
-                    var result = dataStore.FindSingleValue<Int32>(sql, parameters);
-                    if(result <= 0)
-                    {
-                        return true;
-                    }
-                }
-                #endregion
-
-                {
-                    var sql = $@"SELECT a.AppId FROM dbo.RolePowers AS a WHERE a.RoleId IN({String.Join(",", roleIds)}) AND a.IsDeleted=0";
-                    var result = dataStore.Find<RolePower>(sql);
-                    return result.Any(a => a.AppId == accessAppId);
-                }
-            }
-        }
-
-        public bool CheckRoleName(string name)
-        {
-            Parameter.Validate(name);
-            using(var dataStore = new DataStore())
-            {
-                var sql = $@"SELECT COUNT(*) FROM dbo.Roles AS a WHERE a.Name=@name AND a.IsDeleted=0";
-                var parameters = new List<SqlParameter>
-                {
-                    new SqlParameter("@name",name)
-                };
-                return dataStore.FindSingleValue<Int32>(sql, parameters) > 0;
-            }
-        }
-
-        public IList<RolePower> GetPowers()
-        {
-            using(var dataStore = new DataStore())
-            {
-                var sql = $@"SELECT
+                    var sql = $@"SELECT
                             a.RoleId,
                             a.AppId
                             FROM dbo.RolePowers AS a 
                             WHERE a.IsDeleted=0";
-                return dataStore.Find<RolePower>(sql);
-            }
+                    return dataStore.Find<RolePower>(sql);
+                }
+            });
         }
 
-        public Role GetRole(int roleId)
+        public async Task<Role> GetRoleAsync(int roleId)
         {
             Parameter.Validate(roleId);
-            using(var dataStore = new DataStore())
+            return Task.Run<Role>(() =>
             {
-                var sql = $@"SELECT
+                using(var dataStore = new DataStore())
+                {
+                    var sql = $@"SELECT
                             a.Name,
                             a.RoleIdentity,
                             a.Remark
                             FROM dbo.Roles AS a 
                             WHERE a.Id=@Id AND a.IsDeleted=0";
-                var parameters = new List<SqlParameter> { new SqlParameter("@Id", roleId) };
-                return dataStore.FindOne<Role>(sql, parameters);
-            }
+                    var parameters = new List<SqlParameter> { new SqlParameter("@Id", roleId) };
+                    return dataStore.FindOne<Role>(sql, parameters);
+                }
+            });
         }
 
-        public List<Role> GetRoles(string roleName, int pageIndex, int pageSize, out int totalCount)
+        public async List<Role> GetRoles(string roleName, int pageIndex, int pageSize, out int totalCount)
         {
             using(var dataStore = new DataStore())
             {
@@ -211,71 +90,216 @@ namespace NewCRM.Domain.Services.BoundedContext
             }
         }
 
-        public void ModifyRole(Role role)
+        public async Task<Boolean> CheckPermissionsAsync(int accessAppId, params int[] roleIds)
+        {
+            Parameter.Validate(accessAppId).Validate(roleIds);
+            return Task.Run<Boolean>(() =>
+            {
+                using(var dataStore = new DataStore())
+                {
+                    #region 检查app是否为系统app
+                    {
+                        var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a WHERE a.Id=@Id AND a.IsDeleted=0 AND a.IsSystem=1";
+                        var parameters = new List<SqlParameter>
+                    {
+                        new SqlParameter("@Id",accessAppId)
+                    };
+                        var result = dataStore.FindSingleValue<Int32>(sql, parameters);
+                        if(result <= 0)
+                        {
+                            return true;
+                        }
+                    }
+                    #endregion
+
+                    {
+                        var sql = $@"SELECT a.AppId FROM dbo.RolePowers AS a WHERE a.RoleId IN({String.Join(",", roleIds)}) AND a.IsDeleted=0";
+                        var result = dataStore.Find<RolePower>(sql);
+                        return result.Any(a => a.AppId == accessAppId);
+                    }
+                }
+            });
+        }
+
+        public async Task<Boolean> CheckRoleNameAsync(string name)
+        {
+            Parameter.Validate(name);
+            return Task.Run<Boolean>(() =>
+            {
+                using(var dataStore = new DataStore())
+                {
+                    var sql = $@"SELECT COUNT(*) FROM dbo.Roles AS a WHERE a.Name=@name AND a.IsDeleted=0";
+                    var parameters = new List<SqlParameter>
+                    {
+                        new SqlParameter("@name",name)
+                    };
+                    return dataStore.FindSingleValue<Int32>(sql, parameters) > 0;
+                }
+            });
+        }
+
+        public async Task ModifyRoleAsync(Role role)
         {
             Parameter.Validate(role);
-            using(var dataStore = new DataStore())
+            return Task.Run(() =>
             {
-                #region 修改角色
+                using(var dataStore = new DataStore())
                 {
-                    var sql = $@"UPDATE dbo.Roles SET Name=@name,RoleIdentity=@identity WHERE Id=@Id AND IsDeleted=0";
-                    var parameters = new List<SqlParameter>
+                    #region 修改角色
+                    {
+                        var sql = $@"UPDATE dbo.Roles SET Name=@name,RoleIdentity=@identity WHERE Id=@Id AND IsDeleted=0";
+                        var parameters = new List<SqlParameter>
                     {
                         new SqlParameter("@name",role.Name),
                         new SqlParameter("@identity",role.RoleIdentity),
                         new SqlParameter("@Id",role.Id)
                     };
-                    dataStore.SqlExecute(sql, parameters);
+                        dataStore.SqlExecute(sql, parameters);
+                    }
+                    #endregion
                 }
-                #endregion
-            }
+            });
         }
 
-        public void RemoveRole(int roleId)
+        public async Task RemoveRoleAsync(int roleId)
         {
             Parameter.Validate(roleId);
-            using(var dataStore = new DataStore())
+            return Task.Run(() =>
             {
-                dataStore.OpenTransaction();
-                try
+                using(var dataStore = new DataStore())
                 {
-                    var parameters = new List<SqlParameter>
+                    dataStore.OpenTransaction();
+                    try
                     {
-                        new SqlParameter("@roleId",roleId)
-                    };
-                    #region 前置条件验证
-                    {
-                        var sql = $@"SELECT COUNT(*) FROM dbo.AccountRoles AS a WHERE a.RoleId=@roleId AND a.IsDeleted=0";
-                        var result = dataStore.FindSingleValue<Int32>(sql, parameters);
-                        if(result > 0)
+                        var parameters = new List<SqlParameter>
                         {
-                            throw new BusinessException("当前角色已绑定了账户，无法删除");
+                            new SqlParameter("@roleId",roleId)
+                        };
+                        #region 前置条件验证
+                        {
+                            var sql = $@"SELECT COUNT(*) FROM dbo.AccountRoles AS a WHERE a.RoleId=@roleId AND a.IsDeleted=0";
+                            var result = dataStore.FindSingleValue<Int32>(sql, parameters);
+                            if(result > 0)
+                            {
+                                throw new BusinessException("当前角色已绑定了账户，无法删除");
+                            }
                         }
-                    }
-                    #endregion
+                        #endregion
 
-                    #region 删除角色
+                        #region 删除角色
+                        {
+                            var sql = $@"UPDATE dbo.Roles SET IsDeleted=1 WHERE Id=@roleId AND IsDeleted=0";
+                            dataStore.SqlExecute(sql, parameters);
+                        }
+                        #endregion
+
+                        #region 移除权限
+                        {
+                            var sql = $@"UPDATE dbo.RolePowers SET IsDeleted=1 WHERE RoleId=@roleId AND IsDeleted=0";
+                            dataStore.SqlExecute(sql, parameters);
+                        }
+                        #endregion
+
+                        dataStore.Commit();
+                    }
+                    catch(Exception)
                     {
-                        var sql = $@"UPDATE dbo.Roles SET IsDeleted=1 WHERE Id=@roleId AND IsDeleted=0";
-                        dataStore.SqlExecute(sql, parameters);
+                        dataStore.Rollback();
+                        throw;
                     }
-                    #endregion
-
-                    #region 移除权限
-                    {
-                        var sql = $@"UPDATE dbo.RolePowers SET IsDeleted=1 WHERE RoleId=@roleId AND IsDeleted=0";
-                        dataStore.SqlExecute(sql, parameters);
-                    }
-                    #endregion
-
-                    dataStore.Commit();
                 }
-                catch(Exception)
+            });
+        }
+
+        public async Task AddNewRoleAsync(Role role)
+        {
+            Parameter.Validate(role);
+            return Task.Run(() =>
+            {
+                using(var dataStore = new DataStore())
                 {
-                    dataStore.Rollback();
-                    throw;
+                    #region 添加角色
+                    {
+                        var sql = $@"INSERT dbo.Roles
+                                ( Name ,
+                                  RoleIdentity ,
+                                  Remark ,
+                                  IsDeleted ,
+                                  AddTime ,
+                                  LastModifyTime
+                                )
+                        VALUES  ( @name , -- Name - nvarchar(6)
+                                  @RoleIdentity , -- RoleIdentity - nvarchar(20)
+                                  @Remark , -- Remark - nvarchar(50)
+                                  0 , -- IsDeleted - bit
+                                  GETDATE() , -- AddTime - datetime
+                                  GETDATE()  -- LastModifyTime - datetime
+                                )";
+                        dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@name", role.Name), new SqlParameter("@RoleIdentity", role.RoleIdentity), new SqlParameter("@Remark", role.Remark) });
+                    }
+                    #endregion
                 }
-            }
+            });
+        }
+
+        public async Task AddPowerToCurrentRoleAsync(int roleId, IEnumerable<int> powerIds)
+        {
+            Parameter.Validate(roleId).Validate(powerIds);
+            return Task.Run(() =>
+            {
+                if(!powerIds.Any())
+                {
+                    throw new BusinessException("权限列表为空");
+                }
+
+                using(var dataStore = new DataStore())
+                {
+                    dataStore.OpenTransaction();
+                    try
+                    {
+                        #region 移除之前的角色权限
+                        {
+                            var sql = $@"UPDATE dbo.RolePowers SET IsDeleted=1 WHERE RoleId=@RoleId";
+                            var parameters = new List<SqlParameter>
+                        {
+                            new SqlParameter("@RoleId",roleId)
+                        };
+                            dataStore.SqlExecute(sql, parameters);
+                        }
+                        #endregion
+
+                        #region 添加角色权限
+                        {
+                            var sqlBuilder = new StringBuilder();
+                            foreach(var item in powerIds)
+                            {
+                                sqlBuilder.Append($@"INSERT dbo.RolePowers
+                                                    ( RoleId ,
+                                                      AppId ,
+                                                      IsDeleted ,
+                                                      AddTime ,
+                                                      LastModifyTime
+                                                    )
+                                            VALUES  ( {roleId} , -- RoleId - int
+                                                      {item}, -- AppId - int
+                                                      0 , -- IsDeleted - bit
+                                                      GETDATE() , -- AddTime - datetime
+                                                      GETDATE()  -- LastModifyTime - datetime
+                                                    )");
+                            }
+                            dataStore.SqlExecute(sqlBuilder.ToString());
+                        }
+                        #endregion
+
+                        dataStore.Commit();
+                    }
+                    catch(Exception)
+                    {
+                        dataStore.Rollback();
+                        throw;
+                    }
+                }
+            });
         }
     }
 }

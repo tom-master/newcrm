@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using NewCRM.Domain.Entitys.System;
 
 namespace NewCRM.Domain.Services.Interface
@@ -9,37 +10,36 @@ namespace NewCRM.Domain.Services.Interface
         /// <summary>
         /// 获取壁纸
         /// </summary>
-        List<Wallpaper> GetWallpapers();
+        Task<List<Wallpaper>> GetWallpapersAsync();
 
         /// <summary>
         /// 添加壁纸
         /// </summary>
-        Tuple<Int32, String> AddWallpaper(Wallpaper wallpaper);
+        Task<Tuple<Int32, String>> AddWallpaperAsync(Wallpaper wallpaper);
 
         /// <summary>
         /// 获取上传的壁纸
         /// </summary>
-        List<Wallpaper> GetUploadWallpaper(Int32 accountId);
+        Task<List<Wallpaper>> GetUploadWallpaperAsync(Int32 accountId);
 
         /// <summary>
         /// 获取上传的壁纸
         /// </summary>
-        Wallpaper GetUploadWallpaper(String md5);
+        Task<Wallpaper> GetUploadWallpaperAsync(String md5);
 
         /// <summary>
 		/// 修改壁纸的显示模式
 		/// </summary>
-		void ModifyWallpaperMode(Int32 accountId, String newMode);
+		Task ModifyWallpaperModeAsync(Int32 accountId, String newMode);
 
         /// <summary>
         /// 更换壁纸
         /// </summary>
-        void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId);
-
-
+        Task ModifyWallpaperAsync(Int32 accountId, Int32 newWallpaperId);
+        
         /// <summary>
         /// 根据用户id删除壁纸
         /// </summary>
-        void RemoveWallpaper(Int32 accountId, Int32 wallpaperId);
+        Task RemoveWallpaperAsync(Int32 accountId, Int32 wallpaperId);
     }
 }

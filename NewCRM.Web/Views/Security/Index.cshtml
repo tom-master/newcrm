@@ -83,9 +83,9 @@
                                 setTimeout(function () {
                                     $('#pagination').trigger('currentPage');
                                 }, 1000);
-                                ZENG.msgbox.success('删除成功');
+                                NewCrm.msgbox.success('删除成功');
                             } else {
-                                ZENG.msgbox.fail(responseText.Message);
+                                NewCrm.msgbox.fail(responseText.Message);
                             }
                         });
                     },
@@ -123,7 +123,7 @@
                     $('.list-count').text(responseText.totalCount);
                     initPagination(current_page);
                 } else {
-                    ZENG.msgbox.fail(responseText.Message);
+                    NewCrm.msgbox.fail(responseText.Message);
                 }
             });
         }

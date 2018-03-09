@@ -11,92 +11,91 @@ namespace NewCRM.Domain.Services.Interface
         /// <summary>
         /// 修改成员排列方向X轴
         /// </summary>
-        void ModifyMemberDirectionToX(Int32 accountId);
+        Task ModifyMemberDirectionToXAsync(Int32 accountId);
 
         /// <summary>
         /// 修改成员排列方向X轴
         /// </summary>
-        void ModifyMemberDirectionToY(Int32 accountId);
-
+        Task ModifyMemberDirectionToYAsync(Int32 accountId);
 
         /// <summary>
         /// 修改成员图标显示大小
         /// </summary>
-        void ModifyMemberDisplayIconSize(Int32 accountId, Int32 newSize);
+        Task ModifyMemberDisplayIconSizeAsync(Int32 accountId, Int32 newSize);
 
         /// <summary>
         /// 修改成员之间的垂直间距
         /// </summary>
-        void ModifyMemberVerticalSpacing(Int32 accountId, Int32 newSize);
+        Task ModifyMemberVerticalSpacingAsync(Int32 accountId, Int32 newSize);
 
         /// <summary>
         /// 修改成员之间的水平间距
         /// </summary>
-        void ModifyMemberHorizontalSpacing(Int32 accountId, Int32 newSize);
+        Task ModifyMemberHorizontalSpacingAsync(Int32 accountId, Int32 newSize);
 
         /// <summary>
         /// 修改默认显示的桌面编号
         /// </summary>
-        void ModifyDefaultDeskNumber(Int32 accountId, Int32 newDefaultDeskNumber);
+        Task ModifyDefaultDeskNumberAsync(Int32 accountId, Int32 newDefaultDeskNumber);
 
         /// <summary>
         /// 修改码头位置
         /// </summary>
-        void ModifyDockPosition(Int32 accountId, Int32 defaultDeskNumber, String newPosition);
+        Task ModifyDockPositionAsync(Int32 accountId, Int32 defaultDeskNumber, String newPosition);
 
         /// <summary>
 	    /// 桌面成员移动到码头中
 	    /// </summary>
-	    void MemberInDock(Int32 accountId, Int32 memberId);
+	    Task MemberInDockAsync(Int32 accountId, Int32 memberId);
 
         /// <summary>
         /// 桌面成员移出码头中
         /// </summary>
-        void MemberOutDock(Int32 accountId, Int32 memberId, Int32 deskId);
+        Task MemberOutDockAsync(Int32 accountId, Int32 memberId, Int32 deskId);
 
         /// <summary>
         /// 成员从码头移动到文件夹中
         /// </summary>
-        void DockToFolder(Int32 accountId, Int32 memberId, Int32 folderId);
+        Task DockToFolderAsync(Int32 accountId, Int32 memberId, Int32 folderId);
 
         /// <summary>
         /// 成员从文件夹中移动到码头
         /// </summary>
-        void FolderToDock(Int32 accountId, Int32 memberId);
+        Task FolderToDockAsync(Int32 accountId, Int32 memberId);
 
         /// <summary>
         /// 成员从桌面中移动到文件夹
         /// </summary>
-        void DeskToFolder(Int32 accountId, Int32 memberId, Int32 folderId);
+        Task DeskToFolderAsync(Int32 accountId, Int32 memberId, Int32 folderId);
 
         /// <summary>
         /// 成员从文件夹移动到桌面
         /// </summary>
-        void FolderToDesk(Int32 accountId, Int32 memberId, Int32 deskId);
+        Task FolderToDeskAsync(Int32 accountId, Int32 memberId, Int32 deskId);
 
         /// <summary>
         /// 成员从文件夹移动到另一个文件夹
         /// </summary>
-        void FolderToOtherFolder(Int32 accountId, Int32 memberId, Int32 folderId);
+        Task FolderToOtherFolderAsync(Int32 accountId, Int32 memberId, Int32 folderId);
 
         /// <summary>
         /// 成员从桌面移动到另一个桌面
         /// </summary>
-        void DeskToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId);
+        Task DeskToOtherDeskAsync(Int32 accountId, Int32 memberId, Int32 deskId);
 
         /// <summary>
         /// 成员从码头移动到桌面
         /// </summary>
-        void DockToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId);
+        Task DockToOtherDeskAsync(Int32 accountId, Int32 memberId, Int32 deskId);
 
         /// <summary>
         /// 创建文件夹
         /// </summary>
-        void CreateNewFolder(Int32 deskId, String folderName, String folderImg, Int32 accountId);
+        Task CreateNewFolderAsync(Int32 deskId, String folderName, String folderImg, Int32 accountId);
 
         /// <summary>
         /// 修改壁纸来源
         /// </summary>
-        void ModifyWallpaperSource(String source, Int32 accountId);
+        Task ModifyWallpaperSourceAsync(String source, Int32 accountId);
     }
 }

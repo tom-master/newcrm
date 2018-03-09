@@ -33,10 +33,10 @@
     });
 
     openDetailIframe = function (url) {
-        ZENG.msgbox.loading('正在载入中，请稍后...');
+        NewCrm.msgbox.loading('正在载入中，请稍后...');
         $('#detailIframe iframe').attr('src', url).on('load', function () {
             $('body').css('overflow', 'hidden');
-            ZENG.msgbox.close()
+            NewCrm.msgbox.close()
             $('#detailIframe').animate({ 'top': 0, 'opacity': 'show' }, 500);
         });
     };
@@ -51,9 +51,9 @@
 
     function alertInfo(msg, type) {
         if (type) {
-            top.ZENG.msgbox.info(msg);
+            top.NewCrm.msgbox.info(msg);
         } else {
-            top.ZENG.msgbox.fail(msg);
+            top.NewCrm.msgbox.fail(msg);
         }
     }
 </script>

@@ -12,7 +12,7 @@ namespace NewCRM.Domain.Services.Interface
         /// <summary>
         /// 添加日志
         /// </summary>
-        void AddLogger(Log log);
+        Task AddLoggerAsync(Log log);
 
         /// <summary>
         /// 获取日志列表
