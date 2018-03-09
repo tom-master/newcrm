@@ -49,11 +49,11 @@
         });
     };
 
-    function alertInfo(msg, type) { 
+    function alertInfo(msg, type) {
         if (type) {
-            window.parent.top.NewCrm.msgbox.info(msg);
+            top.NewCrm.msgbox.info(msg);
         } else {
-            window.parent.top.NewCrm.msgbox.fail(msg);
+            top.NewCrm.msgbox.fail(msg);
         }
     }
 </script>
