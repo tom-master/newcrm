@@ -50,10 +50,11 @@
     };
 
     function alertInfo(msg, type) {
+        debugger
         if (type) {
-            top.NewCrm.msgbox.info(msg);
+            window.parent.top.NewCrm.msgbox.info(msg);
         } else {
-            top.NewCrm.msgbox.fail(msg);
+            window.parent.top.NewCrm.msgbox.fail(msg);
         }
     }
 </script>
