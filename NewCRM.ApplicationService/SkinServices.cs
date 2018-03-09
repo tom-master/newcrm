@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Domain.Services;
 using NewCRM.Domain.Services.Interface;
@@ -16,28 +17,31 @@ namespace NewCRM.Application.Services
 
         public SkinServices(ISkinContext skinContext) => _skinContext = skinContext;
 
-        public IDictionary<String, dynamic> GetAllSkin(String skinPath)
+        public async Task<IDictionary<String, dynamic>> GetAllSkinAsync(String skinPath)
         {
             Parameter.Validate(skinPath);
 
-            IDictionary<String, dynamic> dataDictionary = new Dictionary<String, dynamic>();
-            Directory.GetFiles(skinPath, "*.css").ToList().ForEach(path =>
+            return await Task.Run(() =>
             {
-                var fileName = Get(path, x => x.LastIndexOf(@"\", StringComparison.OrdinalIgnoreCase) + 1).Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[0];
-                dataDictionary.Add(fileName, new
+                IDictionary<String, dynamic> dataDictionary = new Dictionary<String, dynamic>();
+                Directory.GetFiles(skinPath, "*.css").ToList().ForEach(path =>
                 {
-                    cssPath = path.Substring(path.LastIndexOf("script", StringComparison.OrdinalIgnoreCase) - 1).Replace(@"\", "/"),
-                    imgPath = GetLocalImagePath(fileName, skinPath)
+                    var fileName = Get(path, x => x.LastIndexOf(@"\", StringComparison.OrdinalIgnoreCase) + 1).Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[0];
+                    dataDictionary.Add(fileName, new
+                    {
+                        cssPath = path.Substring(path.LastIndexOf("script", StringComparison.OrdinalIgnoreCase) - 1).Replace(@"\", "/"),
+                        imgPath = GetLocalImagePath(fileName, skinPath)
+                    });
                 });
-            });
 
-            return dataDictionary;
+                return dataDictionary;
+            });
         }
 
-        public void ModifySkin(Int32 accountId, String newSkin)
+        public async Task ModifySkinAsync(Int32 accountId, String newSkin)
         {
             Parameter.Validate(accountId).Validate(newSkin);
-            _skinContext.ModifySkin(accountId, newSkin);
+            await _skinContext.ModifySkinAsync(accountId, newSkin);
             RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 

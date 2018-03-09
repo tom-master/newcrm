@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Domain.Entitys.Security;
 using NewCRM.Domain.Services;
@@ -16,16 +17,16 @@ namespace NewCRM.Application.Services
 
         public SecurityServices(ISecurityContext securityContext) => _securityContext = securityContext;
 
-        public RoleDto GetRole(Int32 roleId)
+        public async Task<RoleDto> GetRoleAsync(Int32 roleId)
         {
             Parameter.Validate(roleId);
 
-            var result = _securityContext.GetRole(roleId);
-            if(result == null)
+            var result = await _securityContext.GetRoleAsync(roleId);
+            if (result == null)
             {
                 throw new BusinessException("角色可能已被删除，请刷新后再试");
             }
-            var powers = _securityContext.GetPowers();
+            var powers = await _securityContext.GetPowersAsync();
             return new RoleDto
             {
                 Name = result.Name,
@@ -47,40 +48,40 @@ namespace NewCRM.Application.Services
             }).ToList();
         }
 
-        public Boolean CheckPermissions(Int32 accessAppId, params Int32[] roleIds)
+        public async Task<Boolean> CheckPermissionsAsync(Int32 accessAppId, params Int32[] roleIds)
         {
             Parameter.Validate(accessAppId).Validate(roleIds);
-            return _securityContext.CheckPermissions(accessAppId, roleIds);
+            return await _securityContext.CheckPermissionsAsync(accessAppId, roleIds);
         }
 
-        public bool CheckRoleName(string name)
+        public async Task<Boolean> CheckRoleNameAsync(string name)
         {
             Parameter.Validate(name);
-            return _securityContext.CheckRoleName(name);
+            return await _securityContext.CheckRoleNameAsync(name);
         }
 
-        public void RemoveRole(Int32 roleId)
+        public async Task RemoveRoleAsync(Int32 roleId)
         {
             Parameter.Validate(roleId);
-            _securityContext.RemoveRole(roleId);
+            await _securityContext.RemoveRoleAsync(roleId);
         }
 
-        public void AddNewRole(RoleDto roleDto)
+        public async Task AddNewRoleAsync(RoleDto roleDto)
         {
             Parameter.Validate(roleDto);
-            _securityContext.AddNewRole(roleDto.ConvertToModel<RoleDto, Role>());
+            await _securityContext.AddNewRoleAsync(roleDto.ConvertToModel<RoleDto, Role>());
         }
 
-        public void ModifyRole(RoleDto roleDto)
+        public async Task ModifyRoleAsync(RoleDto roleDto)
         {
             Parameter.Validate(roleDto);
-            _securityContext.ModifyRole(roleDto.ConvertToModel<RoleDto, Role>());
+            await _securityContext.ModifyRoleAsync(roleDto.ConvertToModel<RoleDto, Role>());
         }
 
-        public void AddPowerToCurrentRole(Int32 roleId, IEnumerable<Int32> powerIds)
+        public async Task AddPowerToCurrentRoleAsync(Int32 roleId, IEnumerable<Int32> powerIds)
         {
             Parameter.Validate(roleId);
-            _securityContext.AddPowerToCurrentRole(roleId, powerIds);
+            await _securityContext.AddPowerToCurrentRoleAsync(roleId, powerIds);
         }
 
     }

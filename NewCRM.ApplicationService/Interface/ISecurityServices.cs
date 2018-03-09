@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using NewCRM.Dto;
 
 namespace NewCRM.Application.Services.Interface
@@ -16,17 +17,17 @@ namespace NewCRM.Application.Services.Interface
         /// <summary>
         /// 根据角色Id获取角色
         /// </summary>
-        RoleDto GetRole(Int32 roleId);
+        Task<RoleDto> GetRoleAsync(Int32 roleId);
 
         /// <summary>
         /// 检查用户权限
         /// </summary>
-        Boolean CheckPermissions(Int32 accessAppId, params Int32[] roleIds);
+        Task<Boolean> CheckPermissionsAsync(Int32 accessAppId, params Int32[] roleIds);
 
         /// <summary>
         /// 检查角色名称
         /// </summary>
-        Boolean CheckRoleName(String name);
+        Task<Boolean> CheckRoleNameAsync(String name);
 
         #endregion
 
@@ -35,22 +36,22 @@ namespace NewCRM.Application.Services.Interface
         /// <summary>
         /// 新建角色
         /// </summary>
-        void AddNewRole(RoleDto role);
+        Task AddNewRoleAsync(RoleDto role);
 
         /// <summary>
         /// 修改角色信息
         /// </summary>
-        void ModifyRole(RoleDto role);
+        Task ModifyRoleAsync(RoleDto role);
 
         /// <summary>
         /// 添加权限到当前的角色
         /// </summary>
-        void AddPowerToCurrentRole(Int32 roleId, IEnumerable<Int32> powerIds);
+        Task AddPowerToCurrentRoleAsync(Int32 roleId, IEnumerable<Int32> powerIds);
 
         /// <summary>
         /// 移除角色
         /// </summary>
-        void RemoveRole(Int32 roleId);
+        Task RemoveRoleAsync(Int32 roleId);
 
         #endregion
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services;
@@ -15,10 +16,10 @@ namespace NewCRM.Application.Services
 
         public LoggerServices(ILoggerContext loggerContext) => _loggerContext = loggerContext;
 
-        public void AddLogger(LogDto log)
+        public async Task AddLoggerAsync(LogDto log)
         {
             Parameter.Validate(log);
-            _loggerContext.AddLogger(log.ConvertToModel<LogDto, Log>());
+            await _loggerContext.AddLoggerAsync(log.ConvertToModel<LogDto, Log>());
         }
 
         public IList<LogDto> GetLogs(Int32 accountId, Int32 logLevel, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)

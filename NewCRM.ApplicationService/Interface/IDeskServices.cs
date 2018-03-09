@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using NewCRM.Dto;
 
 namespace NewCRM.Application.Services.Interface
@@ -12,18 +13,18 @@ namespace NewCRM.Application.Services.Interface
         /// 获取桌面的成员
         /// </summary>
         /// <returns></returns>
-        IDictionary<String, IList<dynamic>> GetDeskMembers(Int32 accountId);
+        Task<IDictionary<String, IList<dynamic>>> GetDeskMembersAsync(Int32 accountId);
 
         /// <summary>
         /// 根据用户id获取桌面的成员
         /// </summary>
-        MemberDto GetMember(Int32 accountId, Int32 memberId, Boolean isFolder = default(Boolean));
+        Task<MemberDto> GetMemberAsync(Int32 accountId, Int32 memberId, Boolean isFolder = default(Boolean));
 
 
         /// <summary>
         /// 检查成员名称
         /// </summary>
-        Boolean CheckMemberName(String name);
+        Task<Boolean> CheckMemberNameAsync(String name);
 
         #endregion
 
@@ -32,87 +33,87 @@ namespace NewCRM.Application.Services.Interface
         /// <summary>
         /// 修改默认显示的桌面
         /// </summary>
-        void ModifyDefaultDeskNumber(Int32 accountId, Int32 newDefaultDeskNumber);
+        Task ModifyDefaultDeskNumberAsync(Int32 accountId, Int32 newDefaultDeskNumber);
 
         /// <summary>
         /// 修改码头的位置
         /// </summary>
-        void ModifyDockPosition(Int32 accountId, Int32 defaultDeskNumber, String newPosition);
+        Task ModifyDockPositionAsync(Int32 accountId, Int32 defaultDeskNumber, String newPosition);
 
         /// <summary>
         /// 桌面成员移动到码头中
         /// </summary>
-        void MemberInDock(Int32 accountId, Int32 memberId);
+        Task MemberInDockAsync(Int32 accountId, Int32 memberId);
 
         /// <summary>
         /// 桌面成员移出码头
         /// </summary>
-        void MemberOutDock(Int32 accountId, Int32 memberId, Int32 deskId);
+        Task MemberOutDockAsync(Int32 accountId, Int32 memberId, Int32 deskId);
 
         /// <summary>
         /// 成员从码头移动到文件夹中
         /// </summary>
-        void DockToFolder(Int32 accountId, Int32 memberId, Int32 folderId);
+        Task DockToFolderAsync(Int32 accountId, Int32 memberId, Int32 folderId);
 
         /// <summary>
         /// 成员从文件夹中移动到码头中
         /// </summary>
-        void FolderToDock(Int32 accountId, Int32 memberId);
+        Task FolderToDockAsync(Int32 accountId, Int32 memberId);
 
         /// <summary>
         /// 成员从桌面中移动到文件夹
         /// </summary>
-        void DeskToFolder(Int32 accountId, Int32 memberId, Int32 folderId);
+        Task DeskToFolderAsync(Int32 accountId, Int32 memberId, Int32 folderId);
 
         /// <summary>
         /// 成员从文件夹移动到桌面
         /// </summary>
-        void FolderToDesk(Int32 accountId, Int32 memberId, Int32 deskId);
+        Task FolderToDeskAsync(Int32 accountId, Int32 memberId, Int32 deskId);
 
         /// <summary>
         /// 成员从文件夹移动到另一个文件夹
         /// </summary>
-        void FolderToOtherFolder(Int32 accountId, Int32 memberId, Int32 folderId);
+        Task FolderToOtherFolderAsync(Int32 accountId, Int32 memberId, Int32 folderId);
 
         /// <summary>
         /// 成员从桌面移动到另一个桌面
         /// </summary>
-        void DeskToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId);
+        Task DeskToOtherDeskAsync(Int32 accountId, Int32 memberId, Int32 deskId);
 
         /// <summary>
         /// 修改文件夹信息
         /// </summary>
-        void ModifyFolderInfo(Int32 accountId, String memberName, String memberIcon, Int32 memberId);
+        Task ModifyFolderInfoAsync(Int32 accountId, String memberName, String memberIcon, Int32 memberId);
 
         /// <summary>
         /// 卸载用户的桌面app成员
         /// </summary>
-        void UninstallMember(Int32 accountId, Int32 memberId);
+        Task UninstallMemberAsync(Int32 accountId, Int32 memberId);
 
         /// <summary>
         /// 修改成员信息
         /// </summary>
-        void ModifyMemberInfo(Int32 accountId, MemberDto member);
+        Task ModifyMemberInfoAsync(Int32 accountId, MemberDto member);
 
         /// <summary>
         /// 创建新的文件夹
         /// </summary>
-        void CreateNewFolder(String folderName, String folderImg, Int32 deskId, Int32 accountId);
+        Task CreateNewFolderAsync(String folderName, String folderImg, Int32 deskId, Int32 accountId);
 
         /// <summary>
         /// 从码头移动到另一个桌面
         /// </summary>
-        void DockToOtherDesk(Int32 accountId, Int32 memberId, Int32 deskId);
+        Task DockToOtherDeskAsync(Int32 accountId, Int32 memberId, Int32 deskId);
 
         /// <summary>
         /// 更新桌面成员的图标
         /// </summary>
-        void ModifyMemberIcon(Int32 accountId, Int32 memberId, String newIcon);
+        Task ModifyMemberIconAsync(Int32 accountId, Int32 memberId, String newIcon);
 
         /// <summary>
         /// 更新壁纸来源
         /// </summary>
-        void ModifyWallpaperSource(String source, Int32 accountId);
+        Task ModifyWallpaperSourceAsync(String source, Int32 accountId);
 
         #endregion
     }

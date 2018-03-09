@@ -21,50 +21,44 @@ namespace NewCRM.Application.Services
 
         public AccountServices(IAccountContext accountContext) => _accountContext = accountContext;
 
-        public Task<AccountDto> LoginAsync(String accountName, String password, String requestIp)
+        public async Task<AccountDto> LoginAsync(String accountName, String password, String requestIp)
         {
             Parameter.Validate(accountName).Validate(password);
-            return Task.Run<AccountDto>(() =>
+            var account = await _accountContext.ValidateAsync(accountName, password, requestIp);
+            return new AccountDto
             {
-                var account = _accountContext.Validate(accountName, password, requestIp);
-                return new AccountDto
-                {
-                    Name = account.Name,
-                    Id = account.Id,
-                    AccountFace = account.AccountFace
-                };
-            });
+                Name = account.Name,
+                Id = account.Id,
+                AccountFace = account.AccountFace
+            };
         }
 
-        public Task<ConfigDto> GetConfigAsync(Int32 accountId)
+        public async Task<ConfigDto> GetConfigAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            return Task.Run<ConfigDto>(() =>
-            {
-                var config = GetCache(CacheKey.Config(accountId), () => _accountContext.GetConfig(accountId));
-                var wallpaper = GetCache(CacheKey.Wallpaper(accountId), () => _accountContext.GetWallpaper(config.WallpaperId));
+            var config = await GetCache(CacheKey.Config(accountId), async () => await _accountContext.GetConfigAsync(accountId));
+            var wallpaper = await GetCache(CacheKey.Wallpaper(accountId), async () => await _accountContext.GetWallpaperAsync(config.WallpaperId));
 
-                return new ConfigDto
-                {
-                    Id = config.Id,
-                    Skin = config.Skin,
-                    AccountFace = config.AccountFace,
-                    AppSize = config.AppSize,
-                    AppVerticalSpacing = config.AppVerticalSpacing,
-                    AppHorizontalSpacing = config.AppHorizontalSpacing,
-                    DefaultDeskNumber = config.DefaultDeskNumber,
-                    DefaultDeskCount = config.DefaultDeskCount,
-                    AppXy = config.AppXy.ToString().ToLower(),
-                    DockPosition = config.DockPosition.ToString().ToLower(),
-                    WallpaperUrl = wallpaper.Url,
-                    WallpaperWidth = wallpaper.Width,
-                    WallpaperHeigth = wallpaper.Height,
-                    WallpaperSource = wallpaper.Source.ToString().ToLower(),
-                    WallpaperMode = config.WallpaperMode.ToString().ToLower(),
-                    IsBing = config.IsBing,
-                    AccountId = config.AccountId
-                };
-            });
+            return new ConfigDto
+            {
+                Id = config.Id,
+                Skin = config.Skin,
+                AccountFace = config.AccountFace,
+                AppSize = config.AppSize,
+                AppVerticalSpacing = config.AppVerticalSpacing,
+                AppHorizontalSpacing = config.AppHorizontalSpacing,
+                DefaultDeskNumber = config.DefaultDeskNumber,
+                DefaultDeskCount = config.DefaultDeskCount,
+                AppXy = config.AppXy.ToString().ToLower(),
+                DockPosition = config.DockPosition.ToString().ToLower(),
+                WallpaperUrl = wallpaper.Url,
+                WallpaperWidth = wallpaper.Width,
+                WallpaperHeigth = wallpaper.Height,
+                WallpaperSource = wallpaper.Source.ToString().ToLower(),
+                WallpaperMode = config.WallpaperMode.ToString().ToLower(),
+                IsBing = config.IsBing,
+                AccountId = config.AccountId
+            };
         }
 
         public List<AccountDto> GetAccounts(String accountName, String accountType, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
@@ -83,83 +77,76 @@ namespace NewCRM.Application.Services
             }).ToList();
         }
 
-        public Task<AccountDto> GetAccountAsync(Int32 accountId)
+        public async Task<AccountDto> GetAccountAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            return Task.Run<AccountDto>(() =>
+            var account = await GetCache(CacheKey.Account(accountId), async () => await _accountContext.GetAccountAsync(accountId));
+            if (account == null)
             {
-                var account = GetCache(CacheKey.Account(accountId), () => _accountContext.GetAccount(accountId));
-                if(account == null)
-                {
-                    throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
-                }
+                throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
+            }
 
-                var roles = GetCache(CacheKey.AccountRoles(account.Id), () => _accountContext.GetRoles(account.Id));
-                var powers = GetCache(CacheKey.Powers(), () => _accountContext.GetPowers());
+            var roles = await GetCache(CacheKey.AccountRoles(account.Id), async () => await _accountContext.GetRolesAsync(account.Id));
+            var powers = await GetCache(CacheKey.Powers(), async () => await _accountContext.GetPowersAsync());
 
-                return new AccountDto
+            return new AccountDto
+            {
+                AccountFace = account.AccountFace,
+                AddTime = account.AddTime.ToString("yyyy-MM-dd"),
+                Id = account.Id,
+                IsAdmin = account.IsAdmin,
+                IsDisable = account.IsDisable,
+                IsOnline = account.IsOnline,
+                LastLoginTime = account.LastLoginTime.ToString("yyyy-MM-dd"),
+                LastModifyTime = account.LastModifyTime.ToString("yyyy-MM-dd"),
+                LockScreenPassword = account.LockScreenPassword,
+                Password = account.LoginPassword,
+                Name = account.Name,
+                Roles = roles.Select(s => new RoleDto
                 {
-                    AccountFace = account.AccountFace,
-                    AddTime = account.AddTime.ToString("yyyy-MM-dd"),
-                    Id = account.Id,
-                    IsAdmin = account.IsAdmin,
-                    IsDisable = account.IsDisable,
-                    IsOnline = account.IsOnline,
-                    LastLoginTime = account.LastLoginTime.ToString("yyyy-MM-dd"),
-                    LastModifyTime = account.LastModifyTime.ToString("yyyy-MM-dd"),
-                    LockScreenPassword = account.LockScreenPassword,
-                    Password = account.LoginPassword,
-                    Name = account.Name,
-                    Roles = roles.Select(s => new RoleDto
+                    Id = s.Id,
+                    Name = s.Name,
+                    Powers = powers.Where(w => w.RoleId == s.Id).Select(p => new PowerDto
                     {
-                        Id = s.Id,
-                        Name = s.Name,
-                        Powers = powers.Where(w => w.RoleId == s.Id).Select(p => new PowerDto
-                        {
-                            Id = p.AppId
-                        }).ToList(),
-                        RoleIdentity = s.RoleIdentity
-                    }).ToList()
-                };
-
-            });
+                        Id = p.AppId
+                    }).ToList(),
+                    RoleIdentity = s.RoleIdentity
+                }).ToList()
+            };
         }
 
-        public Task<Boolean> CheckAccountNameExistAsync(String accountName)
+        public async Task<Boolean> CheckAccountNameExistAsync(String accountName)
         {
             Parameter.Validate(accountName);
-            return Task.Run<Boolean>(() => _accountContext.CheckAccountNameExistAsync(accountName));
+            return await _accountContext.CheckAccountNameExistAsync(accountName);
         }
 
-        public Task<Boolean> CheckPasswordAsync(Int32 accountId, String oldAccountPassword)
+        public async Task<Boolean> CheckPasswordAsync(Int32 accountId, String oldAccountPassword)
         {
             Parameter.Validate(oldAccountPassword);
-            return Task.Run<Boolean>(() =>
-            {
-                var result = _accountContext.GetOldPassword(accountId);
-                return PasswordUtil.ComparePasswords(result, oldAccountPassword);
-            });
+            var result = await _accountContext.GetOldPasswordAsync(accountId);
+            return PasswordUtil.ComparePasswords(result, oldAccountPassword);
         }
 
-        public Task<Boolean> UnlockScreenAsync(Int32 accountId, String unlockPassword)
+        public async Task<Boolean> UnlockScreenAsync(Int32 accountId, String unlockPassword)
         {
             Parameter.Validate(unlockPassword);
-            return Task.Run<Boolean>(() => _accountContext.UnlockScreen(accountId, unlockPassword));
+            return await _accountContext.UnlockScreenAsync(accountId, unlockPassword);
         }
 
-        public Task<Boolean> CheckAppNameAsync(string name)
+        public async Task<Boolean> CheckAppNameAsync(string name)
         {
             Parameter.Validate(name);
-            return Task.Run<Boolean>(() => _accountContext.CheckAppName(name));
+            return await _accountContext.CheckAppNameAsync(name);
         }
 
-        public Task<Boolean> CheckAppUrlAsync(string url)
+        public async Task<Boolean> CheckAppUrlAsync(string url)
         {
             Parameter.Validate(url);
-            return Task.Run<Boolean>(() => _accountContext.CheckAppUrl(url));
+            return await _accountContext.CheckAppUrlAsync(url);
         }
 
-        public void AddNewAccount(AccountDto accountDto)
+        public async Task AddNewAccountAsync(AccountDto accountDto)
         {
             Parameter.Validate(accountDto);
 
@@ -167,59 +154,59 @@ namespace NewCRM.Application.Services
             var accountType = EnumExtensions.ToEnum<AccountType>(account.IsAdmin ? 2 /*管理员*/ : 1 /*用户*/);
             var internalNewAccount = new Account(account.Name, PasswordUtil.CreateDbPassword(account.LoginPassword), account.Roles, accountType);
 
-            _accountContext.AddNewAccount(internalNewAccount);
+            await _accountContext.AddNewAccountAsync(internalNewAccount);
         }
 
-        public void ModifyAccount(AccountDto accountDto)
+        public async Task ModifyAccountAsync(AccountDto accountDto)
         {
             Parameter.Validate(accountDto);
             var account = accountDto.ConvertToModel<AccountDto, Account>();
-            _accountContext.ModifyAccount(account);
+            await _accountContext.ModifyAccountAsync(account);
         }
 
-        public void Logout(Int32 accountId)
+        public async Task LogoutAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            _accountContext.Logout(accountId);
+            await _accountContext.LogoutAsync(accountId);
         }
 
-        public void Enable(Int32 accountId)
+        public async Task EnableAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            _accountContext.Enable(accountId);
+            await _accountContext.EnableAsync(accountId);
         }
 
-        public void Disable(Int32 accountId)
+        public async Task DisableAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            _accountContext.Disable(accountId);
+            await _accountContext.DisableAsync(accountId);
         }
 
-        public void ModifyAccountFace(Int32 accountId, String newFace)
+        public async Task ModifyAccountFaceAsync(Int32 accountId, String newFace)
         {
             Parameter.Validate(newFace);
-            _accountContext.ModifyAccountFace(accountId, newFace);
+            await _accountContext.ModifyAccountFaceAsync(accountId, newFace);
             RemoveOldKeyWhenModify(CacheKey.Config(accountId));
             RemoveOldKeyWhenModify(CacheKey.Account(accountId));
         }
 
-        public void ModifyPassword(Int32 accountId, String newPassword, Boolean isTogetherSetLockPassword)
+        public async Task ModifyPasswordAsync(Int32 accountId, String newPassword, Boolean isTogetherSetLockPassword)
         {
             Parameter.Validate(newPassword);
-            _accountContext.ModifyPassword(accountId, PasswordUtil.CreateDbPassword(newPassword), isTogetherSetLockPassword);
+            await _accountContext.ModifyPasswordAsync(accountId, PasswordUtil.CreateDbPassword(newPassword), isTogetherSetLockPassword);
         }
 
-        public void ModifyLockScreenPassword(Int32 accountId, String newScreenPassword)
+        public async Task ModifyLockScreenPasswordAsync(Int32 accountId, String newScreenPassword)
         {
             Parameter.Validate(newScreenPassword);
-            _accountContext.ModifyLockScreenPassword(accountId, PasswordUtil.CreateDbPassword(newScreenPassword));
+            await _accountContext.ModifyLockScreenPasswordAsync(accountId, PasswordUtil.CreateDbPassword(newScreenPassword));
             RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
-        public void RemoveAccount(Int32 accountId)
+        public async Task RemoveAccountAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            _accountContext.RemoveAccount(accountId);
+            await _accountContext.RemoveAccountAsync(accountId);
         }
     }
 }

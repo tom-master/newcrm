@@ -14,11 +14,11 @@ namespace NewCRM.Domain.Services.BoundedContext
         public async Task AddLoggerAsync(Log log)
         {
             Parameter.Validate(log);
-            return await Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    var sql = $@"INSERT dbo.Logs
+            await Task.Run(() =>
+          {
+              using (var dataStore = new DataStore())
+              {
+                  var sql = $@"INSERT dbo.Logs
                             ( LogLevelEnum ,
                               Controller ,
                               Action ,
@@ -39,27 +39,27 @@ namespace NewCRM.Domain.Services.BoundedContext
                               GETDATE() , -- AddTime - datetime
                               GETDATE()  -- LastModifyTime - datetime
                             )";
-                    var parameters = new List<SqlParameter>
-                    {
+                  var parameters = new List<SqlParameter>
+                  {
                         new SqlParameter("@LogLevelEnum",(Int32)log.LogLevelEnum),
                         new SqlParameter("@Controller",log.Controller),
                         new SqlParameter("@Action",log.Action),
                         new SqlParameter("@ExceptionMessage",log.ExceptionMessage),
                         new SqlParameter("@Track",log.Track),
                         new SqlParameter("@AccountId",log.AccountId),
-                    };
-                    dataStore.SqlExecute(sql, parameters);
-                }
-            });
+                  };
+                  dataStore.SqlExecute(sql, parameters);
+              }
+          });
         }
 
         public IList<Log> GetLogs(int accountId, int logLevel, int pageIndex, int pageSize, out int totalCount)
         {
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var where = new StringBuilder();
                 var parameters = new List<SqlParameter>();
-                if(accountId != 0)
+                if (accountId != 0)
                 {
                     parameters.Add(new SqlParameter("AccountId", accountId));
                     where.Append($@" AND a.AccountId=@AccountId");

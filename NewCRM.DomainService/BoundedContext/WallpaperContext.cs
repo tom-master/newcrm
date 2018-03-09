@@ -12,12 +12,12 @@ namespace NewCRM.Domain.Services.BoundedContext
 {
     public class WallpaperContext : BaseServiceContext, IWallpaperContext
     {
-        public Task<Tuple<int, string>> AddWallpaperAsync(Wallpaper wallpaper)
+        public async Task<Tuple<int, string>> AddWallpaperAsync(Wallpaper wallpaper)
         {
             Parameter.Validate(wallpaper);
-            return Task.Run<Tuple<Int32, String>>(() =>
+            return await Task.Run(() =>
              {
-                 using(var dataStore = new DataStore())
+                 using (var dataStore = new DataStore())
                  {
                      #region 前置条件验证
                      {
@@ -27,7 +27,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                         new SqlParameter("@AccountId",wallpaper.AccountId)
                      };
                          var result = dataStore.FindSingleValue<Int32>(sql, parameters);
-                         if(result >= 6)
+                         if (result >= 6)
                          {
                              throw new BusinessException("最多只能上传6张图片");
                          }
@@ -88,7 +88,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                         new SqlParameter("@Id",newWallpaperId)
                      };
                          var result = dataStore.FindOne<Wallpaper>(sql, parameters);
-                         if(result != null)
+                         if (result != null)
                          {
                              return new Tuple<int, string>(result.Id, result.Url);
                          }
@@ -99,11 +99,11 @@ namespace NewCRM.Domain.Services.BoundedContext
              });
         }
 
-        public Task<Wallpaper> GetUploadWallpaperAsync(string md5)
+        public async Task<Wallpaper> GetUploadWallpaperAsync(string md5)
         {
-            return Task.Run<Wallpaper>(() =>
+            return await Task.Run(() =>
             {
-                using(var dataStore = new DataStore())
+                using (var dataStore = new DataStore())
                 {
                     var sql = $@"SELECT
                             a.AccountId,
@@ -125,11 +125,11 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task<List<Wallpaper>> GetUploadWallpaperAsync(int accountId)
+        public async Task<List<Wallpaper>> GetUploadWallpaperAsync(int accountId)
         {
-            return Task.Run<IList<Wallpaper>>(() =>
+            return await Task.Run(() =>
             {
-                using(var dataStore = new DataStore())
+                using (var dataStore = new DataStore())
                 {
                     var sql = $@"SELECT
                             a.AccountId,
@@ -152,11 +152,11 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task<List<Wallpaper>> GetWallpapersAsync()
+        public async Task<List<Wallpaper>> GetWallpapersAsync()
         {
-            return Task.Run<List<Wallpaper>>(() =>
+            return await Task.Run(() =>
             {
-                using(var dataStore = new DataStore())
+                using (var dataStore = new DataStore())
                 {
                     var sql = $@"SELECT
                             a.AccountId,
@@ -178,82 +178,81 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task ModifyWallpaperModeAsync(Int32 accountId, String newMode)
+        public async Task ModifyWallpaperModeAsync(Int32 accountId, String newMode)
         {
             Parameter.Validate(accountId).Validate(newMode);
-            return Task.Run(() =>
-            {
-                if(Enum.TryParse(newMode, true, out WallpaperMode wallpaperMode))
-                {
-                    using(var dataStore = new DataStore())
-                    {
-                        var sql = $@"UPDATE dbo.Configs SET WallpaperMode=@WallpaperMode WHERE AccountId=@accountId AND IsDeleted=0";
-                        var parameters = new List<SqlParameter>
-                        {
+            await Task.Run(() =>
+          {
+              if (Enum.TryParse(newMode, true, out WallpaperMode wallpaperMode))
+              {
+                  using (var dataStore = new DataStore())
+                  {
+                      var sql = $@"UPDATE dbo.Configs SET WallpaperMode=@WallpaperMode WHERE AccountId=@accountId AND IsDeleted=0";
+                      var parameters = new List<SqlParameter>
+                      {
                             new SqlParameter("@WallpaperMode",(Int32)wallpaperMode),
                             new SqlParameter("@AccountId",accountId)
-                        };
-                        dataStore.SqlExecute(sql, parameters);
-                    }
-                }
-                else
-                {
-                    throw new BusinessException($"无法识别的壁纸显示模式:{newMode}");
-                }
-
-            });
+                      };
+                      dataStore.SqlExecute(sql, parameters);
+                  }
+              }
+              else
+              {
+                  throw new BusinessException($"无法识别的壁纸显示模式:{newMode}");
+              }
+          });
         }
 
-        public Task ModifyWallpaperAsync(Int32 accountId, Int32 newWallpaperId)
+        public async Task ModifyWallpaperAsync(Int32 accountId, Int32 newWallpaperId)
         {
             Parameter.Validate(accountId).Validate(newWallpaperId);
-            return Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    var sql = $@"UPDATE dbo.Configs SET IsBing=0,WallpaperId=@WallpaperId WHERE AccountId=@AccountId AND IsDeleted=0";
-                    var parameters = new List<SqlParameter>
-                    {
+            await Task.Run(() =>
+           {
+               using (var dataStore = new DataStore())
+               {
+                   var sql = $@"UPDATE dbo.Configs SET IsBing=0,WallpaperId=@WallpaperId WHERE AccountId=@AccountId AND IsDeleted=0";
+                   var parameters = new List<SqlParameter>
+                   {
                         new SqlParameter("@WallpaperId",newWallpaperId),
                         new SqlParameter("@AccountId",accountId)
-                    };
-                    dataStore.SqlExecute(sql, parameters);
-                }
-            });
+                   };
+                   dataStore.SqlExecute(sql, parameters);
+               }
+           });
         }
 
-        public Task RemoveWallpaperAsync(Int32 accountId, Int32 wallpaperId)
+        public async Task RemoveWallpaperAsync(Int32 accountId, Int32 wallpaperId)
         {
             Parameter.Validate(accountId).Validate(wallpaperId);
-            return Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    var parameters = new List<SqlParameter>
-                    {
+            await Task.Run(() =>
+          {
+              using (var dataStore = new DataStore())
+              {
+                  var parameters = new List<SqlParameter>
+                  {
                         new SqlParameter("@WallpaperId",wallpaperId),
                         new SqlParameter("@AccountId",accountId)
-                    };
-                    #region 前置条件验证
-                    {
-                        var sql = $@"SELECT COUNT(*) FROM dbo.Configs AS a WHERE a.AccountId=@AccountId AND a.WallpaperId=@WallpaperId AND a.IsDeleted=0";
+                  };
+                  #region 前置条件验证
+                  {
+                      var sql = $@"SELECT COUNT(*) FROM dbo.Configs AS a WHERE a.AccountId=@AccountId AND a.WallpaperId=@WallpaperId AND a.IsDeleted=0";
 
-                        var result = dataStore.FindSingleValue<Int32>(sql, parameters);
-                        if(result > 0)
-                        {
-                            throw new BusinessException("当前壁纸正在使用中，不能删除");
-                        }
-                    }
-                    #endregion
+                      var result = dataStore.FindSingleValue<Int32>(sql, parameters);
+                      if (result > 0)
+                      {
+                          throw new BusinessException("当前壁纸正在使用中，不能删除");
+                      }
+                  }
+                  #endregion
 
-                    #region 移除壁纸
-                    {
-                        var sql = $@"UPDATE dbo.Wallpapers SET IsDeleted=1 WHERE Id=@WallpaperId AND AccountId=@AccountId AND IsDeleted=0";
-                        dataStore.SqlExecute(sql, parameters);
-                    }
-                    #endregion
-                }
-            });
+                  #region 移除壁纸
+                  {
+                      var sql = $@"UPDATE dbo.Wallpapers SET IsDeleted=1 WHERE Id=@WallpaperId AND AccountId=@AccountId AND IsDeleted=0";
+                      dataStore.SqlExecute(sql, parameters);
+                  }
+                  #endregion
+              }
+          });
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services;
@@ -24,9 +25,9 @@ namespace NewCRM.Application.Services
             _deskContext = deskContext;
         }
 
-        public List<AppTypeDto> GetAppTypes()
+        public async Task<List<AppTypeDto>> GetAppTypesAsync()
         {
-            var result = GetCache(CacheKey.AppTypes(), () => _appContext.GetAppTypes());
+            var result = await GetCache(CacheKey.AppTypes(), async () => await _appContext.GetAppTypesAsync());
             return result.Select(s => new AppTypeDto
             {
                 Id = s.Id,
@@ -34,11 +35,11 @@ namespace NewCRM.Application.Services
             }).ToList();
         }
 
-        public TodayRecommendAppDto GetTodayRecommend(Int32 accountId)
+        public async Task<TodayRecommendAppDto> GetTodayRecommendAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
 
-            var result = _appContext.GetTodayRecommend(accountId);
+            var result = await _appContext.GetTodayRecommendAsync(accountId);
             result.AppIcon = result.IsIconByUpload ? ProfileManager.FileUrl + result.AppIcon : result.AppIcon;
             if (result == null)
             {
@@ -48,10 +49,10 @@ namespace NewCRM.Application.Services
             return result;
         }
 
-        public Tuple<Int32, Int32> GetAccountDevelopAppCountAndNotReleaseAppCount(Int32 accountId)
+        public async Task<Tuple<Int32, Int32>> GetAccountDevelopAppCountAndNotReleaseAppCountAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            return _appContext.GetAccountDevelopAppCountAndNotReleaseAppCount(accountId);
+            return await _appContext.GetAccountDevelopAppCountAndNotReleaseAppCountAsync(accountId);
         }
 
         public List<AppDto> GetAllApps(Int32 accountId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
@@ -80,7 +81,7 @@ namespace NewCRM.Application.Services
             Parameter.Validate(accountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
 
             var result = _appContext.GetAccountApps(accountId, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
-            var appTypes = GetAppTypes();
+            var appTypes = GetAppTypesAsync();
 
             return result.Select(app => new AppDto
             {
@@ -97,12 +98,12 @@ namespace NewCRM.Application.Services
             }).ToList();
         }
 
-        public AppDto GetApp(Int32 appId)
+        public async Task<AppDto> GetAppAsync(Int32 appId)
         {
             Parameter.Validate(appId);
 
-            var result = _appContext.GetApp(appId);
-            var appTypes = GetCache(CacheKey.AppTypes(), () => GetAppTypes());
+            var result = await _appContext.GetAppAsync(appId);
+            var appTypes = await GetCache(CacheKey.AppTypes(), async () => await GetAppTypesAsync());
 
             return new AppDto
             {
@@ -130,10 +131,10 @@ namespace NewCRM.Application.Services
             };
         }
 
-        public Boolean IsInstallApp(Int32 accountId, Int32 appId)
+        public async Task<Boolean> IsInstallAppAsync(Int32 accountId, Int32 appId)
         {
             Parameter.Validate(accountId).Validate(appId);
-            var result = _appContext.IsInstallApp(accountId, appId);
+            var result = await _appContext.IsInstallAppAsync(accountId, appId);
             return result;
         }
 
@@ -168,9 +169,9 @@ namespace NewCRM.Application.Services
             }
         }
 
-        public List<AppDto> GetSystemApp(IEnumerable<Int32> appIds = default(IEnumerable<Int32>))
+        public async Task<List<AppDto>> GetSystemAppAsync(IEnumerable<Int32> appIds = default(IEnumerable<Int32>))
         {
-            var result = _appContext.GetSystemApp(appIds);
+            var result = await _appContext.GetSystemAppAsync(appIds);
             return result.Select(app => new AppDto
             {
                 Id = app.Id,
@@ -179,23 +180,23 @@ namespace NewCRM.Application.Services
             }).ToList();
         }
 
-        public Boolean CheckAppTypeName(String appTypeName)
+        public async Task<Boolean> CheckAppTypeNameAsync(String appTypeName)
         {
             Parameter.Validate(appTypeName);
-            return _appContext.CheckAppTypeName(appTypeName);
+            return await _appContext.CheckAppTypeNameAsync(appTypeName);
         }
 
-        public void ModifyAppDirection(Int32 accountId, String direction)
+        public async Task ModifyAppDirectionAsync(Int32 accountId, String direction)
         {
             Parameter.Validate(accountId).Validate(direction);
 
             if (direction.ToLower() == "x")
             {
-                _deskContext.ModifyMemberDirectionToX(accountId);
+                await _deskContext.ModifyMemberDirectionToXAsync(accountId);
             }
             else if (direction.ToLower() == "y")
             {
-                _deskContext.ModifyMemberDirectionToY(accountId);
+                await _deskContext.ModifyMemberDirectionToYAsync(accountId);
             }
             else
             {
@@ -204,53 +205,53 @@ namespace NewCRM.Application.Services
             RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
-        public void ModifyAppIconSize(Int32 accountId, Int32 newSize)
+        public async Task ModifyAppIconSizeAsync(Int32 accountId, Int32 newSize)
         {
             Parameter.Validate(accountId).Validate(newSize);
-            _deskContext.ModifyMemberDisplayIconSize(accountId, newSize);
+            await _deskContext.ModifyMemberDisplayIconSizeAsync(accountId, newSize);
             RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
-        public void ModifyAppVerticalSpacing(Int32 accountId, Int32 newSize)
+        public async Task ModifyAppVerticalSpacingAsync(Int32 accountId, Int32 newSize)
         {
             Parameter.Validate(accountId).Validate(newSize);
-            _deskContext.ModifyMemberHorizontalSpacing(accountId, newSize);
+            await _deskContext.ModifyMemberHorizontalSpacingAsync(accountId, newSize);
             RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
-        public void ModifyAppHorizontalSpacing(Int32 accountId, Int32 newSize)
+        public async Task ModifyAppHorizontalSpacingAsync(Int32 accountId, Int32 newSize)
         {
             Parameter.Validate(accountId).Validate(newSize);
-            _deskContext.ModifyMemberVerticalSpacing(accountId, newSize);
+            await _deskContext.ModifyMemberVerticalSpacingAsync(accountId, newSize);
             RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
-        public void ModifyAppStar(Int32 accountId, Int32 appId, Int32 starCount)
+        public async Task ModifyAppStarAsync(Int32 accountId, Int32 appId, Int32 starCount)
         {
             Parameter.Validate(accountId).Validate(appId).Validate(starCount, true);
 
-            var isInstall = _appContext.IsInstallApp(accountId, appId);
+            var isInstall = await _appContext.IsInstallAppAsync(accountId, appId);
             if (!isInstall)
             {
                 throw new BusinessException("您还没有安装这个App，因此不能打分");
             }
-            _appContext.ModifyAppStar(accountId, appId, starCount);
+            await _appContext.ModifyAppStarAsync(accountId, appId, starCount);
         }
 
-        public void InstallApp(Int32 accountId, Int32 appId, Int32 deskNum)
+        public async Task InstallAppAsync(Int32 accountId, Int32 appId, Int32 deskNum)
         {
             Parameter.Validate(accountId).Validate(appId).Validate(deskNum);
-            _appContext.Install(accountId, appId, deskNum);
+            await _appContext.InstallAsync(accountId, appId, deskNum);
             RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
         }
 
-        public void ModifyAccountAppInfo(Int32 accountId, AppDto appDto)
+        public async Task ModifyAccountAppInfoAsync(Int32 accountId, AppDto appDto)
         {
             Parameter.Validate(accountId).Validate(appDto);
-            _appContext.ModifyAccountAppInfo(accountId, appDto.ConvertToModel<AppDto, App>());
+            await _appContext.ModifyAccountAppInfoAsync(accountId, appDto.ConvertToModel<AppDto, App>());
         }
 
-        public void CreateNewApp(AppDto appDto)
+        public async Task CreateNewAppAsync(AppDto appDto)
         {
             Parameter.Validate(appDto);
 
@@ -260,65 +261,65 @@ namespace NewCRM.Application.Services
             {
                 IsIconByUpload = appDto.IsIconByUpload
             };
-            _appContext.CreateNewApp(internalApp);
+            await _appContext.CreateNewAppAsync(internalApp);
         }
 
-        public void RemoveAppType(Int32 appTypeId)
+        public async Task RemoveAppTypeAsync(Int32 appTypeId)
         {
             Parameter.Validate(appTypeId);
-            _appContext.DeleteAppType(appTypeId);
+            await _appContext.DeleteAppTypeAsync(appTypeId);
             RemoveOldKeyWhenModify(CacheKey.AppTypes());
         }
 
-        public void CreateNewAppType(AppTypeDto appTypeDto)
+        public async Task CreateNewAppTypeAsync(AppTypeDto appTypeDto)
         {
             Parameter.Validate(appTypeDto);
             var appType = appTypeDto.ConvertToModel<AppTypeDto, AppType>();
-            _appContext.CreateNewAppType(appType);
+            await _appContext.CreateNewAppTypeAsync(appType);
             RemoveOldKeyWhenModify(CacheKey.AppTypes());
         }
 
-        public void ModifyAppType(AppTypeDto appTypeDto, Int32 appTypeId)
+        public async Task ModifyAppTypeAsync(AppTypeDto appTypeDto, Int32 appTypeId)
         {
             Parameter.Validate(appTypeDto).Validate(appTypeId);
-            _appContext.ModifyAppType(appTypeDto.Name, appTypeId);
+            await _appContext.ModifyAppTypeAsync(appTypeDto.Name, appTypeId);
             RemoveOldKeyWhenModify(CacheKey.AppTypes());
         }
 
-        public void Pass(Int32 appId)
+        public async Task PassAsync(Int32 appId)
         {
             Parameter.Validate(appId);
-            _appContext.Pass(appId);
+            await _appContext.PassAsync(appId);
         }
 
-        public void Deny(Int32 appId)
+        public async Task DenyAsync(Int32 appId)
         {
             Parameter.Validate(appId);
-            _appContext.Deny(appId);
+            await _appContext.DenyAsync(appId);
         }
 
-        public void SetTodayRecommandApp(Int32 appId)
+        public async Task SetTodayRecommandAppAsync(Int32 appId)
         {
             Parameter.Validate(appId);
-            _appContext.SetTodayRecommandApp(appId);
+            await _appContext.SetTodayRecommandAppAsync(appId);
         }
 
-        public void RemoveApp(Int32 appId)
+        public async Task RemoveAppAsync(Int32 appId)
         {
             Parameter.Validate(appId);
-            _appContext.RemoveApp(appId);
+            await _appContext.RemoveAppAsync(appId);
         }
 
-        public void ReleaseApp(Int32 appId)
+        public async Task ReleaseAppAsync(Int32 appId)
         {
             Parameter.Validate(appId);
-            _appContext.ReleaseApp(appId);
+            await _appContext.ReleaseAppAsync(appId);
         }
 
-        public void ModifyAppIcon(Int32 accountId, Int32 appId, String newIcon)
+        public async Task ModifyAppIconAsync(Int32 accountId, Int32 appId, String newIcon)
         {
             Parameter.Validate(accountId).Validate(appId).Validate(newIcon);
-            _appContext.ModifyAppIcon(accountId, appId, newIcon);
+            await _appContext.ModifyAppIconAsync(accountId, appId, newIcon);
         }
 
         #region private method

@@ -16,9 +16,9 @@ namespace NewCRM.Domain.Services.BoundedContext
         public async Task<List<Member>> GetMembersAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            return await Task.Run<IList<Member>>(() =>
+            return await Task.Run<List<Member>>(() =>
             {
-                using(var dataStore = new DataStore())
+                using (var dataStore = new DataStore())
                 {
                     var sql = $@"SELECT 
                             a.MemberType,
@@ -50,11 +50,11 @@ namespace NewCRM.Domain.Services.BoundedContext
             Parameter.Validate(accountId).Validate(memberId);
             return await Task.Run<Member>(() =>
             {
-                using(var dataStore = new DataStore())
+                using (var dataStore = new DataStore())
                 {
                     var where = new StringBuilder();
                     var parameters = new List<SqlParameter>();
-                    if(isFolder)
+                    if (isFolder)
                     {
                         parameters.Add(new SqlParameter("@Id", memberId));
                         parameters.Add(new SqlParameter("@MemberType", (Int32)MemberType.Folder));
@@ -100,7 +100,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             Parameter.Validate(name);
             return await Task.Run<Boolean>(() =>
             {
-                using(var dataStore = new DataStore())
+                using (var dataStore = new DataStore())
                 {
                     var sql = $@"SELECT COUNT(*) FROM dbo.Members AS a WHERE a.Name=@name AND a.IsDeleted=0";
                     var parameters = new List<SqlParameter>
@@ -116,56 +116,56 @@ namespace NewCRM.Domain.Services.BoundedContext
         public async Task ModifyFolderInfoAsync(Int32 accountId, String memberName, String memberIcon, Int32 memberId)
         {
             Parameter.Validate(accountId).Validate(memberName).Validate(memberIcon).Validate(memberId);
-            return await Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    #region sql
-                    {
-                        var sql = $@"UPDATE Members SET Name=@name,IconUrl=@url WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
-                        var parameters = new List<SqlParameter>
-                    {
+            await Task.Run(() =>
+          {
+              using (var dataStore = new DataStore())
+              {
+                  #region sql
+                  {
+                      var sql = $@"UPDATE Members SET Name=@name,IconUrl=@url WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+                      var parameters = new List<SqlParameter>
+                  {
                         new SqlParameter("@Id",memberId),
                         new SqlParameter("@AccountId",accountId),
                         new SqlParameter("@name",memberName),
                         new SqlParameter("@url",memberIcon)
-                    };
-                        dataStore.SqlExecute(sql, parameters);
-                    }
-                    #endregion
-                }
-            });
+                  };
+                      dataStore.SqlExecute(sql, parameters);
+                  }
+                  #endregion
+              }
+          });
         }
 
         public async Task ModifyMemberIconAsync(Int32 accountId, Int32 memberId, String newIcon)
         {
             Parameter.Validate(accountId).Validate(memberId).Validate(newIcon);
-            return await Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    var sql = $@"UPDATE dbo.Members SET IconUrl=@url WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
-                    var parameters = new List<SqlParameter>
-                    {
+            await Task.Run(() =>
+           {
+               using (var dataStore = new DataStore())
+               {
+                   var sql = $@"UPDATE dbo.Members SET IconUrl=@url WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+                   var parameters = new List<SqlParameter>
+                   {
                         new SqlParameter("@Id",memberId),
                         new SqlParameter("@AccountId",accountId),
                         new SqlParameter("@url",newIcon)
-                    };
-                    dataStore.SqlExecute(sql, parameters);
-                }
-            });
+                   };
+                   dataStore.SqlExecute(sql, parameters);
+               }
+           });
         }
 
         public async Task ModifyMemberInfoAsync(Int32 accountId, Member member)
         {
             Parameter.Validate(accountId).Validate(member);
-            return await Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    var sql = $@"UPDATE dbo.Members SET IsIconByUpload=@IsIconByUpload,IconUrl=@IconUrl,Name=@Name,Width=@Width,Height=@Height,IsResize=@IsResize,IsOpenMax=@IsOpenMax,IsFlash=@IsFlash WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
-                    var parameters = new List<SqlParameter>
-                    {
+            await Task.Run(() =>
+           {
+               using (var dataStore = new DataStore())
+               {
+                   var sql = $@"UPDATE dbo.Members SET IsIconByUpload=@IsIconByUpload,IconUrl=@IconUrl,Name=@Name,Width=@Width,Height=@Height,IsResize=@IsResize,IsOpenMax=@IsOpenMax,IsFlash=@IsFlash WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+                   var parameters = new List<SqlParameter>
+                   {
                         new SqlParameter("@IsIconByUpload",(member.IsIconByUpload ? 1 : 0)),
                         new SqlParameter("@IconUrl",member.IconUrl),
                         new SqlParameter("@Name",member.Name),
@@ -176,100 +176,100 @@ namespace NewCRM.Domain.Services.BoundedContext
                         new SqlParameter("@IsFlash",member.IsFlash.ParseToInt32()),
                         new SqlParameter("@Id",member.Id),
                         new SqlParameter("@AccountId",accountId)
-                    };
-                    dataStore.SqlExecute(sql, parameters);
-                }
-            });
+                   };
+                   dataStore.SqlExecute(sql, parameters);
+               }
+           });
         }
 
         public async Task UninstallMemberAsync(Int32 accountId, Int32 memberId)
         {
             Parameter.Validate(accountId).Validate(memberId);
-            return await Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    dataStore.OpenTransaction();
-                    try
-                    {
-                        var isFolder = false;
+            await Task.Run(() =>
+           {
+               using (var dataStore = new DataStore())
+               {
+                   dataStore.OpenTransaction();
+                   try
+                   {
+                       var isFolder = false;
 
                         #region 判断是否为文件夹
                         {
-                            var sql = $@"SELECT a.MemberType FROM dbo.Members AS a WHERE a.Id=@Id AND a.AccountId=@AccountId AND a.IsDeleted=0";
-                            var parameters = new List<SqlParameter>
-                        {
+                           var sql = $@"SELECT a.MemberType FROM dbo.Members AS a WHERE a.Id=@Id AND a.AccountId=@AccountId AND a.IsDeleted=0";
+                           var parameters = new List<SqlParameter>
+                       {
                             new SqlParameter("@Id", memberId),
                             new SqlParameter("@AccountId", accountId)
-                        };
-                            isFolder = (dataStore.FindSingleValue<Int32>(sql, parameters)) == (Int32)MemberType.Folder;
-                        }
+                       };
+                           isFolder = (dataStore.FindSingleValue<Int32>(sql, parameters)) == (Int32)MemberType.Folder;
+                       }
                         #endregion
 
-                        if(isFolder)
-                        {
+                        if (isFolder)
+                       {
                             #region 将文件夹内的成员移出
                             {
-                                var sql = $@"UPDATE dbo.Members SET FolderId=0 WHERE AccountId=@AccountId AND IsDeleted=0 AND FolderId=@FolderId";
-                                var parameters = new List<SqlParameter>
-                            {
+                               var sql = $@"UPDATE dbo.Members SET FolderId=0 WHERE AccountId=@AccountId AND IsDeleted=0 AND FolderId=@FolderId";
+                               var parameters = new List<SqlParameter>
+                           {
                                 new SqlParameter("@FolderId", memberId),
                                 new SqlParameter("@AccountId", accountId)
-                            };
-                                dataStore.SqlExecute(sql, parameters);
-                            }
+                           };
+                               dataStore.SqlExecute(sql, parameters);
+                           }
                             #endregion
                         }
-                        else
-                        {
-                            var appId = 0;
+                       else
+                       {
+                           var appId = 0;
 
                             #region 获取appId
                             {
-                                var sql = $@"SELECT a.AppId FROM dbo.Members AS a WHERE a.Id=@Id AND a.AccountId=@AccountId AND a.IsDeleted=0";
-                                var parameters = new List<SqlParameter>
-                            {
+                               var sql = $@"SELECT a.AppId FROM dbo.Members AS a WHERE a.Id=@Id AND a.AccountId=@AccountId AND a.IsDeleted=0";
+                               var parameters = new List<SqlParameter>
+                           {
                                 new SqlParameter("@Id", memberId),
                                 new SqlParameter("@AccountId", accountId)
-                            };
-                                appId = dataStore.FindSingleValue<Int32>(sql, parameters);
-                            }
+                           };
+                               appId = dataStore.FindSingleValue<Int32>(sql, parameters);
+                           }
                             #endregion
 
                             #region app使用量-1
                             {
-                                var sql = $@"UPDATE dbo.Apps SET UseCount=UseCount-1 WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
-                                var parameters = new List<SqlParameter>
-                            {
+                               var sql = $@"UPDATE dbo.Apps SET UseCount=UseCount-1 WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+                               var parameters = new List<SqlParameter>
+                           {
                                 new SqlParameter("@Id", appId),
                                 new SqlParameter("@AccountId", accountId)
-                            };
-                                dataStore.SqlExecute(sql, parameters);
-                            }
+                           };
+                               dataStore.SqlExecute(sql, parameters);
+                           }
                             #endregion
                         }
 
                         #region 移除成员
                         {
-                            var sql = $@"UPDATE dbo.Members SET IsDeleted=1 WHERE Id=@Id AND AccountId=@AccountId";
-                            var parameters = new List<SqlParameter>
-                        {
+                           var sql = $@"UPDATE dbo.Members SET IsDeleted=1 WHERE Id=@Id AND AccountId=@AccountId";
+                           var parameters = new List<SqlParameter>
+                       {
                             new SqlParameter("@Id", memberId),
                             new SqlParameter("@AccountId", accountId)
-                        };
-                            dataStore.SqlExecute(sql, parameters);
-                        }
+                       };
+                           dataStore.SqlExecute(sql, parameters);
+                       }
                         #endregion
 
                         dataStore.Commit();
-                    }
-                    catch(Exception)
-                    {
-                        dataStore.Rollback();
-                        throw;
-                    }
-                }
-            });
+                   }
+                   catch (Exception)
+                   {
+                       dataStore.Rollback();
+                       throw;
+                   }
+               }
+           });
         }
     }
 }

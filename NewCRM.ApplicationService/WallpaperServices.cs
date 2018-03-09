@@ -21,9 +21,9 @@ namespace NewCRM.Application.Services
         private readonly IWallpaperContext _wallpaperContext;
         public WallpaperServices(IWallpaperContext wallpaperContext) => _wallpaperContext = wallpaperContext;
 
-        public List<WallpaperDto> GetWallpapers()
+        public async Task<List<WallpaperDto>> GetWallpapersAsync()
         {
-            var result = _wallpaperContext.GetWallpapers();
+            var result = await _wallpaperContext.GetWallpapersAsync();
             return result.Select(s => new WallpaperDto
             {
                 AccountId = s.AccountId,
@@ -38,16 +38,16 @@ namespace NewCRM.Application.Services
             }).ToList();
         }
 
-        public Tuple<Int32, String> AddWallpaper(WallpaperDto wallpaperDto)
+        public async Task<Tuple<Int32, String>> AddWallpaperAsync(WallpaperDto wallpaperDto)
         {
             Parameter.Validate(wallpaperDto);
-            return _wallpaperContext.AddWallpaper(wallpaperDto.ConvertToModel<WallpaperDto, Wallpaper>());
+            return await _wallpaperContext.AddWallpaperAsync(wallpaperDto.ConvertToModel<WallpaperDto, Wallpaper>());
         }
 
-        public List<WallpaperDto> GetUploadWallpaper(Int32 accountId)
+        public async Task<List<WallpaperDto>> GetUploadWallpaperAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            return _wallpaperContext.GetUploadWallpaper(accountId).Select(s => new WallpaperDto
+            return (await _wallpaperContext.GetUploadWallpaperAsync(accountId)).Select(s => new WallpaperDto
             {
                 AccountId = s.AccountId,
                 Height = s.Height,
@@ -61,7 +61,7 @@ namespace NewCRM.Application.Services
             }).ToList();
         }
 
-        public async Task<Tuple<Int32, String>> AddWebWallpaper(Int32 accountId, String url)
+        public async Task<Tuple<Int32, String>> AddWebWallpaperAsync(Int32 accountId, String url)
         {
             Parameter.Validate(accountId).Validate(url);
 
@@ -72,13 +72,13 @@ namespace NewCRM.Application.Services
             using (image = Image.FromStream(stream))
             {
                 var wallpaperMd5 = FileHelper.GetMD5(stream);
-                var webWallpaper = GetUploadWallpaper(wallpaperMd5);
+                var webWallpaper = await GetUploadWallpaperAsync(wallpaperMd5);
                 if (webWallpaper != null)
                 {
                     return new Tuple<Int32, String>(webWallpaper.Id, webWallpaper.ShortUrl);
                 }
 
-                var wallpaperResult = AddWallpaper(new WallpaperDto
+                var wallpaperResult = await AddWallpaperAsync(new WallpaperDto
                 {
                     Width = image.Width,
                     Height = image.Height,
@@ -93,10 +93,10 @@ namespace NewCRM.Application.Services
             }
         }
 
-        public WallpaperDto GetUploadWallpaper(String md5)
+        public async Task<WallpaperDto> GetUploadWallpaperAsync(String md5)
         {
             Parameter.Validate(md5);
-            var result = _wallpaperContext.GetUploadWallpaper(md5);
+            var result = await _wallpaperContext.GetUploadWallpaperAsync(md5);
             return new WallpaperDto
             {
                 AccountId = result.AccountId,
@@ -111,24 +111,24 @@ namespace NewCRM.Application.Services
             };
         }
 
-        public void ModifyWallpaperMode(Int32 accountId, String newMode)
+        public async Task ModifyWallpaperModeAsync(Int32 accountId, String newMode)
         {
             Parameter.Validate(accountId).Validate(newMode);
-            _wallpaperContext.ModifyWallpaperMode(accountId, newMode);
+            await _wallpaperContext.ModifyWallpaperModeAsync(accountId, newMode);
             RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
-        public void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId)
+        public async Task ModifyWallpaperAsync(Int32 accountId, Int32 newWallpaperId)
         {
             Parameter.Validate(accountId).Validate(newWallpaperId);
-            _wallpaperContext.ModifyWallpaper(accountId, newWallpaperId);
+            await _wallpaperContext.ModifyWallpaperAsync(accountId, newWallpaperId);
             RemoveOldKeyWhenModify(CacheKey.Config(accountId));
         }
 
-        public void RemoveWallpaper(Int32 accountId, Int32 wallpaperId)
+        public async Task RemoveWallpaperAsync(Int32 accountId, Int32 wallpaperId)
         {
             Parameter.Validate(accountId).Validate(wallpaperId);
-            _wallpaperContext.RemoveWallpaper(accountId, wallpaperId);
+            await _wallpaperContext.RemoveWallpaperAsync(accountId, wallpaperId);
         }
     }
 }

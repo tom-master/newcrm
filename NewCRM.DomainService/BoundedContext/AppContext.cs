@@ -22,7 +22,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             Parameter.Validate(accountId);
             return await Task.Run<Tuple<Int32, Int32>>(() =>
              {
-                 using(var dataStore = new DataStore())
+                 using (var dataStore = new DataStore())
                  {
                      var sql = $@"SELECT a.Id FROM dbo.Apps AS a WHERE a.AccountId=@accountId AND a.IsDeleted=0";
                      var parameters = new List<SqlParameter>
@@ -35,11 +35,11 @@ namespace NewCRM.Domain.Services.BoundedContext
              });
         }
 
-        public async  Task<List<AppType>> GetAppTypesAsync()
+        public async Task<List<AppType>> GetAppTypesAsync()
         {
-            return await Task.Run<IList<AppType>>(() =>
+            return await Task.Run<List<AppType>>(() =>
             {
-                using(var dataStore = new DataStore())
+                using (var dataStore = new DataStore())
                 {
                     var sql = $@"SELECT a.Id,a.Name FROM dbo.AppTypes AS a WHERE a.IsDeleted=0";
                     return dataStore.Find<AppType>(sql);
@@ -52,7 +52,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             Parameter.Validate(accountId);
             return await Task.Run<TodayRecommendAppDto>(() =>
             {
-                using(var dataStore = new DataStore())
+                using (var dataStore = new DataStore())
                 {
                     var sql = $@"SELECT 
                             a.UseCount,
@@ -88,7 +88,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         public List<App> GetApps(int accountId, int appTypeId, int orderId, string searchText, int pageIndex, int pageSize, out int totalCount)
         {
             Parameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var parameters = new List<SqlParameter>
                 {
@@ -98,27 +98,27 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                 var where = new StringBuilder();
                 where.Append($@" WHERE 1=1 AND a.IsDeleted=0 AND a.AppAuditState=@AppAuditState AND a.AppReleaseState=@AppReleaseState");
-                if(appTypeId != 0 && appTypeId != -1)//全部app
+                if (appTypeId != 0 && appTypeId != -1)//全部app
                 {
                     parameters.Add(new SqlParameter("@AppTypeId", appTypeId));
                     where.Append($@" AND a.AppTypeId=@AppTypeId");
                 }
                 else
                 {
-                    if(appTypeId == -1)//用户制作的app
+                    if (appTypeId == -1)//用户制作的app
                     {
                         parameters.Add(new SqlParameter("@accountId", accountId));
                         where.Append($@" AND a.AccountId=@accountId");
                     }
                 }
-                if(!String.IsNullOrEmpty(searchText))//关键字搜索
+                if (!String.IsNullOrEmpty(searchText))//关键字搜索
                 {
                     parameters.Add(new SqlParameter("@Name", $@"%{searchText}%"));
                     where.Append($@" AND a.Name LIKE @Name");
                 }
 
                 var orderBy = new StringBuilder();
-                switch(orderId)
+                switch (orderId)
                 {
                     case 1:
                         {
@@ -187,7 +187,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         {
             Parameter.Validate(accountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
 
-            using(var dataStore = new DataStore())
+            using (var dataStore = new DataStore())
             {
                 var where = new StringBuilder();
                 where.Append($@" WHERE 1=1 AND a.IsDeleted=0 ");
@@ -195,39 +195,39 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                 #region 条件筛选
 
-                if(accountId != default(Int32))
+                if (accountId != default(Int32))
                 {
                     parameters.Add(new SqlParameter("@accountId", accountId));
                     where.Append($@" AND a.AccountId=@accountId");
                 }
 
                 //应用名称
-                if(!String.IsNullOrEmpty(searchText))
+                if (!String.IsNullOrEmpty(searchText))
                 {
                     parameters.Add(new SqlParameter("@Name", $@"%{searchText}%"));
                     where.Append($@" AND a.Name LIKE @Name");
                 }
 
                 //应用所属类型
-                if(appTypeId != 0)
+                if (appTypeId != 0)
                 {
                     parameters.Add(new SqlParameter("AppTypeId", appTypeId));
                     where.Append($@" AND a.AppTypeId=@AppTypeId");
                 }
 
                 //应用样式
-                if(appStyleId != 0)
+                if (appStyleId != 0)
                 {
                     var appStyle = EnumExtensions.ToEnum<AppStyle>(appStyleId);
                     parameters.Add(new SqlParameter("@AppStyle", (Int32)appStyle));
                     where.Append($@" AND a.AppStyle=@AppStyle");
                 }
 
-                if((appState + "").Length > 0)
+                if ((appState + "").Length > 0)
                 {
                     //app发布状态
                     var stats = appState.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    if(stats[0] == "AppReleaseState")
+                    if (stats[0] == "AppReleaseState")
                     {
                         var appReleaseState = EnumExtensions.ToEnum<AppReleaseState>(Int32.Parse(stats[1]));
                         parameters.Add(new SqlParameter("AppReleaseState", (Int32)appReleaseState));
@@ -235,7 +235,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                     }
 
                     //app应用审核状态
-                    if(stats[0] == "AppAuditState")
+                    if (stats[0] == "AppAuditState")
                     {
                         var appAuditState = EnumExtensions.ToEnum<AppAuditState>(Int32.Parse(stats[1]));
                         parameters.Add(new SqlParameter("@AppAuditState", (Int32)appAuditState));
@@ -283,7 +283,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             Parameter.Validate(appId);
             return await Task.Run<App>(() =>
             {
-                using(var dataStore = new DataStore())
+                using (var dataStore = new DataStore())
                 {
                     var sql = $@"SELECT 
                             a.Name,
@@ -326,7 +326,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             Parameter.Validate(accountId).Validate(appId);
             return await Task.Run<Boolean>(() =>
             {
-                using(var dataStore = new DataStore())
+                using (var dataStore = new DataStore())
                 {
                     var sql = $@"SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId=@Id AND a.AccountId=@AccountId AND a.IsDeleted=0";
                     var parameters = new List<SqlParameter>
@@ -341,13 +341,13 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public async Task<List<App>> GetSystemAppAsync(IEnumerable<Int32> appIds = default(IEnumerable<Int32>))
         {
-            return await Task.Run<IList<App>>(() =>
+            return await Task.Run<List<App>>(() =>
             {
-                using(var dataStore = new DataStore())
+                using (var dataStore = new DataStore())
                 {
                     var where = new StringBuilder();
                     where.Append(" WHERE 1=1 AND a.IsSystem=1 AND a.IsDeleted=0");
-                    if(appIds != default(IEnumerable<Int32>) && appIds.Any())
+                    if (appIds != default(IEnumerable<Int32>) && appIds.Any())
                     {
                         where.Append($@" AND a.Id IN({String.Join(",", appIds)})");
                     }
@@ -363,7 +363,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             Parameter.Validate(appTypeName);
             return await Task.Run<Boolean>(() =>
             {
-                using(var dataStore = new DataStore())
+                using (var dataStore = new DataStore())
                 {
                     var sql = $@"SELECT COUNT(*) FROM dbo.AppTypes AS a WHERE a.Name=@name AND a.IsDeleted=0";
                     var parameters = new List<SqlParameter>
@@ -378,29 +378,29 @@ namespace NewCRM.Domain.Services.BoundedContext
         public async Task ModifyAppStarAsync(int accountId, int appId, int starCount)
         {
             Parameter.Validate(accountId).Validate(appId).Validate(starCount);
-            return await Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    #region 前置条件判断
-                    {
-                        var sql = $@"SELECT COUNT(*) FROM dbo.AppStars AS a WHERE a.AccountId=@accountId AND a.AppId=@appId AND a.IsDeleted=0";
-                        var parameters = new List<SqlParameter>
-                        {
+            await Task.Run(() =>
+          {
+              using (var dataStore = new DataStore())
+              {
+                  #region 前置条件判断
+                  {
+                      var sql = $@"SELECT COUNT(*) FROM dbo.AppStars AS a WHERE a.AccountId=@accountId AND a.AppId=@appId AND a.IsDeleted=0";
+                      var parameters = new List<SqlParameter>
+                      {
                             new SqlParameter("@accountId",accountId),
                             new SqlParameter("@appId",appId)
-                        };
-                        var result = dataStore.FindSingleValue<Int32>(sql, parameters);
-                        if(result > 0)
-                        {
-                            throw new BusinessException("您已为这个应用打分");
-                        }
-                    }
-                    #endregion
+                      };
+                      var result = dataStore.FindSingleValue<Int32>(sql, parameters);
+                      if (result > 0)
+                      {
+                          throw new BusinessException("您已为这个应用打分");
+                      }
+                  }
+                  #endregion
 
-                    #region sql
-                    {
-                        var sql = $@"INSERT dbo.AppStars
+                  #region sql
+                  {
+                      var sql = $@"INSERT dbo.AppStars
                                     ( AccountId ,
                                       StartNum ,
                                       IsDeleted ,
@@ -415,28 +415,28 @@ namespace NewCRM.Domain.Services.BoundedContext
                                       GETDATE() , -- LastModifyTime - datetime
                                       @appId  -- AppId - int
                                     )";
-                        var parameters = new List<SqlParameter>
-                        {
+                      var parameters = new List<SqlParameter>
+                      {
                             new SqlParameter("@accountId",accountId),
                             new SqlParameter("@starCount",starCount),
                             new SqlParameter("@appId",appId)
-                        };
-                        dataStore.SqlExecute(sql, parameters);
-                    }
-                    #endregion
-                }
-            });
+                      };
+                      dataStore.SqlExecute(sql, parameters);
+                  }
+                  #endregion
+              }
+          });
         }
 
         public async Task CreateNewAppAsync(App app)
         {
-            return await Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    #region app
-                    {
-                        var sql = $@"INSERT dbo.Apps
+            await Task.Run(() =>
+          {
+              using (var dataStore = new DataStore())
+              {
+                  #region app
+                  {
+                      var sql = $@"INSERT dbo.Apps
                             (
                                 Name,
                                 IconUrl,
@@ -493,8 +493,8 @@ namespace NewCRM.Domain.Services.BoundedContext
                                 GETDATE(),  -- LastModifyTime - datetime
                                 @IsIconByUpload
                             )";
-                        var parameters = new List<SqlParameter>
-                    {
+                      var parameters = new List<SqlParameter>
+                  {
                         new SqlParameter("@Name",app.Name),
                         new SqlParameter("@IconUrl",app.IconUrl),
                         new SqlParameter("@AppUrl",app.AppUrl),
@@ -515,163 +515,163 @@ namespace NewCRM.Domain.Services.BoundedContext
                         new SqlParameter("@UnRelease",(Int32)AppReleaseState.UnRelease),
                         new SqlParameter("@AppStyle",(Int32)app.AppStyle),
                         new SqlParameter("@IsIconByUpload",app.IsIconByUpload.ParseToInt32())
-                    };
-                        dataStore.SqlExecute(sql, parameters);
-                    }
-                    #endregion
-                }
-            });
+                  };
+                      dataStore.SqlExecute(sql, parameters);
+                  }
+                  #endregion
+              }
+          });
         }
 
         public async Task PassAsync(Int32 appId)
         {
             Parameter.Validate(appId);
-            return await Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    var sql = $@"UPDATE dbo.Apps SET AppAuditState=@AppAuditState WHERE Id=@appId AND IsDeleted=0";
-                    var parameters = new List<SqlParameter>
-                    {
+            await Task.Run(() =>
+          {
+              using (var dataStore = new DataStore())
+              {
+                  var sql = $@"UPDATE dbo.Apps SET AppAuditState=@AppAuditState WHERE Id=@appId AND IsDeleted=0";
+                  var parameters = new List<SqlParameter>
+                  {
                         new SqlParameter("@AppAuditState",(Int32)AppAuditState.Pass),
                         new SqlParameter("@appId",appId)
-                    };
-                    dataStore.SqlExecute(sql, parameters);
-                }
-            });
+                  };
+                  dataStore.SqlExecute(sql, parameters);
+              }
+          });
         }
 
         public async Task DenyAsync(Int32 appId)
         {
             Parameter.Validate(appId);
-            return await Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    var sql = $@"UPDATE dbo.Apps SET AppAuditState=@AppAuditState WHERE Id=@appId AND IsDeleted=0";
-                    var parameters = new List<SqlParameter>
-                    {
+            await Task.Run(() =>
+          {
+              using (var dataStore = new DataStore())
+              {
+                  var sql = $@"UPDATE dbo.Apps SET AppAuditState=@AppAuditState WHERE Id=@appId AND IsDeleted=0";
+                  var parameters = new List<SqlParameter>
+                  {
                         new SqlParameter("@AppAuditState",(Int32)AppAuditState.Deny),
                         new SqlParameter("@appId",appId)
-                    };
-                    dataStore.SqlExecute(sql, parameters);
-                }
-            });
+                  };
+                  dataStore.SqlExecute(sql, parameters);
+              }
+          });
         }
 
         public async Task SetTodayRecommandAppAsync(Int32 appId)
         {
             Parameter.Validate(appId);
-            return await Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    dataStore.OpenTransaction();
-                    try
-                    {
-                        #region 取消之前的推荐app
-                        {
-                            var sql = $@"UPDATE dbo.Apps SET IsRecommand=0 WHERE IsRecommand=1 AND IsDeleted=0";
-                            dataStore.SqlExecute(sql);
-                        }
-                        #endregion
+            await Task.Run(() =>
+          {
+              using (var dataStore = new DataStore())
+              {
+                  dataStore.OpenTransaction();
+                  try
+                  {
+                      #region 取消之前的推荐app
+                      {
+                          var sql = $@"UPDATE dbo.Apps SET IsRecommand=0 WHERE IsRecommand=1 AND IsDeleted=0";
+                          dataStore.SqlExecute(sql);
+                      }
+                      #endregion
 
-                        #region 设置新的推荐app
-                        {
-                            var sql = $@"UPDATE dbo.Apps SET IsRecommand=1 WHERE Id=@appId AND IsDeleted=0";
-                            var parameters = new List<SqlParameter>
-                        {
+                      #region 设置新的推荐app
+                      {
+                          var sql = $@"UPDATE dbo.Apps SET IsRecommand=1 WHERE Id=@appId AND IsDeleted=0";
+                          var parameters = new List<SqlParameter>
+                      {
                             new SqlParameter("@appId",appId)
-                        };
-                            dataStore.SqlExecute(sql, parameters);
-                        }
-                        #endregion
+                      };
+                          dataStore.SqlExecute(sql, parameters);
+                      }
+                      #endregion
 
-                        dataStore.Commit();
-                    }
-                    catch(Exception)
-                    {
-                        dataStore.Rollback();
-                        throw;
-                    }
-                }
-            });
+                      dataStore.Commit();
+                  }
+                  catch (Exception)
+                  {
+                      dataStore.Rollback();
+                      throw;
+                  }
+              }
+          });
         }
 
         public async Task RemoveAppAsync(Int32 appId)
         {
             Parameter.Validate(appId);
-            return await Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    dataStore.OpenTransaction();
-                    try
-                    {
-                        var parameters = new List<SqlParameter>
-                        {
+            await Task.Run(() =>
+           {
+               using (var dataStore = new DataStore())
+               {
+                   dataStore.OpenTransaction();
+                   try
+                   {
+                       var parameters = new List<SqlParameter>
+                       {
                             new SqlParameter("@appId",appId)
-                        };
-                        #region 移除app的评分
-                        {
-                            var sql = $@"UPDATE dbo.AppStars SET IsDeleted=1 WHERE AppId=@appId";
-                            dataStore.SqlExecute(sql, parameters);
-                        }
-                        #endregion
+                       };
+                       #region 移除app的评分
+                       {
+                           var sql = $@"UPDATE dbo.AppStars SET IsDeleted=1 WHERE AppId=@appId";
+                           dataStore.SqlExecute(sql, parameters);
+                       }
+                       #endregion
 
-                        #region 移除app
-                        {
-                            var sql = $@"UPDATE dbo.Apps SET IsDeleted=1 WHERE Id=@appId";
-                            dataStore.SqlExecute(sql, parameters);
-                        }
-                        #endregion
+                       #region 移除app
+                       {
+                           var sql = $@"UPDATE dbo.Apps SET IsDeleted=1 WHERE Id=@appId";
+                           dataStore.SqlExecute(sql, parameters);
+                       }
+                       #endregion
 
-                        dataStore.Commit();
-                    }
-                    catch(Exception)
-                    {
-                        dataStore.Rollback();
-                        throw;
-                    }
-                }
-            });
+                       dataStore.Commit();
+                   }
+                   catch (Exception)
+                   {
+                       dataStore.Rollback();
+                       throw;
+                   }
+               }
+           });
         }
 
         public async Task ReleaseAppAsync(Int32 appId)
         {
             Parameter.Validate(appId);
-            return await Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    #region 发布app
-                    {
-                        var sql = $@"UPDATE dbo.Apps SET AppReleaseState=@AppReleaseState WHERE Id=@appId AND IsDeleted=0 AND AppAuditState=@AppAuditState";
-                        var parameters = new List<SqlParameter>
-                        {
+            await Task.Run(() =>
+           {
+               using (var dataStore = new DataStore())
+               {
+                   #region 发布app
+                   {
+                       var sql = $@"UPDATE dbo.Apps SET AppReleaseState=@AppReleaseState WHERE Id=@appId AND IsDeleted=0 AND AppAuditState=@AppAuditState";
+                       var parameters = new List<SqlParameter>
+                       {
                             new SqlParameter("@AppReleaseState",(Int32)AppReleaseState.Release),
                             new SqlParameter("@AppAuditState",(Int32)AppAuditState.Pass),
                             new SqlParameter("@appId",appId)
-                        };
-                        dataStore.SqlExecute(sql, parameters);
-                    }
-                    #endregion
-                }
-            });
+                       };
+                       dataStore.SqlExecute(sql, parameters);
+                   }
+                   #endregion
+               }
+           });
         }
 
         public async Task ModifyAccountAppInfoAsync(Int32 accountId, App app)
         {
             Parameter.Validate(accountId).Validate(accountId).Validate(app);
-            return await Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    var set = new StringBuilder();
-                    set.Append($@" IsIconByUpload=@IsIconByUpload ,IconUrl=@IconUrl,Name=@Name,AppTypeId=@AppTypeId,AppUrl=@AppUrl,Width=@Width,Height=@Height,AppStyle=@AppStyle,IsResize=@IsResize,IsOpenMax=@IsOpenMax,IsFlash=@IsFlash,Remark=@Remark ");
+            await Task.Run(() =>
+           {
+               using (var dataStore = new DataStore())
+               {
+                   var set = new StringBuilder();
+                   set.Append($@" IsIconByUpload=@IsIconByUpload ,IconUrl=@IconUrl,Name=@Name,AppTypeId=@AppTypeId,AppUrl=@AppUrl,Width=@Width,Height=@Height,AppStyle=@AppStyle,IsResize=@IsResize,IsOpenMax=@IsOpenMax,IsFlash=@IsFlash,Remark=@Remark ");
 
-                    var parameters = new List<SqlParameter>
-                    {
+                   var parameters = new List<SqlParameter>
+                   {
                         new SqlParameter("@IsIconByUpload",(app.IsIconByUpload ? 1 : 0)),
                         new SqlParameter("@IconUrl",app.IconUrl),
                         new SqlParameter("@Name",app.Name),
@@ -684,78 +684,78 @@ namespace NewCRM.Domain.Services.BoundedContext
                         new SqlParameter("@IsOpenMax",app.IsOpenMax.ParseToInt32()),
                         new SqlParameter("@IsFlash",app.IsFlash.ParseToInt32()),
                         new SqlParameter("@Remark",app.Remark),
-                    };
-                    if(app.AppAuditState == AppAuditState.Wait)
-                    {
-                        parameters.Add(new SqlParameter("@AppAuditState", (Int32)AppAuditState.Wait));
-                        set.Append($@" ,AppAuditState=@AppAuditState ");
-                    }
-                    else
-                    {
-                        parameters.Add(new SqlParameter("@AppAuditState", (Int32)AppAuditState.UnAuditState));
-                        set.Append($@" ,AppAuditState=@AppAuditState ");
-                    }
+                   };
+                   if (app.AppAuditState == AppAuditState.Wait)
+                   {
+                       parameters.Add(new SqlParameter("@AppAuditState", (Int32)AppAuditState.Wait));
+                       set.Append($@" ,AppAuditState=@AppAuditState ");
+                   }
+                   else
+                   {
+                       parameters.Add(new SqlParameter("@AppAuditState", (Int32)AppAuditState.UnAuditState));
+                       set.Append($@" ,AppAuditState=@AppAuditState ");
+                   }
 
-                    var sql = $@"UPDATE Apps SET {set} WHERE AccountId=@accountId AND Id=@appId AND IsDeleted=0";
-                    parameters.Add(new SqlParameter("@accountId", accountId));
-                    parameters.Add(new SqlParameter("@appId", app.Id));
-                    dataStore.SqlExecute(sql.ToString(), parameters);
-                }
-            });
+                   var sql = $@"UPDATE Apps SET {set} WHERE AccountId=@accountId AND Id=@appId AND IsDeleted=0";
+                   parameters.Add(new SqlParameter("@accountId", accountId));
+                   parameters.Add(new SqlParameter("@appId", app.Id));
+                   dataStore.SqlExecute(sql.ToString(), parameters);
+               }
+           });
         }
 
         public async Task DeleteAppTypeAsync(Int32 appTypeId)
         {
             Parameter.Validate(appTypeId);
-            return await Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    var parameters = new List<SqlParameter>
-                    {
+            await Task.Run(() =>
+          {
+              using (var dataStore = new DataStore())
+              {
+                  var parameters = new List<SqlParameter>
+                  {
                         new SqlParameter("@AppTypeId",appTypeId)
-                    };
-                    #region 前置条件验证
-                    {
-                        var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a WHERE a.AppTypeId=@AppTypeId AND a.IsDeleted=0";
-                        if(dataStore.FindSingleValue<Int32>(sql, parameters) > 0)
-                        {
-                            throw new BusinessException($@"当前分类下已有绑定app,不能删除当前分类");
-                        }
-                    }
-                    #endregion
+                  };
+                  #region 前置条件验证
+                  {
+                      var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a WHERE a.AppTypeId=@AppTypeId AND a.IsDeleted=0";
+                      if (dataStore.FindSingleValue<Int32>(sql, parameters) > 0)
+                      {
+                          throw new BusinessException($@"当前分类下已有绑定app,不能删除当前分类");
+                      }
+                  }
+                  #endregion
 
-                    #region 移除app分类
-                    {
-                        var sql = $@"UPDATE dbo.AppTypes SET IsDeleted=1 WHERE Id=@AppTypeId";
-                        dataStore.SqlExecute(sql, parameters);
-                    }
-                    #endregion
-                }
-            });
+                  #region 移除app分类
+                  {
+                      var sql = $@"UPDATE dbo.AppTypes SET IsDeleted=1 WHERE Id=@AppTypeId";
+                      dataStore.SqlExecute(sql, parameters);
+                  }
+                  #endregion
+              }
+          });
         }
 
         public async Task CreateNewAppTypeAsync(AppType appType)
         {
             Parameter.Validate(appType);
-            return await Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    #region 前置条件验证
-                    {
-                        var sql = $@"SELECT COUNT(*) FROM dbo.AppTypes AS a WHERE a.Name=@name AND a.IsDeleted=0";
-                        var result = dataStore.FindSingleValue<Int32>(sql, new List<SqlParameter> { new SqlParameter("@name", appType.Name) });
-                        if(result > 0)
-                        {
-                            throw new BusinessException($@"分类:{appType.Name},已存在");
-                        }
-                    }
-                    #endregion
+            await Task.Run(() =>
+          {
+              using (var dataStore = new DataStore())
+              {
+                  #region 前置条件验证
+                  {
+                      var sql = $@"SELECT COUNT(*) FROM dbo.AppTypes AS a WHERE a.Name=@name AND a.IsDeleted=0";
+                      var result = dataStore.FindSingleValue<Int32>(sql, new List<SqlParameter> { new SqlParameter("@name", appType.Name) });
+                      if (result > 0)
+                      {
+                          throw new BusinessException($@"分类:{appType.Name},已存在");
+                      }
+                  }
+                  #endregion
 
-                    #region 添加app分类
-                    {
-                        var sql = $@"INSERT dbo.AppTypes
+                  #region 添加app分类
+                  {
+                      var sql = $@"INSERT dbo.AppTypes
                                 (
                                     Name,
                                     Remark,
@@ -770,74 +770,74 @@ namespace NewCRM.Domain.Services.BoundedContext
                                     GETDATE(), -- AddTime - datetime
                                     GETDATE()  -- LastModifyTime - datetime
                                 )";
-                        var parameters = new List<SqlParameter>
-                        {
+                      var parameters = new List<SqlParameter>
+                      {
                             new SqlParameter("@Name",appType.Name),
                             new SqlParameter("@Remark",appType.Remark)
-                        };
-                        dataStore.SqlExecute(sql, parameters);
-                    }
-                    #endregion
-                }
+                      };
+                      dataStore.SqlExecute(sql, parameters);
+                  }
+                  #endregion
+              }
 
-            });
+          });
         }
 
         public async Task ModifyAppTypeAsync(String appTypeName, Int32 appTypeId)
         {
             Parameter.Validate(appTypeName).Validate(appTypeId);
-            return await Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    #region 前置条件验证
-                    {
-                        var sql = $@"SELECT COUNT(*) FROM dbo.AppTypes AS a WHERE a.Name=@name AND a.IsDeleted=0";
-                        var result = dataStore.FindSingleValue<Int32>(sql, new List<SqlParameter> { new SqlParameter("@name", appTypeName) });
-                        if(result > 0)
-                        {
-                            throw new BusinessException($@"分类:{appTypeName},已存在");
-                        }
-                    }
-                    #endregion
+            await Task.Run(() =>
+           {
+               using (var dataStore = new DataStore())
+               {
+                   #region 前置条件验证
+                   {
+                       var sql = $@"SELECT COUNT(*) FROM dbo.AppTypes AS a WHERE a.Name=@name AND a.IsDeleted=0";
+                       var result = dataStore.FindSingleValue<Int32>(sql, new List<SqlParameter> { new SqlParameter("@name", appTypeName) });
+                       if (result > 0)
+                       {
+                           throw new BusinessException($@"分类:{appTypeName},已存在");
+                       }
+                   }
+                   #endregion
 
-                    #region 更新app分类
-                    {
-                        var sql = $@"UPDATE dbo.AppTypes SET Name=@name WHERE Id=@Id AND IsDeleted=0";
-                        dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@name", appTypeName), new SqlParameter("Id", appTypeId) });
-                    }
-                    #endregion
-                }
-            });
+                   #region 更新app分类
+                   {
+                       var sql = $@"UPDATE dbo.AppTypes SET Name=@name WHERE Id=@Id AND IsDeleted=0";
+                       dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@name", appTypeName), new SqlParameter("Id", appTypeId) });
+                   }
+                   #endregion
+               }
+           });
         }
 
         public async Task ModifyAppIconAsync(Int32 accountId, Int32 appId, String newIcon)
         {
             Parameter.Validate(accountId).Validate(appId).Validate(newIcon);
-            return await Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    var sql = $@"UPDATE dbo.Apps SET IconUrl=@url WHERE Id=@appId AND AccountId=@accountId AND IsDeleted=0 ";
-                    dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@url", newIcon), new SqlParameter("@appId", appId), new SqlParameter("@accountId", accountId) });
-                }
-            });
+            await Task.Run(() =>
+           {
+               using (var dataStore = new DataStore())
+               {
+                   var sql = $@"UPDATE dbo.Apps SET IconUrl=@url WHERE Id=@appId AND AccountId=@accountId AND IsDeleted=0 ";
+                   dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@url", newIcon), new SqlParameter("@appId", appId), new SqlParameter("@accountId", accountId) });
+               }
+           });
         }
 
         public async Task InstallAsync(Int32 accountId, Int32 appId, Int32 deskNum)
         {
             Parameter.Validate(accountId).Validate(appId).Validate(deskNum);
-            return await Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    dataStore.OpenTransaction();
-                    try
-                    {
-                        App app = null;
-                        #region 获取app
-                        {
-                            var sql = $@"SELECT
+            await Task.Run(() =>
+           {
+               using (var dataStore = new DataStore())
+               {
+                   dataStore.OpenTransaction();
+                   try
+                   {
+                       App app = null;
+                       #region 获取app
+                       {
+                           var sql = $@"SELECT
                                 a.Name,
                                 a.IconUrl,
                                 a.AppUrl,
@@ -853,26 +853,26 @@ namespace NewCRM.Domain.Services.BoundedContext
                                 a.IsDraw,
                                 a.IsIconByUpload
                                 FROM  dbo.Apps AS a WHERE a.AppAuditState=@AppAuditState AND a.AppReleaseState=@AppReleaseState AND a.IsDeleted=0 AND a.Id=@Id";
-                            var parameters = new List<SqlParameter>
-                            {
+                           var parameters = new List<SqlParameter>
+                           {
                                 new SqlParameter("@AppAuditState",(Int32)AppAuditState.Pass),
                                 new SqlParameter("@AppReleaseState",(Int32)AppReleaseState.Release),
                                 new SqlParameter("@Id",appId)
-                            };
-                            app = dataStore.FindOne<App>(sql, parameters);
+                           };
+                           app = dataStore.FindOne<App>(sql, parameters);
 
-                            if(app == null)
-                            {
-                                throw new BusinessException($"获取应用失败，请刷新重试");
-                            }
-                        }
-                        #endregion
+                           if (app == null)
+                           {
+                               throw new BusinessException($"获取应用失败，请刷新重试");
+                           }
+                       }
+                       #endregion
 
-                        #region 添加桌面成员
-                        {
-                            var newMember = new Member(app.Name, app.IconUrl, app.AppUrl, app.Id, app.Width, app.Height, app.IsLock, app.IsMax, app.IsFull, app.IsSetbar, app.IsOpenMax, app.IsFlash, app.IsDraw, app.IsResize);
+                       #region 添加桌面成员
+                       {
+                           var newMember = new Member(app.Name, app.IconUrl, app.AppUrl, app.Id, app.Width, app.Height, app.IsLock, app.IsMax, app.IsFull, app.IsSetbar, app.IsOpenMax, app.IsFlash, app.IsDraw, app.IsResize);
 
-                            var sql = $@"INSERT dbo.Members
+                           var sql = $@"INSERT dbo.Members
                             ( AppId ,
                               Width ,
                               Height ,
@@ -921,8 +921,8 @@ namespace NewCRM.Domain.Services.BoundedContext
                               @deskNum,  -- DeskIndex - int
                               @IsIconByUpload
                             )";
-                            var parameters = new List<SqlParameter>
-                            {
+                           var parameters = new List<SqlParameter>
+                           {
                                 new SqlParameter("@AppId",newMember.AppId),
                                 new SqlParameter("@Width",newMember.Width),
                                 new SqlParameter("@Height",newMember.Height),
@@ -941,31 +941,31 @@ namespace NewCRM.Domain.Services.BoundedContext
                                 new SqlParameter("@accountId",accountId),
                                 new SqlParameter("@deskNum",deskNum),
                                 new SqlParameter("@IsIconByUpload",(app.IsIconByUpload ? 1 : 0)),
-                            };
-                            dataStore.SqlExecute(sql, parameters);
-                        }
-                        #endregion
+                           };
+                           dataStore.SqlExecute(sql, parameters);
+                       }
+                       #endregion
 
-                        #region 更改app使用数量
-                        {
-                            var sql = $@"UPDATE dbo.Apps SET UseCount=UseCount+1 WHERE Id=@appId AND IsDeleted=0";
-                            var parameters = new List<SqlParameter>
-                            {
+                       #region 更改app使用数量
+                       {
+                           var sql = $@"UPDATE dbo.Apps SET UseCount=UseCount+1 WHERE Id=@appId AND IsDeleted=0";
+                           var parameters = new List<SqlParameter>
+                           {
                                 new SqlParameter("@appId",app.Id)
-                            };
-                            dataStore.SqlExecute(sql, parameters);
-                        }
-                        #endregion
+                           };
+                           dataStore.SqlExecute(sql, parameters);
+                       }
+                       #endregion
 
-                        dataStore.Commit();
-                    }
-                    catch(Exception)
-                    {
-                        dataStore.Rollback();
-                        throw;
-                    }
-                }
-            });
+                       dataStore.Commit();
+                   }
+                   catch (Exception)
+                   {
+                       dataStore.Rollback();
+                       throw;
+                   }
+               }
+           });
         }
     }
 }

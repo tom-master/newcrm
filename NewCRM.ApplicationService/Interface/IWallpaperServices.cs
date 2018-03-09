@@ -12,27 +12,27 @@ namespace NewCRM.Application.Services.Interface
         /// <summary>
         /// 获取所有的系统壁纸
         /// </summary>
-        List<WallpaperDto> GetWallpapers();
+        Task<List<WallpaperDto>> GetWallpapersAsync();
 
         /// <summary>
         /// 添加壁纸
         /// </summary>
-        Tuple<Int32, String> AddWallpaper(WallpaperDto wallpaperDto);
+        Task<Tuple<Int32, String>> AddWallpaperAsync(WallpaperDto wallpaperDto);
 
         /// <summary>
         /// 根据用户id获取上传的壁纸
         /// </summary>
-        List<WallpaperDto> GetUploadWallpaper(Int32 accountId);
+        Task<List<WallpaperDto>> GetUploadWallpaperAsync(Int32 accountId);
 
         /// <summary>
         /// 根据用户id添加来自于网络的壁纸
         /// </summary>
-        Task<Tuple<Int32, String>> AddWebWallpaper(Int32 accountId, String url);
+        Task<Tuple<Int32, String>> AddWebWallpaperAsync(Int32 accountId, String url);
 
         /// <summary>
         /// 根据md5获取上传的壁纸
         /// </summary>
-        WallpaperDto GetUploadWallpaper(String md5);
+        Task<WallpaperDto> GetUploadWallpaperAsync(String md5);
 
         #endregion
 
@@ -41,19 +41,18 @@ namespace NewCRM.Application.Services.Interface
         /// <summary>
         /// 根据用户id删除上传的壁纸
         /// </summary>
-        void RemoveWallpaper(Int32 accountId, Int32 wallpaperId);
+        Task RemoveWallpaperAsync(Int32 accountId, Int32 wallpaperId);
 
         /// <summary>
         /// 修改壁纸的显示模式
         /// </summary>
-        void ModifyWallpaperMode(Int32 accountId, String newMode);
+        Task ModifyWallpaperModeAsync(Int32 accountId, String newMode);
 
         /// <summary>
         /// 修改壁纸
         /// </summary>
-        void ModifyWallpaper(Int32 accountId, Int32 newWallpaperId);
+        Task ModifyWallpaperAsync(Int32 accountId, Int32 newWallpaperId);
 
         #endregion
-
     }
 }

@@ -11,12 +11,12 @@ namespace NewCRM.Domain.Services.BoundedContext
         /// <summary>
         /// 修改皮肤
         /// </summary>
-        public Task ModifySkinAsync(int accountId, string newSkin)
+        public async Task ModifySkinAsync(int accountId, string newSkin)
         {
             Parameter.Validate(accountId).Validate(newSkin);
-            return Task.Run(() =>
+            await Task.Run(() =>
             {
-                using(var dataStore = new DataStore())
+                using (var dataStore = new DataStore())
                 {
                     var sql = $@"UPDATE dbo.Configs SET Skin=@skin WHERE AccountId=@AccountId AND IsDeleted=0";
                     dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@skin", newSkin), new SqlParameter("@AccountId", accountId) });

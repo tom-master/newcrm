@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using NewCRM.Dto;
 
 namespace NewCRM.Application.Services.Interface
@@ -14,14 +15,14 @@ namespace NewCRM.Application.Services.Interface
         /// <param name="accountName"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        AccountDto Login(String accountName, String password, String requestIp);
+        Task<AccountDto> LoginAsync(String accountName, String password, String requestIp);
 
         /// <summary>
         /// 获取登陆用户的配置文件
         /// </summary>
         /// <param name="accountId"></param>
         /// <returns></returns>
-        ConfigDto GetConfig(Int32 accountId);
+        Task<ConfigDto> GetConfigAsync(Int32 accountId);
 
         /// <summary>
         /// 获取全部的用户
@@ -38,14 +39,14 @@ namespace NewCRM.Application.Services.Interface
         /// 根据用户id获取用户
         /// </summary>
         /// <returns></returns>
-        AccountDto GetAccount(Int32 accountId = default(Int32));
+        Task<AccountDto> GetAccountAsync(Int32 accountId = default(Int32));
 
         /// <summary>
         /// 验证相同的用户名是否存在
         /// </summary>
         /// <param name="accountName"></param>
         /// <returns></returns>
-        Boolean CheckAccountNameExist(String accountName);
+        Task<Boolean> CheckAccountNameExistAsync(String accountName);
 
         /// <summary>
         ///  检查密码
@@ -53,23 +54,23 @@ namespace NewCRM.Application.Services.Interface
         /// <param name="accountId"></param>
         /// <param name="oldAccountPassword"></param>
         /// <returns></returns>
-        Boolean CheckPassword(Int32 accountId, String oldAccountPassword);
+        Task<Boolean> CheckPasswordAsync(Int32 accountId, String oldAccountPassword);
 
         /// <summary>
         /// 解锁屏幕
         /// </summary>
         /// <returns></returns>
-        Boolean UnlockScreen(Int32 accountId, String unlockPassword);
+        Task<Boolean> UnlockScreenAsync(Int32 accountId, String unlockPassword);
 
         /// <summary>
         /// 检查app名称是否已经存在
         /// </summary>
-        Boolean CheckAppName(String name);
+        Task<Boolean> CheckAppNameAsync(String name);
 
         /// <summary>
         /// 检查appUrl是否存在
         /// </summary>
-        Boolean CheckAppUrl(String url);
+        Task<Boolean> CheckAppUrlAsync(String url);
 
         #endregion
 
@@ -78,50 +79,50 @@ namespace NewCRM.Application.Services.Interface
         /// <summary>
         /// 修改账户密码
         /// </summary>
-        void ModifyPassword(Int32 accountId, String newPassword, Boolean isTogetherSetLockPassword);
+        Task ModifyPasswordAsync(Int32 accountId, String newPassword, Boolean isTogetherSetLockPassword);
 
         /// <summary>
         /// 修改锁屏密码
         /// </summary>
-        void ModifyLockScreenPassword(Int32 accountId, String newScreenPassword);
+        Task ModifyLockScreenPasswordAsync(Int32 accountId, String newScreenPassword);
 
         /// <summary>
         /// 修改用户
         /// </summary>
-        void ModifyAccount(AccountDto account);
+        Task ModifyAccountAsync(AccountDto account);
 
         /// <summary>
         /// 修改账户头像
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="newFace"></param>
-        void ModifyAccountFace(Int32 accountId, String newFace);
+        Task ModifyAccountFaceAsync(Int32 accountId, String newFace);
 
         /// <summary>
         /// 添加新的用户
         /// </summary>
         /// <param name="account"></param>
-        void AddNewAccount(AccountDto account);
+        Task AddNewAccountAsync(AccountDto account);
 
         /// <summary>
         /// 用户登出
         /// </summary>
-        void Logout(Int32 accountId);
+        Task LogoutAsync(Int32 accountId);
 
         /// <summary>
         /// 用户启用
         /// </summary>
-        void Enable(Int32 accountId);
+        Task EnableAsync(Int32 accountId);
 
         /// <summary>
         /// 用户禁用
         /// </summary>
-        void Disable(Int32 accountId);
+        Task DisableAsync(Int32 accountId);
 
         /// <summary>
         /// 删除账户
         /// </summary>
-        void RemoveAccount(Int32 accountId);
+        Task RemoveAccountAsync(Int32 accountId);
 
         #endregion
 
