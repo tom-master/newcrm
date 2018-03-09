@@ -11,6 +11,7 @@ using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewLib;
+using Nito.AsyncEx;
 
 namespace NewCRM.Application.Services
 {
@@ -81,7 +82,7 @@ namespace NewCRM.Application.Services
             Parameter.Validate(accountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
 
             var result = _appContext.GetAccountApps(accountId, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
-            var appTypes = GetAppTypesAsync();
+            var appTypes = AsyncContext.Run(() => GetAppTypesAsync());
 
             return result.Select(app => new AppDto
             {
