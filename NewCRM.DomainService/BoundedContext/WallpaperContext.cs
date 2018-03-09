@@ -253,7 +253,6 @@ namespace NewCRM.Domain.Services.BoundedContext
                     }
                     #endregion
                 }
-
             });
         }
     }
