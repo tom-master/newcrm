@@ -11,6 +11,6 @@ namespace NewCRM.Domain.Services.Interface
         /// <summary>
         /// 修改皮肤
         /// </summary>
-        void ModifySkin(Int32 accountId, String newSkin);
+        Task ModifySkinAsync(Int32 accountId, String newSkin);
     }
 }
