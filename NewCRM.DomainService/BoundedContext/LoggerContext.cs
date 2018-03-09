@@ -11,10 +11,10 @@ namespace NewCRM.Domain.Services.BoundedContext
 {
     public class LoggerContext : BaseServiceContext, ILoggerContext
     {
-        public Task AddLoggerAsync(Log log)
+        public async Task AddLoggerAsync(Log log)
         {
             Parameter.Validate(log);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {

@@ -13,7 +13,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 {
     public class SecurityContext : BaseServiceContext, ISecurityContext
     {
-        public Task<List<RolePower>> GetPowersAsync()
+        public async Task<List<RolePower>> GetPowersAsync()
         {
             return Task.Run<IList<RolePower>>(() =>
             {
@@ -29,7 +29,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task<Role> GetRoleAsync(int roleId)
+        public async Task<Role> GetRoleAsync(int roleId)
         {
             Parameter.Validate(roleId);
             return Task.Run<Role>(() =>
@@ -48,7 +48,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public List<Role> GetRoles(string roleName, int pageIndex, int pageSize, out int totalCount)
+        public async List<Role> GetRoles(string roleName, int pageIndex, int pageSize, out int totalCount)
         {
             using(var dataStore = new DataStore())
             {
@@ -90,7 +90,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             }
         }
 
-        public Task<Boolean> CheckPermissionsAsync(int accessAppId, params int[] roleIds)
+        public async Task<Boolean> CheckPermissionsAsync(int accessAppId, params int[] roleIds)
         {
             Parameter.Validate(accessAppId).Validate(roleIds);
             return Task.Run<Boolean>(() =>
@@ -121,7 +121,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task<Boolean> CheckRoleNameAsync(string name)
+        public async Task<Boolean> CheckRoleNameAsync(string name)
         {
             Parameter.Validate(name);
             return Task.Run<Boolean>(() =>
@@ -138,7 +138,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task ModifyRoleAsync(Role role)
+        public async Task ModifyRoleAsync(Role role)
         {
             Parameter.Validate(role);
             return Task.Run(() =>
@@ -161,7 +161,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task RemoveRoleAsync(int roleId)
+        public async Task RemoveRoleAsync(int roleId)
         {
             Parameter.Validate(roleId);
             return Task.Run(() =>
@@ -211,7 +211,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task AddNewRoleAsync(Role role)
+        public async Task AddNewRoleAsync(Role role)
         {
             Parameter.Validate(role);
             return Task.Run(() =>
@@ -242,7 +242,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task AddPowerToCurrentRoleAsync(int roleId, IEnumerable<int> powerIds)
+        public async Task AddPowerToCurrentRoleAsync(int roleId, IEnumerable<int> powerIds)
         {
             Parameter.Validate(roleId).Validate(powerIds);
             return Task.Run(() =>

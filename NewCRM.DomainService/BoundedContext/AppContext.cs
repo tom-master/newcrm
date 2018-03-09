@@ -17,10 +17,10 @@ namespace NewCRM.Domain.Services.BoundedContext
 {
     public class AppContext : BaseServiceContext, IAppContext
     {
-        public Task<Tuple<Int32, Int32>> GetAccountDevelopAppCountAndNotReleaseAppCountAsync(Int32 accountId)
+        public async Task<Tuple<Int32, Int32>> GetAccountDevelopAppCountAndNotReleaseAppCountAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            return Task.Run<Tuple<Int32, Int32>>(() =>
+            return await Task.Run<Tuple<Int32, Int32>>(() =>
              {
                  using(var dataStore = new DataStore())
                  {
@@ -35,9 +35,9 @@ namespace NewCRM.Domain.Services.BoundedContext
              });
         }
 
-        public Task<List<AppType>> GetAppTypesAsync()
+        public async  Task<List<AppType>> GetAppTypesAsync()
         {
-            return Task.Run<IList<AppType>>(() =>
+            return await Task.Run<IList<AppType>>(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -47,10 +47,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task<TodayRecommendAppDto> GetTodayRecommendAsync(int accountId)
+        public async Task<TodayRecommendAppDto> GetTodayRecommendAsync(int accountId)
         {
             Parameter.Validate(accountId);
-            return Task.Run<TodayRecommendAppDto>(() =>
+            return await Task.Run<TodayRecommendAppDto>(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -278,10 +278,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             }
         }
 
-        public Task<App> GetAppAsync(Int32 appId)
+        public async Task<App> GetAppAsync(Int32 appId)
         {
             Parameter.Validate(appId);
-            return Task.Run<App>(() =>
+            return await Task.Run<App>(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -321,10 +321,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task<Boolean> IsInstallAppAsync(int accountId, int appId)
+        public async Task<Boolean> IsInstallAppAsync(int accountId, int appId)
         {
             Parameter.Validate(accountId).Validate(appId);
-            return Task.Run<Boolean>(() =>
+            return await Task.Run<Boolean>(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -339,9 +339,9 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task<List<App>> GetSystemAppAsync(IEnumerable<Int32> appIds = default(IEnumerable<Int32>))
+        public async Task<List<App>> GetSystemAppAsync(IEnumerable<Int32> appIds = default(IEnumerable<Int32>))
         {
-            return Task.Run<IList<App>>(() =>
+            return await Task.Run<IList<App>>(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -358,10 +358,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task<Boolean> CheckAppTypeNameAsync(String appTypeName)
+        public async Task<Boolean> CheckAppTypeNameAsync(String appTypeName)
         {
             Parameter.Validate(appTypeName);
-            return Task.Run<Boolean>(() =>
+            return await Task.Run<Boolean>(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -375,10 +375,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task ModifyAppStarAsync(int accountId, int appId, int starCount)
+        public async Task ModifyAppStarAsync(int accountId, int appId, int starCount)
         {
             Parameter.Validate(accountId).Validate(appId).Validate(starCount);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -428,9 +428,9 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task CreateNewAppAsync(App app)
+        public async Task CreateNewAppAsync(App app)
         {
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -523,10 +523,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task PassAsync(Int32 appId)
+        public async Task PassAsync(Int32 appId)
         {
             Parameter.Validate(appId);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -541,10 +541,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task DenyAsync(Int32 appId)
+        public async Task DenyAsync(Int32 appId)
         {
             Parameter.Validate(appId);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -559,10 +559,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task SetTodayRecommandAppAsync(Int32 appId)
+        public async Task SetTodayRecommandAppAsync(Int32 appId)
         {
             Parameter.Validate(appId);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -598,10 +598,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task RemoveAppAsync(Int32 appId)
+        public async Task RemoveAppAsync(Int32 appId)
         {
             Parameter.Validate(appId);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -637,10 +637,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task ReleaseAppAsync(Int32 appId)
+        public async Task ReleaseAppAsync(Int32 appId)
         {
             Parameter.Validate(appId);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -660,10 +660,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task ModifyAccountAppInfoAsync(Int32 accountId, App app)
+        public async Task ModifyAccountAppInfoAsync(Int32 accountId, App app)
         {
             Parameter.Validate(accountId).Validate(accountId).Validate(app);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -704,10 +704,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task DeleteAppTypeAsync(Int32 appTypeId)
+        public async Task DeleteAppTypeAsync(Int32 appTypeId)
         {
             Parameter.Validate(appTypeId);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -735,10 +735,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task CreateNewAppTypeAsync(AppType appType)
+        public async Task CreateNewAppTypeAsync(AppType appType)
         {
             Parameter.Validate(appType);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -771,10 +771,10 @@ namespace NewCRM.Domain.Services.BoundedContext
                                     GETDATE()  -- LastModifyTime - datetime
                                 )";
                         var parameters = new List<SqlParameter>
-                    {
-                        new SqlParameter("@Name",appType.Name),
-                        new SqlParameter("@Remark",appType.Remark)
-                    };
+                        {
+                            new SqlParameter("@Name",appType.Name),
+                            new SqlParameter("@Remark",appType.Remark)
+                        };
                         dataStore.SqlExecute(sql, parameters);
                     }
                     #endregion
@@ -783,10 +783,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task ModifyAppTypeAsync(String appTypeName, Int32 appTypeId)
+        public async Task ModifyAppTypeAsync(String appTypeName, Int32 appTypeId)
         {
             Parameter.Validate(appTypeName).Validate(appTypeId);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -811,10 +811,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task ModifyAppIconAsync(Int32 accountId, Int32 appId, String newIcon)
+        public async Task ModifyAppIconAsync(Int32 accountId, Int32 appId, String newIcon)
         {
             Parameter.Validate(accountId).Validate(appId).Validate(newIcon);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -824,10 +824,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task InstallAsync(Int32 accountId, Int32 appId, Int32 deskNum)
+        public async Task InstallAsync(Int32 accountId, Int32 appId, Int32 deskNum)
         {
             Parameter.Validate(accountId).Validate(appId).Validate(deskNum);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -854,11 +854,11 @@ namespace NewCRM.Domain.Services.BoundedContext
                                 a.IsIconByUpload
                                 FROM  dbo.Apps AS a WHERE a.AppAuditState=@AppAuditState AND a.AppReleaseState=@AppReleaseState AND a.IsDeleted=0 AND a.Id=@Id";
                             var parameters = new List<SqlParameter>
-                        {
-                            new SqlParameter("@AppAuditState",(Int32)AppAuditState.Pass),
-                            new SqlParameter("@AppReleaseState",(Int32)AppReleaseState.Release),
-                            new SqlParameter("@Id",appId)
-                        };
+                            {
+                                new SqlParameter("@AppAuditState",(Int32)AppAuditState.Pass),
+                                new SqlParameter("@AppReleaseState",(Int32)AppReleaseState.Release),
+                                new SqlParameter("@Id",appId)
+                            };
                             app = dataStore.FindOne<App>(sql, parameters);
 
                             if(app == null)
@@ -922,26 +922,26 @@ namespace NewCRM.Domain.Services.BoundedContext
                               @IsIconByUpload
                             )";
                             var parameters = new List<SqlParameter>
-                        {
-                            new SqlParameter("@AppId",newMember.AppId),
-                            new SqlParameter("@Width",newMember.Width),
-                            new SqlParameter("@Height",newMember.Height),
-                            new SqlParameter("@Name",newMember.Name),
-                            new SqlParameter("@IconUrl",newMember.IconUrl),
-                            new SqlParameter("@AppUrl",newMember.AppUrl),
-                            new SqlParameter("@IsMax",newMember.IsMax.ParseToInt32()),
-                            new SqlParameter("@IsFull",newMember.IsFull.ParseToInt32()),
-                            new SqlParameter("@IsSetbar",newMember.IsSetbar.ParseToInt32()),
-                            new SqlParameter("@IsOpenMax",newMember.IsOpenMax.ParseToInt32()),
-                            new SqlParameter("@IsLock",newMember.IsLock.ParseToInt32()),
-                            new SqlParameter("@IsFlash",newMember.IsFlash.ParseToInt32()),
-                            new SqlParameter("@IsDraw",newMember.IsDraw.ParseToInt32()),
-                            new SqlParameter("@IsResize",newMember.IsResize.ParseToInt32()),
-                            new SqlParameter("@MemberType",(Int32)newMember.MemberType),
-                            new SqlParameter("@accountId",accountId),
-                            new SqlParameter("@deskNum",deskNum),
-                            new SqlParameter("@IsIconByUpload",(app.IsIconByUpload ? 1 : 0)),
-                        };
+                            {
+                                new SqlParameter("@AppId",newMember.AppId),
+                                new SqlParameter("@Width",newMember.Width),
+                                new SqlParameter("@Height",newMember.Height),
+                                new SqlParameter("@Name",newMember.Name),
+                                new SqlParameter("@IconUrl",newMember.IconUrl),
+                                new SqlParameter("@AppUrl",newMember.AppUrl),
+                                new SqlParameter("@IsMax",newMember.IsMax.ParseToInt32()),
+                                new SqlParameter("@IsFull",newMember.IsFull.ParseToInt32()),
+                                new SqlParameter("@IsSetbar",newMember.IsSetbar.ParseToInt32()),
+                                new SqlParameter("@IsOpenMax",newMember.IsOpenMax.ParseToInt32()),
+                                new SqlParameter("@IsLock",newMember.IsLock.ParseToInt32()),
+                                new SqlParameter("@IsFlash",newMember.IsFlash.ParseToInt32()),
+                                new SqlParameter("@IsDraw",newMember.IsDraw.ParseToInt32()),
+                                new SqlParameter("@IsResize",newMember.IsResize.ParseToInt32()),
+                                new SqlParameter("@MemberType",(Int32)newMember.MemberType),
+                                new SqlParameter("@accountId",accountId),
+                                new SqlParameter("@deskNum",deskNum),
+                                new SqlParameter("@IsIconByUpload",(app.IsIconByUpload ? 1 : 0)),
+                            };
                             dataStore.SqlExecute(sql, parameters);
                         }
                         #endregion
@@ -950,9 +950,9 @@ namespace NewCRM.Domain.Services.BoundedContext
                         {
                             var sql = $@"UPDATE dbo.Apps SET UseCount=UseCount+1 WHERE Id=@appId AND IsDeleted=0";
                             var parameters = new List<SqlParameter>
-                        {
-                            new SqlParameter("@appId",app.Id)
-                        };
+                            {
+                                new SqlParameter("@appId",app.Id)
+                            };
                             dataStore.SqlExecute(sql, parameters);
                         }
                         #endregion

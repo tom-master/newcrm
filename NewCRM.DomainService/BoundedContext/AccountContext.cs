@@ -18,11 +18,11 @@ namespace NewCRM.Domain.Services.BoundedContext
 {
     public class AccountContext : BaseServiceContext, IAccountContext
     {
-        public Task<Account> ValidateAsync(String accountName, String password, String requestIp)
+        public async Task<Account> ValidateAsync(String accountName, String password, String requestIp)
         {
             Parameter.Validate(accountName).Validate(password);
 
-            return Task.Run<Account>(() =>
+            return await Task.Run<Account>(() =>
              {
                  using(var dataStore = new DataStore())
                  {
@@ -108,10 +108,10 @@ namespace NewCRM.Domain.Services.BoundedContext
              });
         }
 
-        public Task<Config> GetConfigAsync(Int32 accountId)
+        public async Task<Config> GetConfigAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            return Task.Run<Config>(() =>
+            return await Task.Run<Config>(() =>
              {
                  using(var dataStore = new DataStore())
                  {
@@ -138,11 +138,11 @@ namespace NewCRM.Domain.Services.BoundedContext
              });
         }
 
-        public Task<Wallpaper> GetWallpaperAsync(Int32 wallPaperId)
+        public async Task<Wallpaper> GetWallpaperAsync(Int32 wallPaperId)
         {
             Parameter.Validate(wallPaperId);
 
-            return Task.Run<Wallpaper>(() =>
+            return await Task.Run<Wallpaper>(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -202,10 +202,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             }
         }
 
-        public Task<Account> GetAccountAsync(int accountId)
+        public async Task<Account> GetAccountAsync(int accountId)
         {
             Parameter.Validate(accountId);
-            return Task.Run<Account>(() =>
+            return await Task.Run<Account>(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -231,10 +231,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task<List<Role>> GetRolesAsync(Int32 accountId)
+        public async Task<List<Role>> GetRolesAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            return Task.Run<IList<Role>>(() =>
+            return await Task.Run<IList<Role>>(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -252,9 +252,9 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task<List<RolePower>> GetPowersAsync()
+        public async Task<List<RolePower>> GetPowersAsync()
         {
-            return Task.Run<IList<RolePower>>(() =>
+            return await Task.Run<IList<RolePower>>(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -264,10 +264,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task<Boolean> CheckAccountNameExistAsync(string accountName)
+        public async Task<Boolean> CheckAccountNameExistAsync(string accountName)
         {
             Parameter.Validate(accountName);
-            return Task.Run<Boolean>(() =>
+            return await Task.Run<Boolean>(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -277,10 +277,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task<String> GetOldPasswordAsync(Int32 accountId)
+        public async Task<String> GetOldPasswordAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            return Task.Run<String>(() =>
+            return await Task.Run<String>(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -291,10 +291,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task<Boolean> UnlockScreenAsync(Int32 accountId, String unlockPassword)
+        public async Task<Boolean> UnlockScreenAsync(Int32 accountId, String unlockPassword)
         {
             Parameter.Validate(accountId).Validate(unlockPassword);
-            return Task.Run<Boolean>(() =>
+            return await Task.Run<Boolean>(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -313,10 +313,46 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task LogoutAsync(Int32 accountId)
+        public async Task<Boolean> CheckAppNameAsync(string name)
+        {
+            Parameter.Validate(name);
+            return await Task.Run(() =>
+            {
+                using(var dataStore = new DataStore())
+                {
+                    var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a WHERE a.Name=@name AND a.IsDeleted=0 ";
+                    var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@name",name)
+                };
+                    return dataStore.FindSingleValue<Int32>(sql, parameters) > 0;
+                }
+
+            });
+        }
+
+        public async Task<Boolean> CheckAppUrlAsync(string url)
+        {
+            Parameter.Validate(url);
+            return await Task.Run(() =>
+            {
+                using(var dataStore = new DataStore())
+                {
+                    var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a WHERE a.AppUrl = @url AND a.IsDeleted=0";
+                    var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("@url",url)
+                };
+
+                    return dataStore.FindSingleValue<Int32>(sql, parameters) > 0;
+                }
+            });
+        }
+
+        public async Task LogoutAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -357,10 +393,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task AddNewAccountAsync(Account account)
+        public async Task AddNewAccountAsync(Account account)
         {
             Parameter.Validate(account);
-            return Task.Run(() =>
+            return await Task.Run(() =>
              {
                  using(var dataStore = new DataStore())
                  {
@@ -521,10 +557,10 @@ namespace NewCRM.Domain.Services.BoundedContext
              });
         }
 
-        public Task ModifyAccountAsync(Account accountDto)
+        public async Task ModifyAccountAsync(Account accountDto)
         {
             Parameter.Validate(accountDto);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -586,10 +622,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task EnableAsync(Int32 accountId)
+        public async Task EnableAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -600,10 +636,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task DisableAsync(Int32 accountId)
+        public async Task DisableAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -629,10 +665,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task ModifyAccountFaceAsync(Int32 accountId, String newFace)
+        public async Task ModifyAccountFaceAsync(Int32 accountId, String newFace)
         {
             Parameter.Validate(accountId).Validate(newFace);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -642,10 +678,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task ModifyPasswordAsync(Int32 accountId, String newPassword, Boolean isTogetherSetLockPassword)
+        public async Task ModifyPasswordAsync(Int32 accountId, String newPassword, Boolean isTogetherSetLockPassword)
         {
             Parameter.Validate(accountId).Validate(newPassword);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -665,10 +701,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task ModifyLockScreenPasswordAsync(Int32 accountId, String newScreenPassword)
+        public async Task ModifyLockScreenPasswordAsync(Int32 accountId, String newScreenPassword)
         {
             Parameter.Validate(accountId).Validate(newScreenPassword);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -678,10 +714,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task RemoveAccountAsync(Int32 accountId)
+        public async Task RemoveAccountAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -742,40 +778,5 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task CheckAppNameAsync(string name)
-        {
-            Parameter.Validate(name);
-            return Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a WHERE a.Name=@name AND a.IsDeleted=0 ";
-                    var parameters = new List<SqlParameter>
-                {
-                    new SqlParameter("@name",name)
-                };
-                    return dataStore.FindSingleValue<Int32>(sql, parameters) > 0;
-                }
-
-            });
-        }
-
-        public Task CheckAppUrlAsync(string url)
-        {
-            Parameter.Validate(url);
-            return Task.Run(() =>
-            {
-                using(var dataStore = new DataStore())
-                {
-                    var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a WHERE a.AppUrl = @url AND a.IsDeleted=0";
-                    var parameters = new List<SqlParameter>
-                {
-                    new SqlParameter("@url",url)
-                };
-
-                    return dataStore.FindSingleValue<Int32>(sql, parameters) > 0;
-                }
-            });
-        }
     }
 }

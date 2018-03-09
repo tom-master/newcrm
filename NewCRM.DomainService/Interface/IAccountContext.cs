@@ -14,7 +14,6 @@ namespace NewCRM.Domain.Services.Interface
         /// </summary>
         Task<Account> ValidateAsync(String accountName, String password, String requestIp);
 
-
         /// <summary>
         /// 获取配置
         /// </summary>

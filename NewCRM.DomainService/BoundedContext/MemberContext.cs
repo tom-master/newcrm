@@ -13,10 +13,10 @@ namespace NewCRM.Domain.Services.BoundedContext
 {
     public class MemberContext : BaseServiceContext, IMemberContext
     {
-        public Task<List<Member>> GetMembersAsync(Int32 accountId)
+        public async Task<List<Member>> GetMembersAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            return Task.Run<IList<Member>>(() =>
+            return await Task.Run<IList<Member>>(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -45,10 +45,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task<Member> GetMemberAsync(Int32 accountId, Int32 memberId, Boolean isFolder)
+        public async Task<Member> GetMemberAsync(Int32 accountId, Int32 memberId, Boolean isFolder)
         {
             Parameter.Validate(accountId).Validate(memberId);
-            return Task.Run<Member>(() =>
+            return await Task.Run<Member>(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -95,10 +95,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task<Boolean> CheckMemberNameAsync(String name)
+        public async Task<Boolean> CheckMemberNameAsync(String name)
         {
             Parameter.Validate(name);
-            return Task.Run<Boolean>(() =>
+            return await Task.Run<Boolean>(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -113,10 +113,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task ModifyFolderInfoAsync(Int32 accountId, String memberName, String memberIcon, Int32 memberId)
+        public async Task ModifyFolderInfoAsync(Int32 accountId, String memberName, String memberIcon, Int32 memberId)
         {
             Parameter.Validate(accountId).Validate(memberName).Validate(memberIcon).Validate(memberId);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -137,10 +137,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task ModifyMemberIconAsync(Int32 accountId, Int32 memberId, String newIcon)
+        public async Task ModifyMemberIconAsync(Int32 accountId, Int32 memberId, String newIcon)
         {
             Parameter.Validate(accountId).Validate(memberId).Validate(newIcon);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -156,10 +156,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task ModifyMemberInfoAsync(Int32 accountId, Member member)
+        public async Task ModifyMemberInfoAsync(Int32 accountId, Member member)
         {
             Parameter.Validate(accountId).Validate(member);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
@@ -182,10 +182,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public Task UninstallMemberAsync(Int32 accountId, Int32 memberId)
+        public async Task UninstallMemberAsync(Int32 accountId, Int32 memberId)
         {
             Parameter.Validate(accountId).Validate(memberId);
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 using(var dataStore = new DataStore())
                 {
