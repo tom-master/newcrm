@@ -2358,8 +2358,8 @@ jQuery.extend(jQuery.easing, {
  * ZENG.msgbox.show("数据拉取失败", 5, 2000);
  * ZENG.msgbox.show("正在加载中，请稍后...", 6,8000);
  */
-window.ZENG = window.ZENG || {};
-ZENG.dom = {
+window.NewCrm = window.NewCrm || {};
+NewCrm.dom = {
     getById: function (id) {
         return document.getElementById(id);
     }, get: function (e) {
@@ -2467,7 +2467,7 @@ ZENG.dom = {
         return _doc.compatMode == "CSS1Compat" ? _doc.documentElement.clientHeight : _doc.body.clientHeight;
     }
 };
-ZENG.string = {
+NewCrm.string = {
     RegExps: { trim: /^\s+|\s+$/g, ltrim: /^\s+/, rtrim: /\s+$/, nl2br: /\n/g, s2nb: /[\x20]{2}/g, URIencode: /[\x09\x0A\x0D\x20\x21-\x29\x2B\x2C\x2F\x3A-\x3F\x5B-\x5E\x60\x7B-\x7E]/g, escHTML: { re_amp: /&/g, re_lt: /</g, re_gt: />/g, re_apos: /\x27/g, re_quot: /\x22/g }, escString: { bsls: /\\/g, sls: /\//g, nl: /\n/g, rt: /\r/g, tab: /\t/g }, restXHTML: { re_amp: /&amp;/g, re_lt: /&lt;/g, re_gt: /&gt;/g, re_apos: /&(?:apos|#0?39);/g, re_quot: /&quot;/g }, write: /\{(\d{1,2})(?:\:([xodQqb]))?\}/g, isURL: /^(?:ht|f)tp(?:s)?\:\/\/(?:[\w\-\.]+)\.\w+/i, cut: /[\x00-\xFF]/, getRealLen: { r0: /[^\x00-\xFF]/g, r1: /[\x00-\xFF]/g }, format: /\{([\d\w\.]+)\}/g }, commonReplace: function (s, p, r) {
         return s.replace(p, r);
     }, format: function (str) {
@@ -2483,7 +2483,7 @@ ZENG.string = {
         });
     }
 };
-ZENG.object = {
+NewCrm.object = {
     routeRE: /([\d\w_]+)/g,
     route: function (obj, path) {
         obj = obj || {};
@@ -2499,15 +2499,15 @@ ZENG.object = {
         return obj;
     }
 };
-var ua = ZENG.userAgent = {}, agent = navigator.userAgent;
+var ua = NewCrm.userAgent = {}, agent = navigator.userAgent;
 ua.ie = 9 - ((agent.indexOf('Trident/5.0') > -1) ? 0 : 1) - (window.XDomainRequest ? 0 : 1) - (window.XMLHttpRequest ? 0 : 1);
 
-if (typeof (ZENG.msgbox) == 'undefined') {
+if (typeof (NewCrm.msgbox) == 'undefined') {
     ZENG.msgbox = {};
 }
-ZENG.msgbox._timer = null;
-ZENG.msgbox.loadingAnimationPath = ZENG.msgbox.loadingAnimationPath || ("loading.gif");
-ZENG.msgbox.show = function (msgHtml, type, timeout, opts) {
+NewCrm.msgbox._timer = null;
+NewCrm.msgbox.loadingAnimationPath = NewCrm.msgbox.loadingAnimationPath || ("loading.gif");
+NewCrm.msgbox.show = function (msgHtml, type, timeout, opts) {
     if (typeof (opts) == 'number') {
         opts = { topPosition: opts };
     }
@@ -2521,7 +2521,7 @@ ZENG.msgbox.show = function (msgHtml, type, timeout, opts) {
     mBox.innerHTML = ZENG.string.format(template, { type: typeClass[type] || "hits", msgHtml: msgHtml || "", loadIcon: type == 6 ? loading : "", layerStyle: type == 6 ? 'loading' : "normal" });
     _s._setPosition(mBox, timeout, opts.topPosition);
 };
-ZENG.msgbox._setPosition = function (tips, timeout, topPosition) {
+NewCrm.msgbox._setPosition = function (tips, timeout, topPosition) {
     timeout = timeout || 5000;
     var _s = ZENG.msgbox, bt = ZENG.dom.getScrollTop(), ch = ZENG.dom.getClientHeight(), t = Math.floor(ch / 2) - 40;
     ZENG.dom.setStyle(tips, "top", ((document.compatMode == "BackCompat" || ZENG.userAgent.ie < 7) ? bt : 0) + ((typeof (topPosition) == "number") ? topPosition : t) + "px");
@@ -2530,7 +2530,7 @@ ZENG.msgbox._setPosition = function (tips, timeout, topPosition) {
 
     timeout && (_s._timer = setTimeout(_s.hide, timeout));
 };
-ZENG.msgbox.hide = function (timeout) {
+NewCrm.msgbox.hide = function (timeout) {
     var _s = ZENG.msgbox;
     if (timeout) {
         clearTimeout(_s._timer);
@@ -2539,7 +2539,7 @@ ZENG.msgbox.hide = function (timeout) {
         _s._hide();
     }
 };
-ZENG.msgbox._hide = function () {
+NewCrm.msgbox._hide = function () {
     var _mBox = ZENG.dom.get("q_Msgbox"), _s = ZENG.msgbox;
     clearTimeout(_s._timer);
     if (_mBox) {
@@ -2555,19 +2555,19 @@ if (typeof define === "function") {
     window.ZENG = ZENG;
 }
 
-ZENG.msgbox.info = function (msg, timeout) {
+NewCrm.msgbox.info = function (msg, timeout) {
     ZENG.msgbox.show(msg, 1, timeout || 2000);
 };
-ZENG.msgbox.success = function (msg, timeout) {
+NewCrm.msgbox.success = function (msg, timeout) {
     ZENG.msgbox.show(msg, 4, timeout || 2000);
 };
-ZENG.msgbox.fail = function (msg, timeout) {
-    ZENG.msgbox.show(msg, 5, timeout || 2000);
+NewCrm.msgbox.fail = function (msg, timeout) {
+    NewCrm.msgbox.show(msg, 5, timeout || 2000);
 };
-ZENG.msgbox.loading = function (msg) {
+NewCrm.msgbox.loading = function (msg) {
     ZENG.msgbox.show(msg, 6, 10000);
 };
-ZENG.msgbox.close = function () {
+NewCrm.msgbox.close = function () {
     ZENG.msgbox._hide()
 };
 
