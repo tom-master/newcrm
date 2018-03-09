@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
+using System.Threading.Tasks;
 using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewLib.Data.SqlMapper.InternalDataStore;
@@ -10,12 +11,14 @@ namespace NewCRM.Domain.Services.BoundedContext
 {
     public class LoggerContext : BaseServiceContext, ILoggerContext
     {
-        public void AddLogger(Log log)
+        public Task AddLoggerAsync(Log log)
         {
             Parameter.Validate(log);
-            using (var dataStore = new DataStore())
+            return Task.Run(() =>
             {
-                var sql = $@"INSERT dbo.Logs
+                using(var dataStore = new DataStore())
+                {
+                    var sql = $@"INSERT dbo.Logs
                             ( LogLevelEnum ,
                               Controller ,
                               Action ,
@@ -36,26 +39,27 @@ namespace NewCRM.Domain.Services.BoundedContext
                               GETDATE() , -- AddTime - datetime
                               GETDATE()  -- LastModifyTime - datetime
                             )";
-                var parameters = new List<SqlParameter>
-                {
-                    new SqlParameter("@LogLevelEnum",(Int32)log.LogLevelEnum),
-                    new SqlParameter("@Controller",log.Controller),
-                    new SqlParameter("@Action",log.Action),
-                    new SqlParameter("@ExceptionMessage",log.ExceptionMessage),
-                    new SqlParameter("@Track",log.Track),
-                    new SqlParameter("@AccountId",log.AccountId),
-                };
-                dataStore.SqlExecute(sql, parameters);
-            }
+                    var parameters = new List<SqlParameter>
+                    {
+                        new SqlParameter("@LogLevelEnum",(Int32)log.LogLevelEnum),
+                        new SqlParameter("@Controller",log.Controller),
+                        new SqlParameter("@Action",log.Action),
+                        new SqlParameter("@ExceptionMessage",log.ExceptionMessage),
+                        new SqlParameter("@Track",log.Track),
+                        new SqlParameter("@AccountId",log.AccountId),
+                    };
+                    dataStore.SqlExecute(sql, parameters);
+                }
+            });
         }
 
         public IList<Log> GetLogs(int accountId, int logLevel, int pageIndex, int pageSize, out int totalCount)
         {
-            using (var dataStore = new DataStore())
+            using(var dataStore = new DataStore())
             {
                 var where = new StringBuilder();
                 var parameters = new List<SqlParameter>();
-                if (accountId != 0)
+                if(accountId != 0)
                 {
                     parameters.Add(new SqlParameter("AccountId", accountId));
                     where.Append($@" AND a.AccountId=@AccountId");
