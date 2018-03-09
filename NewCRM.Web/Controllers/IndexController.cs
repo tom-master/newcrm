@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Domain.ValueObject;
@@ -25,7 +26,7 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Desktop()
+        public async Task<ActionResult> Desktop()
         {
             ViewBag.Title = "桌面";
             if (Request.Cookies["memberID"] != null)
@@ -33,8 +34,8 @@ namespace NewCRM.Web.Controllers
                 var account = Account;
                 account.AccountFace = ProfileManager.FileUrl + account.AccountFace;
                 ViewData["Account"] = account;
-                ViewData["AccountConfig"] = AccountServices.GetConfig(account.Id);
-                ViewData["Desks"] = AccountServices.GetConfig(account.Id).DefaultDeskCount;
+                ViewData["AccountConfig"] = await AccountServices.GetConfigAsync(account.Id);
+                ViewData["Desks"] = (await AccountServices.GetConfigAsync(account.Id)).DefaultDeskCount;
 
                 return View();
             }
@@ -49,14 +50,14 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult UnlockScreen(String unlockPassword)
+        public async Task<ActionResult> UnlockScreen(String unlockPassword)
         {
             #region 参数验证
             Parameter.Validate(unlockPassword);
             #endregion
 
             var response = new ResponseModel();
-            var result = AccountServices.UnlockScreen(Account.Id, unlockPassword);
+            var result = await AccountServices.UnlockScreenAsync(Account.Id, unlockPassword);
             if (result)
             {
                 response.IsSuccess = true;
@@ -69,20 +70,21 @@ namespace NewCRM.Web.Controllers
         /// 账户登出
         /// </summary>
         [HttpPost]
-        public void Logout()
+        public async Task<ActionResult> Logout()
         {
-            AccountServices.Logout(Account.Id);
+            await AccountServices.LogoutAsync(Account.Id);
             InternalLogout();
+            return new EmptyResult();
         }
 
         /// <summary>
         /// 初始化皮肤
         /// </summary>
         [HttpGet]
-        public ActionResult GetSkin()
+        public async Task<ActionResult> GetSkin()
         {
             var response = new ResponseModel<String>();
-            var skinName = AccountServices.GetConfig(Account.Id).Skin;
+            var skinName = (await AccountServices.GetConfigAsync(Account.Id)).Skin;
             response.IsSuccess = true;
             response.Model = skinName;
             response.Message = "初始化皮肤成功";
@@ -94,10 +96,10 @@ namespace NewCRM.Web.Controllers
         /// 初始化壁纸
         /// </summary>
         [HttpGet]
-        public ActionResult GetWallpaper()
+        public async Task<ActionResult> GetWallpaper()
         {
             var response = new ResponseModel<ConfigDto>();
-            var result = AccountServices.GetConfig(Account.Id);
+            var result = await AccountServices.GetConfigAsync(Account.Id);
 
             if (result.IsBing)
             {
@@ -116,10 +118,10 @@ namespace NewCRM.Web.Controllers
         /// 初始化应用码头
         /// </summary>
         [HttpGet]
-        public ActionResult GetDockPos()
+        public async Task<ActionResult> GetDockPos()
         {
             var response = new ResponseModel<String>();
-            var result = AccountServices.GetConfig(Account.Id).DockPosition;
+            var result = (await AccountServices.GetConfigAsync(Account.Id)).DockPosition;
             response.IsSuccess = true;
             response.Message = "初始化应用码头成功";
             response.Model = result;
@@ -131,10 +133,10 @@ namespace NewCRM.Web.Controllers
         /// 获取我的应用
         /// </summary>
         [HttpGet]
-        public ActionResult GetAccountDeskMembers()
+        public async Task<ActionResult> GetAccountDeskMembers()
         {
             var response = new ResponseModel<IDictionary<String, IList<dynamic>>>();
-            var result = _deskServices.GetDeskMembers(Account.Id);
+            var result = await _deskServices.GetDeskMembersAsync(Account.Id);
             response.IsSuccess = true;
             response.Message = "获取我的应用成功";
             response.Model = result;
@@ -146,10 +148,10 @@ namespace NewCRM.Web.Controllers
         /// 获取用户头像
         /// </summary>
         [HttpGet]
-        public ActionResult GetAccountFace()
+        public async Task<ActionResult> GetAccountFace()
         {
             var response = new ResponseModel<String>();
-            var result = AccountServices.GetConfig(Account.Id).AccountFace;
+            var result = (await AccountServices.GetConfigAsync(Account.Id)).AccountFace;
             response.IsSuccess = true;
             response.Message = "获取用户头像成功";
             response.Model = ProfileManager.FileUrl + result;
@@ -161,7 +163,7 @@ namespace NewCRM.Web.Controllers
         /// 创建一个窗口
         /// </summary>
         [HttpGet]
-        public ActionResult CreateWindow(Int32 id, String type)
+        public async Task<ActionResult> CreateWindow(Int32 id, String type)
         {
 
             #region 参数验证
@@ -169,7 +171,7 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             var response = new ResponseModel<dynamic>();
-            var internalMemberResult = type == "folder" ? _deskServices.GetMember(Account.Id, id, true) : _deskServices.GetMember(Account.Id, id);
+            var internalMemberResult = type == "folder" ? await _deskServices.GetMemberAsync(Account.Id, id, true) : await _deskServices.GetMemberAsync(Account.Id, id);
             response.IsSuccess = true;
             response.Message = "创建一个窗口成功";
             response.Model = new
@@ -189,8 +191,7 @@ namespace NewCRM.Web.Controllers
                 isResize = internalMemberResult.IsResize
             };
 
-            return Json(response,JsonRequestBehavior.AllowGet);
-        }
-
+            return Json(response, JsonRequestBehavior.AllowGet);
+        } 
     }
 }

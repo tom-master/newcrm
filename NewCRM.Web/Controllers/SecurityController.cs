@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Dto;
@@ -36,11 +37,11 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult CreateNewRole(Int32 roleId = default(Int32))
+        public async Task<ActionResult> CreateNewRole(Int32 roleId = default(Int32))
         {
-            if(roleId != 0)
+            if (roleId != 0)
             {
-                ViewData["RoleResult"] = _securityServices.GetRole(roleId);
+                ViewData["RoleResult"] = await _securityServices.GetRoleAsync(roleId);
             }
 
             return View();
@@ -51,21 +52,20 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult AttachmentPower(Int32 roleId)
+        public async Task<ActionResult> AttachmentPowerAsync(Int32 roleId)
         {
             #region 参数验证
             Parameter.Validate(roleId);
             #endregion
 
             var role = new RoleDto();
-            if(roleId != 0)
+            if (roleId != 0)
             {
-                role = _securityServices.GetRole(roleId);
+                role = await _securityServices.GetRoleAsync(roleId);
                 ViewData["RolePowerResult"] = role;
             }
 
-            var result = _appServices.GetSystemApp(role.Powers.Select(s => s.Id).ToArray());
-
+            var result = await _appServices.GetSystemAppAsync(role.Powers.Select(s => s.Id).ToArray());
             return View(result);
         }
 
@@ -78,17 +78,15 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult AddSystemAppGotoPower()
+        public async Task<ActionResult> AddSystemAppGotoPower()
         {
-            ViewData["SystemApp"] = _appServices.GetSystemApp();
-
+            ViewData["SystemApp"] = await _appServices.GetSystemAppAsync();
             return View();
         }
 
         #endregion
 
         #endregion
-
 
         /// <summary>
         /// 获取所有的角色
@@ -115,14 +113,14 @@ namespace NewCRM.Web.Controllers
         /// 移除角色
         /// </summary>
         [HttpPost]
-        public ActionResult RemoveRole(Int32 roleId)
+        public async Task<ActionResult> RemoveRole(Int32 roleId)
         {
             #region 参数验证
             Parameter.Validate(roleId);
             #endregion
 
             var response = new ResponseModel();
-            _securityServices.RemoveRole(roleId);
+            await _securityServices.RemoveRoleAsync(roleId);
             response.IsSuccess = true;
             response.Message = "移除角色成功";
 
@@ -133,19 +131,19 @@ namespace NewCRM.Web.Controllers
         /// 添加角色
         /// </summary>
         [HttpPost]
-        public ActionResult CreateRole(FormCollection forms, Int32 roleId = 0)
+        public async Task<ActionResult> CreateRole(FormCollection forms, Int32 roleId = 0)
         {
             #region 参数验证
             Parameter.Validate(forms);
             #endregion
 
-            if(roleId != 0)
+            if (roleId != 0)
             {
-                _securityServices.ModifyRole(WapperRoleDto(forms));
+                await _securityServices.ModifyRoleAsync(WapperRoleDto(forms));
             }
             else
             {
-                _securityServices.AddNewRole(WapperRoleDto(forms));
+                await _securityServices.AddNewRoleAsync(WapperRoleDto(forms));
             }
             var response = new ResponseModel
             {
@@ -160,7 +158,7 @@ namespace NewCRM.Web.Controllers
         /// 将权限附加到角色中
         /// </summary>
         [HttpPost]
-        public ActionResult AddPowerToRole(FormCollection forms)
+        public async Task<ActionResult> AddPowerToRole(FormCollection forms)
         {
             #region 参数验证
             Parameter.Validate(forms);
@@ -168,9 +166,9 @@ namespace NewCRM.Web.Controllers
 
             var response = new ResponseModel();
             var powerIds = forms["val_apps_id"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
-            if(powerIds.Any())
+            if (powerIds.Any())
             {
-                _securityServices.AddPowerToCurrentRole(Int32.Parse(forms["val_roleId"]), powerIds);
+                await _securityServices.AddPowerToCurrentRoleAsync(Int32.Parse(forms["val_roleId"]), powerIds);
                 response.IsSuccess = true;
                 response.Message = "将权限附加到角色中成功";
             }
@@ -186,11 +184,11 @@ namespace NewCRM.Web.Controllers
         /// 选择系统app
         /// </summary>
         [HttpGet]
-        public ActionResult GetSystemApp(String appIds)
+        public async Task<ActionResult> GetSystemApp(String appIds)
         {
             var response = new ResponseModel<IList<AppDto>>();
             var internalAppIds = appIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
-            var result = _appServices.GetSystemApp(internalAppIds);
+            var result = await _appServices.GetSystemAppAsync(internalAppIds);
             response.IsSuccess = true;
             response.Message = "选择系统app成功";
             response.Model = result;
@@ -202,10 +200,10 @@ namespace NewCRM.Web.Controllers
         /// 检查角色名称
         /// </summary>
         [HttpPost]
-        public ActionResult CheckRoleName(String name)
+        public async Task<ActionResult> CheckRoleName(String name)
         {
             Parameter.Validate(name);
-            var result = _securityServices.CheckRoleName(name);
+            var result = await _securityServices.CheckRoleNameAsync(name);
             return Json(!result ? new { status = "y", info = "" } : new { status = "n", info = "角色名称已存在" });
         }
 
@@ -215,7 +213,7 @@ namespace NewCRM.Web.Controllers
         private static RoleDto WapperRoleDto(FormCollection forms)
         {
             var roleId = 0;
-            if((forms["roleId"] + "").Length > 0)
+            if ((forms["roleId"] + "").Length > 0)
             {
                 roleId = Int32.Parse(forms["roleId"]);
             }

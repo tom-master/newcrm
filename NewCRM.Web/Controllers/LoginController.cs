@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using NewCRM.Dto;
@@ -21,7 +22,7 @@ namespace NewCRM.Web.Controllers
         public ActionResult Index()
         {
             var accountId = Request.Cookies["memberID"];
-            if(accountId != null)
+            if (accountId != null)
             {
                 return RedirectToAction("Desktop", "Index");
             }
@@ -35,7 +36,7 @@ namespace NewCRM.Web.Controllers
         /// 登陆
         /// </summary>
         [HttpPost]
-        public ActionResult Landing(LoginParameter loginParameter)
+        public async Task<ActionResult> Landing(LoginParameter loginParameter)
         {
 
             #region 参数验证
@@ -44,8 +45,8 @@ namespace NewCRM.Web.Controllers
 
             var response = new ResponseModel<AccountDto>();
 
-            var account = AccountServices.Login(loginParameter.Name, loginParameter.Password, Request.ServerVariables["REMOTE_ADDR"]);
-            if(account != null)
+            var account = await AccountServices.LoginAsync(loginParameter.Name, loginParameter.Password, Request.ServerVariables["REMOTE_ADDR"]);
+            if (account != null)
             {
                 response.Message = "登陆成功";
                 response.IsSuccess = true;

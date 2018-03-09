@@ -38,10 +38,10 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult SystemWallPaper()
+        public async Task<ActionResult> SystemWallPaper()
         {
-            ViewData["AccountConfig"] = AccountServices.GetConfig(Account.Id);
-            ViewData["Wallpapers"] = _wallpaperServices.GetWallpapers();
+            ViewData["AccountConfig"] = await AccountServices.GetConfigAsync(Account.Id);
+            ViewData["Wallpapers"] = await _wallpaperServices.GetWallpapersAsync();
 
             return View();
         }
@@ -51,9 +51,9 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult CustomWallPaper()
+        public async Task<ActionResult> CustomWallPaper()
         {
-            ViewData["AccountConfig"] = AccountServices.GetConfig(Account.Id);
+            ViewData["AccountConfig"] = await AccountServices.GetConfigAsync(Account.Id);
             return View();
         }
 
@@ -69,10 +69,10 @@ namespace NewCRM.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult DeskSet()
+        public async Task<ActionResult> DeskSet()
         {
-            ViewData["AccountConfig"] = AccountServices.GetConfig(Account.Id);
-            ViewData["Desks"] = AccountServices.GetConfig(Account.Id).DefaultDeskCount;
+            ViewData["AccountConfig"] = await AccountServices.GetConfigAsync(Account.Id);
+            ViewData["Desks"] = (await AccountServices.GetConfigAsync(Account.Id)).DefaultDeskCount;
 
             return View();
         }
@@ -82,14 +82,14 @@ namespace NewCRM.Web.Controllers
         /// 设置壁纸显示模式
         /// </summary>
         [HttpPost]
-        public ActionResult ModifyWallpaperDisplayModel(String wallPaperShowType)
+        public async Task<ActionResult> ModifyWallpaperDisplayModel(String wallPaperShowType)
         {
             #region 参数验证
             Parameter.Validate(wallPaperShowType);
             #endregion
 
             var response = new ResponseModel();
-            _wallpaperServices.ModifyWallpaperMode(Account.Id, wallPaperShowType);
+            await _wallpaperServices.ModifyWallpaperModeAsync(Account.Id, wallPaperShowType);
             response.IsSuccess = true;
             response.Message = "壁纸显示模式设置成功";
 
@@ -100,14 +100,14 @@ namespace NewCRM.Web.Controllers
         /// 设置壁纸
         /// </summary>
         [HttpPost]
-        public ActionResult ModifyWallpaper(Int32 wallpaperId)
+        public async Task<ActionResult> ModifyWallpaper(Int32 wallpaperId)
         {
             #region 参数验证
             Parameter.Validate(wallpaperId);
             #endregion
 
             var response = new ResponseModel();
-            _wallpaperServices.ModifyWallpaper(Account.Id, wallpaperId);
+            await _wallpaperServices.ModifyWallpaperAsync(Account.Id, wallpaperId);
             response.IsSuccess = true;
             response.Message = "设置壁纸成功";
 
@@ -118,10 +118,10 @@ namespace NewCRM.Web.Controllers
         /// 载入用户之前上传的壁纸
         /// </summary>
         [HttpGet]
-        public ActionResult GetUploadWallPapers()
+        public async Task<ActionResult> GetUploadWallPapers()
         {
             var response = new ResponseModel<IList<WallpaperDto>>();
-            var result = _wallpaperServices.GetUploadWallpaper(Account.Id);
+            var result = await _wallpaperServices.GetUploadWallpaperAsync(Account.Id);
             response.IsSuccess = true;
             response.Message = "载入之前上传的壁纸成功";
             response.Model = result;
@@ -133,14 +133,14 @@ namespace NewCRM.Web.Controllers
         /// 删除上传的壁纸
         /// </summary>
         [HttpPost]
-        public ActionResult RemoveWallpaper(Int32 wallPaperId)
+        public async Task<ActionResult> RemoveWallpaper(Int32 wallPaperId)
         {
             #region 参数验证
             Parameter.Validate(wallPaperId);
             #endregion
 
             var response = new ResponseModel<IList<WallpaperDto>>();
-            _wallpaperServices.RemoveWallpaper(Account.Id, wallPaperId);
+            await _wallpaperServices.RemoveWallpaperAsync(Account.Id, wallPaperId);
             response.IsSuccess = true;
             response.Message = "删除壁纸成功";
 
@@ -151,7 +151,7 @@ namespace NewCRM.Web.Controllers
         /// 上传壁纸     
         /// </summary>
         [HttpPost]
-        public ActionResult UploadWallPaper(WallpaperDto wallpaper)
+        public async Task<ActionResult> UploadWallPaper(WallpaperDto wallpaper)
         {
             #region 参数验证
             Parameter.Validate(wallpaper);
@@ -159,7 +159,7 @@ namespace NewCRM.Web.Controllers
 
             var response = new ResponseModel<dynamic>();
 
-            var wallpaperResult = _wallpaperServices.AddWallpaper(new WallpaperDto
+            var wallpaperResult = await _wallpaperServices.AddWallpaperAsync(new WallpaperDto
             {
                 Title = wallpaper.Title.Substring(0, 9),
                 Width = wallpaper.Width,
@@ -189,7 +189,7 @@ namespace NewCRM.Web.Controllers
 
             var response = new ResponseModel<Tuple<Int32, String>>();
 
-            var result = _wallpaperServices.AddWebWallpaper(Account.Id, webUrl);
+            var result = _wallpaperServices.AddWebWallpaperAsync(Account.Id, webUrl);
             response.IsSuccess = true;
             response.Message = "网络壁纸保存成功";
             response.Model = await result;
@@ -201,15 +201,15 @@ namespace NewCRM.Web.Controllers
         /// 获取全部的皮肤
         /// </summary>
         [HttpGet]
-        public ActionResult GetSkins()
+        public async Task<ActionResult> GetSkins()
         {
             var response = new ResponseModel<dynamic>();
 
             var skinPath = Server.MapPath(ConfigurationManager.AppSettings["PlantFormSkinPath"]);
-            var result = _skinServices.GetAllSkin(skinPath);
+            var result = _skinServices.GetAllSkinAsync(skinPath);
             response.IsSuccess = true;
             response.Message = "获取皮肤列表成功";
-            response.Model = new { data = result, currentSkin = AccountServices.GetConfig(Account.Id).Skin };
+            response.Model = new { data = result, currentSkin = (await AccountServices.GetConfigAsync(Account.Id)).Skin };
 
             return Json(response, JsonRequestBehavior.AllowGet);
 
@@ -219,7 +219,7 @@ namespace NewCRM.Web.Controllers
         /// 更换皮肤
         /// </summary>
         [HttpPost]
-        public ActionResult ModifySkin(String skin)
+        public async Task<ActionResult> ModifySkinAsync(String skin)
         {
             #region 参数验证
             Parameter.Validate(skin);
@@ -227,7 +227,7 @@ namespace NewCRM.Web.Controllers
 
             var response = new ResponseModel();
 
-            _skinServices.ModifySkin(Account.Id, skin);
+            await _skinServices.ModifySkinAsync(Account.Id, skin);
             response.IsSuccess = true;
             response.Message = "更换皮肤成功";
 
@@ -238,14 +238,14 @@ namespace NewCRM.Web.Controllers
         /// 更换默认显示的桌面
         /// </summary>
         [HttpPost]
-        public ActionResult ModifyDefaultDesk(Int32 deskNum)
+        public async Task<ActionResult> ModifyDefaultDesk(Int32 deskNum)
         {
             #region 参数验证
             Parameter.Validate(deskNum);
             #endregion
 
             var response = new ResponseModel();
-            _deskServices.ModifyDefaultDeskNumber(Account.Id, deskNum);
+            await _deskServices.ModifyDefaultDeskNumberAsync(Account.Id, deskNum);
             response.IsSuccess = true;
             response.Message = "更换默认桌面成功";
 
@@ -256,7 +256,7 @@ namespace NewCRM.Web.Controllers
         /// 更换图标的排列方向
         /// </summary>
         [HttpPost]
-        public ActionResult ModifyAppXy(String appXy)
+        public async Task<ActionResult> ModifyAppXy(String appXy)
         {
             #region 参数验证
             Parameter.Validate(appXy);
@@ -264,7 +264,7 @@ namespace NewCRM.Web.Controllers
 
             var response = new ResponseModel();
 
-            _appServices.ModifyAppDirection(Account.Id, appXy);
+            await _appServices.ModifyAppDirectionAsync(Account.Id, appXy);
             response.IsSuccess = true;
             response.Message = "更换图标排列方向成功";
 
@@ -275,14 +275,14 @@ namespace NewCRM.Web.Controllers
         /// 更改图标大小
         /// </summary>
         [HttpPost]
-        public ActionResult ModifyAppSize(Int32 appSize)
+        public async Task<ActionResult> ModifyAppSize(Int32 appSize)
         {
             #region 参数验证
             Parameter.Validate(appSize);
             #endregion
 
             var response = new ResponseModel();
-            _appServices.ModifyAppIconSize(Account.Id, appSize);
+            await _appServices.ModifyAppIconSizeAsync(Account.Id, appSize);
             response.IsSuccess = true;
             response.Message = "更改图标大小成功";
 
@@ -293,14 +293,14 @@ namespace NewCRM.Web.Controllers
         /// 更改应用图标的垂直间距
         /// </summary>
         [HttpPost]
-        public ActionResult ModifyAppVertical(Int32 appVertical)
+        public async Task<ActionResult> ModifyAppVertical(Int32 appVertical)
         {
             #region 参数验证
             Parameter.Validate(appVertical);
             #endregion
 
             var response = new ResponseModel();
-            _appServices.ModifyAppVerticalSpacing(Account.Id, appVertical);
+            await _appServices.ModifyAppVerticalSpacingAsync(Account.Id, appVertical);
             response.IsSuccess = true;
             response.Message = "更改图标垂直间距成功";
 
@@ -311,14 +311,14 @@ namespace NewCRM.Web.Controllers
         /// 更改图标的水平间距
         /// </summary>
         [HttpPost]
-        public ActionResult ModifyAppHorizontal(Int32 appHorizontal)
+        public async Task<ActionResult> ModifyAppHorizontal(Int32 appHorizontal)
         {
             #region 参数验证
             Parameter.Validate(appHorizontal);
             #endregion
 
             var response = new ResponseModel();
-            _appServices.ModifyAppHorizontalSpacing(Account.Id, appHorizontal);
+            await _appServices.ModifyAppHorizontalSpacingAsync(Account.Id, appHorizontal);
             response.IsSuccess = true;
             response.Message = "更改图标水平间距成功";
 
@@ -329,14 +329,14 @@ namespace NewCRM.Web.Controllers
         /// 更改码头的位置
         /// </summary>
         [HttpPost]
-        public ActionResult ModifyDockPosition(String pos, Int32 deskNum)
+        public async Task<ActionResult> ModifyDockPosition(String pos, Int32 deskNum)
         {
             #region 参数验证
             Parameter.Validate(pos).Validate(deskNum);
             #endregion
 
             var response = new ResponseModel();
-            _deskServices.ModifyDockPosition(Account.Id, deskNum, pos);
+            await _deskServices.ModifyDockPositionAsync(Account.Id, deskNum, pos);
             response.IsSuccess = true;
             response.Message = "更改码头的位置成功";
 
@@ -347,14 +347,14 @@ namespace NewCRM.Web.Controllers
         /// 修改壁纸来源
         /// </summary>
         [HttpPost]
-        public ActionResult ModifyWallpaperSource(String source)
+        public async Task<ActionResult> ModifyWallpaperSource(String source)
         {
             #region 参数验证
             Parameter.Validate(source);
             #endregion
 
             var response = new ResponseModel();
-            _deskServices.ModifyWallpaperSource(source, Account.Id);
+            await _deskServices.ModifyWallpaperSourceAsync(source, Account.Id);
             response.IsSuccess = true;
             response.Message = "更改壁纸来源成功";
 
