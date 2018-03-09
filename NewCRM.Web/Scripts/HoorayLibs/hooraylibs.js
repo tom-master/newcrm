@@ -2353,10 +2353,10 @@ jQuery.extend(jQuery.easing, {
 
 /**
  * 腾讯UED提示信息
- * ZENG.msgbox.show("服务器繁忙，请稍后再试。", 1, 2000);
- * ZENG.msgbox.show("设置成功！", 4, 2000);
- * ZENG.msgbox.show("数据拉取失败", 5, 2000);
- * ZENG.msgbox.show("正在加载中，请稍后...", 6,8000);
+ * NewCrm.msgbox.show("服务器繁忙，请稍后再试。", 1, 2000);
+ * NewCrm.msgbox.show("设置成功！", 4, 2000);
+ * NewCrm.msgbox.show("数据拉取失败", 5, 2000);
+ * NewCrm.msgbox.show("正在加载中，请稍后...", 6,8000);
  */
 window.NewCrm = window.NewCrm || {};
 NewCrm.dom = {
@@ -2365,7 +2365,7 @@ NewCrm.dom = {
     }, get: function (e) {
         return (typeof (e) == "string") ? document.getElementById(e) : e;
     }, createElementIn: function (tagName, elem, insertFirst, attrs) {
-        var _e = (elem = ZENG.dom.get(elem) || document.body).ownerDocument.createElement(tagName || "div"), k;
+        var _e = (elem = NewCrm.dom.get(elem) || document.body).ownerDocument.createElement(tagName || "div"), k;
         if (typeof (attrs) == 'object') {
             for (k in attrs) {
                 if (k == "class") {
@@ -2380,7 +2380,7 @@ NewCrm.dom = {
         insertFirst ? elem.insertBefore(_e, elem.firstChild) : elem.appendChild(_e);
         return _e;
     }, getStyle: function (el, property) {
-        el = ZENG.dom.get(el);
+        el = NewCrm.dom.get(el);
         if (!el || el.nodeType == 9) {
             return null;
         }
@@ -2424,7 +2424,7 @@ NewCrm.dom = {
             return (el.currentStyle[property] || el.style[property]);
         }
     }, setStyle: function (el, properties, value) {
-        if (!(el = ZENG.dom.get(el)) || el.nodeType != 1) {
+        if (!(el = NewCrm.dom.get(el)) || el.nodeType != 1) {
             return false;
         }
         var tmp, bRtn = true, w3cMode = (tmp = document.defaultView) && tmp.getComputedStyle, rexclude = /z-?index|font-?weight|opacity|zoom|line-?height/i;
@@ -2445,7 +2445,7 @@ NewCrm.dom = {
             } else if (prop == 'backgroundPositionX' || prop == 'backgroundPositionY') {
                 tmp = prop.slice(-1) == 'X' ? 'Y' : 'X';
                 if (w3cMode) {
-                    var v = ZENG.dom.getStyle(el, "backgroundPosition" + tmp);
+                    var v = NewCrm.dom.getStyle(el, "backgroundPosition" + tmp);
                     prop = 'backgroundPosition';
                     typeof (value) == 'number' && (value = value + 'px');
                     value = tmp == 'Y' ? (value + " " + (v || "top")) : ((v || 'left') + " " + value);
@@ -2476,9 +2476,9 @@ NewCrm.string = {
         if (args.length == 1 && typeof (args[0]) == 'object') {
             args = args[0];
         }
-        ZENG.string.RegExps.format.lastIndex = 0;
-        return str.replace(ZENG.string.RegExps.format, function (m, n) {
-            v = ZENG.object.route(args, n);
+        NewCrm.string.RegExps.format.lastIndex = 0;
+        return str.replace(NewCrm.string.RegExps.format, function (m, n) {
+            v = NewCrm.object.route(args, n);
             return v === undefined ? m : v;
         });
     }
@@ -2488,7 +2488,7 @@ NewCrm.object = {
     route: function (obj, path) {
         obj = obj || {};
         path = String(path);
-        var r = ZENG.object.routeRE, m;
+        var r = NewCrm.object.routeRE, m;
         r.lastIndex = 0;
         while ((m = r.exec(path)) !== null) {
             obj = obj[m[0]];
@@ -2503,7 +2503,7 @@ var ua = NewCrm.userAgent = {}, agent = navigator.userAgent;
 ua.ie = 9 - ((agent.indexOf('Trident/5.0') > -1) ? 0 : 1) - (window.XDomainRequest ? 0 : 1) - (window.XMLHttpRequest ? 0 : 1);
 
 if (typeof (NewCrm.msgbox) == 'undefined') {
-    ZENG.msgbox = {};
+    NewCrm.msgbox = {};
 }
 NewCrm.msgbox._timer = null;
 NewCrm.msgbox.loadingAnimationPath = NewCrm.msgbox.loadingAnimationPath || ("loading.gif");
@@ -2512,26 +2512,26 @@ NewCrm.msgbox.show = function (msgHtml, type, timeout, opts) {
         opts = { topPosition: opts };
     }
     opts = opts || {};
-    var _s = ZENG.msgbox,
+    var _s = NewCrm.msgbox,
         template = '<span class="zeng_msgbox_layer zeng_msgbox_layer_{layerStyle}" style="display:none;z-index:10000;" id="mode_tips_v2"><span class="gtl_ico_{type}"></span>{loadIcon}{msgHtml}<span class="gtl_end"></span></span>', loading = '<span class="gtl_ico_loading"></span>', typeClass = [0, 0, 0, 0, "succ", "fail", "clear"], mBox, tips;
     _s._loadCss && _s._loadCss(opts.cssPath);
-    mBox = ZENG.dom.get("q_Msgbox") || ZENG.dom.createElementIn("div", document.body, false, { className: "zeng_msgbox_layer_wrap" });
+    mBox = NewCrm.dom.get("q_Msgbox") || NewCrm.dom.createElementIn("div", document.body, false, { className: "zeng_msgbox_layer_wrap" });
     mBox.id = "q_Msgbox";
     mBox.style.display = "";
-    mBox.innerHTML = ZENG.string.format(template, { type: typeClass[type] || "hits", msgHtml: msgHtml || "", loadIcon: type == 6 ? loading : "", layerStyle: type == 6 ? 'loading' : "normal" });
+    mBox.innerHTML = NewCrm.string.format(template, { type: typeClass[type] || "hits", msgHtml: msgHtml || "", loadIcon: type == 6 ? loading : "", layerStyle: type == 6 ? 'loading' : "normal" });
     _s._setPosition(mBox, timeout, opts.topPosition);
 };
 NewCrm.msgbox._setPosition = function (tips, timeout, topPosition) {
     timeout = timeout || 5000;
-    var _s = ZENG.msgbox, bt = ZENG.dom.getScrollTop(), ch = ZENG.dom.getClientHeight(), t = Math.floor(ch / 2) - 40;
-    ZENG.dom.setStyle(tips, "top", ((document.compatMode == "BackCompat" || ZENG.userAgent.ie < 7) ? bt : 0) + ((typeof (topPosition) == "number") ? topPosition : t) + "px");
+    var _s = NewCrm.msgbox, bt = NewCrm.dom.getScrollTop(), ch = NewCrm.dom.getClientHeight(), t = Math.floor(ch / 2) - 40;
+    NewCrm.dom.setStyle(tips, "top", ((document.compatMode == "BackCompat" || NewCrm.userAgent.ie < 7) ? bt : 0) + ((typeof (topPosition) == "number") ? topPosition : t) + "px");
     clearTimeout(_s._timer);
     tips.firstChild.style.display = "";
 
     timeout && (_s._timer = setTimeout(_s.hide, timeout));
 };
 NewCrm.msgbox.hide = function (timeout) {
-    var _s = ZENG.msgbox;
+    var _s = NewCrm.msgbox;
     if (timeout) {
         clearTimeout(_s._timer);
         _s._timer = setTimeout(_s._hide, timeout);
@@ -2540,35 +2540,35 @@ NewCrm.msgbox.hide = function (timeout) {
     }
 };
 NewCrm.msgbox._hide = function () {
-    var _mBox = ZENG.dom.get("q_Msgbox"), _s = ZENG.msgbox;
+    var _mBox = NewCrm.dom.get("q_Msgbox"), _s = NewCrm.msgbox;
     clearTimeout(_s._timer);
     if (_mBox) {
         var _tips = _mBox.firstChild;
-        ZENG.dom.setStyle(_mBox, "display", "none");
+        NewCrm.dom.setStyle(_mBox, "display", "none");
     }
 };
 
 if (typeof define === "function") {
     // AMD. Register as an anonymous module.
-    module.exports = ZENG;
+    module.exports = NewCrm;
 } else {
-    window.ZENG = ZENG;
+    window.NewCrm = NewCrm;
 }
 
 NewCrm.msgbox.info = function (msg, timeout) {
-    ZENG.msgbox.show(msg, 1, timeout || 2000);
+    NewCrm.msgbox.show(msg, 1, timeout || 2000);
 };
 NewCrm.msgbox.success = function (msg, timeout) {
-    ZENG.msgbox.show(msg, 4, timeout || 2000);
+    NewCrm.msgbox.show(msg, 4, timeout || 2000);
 };
 NewCrm.msgbox.fail = function (msg, timeout) {
     NewCrm.msgbox.show(msg, 5, timeout || 2000);
 };
 NewCrm.msgbox.loading = function (msg) {
-    ZENG.msgbox.show(msg, 6, 10000);
+    NewCrm.msgbox.show(msg, 6, 10000);
 };
 NewCrm.msgbox.close = function () {
-    ZENG.msgbox._hide()
+    NewCrm.msgbox._hide()
 };
 
 /**
