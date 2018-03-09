@@ -66,7 +66,7 @@
             });
             upload.on('beforeFileQueued', function (file) {
                 if (file.size > 1000 * 1024) {
-                    ZENG.msgbox.info('文件大于1000Kb');
+                    NewCrm.msgbox.info('文件大于1000Kb');
                     return false;
                 }
             });
@@ -89,7 +89,7 @@
                             window.parent.HROS.wallpaper.update($('#wallpapertype').val(), responseText.Model.Id);
                             upload.removeFile(file);
                         } else {
-                            ZENG.msgbox.fail("壁纸上传失败");
+                            NewCrm.msgbox.fail("壁纸上传失败");
                         }
                     })
                 }
@@ -106,10 +106,10 @@
                 var id = $(this).parent().attr('id');
                 HROS.request.post("/DeskOptions/RemoveWallpaper", { wallPaperId: id }, function (responseText) {
                     if (responseText.IsSuccess) {
-                        ZENG.msgbox.success('壁纸移除成功');
+                        NewCrm.msgbox.success('壁纸移除成功');
                         $('#' + id).remove();
                     } else {
-                        ZENG.msgbox.fail(responseText.Message);
+                        NewCrm.msgbox.fail(responseText.Message);
                     }
                 });
             });
@@ -130,7 +130,7 @@
                     });
                     $('.view').children('ul').append(liElement);
                 } else {
-                    ZENG.msgbox.fail(responseText.Message);
+                    NewCrm.msgbox.fail(responseText.Message);
                 }
 
             });
@@ -139,11 +139,11 @@
         function SetWebWallPaper() {
             var webUrl = $('#wallpaperurl').val();
             if (!webUrl) {
-                ZENG.msgbox.info('请输入一个合法的url地址');
+                NewCrm.msgbox.info('请输入一个合法的url地址');
             } else {
                 HROS.request.post("/DeskOptions/WebWallPaper", { webUrl: webUrl }, function (responseText) {
                     if (parseInt(responseText.Model.Item1) === 0) {
-                        ZENG.msgbox.fail('未能获取到所指定的网络图片');
+                        NewCrm.msgbox.fail('未能获取到所指定的网络图片');
                     } else {
                         window.parent.HROS.wallpaper.update($('#wallpapertype').val(), parseInt(responseText.Model.Item1));
                     }

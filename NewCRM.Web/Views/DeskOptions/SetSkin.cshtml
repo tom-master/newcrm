@@ -31,7 +31,7 @@
                         callback && callback();
                     }
                 } else {
-                    ZENG.msgbox.fail(responseText.Message);
+                    NewCrm.msgbox.fail(responseText.Message);
                 }
             });
         }
@@ -43,14 +43,14 @@
                 $(this).addClass('selected');
                 HROS.request.post('/DeskOptions/ModifySkin', { skin: skin }, function (responseText) {
                     if (responseText.IsSuccess) {
-                        window.parent.ZENG.msgbox.success("皮肤设置成功，如果没有更新请刷新页面");
+                        window.parent.NewCrm.msgbox.success("皮肤设置成功，如果没有更新请刷新页面");
                         setTimeout(function () {
                             window.parent.HROS.base.getSkin(skin, function () {
                                 //window.parent.ZENG.msgbox.hide();
                             });
                         }, 2000);
                     } else {
-                        ZENG.msgbox.fail(responseText.Message);
+                        NewCrm.msgbox.fail(responseText.Message);
                     }
                 });
             });

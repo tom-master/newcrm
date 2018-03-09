@@ -143,7 +143,7 @@
                     if (response.IsSuccess) {
                         if ($('input[name="id"]').val()) { 
                             if ($('#pwd').val() !== '') {
-                                ZENG.msgbox.success('您修改了登陆密码，请重新登陆');
+                                NewCrm.msgbox.success('您修改了登陆密码，请重新登陆');
                                 setTimeout(function () {
                                     top.location.reload()
                                 }, 1000)
@@ -179,7 +179,7 @@
                             });
                         }
                     } else {
-                        ZENG.msgbox.fail(response.Message);
+                        NewCrm.msgbox.fail(response.Message);
                     }
                 }
             });

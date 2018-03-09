@@ -99,12 +99,12 @@
                     if (window.parent.parent.HROS.base.checkLogin()) {
                         HROS.request.post('/AppMarket/ModifyAppStart', { appId: '@Model.Id', starCount: num }, function (responseText) {
                             if (responseText.IsSuccess) {
-                                ZENG.msgbox.success("打分成功！");
+                                NewCrm.msgbox.success("打分成功！");
                                 setTimeout(function () {
                                     location.reload();
                                 }, 2000);
                             } else {
-                                ZENG.msgbox.fail(responseText.Message);
+                                NewCrm.msgbox.fail(responseText.Message);
                             }
                         });
                     } else {
