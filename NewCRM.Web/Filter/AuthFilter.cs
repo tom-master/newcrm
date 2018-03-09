@@ -53,7 +53,7 @@ namespace NewCRM.Web.Filter
                 {
                     ContentEncoding = Encoding.UTF8,
                     Content = notPermissionMessage
-                };
+                }; 
             }
             else
             {
