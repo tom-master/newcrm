@@ -1,7 +1,10 @@
 ﻿using NewCRM.Application.Services.Interface;
+using NewCRM.Dto;
+using Nito.AsyncEx;
 using System;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace NewCRM.Web.Filter
@@ -32,9 +35,11 @@ namespace NewCRM.Web.Filter
             {
                 return;
             }
-            var account = DependencyResolver.Current.GetService<IAccountServices>().GetAccount(Int32.Parse(filterContext.HttpContext.Request.Cookies["memberID"].Value));
+            var account = AsyncContext.Run(() => DependencyResolver.Current.GetService<IAccountServices>()
+            .GetAccountAsync(Int32.Parse(filterContext.HttpContext.Request.Cookies["memberID"].Value)));
+
             var appId = Int32.Parse(filterContext.RequestContext.HttpContext.Request.Params["id"]);
-            var isPermission = DependencyResolver.Current.GetService<ISecurityServices>().CheckPermissions(appId, account.Roles.Select(role => role.Id).ToArray());
+            var isPermission = AsyncContext.Run(() => DependencyResolver.Current.GetService<ISecurityServices>().CheckPermissionsAsync(appId, account.Roles.Select(role => role.Id).ToArray()));
 
             if (!isPermission)
             {
@@ -53,7 +58,7 @@ namespace NewCRM.Web.Filter
                 {
                     ContentEncoding = Encoding.UTF8,
                     Content = notPermissionMessage
-                }; 
+                };
             }
             else
             {

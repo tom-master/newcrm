@@ -41,7 +41,7 @@ namespace NewCRM.Web.Filter
             }
 
 
-            DependencyResolver.Current.GetService<ILoggerServices>().AddLogger(new LogDto
+            DependencyResolver.Current.GetService<ILoggerServices>().AddLoggerAsync(new LogDto
             {
                 Action = filterContext.RouteData.Values["action"].ToString(),
                 Controller = filterContext.RouteData.Values["controller"].ToString(),
