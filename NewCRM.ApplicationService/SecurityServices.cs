@@ -54,7 +54,7 @@ namespace NewCRM.Application.Services
             return await _securityContext.CheckPermissionsAsync(accessAppId, roleIds);
         }
 
-        public async Task<Boolean> CheckRoleNameAsync(string name)
+        public async Task<Boolean> CheckRoleNameAsync(String name)
         {
             Parameter.Validate(name);
             return await _securityContext.CheckRoleNameAsync(name);

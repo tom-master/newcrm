@@ -15,320 +15,320 @@ using Nito.AsyncEx;
 
 namespace NewCRM.Application.Services
 {
-    public class AppServices : BaseServiceContext, IAppServices
-    {
-        private readonly IAppContext _appContext;
-        private readonly IDeskContext _deskContext;
+	public class AppServices: BaseServiceContext, IAppServices
+	{
+		private readonly IAppContext _appContext;
+		private readonly IDeskContext _deskContext;
 
-        public AppServices(IAppContext appContext, IDeskContext deskContext)
-        {
-            _appContext = appContext;
-            _deskContext = deskContext;
-        }
+		public AppServices(IAppContext appContext, IDeskContext deskContext)
+		{
+			_appContext = appContext;
+			_deskContext = deskContext;
+		}
 
-        public async Task<List<AppTypeDto>> GetAppTypesAsync()
-        {
-            var result = await GetCache(CacheKey.AppTypes(), async () => await _appContext.GetAppTypesAsync());
-            return result.Select(s => new AppTypeDto
-            {
-                Id = s.Id,
-                Name = s.Name
-            }).ToList();
-        }
+		public async Task<List<AppTypeDto>> GetAppTypesAsync()
+		{
+			var result = await GetCache(CacheKey.AppTypes(), () => _appContext.GetAppTypesAsync());
+			return result.Select(s => new AppTypeDto
+			{
+				Id = s.Id,
+				Name = s.Name
+			}).ToList();
+		}
 
-        public async Task<TodayRecommendAppDto> GetTodayRecommendAsync(Int32 accountId)
-        {
-            Parameter.Validate(accountId);
+		public async Task<TodayRecommendAppDto> GetTodayRecommendAsync(Int32 accountId)
+		{
+			Parameter.Validate(accountId);
 
-            var result = await _appContext.GetTodayRecommendAsync(accountId);
-            result.AppIcon = result.IsIconByUpload ? ProfileManager.FileUrl + result.AppIcon : result.AppIcon;
-            if (result == null)
-            {
-                return new TodayRecommendAppDto();
-            }
+			var result = await _appContext.GetTodayRecommendAsync(accountId);
+			result.AppIcon = result.IsIconByUpload ? ProfileManager.FileUrl + result.AppIcon : result.AppIcon;
+			if (result == null)
+			{
+				return new TodayRecommendAppDto();
+			}
 
-            return result;
-        }
+			return result;
+		}
 
-        public async Task<Tuple<Int32, Int32>> GetAccountDevelopAppCountAndNotReleaseAppCountAsync(Int32 accountId)
-        {
-            Parameter.Validate(accountId);
-            return await _appContext.GetAccountDevelopAppCountAndNotReleaseAppCountAsync(accountId);
-        }
+		public async Task<Tuple<Int32, Int32>> GetAccountDevelopAppCountAndNotReleaseAppCountAsync(Int32 accountId)
+		{
+			Parameter.Validate(accountId);
+			return await _appContext.GetAccountDevelopAppCountAndNotReleaseAppCountAsync(accountId);
+		}
 
-        public List<AppDto> GetAllApps(Int32 accountId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
-        {
-            Parameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
+		public List<AppDto> GetAllApps(Int32 accountId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+		{
+			Parameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
 
-            var result = _appContext.GetApps(accountId, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
-            return result.Select(app => new AppDto
-            {
-                AppTypeId = app.AppTypeId,
-                AccountId = app.AccountId,
-                AddTime = app.AddTime.ToString("yyyy-MM-dd"),
-                UseCount = app.UseCount,
-                StartCount = app.StarCount,
-                Name = app.Name,
-                IconUrl = app.IsIconByUpload ? ProfileManager.FileUrl + app.IconUrl : app.IconUrl,
-                Remark = app.Remark,
-                AppStyle = (Int32)app.AppStyle,
-                Id = app.Id,
-                IsInstall = app.IsInstall
-            }).ToList();
-        }
+			var result = _appContext.GetApps(accountId, appTypeId, orderId, searchText, pageIndex, pageSize, out totalCount);
+			return result.Select(app => new AppDto
+			{
+				AppTypeId = app.AppTypeId,
+				AccountId = app.AccountId,
+				AddTime = app.AddTime.ToString("yyyy-MM-dd"),
+				UseCount = app.UseCount,
+				StartCount = app.StarCount,
+				Name = app.Name,
+				IconUrl = app.IsIconByUpload ? ProfileManager.FileUrl + app.IconUrl : app.IconUrl,
+				Remark = app.Remark,
+				AppStyle = (Int32)app.AppStyle,
+				Id = app.Id,
+				IsInstall = app.IsInstall
+			}).ToList();
+		}
 
-        public List<AppDto> GetAccountAllApps(Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
-        {
-            Parameter.Validate(accountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
+		public List<AppDto> GetAccountAllApps(Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+		{
+			Parameter.Validate(accountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
 
-            var result = _appContext.GetAccountApps(accountId, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
-            var appTypes = AsyncContext.Run(() => GetAppTypesAsync());
+			var result = _appContext.GetAccountApps(accountId, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out totalCount);
+			var appTypes = AsyncContext.Run(() => GetAppTypesAsync());
 
-            return result.Select(app => new AppDto
-            {
-                Name = app.Name,
-                AppStyle = (Int32)app.AppStyle,
-                AppTypeName = appTypes.FirstOrDefault(appType => appType.Id == app.AppTypeId).Name,
-                UseCount = app.UseCount,
-                Id = app.Id,
-                IconUrl = app.IconUrl,
-                AppAuditState = (Int32)app.AppAuditState,
-                IsRecommand = app.IsRecommand,
-                AccountId = app.AccountId,
-                IsIconByUpload = app.IsIconByUpload
-            }).ToList();
-        }
+			return result.Select(app => new AppDto
+			{
+				Name = app.Name,
+				AppStyle = (Int32)app.AppStyle,
+				AppTypeName = appTypes.FirstOrDefault(appType => appType.Id == app.AppTypeId).Name,
+				UseCount = app.UseCount,
+				Id = app.Id,
+				IconUrl = app.IconUrl,
+				AppAuditState = (Int32)app.AppAuditState,
+				IsRecommand = app.IsRecommand,
+				AccountId = app.AccountId,
+				IsIconByUpload = app.IsIconByUpload
+			}).ToList();
+		}
 
-        public async Task<AppDto> GetAppAsync(Int32 appId)
-        {
-            Parameter.Validate(appId);
+		public async Task<AppDto> GetAppAsync(Int32 appId)
+		{
+			Parameter.Validate(appId);
 
-            var result = await _appContext.GetAppAsync(appId);
-            var appTypes = await GetCache(CacheKey.AppTypes(), async () => await GetAppTypesAsync());
+			var result = await _appContext.GetAppAsync(appId);
+			var appTypes = await GetCache(CacheKey.AppTypes(), () => GetAppTypesAsync());
 
-            return new AppDto
-            {
-                Name = result.Name,
-                IconUrl = result.IconUrl,
-                Remark = result.Remark,
-                UseCount = result.UseCount,
-                StartCount = result.StarCount,
-                AppTypeName = appTypes.FirstOrDefault(appType => appType.Id == result.AppTypeId).Name,
-                AddTime = result.AddTime.ToString("yyyy-MM-dd"),
-                AccountId = result.AccountId,
-                Id = result.Id,
-                IsResize = result.IsResize,
-                IsOpenMax = result.IsOpenMax,
-                IsFlash = result.IsFlash,
-                AppStyle = (Int32)result.AppStyle,
-                AppUrl = result.AppUrl,
-                Width = result.Width,
-                Height = result.Height,
-                AppAuditState = (Int32)result.AppAuditState,
-                AppReleaseState = (Int32)result.AppReleaseState,
-                AppTypeId = result.AppTypeId,
-                AccountName = result.AccountName,
-                IsIconByUpload = result.IsIconByUpload
-            };
-        }
+			return new AppDto
+			{
+				Name = result.Name,
+				IconUrl = result.IconUrl,
+				Remark = result.Remark,
+				UseCount = result.UseCount,
+				StartCount = result.StarCount,
+				AppTypeName = appTypes.FirstOrDefault(appType => appType.Id == result.AppTypeId).Name,
+				AddTime = result.AddTime.ToString("yyyy-MM-dd"),
+				AccountId = result.AccountId,
+				Id = result.Id,
+				IsResize = result.IsResize,
+				IsOpenMax = result.IsOpenMax,
+				IsFlash = result.IsFlash,
+				AppStyle = (Int32)result.AppStyle,
+				AppUrl = result.AppUrl,
+				Width = result.Width,
+				Height = result.Height,
+				AppAuditState = (Int32)result.AppAuditState,
+				AppReleaseState = (Int32)result.AppReleaseState,
+				AppTypeId = result.AppTypeId,
+				AccountName = result.AccountName,
+				IsIconByUpload = result.IsIconByUpload
+			};
+		}
 
-        public async Task<Boolean> IsInstallAppAsync(Int32 accountId, Int32 appId)
-        {
-            Parameter.Validate(accountId).Validate(appId);
-            var result = await _appContext.IsInstallAppAsync(accountId, appId);
-            return result;
-        }
+		public async Task<Boolean> IsInstallAppAsync(Int32 accountId, Int32 appId)
+		{
+			Parameter.Validate(accountId).Validate(appId);
+			var result = await _appContext.IsInstallAppAsync(accountId, appId);
+			return result;
+		}
 
-        public IEnumerable<AppStyleDto> GetAllAppStyles()
-        {
-            var descriptions = GetEnumDescriptions(typeof(AppStyle));
-            foreach (var description in descriptions)
-            {
-                yield return new AppStyleDto
-                {
-                    Id = description.Id,
-                    Name = description.Value,
-                    Type = description.Type
-                };
-            }
-        }
+		public IEnumerable<AppStyleDto> GetAllAppStyles()
+		{
+			var descriptions = GetEnumDescriptions(typeof(AppStyle));
+			foreach (var description in descriptions)
+			{
+				yield return new AppStyleDto
+				{
+					Id = description.Id,
+					Name = description.Value,
+					Type = description.Type
+				};
+			}
+		}
 
-        public IEnumerable<AppStateDto> GetAllAppStates()
-        {
-            var appStates = new List<dynamic>();
+		public IEnumerable<AppStateDto> GetAllAppStates()
+		{
+			var appStates = new List<dynamic>();
 
-            appStates.AddRange(GetEnumDescriptions(typeof(AppAuditState)));
-            appStates.AddRange(GetEnumDescriptions(typeof(AppReleaseState)));
-            foreach (var appState in appStates)
-            {
-                yield return new AppStateDto
-                {
-                    Id = appState.Id,
-                    Name = appState.Value,
-                    Type = appState.Type
-                };
-            }
-        }
+			appStates.AddRange(GetEnumDescriptions(typeof(AppAuditState)));
+			appStates.AddRange(GetEnumDescriptions(typeof(AppReleaseState)));
+			foreach (var appState in appStates)
+			{
+				yield return new AppStateDto
+				{
+					Id = appState.Id,
+					Name = appState.Value,
+					Type = appState.Type
+				};
+			}
+		}
 
-        public async Task<List<AppDto>> GetSystemAppAsync(IEnumerable<Int32> appIds = default(IEnumerable<Int32>))
-        {
-            var result = await _appContext.GetSystemAppAsync(appIds);
-            return result.Select(app => new AppDto
-            {
-                Id = app.Id,
-                Name = app.Name,
-                IconUrl = app.IconUrl
-            }).ToList();
-        }
+		public async Task<List<AppDto>> GetSystemAppAsync(IEnumerable<Int32> appIds = default(IEnumerable<Int32>))
+		{
+			var result = await _appContext.GetSystemAppAsync(appIds);
+			return result.Select(app => new AppDto
+			{
+				Id = app.Id,
+				Name = app.Name,
+				IconUrl = app.IconUrl
+			}).ToList();
+		}
 
-        public async Task<Boolean> CheckAppTypeNameAsync(String appTypeName)
-        {
-            Parameter.Validate(appTypeName);
-            return await _appContext.CheckAppTypeNameAsync(appTypeName);
-        }
+		public async Task<Boolean> CheckAppTypeNameAsync(String appTypeName)
+		{
+			Parameter.Validate(appTypeName);
+			return await _appContext.CheckAppTypeNameAsync(appTypeName);
+		}
 
-        public async Task ModifyAppDirectionAsync(Int32 accountId, String direction)
-        {
-            Parameter.Validate(accountId).Validate(direction);
+		public async Task ModifyAppDirectionAsync(Int32 accountId, String direction)
+		{
+			Parameter.Validate(accountId).Validate(direction);
 
-            if (direction.ToLower() == "x")
-            {
-                await _deskContext.ModifyMemberDirectionToXAsync(accountId);
-            }
-            else if (direction.ToLower() == "y")
-            {
-                await _deskContext.ModifyMemberDirectionToYAsync(accountId);
-            }
-            else
-            {
-                throw new BusinessException($"未能识别的App排列方向:{direction.ToLower()}");
-            }
-            RemoveOldKeyWhenModify(CacheKey.Config(accountId));
-        }
+			if (direction.ToLower() == "x")
+			{
+				await _deskContext.ModifyMemberDirectionToXAsync(accountId);
+			}
+			else if (direction.ToLower() == "y")
+			{
+				await _deskContext.ModifyMemberDirectionToYAsync(accountId);
+			}
+			else
+			{
+				throw new BusinessException($"未能识别的App排列方向:{direction.ToLower()}");
+			}
+			RemoveOldKeyWhenModify(CacheKey.Config(accountId));
+		}
 
-        public async Task ModifyAppIconSizeAsync(Int32 accountId, Int32 newSize)
-        {
-            Parameter.Validate(accountId).Validate(newSize);
-            await _deskContext.ModifyMemberDisplayIconSizeAsync(accountId, newSize);
-            RemoveOldKeyWhenModify(CacheKey.Config(accountId));
-        }
+		public async Task ModifyAppIconSizeAsync(Int32 accountId, Int32 newSize)
+		{
+			Parameter.Validate(accountId).Validate(newSize);
+			await _deskContext.ModifyMemberDisplayIconSizeAsync(accountId, newSize);
+			RemoveOldKeyWhenModify(CacheKey.Config(accountId));
+		}
 
-        public async Task ModifyAppVerticalSpacingAsync(Int32 accountId, Int32 newSize)
-        {
-            Parameter.Validate(accountId).Validate(newSize);
-            await _deskContext.ModifyMemberHorizontalSpacingAsync(accountId, newSize);
-            RemoveOldKeyWhenModify(CacheKey.Config(accountId));
-        }
+		public async Task ModifyAppVerticalSpacingAsync(Int32 accountId, Int32 newSize)
+		{
+			Parameter.Validate(accountId).Validate(newSize);
+			await _deskContext.ModifyMemberHorizontalSpacingAsync(accountId, newSize);
+			RemoveOldKeyWhenModify(CacheKey.Config(accountId));
+		}
 
-        public async Task ModifyAppHorizontalSpacingAsync(Int32 accountId, Int32 newSize)
-        {
-            Parameter.Validate(accountId).Validate(newSize);
-            await _deskContext.ModifyMemberVerticalSpacingAsync(accountId, newSize);
-            RemoveOldKeyWhenModify(CacheKey.Config(accountId));
-        }
+		public async Task ModifyAppHorizontalSpacingAsync(Int32 accountId, Int32 newSize)
+		{
+			Parameter.Validate(accountId).Validate(newSize);
+			await _deskContext.ModifyMemberVerticalSpacingAsync(accountId, newSize);
+			RemoveOldKeyWhenModify(CacheKey.Config(accountId));
+		}
 
-        public async Task ModifyAppStarAsync(Int32 accountId, Int32 appId, Int32 starCount)
-        {
-            Parameter.Validate(accountId).Validate(appId).Validate(starCount, true);
+		public async Task ModifyAppStarAsync(Int32 accountId, Int32 appId, Int32 starCount)
+		{
+			Parameter.Validate(accountId).Validate(appId).Validate(starCount, true);
 
-            var isInstall = await _appContext.IsInstallAppAsync(accountId, appId);
-            if (!isInstall)
-            {
-                throw new BusinessException("您还没有安装这个App，因此不能打分");
-            }
-            await _appContext.ModifyAppStarAsync(accountId, appId, starCount);
-        }
+			var isInstall = await _appContext.IsInstallAppAsync(accountId, appId);
+			if (!isInstall)
+			{
+				throw new BusinessException("您还没有安装这个App，因此不能打分");
+			}
+			await _appContext.ModifyAppStarAsync(accountId, appId, starCount);
+		}
 
-        public async Task InstallAppAsync(Int32 accountId, Int32 appId, Int32 deskNum)
-        {
-            Parameter.Validate(accountId).Validate(appId).Validate(deskNum);
-            await _appContext.InstallAsync(accountId, appId, deskNum);
-            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
-        }
+		public async Task InstallAppAsync(Int32 accountId, Int32 appId, Int32 deskNum)
+		{
+			Parameter.Validate(accountId).Validate(appId).Validate(deskNum);
+			await _appContext.InstallAsync(accountId, appId, deskNum);
+			RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
+		}
 
-        public async Task ModifyAccountAppInfoAsync(Int32 accountId, AppDto appDto)
-        {
-            Parameter.Validate(accountId).Validate(appDto);
-            await _appContext.ModifyAccountAppInfoAsync(accountId, appDto.ConvertToModel<AppDto, App>());
-        }
+		public async Task ModifyAccountAppInfoAsync(Int32 accountId, AppDto appDto)
+		{
+			Parameter.Validate(accountId).Validate(appDto);
+			await _appContext.ModifyAccountAppInfoAsync(accountId, appDto.ConvertToModel<AppDto, App>());
+		}
 
-        public async Task CreateNewAppAsync(AppDto appDto)
-        {
-            Parameter.Validate(appDto);
+		public async Task CreateNewAppAsync(AppDto appDto)
+		{
+			Parameter.Validate(appDto);
 
-            var app = appDto.ConvertToModel<AppDto, App>();
-            var internalApp = new App(app.Name, app.IconUrl, app.AppUrl, app.Width, app.Height, app.AppTypeId, app.AppAuditState, AppReleaseState.UnRelease, app.AppStyle, app.AccountId,
-                app.Remark, app.IsMax, app.IsFull, app.IsSetbar, app.IsOpenMax, app.IsFlash, app.IsDraw, app.IsResize)
-            {
-                IsIconByUpload = appDto.IsIconByUpload
-            };
-            await _appContext.CreateNewAppAsync(internalApp);
-        }
+			var app = appDto.ConvertToModel<AppDto, App>();
+			var internalApp = new App(app.Name, app.IconUrl, app.AppUrl, app.Width, app.Height, app.AppTypeId, app.AppAuditState, AppReleaseState.UnRelease, app.AppStyle, app.AccountId,
+				app.Remark, app.IsMax, app.IsFull, app.IsSetbar, app.IsOpenMax, app.IsFlash, app.IsDraw, app.IsResize)
+			{
+				IsIconByUpload = appDto.IsIconByUpload
+			};
+			await _appContext.CreateNewAppAsync(internalApp);
+		}
 
-        public async Task RemoveAppTypeAsync(Int32 appTypeId)
-        {
-            Parameter.Validate(appTypeId);
-            await _appContext.DeleteAppTypeAsync(appTypeId);
-            RemoveOldKeyWhenModify(CacheKey.AppTypes());
-        }
+		public async Task RemoveAppTypeAsync(Int32 appTypeId)
+		{
+			Parameter.Validate(appTypeId);
+			await _appContext.DeleteAppTypeAsync(appTypeId);
+			RemoveOldKeyWhenModify(CacheKey.AppTypes());
+		}
 
-        public async Task CreateNewAppTypeAsync(AppTypeDto appTypeDto)
-        {
-            Parameter.Validate(appTypeDto);
-            var appType = appTypeDto.ConvertToModel<AppTypeDto, AppType>();
-            await _appContext.CreateNewAppTypeAsync(appType);
-            RemoveOldKeyWhenModify(CacheKey.AppTypes());
-        }
+		public async Task CreateNewAppTypeAsync(AppTypeDto appTypeDto)
+		{
+			Parameter.Validate(appTypeDto);
+			var appType = appTypeDto.ConvertToModel<AppTypeDto, AppType>();
+			await _appContext.CreateNewAppTypeAsync(appType);
+			RemoveOldKeyWhenModify(CacheKey.AppTypes());
+		}
 
-        public async Task ModifyAppTypeAsync(AppTypeDto appTypeDto, Int32 appTypeId)
-        {
-            Parameter.Validate(appTypeDto).Validate(appTypeId);
-            await _appContext.ModifyAppTypeAsync(appTypeDto.Name, appTypeId);
-            RemoveOldKeyWhenModify(CacheKey.AppTypes());
-        }
+		public async Task ModifyAppTypeAsync(AppTypeDto appTypeDto, Int32 appTypeId)
+		{
+			Parameter.Validate(appTypeDto).Validate(appTypeId);
+			await _appContext.ModifyAppTypeAsync(appTypeDto.Name, appTypeId);
+			RemoveOldKeyWhenModify(CacheKey.AppTypes());
+		}
 
-        public async Task PassAsync(Int32 appId)
-        {
-            Parameter.Validate(appId);
-            await _appContext.PassAsync(appId);
-        }
+		public async Task PassAsync(Int32 appId)
+		{
+			Parameter.Validate(appId);
+			await _appContext.PassAsync(appId);
+		}
 
-        public async Task DenyAsync(Int32 appId)
-        {
-            Parameter.Validate(appId);
-            await _appContext.DenyAsync(appId);
-        }
+		public async Task DenyAsync(Int32 appId)
+		{
+			Parameter.Validate(appId);
+			await _appContext.DenyAsync(appId);
+		}
 
-        public async Task SetTodayRecommandAppAsync(Int32 appId)
-        {
-            Parameter.Validate(appId);
-            await _appContext.SetTodayRecommandAppAsync(appId);
-        }
+		public async Task SetTodayRecommandAppAsync(Int32 appId)
+		{
+			Parameter.Validate(appId);
+			await _appContext.SetTodayRecommandAppAsync(appId);
+		}
 
-        public async Task RemoveAppAsync(Int32 appId)
-        {
-            Parameter.Validate(appId);
-            await _appContext.RemoveAppAsync(appId);
-        }
+		public async Task RemoveAppAsync(Int32 appId)
+		{
+			Parameter.Validate(appId);
+			await _appContext.RemoveAppAsync(appId);
+		}
 
-        public async Task ReleaseAppAsync(Int32 appId)
-        {
-            Parameter.Validate(appId);
-            await _appContext.ReleaseAppAsync(appId);
-        }
+		public async Task ReleaseAppAsync(Int32 appId)
+		{
+			Parameter.Validate(appId);
+			await _appContext.ReleaseAppAsync(appId);
+		}
 
-        public async Task ModifyAppIconAsync(Int32 accountId, Int32 appId, String newIcon)
-        {
-            Parameter.Validate(accountId).Validate(appId).Validate(newIcon);
-            await _appContext.ModifyAppIconAsync(accountId, appId, newIcon);
-        }
+		public async Task ModifyAppIconAsync(Int32 accountId, Int32 appId, String newIcon)
+		{
+			Parameter.Validate(accountId).Validate(appId).Validate(newIcon);
+			await _appContext.ModifyAppIconAsync(accountId, appId, newIcon);
+		}
 
-        #region private method
-        // <summary>
-        // <summary> 获取传入的枚举类型的字面量的描述
-        private static IEnumerable<dynamic> GetEnumDescriptions(Type enumType) => enumType.GetFields().Where(field => field.CustomAttributes.Any()).Select(s => new { s.CustomAttributes.ToArray()[0].ConstructorArguments[0].Value, Id = s.GetRawConstantValue(), Type = enumType.Name }).Cast<dynamic>().ToList();
+		#region private method
+		// <summary>
+		// <summary> 获取传入的枚举类型的字面量的描述
+		private static IEnumerable<dynamic> GetEnumDescriptions(Type enumType) => enumType.GetFields().Where(field => field.CustomAttributes.Any()).Select(s => new { s.CustomAttributes.ToArray()[0].ConstructorArguments[0].Value, Id = s.GetRawConstantValue(), Type = enumType.Name }).Cast<dynamic>().ToList();
 
-        #endregion
-    }
+		#endregion
+	}
 }
 

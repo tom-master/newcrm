@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="CommonTools\BusinessException.cs" />
     <Compile Include="CommonTools\CacheKey.cs" />
+    <Compile Include="CommonTools\CacheKeyBase.cs" />
     <Compile Include="CommonTools\CustomExtension\BooleanExtension.cs" />
     <Compile Include="CommonTools\BingHelper.cs" />
     <Compile Include="CommonTools\ResponseModel.cs" />

@@ -207,18 +207,18 @@ namespace NewCRM.Domain.Services.BoundedContext
 		{
 			Parameter.Validate(accountId).Validate(newWallpaperId);
 			await Task.Run(() =>
-		   {
-			   using (var dataStore = new DataStore())
-			   {
-				   var sql = $@"UPDATE dbo.Configs SET IsBing=0,WallpaperId=@WallpaperId WHERE AccountId=@AccountId AND IsDeleted=0";
-				   var parameters = new List<SqlParameter>
-				   {
+			{
+				using (var dataStore = new DataStore())
+				{
+					var sql = $@"UPDATE dbo.Configs SET IsBing=0,WallpaperId=@WallpaperId WHERE AccountId=@AccountId AND IsDeleted=0";
+					var parameters = new List<SqlParameter>
+					{
 						new SqlParameter("@WallpaperId",newWallpaperId),
 						new SqlParameter("@AccountId",accountId)
-				   };
-				   dataStore.SqlExecute(sql, parameters);
-			   }
-		   });
+					};
+					dataStore.SqlExecute(sql, parameters);
+				}
+			});
 		}
 
 		public async Task RemoveWallpaperAsync(Int32 accountId, Int32 wallpaperId)

@@ -14,245 +14,245 @@ using NewLib;
 
 namespace NewCRM.Application.Services
 {
-    public class DeskServices : BaseServiceContext, IDeskServices
-    {
-        private readonly IMemberContext _memberContext;
-        private readonly IDeskContext _deskContext;
+	public class DeskServices: BaseServiceContext, IDeskServices
+	{
+		private readonly IMemberContext _memberContext;
+		private readonly IDeskContext _deskContext;
 
-        public DeskServices(IMemberContext memberContext, IDeskContext deskContext)
-        {
-            _memberContext = memberContext;
-            _deskContext = deskContext;
-        }
+		public DeskServices(IMemberContext memberContext, IDeskContext deskContext)
+		{
+			_memberContext = memberContext;
+			_deskContext = deskContext;
+		}
 
-        public async Task<MemberDto> GetMemberAsync(Int32 accountId, Int32 memberId, Boolean isFolder)
-        {
-            Parameter.Validate(accountId).Validate(memberId);
-            var result = await _memberContext.GetMemberAsync(accountId, memberId, isFolder);
-            if (result == null)
-            {
-                throw new BusinessException($"未找到app");
-            }
-            return new MemberDto
-            {
-                AppId = result.AppId,
-                AppUrl = result.AppUrl,
-                DeskIndex = result.DeskIndex,
-                FolderId = result.FolderId,
-                Height = result.Height,
-                IconUrl = result.IconUrl,
-                Id = result.Id,
-                IsDraw = result.IsDraw,
-                IsFlash = result.IsFlash,
-                IsFull = result.IsFull,
-                IsLock = result.IsLock,
-                IsMax = result.IsMax,
-                IsOnDock = result.IsOnDock,
-                IsOpenMax = result.IsOpenMax,
-                IsResize = result.IsResize,
-                IsSetbar = result.IsSetbar,
-                MemberType = result.MemberType.ToString(),
-                Name = result.Name,
-                Width = result.Width,
-                AccountId = result.AccountId,
-                IsIconByUpload = result.IsIconByUpload
-            };
-        }
+		public async Task<MemberDto> GetMemberAsync(Int32 accountId, Int32 memberId, Boolean isFolder)
+		{
+			Parameter.Validate(accountId).Validate(memberId);
+			var result = await _memberContext.GetMemberAsync(accountId, memberId, isFolder);
+			if (result == null)
+			{
+				throw new BusinessException($"未找到app");
+			}
+			return new MemberDto
+			{
+				AppId = result.AppId,
+				AppUrl = result.AppUrl,
+				DeskIndex = result.DeskIndex,
+				FolderId = result.FolderId,
+				Height = result.Height,
+				IconUrl = result.IconUrl,
+				Id = result.Id,
+				IsDraw = result.IsDraw,
+				IsFlash = result.IsFlash,
+				IsFull = result.IsFull,
+				IsLock = result.IsLock,
+				IsMax = result.IsMax,
+				IsOnDock = result.IsOnDock,
+				IsOpenMax = result.IsOpenMax,
+				IsResize = result.IsResize,
+				IsSetbar = result.IsSetbar,
+				MemberType = result.MemberType.ToString(),
+				Name = result.Name,
+				Width = result.Width,
+				AccountId = result.AccountId,
+				IsIconByUpload = result.IsIconByUpload
+			};
+		}
 
-        public async Task<IDictionary<String, IList<dynamic>>> GetDeskMembersAsync(Int32 accountId)
-        {
-            Parameter.Validate(accountId);
+		public async Task<IDictionary<String, IList<dynamic>>> GetDeskMembersAsync(Int32 accountId)
+		{
+			Parameter.Validate(accountId);
 
-            var result = await GetCache(CacheKey.Desktop(accountId), async () => await _memberContext.GetMembersAsync(accountId));
-            var deskGroup = result.GroupBy(a => a.DeskIndex);
-            var deskDictionary = new Dictionary<String, IList<dynamic>>();
-            foreach (var desk in deskGroup)
-            {
-                var members = desk.ToList();
-                var deskMembers = new List<dynamic>();
-                foreach (var member in members)
-                {
-                    if (member.MemberType == MemberType.Folder)
-                    {
-                        deskMembers.Add(new
-                        {
-                            type = member.MemberType.ToString().ToLower(),
-                            memberId = member.Id,
-                            appId = member.AppId,
-                            name = member.Name,
-                            icon = member.IsIconByUpload ? ProfileManager.FileUrl + member.IconUrl : member.IconUrl,
-                            width = member.Width,
-                            height = member.Height,
-                            isOnDock = member.IsOnDock,
-                            isDraw = member.IsDraw,
-                            isOpenMax = member.IsOpenMax,
-                            isSetbar = member.IsSetbar,
-                            apps = members.Where(m => m.FolderId == member.Id).Select(app => new
-                            {
-                                type = app.MemberType.ToString().ToLower(),
-                                memberId = app.Id,
-                                appId = app.AppId,
-                                name = app.Name,
-                                icon = member.IsIconByUpload ? ProfileManager.FileUrl + member.IconUrl : member.IconUrl,
-                                width = app.Width,
-                                height = app.Height,
-                                isOnDock = app.IsOnDock,
-                                isDraw = app.IsDraw,
-                                isOpenMax = app.IsOpenMax,
-                                isSetbar = app.IsSetbar,
-                            })
-                        });
-                    }
-                    else
-                    {
-                        if (member.FolderId == 0)
-                        {
-                            var internalType = member.MemberType.ToString().ToLower();
-                            deskMembers.Add(new
-                            {
-                                type = internalType,
-                                memberId = member.Id,
-                                appId = member.AppId,
-                                name = member.Name,
-                                icon = member.IsIconByUpload ? ProfileManager.FileUrl + member.IconUrl : member.IconUrl,
-                                width = member.Width,
-                                height = member.Height,
-                                isOnDock = member.IsOnDock,
-                                isDraw = member.IsDraw,
-                                isOpenMax = member.IsOpenMax,
-                                isSetbar = member.IsSetbar
-                            });
-                        }
-                    }
-                }
-                deskDictionary.Add(desk.Key.ToString(), deskMembers);
-            }
+			var result = await GetCache(CacheKey.Desktop(accountId), () => _memberContext.GetMembersAsync(accountId));
+			var deskGroup = result.GroupBy(a => a.DeskIndex);
+			var deskDictionary = new Dictionary<String, IList<dynamic>>();
+			foreach (var desk in deskGroup)
+			{
+				var members = desk.ToList();
+				var deskMembers = new List<dynamic>();
+				foreach (var member in members)
+				{
+					if (member.MemberType == MemberType.Folder)
+					{
+						deskMembers.Add(new
+						{
+							type = member.MemberType.ToString().ToLower(),
+							memberId = member.Id,
+							appId = member.AppId,
+							name = member.Name,
+							icon = member.IsIconByUpload ? ProfileManager.FileUrl + member.IconUrl : member.IconUrl,
+							width = member.Width,
+							height = member.Height,
+							isOnDock = member.IsOnDock,
+							isDraw = member.IsDraw,
+							isOpenMax = member.IsOpenMax,
+							isSetbar = member.IsSetbar,
+							apps = members.Where(m => m.FolderId == member.Id).Select(app => new
+							{
+								type = app.MemberType.ToString().ToLower(),
+								memberId = app.Id,
+								appId = app.AppId,
+								name = app.Name,
+								icon = member.IsIconByUpload ? ProfileManager.FileUrl + member.IconUrl : member.IconUrl,
+								width = app.Width,
+								height = app.Height,
+								isOnDock = app.IsOnDock,
+								isDraw = app.IsDraw,
+								isOpenMax = app.IsOpenMax,
+								isSetbar = app.IsSetbar,
+							})
+						});
+					}
+					else
+					{
+						if (member.FolderId == 0)
+						{
+							var internalType = member.MemberType.ToString().ToLower();
+							deskMembers.Add(new
+							{
+								type = internalType,
+								memberId = member.Id,
+								appId = member.AppId,
+								name = member.Name,
+								icon = member.IsIconByUpload ? ProfileManager.FileUrl + member.IconUrl : member.IconUrl,
+								width = member.Width,
+								height = member.Height,
+								isOnDock = member.IsOnDock,
+								isDraw = member.IsDraw,
+								isOpenMax = member.IsOpenMax,
+								isSetbar = member.IsSetbar
+							});
+						}
+					}
+				}
+				deskDictionary.Add(desk.Key.ToString(), deskMembers);
+			}
 
-            return deskDictionary;
-        }
+			return deskDictionary;
+		}
 
-        public async Task<Boolean> CheckMemberNameAsync(string name)
-        {
-            Parameter.Validate(name);
-            return await _memberContext.CheckMemberNameAsync(name);
-        }
+		public async Task<Boolean> CheckMemberNameAsync(String name)
+		{
+			Parameter.Validate(name);
+			return await _memberContext.CheckMemberNameAsync(name);
+		}
 
-        public async Task ModifyDefaultDeskNumberAsync(Int32 accountId, Int32 newDefaultDeskNumber)
-        {
-            Parameter.Validate(accountId).Validate(newDefaultDeskNumber);
-            await _deskContext.ModifyDefaultDeskNumberAsync(accountId, newDefaultDeskNumber);
-            RemoveOldKeyWhenModify(CacheKey.Config(accountId));
-        }
+		public async Task ModifyDefaultDeskNumberAsync(Int32 accountId, Int32 newDefaultDeskNumber)
+		{
+			Parameter.Validate(accountId).Validate(newDefaultDeskNumber);
+			await _deskContext.ModifyDefaultDeskNumberAsync(accountId, newDefaultDeskNumber);
+			RemoveOldKeyWhenModify(CacheKey.Config(accountId));
+		}
 
-        public async Task ModifyDockPositionAsync(Int32 accountId, Int32 defaultDeskNumber, String newPosition)
-        {
-            Parameter.Validate(accountId).Validate(defaultDeskNumber).Validate(newPosition);
-            await _deskContext.ModifyDockPositionAsync(accountId, defaultDeskNumber, newPosition);
-            RemoveOldKeyWhenModify(CacheKey.Config(accountId));
-        }
+		public async Task ModifyDockPositionAsync(Int32 accountId, Int32 defaultDeskNumber, String newPosition)
+		{
+			Parameter.Validate(accountId).Validate(defaultDeskNumber).Validate(newPosition);
+			await _deskContext.ModifyDockPositionAsync(accountId, defaultDeskNumber, newPosition);
+			RemoveOldKeyWhenModify(CacheKey.Config(accountId));
+		}
 
-        public async Task MemberInDockAsync(Int32 accountId, Int32 memberId)
-        {
-            Parameter.Validate(accountId).Validate(memberId);
-            await _deskContext.MemberInDockAsync(accountId, memberId);
-            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
-        }
+		public async Task MemberInDockAsync(Int32 accountId, Int32 memberId)
+		{
+			Parameter.Validate(accountId).Validate(memberId);
+			await _deskContext.MemberInDockAsync(accountId, memberId);
+			RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
+		}
 
-        public async Task MemberOutDockAsync(Int32 accountId, Int32 memberId, Int32 deskId)
-        {
-            Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
-            await _deskContext.MemberOutDockAsync(accountId, memberId, deskId);
-            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
-        }
+		public async Task MemberOutDockAsync(Int32 accountId, Int32 memberId, Int32 deskId)
+		{
+			Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
+			await _deskContext.MemberOutDockAsync(accountId, memberId, deskId);
+			RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
+		}
 
-        public async Task DockToFolderAsync(Int32 accountId, Int32 memberId, Int32 folderId)
-        {
-            Parameter.Validate(accountId).Validate(memberId).Validate(folderId);
-            await _deskContext.DockToFolderAsync(accountId, memberId, folderId);
-            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
-        }
+		public async Task DockToFolderAsync(Int32 accountId, Int32 memberId, Int32 folderId)
+		{
+			Parameter.Validate(accountId).Validate(memberId).Validate(folderId);
+			await _deskContext.DockToFolderAsync(accountId, memberId, folderId);
+			RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
+		}
 
-        public async Task FolderToDockAsync(Int32 accountId, Int32 memberId)
-        {
-            Parameter.Validate(accountId).Validate(memberId);
-            await _deskContext.FolderToDockAsync(accountId, memberId);
-            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
-        }
+		public async Task FolderToDockAsync(Int32 accountId, Int32 memberId)
+		{
+			Parameter.Validate(accountId).Validate(memberId);
+			await _deskContext.FolderToDockAsync(accountId, memberId);
+			RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
+		}
 
-        public async Task DeskToFolderAsync(Int32 accountId, Int32 memberId, Int32 folderId)
-        {
-            Parameter.Validate(accountId).Validate(memberId).Validate(folderId);
-            await _deskContext.DeskToFolderAsync(accountId, memberId, folderId);
-            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
-        }
+		public async Task DeskToFolderAsync(Int32 accountId, Int32 memberId, Int32 folderId)
+		{
+			Parameter.Validate(accountId).Validate(memberId).Validate(folderId);
+			await _deskContext.DeskToFolderAsync(accountId, memberId, folderId);
+			RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
+		}
 
-        public async Task FolderToDeskAsync(Int32 accountId, Int32 memberId, Int32 deskId)
-        {
-            Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
-            await _deskContext.FolderToDeskAsync(accountId, memberId, deskId);
-            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
-        }
+		public async Task FolderToDeskAsync(Int32 accountId, Int32 memberId, Int32 deskId)
+		{
+			Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
+			await _deskContext.FolderToDeskAsync(accountId, memberId, deskId);
+			RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
+		}
 
-        public async Task FolderToOtherFolderAsync(Int32 accountId, Int32 memberId, Int32 folderId)
-        {
-            Parameter.Validate(accountId).Validate(memberId).Validate(folderId);
-            await _deskContext.FolderToOtherFolderAsync(accountId, memberId, folderId);
-            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
-        }
+		public async Task FolderToOtherFolderAsync(Int32 accountId, Int32 memberId, Int32 folderId)
+		{
+			Parameter.Validate(accountId).Validate(memberId).Validate(folderId);
+			await _deskContext.FolderToOtherFolderAsync(accountId, memberId, folderId);
+			RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
+		}
 
-        public async Task DeskToOtherDeskAsync(Int32 accountId, Int32 memberId, Int32 deskId)
-        {
-            Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
-            await _deskContext.DeskToOtherDeskAsync(accountId, memberId, deskId);
-            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
-        }
+		public async Task DeskToOtherDeskAsync(Int32 accountId, Int32 memberId, Int32 deskId)
+		{
+			Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
+			await _deskContext.DeskToOtherDeskAsync(accountId, memberId, deskId);
+			RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
+		}
 
-        public async Task ModifyFolderInfoAsync(Int32 accountId, String memberName, String memberIcon, Int32 memberId)
-        {
-            Parameter.Validate(accountId).Validate(memberName).Validate(memberIcon).Validate(memberId);
-            await _memberContext.ModifyFolderInfoAsync(accountId, memberName, memberIcon, memberId);
-            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
-        }
+		public async Task ModifyFolderInfoAsync(Int32 accountId, String memberName, String memberIcon, Int32 memberId)
+		{
+			Parameter.Validate(accountId).Validate(memberName).Validate(memberIcon).Validate(memberId);
+			await _memberContext.ModifyFolderInfoAsync(accountId, memberName, memberIcon, memberId);
+			RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
+		}
 
-        public async Task UninstallMemberAsync(Int32 accountId, Int32 memberId)
-        {
-            Parameter.Validate(accountId).Validate(memberId);
-            await _memberContext.UninstallMemberAsync(accountId, memberId);
-            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
-        }
+		public async Task UninstallMemberAsync(Int32 accountId, Int32 memberId)
+		{
+			Parameter.Validate(accountId).Validate(memberId);
+			await _memberContext.UninstallMemberAsync(accountId, memberId);
+			RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
+		}
 
-        public async Task ModifyMemberInfoAsync(Int32 accountId, MemberDto member)
-        {
-            Parameter.Validate(accountId).Validate(member);
-            await _memberContext.ModifyMemberInfoAsync(accountId, member.ConvertToModel<MemberDto, Member>());
-            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
-        }
+		public async Task ModifyMemberInfoAsync(Int32 accountId, MemberDto member)
+		{
+			Parameter.Validate(accountId).Validate(member);
+			await _memberContext.ModifyMemberInfoAsync(accountId, member.ConvertToModel<MemberDto, Member>());
+			RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
+		}
 
-        public async Task CreateNewFolderAsync(String folderName, String folderImg, Int32 deskId, Int32 accountId)
-        {
-            Parameter.Validate(folderName).Validate(folderImg).Validate(deskId);
-            await _deskContext.CreateNewFolderAsync(deskId, folderName, folderImg, accountId);
-        }
+		public async Task CreateNewFolderAsync(String folderName, String folderImg, Int32 deskId, Int32 accountId)
+		{
+			Parameter.Validate(folderName).Validate(folderImg).Validate(deskId);
+			await _deskContext.CreateNewFolderAsync(deskId, folderName, folderImg, accountId);
+		}
 
-        public async Task DockToOtherDeskAsync(Int32 accountId, Int32 memberId, Int32 deskId)
-        {
-            Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
-            await _deskContext.DockToOtherDeskAsync(accountId, memberId, deskId);
-            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
-        }
+		public async Task DockToOtherDeskAsync(Int32 accountId, Int32 memberId, Int32 deskId)
+		{
+			Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
+			await _deskContext.DockToOtherDeskAsync(accountId, memberId, deskId);
+			RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
+		}
 
-        public async Task ModifyMemberIconAsync(Int32 accountId, Int32 memberId, String newIcon)
-        {
-            Parameter.Validate(memberId).Validate(newIcon);
-            await _memberContext.ModifyMemberIconAsync(accountId, memberId, newIcon);
-            RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
-        }
+		public async Task ModifyMemberIconAsync(Int32 accountId, Int32 memberId, String newIcon)
+		{
+			Parameter.Validate(memberId).Validate(newIcon);
+			await _memberContext.ModifyMemberIconAsync(accountId, memberId, newIcon);
+			RemoveOldKeyWhenModify(CacheKey.Desktop(accountId));
+		}
 
-        public async Task ModifyWallpaperSourceAsync(String source, Int32 accountId)
-        {
-            Parameter.Validate(source).Validate(accountId);
-            await _deskContext.ModifyWallpaperSourceAsync(source, accountId);
-            RemoveOldKeyWhenModify(CacheKey.Config(accountId));
-        }
-    }
+		public async Task ModifyWallpaperSourceAsync(String source, Int32 accountId)
+		{
+			Parameter.Validate(source).Validate(accountId);
+			await _deskContext.ModifyWallpaperSourceAsync(source, accountId);
+			RemoveOldKeyWhenModify(CacheKey.Config(accountId));
+		}
+	}
 }
