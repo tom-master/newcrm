@@ -15,12 +15,12 @@ using NewLib.Data.SqlMapper.InternalDataStore;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {
-    public class AppContext : BaseServiceContext, IAppContext
+    public class AppContext: BaseServiceContext, IAppContext
     {
         public async Task<Tuple<Int32, Int32>> GetAccountDevelopAppCountAndNotReleaseAppCountAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            return await Task.Run<Tuple<Int32, Int32>>(() =>
+            return await Task.Run(() =>
              {
                  using (var dataStore = new DataStore())
                  {
@@ -30,14 +30,14 @@ namespace NewCRM.Domain.Services.BoundedContext
                         new SqlParameter("@accountId",accountId)
                     };
                      var result = dataStore.Find<App>(sql, parameters);
-                     return new Tuple<int, int>(result.Count, result.Count(a => a.AppReleaseState == AppReleaseState.UnRelease));
+                     return new Tuple<Int32, Int32>(result.Count, result.Count(a => a.AppReleaseState == AppReleaseState.UnRelease));
                  }
              });
         }
 
         public async Task<List<AppType>> GetAppTypesAsync()
         {
-            return await Task.Run<List<AppType>>(() =>
+            return await Task.Run(() =>
             {
                 using (var dataStore = new DataStore())
                 {
@@ -47,10 +47,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public async Task<TodayRecommendAppDto> GetTodayRecommendAsync(int accountId)
+        public async Task<TodayRecommendAppDto> GetTodayRecommendAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            return await Task.Run<TodayRecommendAppDto>(() =>
+            return await Task.Run(() =>
             {
                 using (var dataStore = new DataStore())
                 {
@@ -85,7 +85,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public List<App> GetApps(int accountId, int appTypeId, int orderId, string searchText, int pageIndex, int pageSize, out int totalCount)
+        public List<App> GetApps(Int32 accountId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
             Parameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
             using (var dataStore = new DataStore())
@@ -121,20 +121,20 @@ namespace NewCRM.Domain.Services.BoundedContext
                 switch (orderId)
                 {
                     case 1:
-                        {
-                            orderBy.Append($@" ORDER BY aa.AddTime DESC");
-                            break;
-                        }
+                    {
+                        orderBy.Append($@" ORDER BY aa.AddTime DESC");
+                        break;
+                    }
                     case 2:
-                        {
-                            orderBy.Append($@" ORDER BY aa.UseCount DESC");
-                            break;
-                        }
+                    {
+                        orderBy.Append($@" ORDER BY aa.UseCount DESC");
+                        break;
+                    }
                     case 3:
-                        {
-                            orderBy.Append($@" ORDER BY aa.StarCount DESC");
-                            break;
-                        }
+                    {
+                        orderBy.Append($@" ORDER BY aa.StarCount DESC");
+                        break;
+                    }
                 }
 
                 #region totalCount
@@ -281,7 +281,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         public async Task<App> GetAppAsync(Int32 appId)
         {
             Parameter.Validate(appId);
-            return await Task.Run<App>(() =>
+            return await Task.Run(() =>
             {
                 using (var dataStore = new DataStore())
                 {
@@ -321,10 +321,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public async Task<Boolean> IsInstallAppAsync(int accountId, int appId)
+        public async Task<Boolean> IsInstallAppAsync(Int32 accountId, Int32 appId)
         {
             Parameter.Validate(accountId).Validate(appId);
-            return await Task.Run<Boolean>(() =>
+            return await Task.Run(() =>
             {
                 using (var dataStore = new DataStore())
                 {
@@ -341,7 +341,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
         public async Task<List<App>> GetSystemAppAsync(IEnumerable<Int32> appIds = default(IEnumerable<Int32>))
         {
-            return await Task.Run<List<App>>(() =>
+            return await Task.Run(() =>
             {
                 using (var dataStore = new DataStore())
                 {
@@ -361,46 +361,46 @@ namespace NewCRM.Domain.Services.BoundedContext
         public async Task<Boolean> CheckAppTypeNameAsync(String appTypeName)
         {
             Parameter.Validate(appTypeName);
-            return await Task.Run<Boolean>(() =>
+            return await Task.Run(() =>
             {
                 using (var dataStore = new DataStore())
                 {
                     var sql = $@"SELECT COUNT(*) FROM dbo.AppTypes AS a WHERE a.Name=@name AND a.IsDeleted=0";
                     var parameters = new List<SqlParameter>
-                {
-                    new SqlParameter("@name",appTypeName)
-                };
+                    {
+                        new SqlParameter("@name",appTypeName)
+                    };
                     return dataStore.FindSingleValue<Int32>(sql, parameters) > 0;
                 }
             });
         }
 
-        public async Task ModifyAppStarAsync(int accountId, int appId, int starCount)
+        public async Task ModifyAppStarAsync(Int32 accountId, Int32 appId, Int32 starCount)
         {
             Parameter.Validate(accountId).Validate(appId).Validate(starCount);
             await Task.Run(() =>
-          {
-              using (var dataStore = new DataStore())
-              {
-                  #region 前置条件判断
-                  {
-                      var sql = $@"SELECT COUNT(*) FROM dbo.AppStars AS a WHERE a.AccountId=@accountId AND a.AppId=@appId AND a.IsDeleted=0";
-                      var parameters = new List<SqlParameter>
+            {
+                using (var dataStore = new DataStore())
+                {
+                    #region 前置条件判断
+                    {
+                        var sql = $@"SELECT COUNT(*) FROM dbo.AppStars AS a WHERE a.AccountId=@accountId AND a.AppId=@appId AND a.IsDeleted=0";
+                        var parameters = new List<SqlParameter>
                       {
                             new SqlParameter("@accountId",accountId),
                             new SqlParameter("@appId",appId)
                       };
-                      var result = dataStore.FindSingleValue<Int32>(sql, parameters);
-                      if (result > 0)
-                      {
-                          throw new BusinessException("您已为这个应用打分");
-                      }
-                  }
-                  #endregion
+                        var result = dataStore.FindSingleValue<Int32>(sql, parameters);
+                        if (result > 0)
+                        {
+                            throw new BusinessException("您已为这个应用打分");
+                        }
+                    }
+                    #endregion
 
-                  #region sql
-                  {
-                      var sql = $@"INSERT dbo.AppStars
+                    #region sql
+                    {
+                        var sql = $@"INSERT dbo.AppStars
                                     ( AccountId ,
                                       StartNum ,
                                       IsDeleted ,
@@ -415,17 +415,17 @@ namespace NewCRM.Domain.Services.BoundedContext
                                       GETDATE() , -- LastModifyTime - datetime
                                       @appId  -- AppId - int
                                     )";
-                      var parameters = new List<SqlParameter>
+                        var parameters = new List<SqlParameter>
                       {
                             new SqlParameter("@accountId",accountId),
                             new SqlParameter("@starCount",starCount),
                             new SqlParameter("@appId",appId)
                       };
-                      dataStore.SqlExecute(sql, parameters);
-                  }
-                  #endregion
-              }
-          });
+                        dataStore.SqlExecute(sql, parameters);
+                    }
+                    #endregion
+                }
+            });
         }
 
         public async Task CreateNewAppAsync(App app)

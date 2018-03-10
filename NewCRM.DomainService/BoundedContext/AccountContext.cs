@@ -16,13 +16,13 @@ using NewLib.Security;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {
-    public class AccountContext : BaseServiceContext, IAccountContext
+    public class AccountContext: BaseServiceContext, IAccountContext
     {
         public async Task<Account> ValidateAsync(String accountName, String password, String requestIp)
         {
             Parameter.Validate(accountName).Validate(password);
 
-            return await Task.Run<Account>(() =>
+            return await Task.Run(() =>
              {
                  using (var dataStore = new DataStore())
                  {
@@ -111,7 +111,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         public async Task<Config> GetConfigAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            return await Task.Run<Config>(() =>
+            return await Task.Run(() =>
              {
                  using (var dataStore = new DataStore())
                  {
@@ -153,7 +153,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public List<Account> GetAccounts(string accountName, string accountType, int pageIndex, int pageSize, out int totalCount)
+        public List<Account> GetAccounts(String accountName, String accountType, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
         {
             Parameter.Validate(pageIndex).Validate(pageSize);
 
@@ -202,10 +202,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             }
         }
 
-        public async Task<Account> GetAccountAsync(int accountId)
+        public async Task<Account> GetAccountAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
-            return await Task.Run<Account>(() =>
+            return await Task.Run(() =>
             {
                 using (var dataStore = new DataStore())
                 {
@@ -264,10 +264,10 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public async Task<Boolean> CheckAccountNameExistAsync(string accountName)
+        public async Task<Boolean> CheckAccountNameExistAsync(String accountName)
         {
             Parameter.Validate(accountName);
-            return await Task.Run<Boolean>(() =>
+            return await Task.Run(() =>
             {
                 using (var dataStore = new DataStore())
                 {
@@ -294,7 +294,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         public async Task<Boolean> UnlockScreenAsync(Int32 accountId, String unlockPassword)
         {
             Parameter.Validate(accountId).Validate(unlockPassword);
-            return await Task.Run<Boolean>(() =>
+            return await Task.Run(() =>
             {
                 using (var dataStore = new DataStore())
                 {
@@ -313,7 +313,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public async Task<Boolean> CheckAppNameAsync(string name)
+        public async Task<Boolean> CheckAppNameAsync(String name)
         {
             Parameter.Validate(name);
             return await Task.Run(() =>
@@ -331,66 +331,66 @@ namespace NewCRM.Domain.Services.BoundedContext
             });
         }
 
-        public async Task<Boolean> CheckAppUrlAsync(string url)
+        public async Task<Boolean> CheckAppUrlAsync(String url)
         {
             Parameter.Validate(url);
             return await Task.Run(() =>
-           {
-               using (var dataStore = new DataStore())
-               {
-                   var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a WHERE a.AppUrl = @url AND a.IsDeleted=0";
-                   var parameters = new List<SqlParameter>
-                   {
+            {
+                using (var dataStore = new DataStore())
+                {
+                    var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a WHERE a.AppUrl = @url AND a.IsDeleted=0";
+                    var parameters = new List<SqlParameter>
+                  {
                         new SqlParameter("@url",url)
-                   };
+                  };
 
-                   return dataStore.FindSingleValue<Int32>(sql, parameters) > 0;
-               }
-           });
+                    return dataStore.FindSingleValue<Int32>(sql, parameters) > 0;
+                }
+            });
         }
 
         public async Task LogoutAsync(Int32 accountId)
         {
             Parameter.Validate(accountId);
             await Task.Run(() =>
-          {
-              using (var dataStore = new DataStore())
-              {
-                  try
-                  {
-                      dataStore.OpenTransaction();
-                      var parameters = new List<SqlParameter> { new SqlParameter("@accountId", accountId) };
-                      #region 设置用户下线
-                      {
-                          var sql = $@"UPDATE dbo.Accounts SET IsOnline=0 WHERE Id=@accountId AND IsDeleted=0 AND IsDisable=0 SELECT CAST(@@ROWCOUNT AS INT)";
-                          var rowCount = dataStore.FindSingleValue<Int32>(sql, parameters);
-                          if (rowCount == 0)
-                          {
-                              throw new BusinessException("设置用户下线状态失败");
-                          }
-                      }
-                      #endregion
+            {
+                using (var dataStore = new DataStore())
+                {
+                    try
+                    {
+                        dataStore.OpenTransaction();
+                        var parameters = new List<SqlParameter> { new SqlParameter("@accountId", accountId) };
+                        #region 设置用户下线
+                        {
+                            var sql = $@"UPDATE dbo.Accounts SET IsOnline=0 WHERE Id=@accountId AND IsDeleted=0 AND IsDisable=0 SELECT CAST(@@ROWCOUNT AS INT)";
+                            var rowCount = dataStore.FindSingleValue<Int32>(sql, parameters);
+                            if (rowCount == 0)
+                            {
+                                throw new BusinessException("设置用户下线状态失败");
+                            }
+                        }
+                        #endregion
 
-                      #region 将当前用户从在线列表中移除
-                      {
-                          var sql = $@"UPDATE dbo.Onlines SET IsDeleted=1 WHERE AccountId=@accountId AND IsDeleted=0 SELECT CAST(@@ROWCOUNT AS INT)";
-                          var rowCount = dataStore.FindSingleValue<Int32>(sql, parameters);
-                          if (rowCount == 0)
-                          {
-                              throw new BusinessException("将用户移出在线列表时失败");
-                          }
-                      }
-                      #endregion
+                        #region 将当前用户从在线列表中移除
+                        {
+                            var sql = $@"UPDATE dbo.Onlines SET IsDeleted=1 WHERE AccountId=@accountId AND IsDeleted=0 SELECT CAST(@@ROWCOUNT AS INT)";
+                            var rowCount = dataStore.FindSingleValue<Int32>(sql, parameters);
+                            if (rowCount == 0)
+                            {
+                                throw new BusinessException("将用户移出在线列表时失败");
+                            }
+                        }
+                        #endregion
 
-                      dataStore.Commit();
-                  }
-                  catch (Exception)
-                  {
-                      dataStore.Rollback();
-                      throw;
-                  }
-              }
-          });
+                        dataStore.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        dataStore.Rollback();
+                        throw;
+                    }
+                }
+            });
         }
 
         public async Task AddNewAccountAsync(Account account)

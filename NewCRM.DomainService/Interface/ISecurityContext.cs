@@ -26,7 +26,7 @@ namespace NewCRM.Domain.Services.Interface
         /// <summary>
         /// 检查授权
         /// </summary>
-        Task<Boolean> CheckPermissionsAsync(int accessAppId, params int[] roleIds);
+        Task<Boolean> CheckPermissionsAsync(Int32 accessAppId, params Int32[] roleIds);
 
         /// <summary>
         /// 检查角色名称

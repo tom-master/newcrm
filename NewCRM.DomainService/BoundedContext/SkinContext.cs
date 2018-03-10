@@ -11,7 +11,7 @@ namespace NewCRM.Domain.Services.BoundedContext
         /// <summary>
         /// 修改皮肤
         /// </summary>
-        public async Task ModifySkinAsync(int accountId, string newSkin)
+        public async Task ModifySkinAsync(System.Int32 accountId, System.String newSkin)
         {
             Parameter.Validate(accountId).Validate(newSkin);
             await Task.Run(() =>
