@@ -172,7 +172,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 	                                    ) AS IsInstall,
                                         a.IsIconByUpload
 	                                    FROM dbo.Apps AS a
-	                                    LEFT JOIN dbo.Members AS a1 ON a1.AccountId=a.AccountId AND a1.AppId=a.Id AND a.IsDeleted=0
+	                                    LEFT JOIN dbo.Members AS a1 ON a1.AccountId=a.AccountId AND a1.AppId=a.Id AND a1.IsDeleted=0
                                         {where}
                                 ) AS aa WHERE aa.rownumber>@pageSize*(@pageIndex-1) {orderBy}";
 					parameters.Add(new SqlParameter("@pageSize", pageSize));
