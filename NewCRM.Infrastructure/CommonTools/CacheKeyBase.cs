@@ -1,19 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NewCRM.Infrastructure.CommonTools
 {
 	public abstract class CacheKeyBase
 	{
+		private Int32 _identity = 0;
+
+		protected CacheKeyBase(Int32 identity) => _identity = identity;
+
+		protected virtual String CachePrefix { get { return "NewCrm"; } }
+
 		public abstract String Key { get; protected set; }
 
-		public abstract TimeSpan CancelToken { get; }
+		/// <summary>
+		/// 查询超时时间
+		/// </summary>
+		public virtual TimeSpan CancelToken { get { return new TimeSpan(0, 0, 3); } }
 
-		public abstract TimeSpan Timeout { get; }
+		/// <summary>
+		/// 缓存过期时间
+		/// </summary>
+		public virtual TimeSpan KeyTimeout { get { return new TimeSpan(0, 30, 0); } }
 
-		public abstract CacheKeyBase SetIdentity(Int32 identity);
+		protected virtual String ProcessKey() => String.Format(Key, CachePrefix, _identity);
+
+		public String GetKey() => ProcessKey();
 	}
 }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using NewCRM.Infrastructure.CommonTools;
 using NewLib.Data.Redis.InternalHelper;
 using NewLib.Validate;
 
@@ -12,27 +14,37 @@ namespace NewCRM.Domain.Services
 
 		protected ParameterValidate Parameter => new ParameterValidate();
 
-		protected async Task<TModel> GetCache<TModel>(String cacheKey, Func<Task<TModel>> func)
+		protected async Task<TModel> GetCache<TModel>(CacheKeyBase cache, Func<Task<TModel>> func) where TModel : class
 		{
-			var cacheResult = _cacheQuery.StringGetAsync<TModel>(cacheKey);
+			var cts = new CancellationTokenSource(cache.CancelToken);
+
+			TModel cacheResult = null;
+			try
+			{
+				cacheResult = await Task.Run(() => _cacheQuery.StringGetAsync<TModel>(cache.GetKey()), cts.Token);
+			}
+			catch (OperationCanceledException)
+			{
+			}
+
 			if (cacheResult != null)
 			{
-				return await cacheResult;
+				return cacheResult;
 			}
 
 			var dbResult = await func();
-			_cacheQuery.StringSet(cacheKey, dbResult);
+			_cacheQuery.StringSet(cache.GetKey(), dbResult, cache.KeyTimeout);
 			return dbResult;
 		}
 
 		/// <summary>
 		/// 更新时移除旧的缓存键
 		/// </summary>
-		protected void RemoveOldKeyWhenModify(String cacheKey)
+		protected void RemoveOldKeyWhenModify(CacheKeyBase cache)
 		{
-			if (_cacheQuery.KeyExists(cacheKey))
+			if (_cacheQuery.KeyExists(cache.GetKey()))
 			{
-				_cacheQuery.KeyDelete(cacheKey);
+				_cacheQuery.KeyDelete(cache.GetKey());
 			}
 		}
 	}

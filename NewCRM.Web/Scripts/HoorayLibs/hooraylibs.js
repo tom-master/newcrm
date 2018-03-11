@@ -2525,20 +2525,20 @@ NewCrm.msgbox._setPosition = function (tips, timeout, topPosition) {
     timeout = timeout || 5000;
     var _s = NewCrm.msgbox, bt = NewCrm.dom.getScrollTop(), ch = NewCrm.dom.getClientHeight(), t = Math.floor(ch / 2) - 40;
     NewCrm.dom.setStyle(tips, "top", ((document.compatMode == "BackCompat" || NewCrm.userAgent.ie < 7) ? bt : 0) + ((typeof (topPosition) == "number") ? topPosition : t) + "px");
+
     clearTimeout(_s._timer);
     tips.firstChild.style.display = "";
-
-    timeout && (_s._timer = setTimeout(_s.hide, timeout));
+    timeout && (_s._timer = setTimeout(_s._hide, timeout));
 };
-NewCrm.msgbox.hide = function (timeout) {
-    var _s = NewCrm.msgbox;
-    if (timeout) {
-        clearTimeout(_s._timer);
-        _s._timer = setTimeout(_s._hide, timeout);
-    } else {
-        _s._hide();
-    }
-};
+//NewCrm.msgbox.hide = function (timeout) {
+//    var _s = NewCrm.msgbox;
+//    if (timeout) {
+//        clearTimeout(_s._timer);
+//        _s._timer = setTimeout(_s._hide, timeout);
+//    } else {
+//        _s._hide();
+//    }
+//};
 NewCrm.msgbox._hide = function () {
     var _mBox = NewCrm.dom.get("q_Msgbox"), _s = NewCrm.msgbox;
     clearTimeout(_s._timer);
@@ -2554,7 +2554,7 @@ if (typeof define === "function") {
 } else {
     window.NewCrm = NewCrm;
 }
-
+var arr = []
 NewCrm.msgbox.info = function (msg, timeout) {
     NewCrm.msgbox.show(msg, 1, timeout || 2000);
 };
@@ -2653,9 +2653,9 @@ NewCrm.msgbox.close = function () {
                 var c = m;
                 if (j ? b = j(b, d) : g && (b = b.replace(/\n/g,
                     function () {
-                        return m++,
+                        return m++ ,
                             "$line=" + m + ";";
-                })), 0 === b.indexOf("=")) {
+                    })), 0 === b.indexOf("=")) {
                     var e = l && !/^=[=#]/.test(b);
                     if (b = b.replace(/^=[=#]?|[\s;]*$/g, ""), e) {
                         var f = b.replace(/\s*\([^\)]+\)/, "");

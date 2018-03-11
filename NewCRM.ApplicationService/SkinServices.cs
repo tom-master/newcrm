@@ -8,61 +8,62 @@ using NewCRM.Application.Services.Interface;
 using NewCRM.Domain.Services;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Infrastructure.CommonTools;
+using static NewCRM.Infrastructure.CommonTools.CacheKey;
 
 namespace NewCRM.Application.Services
 {
-    public class SkinServices : BaseServiceContext, ISkinServices
-    {
-        private readonly ISkinContext _skinContext;
+	public class SkinServices: BaseServiceContext, ISkinServices
+	{
+		private readonly ISkinContext _skinContext;
 
-        public SkinServices(ISkinContext skinContext) => _skinContext = skinContext;
+		public SkinServices(ISkinContext skinContext) => _skinContext = skinContext;
 
-        public async Task<IDictionary<String, dynamic>> GetAllSkinAsync(String skinPath)
-        {
-            Parameter.Validate(skinPath);
+		public async Task<IDictionary<String, dynamic>> GetAllSkinAsync(String skinPath)
+		{
+			Parameter.Validate(skinPath);
 
-            return await Task.Run(() =>
-            {
-                IDictionary<String, dynamic> dataDictionary = new Dictionary<String, dynamic>();
-                Directory.GetFiles(skinPath, "*.css").ToList().ForEach(path =>
-                {
-                    var fileName = Get(path, x => x.LastIndexOf(@"\", StringComparison.OrdinalIgnoreCase) + 1).Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[0];
-                    dataDictionary.Add(fileName, new
-                    {
-                        cssPath = path.Substring(path.LastIndexOf("script", StringComparison.OrdinalIgnoreCase) - 1).Replace(@"\", "/"),
-                        imgPath = GetLocalImagePath(fileName, skinPath)
-                    });
-                });
+			return await Task.Run(() =>
+			{
+				IDictionary<String, dynamic> dataDictionary = new Dictionary<String, dynamic>();
+				Directory.GetFiles(skinPath, "*.css").ToList().ForEach(path =>
+				{
+					var fileName = Get(path, x => x.LastIndexOf(@"\", StringComparison.OrdinalIgnoreCase) + 1).Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[0];
+					dataDictionary.Add(fileName, new
+					{
+						cssPath = path.Substring(path.LastIndexOf("script", StringComparison.OrdinalIgnoreCase) - 1).Replace(@"\", "/"),
+						imgPath = GetLocalImagePath(fileName, skinPath)
+					});
+				});
 
-                return dataDictionary;
-            });
-        }
+				return dataDictionary;
+			});
+		}
 
-        public async Task ModifySkinAsync(Int32 accountId, String newSkin)
-        {
-            Parameter.Validate(accountId).Validate(newSkin);
-            await _skinContext.ModifySkinAsync(accountId, newSkin);
-            RemoveOldKeyWhenModify(CacheKey.Config(accountId));
-        }
+		public async Task ModifySkinAsync(Int32 accountId, String newSkin)
+		{
+			Parameter.Validate(accountId).Validate(newSkin);
+			await _skinContext.ModifySkinAsync(accountId, newSkin);
+			RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
+		}
 
-        #region private method
+		#region private method
 
-        private String GetLocalImagePath(String fileName, String fullPath)
-        {
-            Parameter.Validate(fileName).Validate(fullPath);
+		private String GetLocalImagePath(String fileName, String fullPath)
+		{
+			Parameter.Validate(fileName).Validate(fullPath);
 
-            var dic = Directory.GetFiles(fullPath, "preview.png", SearchOption.AllDirectories).ToList();
-            foreach (var dicItem in from dicItem in dic let regex = new Regex(fileName) where regex.IsMatch(dicItem) select dicItem)
-            {
-                return dicItem.Substring(dicItem.LastIndexOf("script", StringComparison.OrdinalIgnoreCase) - 1).Replace(@"\", "/");
-            }
+			var dic = Directory.GetFiles(fullPath, "preview.png", SearchOption.AllDirectories).ToList();
+			foreach (var dicItem in from dicItem in dic let regex = new Regex(fileName) where regex.IsMatch(dicItem) select dicItem)
+			{
+				return dicItem.Substring(dicItem.LastIndexOf("script", StringComparison.OrdinalIgnoreCase) - 1).Replace(@"\", "/");
+			}
 
-            return "";
-        }
+			return "";
+		}
 
-        private String Get(String path, Func<String, Int32> filterFunc) => path.Substring(filterFunc(path));
+		private String Get(String path, Func<String, Int32> filterFunc) => path.Substring(filterFunc(path));
 
-        #endregion
+		#endregion
 
-    }
+	}
 }

@@ -13,6 +13,7 @@ using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewLib;
+using static NewCRM.Infrastructure.CommonTools.CacheKey;
 
 namespace NewCRM.Application.Services
 {
@@ -115,14 +116,14 @@ namespace NewCRM.Application.Services
         {
             Parameter.Validate(accountId).Validate(newMode);
             await _wallpaperContext.ModifyWallpaperModeAsync(accountId, newMode);
-            RemoveOldKeyWhenModify(CacheKey.Config(accountId));
+            RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
         }
 
         public async Task ModifyWallpaperAsync(Int32 accountId, Int32 newWallpaperId)
         {
             Parameter.Validate(accountId).Validate(newWallpaperId);
             await _wallpaperContext.ModifyWallpaperAsync(accountId, newWallpaperId);
-            RemoveOldKeyWhenModify(CacheKey.Config(accountId));
+            RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
         }
 
         public async Task RemoveWallpaperAsync(Int32 accountId, Int32 wallpaperId)
