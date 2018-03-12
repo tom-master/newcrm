@@ -65,9 +65,14 @@ namespace NewCRM.Domain.Entitys.Agent
             }
             private set
             {
-                _name = value;
+                if(_name != value)
+                {
+                    _name = value;
+                    OnPropertyChanged(Name);
+                }
             }
         }
+
 
         /// <summary>
         /// 登陆密码
@@ -81,7 +86,11 @@ namespace NewCRM.Domain.Entitys.Agent
             }
             private set
             {
-                _loginPassword = value;
+                if(_loginPassword != value)
+                {
+                    _loginPassword = value;
+                    OnPropertyChanged(LoginPassword);
+                }
             }
         }
 
@@ -97,7 +106,11 @@ namespace NewCRM.Domain.Entitys.Agent
             }
             private set
             {
-                _lockScreenPassword = value;
+                if(_lockScreenPassword != value)
+                {
+                    _lockScreenPassword = value;
+                    OnPropertyChanged(LockScreenPassword);
+                }
             }
         }
 
@@ -112,7 +125,11 @@ namespace NewCRM.Domain.Entitys.Agent
             }
             private set
             {
-                _isDisable = value;
+                if(_isDisable != value)
+                {
+                    _isDisable = value;
+                    OnPropertyChanged("IsDisable");
+                }
             }
         }
 
@@ -127,7 +144,11 @@ namespace NewCRM.Domain.Entitys.Agent
             }
             private set
             {
-                _lastLoginTime = value;
+                if(_lastLoginTime != value)
+                {
+                    _lastLoginTime = value;
+                    OnPropertyChanged("LastLoginTime");
+                }
             }
         }
 
@@ -142,7 +163,11 @@ namespace NewCRM.Domain.Entitys.Agent
             }
             private set
             {
-                _isOnline = value;
+                if(_isOnline != value)
+                {
+                    _isOnline = value;
+                    OnPropertyChanged("IsOnline");
+                }
             }
         }
 
@@ -157,7 +182,11 @@ namespace NewCRM.Domain.Entitys.Agent
             }
             private set
             {
-                _isAdmin = value;
+                if(_isAdmin != value)
+                {
+                    _isAdmin = value;
+                    OnPropertyChanged("IsAdmin");
+                }
             }
         }
 
@@ -172,7 +201,11 @@ namespace NewCRM.Domain.Entitys.Agent
             }
             private set
             {
-                _roles = value;
+                if(_roles != value)
+                {
+                    _roles = value;
+                    OnPropertyChanged("Roles");
+                }
             }
         }
         #endregion
