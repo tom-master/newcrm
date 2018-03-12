@@ -259,10 +259,8 @@ namespace NewCRM.Application.Services
 
 			var app = appDto.ConvertToModel<AppDto, App>();
 			var internalApp = new App(app.Name, app.IconUrl, app.AppUrl, app.Width, app.Height, app.AppTypeId, app.AppAuditState, AppReleaseState.UnRelease, app.AppStyle, app.AccountId,
-				app.Remark, app.IsMax, app.IsFull, app.IsSetbar, app.IsOpenMax, app.IsFlash, app.IsDraw, app.IsResize)
-			{
-				IsIconByUpload = appDto.IsIconByUpload
-			};
+				app.Remark, app.IsMax, app.IsFull, app.IsSetbar, app.IsOpenMax, app.IsFlash, app.IsDraw, app.IsResize, appDto.IsIconByUpload);
+
 			await _appContext.CreateNewAppAsync(internalApp);
 		}
 
