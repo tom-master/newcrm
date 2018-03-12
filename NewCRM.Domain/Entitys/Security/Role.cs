@@ -130,8 +130,6 @@ namespace NewCRM.Domain.Entitys.Security
         {
         }
 
-        public Role ToList() => throw new NotImplementedException();
-
         #endregion
     }
 }
