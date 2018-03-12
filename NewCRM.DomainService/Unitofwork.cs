@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NewCRM.Domain.Entitys;
 
 namespace NewCRM.Domain.Services
 {
@@ -25,7 +26,7 @@ namespace NewCRM.Domain.Services
             //to do 安拉胡阿克巴
         }
 
-        public void RegisterAdd<TModel>(TModel model) where TModel : class
+        public void RegisterAdd<TModel>(TModel model) where TModel : DomainModelBase
         {
             var modelName = model.GetType().Name;
             if(!_registerAdds.Keys.Contains(modelName))
@@ -34,7 +35,7 @@ namespace NewCRM.Domain.Services
             }
         }
 
-        public void RegisterModify<TModel>(TModel model) where TModel : class
+        public void RegisterModify<TModel>(TModel model) where TModel : DomainModelBase
         {
             var modelName = model.GetType().Name;
             if(!_registerAdds.Keys.Contains(modelName))
