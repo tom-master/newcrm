@@ -5,176 +5,231 @@ using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Domain.Entitys.System
 {
-    /// <summary>
-    /// 成员
-    /// </summary>
-    [Serializable, Description("成员")]
-    public partial class Member : DomainModelBase
-    {
-        #region public property
+	/// <summary>
+	/// 成员
+	/// </summary>
+	[Serializable, Description("成员")]
+	public partial class Member: DomainModelBase
+	{
+		#region private field
 
-        /// <summary>
-        /// 应用Id
-        /// </summary>
-        public Int32 AppId { get; private set; }
+		private Int32 _appId;
 
-        /// <summary>
-        /// 成员的宽
-        /// </summary>
-        public Int32 Width { get; private set; }
+		private Int32 _width;
 
-        /// <summary>
-        /// 成员的高
-        /// </summary>
-        public Int32 Height { get; private set; }
+		private Int32 _height;
 
-        /// <summary>
-        /// 文件夹Id
-        /// </summary>
-        public Int32 FolderId { get; private set; }
+		private Int32 _folderId;
 
-        /// <summary>
-        /// 名称
-        /// </summary>
-        [Required, MaxLength(6)]
-        public String Name { get; private set; }
+		private String _name;
 
-        /// <summary>
-        /// 图标地址
-        /// </summary>
-        [Required]
-        public String IconUrl { get; private set; }
+		private String _iconUrl;
 
-        /// <summary>
-        /// app地址
-        /// </summary>
-        public String AppUrl { get; private set; }
+		private String _appUrl;
 
-        /// <summary>
-        /// 成员是否在应用码头上
-        /// </summary>
-        public Boolean IsOnDock { get; private set; }
+		private Boolean _isOnDock;
 
-        /// <summary>
-        /// 是否能最大化
-        /// </summary>
-        public Boolean IsMax { get; private set; }
+		private Boolean _isMax;
 
-        /// <summary>
-        /// 是否打开后铺满全屏
-        /// </summary>
-        public Boolean IsFull { get; private set; }
+		private Boolean _isFull;
 
-        /// <summary>
-        /// 是否显示app底部的按钮
-        /// </summary>
-        public Boolean IsSetbar { get; private set; }
+		private Boolean _isSetbar;
 
-        /// <summary>
-        /// 是否打开最大化
-        /// </summary>
-        public Boolean IsOpenMax { get; private set; }
+		private Boolean _isOpenMax;
 
-        /// <summary>
-        /// 是否锁定
-        /// </summary>
-        public Boolean IsLock { get; private set; }
+		private Boolean _isLock;
 
-        /// <summary>
-        /// 是否为福莱希
-        /// </summary>
-        public Boolean IsFlash { get; private set; }
+		private Boolean _isFlash;
 
-        /// <summary>
-        /// 是否可以拖动
-        /// </summary>
-        public Boolean IsDraw { get; private set; }
+		private Boolean _isDraw;
 
-        /// <summary>
-        /// 是否可以拉伸
-        /// </summary>
-        public Boolean IsResize { get; private set; }
+		private Boolean _isResize;
 
-        /// <summary>
-        /// 成员类型
-        /// </summary>
-        public MemberType MemberType { get; private set; }
+		private MemberType _memberType;
 
-        /// <summary>
-        /// 桌面索引
-        /// </summary>
-        public Int32 DeskIndex { get; set; }
+		private Int32 _deskIndex;
 
-        /// <summary>
-        /// 账户Id
-        /// </summary>
-        public Int32 AccountId { get; set; }
+		private Int32 _accountId;
 
-        public Boolean IsIconByUpload { get; set; }
+		private Boolean _isIconByUpload;
 
-        #endregion
+		#endregion
 
-        #region public ctor
+		#region public property
 
-        /// <summary>
-        /// 实例化一个成员对象
-        /// </summary>
-        public Member(
-            String name,
-            String iconUrl,
-            String appUrl,
-            Int32 appId,
-            Int32 width,
-            Int32 height,
-            Boolean isLock = default(Boolean),
-            Boolean isMax = default(Boolean),
-            Boolean isFull = default(Boolean),
-            Boolean isSetbar = default(Boolean),
-            Boolean isOpenMax = default(Boolean),
-            Boolean isFlash = default(Boolean),
-            Boolean isDraw = default(Boolean),
-            Boolean isResize = default(Boolean))
-        {
-            AppId = appId;
-            Width = width > 800 ? 800 : width;
-            Height = height > 600 ? 600 : height;
-            IsDraw = isDraw;
-            IsOpenMax = isOpenMax;
-            IsSetbar = isSetbar;
-            IsMax = isMax;
-            IsFull = isFull;
-            IsFlash = isFlash;
-            IsResize = isResize;
-            IsLock = isLock;
-            Name = name;
-            IconUrl = iconUrl;
-            AppUrl = appUrl;
-            MemberType = appId == 0 ? MemberType.Folder : MemberType.App;
-            DeskIndex = 1;
-            IsIconByUpload = false;
-        }
+		/// <summary>
+		/// 应用Id
+		/// </summary>
+		public Int32 AppId
+		{
+			get { return _appId; }
+			private set
+			{
+				if (_appId != value)
+				{
+					_appId = value;
+					OnPropertyChanged("AppId");
+				}
+			}
+		}
 
-        /// <summary>
-        /// 实例化一个成员对象
-        /// </summary>
-        public Member(String name, String iconUrl, Int32 appId)
-        {
-            AppId = appId;
-            Width = 800;
-            Height = 600;
-            IsDraw = false;
-            IsOpenMax = false;
-            Name = name;
-            IconUrl = iconUrl;
-            DeskIndex = 1;
-            MemberType = appId == 0 ? MemberType.Folder : MemberType.App;
-            IsIconByUpload = false;
-        }
+		/// <summary>
+		/// 成员的宽
+		/// </summary>
+		public Int32 Width { get; private set; }
 
-        public Member()
-        {
-        }
+		/// <summary>
+		/// 成员的高
+		/// </summary>
+		public Int32 Height { get; private set; }
 
-        #endregion
-    }
+		/// <summary>
+		/// 文件夹Id
+		/// </summary>
+		public Int32 FolderId { get; private set; }
+
+		/// <summary>
+		/// 名称
+		/// </summary>
+		[Required, MaxLength(6)]
+		public String Name { get; private set; }
+
+		/// <summary>
+		/// 图标地址
+		/// </summary>
+		[Required]
+		public String IconUrl { get; private set; }
+
+		/// <summary>
+		/// app地址
+		/// </summary>
+		public String AppUrl { get; private set; }
+
+		/// <summary>
+		/// 成员是否在应用码头上
+		/// </summary>
+		public Boolean IsOnDock { get; private set; }
+
+		/// <summary>
+		/// 是否能最大化
+		/// </summary>
+		public Boolean IsMax { get; private set; }
+
+		/// <summary>
+		/// 是否打开后铺满全屏
+		/// </summary>
+		public Boolean IsFull { get; private set; }
+
+		/// <summary>
+		/// 是否显示app底部的按钮
+		/// </summary>
+		public Boolean IsSetbar { get; private set; }
+
+		/// <summary>
+		/// 是否打开最大化
+		/// </summary>
+		public Boolean IsOpenMax { get; private set; }
+
+		/// <summary>
+		/// 是否锁定
+		/// </summary>
+		public Boolean IsLock { get; private set; }
+
+		/// <summary>
+		/// 是否为福莱希
+		/// </summary>
+		public Boolean IsFlash { get; private set; }
+
+		/// <summary>
+		/// 是否可以拖动
+		/// </summary>
+		public Boolean IsDraw { get; private set; }
+
+		/// <summary>
+		/// 是否可以拉伸
+		/// </summary>
+		public Boolean IsResize { get; private set; }
+
+		/// <summary>
+		/// 成员类型
+		/// </summary>
+		public MemberType MemberType { get; private set; }
+
+		/// <summary>
+		/// 桌面索引
+		/// </summary>
+		public Int32 DeskIndex { get; private set; }
+
+		/// <summary>
+		/// 账户Id
+		/// </summary>
+		public Int32 AccountId { get; private set; }
+
+		public Boolean IsIconByUpload { get; private set; }
+
+		#endregion
+
+		#region public ctor
+
+		/// <summary>
+		/// 实例化一个成员对象
+		/// </summary>
+		public Member(
+			String name,
+			String iconUrl,
+			String appUrl,
+			Int32 appId,
+			Int32 width,
+			Int32 height,
+			Boolean isLock = default(Boolean),
+			Boolean isMax = default(Boolean),
+			Boolean isFull = default(Boolean),
+			Boolean isSetbar = default(Boolean),
+			Boolean isOpenMax = default(Boolean),
+			Boolean isFlash = default(Boolean),
+			Boolean isDraw = default(Boolean),
+			Boolean isResize = default(Boolean))
+		{
+			AppId = appId;
+			Width = width > 800 ? 800 : width;
+			Height = height > 600 ? 600 : height;
+			IsDraw = isDraw;
+			IsOpenMax = isOpenMax;
+			IsSetbar = isSetbar;
+			IsMax = isMax;
+			IsFull = isFull;
+			IsFlash = isFlash;
+			IsResize = isResize;
+			IsLock = isLock;
+			Name = name;
+			IconUrl = iconUrl;
+			AppUrl = appUrl;
+			MemberType = appId == 0 ? MemberType.Folder : MemberType.App;
+			DeskIndex = 1;
+			IsIconByUpload = false;
+		}
+
+		/// <summary>
+		/// 实例化一个成员对象
+		/// </summary>
+		public Member(String name, String iconUrl, Int32 appId)
+		{
+			AppId = appId;
+			Width = 800;
+			Height = 600;
+			IsDraw = false;
+			IsOpenMax = false;
+			Name = name;
+			IconUrl = iconUrl;
+			DeskIndex = 1;
+			MemberType = appId == 0 ? MemberType.Folder : MemberType.App;
+			IsIconByUpload = false;
+		}
+
+		public Member()
+		{
+		}
+
+		#endregion
+	}
 }
