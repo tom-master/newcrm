@@ -1,12 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using NewCRM.Domain.KeyGenerators;
 
 namespace NewCRM.Domain.Entitys
 {
     [Serializable]
-    public abstract class DomainModelBase : RedisKeyGenerator
+    public abstract class DomainModelBase : PropertyMonitor
     {
         #region ctor
 

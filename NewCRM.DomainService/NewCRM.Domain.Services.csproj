@@ -74,7 +74,9 @@
     <Compile Include="Interface\ISecurityContext.cs" />
     <Compile Include="Interface\ISkinContext.cs" />
     <Compile Include="Interface\IWallpaperContext.cs" />
+    <Compile Include="IUnitofwork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unitofwork.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NewCRM.Domain\NewCRM.Domain.csproj">

@@ -80,11 +80,10 @@
     <Compile Include="Entitys\Agent\Account.cs" />
     <Compile Include="Entitys\Agent\AccountRole.cs" />
     <Compile Include="Entitys\DomainModelBase.cs" />
+    <Compile Include="Entitys\PropertyMonitor.cs" />
     <Compile Include="Entitys\Security\RolePower.cs" />
     <Compile Include="Entitys\System\App.cs" />
     <Compile Include="Entitys\System\AppStar.cs" />
-    <Compile Include="KeyGenerators\RedisKeyGenerator.cs" />
-    <Compile Include="KeyGenerators\IKeyGenerator.cs" />
     <Compile Include="ValueObject\AppAuditState.cs" />
     <Compile Include="ValueObject\AppStyle.cs" />
     <Compile Include="Entitys\System\AppType.cs" />
