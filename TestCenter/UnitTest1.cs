@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NewCRM.Domain.Entitys.Agent;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
-using NewLib.Security;
 using Nito.AsyncEx;
 
 namespace TestCenter
@@ -14,6 +15,7 @@ namespace TestCenter
         [TestMethod]
         public void TestMethod1()
         {
+
         }
     }
 }

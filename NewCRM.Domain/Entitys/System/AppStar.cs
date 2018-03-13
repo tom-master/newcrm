@@ -22,7 +22,7 @@ namespace NewCRM.Domain.Entitys.System
 				if (_accountId != value)
 				{
 					_accountId = value;
-					OnPropertyChanged(AccountId.GetType());
+					OnPropertyChanged(nameof(AccountId));
 				}
 			}
 		}
@@ -38,7 +38,7 @@ namespace NewCRM.Domain.Entitys.System
 				if (_appId != value)
 				{
 					_appId = value;
-					OnPropertyChanged(AppId.GetType());
+					OnPropertyChanged(nameof(AppId));
 				}
 			}
 		}
@@ -54,7 +54,7 @@ namespace NewCRM.Domain.Entitys.System
 				if (_startNum != value)
 				{
 					_startNum = value;
-					OnPropertyChanged(StartNum.GetType());
+					OnPropertyChanged(nameof(StartNum));
 				}
 			}
 		}

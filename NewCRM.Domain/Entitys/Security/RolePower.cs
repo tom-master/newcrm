@@ -21,7 +21,7 @@ namespace NewCRM.Domain.Entitys.Security
                 if(_roleId != value)
                 {
                     _roleId = value;
-                    OnPropertyChanged(RoleId.GetType());
+                    OnPropertyChanged(nameof(RoleId));
                 }
             }
         }
@@ -35,7 +35,7 @@ namespace NewCRM.Domain.Entitys.Security
                 if(_appId != value)
                 {
                     _appId = value;
-                    OnPropertyChanged(AppId.GetType());
+                    OnPropertyChanged(nameof(AppId));
                 }
             }
         }

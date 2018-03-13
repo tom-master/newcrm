@@ -78,7 +78,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_name != value)
                 {
                     _name = value;
-                    OnPropertyChanged(Name.GetType());
+                    OnPropertyChanged(nameof(Name));
                 }
             }
         }
@@ -95,7 +95,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_iconUrl != value)
                 {
                     _iconUrl = value;
-                    OnPropertyChanged(IconUrl.GetType());
+                    OnPropertyChanged(nameof(IconUrl));
                 }
             }
         }
@@ -111,7 +111,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_appUrl != value)
                 {
                     _appUrl = value;
-                    OnPropertyChanged(AppUrl.GetType());
+                    OnPropertyChanged(nameof(AppUrl));
                 }
             }
         }
@@ -128,7 +128,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_remark != value)
                 {
                     _remark = value;
-                    OnPropertyChanged(Remark.GetType());
+                    OnPropertyChanged(nameof(Remark));
                 }
             }
         }
@@ -144,7 +144,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_width != value)
                 {
                     _width = value;
-                    OnPropertyChanged(Width.GetType());
+                    OnPropertyChanged(nameof(Width));
                 }
             }
         }
@@ -160,7 +160,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_height != value)
                 {
                     _height = value;
-                    OnPropertyChanged(Height.GetType());
+                    OnPropertyChanged(nameof(Height));
                 }
             }
         }
@@ -176,7 +176,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_useCount != value)
                 {
                     _useCount = value;
-                    OnPropertyChanged(UseCount.GetType());
+                    OnPropertyChanged(nameof(UseCount));
                 }
             }
         }
@@ -192,7 +192,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isMax != value)
                 {
                     _isMax = value;
-                    OnPropertyChanged(IsMax.GetType());
+                    OnPropertyChanged(nameof(IsMax));
                 }
             }
         }
@@ -208,7 +208,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isFull != value)
                 {
                     _isFull = value;
-                    OnPropertyChanged(IsFull.GetType());
+                    OnPropertyChanged(nameof(IsFull));
                 }
             }
         }
@@ -224,7 +224,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isSetbar != value)
                 {
                     _isSetbar = value;
-                    OnPropertyChanged(IsSetbar.GetType());
+                    OnPropertyChanged(nameof(IsSetbar));
                 }
             }
         }
@@ -240,7 +240,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isOpenMax != value)
                 {
                     _isOpenMax = value;
-                    OnPropertyChanged(IsOpenMax.GetType());
+                    OnPropertyChanged(nameof(IsOpenMax));
                 }
             }
         }
@@ -256,7 +256,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isLock != value)
                 {
                     _isLock = value;
-                    OnPropertyChanged(IsLock.GetType());
+                    OnPropertyChanged(nameof(IsLock));
                 }
             }
         }
@@ -272,7 +272,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isSystem != value)
                 {
                     _isSystem = value;
-                    OnPropertyChanged(IsSystem.GetType());
+                    OnPropertyChanged(nameof(IsSystem));
                 }
             }
         }
@@ -288,7 +288,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isFlash != value)
                 {
                     _isFlash = value;
-                    OnPropertyChanged(IsFlash.GetType());
+                    OnPropertyChanged(nameof(IsFlash));
                 }
             }
         }
@@ -304,7 +304,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isDraw != value)
                 {
                     _isDraw = value;
-                    OnPropertyChanged(IsDraw.GetType());
+                    OnPropertyChanged(nameof(IsDraw));
                 }
             }
         }
@@ -320,7 +320,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isResize != value)
                 {
                     _isResize = value;
-                    OnPropertyChanged(IsResize.GetType());
+                    OnPropertyChanged(nameof(IsResize));
                 }
             }
         }
@@ -336,7 +336,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_accountId != value)
                 {
                     _accountId = value;
-                    OnPropertyChanged(AccountId.GetType());
+                    OnPropertyChanged(nameof(AccountId));
                 }
             }
         }
@@ -352,7 +352,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_appTypeId != value)
                 {
                     _appTypeId = value;
-                    OnPropertyChanged(AppTypeId.GetType());
+                    OnPropertyChanged(nameof(AppTypeId));
                 }
             }
         }
@@ -368,7 +368,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isRecommand != value)
                 {
                     _isRecommand = value;
-                    OnPropertyChanged(IsRecommand.GetType());
+                    OnPropertyChanged(nameof(IsRecommand));
                 }
             }
         }
@@ -384,7 +384,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_appAuditState != value)
                 {
                     _appAuditState = value;
-                    OnPropertyChanged(AppAuditState.GetType());
+                    OnPropertyChanged(nameof(AppAuditState));
                 }
             }
         }
@@ -400,7 +400,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_appReleaseState != value)
                 {
                     _appReleaseState = value;
-                    OnPropertyChanged(AppReleaseState.GetType());
+                    OnPropertyChanged(nameof(AppReleaseState));
                 }
             }
         }
@@ -416,7 +416,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_appStyle != value)
                 {
                     _appStyle = value;
-                    OnPropertyChanged(AppStyle.GetType());
+                    OnPropertyChanged(nameof(AppStyle));
                 }
             }
         }
@@ -429,7 +429,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isInstall != value)
                 {
                     _isInstall = value;
-                    OnPropertyChanged(IsInstall.GetType());
+                    OnPropertyChanged(nameof(IsInstall));
                 }
             }
         }
@@ -442,7 +442,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_starCount != value)
                 {
                     _starCount = value;
-                    OnPropertyChanged(StarCount.GetType());
+                    OnPropertyChanged(nameof(StarCount));
                 }
             }
         }
@@ -455,7 +455,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_accountName != value)
                 {
                     _accountName = value;
-                    OnPropertyChanged(AccountName.GetType());
+                    OnPropertyChanged(nameof(AccountName));
                 }
             }
         }
@@ -468,7 +468,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isIconByUpload != value)
                 {
                     _isIconByUpload = value;
-                    OnPropertyChanged(IsIconByUpload.GetType());
+                    OnPropertyChanged(nameof(IsIconByUpload));
                 }
             }
         }

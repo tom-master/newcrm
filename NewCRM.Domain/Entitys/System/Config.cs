@@ -52,7 +52,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_skin != value)
                 {
                     _skin = value;
-                    OnPropertyChanged(Skin.GetType());
+                    OnPropertyChanged(nameof(Skin));
                 }
             }
         }
@@ -69,7 +69,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_accountFace != value)
                 {
                     _accountFace = value;
-                    OnPropertyChanged(AccountFace.GetType());
+                    OnPropertyChanged(nameof(AccountFace));
                 }
             }
         }
@@ -85,7 +85,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_appSize != value)
                 {
                     _appSize = value;
-                    OnPropertyChanged(AppSize.GetType());
+                    OnPropertyChanged(nameof(AppSize));
                 }
             }
         }
@@ -101,7 +101,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_appVerticalSpacing != value)
                 {
                     _appVerticalSpacing = value;
-                    OnPropertyChanged(AppVerticalSpacing.GetType());
+                    OnPropertyChanged(nameof(AppVerticalSpacing));
                 }
             }
         }
@@ -117,7 +117,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_appHorizontalSpacing != value)
                 {
                     _appHorizontalSpacing = value;
-                    OnPropertyChanged(AppHorizontalSpacing.GetType());
+                    OnPropertyChanged(nameof(AppHorizontalSpacing));
                 }
             }
         }
@@ -133,7 +133,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_defaultDeskNumber != value)
                 {
                     _defaultDeskNumber = value;
-                    OnPropertyChanged(DefaultDeskNumber.GetType());
+                    OnPropertyChanged(nameof(DefaultDeskNumber));
                 }
             }
         }
@@ -149,7 +149,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_defaultDeskCount != value)
                 {
                     _defaultDeskCount = value;
-                    OnPropertyChanged(DefaultDeskCount.GetType());
+                    OnPropertyChanged(nameof(DefaultDeskCount));
                 }
             }
         }
@@ -165,7 +165,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_wallpaperMode != value)
                 {
                     _wallpaperMode = value;
-                    OnPropertyChanged(WallpaperMode.GetType());
+                    OnPropertyChanged(nameof(WallpaperMode));
                 }
             }
         }
@@ -181,7 +181,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isBing != value)
                 {
                     _isBing = value;
-                    OnPropertyChanged(IsBing.GetType());
+                    OnPropertyChanged(nameof(IsBing));
                 }
             }
         }
@@ -198,7 +198,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_appXy != value)
                 {
                     _appXy = value;
-                    OnPropertyChanged(AppXy.GetType());
+                    OnPropertyChanged(nameof(AppXy));
                 }
             }
         }
@@ -214,7 +214,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_dockPosition != value)
                 {
                     _dockPosition = value;
-                    OnPropertyChanged(DockPosition.GetType());
+                    OnPropertyChanged(nameof(DockPosition));
                 }
             }
         }
@@ -230,7 +230,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_accountId != value)
                 {
                     _accountId = value;
-                    OnPropertyChanged(AccountId.GetType());
+                    OnPropertyChanged(nameof(AccountId));
                 }
             }
         }
@@ -246,7 +246,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_wallpaperId != value)
                 {
                     _wallpaperId = value;
-                    OnPropertyChanged(WallpaperId.GetType());
+                    OnPropertyChanged(nameof(WallpaperId));
                 }
             }
         }

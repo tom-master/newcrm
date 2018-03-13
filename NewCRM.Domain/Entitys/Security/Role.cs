@@ -9,24 +9,17 @@ namespace NewCRM.Domain.Entitys.Security
     public partial class Role : DomainModelBase
     {
         #region private field
-        /// <summary>
-        /// 名称
-        /// </summary>
+
         private String _name;
 
-        /// <summary>
-        /// 角色标识
-        /// </summary>
         private String _roleIdentity;
 
-        /// <summary>
-        /// 备注
-        /// </summary>
         private String _remark;
 
         private Boolean _isAllowDisable;
 
         private IList<RolePower> _powers;
+
         #endregion
 
         #region public property
@@ -43,7 +36,7 @@ namespace NewCRM.Domain.Entitys.Security
                 if(_name != value)
                 {
                     _name = value;
-                    OnPropertyChanged(Name.GetType());
+                    OnPropertyChanged(nameof(Name));
                 }
             }
         }
@@ -60,7 +53,7 @@ namespace NewCRM.Domain.Entitys.Security
                 if(_roleIdentity != value)
                 {
                     _roleIdentity = value;
-                    OnPropertyChanged(RoleIdentity.GetType());
+                    OnPropertyChanged(nameof(RoleIdentity));
                 }
             }
         }
@@ -77,7 +70,7 @@ namespace NewCRM.Domain.Entitys.Security
                 if(_remark != value)
                 {
                     _remark = value;
-                    OnPropertyChanged(Remark.GetType());
+                    OnPropertyChanged(nameof(Remark));
                 }
             }
         }
@@ -90,7 +83,7 @@ namespace NewCRM.Domain.Entitys.Security
                 if(_isAllowDisable != value)
                 {
                     _isAllowDisable = value;
-                    OnPropertyChanged(IsAllowDisable.GetType());
+                    OnPropertyChanged(nameof(IsAllowDisable));
                 }
             }
         }
@@ -103,7 +96,7 @@ namespace NewCRM.Domain.Entitys.Security
                 if(_powers != value)
                 {
                     _powers = value;
-                    OnPropertyChanged(Powers.GetType());
+                    OnPropertyChanged(nameof(Powers));
                 }
             }
         }
