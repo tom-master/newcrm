@@ -536,4 +536,12 @@ namespace NewCRM.Domain.Entitys.System
         public App() { }
         #endregion
     }
+
+    /// <summary>
+    /// AppExtension
+    /// </summary>
+    public partial class App
+    {
+        
+    }
 }

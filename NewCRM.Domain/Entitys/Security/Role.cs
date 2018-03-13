@@ -125,4 +125,12 @@ namespace NewCRM.Domain.Entitys.Security
 
         #endregion
     }
+
+    /// <summary>
+    /// RoleExtension
+    /// </summary>
+    public partial class Role
+    {
+
+    }
 }

@@ -72,4 +72,12 @@ namespace NewCRM.Domain.Entitys.System
 
         #endregion
     }
+
+    /// <summary>
+    /// OnlineExtension
+    /// </summary>
+    public partial class Online
+    {
+
+    }
 }

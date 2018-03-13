@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NewCRM.Domain.Entitys.Security
 {
-    public class RolePower : DomainModelBase
+    public partial class RolePower : DomainModelBase
     {
         #region private field
         private Int32 _roleId;
@@ -60,5 +60,13 @@ namespace NewCRM.Domain.Entitys.Security
         public void Remove() => IsDeleted = true;
 
         #endregion
+    }
+
+    /// <summary>
+    /// RolePowerExtension
+    /// </summary>
+    public partial class RolePower
+    {
+
     }
 }

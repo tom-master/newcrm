@@ -9,49 +9,21 @@ namespace NewCRM.Domain.Entitys.Agent
     [Description("用户"), Serializable]
     public partial class Account : DomainModelBase
     {
-        #region private field
-        /// <summary>
-        /// 用户名
-        /// </summary>
         private String _name;
 
-        /// <summary>
-        /// 登陆密码
-        /// </summary> 
         private String _loginPassword;
 
-        /// <summary>
-        /// 锁屏密码
-        /// </summary>  
         private String _lockScreenPassword;
 
-        /// <summary>
-        /// 是否禁用
-        /// </summary>
         private Boolean _isDisable;
 
-        /// <summary>
-        /// 最后一次登录的时间
-        /// </summary>
         private DateTime _lastLoginTime;
 
-        /// <summary>
-        /// 是否在线
-        /// </summary>
         private Boolean _isOnline;
 
-        /// <summary>
-        /// 是否为管理员
-        /// </summary>
         private Boolean _isAdmin;
 
-        /// <summary>
-        /// 用户角色
-        /// </summary>
         private IEnumerable<AccountRole> _roles;
-        #endregion
-
-        #region public property
 
         /// <summary>
         /// 用户名
@@ -72,7 +44,6 @@ namespace NewCRM.Domain.Entitys.Agent
                 }
             }
         }
-
 
         /// <summary>
         /// 登陆密码
@@ -210,7 +181,6 @@ namespace NewCRM.Domain.Entitys.Agent
                 }
             }
         }
-        #endregion
 
         #region ctor
 
@@ -232,5 +202,13 @@ namespace NewCRM.Domain.Entitys.Agent
         public Account() { }
 
         #endregion
+    }
+
+    /// <summary>
+    /// AccountExtension
+    /// </summary>
+    public partial class Account
+    {
+
     }
 }

@@ -69,4 +69,12 @@ namespace NewCRM.Domain.Entitys.System
 
 		#endregion
 	}
+
+    /// <summary>
+    /// AppTypeExtension
+    /// </summary>
+    public partial class AppType
+    {
+
+    }
 }

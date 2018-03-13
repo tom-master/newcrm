@@ -62,4 +62,12 @@ namespace NewCRM.Domain.Entitys.Agent
 
         #endregion
     }
+
+    /// <summary>
+    /// AccountRoleExtension
+    /// </summary>
+    public partial class AccountRole
+    {
+
+    }
 }

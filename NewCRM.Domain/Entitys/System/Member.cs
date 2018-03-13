@@ -441,4 +441,12 @@ namespace NewCRM.Domain.Entitys.System
 
         #endregion
     }
+
+    /// <summary>
+    /// MemberExtension
+    /// </summary>
+    public partial class Member
+    {
+
+    }
 }

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace NewCRM.Domain.Entitys.System
 {
     [Description("日志"), Serializable]
-    public class Log : DomainModelBase
+    public partial class Log : DomainModelBase
     {
         #region private field
 
@@ -141,7 +141,14 @@ namespace NewCRM.Domain.Entitys.System
         {
 
         }
-        #endregion
+        #endregion 
+    }
+
+    /// <summary>
+    /// LogExtension
+    /// </summary>
+    public partial class Log
+    {
 
     }
 }

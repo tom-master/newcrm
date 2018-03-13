@@ -271,4 +271,12 @@ namespace NewCRM.Domain.Entitys.System
 
         #endregion
     }
+
+    /// <summary>
+    /// ConfigExtension
+    /// </summary>
+    public partial class Config
+    {
+
+    }
 }
