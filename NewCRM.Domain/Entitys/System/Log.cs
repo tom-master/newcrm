@@ -36,7 +36,7 @@ namespace NewCRM.Domain.Entitys.System
 				if (_logLevelEnum != value)
 				{
 					_logLevelEnum = value;
-					OnPropertyChanged("LogLevelEnum");
+					OnPropertyChanged(LogLevelEnum.GetType());
 				}
 			}
 		}
@@ -53,7 +53,7 @@ namespace NewCRM.Domain.Entitys.System
 				if (_controller != value)
 				{
 					_controller = value;
-					OnPropertyChanged("Controller");
+					OnPropertyChanged(Controller.GetType());
 				}
 			}
 		}
@@ -70,7 +70,7 @@ namespace NewCRM.Domain.Entitys.System
 				if (_action != value)
 				{
 					_action = value;
-					OnPropertyChanged("Action");
+					OnPropertyChanged(Action.GetType());
 				}
 			}
 		}
@@ -87,7 +87,7 @@ namespace NewCRM.Domain.Entitys.System
 				if (_exceptionMessage != value)
 				{
 					_exceptionMessage = value;
-					OnPropertyChanged("ExceptionMessage");
+					OnPropertyChanged(ExceptionMessage.GetType());
 				}
 			}
 		}
@@ -104,7 +104,7 @@ namespace NewCRM.Domain.Entitys.System
 				if (_track != value)
 				{
 					_track = value;
-					OnPropertyChanged("Track");
+					OnPropertyChanged(Track.GetType());
 				}
 			}
 		}
@@ -120,7 +120,7 @@ namespace NewCRM.Domain.Entitys.System
 				if (_accountId != value)
 				{
 					_accountId = value;
-					OnPropertyChanged("AccountId");
+					OnPropertyChanged(AccountId.GetType());
 				}
 			}
 		}

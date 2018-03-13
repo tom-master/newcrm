@@ -40,10 +40,10 @@ namespace NewCRM.Domain.Entitys.Security
             get { return _name; }
             private set
             {
-                if(_name == value)
+                if(_name != value)
                 {
                     _name = value;
-                    OnPropertyChanged(Name);
+                    OnPropertyChanged(Name.GetType());
                 }
             }
         }
@@ -57,10 +57,10 @@ namespace NewCRM.Domain.Entitys.Security
             get { return _roleIdentity; }
             private set
             {
-                if(_roleIdentity == value)
+                if(_roleIdentity != value)
                 {
                     _roleIdentity = value;
-                    OnPropertyChanged(RoleIdentity);
+                    OnPropertyChanged(RoleIdentity.GetType());
                 }
             }
         }
@@ -74,10 +74,10 @@ namespace NewCRM.Domain.Entitys.Security
             get { return _remark; }
             private set
             {
-                if(_remark == value)
+                if(_remark != value)
                 {
                     _remark = value;
-                    OnPropertyChanged(Remark);
+                    OnPropertyChanged(Remark.GetType());
                 }
             }
         }
@@ -87,10 +87,10 @@ namespace NewCRM.Domain.Entitys.Security
             get { return _isAllowDisable; }
             private set
             {
-                if(_isAllowDisable == value)
+                if(_isAllowDisable != value)
                 {
                     _isAllowDisable = value;
-                    OnPropertyChanged("IsAllowDisable");
+                    OnPropertyChanged(IsAllowDisable.GetType());
                 }
             }
         }
@@ -100,10 +100,10 @@ namespace NewCRM.Domain.Entitys.Security
             get { return _powers; }
             private set
             {
-                if(_powers == value)
+                if(_powers != value)
                 {
                     _powers = value;
-                    OnPropertyChanged("Powers");
+                    OnPropertyChanged(Powers.GetType());
                 }
             }
         }

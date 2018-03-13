@@ -68,7 +68,7 @@ namespace NewCRM.Domain.Entitys.Agent
 				if (_name != value)
 				{
 					_name = value;
-					OnPropertyChanged(Name);
+					OnPropertyChanged(Name.GetType());
 				}
 			}
 		}
@@ -89,7 +89,7 @@ namespace NewCRM.Domain.Entitys.Agent
 				if (_loginPassword != value)
 				{
 					_loginPassword = value;
-					OnPropertyChanged(LoginPassword);
+					OnPropertyChanged(LoginPassword.GetType());
 				}
 			}
 		}
@@ -109,7 +109,7 @@ namespace NewCRM.Domain.Entitys.Agent
 				if (_lockScreenPassword != value)
 				{
 					_lockScreenPassword = value;
-					OnPropertyChanged(LockScreenPassword);
+					OnPropertyChanged(LockScreenPassword.GetType());
 				}
 			}
 		}
@@ -128,7 +128,7 @@ namespace NewCRM.Domain.Entitys.Agent
 				if (_isDisable != value)
 				{
 					_isDisable = value;
-					OnPropertyChanged("IsDisable");
+					OnPropertyChanged(IsDisable.GetType());
 				}
 			}
 		}
@@ -147,7 +147,7 @@ namespace NewCRM.Domain.Entitys.Agent
 				if (_lastLoginTime != value)
 				{
 					_lastLoginTime = value;
-					OnPropertyChanged("LastLoginTime");
+					OnPropertyChanged(LastLoginTime.GetType());
 				}
 			}
 		}
@@ -166,7 +166,7 @@ namespace NewCRM.Domain.Entitys.Agent
 				if (_isOnline != value)
 				{
 					_isOnline = value;
-					OnPropertyChanged("IsOnline");
+					OnPropertyChanged(IsOnline.GetType());
 				}
 			}
 		}
@@ -185,7 +185,7 @@ namespace NewCRM.Domain.Entitys.Agent
 				if (_isAdmin != value)
 				{
 					_isAdmin = value;
-					OnPropertyChanged("IsAdmin");
+					OnPropertyChanged(IsAdmin.GetType());
 				}
 			}
 		}
@@ -206,7 +206,7 @@ namespace NewCRM.Domain.Entitys.Agent
 				if (_roles != value)
 				{
 					_roles = value;
-					OnPropertyChanged("Roles");
+					OnPropertyChanged(Roles.GetType());
 				}
 			}
 		}

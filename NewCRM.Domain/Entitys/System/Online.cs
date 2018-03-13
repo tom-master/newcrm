@@ -28,7 +28,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_ipAddress != value)
                 {
                     _ipAddress = value;
-                    OnPropertyChanged("IpAddress");
+                    OnPropertyChanged(IpAddress.GetType());
                 }
             }
         }
@@ -45,7 +45,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_accountId != value)
                 {
                     _accountId = value;
-                    OnPropertyChanged("AccountId");
+                    OnPropertyChanged(AccountId.GetType());
                 }
             }
         }

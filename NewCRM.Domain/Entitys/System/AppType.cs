@@ -29,7 +29,7 @@ namespace NewCRM.Domain.Entitys.System
 				if (_name != value)
 				{
 					_name = value;
-					OnPropertyChanged("Name");
+					OnPropertyChanged(Name.GetType());
 				}
 			}
 		}
@@ -46,7 +46,7 @@ namespace NewCRM.Domain.Entitys.System
 				if (_remark != value)
 				{
 					_remark = value;
-					OnPropertyChanged("Remark");
+					OnPropertyChanged(Remark.GetType());
 				}
 			}
 		}

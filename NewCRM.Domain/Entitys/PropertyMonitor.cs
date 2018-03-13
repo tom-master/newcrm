@@ -28,13 +28,13 @@ namespace NewCRM.Domain.Entitys
             }
         }
 
-        public void OnPropertyChanged(String propertyName)
+        public void OnPropertyChanged(Type propertyType)
         {
             var temp = Interlocked.CompareExchange(ref PropertyChanged, null, null);
 
             if(temp != null)
             {
-                temp(this, null);
+                temp(this, new PropertyChangedEventArgs(propertyType.Name));
             }
         }
 

@@ -43,7 +43,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_title != value)
                 {
                     _title = value;
-                    OnPropertyChanged("Title");
+                    OnPropertyChanged(Title.GetType());
                 }
             }
         }
@@ -60,7 +60,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_url != value)
                 {
                     _url = value;
-                    OnPropertyChanged("Url");
+                    OnPropertyChanged(Url.GetType());
                 }
             }
         }
@@ -76,7 +76,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_shortUrl != value)
                 {
                     _shortUrl = value;
-                    OnPropertyChanged("ShortUrl");
+                    OnPropertyChanged(ShortUrl.GetType());
                 }
             }
         }
@@ -92,7 +92,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_source != value)
                 {
                     _source = value;
-                    OnPropertyChanged("Source");
+                    OnPropertyChanged(Source.GetType());
                 }
             }
         }
@@ -109,7 +109,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_description != value)
                 {
                     _description = value;
-                    OnPropertyChanged("Description");
+                    OnPropertyChanged(Description.GetType());
                 }
             }
         }
@@ -125,7 +125,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_width != value)
                 {
                     _width = value;
-                    OnPropertyChanged("Width");
+                    OnPropertyChanged(Width.GetType());
                 }
             }
         }
@@ -141,7 +141,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_height != value)
                 {
                     _height = value;
-                    OnPropertyChanged("Height");
+                    OnPropertyChanged(Height.GetType());
                 }
             }
         }
@@ -157,7 +157,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_accountId != value)
                 {
                     _accountId = value;
-                    OnPropertyChanged("AccountId");
+                    OnPropertyChanged(AccountId.GetType());
                 }
             }
         }
@@ -173,7 +173,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_md5 != value)
                 {
                     _md5 = value;
-                    OnPropertyChanged("Md5");
+                    OnPropertyChanged(Md5.GetType());
                 }
             }
         }

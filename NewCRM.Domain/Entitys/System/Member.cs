@@ -5,78 +5,78 @@ using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Domain.Entitys.System
 {
-	/// <summary>
-	/// 成员
-	/// </summary>
-	[Serializable, Description("成员")]
-	public partial class Member: DomainModelBase
-	{
-		#region private field
+    /// <summary>
+    /// 成员
+    /// </summary>
+    [Serializable, Description("成员")]
+    public partial class Member : DomainModelBase
+    {
+        #region private field
 
-		private Int32 _appId;
+        private Int32 _appId;
 
-		private Int32 _width;
+        private Int32 _width;
 
-		private Int32 _height;
+        private Int32 _height;
 
-		private Int32 _folderId;
+        private Int32 _folderId;
 
-		private String _name;
+        private String _name;
 
-		private String _iconUrl;
+        private String _iconUrl;
 
-		private String _appUrl;
+        private String _appUrl;
 
-		private Boolean _isOnDock;
+        private Boolean _isOnDock;
 
-		private Boolean _isMax;
+        private Boolean _isMax;
 
-		private Boolean _isFull;
+        private Boolean _isFull;
 
-		private Boolean _isSetbar;
+        private Boolean _isSetbar;
 
-		private Boolean _isOpenMax;
+        private Boolean _isOpenMax;
 
-		private Boolean _isLock;
+        private Boolean _isLock;
 
-		private Boolean _isFlash;
+        private Boolean _isFlash;
 
-		private Boolean _isDraw;
+        private Boolean _isDraw;
 
-		private Boolean _isResize;
+        private Boolean _isResize;
 
-		private MemberType _memberType;
+        private MemberType _memberType;
 
-		private Int32 _deskIndex;
+        private Int32 _deskIndex;
 
-		private Int32 _accountId;
+        private Int32 _accountId;
 
-		private Boolean _isIconByUpload;
+        private Boolean _isIconByUpload;
 
-		#endregion
+        #endregion
 
-		#region public property
+        #region public property
 
-		/// <summary>
-		/// 应用Id
-		/// </summary>
-		public Int32 AppId
-		{
-			get { return _appId; }
-			private set
-			{
-				if (_appId != value)
-				{
-					_appId = value;
-					OnPropertyChanged("AppId");
-				}
-			}
-		}
+        /// <summary>
+        /// 应用Id
+        /// </summary>
+        public Int32 AppId
+        {
+            get { return _appId; }
+            private set
+            {
+                if(_appId != value)
+                {
+                    _appId = value;
+                    OnPropertyChanged(AppId.GetType());
+                }
+            }
+        }
 
-		/// <summary>
-		/// 成员的宽
-		/// </summary>
-		public Int32 Width
+        /// <summary>
+        /// 成员的宽
+        /// </summary>
+        public Int32 Width
         {
             get { return _width; }
             private set
@@ -84,7 +84,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_width != value)
                 {
                     _width = value;
-                    OnPropertyChanged("Width");
+                    OnPropertyChanged(Width.GetType());
                 }
             }
         }
@@ -100,7 +100,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_height != value)
                 {
                     _height = value;
-                    OnPropertyChanged("Height");
+                    OnPropertyChanged(Height.GetType());
                 }
             }
         }
@@ -116,7 +116,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_folderId != value)
                 {
                     _folderId = value;
-                    OnPropertyChanged("FolderId");
+                    OnPropertyChanged(FolderId.GetType());
                 }
             }
         }
@@ -125,7 +125,7 @@ namespace NewCRM.Domain.Entitys.System
         /// 名称
         /// </summary>
         [Required, MaxLength(6)]
-		public String Name
+        public String Name
         {
             get { return _name; }
             private set
@@ -133,7 +133,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_name != value)
                 {
                     _name = value;
-                    OnPropertyChanged("Name");
+                    OnPropertyChanged(Name.GetType());
                 }
             }
         }
@@ -142,7 +142,7 @@ namespace NewCRM.Domain.Entitys.System
         /// 图标地址
         /// </summary>
         [Required]
-		public String IconUrl
+        public String IconUrl
         {
             get { return _iconUrl; }
             private set
@@ -150,7 +150,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_iconUrl != value)
                 {
                     _iconUrl = value;
-                    OnPropertyChanged("IconUrl");
+                    OnPropertyChanged(IconUrl.GetType());
                 }
             }
         }
@@ -166,7 +166,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_appUrl != value)
                 {
                     _appUrl = value;
-                    OnPropertyChanged("AppUrl");
+                    OnPropertyChanged(AppUrl.GetType());
                 }
             }
         }
@@ -182,7 +182,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isOnDock != value)
                 {
                     _isOnDock = value;
-                    OnPropertyChanged("IsOnDock");
+                    OnPropertyChanged(IsOnDock.GetType());
                 }
             }
         }
@@ -198,7 +198,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isMax != value)
                 {
                     _isMax = value;
-                    OnPropertyChanged("IsMax");
+                    OnPropertyChanged(IsMax.GetType());
                 }
             }
         }
@@ -214,7 +214,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isFull != value)
                 {
                     _isFull = value;
-                    OnPropertyChanged("IsFull");
+                    OnPropertyChanged(IsFull.GetType());
                 }
             }
         }
@@ -230,7 +230,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isSetbar != value)
                 {
                     _isSetbar = value;
-                    OnPropertyChanged("IsSetbar");
+                    OnPropertyChanged(IsSetbar.GetType());
                 }
             }
         }
@@ -246,7 +246,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isOpenMax != value)
                 {
                     _isOpenMax = value;
-                    OnPropertyChanged("IsOpenMax");
+                    OnPropertyChanged(IsOpenMax.GetType());
                 }
             }
         }
@@ -262,7 +262,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isLock != value)
                 {
                     _isLock = value;
-                    OnPropertyChanged("IsLock");
+                    OnPropertyChanged(IsLock.GetType());
                 }
             }
         }
@@ -278,7 +278,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isFlash != value)
                 {
                     _isFlash = value;
-                    OnPropertyChanged("IsFlash");
+                    OnPropertyChanged(IsFlash.GetType());
                 }
             }
         }
@@ -294,7 +294,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isDraw != value)
                 {
                     _isDraw = value;
-                    OnPropertyChanged("IsDraw");
+                    OnPropertyChanged(IsDraw.GetType());
                 }
             }
         }
@@ -310,7 +310,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isResize != value)
                 {
                     _isResize = value;
-                    OnPropertyChanged("IsResize");
+                    OnPropertyChanged(IsResize.GetType());
                 }
             }
         }
@@ -326,7 +326,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_memberType != value)
                 {
                     _memberType = value;
-                    OnPropertyChanged("IsResize");
+                    OnPropertyChanged(MemberType.GetType());
                 }
             }
         }
@@ -342,7 +342,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_deskIndex != value)
                 {
                     _deskIndex = value;
-                    OnPropertyChanged("DeskIndex");
+                    OnPropertyChanged(DeskIndex.GetType());
                 }
             }
         }
@@ -358,7 +358,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_accountId != value)
                 {
                     _accountId = value;
-                    OnPropertyChanged("AccountId");
+                    OnPropertyChanged(AccountId.GetType());
                 }
             }
         }
@@ -371,7 +371,7 @@ namespace NewCRM.Domain.Entitys.System
                 if(_isIconByUpload != value)
                 {
                     _isIconByUpload = value;
-                    OnPropertyChanged("IsIconByUpload");
+                    OnPropertyChanged(IsIconByUpload.GetType());
                 }
             }
         }
@@ -384,61 +384,61 @@ namespace NewCRM.Domain.Entitys.System
         /// 实例化一个成员对象
         /// </summary>
         public Member(
-			String name,
-			String iconUrl,
-			String appUrl,
-			Int32 appId,
-			Int32 width,
-			Int32 height,
-			Boolean isLock = default(Boolean),
-			Boolean isMax = default(Boolean),
-			Boolean isFull = default(Boolean),
-			Boolean isSetbar = default(Boolean),
-			Boolean isOpenMax = default(Boolean),
-			Boolean isFlash = default(Boolean),
-			Boolean isDraw = default(Boolean),
-			Boolean isResize = default(Boolean))
-		{
-			AppId = appId;
-			Width = width > 800 ? 800 : width;
-			Height = height > 600 ? 600 : height;
-			IsDraw = isDraw;
-			IsOpenMax = isOpenMax;
-			IsSetbar = isSetbar;
-			IsMax = isMax;
-			IsFull = isFull;
-			IsFlash = isFlash;
-			IsResize = isResize;
-			IsLock = isLock;
-			Name = name;
-			IconUrl = iconUrl;
-			AppUrl = appUrl;
-			MemberType = appId == 0 ? MemberType.Folder : MemberType.App;
-			DeskIndex = 1;
-			IsIconByUpload = false;
-		}
+            String name,
+            String iconUrl,
+            String appUrl,
+            Int32 appId,
+            Int32 width,
+            Int32 height,
+            Boolean isLock = default(Boolean),
+            Boolean isMax = default(Boolean),
+            Boolean isFull = default(Boolean),
+            Boolean isSetbar = default(Boolean),
+            Boolean isOpenMax = default(Boolean),
+            Boolean isFlash = default(Boolean),
+            Boolean isDraw = default(Boolean),
+            Boolean isResize = default(Boolean))
+        {
+            AppId = appId;
+            Width = width > 800 ? 800 : width;
+            Height = height > 600 ? 600 : height;
+            IsDraw = isDraw;
+            IsOpenMax = isOpenMax;
+            IsSetbar = isSetbar;
+            IsMax = isMax;
+            IsFull = isFull;
+            IsFlash = isFlash;
+            IsResize = isResize;
+            IsLock = isLock;
+            Name = name;
+            IconUrl = iconUrl;
+            AppUrl = appUrl;
+            MemberType = appId == 0 ? MemberType.Folder : MemberType.App;
+            DeskIndex = 1;
+            IsIconByUpload = false;
+        }
 
-		/// <summary>
-		/// 实例化一个成员对象
-		/// </summary>
-		public Member(String name, String iconUrl, Int32 appId)
-		{
-			AppId = appId;
-			Width = 800;
-			Height = 600;
-			IsDraw = false;
-			IsOpenMax = false;
-			Name = name;
-			IconUrl = iconUrl;
-			DeskIndex = 1;
-			MemberType = appId == 0 ? MemberType.Folder : MemberType.App;
-			IsIconByUpload = false;
-		}
+        /// <summary>
+        /// 实例化一个成员对象
+        /// </summary>
+        public Member(String name, String iconUrl, Int32 appId)
+        {
+            AppId = appId;
+            Width = 800;
+            Height = 600;
+            IsDraw = false;
+            IsOpenMax = false;
+            Name = name;
+            IconUrl = iconUrl;
+            DeskIndex = 1;
+            MemberType = appId == 0 ? MemberType.Folder : MemberType.App;
+            IsIconByUpload = false;
+        }
 
-		public Member()
-		{
-		}
+        public Member()
+        {
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

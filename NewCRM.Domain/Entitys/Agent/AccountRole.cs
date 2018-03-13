@@ -24,7 +24,7 @@ namespace NewCRM.Domain.Entitys.Agent
                 if(_accountId != value)
                 {
                     _accountId = value;
-                    OnPropertyChanged(AccountId.ToString());
+                    OnPropertyChanged(AccountId.GetType());
                 }
             }
         }
@@ -41,7 +41,7 @@ namespace NewCRM.Domain.Entitys.Agent
                 if(_roleId != value)
                 {
                     _roleId = value;
-                    OnPropertyChanged(RoleId.ToString());
+                    OnPropertyChanged(RoleId.GetType());
                 }
             }
         }
