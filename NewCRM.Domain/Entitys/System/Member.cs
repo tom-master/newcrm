@@ -76,105 +76,314 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 成员的宽
 		/// </summary>
-		public Int32 Width { get; private set; }
+		public Int32 Width
+        {
+            get { return _width; }
+            private set
+            {
+                if(_width != value)
+                {
+                    _width = value;
+                    OnPropertyChanged("Width");
+                }
+            }
+        }
 
-		/// <summary>
-		/// 成员的高
-		/// </summary>
-		public Int32 Height { get; private set; }
+        /// <summary>
+        /// 成员的高
+        /// </summary>
+        public Int32 Height
+        {
+            get { return _height; }
+            private set
+            {
+                if(_height != value)
+                {
+                    _height = value;
+                    OnPropertyChanged("Height");
+                }
+            }
+        }
 
-		/// <summary>
-		/// 文件夹Id
-		/// </summary>
-		public Int32 FolderId { get; private set; }
+        /// <summary>
+        /// 文件夹Id
+        /// </summary>
+        public Int32 FolderId
+        {
+            get { return _folderId; }
+            private set
+            {
+                if(_folderId != value)
+                {
+                    _folderId = value;
+                    OnPropertyChanged("FolderId");
+                }
+            }
+        }
 
-		/// <summary>
-		/// 名称
-		/// </summary>
-		[Required, MaxLength(6)]
-		public String Name { get; private set; }
+        /// <summary>
+        /// 名称
+        /// </summary>
+        [Required, MaxLength(6)]
+		public String Name
+        {
+            get { return _name; }
+            private set
+            {
+                if(_name != value)
+                {
+                    _name = value;
+                    OnPropertyChanged("Name");
+                }
+            }
+        }
 
-		/// <summary>
-		/// 图标地址
-		/// </summary>
-		[Required]
-		public String IconUrl { get; private set; }
+        /// <summary>
+        /// 图标地址
+        /// </summary>
+        [Required]
+		public String IconUrl
+        {
+            get { return _iconUrl; }
+            private set
+            {
+                if(_iconUrl != value)
+                {
+                    _iconUrl = value;
+                    OnPropertyChanged("IconUrl");
+                }
+            }
+        }
 
-		/// <summary>
-		/// app地址
-		/// </summary>
-		public String AppUrl { get; private set; }
+        /// <summary>
+        /// app地址
+        /// </summary>
+        public String AppUrl
+        {
+            get { return _appUrl; }
+            private set
+            {
+                if(_appUrl != value)
+                {
+                    _appUrl = value;
+                    OnPropertyChanged("AppUrl");
+                }
+            }
+        }
 
-		/// <summary>
-		/// 成员是否在应用码头上
-		/// </summary>
-		public Boolean IsOnDock { get; private set; }
+        /// <summary>
+        /// 成员是否在应用码头上
+        /// </summary>
+        public Boolean IsOnDock
+        {
+            get { return _isOnDock; }
+            private set
+            {
+                if(_isOnDock != value)
+                {
+                    _isOnDock = value;
+                    OnPropertyChanged("IsOnDock");
+                }
+            }
+        }
 
-		/// <summary>
-		/// 是否能最大化
-		/// </summary>
-		public Boolean IsMax { get; private set; }
+        /// <summary>
+        /// 是否能最大化
+        /// </summary>
+        public Boolean IsMax
+        {
+            get { return _isMax; }
+            private set
+            {
+                if(_isMax != value)
+                {
+                    _isMax = value;
+                    OnPropertyChanged("IsMax");
+                }
+            }
+        }
 
-		/// <summary>
-		/// 是否打开后铺满全屏
-		/// </summary>
-		public Boolean IsFull { get; private set; }
+        /// <summary>
+        /// 是否打开后铺满全屏
+        /// </summary>
+        public Boolean IsFull
+        {
+            get { return _isFull; }
+            private set
+            {
+                if(_isFull != value)
+                {
+                    _isFull = value;
+                    OnPropertyChanged("IsFull");
+                }
+            }
+        }
 
-		/// <summary>
-		/// 是否显示app底部的按钮
-		/// </summary>
-		public Boolean IsSetbar { get; private set; }
+        /// <summary>
+        /// 是否显示app底部的按钮
+        /// </summary>
+        public Boolean IsSetbar
+        {
+            get { return _isSetbar; }
+            private set
+            {
+                if(_isSetbar != value)
+                {
+                    _isSetbar = value;
+                    OnPropertyChanged("IsSetbar");
+                }
+            }
+        }
 
-		/// <summary>
-		/// 是否打开最大化
-		/// </summary>
-		public Boolean IsOpenMax { get; private set; }
+        /// <summary>
+        /// 是否打开最大化
+        /// </summary>
+        public Boolean IsOpenMax
+        {
+            get { return _isOpenMax; }
+            private set
+            {
+                if(_isOpenMax != value)
+                {
+                    _isOpenMax = value;
+                    OnPropertyChanged("IsOpenMax");
+                }
+            }
+        }
 
-		/// <summary>
-		/// 是否锁定
-		/// </summary>
-		public Boolean IsLock { get; private set; }
+        /// <summary>
+        /// 是否锁定
+        /// </summary>
+        public Boolean IsLock
+        {
+            get { return _isLock; }
+            private set
+            {
+                if(_isLock != value)
+                {
+                    _isLock = value;
+                    OnPropertyChanged("IsLock");
+                }
+            }
+        }
 
-		/// <summary>
-		/// 是否为福莱希
-		/// </summary>
-		public Boolean IsFlash { get; private set; }
+        /// <summary>
+        /// 是否为福莱希
+        /// </summary>
+        public Boolean IsFlash
+        {
+            get { return _isFlash; }
+            private set
+            {
+                if(_isFlash != value)
+                {
+                    _isFlash = value;
+                    OnPropertyChanged("IsFlash");
+                }
+            }
+        }
 
-		/// <summary>
-		/// 是否可以拖动
-		/// </summary>
-		public Boolean IsDraw { get; private set; }
+        /// <summary>
+        /// 是否可以拖动
+        /// </summary>
+        public Boolean IsDraw
+        {
+            get { return _isDraw; }
+            private set
+            {
+                if(_isDraw != value)
+                {
+                    _isDraw = value;
+                    OnPropertyChanged("IsDraw");
+                }
+            }
+        }
 
-		/// <summary>
-		/// 是否可以拉伸
-		/// </summary>
-		public Boolean IsResize { get; private set; }
+        /// <summary>
+        /// 是否可以拉伸
+        /// </summary>
+        public Boolean IsResize
+        {
+            get { return _isResize; }
+            private set
+            {
+                if(_isResize != value)
+                {
+                    _isResize = value;
+                    OnPropertyChanged("IsResize");
+                }
+            }
+        }
 
-		/// <summary>
-		/// 成员类型
-		/// </summary>
-		public MemberType MemberType { get; private set; }
+        /// <summary>
+        /// 成员类型
+        /// </summary>
+        public MemberType MemberType
+        {
+            get { return _memberType; }
+            private set
+            {
+                if(_memberType != value)
+                {
+                    _memberType = value;
+                    OnPropertyChanged("IsResize");
+                }
+            }
+        }
 
-		/// <summary>
-		/// 桌面索引
-		/// </summary>
-		public Int32 DeskIndex { get; private set; }
+        /// <summary>
+        /// 桌面索引
+        /// </summary>
+        public Int32 DeskIndex
+        {
+            get { return _deskIndex; }
+            private set
+            {
+                if(_deskIndex != value)
+                {
+                    _deskIndex = value;
+                    OnPropertyChanged("DeskIndex");
+                }
+            }
+        }
 
-		/// <summary>
-		/// 账户Id
-		/// </summary>
-		public Int32 AccountId { get; private set; }
+        /// <summary>
+        /// 账户Id
+        /// </summary>
+        public Int32 AccountId
+        {
+            get { return _accountId; }
+            private set
+            {
+                if(_accountId != value)
+                {
+                    _accountId = value;
+                    OnPropertyChanged("AccountId");
+                }
+            }
+        }
 
-		public Boolean IsIconByUpload { get; private set; }
+        public Boolean IsIconByUpload
+        {
+            get { return _isIconByUpload; }
+            private set
+            {
+                if(_isIconByUpload != value)
+                {
+                    _isIconByUpload = value;
+                    OnPropertyChanged("IsIconByUpload");
+                }
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region public ctor
+        #region public ctor
 
-		/// <summary>
-		/// 实例化一个成员对象
-		/// </summary>
-		public Member(
+        /// <summary>
+        /// 实例化一个成员对象
+        /// </summary>
+        public Member(
 			String name,
 			String iconUrl,
 			String appUrl,

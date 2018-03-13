@@ -8,55 +8,175 @@ namespace NewCRM.Domain.Entitys.System
     [Serializable, Description("壁纸")]
     public partial class Wallpaper : DomainModelBase
     {
+        #region private field
+
+        private String _title;
+
+        private String _url;
+
+        private String _shortUrl;
+
+        private WallpaperSource _source;
+
+        private String _description;
+
+        private Int32 _width;
+
+        private Int32 _height;
+
+        private Int32 _accountId;
+
+        private String _md5;
+        #endregion
+
         #region public property
 
         /// <summary>
         /// 标题
         /// </summary>
         [Required]
-        public String Title { get; private set; }
+        public String Title
+        {
+            get { return _title; }
+            private set
+            {
+                if(_title != value)
+                {
+                    _title = value;
+                    OnPropertyChanged("Title");
+                }
+            }
+        }
 
         /// <summary>
         /// 图片地址
         /// </summary>
         [Required]
-        public String Url { get; private set; }
+        public String Url
+        {
+            get { return _url; }
+            private set
+            {
+                if(_url != value)
+                {
+                    _url = value;
+                    OnPropertyChanged("Url");
+                }
+            }
+        }
 
         /// <summary>
         /// 短地址
         /// </summary> 
-        public String ShortUrl { get; set; }
+        public String ShortUrl
+        {
+            get { return _shortUrl; }
+            private set
+            {
+                if(_shortUrl != value)
+                {
+                    _shortUrl = value;
+                    OnPropertyChanged("ShortUrl");
+                }
+            }
+        }
 
         /// <summary>
         /// 来源
         /// </summary>
-        public WallpaperSource Source { get; private set; }
+        public WallpaperSource Source
+        {
+            get { return _source; }
+            private set
+            {
+                if(_source != value)
+                {
+                    _source = value;
+                    OnPropertyChanged("Source");
+                }
+            }
+        }
 
         /// <summary>
         /// 描述
         /// </summary>
         [MaxLength(50)]
-        public String Description { get; private set; }
+        public String Description
+        {
+            get { return _description; }
+            private set
+            {
+                if(_description != value)
+                {
+                    _description = value;
+                    OnPropertyChanged("Description");
+                }
+            }
+        }
 
         /// <summary>
         /// 图片的宽
         /// </summary>
-        public Int32 Width { get; private set; }
+        public Int32 Width
+        {
+            get { return _width; }
+            private set
+            {
+                if(_width != value)
+                {
+                    _width = value;
+                    OnPropertyChanged("Width");
+                }
+            }
+        }
 
         /// <summary>
         /// 图片的高
         /// </summary>
-        public Int32 Height { get; private set; }
+        public Int32 Height
+        {
+            get { return _height; }
+            private set
+            {
+                if(_height != value)
+                {
+                    _height = value;
+                    OnPropertyChanged("Height");
+                }
+            }
+        }
 
         /// <summary>
         /// 上传者（用户）
         /// </summary>
-        public Int32 AccountId { get; private set; }
+        public Int32 AccountId
+        {
+            get { return _accountId; }
+            private set
+            {
+                if(_accountId != value)
+                {
+                    _accountId = value;
+                    OnPropertyChanged("AccountId");
+                }
+            }
+        }
 
         /// <summary>
         /// md5
         /// </summary>
-        public String Md5 { get; private set; }
+        public String Md5
+        {
+            get { return _md5; }
+            private set
+            {
+                if(_md5 != value)
+                {
+                    _md5 = value;
+                    OnPropertyChanged("Md5");
+                }
+            }
+        }
 
         #endregion
 

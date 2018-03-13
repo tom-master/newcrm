@@ -38,7 +38,6 @@ namespace NewCRM.Domain.Entitys.System
 
 		#endregion
 
-
 		#region public property
 
 		/// <summary>

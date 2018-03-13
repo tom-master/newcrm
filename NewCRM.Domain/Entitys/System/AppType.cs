@@ -15,7 +15,6 @@ namespace NewCRM.Domain.Entitys.System
 		private String _remark;
 		#endregion
 
-
 		#region public proptery
 
 		/// <summary>
@@ -51,7 +50,6 @@ namespace NewCRM.Domain.Entitys.System
 				}
 			}
 		}
-
 
 		#endregion
 
