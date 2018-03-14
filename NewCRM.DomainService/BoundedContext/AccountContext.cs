@@ -55,9 +55,9 @@ namespace NewCRM.Domain.Services.BoundedContext
                          {
                              var sql = $@"UPDATE dbo.Accounts SET IsOnline=1,LastLoginTime=GETDATE() WHERE Id=@accountId AND IsDeleted=0 AND IsDisable=0 SELECT CAST(@@ROWCOUNT AS INT)";
                              var parameters = new List<SqlParameter>
-                         {
-                            new SqlParameter("@accountId",result.Id)
-                         };
+							 {
+								new SqlParameter("@accountId",result.Id)
+							 };
                              var rowCount = dataStore.FindSingleValue<Int32>(sql, parameters);
                              if (rowCount == 0)
                              {
@@ -302,9 +302,9 @@ namespace NewCRM.Domain.Services.BoundedContext
                     {
                         var sql = $@"SELECT a.LockScreenPassword FROM dbo.Accounts AS a WHERE a.Id=@accountId AND a.IsDeleted=0 AND a.IsDisable=0";
                         var parameters = new List<SqlParameter>
-                    {
-                        new SqlParameter("@accountId",accountId)
-                    };
+						{
+							new SqlParameter("@accountId",accountId)
+						};
                         var password = dataStore.FindSingleValue<String>(sql, parameters);
                         return PasswordUtil.ComparePasswords(password, unlockPassword);
                     }
