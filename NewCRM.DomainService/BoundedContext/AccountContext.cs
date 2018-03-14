@@ -406,6 +406,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                        var accountId = 0;
                        var configId = 0;
+
                        #region 初始化配置
                        {
                            var config = new Config();
@@ -441,25 +442,27 @@ namespace NewCRM.Domain.Services.BoundedContext
                                   @AccountFace  -- Face - nvarchar(150)
                                 ) SELECT CAST(@@IDENTITY AS INT) AS Id";
                            var parameters = new List<SqlParameter>
-                       {
-                            new SqlParameter("@Skin",config.Skin),
-                            new SqlParameter("@AppSize",config.AppSize),
-                            new SqlParameter("@AppVerticalSpacing",config.AppVerticalSpacing),
-                            new SqlParameter("@AppHorizontalSpacing",config.AppHorizontalSpacing),
-                            new SqlParameter("@DefaultDeskNumber",config.DefaultDeskNumber),
-                            new SqlParameter("@DefaultDeskCount",config.DefaultDeskCount),
-                            new SqlParameter("@WallpaperMode",(Int32)config.WallpaperMode),
-                            new SqlParameter("@AppXy",(Int32)config.AppXy),
-                            new SqlParameter("@DockPosition",(Int32)config.DockPosition),
-                            new SqlParameter("@AccountFace",config.AccountFace)
-                       };
+                           {
+                                new SqlParameter("@Skin",config.Skin),
+                                new SqlParameter("@AppSize",config.AppSize),
+                                new SqlParameter("@AppVerticalSpacing",config.AppVerticalSpacing),
+                                new SqlParameter("@AppHorizontalSpacing",config.AppHorizontalSpacing),
+                                new SqlParameter("@DefaultDeskNumber",config.DefaultDeskNumber),
+                                new SqlParameter("@DefaultDeskCount",config.DefaultDeskCount),
+                                new SqlParameter("@WallpaperMode",(Int32)config.WallpaperMode),
+                                new SqlParameter("@AppXy",(Int32)config.AppXy),
+                                new SqlParameter("@DockPosition",(Int32)config.DockPosition),
+                                new SqlParameter("@AccountFace",config.AccountFace)
+                           };
                            configId = dataStore.FindSingleValue<Int32>(sql, parameters);
                        }
                        #endregion
+
                        if (configId == 0)
                        {
                            throw new BusinessException("初始化配置时失败");
                        }
+
                        #region 新增用户
                        {
                            var sql = $@"INSERT dbo.Accounts
