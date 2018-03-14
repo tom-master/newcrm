@@ -40,11 +40,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _title; }
             private set
             {
-                if(_title != value)
-                {
-                    _title = value;
-                    OnPropertyChanged(nameof(Title));
-                }
+                _title = value;
             }
         }
 
@@ -57,11 +53,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _url; }
             private set
             {
-                if(_url != value)
-                {
-                    _url = value;
-                    OnPropertyChanged(nameof(Url));
-                }
+                _url = value;
             }
         }
 
@@ -73,11 +65,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _shortUrl; }
             private set
             {
-                if(_shortUrl != value)
-                {
-                    _shortUrl = value;
-                    OnPropertyChanged(nameof(ShortUrl));
-                }
+                _shortUrl = value;
             }
         }
 
@@ -89,11 +77,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _source; }
             private set
             {
-                if(_source != value)
-                {
-                    _source = value;
-                    OnPropertyChanged(nameof(Source));
-                }
+                _source = value;
             }
         }
 
@@ -106,11 +90,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _description; }
             private set
             {
-                if(_description != value)
-                {
-                    _description = value;
-                    OnPropertyChanged(nameof(Description));
-                }
+                _description = value;
             }
         }
 
@@ -122,11 +102,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _width; }
             private set
             {
-                if(_width != value)
-                {
-                    _width = value;
-                    OnPropertyChanged(nameof(Width));
-                }
+                _width = value;
             }
         }
 
@@ -138,11 +114,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _height; }
             private set
             {
-                if(_height != value)
-                {
-                    _height = value;
-                    OnPropertyChanged(nameof(Height));
-                }
+                _height = value;
             }
         }
 
@@ -154,11 +126,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _accountId; }
             private set
             {
-                if(_accountId != value)
-                {
-                    _accountId = value;
-                    OnPropertyChanged(nameof(AccountId));
-                }
+                _accountId = value;
             }
         }
 
@@ -170,11 +138,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _md5; }
             private set
             {
-                if(_md5 != value)
-                {
-                    _md5 = value;
-                    OnPropertyChanged(nameof(Md5));
-                }
+                _md5 = value;
             }
         }
 

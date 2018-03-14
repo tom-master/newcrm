@@ -25,11 +25,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _ipAddress; }
             private set
             {
-                if(_ipAddress != value)
-                {
-                    _ipAddress = value;
-                    OnPropertyChanged(nameof(IpAddress));
-                }
+                _ipAddress = value;
             }
         }
 
@@ -42,11 +38,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _accountId; }
             private set
             {
-                if(_accountId != value)
-                {
-                    _accountId = value;
-                    OnPropertyChanged(nameof(AccountId));
-                }
+                _accountId = value;
             }
         }
         #endregion
@@ -71,13 +63,5 @@ namespace NewCRM.Domain.Entitys.System
         }
 
         #endregion
-    }
-
-    /// <summary>
-    /// OnlineExtension
-    /// </summary>
-    public partial class Online
-    {
-
     }
 }
