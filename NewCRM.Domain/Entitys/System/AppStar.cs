@@ -18,11 +18,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _accountId; }
             private set
             {
-                if(_accountId != value)
-                {
-                    _accountId = value;
-                    OnPropertyChanged(nameof(AccountId));
-                }
+                _accountId = value;
             }
         }
 
@@ -34,11 +30,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _appId; }
             private set
             {
-                if(_appId != value)
-                {
-                    _appId = value;
-                    OnPropertyChanged(nameof(AppId));
-                }
+                _appId = value;
             }
         }
 
@@ -50,11 +42,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _startNum; }
             private set
             {
-                if(_startNum != value)
-                {
-                    _startNum = value;
-                    OnPropertyChanged(nameof(StartNum));
-                }
+                _startNum = value;
             }
         }
 
@@ -67,13 +55,5 @@ namespace NewCRM.Domain.Entitys.System
         public AppStar()
         {
         }
-    }
-
-    /// <summary>
-    /// AppStarExtension
-    /// </summary>
-    public partial class AppStar
-    {
-
     }
 }

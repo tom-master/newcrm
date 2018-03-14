@@ -3,48 +3,40 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NewCRM.Domain.Entitys.Agent
 {
-	public partial class AccountRole: DomainModelBase
-	{
-		#region private field
-		private Int32 _accountId;
+    public partial class AccountRole : DomainModelBase
+    {
+        #region private field
+        private Int32 _accountId;
 
 		private Int32 _roleId;
 		#endregion
 
-		#region public property
-		[Required]
-		public Int32 AccountId
-		{
-			get
-			{
-				return _accountId;
-			}
-			private set
-			{
-				if (_accountId != value)
-				{
-					_accountId = value;
-					OnPropertyChanged(nameof(AccountId));
-				}
-			}
-		}
+        #region public property
+        [Required]
+        public Int32 AccountId
+        {
+            get
+            {
+                return _accountId;
+            }
+            private set
+            {
+                _accountId = value;
+            }
+        }
 
-		[Required]
-		public Int32 RoleId
-		{
-			get
-			{
-				return _roleId;
-			}
-			private set
-			{
-				if (_roleId != value)
-				{
-					_roleId = value;
-					OnPropertyChanged(nameof(RoleId));
-				}
-			}
-		}
+        [Required]
+        public Int32 RoleId
+        {
+            get
+            {
+                return _roleId;
+            }
+            private set
+            {
+                _roleId = value;
+            }
+        }
 
 		#endregion
 
@@ -58,10 +50,8 @@ namespace NewCRM.Domain.Entitys.Agent
 
 		public AccountRole() { }
 
-		public void Remove() => IsDeleted = true;
-
-		#endregion
-	}
+        #endregion
+    }
 
 	/// <summary>
 	/// AccountRoleExtension

@@ -33,11 +33,7 @@ namespace NewCRM.Domain.Entitys.Security
             get { return _name; }
             private set
             {
-                if(_name != value)
-                {
-                    _name = value;
-                    OnPropertyChanged(nameof(Name));
-                }
+                _name = value;
             }
         }
 
@@ -50,11 +46,7 @@ namespace NewCRM.Domain.Entitys.Security
             get { return _roleIdentity; }
             private set
             {
-                if(_roleIdentity != value)
-                {
-                    _roleIdentity = value;
-                    OnPropertyChanged(nameof(RoleIdentity));
-                }
+                _roleIdentity = value;
             }
         }
 
@@ -67,11 +59,7 @@ namespace NewCRM.Domain.Entitys.Security
             get { return _remark; }
             private set
             {
-                if(_remark != value)
-                {
-                    _remark = value;
-                    OnPropertyChanged(nameof(Remark));
-                }
+                _remark = value;
             }
         }
 
@@ -80,11 +68,7 @@ namespace NewCRM.Domain.Entitys.Security
             get { return _isAllowDisable; }
             private set
             {
-                if(_isAllowDisable != value)
-                {
-                    _isAllowDisable = value;
-                    OnPropertyChanged(nameof(IsAllowDisable));
-                }
+                _isAllowDisable = value;
             }
         }
 
@@ -93,11 +77,7 @@ namespace NewCRM.Domain.Entitys.Security
             get { return _powers; }
             private set
             {
-                if(_powers != value)
-                {
-                    _powers = value;
-                    OnPropertyChanged(nameof(Powers));
-                }
+                _powers = value;
             }
         }
 
@@ -131,6 +111,18 @@ namespace NewCRM.Domain.Entitys.Security
     /// </summary>
     public partial class Role
     {
+        public Role ModifyRoleName(String roleName)
+        {
+            Name = roleName;
+            OnPropertyChanged(nameof(Name));
+            return this;
+        }
 
+        public Role ModifyRoleIdentity(String roleIdentity)
+        {
+            RoleIdentity = roleIdentity;
+            OnPropertyChanged(nameof(RoleIdentity));
+            return this;
+        }
     }
 }

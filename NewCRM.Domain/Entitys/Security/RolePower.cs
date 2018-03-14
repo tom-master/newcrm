@@ -18,11 +18,7 @@ namespace NewCRM.Domain.Entitys.Security
             get { return _roleId; }
             private set
             {
-                if(_roleId != value)
-                {
-                    _roleId = value;
-                    OnPropertyChanged(nameof(RoleId));
-                }
+                _roleId = value;
             }
         }
 
@@ -32,11 +28,7 @@ namespace NewCRM.Domain.Entitys.Security
             get { return _appId; }
             private set
             {
-                if(_appId != value)
-                {
-                    _appId = value;
-                    OnPropertyChanged(nameof(AppId));
-                }
+                _appId = value;
             }
         }
         #endregion
@@ -53,11 +45,6 @@ namespace NewCRM.Domain.Entitys.Security
         {
 
         }
-
-        /// <summary>
-        /// 移除角色权限
-        /// </summary>
-        public void Remove() => IsDeleted = true;
 
         #endregion
     }

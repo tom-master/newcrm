@@ -49,11 +49,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _skin; }
             private set
             {
-                if(_skin != value)
-                {
-                    _skin = value;
-                    OnPropertyChanged(nameof(Skin));
-                }
+                _skin = value;
             }
         }
 
@@ -66,11 +62,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _accountFace; }
             private set
             {
-                if(_accountFace != value)
-                {
-                    _accountFace = value;
-                    OnPropertyChanged(nameof(AccountFace));
-                }
+                _accountFace = value;
             }
         }
 
@@ -82,11 +74,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _appSize; }
             private set
             {
-                if(_appSize != value)
-                {
-                    _appSize = value;
-                    OnPropertyChanged(nameof(AppSize));
-                }
+                _appSize = value;
             }
         }
 
@@ -98,11 +86,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _appVerticalSpacing; }
             private set
             {
-                if(_appVerticalSpacing != value)
-                {
-                    _appVerticalSpacing = value;
-                    OnPropertyChanged(nameof(AppVerticalSpacing));
-                }
+                _appVerticalSpacing = value;
             }
         }
 
@@ -114,11 +98,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _appHorizontalSpacing; }
             private set
             {
-                if(_appHorizontalSpacing != value)
-                {
-                    _appHorizontalSpacing = value;
-                    OnPropertyChanged(nameof(AppHorizontalSpacing));
-                }
+                _appHorizontalSpacing = value;
             }
         }
 
@@ -130,11 +110,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _defaultDeskNumber; }
             private set
             {
-                if(_defaultDeskNumber != value)
-                {
-                    _defaultDeskNumber = value;
-                    OnPropertyChanged(nameof(DefaultDeskNumber));
-                }
+                _defaultDeskNumber = value;
             }
         }
 
@@ -146,11 +122,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _defaultDeskCount; }
             private set
             {
-                if(_defaultDeskCount != value)
-                {
-                    _defaultDeskCount = value;
-                    OnPropertyChanged(nameof(DefaultDeskCount));
-                }
+                _defaultDeskCount = value;
             }
         }
 
@@ -162,11 +134,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _wallpaperMode; }
             private set
             {
-                if(_wallpaperMode != value)
-                {
-                    _wallpaperMode = value;
-                    OnPropertyChanged(nameof(WallpaperMode));
-                }
+                _wallpaperMode = value;
             }
         }
 
@@ -178,14 +146,9 @@ namespace NewCRM.Domain.Entitys.System
             get { return _isBing; }
             private set
             {
-                if(_isBing != value)
-                {
-                    _isBing = value;
-                    OnPropertyChanged(nameof(IsBing));
-                }
+                _isBing = value;
             }
         }
-
 
         /// <summary>
         /// app排列方向
@@ -195,11 +158,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _appXy; }
             private set
             {
-                if(_appXy != value)
-                {
-                    _appXy = value;
-                    OnPropertyChanged(nameof(AppXy));
-                }
+                _appXy = value;
             }
         }
 
@@ -211,11 +170,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _dockPosition; }
             private set
             {
-                if(_dockPosition != value)
-                {
-                    _dockPosition = value;
-                    OnPropertyChanged(nameof(DockPosition));
-                }
+                _dockPosition = value;
             }
         }
 
@@ -227,11 +182,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _accountId; }
             private set
             {
-                if(_accountId != value)
-                {
-                    _accountId = value;
-                    OnPropertyChanged(nameof(AccountId));
-                }
+                _accountId = value;
             }
         }
 
@@ -243,11 +194,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _wallpaperId; }
             private set
             {
-                if(_wallpaperId != value)
-                {
-                    _wallpaperId = value;
-                    OnPropertyChanged(nameof(WallpaperId));
-                }
+                _wallpaperId = value;
             }
         }
 
@@ -278,5 +225,95 @@ namespace NewCRM.Domain.Entitys.System
     public partial class Config
     {
 
+        public Config ModifySkin(String skin)
+        {
+            Skin = skin;
+            OnPropertyChanged(nameof(Skin));
+            return this;
+        }
+
+        public Config ModifyAccountFace(String accountFace)
+        {
+            AccountFace = accountFace;
+            OnPropertyChanged(nameof(AccountFace));
+            return this;
+        }
+
+        public Config ModifyAppSize(Int32 appSize)
+        {
+            AppSize = appSize;
+            OnPropertyChanged(nameof(AppSize));
+            return this;
+        }
+
+        public Config ModifyAppVerticalSpacing(Int32 appVerticalSpacing)
+        {
+            AppVerticalSpacing = appVerticalSpacing;
+            OnPropertyChanged(nameof(AppVerticalSpacing));
+            return this;
+        }
+
+        public Config ModifyAppHorizontalSpacing(Int32 appHorizontalSpacing)
+        {
+            AppHorizontalSpacing = appHorizontalSpacing;
+            OnPropertyChanged(nameof(AppHorizontalSpacing));
+            return this;
+        }
+
+        public Config ModifyDefaultDeskNumber(Int32 deskNumber)
+        {
+            DefaultDeskNumber = deskNumber;
+            OnPropertyChanged(nameof(DefaultDeskNumber));
+            return this;
+        }
+
+        public Config ModifyDefaultDeskCount(Int32 deskCount)
+        {
+            DefaultDeskCount = deskCount;
+            OnPropertyChanged(nameof(DefaultDeskCount));
+            return this;
+        }
+
+        public Config ModifyWallpaperMode(WallpaperMode wallpaperMode)
+        {
+            WallpaperMode = wallpaperMode;
+            OnPropertyChanged(nameof(WallpaperMode));
+            return this;
+        }
+
+        public Config ModifyIsFromBing(Boolean isFromBing)
+        {
+            IsBing = isFromBing;
+            OnPropertyChanged(nameof(IsBing));
+            return this;
+        }
+
+        public Config ModifyAppX()
+        {
+            AppXy = AppAlignMode.X;
+            OnPropertyChanged(nameof(AppXy));
+            return this;
+        }
+
+        public Config ModifyAppY()
+        {
+            AppXy = AppAlignMode.Y;
+            OnPropertyChanged(nameof(AppXy));
+            return this;
+        }
+
+        public Config ModifyDockPosition(DockPostion dockPostion)
+        {
+            DockPosition = dockPostion;
+            OnPropertyChanged(nameof(DockPosition));
+            return this;
+        }
+
+        public Config ModifyWallpaperId(Int32 wallpaperId)
+        {
+            WallpaperId = wallpaperId;
+            OnPropertyChanged(nameof(WallpaperId));
+            return this;
+        }
     }
 }

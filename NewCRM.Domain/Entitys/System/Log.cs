@@ -33,11 +33,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _logLevelEnum; }
             private set
             {
-                if(_logLevelEnum != value)
-                {
-                    _logLevelEnum = value;
-                    OnPropertyChanged(nameof(LogLevelEnum));
-                }
+                _logLevelEnum = value;
             }
         }
 
@@ -50,11 +46,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _controller; }
             private set
             {
-                if(_controller != value)
-                {
-                    _controller = value;
-                    OnPropertyChanged(nameof(Controller));
-                }
+                _controller = value;
             }
         }
 
@@ -67,11 +59,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _action; }
             private set
             {
-                if(_action != value)
-                {
-                    _action = value;
-                    OnPropertyChanged(nameof(Action));
-                }
+                _action = value;
             }
         }
 
@@ -84,11 +72,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _exceptionMessage; }
             private set
             {
-                if(_exceptionMessage != value)
-                {
-                    _exceptionMessage = value;
-                    OnPropertyChanged(nameof(ExceptionMessage));
-                }
+                _exceptionMessage = value;
             }
         }
 
@@ -101,11 +85,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _track; }
             private set
             {
-                if(_track != value)
-                {
-                    _track = value;
-                    OnPropertyChanged(nameof(Track));
-                }
+                _track = value;
             }
         }
 
@@ -117,11 +97,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _accountId; }
             private set
             {
-                if(_accountId != value)
-                {
-                    _accountId = value;
-                    OnPropertyChanged(nameof(AccountId));
-                }
+                _accountId = value;
             }
         }
         #endregion
@@ -142,13 +118,5 @@ namespace NewCRM.Domain.Entitys.System
 
         }
         #endregion 
-    }
-
-    /// <summary>
-    /// LogExtension
-    /// </summary>
-    public partial class Log
-    {
-
     }
 }

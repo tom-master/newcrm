@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace NewCRM.Domain.Entitys
@@ -9,7 +8,10 @@ namespace NewCRM.Domain.Entitys
     {
         #region ctor
 
-        protected DomainModelBase() => IsDeleted = false;
+        protected DomainModelBase()
+        {
+            IsDeleted = false;
+        }
 
         #endregion
 
@@ -18,11 +20,30 @@ namespace NewCRM.Domain.Entitys
         [Key]
         public Int32 Id { get; protected set; }
 
-        public Boolean IsDeleted { get; protected set; }
+        public Boolean IsDeleted { get; private set; }
 
-        public DateTime AddTime { get; protected set; } = DateTime.Parse($"{DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+        public DateTime AddTime
+        {
+            get
+            {
+                return DateTime.Now;
+            }
+        }
 
-        public DateTime LastModifyTime { get; protected set; } = DateTime.Parse($"{DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+        public DateTime LastModifyTime
+        {
+            get
+            {
+                return DateTime.Now;
+            }
+        }
+
+
+        public void Remove()
+        {
+            IsDeleted = true;
+            OnPropertyChanged(nameof(IsDeleted));
+        }
 
         #endregion
     }

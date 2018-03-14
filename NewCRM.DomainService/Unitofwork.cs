@@ -26,6 +26,16 @@ namespace NewCRM.Domain.Services
             //to do 安拉胡阿克巴
         }
 
+        public void Add<TModel>(TModel model) where TModel : DomainModelBase
+        {
+            RegisterAdd(model);
+        }
+
+        public void Modify<TModel>(TModel model) where TModel : DomainModelBase
+        {
+            RegisterModify(model);
+        }
+
         public void RegisterAdd<TModel>(TModel model) where TModel : DomainModelBase
         {
             var modelName = model.GetType().Name;
