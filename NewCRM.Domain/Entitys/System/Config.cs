@@ -278,5 +278,95 @@ namespace NewCRM.Domain.Entitys.System
     public partial class Config
     {
 
+        public Config ModifySkin(String skin)
+        {
+            Skin = skin;
+            OnPropertyChanged(nameof(Skin));
+            return this;
+        }
+
+        public Config ModifyAccountFace(String accountFace)
+        {
+            AccountFace = accountFace;
+            OnPropertyChanged(nameof(AccountFace));
+            return this;
+        }
+
+        public Config ModifyAppSize(Int32 appSize)
+        {
+            AppSize = appSize;
+            OnPropertyChanged(nameof(AppSize));
+            return this;
+        }
+
+        public Config ModifyAppVerticalSpacing(Int32 appVerticalSpacing)
+        {
+            AppVerticalSpacing = appVerticalSpacing;
+            OnPropertyChanged(nameof(AppVerticalSpacing));
+            return this;
+        }
+
+        public Config ModifyAppHorizontalSpacing(Int32 appHorizontalSpacing)
+        {
+            AppHorizontalSpacing = appHorizontalSpacing;
+            OnPropertyChanged(nameof(AppHorizontalSpacing));
+            return this;
+        }
+
+        public Config ModifyDefaultDeskNumber(Int32 deskNumber)
+        {
+            DefaultDeskNumber = deskNumber;
+            OnPropertyChanged(nameof(DefaultDeskNumber));
+            return this;
+        }
+
+        public Config ModifyDefaultDeskCount(Int32 deskCount)
+        {
+            DefaultDeskCount = deskCount;
+            OnPropertyChanged(nameof(DefaultDeskCount));
+            return this;
+        }
+
+        public Config ModifyWallpaperMode(WallpaperMode wallpaperMode)
+        {
+            WallpaperMode = wallpaperMode;
+            OnPropertyChanged(nameof(WallpaperMode));
+            return this;
+        }
+
+        public Config ModifyIsFromBing(Boolean isFromBing)
+        {
+            IsBing = isFromBing;
+            OnPropertyChanged(nameof(IsBing));
+            return this;
+        }
+
+        public Config ModifyAppX()
+        {
+            AppXy = AppAlignMode.X;
+            OnPropertyChanged(nameof(AppXy));
+            return this;
+        }
+
+        public Config ModifyAppY()
+        {
+            AppXy = AppAlignMode.Y;
+            OnPropertyChanged(nameof(AppXy));
+            return this;
+        }
+
+        public Config ModifyDockPosition(DockPostion dockPostion)
+        {
+            DockPosition = dockPostion;
+            OnPropertyChanged(nameof(DockPosition));
+            return this;
+        }
+
+        public Config ModifyWallpaperId(Int32 wallpaperId)
+        {
+            WallpaperId = wallpaperId;
+            OnPropertyChanged(nameof(WallpaperId));
+            return this;
+        }
     }
 }

@@ -26,11 +26,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _name; }
             private set
             {
-                if(_name != value)
-                {
-                    _name = value;
-                    OnPropertyChanged(nameof(Name));
-                }
+                _name = value;
             }
         }
 
@@ -43,11 +39,7 @@ namespace NewCRM.Domain.Entitys.System
             get { return _remark; }
             private set
             {
-                if(_remark != value)
-                {
-                    _remark = value;
-                    OnPropertyChanged(nameof(Remark));
-                }
+                _remark = value;
             }
         }
 
