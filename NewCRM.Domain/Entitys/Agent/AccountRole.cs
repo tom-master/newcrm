@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NewCRM.Domain.Entitys.Agent
 {
-    public class AccountRole : DomainModelBase
+    public partial class AccountRole : DomainModelBase
     {
         #region private field
         private Int32 _accountId;
@@ -21,11 +21,7 @@ namespace NewCRM.Domain.Entitys.Agent
             }
             private set
             {
-                if(_accountId != value)
-                {
-                    _accountId = value;
-                    OnPropertyChanged(nameof(AccountId));
-                }
+                _accountId = value;
             }
         }
 
@@ -38,11 +34,7 @@ namespace NewCRM.Domain.Entitys.Agent
             }
             private set
             {
-                if(_roleId != value)
-                {
-                    _roleId = value;
-                    OnPropertyChanged(nameof(RoleId));
-                }
+                _roleId = value;
             }
         }
 
