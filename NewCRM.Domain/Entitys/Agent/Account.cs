@@ -37,11 +37,7 @@ namespace NewCRM.Domain.Entitys.Agent
             }
             private set
             {
-                if(_name != value)
-                {
-                    _name = value;
-                    OnPropertyChanged(nameof(Name));
-                }
+                _name = value;
             }
         }
 
@@ -57,11 +53,7 @@ namespace NewCRM.Domain.Entitys.Agent
             }
             private set
             {
-                if(_loginPassword != value)
-                {
-                    _loginPassword = value;
-                    OnPropertyChanged(nameof(LoginPassword));
-                }
+                _loginPassword = value;
             }
         }
 
@@ -77,11 +69,7 @@ namespace NewCRM.Domain.Entitys.Agent
             }
             private set
             {
-                if(_lockScreenPassword != value)
-                {
-                    _lockScreenPassword = value;
-                    OnPropertyChanged(nameof(LockScreenPassword));
-                }
+                _lockScreenPassword = value;
             }
         }
 
@@ -96,11 +84,7 @@ namespace NewCRM.Domain.Entitys.Agent
             }
             private set
             {
-                if(_isDisable != value)
-                {
-                    _isDisable = value;
-                    OnPropertyChanged(nameof(IsDisable));
-                }
+                _isDisable = value;
             }
         }
 
@@ -115,11 +99,7 @@ namespace NewCRM.Domain.Entitys.Agent
             }
             private set
             {
-                if(_lastLoginTime != value)
-                {
-                    _lastLoginTime = value;
-                    OnPropertyChanged(nameof(LastLoginTime));
-                }
+                _lastLoginTime = value;
             }
         }
 
@@ -134,11 +114,7 @@ namespace NewCRM.Domain.Entitys.Agent
             }
             private set
             {
-                if(_isOnline != value)
-                {
-                    _isOnline = value;
-                    OnPropertyChanged(nameof(IsOnline));
-                }
+                _isOnline = value;
             }
         }
 
@@ -153,15 +129,11 @@ namespace NewCRM.Domain.Entitys.Agent
             }
             private set
             {
-                if(_isAdmin != value)
-                {
-                    _isAdmin = value;
-                    OnPropertyChanged(nameof(IsAdmin));
-                }
+                _isAdmin = value;
             }
         }
 
-        public String AccountFace { get; private set; }
+        public String AccountFace { get; set; }
 
         /// <summary>
         /// 用户角色
@@ -174,11 +146,7 @@ namespace NewCRM.Domain.Entitys.Agent
             }
             private set
             {
-                if(_roles != value)
-                {
-                    _roles = value;
-                    OnPropertyChanged(nameof(Roles));
-                }
+                _roles = value;
             }
         }
 
@@ -209,6 +177,53 @@ namespace NewCRM.Domain.Entitys.Agent
     /// </summary>
     public partial class Account
     {
+        public Account ModifyLoginPassword(String password)
+        {
+            LoginPassword = password;
+            OnPropertyChanged(nameof(LoginPassword));
+            return this;
+        }
 
+        public Account ModifyLockScreenPassword(String password)
+        {
+            LockScreenPassword = password;
+            OnPropertyChanged(nameof(LockScreenPassword));
+            return this;
+        }
+
+        public Account Enable()
+        {
+            IsDisable = false;
+            OnPropertyChanged(nameof(Enable));
+            return this;
+        }
+
+        public Account Disable()
+        {
+            IsDisable = true;
+            OnPropertyChanged(nameof(IsDisable));
+            return this;
+        }
+
+        public Account Online()
+        {
+            IsOnline = true;
+            LastLoginTime = DateTime.Now;
+            OnPropertyChanged(nameof(IsOnline));
+            OnPropertyChanged(nameof(LastLoginTime));
+            return this;
+        }
+
+        public Account Offline()
+        {
+            IsOnline = false;
+            OnPropertyChanged(nameof(IsOnline));
+            return this;
+        }
+
+        public Account ModifyRoles(params Int32[] roleIds)
+        {
+            return this;
+        }
     }
 }
