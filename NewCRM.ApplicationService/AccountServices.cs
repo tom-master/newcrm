@@ -154,7 +154,6 @@ namespace NewCRM.Application.Services
 			var account = accountDto.ConvertToModel<AccountDto, Account>();
 			var accountType = EnumExtensions.ToEnum<AccountType>(account.IsAdmin ? 2 /*管理员*/ : 1 /*用户*/);
 			var internalNewAccount = new Account(account.Name, PasswordUtil.CreateDbPassword(account.LoginPassword), account.Roles, accountType);
-
 			await _accountContext.AddNewAccountAsync(internalNewAccount);
 		}
 
@@ -187,8 +186,7 @@ namespace NewCRM.Application.Services
 		{
 			Parameter.Validate(newFace);
 			await _accountContext.ModifyAccountFaceAsync(accountId, newFace);
-			RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
-			RemoveOldKeyWhenModify(new AccountCacheKey(accountId));
+			RemoveOldKeyWhenModify(new ConfigCacheKey(accountId), new AccountCacheKey(accountId));
 		}
 
 		public async Task ModifyPasswordAsync(Int32 accountId, String newPassword, Boolean isTogetherSetLockPassword)
