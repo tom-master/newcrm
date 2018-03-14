@@ -8,9 +8,9 @@ namespace NewCRM.Domain.Entitys
 {
     public class PropertyArgs : EventArgs
     {
-        public String PropertyName { get; private set; }
+        public String PropertyName { get; }
 
-        public Object PropertyValue { get; private set; }
+        public Object PropertyValue { get; }
 
         public PropertyArgs(String propertyName, Object propertyValue)
         {
@@ -27,6 +27,8 @@ namespace NewCRM.Domain.Entitys
 
         private IDictionary<String, Object> _propertyValues = new Dictionary<String, Object>();
 
+        private readonly Object _sync = new Object();
+
         public PropertyMonitor()
         {
             if(PropertyChanged == null)
@@ -37,10 +39,17 @@ namespace NewCRM.Domain.Entitys
 
         private void PropertyMonitor_PropertyChanged(Object sender, PropertyArgs e)
         {
-            var instanceName = $@"{GetType().FullName}.{e.PropertyName}";
-            if(!_propertyValues.Keys.Contains(instanceName))
+            lock(_sync)
             {
-                _propertyValues.Add(new KeyValuePair<String, Object>(instanceName, e.PropertyValue));
+                var instanceName = $@"{GetType().FullName}.{e.PropertyName}";
+                if(!_propertyValues.Keys.Contains(instanceName))
+                {
+                    _propertyValues.Add(new KeyValuePair<String, Object>(instanceName, e.PropertyValue));
+                }
+                else
+                {
+                    _propertyValues[instanceName] = e.PropertyValue;
+                }
             }
         }
 
@@ -48,10 +57,7 @@ namespace NewCRM.Domain.Entitys
         {
             var temp = Interlocked.CompareExchange(ref PropertyChanged, null, null);
             var property = GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);
-            if(temp != null)
-            {
-                temp(this, new PropertyArgs(propertyName, property.GetValue(this)));
-            }
+            temp?.Invoke(this, new PropertyArgs(propertyName, property.GetValue(this)));
         }
 
         public IDictionary<String, Object> GetPropertyValues()

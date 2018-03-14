@@ -46,11 +46,6 @@ namespace NewCRM.Domain.Entitys.Security
 
         }
 
-        /// <summary>
-        /// 移除角色权限
-        /// </summary>
-        public void Remove() => IsDeleted = true;
-
         #endregion
     }
 

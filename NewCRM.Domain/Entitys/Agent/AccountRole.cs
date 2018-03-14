@@ -50,8 +50,6 @@ namespace NewCRM.Domain.Entitys.Agent
 
         public AccountRole() { }
 
-        public void Remove() => IsDeleted = true;
-
         #endregion
     }
 
