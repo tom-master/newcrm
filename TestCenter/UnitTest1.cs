@@ -18,7 +18,6 @@ namespace TestCenter
 
         }
     }
-
     class Program
     {
 
@@ -84,7 +83,7 @@ namespace TestCenter
                 case ExpressionType.Constant:
                     {
                         var constantExp = (ConstantExpression)exp;
-                        where.Append($@" {constantExp.Value}");
+                        where.Append($@" {constantExp.Value} ");
                         break;
                     }
                 case ExpressionType.Convert:
@@ -127,25 +126,26 @@ namespace TestCenter
                         var memberExp = (MemberExpression)exp;
                         if(memberExp.Expression.NodeType == ExpressionType.Parameter)
                         {
-                            where.Append($@" AND {memberExp.Member.Name}=");
+                            where.Append($@"{memberExp.Member.Name}=");
                         }
                         else
                         {
+                            var parameterName = Guid.NewGuid().ToString().Replace("-", "");
                             switch(memberExp.Type.Name.ToLower())
                             {
                                 case "int32":
                                     {
+
                                         var getter = Expression.Lambda<Func<Int32>>(memberExp).Compile();
-                                        where.Append($@" {getter()}");
+                                        where.Append($@" @{parameterName} ");
                                         break;
                                     }
                                 case "string":
                                     {
                                         var getter = Expression.Lambda<Func<String>>(memberExp).Compile();
-                                        where.Append($@" {getter()}");
+                                        where.Append($@" @{parameterName} ");
                                         break;
                                     }
-
                                 default:
                                     break;
                             }
