@@ -135,7 +135,6 @@ namespace TestCenter
                             {
                                 case "int32":
                                     {
-
                                         var getter = Expression.Lambda<Func<Int32>>(memberExp).Compile();
                                         where.Append($@" @{parameterName} ");
                                         break;
