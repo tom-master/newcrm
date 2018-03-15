@@ -69,6 +69,11 @@ namespace NewCRM.Domain.Entitys.System
     {
         public AppType ModifyName(String appTypeName)
         {
+            if(String.IsNullOrEmpty(appTypeName))
+            {
+                throw new ArgumentException($@"{nameof(appTypeName)} is null");
+            }
+
             Name = appTypeName;
             OnPropertyChanged(nameof(Name));
             return this;
@@ -76,6 +81,11 @@ namespace NewCRM.Domain.Entitys.System
 
         public AppType ModifyRemark(String remark)
         {
+            if(String.IsNullOrEmpty(remark))
+            {
+                throw new ArgumentException($@"{nameof(remark)} is null");
+            }
+
             Remark = remark;
             OnPropertyChanged(nameof(Remark));
             return this;

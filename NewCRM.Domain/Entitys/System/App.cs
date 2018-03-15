@@ -387,13 +387,6 @@ namespace NewCRM.Domain.Entitys.System
             AppStyle appStyle = AppStyle.App,
             Int32 accountId = default(Int32),
             String remark = default(String),
-            Boolean isMax = default(Boolean),
-            Boolean isFull = default(Boolean),
-            Boolean isSetbar = default(Boolean),
-            Boolean isOpenMax = default(Boolean),
-            Boolean isFlash = default(Boolean),
-            Boolean isDraw = default(Boolean),
-            Boolean isResize = default(Boolean),
             Boolean isIconByUpload = default(Boolean))
         {
             Name = name;
@@ -401,13 +394,6 @@ namespace NewCRM.Domain.Entitys.System
             AppUrl = appUrl;
             Width = width > 800 ? 800 : width;
             Height = height > 600 ? 600 : height;
-            IsMax = isMax;
-            IsFull = isFull;
-            IsSetbar = isSetbar;
-            IsOpenMax = isOpenMax;
-            IsFlash = isFlash;
-            IsDraw = isDraw;
-            IsResize = isResize;
             AppTypeId = appTypeId;
             AppStyle = appStyle;
             if(accountId == 0)
@@ -441,6 +427,11 @@ namespace NewCRM.Domain.Entitys.System
 
         public App ModifyName(String appName)
         {
+            if(String.IsNullOrEmpty(appName))
+            {
+                throw new ArgumentException($@"{nameof(appName)} is null");
+            }
+
             Name = appName;
             OnPropertyChanged(nameof(appName));
             return this;
@@ -448,6 +439,11 @@ namespace NewCRM.Domain.Entitys.System
 
         public App ModifyIconUrl(String iconUrl)
         {
+            if(String.IsNullOrEmpty(iconUrl))
+            {
+                throw new ArgumentException($@"{nameof(iconUrl)} is null");
+            }
+
             IconUrl = iconUrl;
             OnPropertyChanged(nameof(iconUrl));
             return this;
@@ -455,6 +451,11 @@ namespace NewCRM.Domain.Entitys.System
 
         public App ModifyWidth(Int32 width)
         {
+            if(width <= 0)
+            {
+                throw new ArgumentException($@"{nameof(width)} less than or equal to zero");
+            }
+
             Width = width;
             OnPropertyChanged(nameof(Width));
             return this;
@@ -462,14 +463,26 @@ namespace NewCRM.Domain.Entitys.System
 
         public App ModifyHeight(Int32 height)
         {
+            if(height <= 0)
+            {
+                throw new ArgumentException($@"{nameof(height)} less than or equal to zero");
+            }
+
             Height = height;
             OnPropertyChanged(nameof(Height));
             return this;
         }
 
-        public App ModifyUseCount(Int32 count)
+        public App IncreaseUseCount()
         {
-            UseCount = count;
+            UseCount += 1;
+            OnPropertyChanged(nameof(UseCount));
+            return this;
+        }
+
+        public App DecreaseUseCount()
+        {
+            UseCount -= 1;
             OnPropertyChanged(nameof(UseCount));
             return this;
         }
@@ -572,16 +585,44 @@ namespace NewCRM.Domain.Entitys.System
             return this;
         }
 
-        public App ModifyAppAuditState(AppAuditState appAudit)
+        public App Wait()
         {
-            AppAuditState = appAudit;
+            AppAuditState = AppAuditState.Wait;
             OnPropertyChanged(nameof(AppAuditState));
             return this;
         }
 
-        public App ModifyAppStyle(AppStyle appStyle)
+        public App Pass()
         {
-            AppStyle = appStyle;
+            AppAuditState = AppAuditState.Pass;
+            OnPropertyChanged(nameof(AppAuditState));
+            return this;
+        }
+
+        public App Deny()
+        {
+            AppAuditState = AppAuditState.Deny;
+            OnPropertyChanged(nameof(AppAuditState));
+            return this;
+        }
+
+        public App UnAuditState()
+        {
+            AppAuditState = AppAuditState.UnAuditState;
+            OnPropertyChanged(nameof(AppAuditState));
+            return this;
+        }
+
+        public App StyleToApp()
+        {
+            AppStyle = AppStyle.App;
+            OnPropertyChanged(nameof(AppStyle));
+            return this;
+        }
+
+        public App StyleToWidget()
+        {
+            AppStyle = AppStyle.Widget;
             OnPropertyChanged(nameof(AppStyle));
             return this;
         }
