@@ -168,12 +168,4 @@ namespace NewCRM.Domain.Entitys.System
 
         #endregion
     }
-
-    /// <summary>
-    /// WallpaperExtension
-    /// </summary>
-    public partial class Wallpaper
-    {
-
-    }
 }
