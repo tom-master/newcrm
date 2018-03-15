@@ -227,6 +227,11 @@ namespace NewCRM.Domain.Entitys.System
 
         public Config ModifySkin(String skin)
         {
+            if(String.IsNullOrEmpty(skin))
+            {
+                throw new ArgumentException($@"{nameof(skin)} is null");
+            }
+
             Skin = skin;
             OnPropertyChanged(nameof(Skin));
             return this;
@@ -234,6 +239,11 @@ namespace NewCRM.Domain.Entitys.System
 
         public Config ModifyAccountFace(String accountFace)
         {
+            if(String.IsNullOrEmpty(accountFace))
+            {
+                throw new ArgumentException($@"{nameof(accountFace)} is null");
+            }
+
             AccountFace = accountFace;
             OnPropertyChanged(nameof(AccountFace));
             return this;
@@ -241,6 +251,11 @@ namespace NewCRM.Domain.Entitys.System
 
         public Config ModifyAppSize(Int32 appSize)
         {
+            if(appSize <= 0)
+            {
+                throw new ArgumentException($@"{nameof(appSize)} less than or equal to zero");
+            }
+
             AppSize = appSize;
             OnPropertyChanged(nameof(AppSize));
             return this;
@@ -248,6 +263,11 @@ namespace NewCRM.Domain.Entitys.System
 
         public Config ModifyAppVerticalSpacing(Int32 appVerticalSpacing)
         {
+            if(appVerticalSpacing <= 0)
+            {
+                throw new ArgumentException($@"{nameof(appVerticalSpacing)} less than or equal to zero");
+            }
+
             AppVerticalSpacing = appVerticalSpacing;
             OnPropertyChanged(nameof(AppVerticalSpacing));
             return this;
@@ -255,6 +275,11 @@ namespace NewCRM.Domain.Entitys.System
 
         public Config ModifyAppHorizontalSpacing(Int32 appHorizontalSpacing)
         {
+            if(appHorizontalSpacing <= 0)
+            {
+                throw new ArgumentException($@"{nameof(appHorizontalSpacing)} less than or equal to zero");
+            }
+
             AppHorizontalSpacing = appHorizontalSpacing;
             OnPropertyChanged(nameof(AppHorizontalSpacing));
             return this;
@@ -262,6 +287,11 @@ namespace NewCRM.Domain.Entitys.System
 
         public Config ModifyDefaultDeskNumber(Int32 deskNumber)
         {
+            if(deskNumber <= 0)
+            {
+                throw new ArgumentException($@"{nameof(deskNumber)} less than or equal to zero");
+            }
+
             DefaultDeskNumber = deskNumber;
             OnPropertyChanged(nameof(DefaultDeskNumber));
             return this;
@@ -269,6 +299,11 @@ namespace NewCRM.Domain.Entitys.System
 
         public Config ModifyDefaultDeskCount(Int32 deskCount)
         {
+            if(deskCount <= 0)
+            {
+                throw new ArgumentException($@"{nameof(deskCount)} less than or equal to zero");
+            }
+
             DefaultDeskCount = deskCount;
             OnPropertyChanged(nameof(DefaultDeskCount));
             return this;
