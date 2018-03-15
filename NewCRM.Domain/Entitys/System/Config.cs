@@ -316,9 +316,16 @@ namespace NewCRM.Domain.Entitys.System
             return this;
         }
 
-        public Config ModifyIsFromBing(Boolean isFromBing)
+        public Config FromBing()
         {
-            IsBing = isFromBing;
+            IsBing = true;
+            OnPropertyChanged(nameof(IsBing));
+            return this;
+        }
+
+        public Config NotFromBing()
+        {
+            IsBing = false;
             OnPropertyChanged(nameof(IsBing));
             return this;
         }
