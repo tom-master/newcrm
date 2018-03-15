@@ -180,6 +180,11 @@ namespace NewCRM.Domain.Entitys.Agent
     {
         public Account ModifyLoginPassword(String password)
         {
+            if(String.IsNullOrEmpty(password))
+            {
+                throw new ArgumentException($@"{nameof(LoginPassword)} is null");
+            }
+
             LoginPassword = password;
             OnPropertyChanged(nameof(LoginPassword));
             return this;
@@ -187,6 +192,11 @@ namespace NewCRM.Domain.Entitys.Agent
 
         public Account ModifyLockScreenPassword(String password)
         {
+            if(String.IsNullOrEmpty(password))
+            {
+                throw new ArgumentException($@"{nameof(LockScreenPassword)} is null");
+            }
+
             LockScreenPassword = password;
             OnPropertyChanged(nameof(LockScreenPassword));
             return this;
@@ -224,6 +234,11 @@ namespace NewCRM.Domain.Entitys.Agent
 
         public Account ModifyRoles(params Int32[] roleIds)
         {
+            if(!roleIds.Any())
+            {
+                return this;
+            }
+
             Roles.ToList().Clear();
             Roles = roleIds.Select(roleId => new AccountRole(Id, roleId));
             OnPropertyChanged(nameof(Roles));
