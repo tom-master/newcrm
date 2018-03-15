@@ -370,42 +370,72 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Member ModifyWidth(Int32 width)
 		{
-			Width = width;
+            if(width <= 0)
+            {
+                throw new ArgumentException($@"{nameof(width)} less than or equal to zero");
+            }
+
+            Width = width;
 			OnPropertyChanged(nameof(Width));
 			return this;
 		}
 
 		public Member ModifyHeight(Int32 height)
 		{
-			Height = height;
+            if(height <= 0)
+            {
+                throw new ArgumentException($@"{nameof(height)} less than or equal to zero");
+            }
+
+            Height = height;
 			OnPropertyChanged(nameof(Height));
 			return this;
 		}
 
 		public Member ModifyFolderId(Int32 folderId)
 		{
-			FolderId = folderId;
+            if(folderId <= 0)
+            {
+                throw new ArgumentException($@"{nameof(folderId)} less than or equal to zero");
+            }
+
+            FolderId = folderId;
 			OnPropertyChanged(nameof(FolderId));
 			return this;
 		}
 
 		public Member ModifyName(String name)
 		{
-			Name = name;
+            if(String.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException($@"{nameof(name)} is null");
+            }
+
+            Name = name;
 			OnPropertyChanged(nameof(Name));
 			return this;
 		}
 
 		public Member ModifyIconUrl(String iconUrl)
 		{
-			IconUrl = iconUrl;
+            if(String.IsNullOrEmpty(iconUrl))
+            {
+                throw new ArgumentException($@"{nameof(iconUrl)} is null");
+            }
+
+            IconUrl = iconUrl;
 			OnPropertyChanged(nameof(IconUrl));
 			return this;
 		}
 
 		public Member ModifyAppUrl(String appUrl)
-		{
-			AppUrl = appUrl;
+        {
+            if(String.IsNullOrEmpty(appUrl))
+            {
+                throw new ArgumentException($@"{nameof(appUrl)} is null");
+            }
+
+            AppUrl = appUrl;
 			OnPropertyChanged(nameof(AppUrl));
 			return this;
 		}
@@ -482,7 +512,12 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Member ModifyDeskIndex(Int32 deskIndex)
 		{
-			DeskIndex = deskIndex;
+            if(deskIndex <= 0)
+            {
+                throw new ArgumentException($@"{nameof(deskIndex)} less than or equal to zero");
+            }
+
+            DeskIndex = deskIndex;
 			OnPropertyChanged(nameof(DeskIndex));
 			return this;
 		}
