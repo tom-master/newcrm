@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NewCRM.Domain.Entitys.Agent
 {
-    public partial class AccountRole : DomainModelBase
+    public class AccountRole : DomainModelBase
     {
         #region private field
         private Int32 _accountId;
 
-		private Int32 _roleId;
-		#endregion
+        private Int32 _roleId;
+        #endregion
 
         #region public property
         [Required]
@@ -38,26 +38,18 @@ namespace NewCRM.Domain.Entitys.Agent
             }
         }
 
-		#endregion
+        #endregion
 
-		#region ctor
+        #region ctor
 
-		public AccountRole(Int32 accountId, Int32 roleId)
-		{
-			AccountId = accountId;
-			RoleId = roleId;
-		}
+        public AccountRole(Int32 accountId, Int32 roleId)
+        {
+            AccountId = accountId;
+            RoleId = roleId;
+        }
 
-		public AccountRole() { }
+        public AccountRole() { }
 
         #endregion
     }
-
-	/// <summary>
-	/// AccountRoleExtension
-	/// </summary>
-	public partial class AccountRole
-	{
-
-	}
 }

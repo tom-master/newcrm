@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace NewCRM.Domain.Entitys.Security
 {
@@ -18,7 +19,7 @@ namespace NewCRM.Domain.Entitys.Security
 
         private Boolean _isAllowDisable;
 
-        private IList<RolePower> _powers;
+        private IEnumerable<RolePower> _powers;
 
         #endregion
 
@@ -72,7 +73,7 @@ namespace NewCRM.Domain.Entitys.Security
             }
         }
 
-        public IList<RolePower> Powers
+        public IEnumerable<RolePower> Powers
         {
             get { return _powers; }
             private set
@@ -113,6 +114,11 @@ namespace NewCRM.Domain.Entitys.Security
     {
         public Role ModifyRoleName(String roleName)
         {
+            if(String.IsNullOrEmpty(roleName))
+            {
+                throw new ArgumentException($@"{nameof(roleName)} is null");
+            }
+
             Name = roleName;
             OnPropertyChanged(nameof(Name));
             return this;
@@ -120,8 +126,26 @@ namespace NewCRM.Domain.Entitys.Security
 
         public Role ModifyRoleIdentity(String roleIdentity)
         {
+            if(String.IsNullOrEmpty(roleIdentity))
+            {
+                throw new ArgumentException($@"{nameof(roleIdentity)} is null");
+            }
+
             RoleIdentity = roleIdentity;
             OnPropertyChanged(nameof(RoleIdentity));
+            return this;
+        }
+
+        public Role ModifyRolePower(params Int32[] appIds)
+        {
+            if(appIds.Length == 0)
+            {
+                return this;
+            }
+
+            Powers.ToList().Clear();
+            Powers = appIds.Select(appId => new RolePower(Id, appId));
+            OnPropertyChanged(nameof(Powers));
             return this;
         }
     }

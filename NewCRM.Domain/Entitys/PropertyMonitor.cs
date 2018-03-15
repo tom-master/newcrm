@@ -53,11 +53,20 @@ namespace NewCRM.Domain.Entitys
             }
         }
 
-        public void OnPropertyChanged(String propertyName)
+        public void OnPropertyChanged(params String[] propertyNames)
         {
+            if(propertyNames.Length == 0)
+            {
+                return;
+            }
+
             var temp = Interlocked.CompareExchange(ref PropertyChanged, null, null);
-            var property = GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);
-            temp?.Invoke(this, new PropertyArgs(propertyName, property.GetValue(this)));
+
+            for(int i = 0 ; i < propertyNames.Length ; i++)
+            {
+                var property = GetType().GetProperty(propertyNames[i], BindingFlags.Instance | BindingFlags.Public);
+                temp?.Invoke(this, new PropertyArgs(propertyNames[i], property.GetValue(this)));
+            }
         }
 
         public IDictionary<String, Object> GetPropertyValues()

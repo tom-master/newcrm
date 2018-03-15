@@ -220,8 +220,7 @@ namespace NewCRM.Domain.Entitys.Agent
         {
             IsOnline = true;
             LastLoginTime = DateTime.Now;
-            OnPropertyChanged(nameof(IsOnline));
-            OnPropertyChanged(nameof(LastLoginTime));
+            OnPropertyChanged(nameof(IsOnline), nameof(LastLoginTime));
             return this;
         }
 
@@ -234,7 +233,7 @@ namespace NewCRM.Domain.Entitys.Agent
 
         public Account ModifyRoles(params Int32[] roleIds)
         {
-            if(!roleIds.Any())
+            if(roleIds.Length == 0)
             {
                 return this;
             }
