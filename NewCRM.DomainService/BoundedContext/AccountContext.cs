@@ -497,13 +497,13 @@ namespace NewCRM.Domain.Services.BoundedContext
                               0
                             ) SELECT CAST(@@IDENTITY AS INT) AS Id";
                            var parameters = new List<SqlParameter>
-                       {
-                            new SqlParameter("@name",account.Name),
-                            new SqlParameter("@loginPassword",account.LoginPassword),
-                            new SqlParameter("@lockScreenPassword",account.LockScreenPassword),
-                            new SqlParameter("@isAdmin",account.IsAdmin),
-                            new SqlParameter("@configId",configId)
-                       };
+                           {
+                                new SqlParameter("@name",account.Name),
+                                new SqlParameter("@loginPassword",account.LoginPassword),
+                                new SqlParameter("@lockScreenPassword",account.LockScreenPassword),
+                                new SqlParameter("@isAdmin",account.IsAdmin),
+                                new SqlParameter("@configId",configId)
+                           };
                            accountId = dataStore.FindSingleValue<Int32>(sql, parameters);
                        }
                        #endregion
