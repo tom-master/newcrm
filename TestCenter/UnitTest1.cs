@@ -18,7 +18,37 @@ namespace TestCenter
         {
 
         }
+
+        public static void Modify<TModel>(TModel model, Expression<Func<TModel, Boolean>> where) where TModel : class, new()
+        {
+            var modelType = model.GetType();
+            var method = modelType.GetMethod("GetPropertyValues").Invoke(model, null);
+            var returnValue = method as IDictionary<String, Object>;
+            if(returnValue != null)
+            {
+                var sqlBuilder = new SqlBuilder(modelType);
+                sqlBuilder.GenerateHeadOfUpdate(returnValue).GenerateCondition(where);
+                var sql = sqlBuilder.ToString();
+                var sqlParameters = sqlBuilder.GetSqlParameters();
+            }
+        }
+
+        public static void Insert<TModel>(TModel model) where TModel : class, new()
+        {
+            var modelType = model.GetType();
+            var dicParameters = new Dictionary<String, Object>();
+            foreach(var property in modelType.GetProperties(BindingFlags.Instance | BindingFlags.Public))
+            {
+                dicParameters.Add(property.Name, property.GetValue(model));
+            }
+
+            var sqlBuilder = new SqlBuilder(modelType);
+            sqlBuilder.GenerateHeadOfInsert(dicParameters);
+            var parameters = sqlBuilder.GetSqlParameters();
+            var sql = sqlBuilder.ToString();
+        }
     }
+
     public class SqlBuilder
     {
         private StringBuilder _sqlBuilder = new StringBuilder();
@@ -34,7 +64,7 @@ namespace TestCenter
         public SqlBuilder GenerateHeadOfUpdate(IDictionary<String, Object> dicParameterValues)
         {
             _sqlBuilder.Append($@"UPDATE {_modelType.Name} SET ");
-            _sqlBuilder.Append($@"{GetPlaceholder(dicParameterValues)}");
+            _sqlBuilder.Append($@"{String.Join(",", dicParameterValues.Keys.Select(key => $@"{key}=@{key}"))}");
             _sqlBuilder.Append($@" WHERE");
 
             _sqlParameters = dicParameterValues.Select(item => new SqlParameter($@"@{item.Key}", item.Value)).ToList();
@@ -45,18 +75,12 @@ namespace TestCenter
         public void GenerateHeadOfInsert(IDictionary<String, Object> dicParameterValues)
         {
             _sqlBuilder.Append($@" INSERT dbo.{_modelType.Name} (");
-            _sqlBuilder.Append($@"{GetPlaceholder(dicParameterValues)}");
-            _sqlBuilder.Append($@") VALUES ({GetPlaceholder(dicParameterValues)}) ");
+            _sqlBuilder.Append($@"{String.Join(",", dicParameterValues.Keys.Select(key => $@"{key}"))}");
+            _sqlBuilder.Append($@") VALUES ({String.Join(",", dicParameterValues.Keys.Select(key => $@"@{key}"))}) ");
 
             _sqlParameters = dicParameterValues.Select(item => new SqlParameter($@"@{item.Key}", item.Value)).ToList();
-
         }
-
-        private String GetPlaceholder(IDictionary<String, Object> dicParameterValues)
-        {
-            return String.Join(",", dicParameterValues.Keys.Select(key => $@"{key}=@{key}"));
-        }
-
+         
         public void And()
         {
             _sqlBuilder.Append("AND");
@@ -270,8 +294,7 @@ namespace TestCenter
         private Boolean _isAdmin;
 
         private IEnumerable<AccountRole> _roles;
-
-
+         
         public Int32 Id
         {
             get
