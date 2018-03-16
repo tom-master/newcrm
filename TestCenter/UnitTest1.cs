@@ -33,7 +33,7 @@ namespace TestCenter
             account.Disable();
             var cons = 1;
             var str = "123";
-            Modify(account, a => a.Id == cons && a.Name == "xiaofan" || a.AccountFace == str);
+            Modify(account, a => a.Id == cons || a.Name == "xiaofan" || a.AccountFace == str && a.IsOnline == false && a.IsDisable == false && a.IsAdmin == true);
         }
 
         public static void Modify<TModel>(TModel model, Expression<Func<TModel, Boolean>> where) where TModel : class, new()
@@ -43,17 +43,57 @@ namespace TestCenter
             var returnValue = method as IDictionary<String, Object>;
             if(returnValue != null)
             {
-                var sqlBuilder = new StringBuilder();
-                sqlBuilder.Append($@"UPDATE {modelType.Name} SET ");
-                sqlBuilder.Append($@"{String.Join(",", returnValue.Keys.Select(key => $@"{key}=@{key}"))}");
-                sqlBuilder.Append($@" WHERE 1=1 ");
-                GetWhereCond(where, ref sqlBuilder);
+                var sqlBuilder = new SqlBuilder(modelType);
+                sqlBuilder.GenerateHeadOfUpdate(returnValue).GenerateCondition(where);
                 var sql = sqlBuilder.ToString();
+                var sqlParameters = sqlBuilder.GetSqlParameters();
             }
+        }
+    }
 
+    public class SqlBuilder
+    {
+        private StringBuilder _sqlBuilder = new StringBuilder();
+        private Type _modelType;
+        private Stack<String> _sqlParameterStack;
+        private IList<SqlParameter> _sqlParameters;
+        public SqlBuilder(Type modelType)
+        {
+            _modelType = modelType;
+            _sqlParameterStack = new Stack<String>();
+            _sqlParameters = new List<SqlParameter>();
         }
 
-        private static void GetWhereCond(Expression exp, ref StringBuilder where)
+        public SqlBuilder GenerateHeadOfUpdate(IDictionary<String, Object> dicParameterValues)
+        {
+            _sqlBuilder.Append($@"UPDATE {_modelType.Name} SET ");
+            _sqlBuilder.Append($@"{String.Join(",", dicParameterValues.Keys.Select(key => $@"{key}=@{key}"))}");
+            _sqlBuilder.Append($@" WHERE");
+
+            foreach(var item in dicParameterValues)
+            {
+                _sqlParameters.Add(new SqlParameter($@"@{item.Key}", item.Value));
+            }
+
+            return this;
+        }
+
+        public void And()
+        {
+            _sqlBuilder.Append("AND");
+        }
+
+        public void Or()
+        {
+            _sqlBuilder.Append("OR");
+        }
+
+        public void AddField(Object fieldName)
+        {
+            _sqlBuilder.Append($@" {fieldName} ");
+        }
+
+        public void GenerateCondition(Expression exp)
         {
             switch(exp.NodeType)
             {
@@ -66,8 +106,9 @@ namespace TestCenter
                 case ExpressionType.AndAlso:
                     {
                         var binaryExp = (BinaryExpression)exp;
-                        GetWhereCond(binaryExp.Left, ref where);
-                        GetWhereCond(binaryExp.Right, ref where);
+                        GenerateCondition(binaryExp.Left);
+                        And();
+                        GenerateCondition(binaryExp.Right);
                         break;
                     }
                 case ExpressionType.ArrayLength:
@@ -76,31 +117,26 @@ namespace TestCenter
                     break;
                 case ExpressionType.Call:
                     break;
-                case ExpressionType.Coalesce:
-                    break;
                 case ExpressionType.Conditional:
                     break;
                 case ExpressionType.Constant:
                     {
-                        var constantExp = (ConstantExpression)exp;
-                        where.Append($@" {constantExp.Value} ");
                         break;
                     }
-                case ExpressionType.Convert:
-                    break;
-                case ExpressionType.ConvertChecked:
-                    break;
-                case ExpressionType.Divide:
-                    break;
                 case ExpressionType.Equal:
                     {
                         var binaryExp = (BinaryExpression)exp;
-                        GetWhereCond(binaryExp.Left, ref where);
-                        GetWhereCond(binaryExp.Right, ref where);
+                        GenerateCondition(binaryExp.Left);
+                        if(binaryExp.Right.NodeType != ExpressionType.Constant)
+                        {
+                            GenerateCondition(binaryExp.Right);
+                        }
+                        else
+                        {
+                            _sqlParameters.Add(new SqlParameter($@"@{_sqlParameterStack.Pop()}", ((ConstantExpression)binaryExp.Right).Value));
+                        }
                         break;
                     }
-                case ExpressionType.ExclusiveOr:
-                    break;
                 case ExpressionType.GreaterThan:
                     break;
                 case ExpressionType.GreaterThanOrEqual:
@@ -110,23 +146,21 @@ namespace TestCenter
                 case ExpressionType.Lambda:
                     {
                         var lamdbaExp = (LambdaExpression)exp;
-                        GetWhereCond((BinaryExpression)lamdbaExp.Body, ref where);
+                        GenerateCondition((BinaryExpression)lamdbaExp.Body);
                         break;
                     }
-                case ExpressionType.LeftShift:
-                    break;
                 case ExpressionType.LessThan:
                     break;
                 case ExpressionType.LessThanOrEqual:
-                    break;
-                case ExpressionType.ListInit:
                     break;
                 case ExpressionType.MemberAccess:
                     {
                         var memberExp = (MemberExpression)exp;
                         if(memberExp.Expression.NodeType == ExpressionType.Parameter)
                         {
-                            where.Append($@"{memberExp.Member.Name}=");
+                            var memberName = memberExp.Member.Name;
+                            AddField($@"{memberName}=@{memberName}");
+                            _sqlParameterStack.Push(memberName);
                         }
                         else
                         {
@@ -136,13 +170,13 @@ namespace TestCenter
                                 case "int32":
                                     {
                                         var getter = Expression.Lambda<Func<Int32>>(memberExp).Compile();
-                                        where.Append($@" @{parameterName} ");
+                                        _sqlParameters.Add(new SqlParameter($@"@{_sqlParameterStack.Pop()}", getter()));
                                         break;
                                     }
                                 case "string":
                                     {
                                         var getter = Expression.Lambda<Func<String>>(memberExp).Compile();
-                                        where.Append($@" @{parameterName} ");
+                                        _sqlParameters.Add(new SqlParameter($@"@{_sqlParameterStack.Pop()}", getter()));
                                         break;
                                     }
                                 default:
@@ -151,26 +185,6 @@ namespace TestCenter
                         }
                         break;
                     }
-                case ExpressionType.MemberInit:
-                    break;
-                case ExpressionType.Modulo:
-                    break;
-                case ExpressionType.Multiply:
-                    break;
-                case ExpressionType.MultiplyChecked:
-                    break;
-                case ExpressionType.Negate:
-                    break;
-                case ExpressionType.UnaryPlus:
-                    break;
-                case ExpressionType.NegateChecked:
-                    break;
-                case ExpressionType.New:
-                    break;
-                case ExpressionType.NewArrayInit:
-                    break;
-                case ExpressionType.NewArrayBounds:
-                    break;
                 case ExpressionType.Not:
                     break;
                 case ExpressionType.NotEqual:
@@ -180,8 +194,9 @@ namespace TestCenter
                 case ExpressionType.OrElse:
                     {
                         var binaryExp = (BinaryExpression)exp;
-                        GetWhereCond(binaryExp.Left, ref where);
-                        GetWhereCond(binaryExp.Right, ref where);
+                        GenerateCondition(binaryExp.Left);
+                        Or();
+                        GenerateCondition(binaryExp.Right);
                         break;
                     }
                 case ExpressionType.Parameter:
@@ -189,94 +204,6 @@ namespace TestCenter
                         var parameterExp = (ParameterExpression)exp;
                         break;
                     }
-                case ExpressionType.Power:
-                    break;
-                case ExpressionType.Quote:
-                    break;
-                case ExpressionType.RightShift:
-                    break;
-                case ExpressionType.Subtract:
-                    break;
-                case ExpressionType.SubtractChecked:
-                    break;
-                case ExpressionType.TypeAs:
-                    break;
-                case ExpressionType.TypeIs:
-                    break;
-                case ExpressionType.Assign:
-                    break;
-                case ExpressionType.Block:
-                    break;
-                case ExpressionType.DebugInfo:
-                    break;
-                case ExpressionType.Decrement:
-                    break;
-                case ExpressionType.Dynamic:
-                    break;
-                case ExpressionType.Default:
-                    break;
-                case ExpressionType.Extension:
-                    break;
-                case ExpressionType.Goto:
-                    break;
-                case ExpressionType.Increment:
-                    break;
-                case ExpressionType.Index:
-                    break;
-                case ExpressionType.Label:
-                    break;
-                case ExpressionType.RuntimeVariables:
-                    break;
-                case ExpressionType.Loop:
-                    break;
-                case ExpressionType.Switch:
-                    break;
-                case ExpressionType.Throw:
-                    break;
-                case ExpressionType.Try:
-                    break;
-                case ExpressionType.Unbox:
-                    break;
-                case ExpressionType.AddAssign:
-                    break;
-                case ExpressionType.AndAssign:
-                    break;
-                case ExpressionType.DivideAssign:
-                    break;
-                case ExpressionType.ExclusiveOrAssign:
-                    break;
-                case ExpressionType.LeftShiftAssign:
-                    break;
-                case ExpressionType.ModuloAssign:
-                    break;
-                case ExpressionType.MultiplyAssign:
-                    break;
-                case ExpressionType.OrAssign:
-                    break;
-                case ExpressionType.PowerAssign:
-                    break;
-                case ExpressionType.RightShiftAssign:
-                    break;
-                case ExpressionType.SubtractAssign:
-                    break;
-                case ExpressionType.AddAssignChecked:
-                    break;
-                case ExpressionType.MultiplyAssignChecked:
-                    break;
-                case ExpressionType.SubtractAssignChecked:
-                    break;
-                case ExpressionType.PreIncrementAssign:
-                    break;
-                case ExpressionType.PreDecrementAssign:
-                    break;
-                case ExpressionType.PostIncrementAssign:
-                    break;
-                case ExpressionType.PostDecrementAssign:
-                    break;
-                case ExpressionType.TypeEqual:
-                    break;
-                case ExpressionType.OnesComplement:
-                    break;
                 case ExpressionType.IsTrue:
                     break;
                 case ExpressionType.IsFalse:
@@ -285,7 +212,18 @@ namespace TestCenter
                     break;
             }
         }
+
+        public override string ToString()
+        {
+            return _sqlBuilder.ToString();
+        }
+
+        public IList<SqlParameter> GetSqlParameters()
+        {
+            return _sqlParameters;
+        }
     }
+
 
     public class AccountRole
     {

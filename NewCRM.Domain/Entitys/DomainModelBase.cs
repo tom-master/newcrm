@@ -38,7 +38,6 @@ namespace NewCRM.Domain.Entitys
             }
         }
 
-
         public void Remove()
         {
             IsDeleted = true;
