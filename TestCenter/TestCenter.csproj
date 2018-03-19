@@ -77,6 +77,12 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mapper\InsertBuilder.cs" />
+    <Compile Include="Mapper\MapperExtension\DefaultValueAttribute.cs" />
+    <Compile Include="Mapper\MapperExtension\StringInputRangeValidateAttribute.cs" />
+    <Compile Include="Mapper\MapperExtension\Validate.cs" />
+    <Compile Include="Mapper\SqlBuilder.cs" />
+    <Compile Include="Mapper\UpdateBuilder.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -93,6 +99,9 @@
       <Project>{457EE31D-B485-4D98-A0A2-1FF2F58123D9}</Project>
       <Name>NewCRM.Infrastructure</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Mapper\MapperPart\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
