@@ -32,9 +32,7 @@ namespace TestCenter
 
         public void Insert<TModel>(TModel model) where TModel : class, new()
         {
-            var modelType = model.GetType();
             var sqlBuilder = new InsertBuilder<TModel>(model);
-
             var sql = sqlBuilder.ParseToSql();
             var sqlParameters = sqlBuilder.GetParameters();
 
