@@ -77,15 +77,6 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mapper\InsertBuilder.cs" />
-    <Compile Include="Mapper\IUnitofwork.cs" />
-    <Compile Include="Mapper\MapperExtension\DefaultValueAttribute.cs" />
-    <Compile Include="Mapper\MapperExtension\InputRangeAttribute.cs" />
-    <Compile Include="Mapper\MapperExtension\RequiredAttribute.cs" />
-    <Compile Include="Mapper\MapperExtension\Validate.cs" />
-    <Compile Include="Mapper\SqlBuilder.cs" />
-    <Compile Include="Mapper\Unitofwork.cs" />
-    <Compile Include="Mapper\UpdateBuilder.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
