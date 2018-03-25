@@ -225,6 +225,12 @@ namespace NewCRM.Domain.Entitys.System
     public partial class Config
     {
 
+		public Config ModifyAccountId(Int32 accountId)
+		{
+			AccountId = accountId;
+			return this;
+		}
+
         public Config ModifySkin(String skin)
         {
             if(String.IsNullOrEmpty(skin))

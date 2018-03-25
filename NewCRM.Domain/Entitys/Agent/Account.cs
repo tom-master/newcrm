@@ -7,241 +7,241 @@ using System.Linq;
 
 namespace NewCRM.Domain.Entitys.Agent
 {
-    [Description("用户"), Serializable]
-    public partial class Account : DomainModelBase
-    {
-        private String _name;
+	[Description("用户"), Serializable]
+	public partial class Account: DomainModelBase
+	{
+		private String _name;
 
-        private String _loginPassword;
+		private String _loginPassword;
 
-        private String _lockScreenPassword;
+		private String _lockScreenPassword;
 
-        private Boolean _isDisable;
+		private Boolean _isDisable;
 
-        private DateTime _lastLoginTime;
+		private DateTime _lastLoginTime;
 
-        private Boolean _isOnline;
+		private Boolean _isOnline;
 
-        private Boolean _isAdmin;
+		private Boolean _isAdmin;
 
-        private IEnumerable<AccountRole> _roles;
+		private IEnumerable<AccountRole> _roles;
 
-        /// <summary>
-        /// 用户名
-        /// </summary>
-        [Required]
-        public String Name
-        {
-            get
-            {
-                return _name;
-            }
-            private set
-            {
-                _name = value;
-            }
-        }
+		/// <summary>
+		/// 用户名
+		/// </summary>
+		[Required]
+		public String Name
+		{
+			get
+			{
+				return _name;
+			}
+			private set
+			{
+				_name = value;
+			}
+		}
 
-        /// <summary>
-        /// 登陆密码
-        /// </summary>
-        [MinLength(6)]
-        public String LoginPassword
-        {
-            get
-            {
-                return _loginPassword;
-            }
-            private set
-            {
-                _loginPassword = value;
-            }
-        }
+		/// <summary>
+		/// 登陆密码
+		/// </summary>
+		[MinLength(6)]
+		public String LoginPassword
+		{
+			get
+			{
+				return _loginPassword;
+			}
+			private set
+			{
+				_loginPassword = value;
+			}
+		}
 
-        /// <summary>
-        /// 锁屏密码
-        /// </summary>
-        [MinLength(6)]
-        public String LockScreenPassword
-        {
-            get
-            {
-                return _lockScreenPassword;
-            }
-            private set
-            {
-                _lockScreenPassword = value;
-            }
-        }
+		/// <summary>
+		/// 锁屏密码
+		/// </summary>
+		[MinLength(6)]
+		public String LockScreenPassword
+		{
+			get
+			{
+				return _lockScreenPassword;
+			}
+			private set
+			{
+				_lockScreenPassword = value;
+			}
+		}
 
-        /// <summary>
-        /// 是否禁用
-        /// </summary>
-        public Boolean IsDisable
-        {
-            get
-            {
-                return _isDisable;
-            }
-            private set
-            {
-                _isDisable = value;
-            }
-        }
+		/// <summary>
+		/// 是否禁用
+		/// </summary>
+		public Boolean IsDisable
+		{
+			get
+			{
+				return _isDisable;
+			}
+			private set
+			{
+				_isDisable = value;
+			}
+		}
 
-        /// <summary>
-        /// 最后一次登录的时间
-        /// </summary>
-        public DateTime LastLoginTime
-        {
-            get
-            {
-                return _lastLoginTime;
-            }
-            private set
-            {
-                _lastLoginTime = value;
-            }
-        }
+		/// <summary>
+		/// 最后一次登录的时间
+		/// </summary>
+		public DateTime LastLoginTime
+		{
+			get
+			{
+				return _lastLoginTime;
+			}
+			private set
+			{
+				_lastLoginTime = value;
+			}
+		}
 
-        /// <summary>
-        /// 是否在线
-        /// </summary>
-        public Boolean IsOnline
-        {
-            get
-            {
-                return _isOnline;
-            }
-            private set
-            {
-                _isOnline = value;
-            }
-        }
+		/// <summary>
+		/// 是否在线
+		/// </summary>
+		public Boolean IsOnline
+		{
+			get
+			{
+				return _isOnline;
+			}
+			private set
+			{
+				_isOnline = value;
+			}
+		}
 
-        /// <summary>
-        /// 是否为管理员
-        /// </summary>
-        public Boolean IsAdmin
-        {
-            get
-            {
-                return _isAdmin;
-            }
-            private set
-            {
-                _isAdmin = value;
-            }
-        }
+		/// <summary>
+		/// 是否为管理员
+		/// </summary>
+		public Boolean IsAdmin
+		{
+			get
+			{
+				return _isAdmin;
+			}
+			private set
+			{
+				_isAdmin = value;
+			}
+		}
 
-        public String AccountFace { get; set; }
+		public String AccountFace { get; set; }
 
-        /// <summary>
-        /// 用户角色
-        /// </summary>
-        public IEnumerable<AccountRole> Roles
-        {
-            get
-            {
-                return _roles;
-            }
-            private set
-            {
-                _roles = value;
-            }
-        }
+		/// <summary>
+		/// 用户角色
+		/// </summary>
+		public IEnumerable<AccountRole> Roles
+		{
+			get
+			{
+				return _roles;
+			}
+			private set
+			{
+				_roles = value;
+			}
+		}
 
-        #region ctor
+		#region ctor
 
-        /// <summary>
-        /// 实例化一个用户对象
-        /// </summary>
-        public Account(String name, String password, IEnumerable<AccountRole> roles, AccountType accountType = default(AccountType))
-        {
-            Name = name;
-            LoginPassword = password;
-            IsDisable = false;
-            LastLoginTime = DateTime.Now;
-            LockScreenPassword = password;
-            IsOnline = false;
-            IsAdmin = accountType == AccountType.Admin;
-            Roles = roles;
-        }
+		/// <summary>
+		/// 实例化一个用户对象
+		/// </summary>
+		public Account(String name, String password, IEnumerable<AccountRole> roles, AccountType accountType = default(AccountType))
+		{
+			Name = name;
+			LoginPassword = password;
+			IsDisable = false;
+			LastLoginTime = DateTime.Now;
+			LockScreenPassword = password;
+			IsOnline = false;
+			IsAdmin = accountType == AccountType.Admin;
+			Roles = roles;
+		}
 
-        public Account() { }
+		public Account() { }
 
-        #endregion
-    }
+		#endregion
+	}
 
-    /// <summary>
-    /// AccountExtension
-    /// </summary>
-    public partial class Account
-    {
-        public Account ModifyLoginPassword(String password)
-        {
-            if(String.IsNullOrEmpty(password))
-            {
-                throw new ArgumentException($@"{nameof(LoginPassword)} is null");
-            }
+	/// <summary>
+	/// AccountExtension
+	/// </summary>
+	public partial class Account
+	{
+		public Account ModifyLoginPassword(String password)
+		{
+			if (String.IsNullOrEmpty(password))
+			{
+				throw new ArgumentException($@"{nameof(LoginPassword)} is null");
+			}
 
-            LoginPassword = password;
-            OnPropertyChanged(nameof(LoginPassword));
-            return this;
-        }
+			LoginPassword = password;
+			OnPropertyChanged(nameof(LoginPassword));
+			return this;
+		}
 
-        public Account ModifyLockScreenPassword(String password)
-        {
-            if(String.IsNullOrEmpty(password))
-            {
-                throw new ArgumentException($@"{nameof(LockScreenPassword)} is null");
-            }
+		public Account ModifyLockScreenPassword(String password)
+		{
+			if (String.IsNullOrEmpty(password))
+			{
+				throw new ArgumentException($@"{nameof(LockScreenPassword)} is null");
+			}
 
-            LockScreenPassword = password;
-            OnPropertyChanged(nameof(LockScreenPassword));
-            return this;
-        }
+			LockScreenPassword = password;
+			OnPropertyChanged(nameof(LockScreenPassword));
+			return this;
+		}
 
-        public Account Enable()
-        {
-            IsDisable = false;
-            OnPropertyChanged(nameof(Enable));
-            return this;
-        }
+		public Account Enable()
+		{
+			IsDisable = false;
+			OnPropertyChanged(nameof(Enable));
+			return this;
+		}
 
-        public Account Disable()
-        {
-            IsDisable = true;
-            OnPropertyChanged(nameof(IsDisable));
-            return this;
-        }
+		public Account Disable()
+		{
+			IsDisable = true;
+			OnPropertyChanged(nameof(IsDisable));
+			return this;
+		}
 
-        public Account Online()
-        {
-            IsOnline = true;
-            LastLoginTime = DateTime.Now;
-            OnPropertyChanged(nameof(IsOnline), nameof(LastLoginTime));
-            return this;
-        }
+		public Account Online()
+		{
+			IsOnline = true;
+			LastLoginTime = DateTime.Now;
+			OnPropertyChanged(nameof(IsOnline), nameof(LastLoginTime));
+			return this;
+		}
 
-        public Account Offline()
-        {
-            IsOnline = false;
-            OnPropertyChanged(nameof(IsOnline));
-            return this;
-        }
+		public Account Offline()
+		{
+			IsOnline = false;
+			OnPropertyChanged(nameof(IsOnline));
+			return this;
+		}
 
-        public Account ModifyRoles(params Int32[] roleIds)
-        {
-            if(roleIds.Length == 0)
-            {
-                return this;
-            }
+		public Account ModifyRoles(params Int32[] roleIds)
+		{
+			if (roleIds.Length == 0)
+			{
+				return this;
+			}
 
-            Roles.ToList().Clear();
-            Roles = roleIds.Select(roleId => new AccountRole(Id, roleId));
-            OnPropertyChanged(nameof(Roles));
-            return this;
-        }
-    }
+			Roles.ToList().Clear();
+			Roles = roleIds.Select(roleId => new AccountRole(Id, roleId));
+			OnPropertyChanged(nameof(Roles));
+			return this;
+		}
+	}
 }
