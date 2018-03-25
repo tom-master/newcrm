@@ -18,7 +18,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			{
 				using (var dataStore = new DataStore())
 				{
-					var sql = $@"INSERT dbo.Logs
+					var sql = $@"INSERT dbo.Log
 								( LogLevelEnum ,
 								  Controller ,
 								  Action ,
@@ -66,7 +66,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 				}
 				#region totalCount
 				{
-					var sql = $@"SELECT COUNT(*) FROM dbo.Logs AS a WHERE 1=1 {where}";
+					var sql = $@"SELECT COUNT(*) FROM dbo.Log AS a WHERE 1=1 {where}";
 					totalCount = dataStore.FindSingleValue<Int32>(sql, parameters);
 				}
 				#endregion
@@ -82,7 +82,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 	                                a.Action,
 	                                a.ExceptionMessage,
 	                                a.Track
-	                                FROM dbo.Logs AS a WHERE 1=1 {where}
+	                                FROM dbo.Log AS a WHERE 1=1 {where}
                                 ) AS aa WHERE aa.rownumber>@pageSize*(@pageIndex-1)";
 					parameters.Add(new SqlParameter("@pageIndex", pageIndex));
 					parameters.Add(new SqlParameter("@pageSize", pageSize));

@@ -765,7 +765,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                       #region 移除用户安装的app
                       {
-                          var sql = $@"UPDATE dbo.Members SET IsDeleted=0 WHERE AccountId=@accountId";
+                          var sql = $@"UPDATE dbo.Member SET IsDeleted=0 WHERE AccountId=@accountId";
                           dataStore.SqlExecute(sql, parameters);
                       }
                       #endregion

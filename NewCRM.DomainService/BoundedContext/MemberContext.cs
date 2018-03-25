@@ -35,7 +35,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.DeskIndex,
                             a.FolderId,
                             a.IsIconByUpload
-                            FROM dbo.Members AS a WHERE a.AccountId=@AccountId AND a.IsDeleted=0";
+                            FROM dbo.Member AS a WHERE a.AccountId=@AccountId AND a.IsDeleted=0";
 					var parameters = new List<SqlParameter>
 					{
 						new SqlParameter("@AccountId",accountId)
@@ -88,7 +88,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                     a.Width,
                     a.AccountId,
                     a.IsIconByUpload
-                    FROM dbo.Members AS a WHERE a.AccountId=@AccountId {where} AND a.IsDeleted=0";
+                    FROM dbo.Member AS a WHERE a.AccountId=@AccountId {where} AND a.IsDeleted=0";
 					parameters.Add(new SqlParameter("@AccountId", accountId));
 					return dataStore.FindOne<Member>(sql, parameters);
 				}
@@ -102,7 +102,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			{
 				using (var dataStore = new DataStore())
 				{
-					var sql = $@"SELECT COUNT(*) FROM dbo.Members AS a WHERE a.Name=@name AND a.IsDeleted=0";
+					var sql = $@"SELECT COUNT(*) FROM dbo.Member AS a WHERE a.Name=@name AND a.IsDeleted=0";
 					var parameters = new List<SqlParameter>
 					{
 						new SqlParameter("@name",name)
@@ -144,7 +144,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			{
 				using (var dataStore = new DataStore())
 				{
-					var sql = $@"UPDATE dbo.Members SET IconUrl=@url WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+					var sql = $@"UPDATE dbo.Member SET IconUrl=@url WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
 					var parameters = new List<SqlParameter>
 				   {
 						new SqlParameter("@Id",memberId),
@@ -163,7 +163,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			{
 				using (var dataStore = new DataStore())
 				{
-					var sql = $@"UPDATE dbo.Members SET IsIconByUpload=@IsIconByUpload,IconUrl=@IconUrl,Name=@Name,Width=@Width,Height=@Height,IsResize=@IsResize,IsOpenMax=@IsOpenMax,IsFlash=@IsFlash WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+					var sql = $@"UPDATE dbo.Member SET IsIconByUpload=@IsIconByUpload,IconUrl=@IconUrl,Name=@Name,Width=@Width,Height=@Height,IsResize=@IsResize,IsOpenMax=@IsOpenMax,IsFlash=@IsFlash WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
 					var parameters = new List<SqlParameter>
 				   {
 						new SqlParameter("@IsIconByUpload",(member.IsIconByUpload ? 1 : 0)),
@@ -196,7 +196,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 						#region 判断是否为文件夹
 						{
-							var sql = $@"SELECT a.MemberType FROM dbo.Members AS a WHERE a.Id=@Id AND a.AccountId=@AccountId AND a.IsDeleted=0";
+							var sql = $@"SELECT a.MemberType FROM dbo.Member AS a WHERE a.Id=@Id AND a.AccountId=@AccountId AND a.IsDeleted=0";
 							var parameters = new List<SqlParameter>
 					   {
 							new SqlParameter("@Id", memberId),
@@ -210,7 +210,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 						{
 							#region 将文件夹内的成员移出
 							{
-								var sql = $@"UPDATE dbo.Members SET FolderId=0 WHERE AccountId=@AccountId AND IsDeleted=0 AND FolderId=@FolderId";
+								var sql = $@"UPDATE dbo.Member SET FolderId=0 WHERE AccountId=@AccountId AND IsDeleted=0 AND FolderId=@FolderId";
 								var parameters = new List<SqlParameter>
 						   {
 								new SqlParameter("@FolderId", memberId),
@@ -226,7 +226,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 							#region 获取appId
 							{
-								var sql = $@"SELECT a.AppId FROM dbo.Members AS a WHERE a.Id=@Id AND a.AccountId=@AccountId AND a.IsDeleted=0";
+								var sql = $@"SELECT a.AppId FROM dbo.Member AS a WHERE a.Id=@Id AND a.AccountId=@AccountId AND a.IsDeleted=0";
 								var parameters = new List<SqlParameter>
 						   {
 								new SqlParameter("@Id", memberId),
@@ -251,7 +251,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 						#region 移除成员
 						{
-							var sql = $@"UPDATE dbo.Members SET IsDeleted=1 WHERE Id=@Id AND AccountId=@AccountId";
+							var sql = $@"UPDATE dbo.Member SET IsDeleted=1 WHERE Id=@Id AND AccountId=@AccountId";
 							var parameters = new List<SqlParameter>
 					   {
 							new SqlParameter("@Id", memberId),

@@ -72,7 +72,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             ) AS IsInstall,
                             ISNULL(a.IsIconByUpload,0) AS IsIconByUpload
                             FROM dbo.App AS a 
-							LEFT JOIN dbo.Members AS a2 ON a2.AccountId=@accountId AND a2.IsDeleted=0 AND a2.AppId=a.Id
+							LEFT JOIN dbo.Member AS a2 ON a2.AccountId=@accountId AND a2.IsDeleted=0 AND a2.AppId=a.Id
                             WHERE a.AppAuditState=@AppAuditState AND a.AppReleaseState=@AppReleaseState AND a.IsRecommand=1";
 					var parameters = new List<SqlParameter>
 					{
@@ -172,7 +172,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 	                                    ) AS IsInstall,
                                         a.IsIconByUpload
 	                                    FROM dbo.App AS a
-	                                    LEFT JOIN dbo.Members AS a1 ON a1.AccountId=a.AccountId AND a1.AppId=a.Id AND a1.IsDeleted=0
+	                                    LEFT JOIN dbo.Member AS a1 ON a1.AccountId=a.AccountId AND a1.AppId=a.Id AND a1.IsDeleted=0
                                         {where}
                                 ) AS aa WHERE aa.rownumber>@pageSize*(@pageIndex-1) {orderBy}";
 					parameters.Add(new SqlParameter("@pageSize", pageSize));
@@ -328,7 +328,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			{
 				using (var dataStore = new DataStore())
 				{
-					var sql = $@"SELECT COUNT(*) FROM dbo.Members AS a WHERE a.AppId=@Id AND a.AccountId=@AccountId AND a.IsDeleted=0";
+					var sql = $@"SELECT COUNT(*) FROM dbo.Member AS a WHERE a.AppId=@Id AND a.AccountId=@AccountId AND a.IsDeleted=0";
 					var parameters = new List<SqlParameter>
 					{
 						new SqlParameter("@Id",appId),
@@ -872,7 +872,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 					   {
 						   var newMember = new Member(app.Name, app.IconUrl, app.AppUrl, app.Id, app.Width, app.Height, app.IsLock, app.IsMax, app.IsFull, app.IsSetbar, app.IsOpenMax, app.IsFlash, app.IsDraw, app.IsResize);
 
-						   var sql = $@"INSERT dbo.Members
+						   var sql = $@"INSERT dbo.Member
                             ( AppId ,
                               Width ,
                               Height ,

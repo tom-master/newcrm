@@ -148,7 +148,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 		  {
 			  using (var dataStore = new DataStore())
 			  {
-				  var sql = $@"UPDATE dbo.Members SET IsOnDock=1 WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+				  var sql = $@"UPDATE dbo.Member SET IsOnDock=1 WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
 				  var parameters = new List<SqlParameter>
 				  {
 						new SqlParameter("@Id",memberId),
@@ -166,7 +166,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 		  {
 			  using (var dataStore = new DataStore())
 			  {
-				  var sql = $@"UPDATE dbo.Members SET IsOnDock=0 WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+				  var sql = $@"UPDATE dbo.Member SET IsOnDock=0 WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
 				  var parameters = new List<SqlParameter>
 				  {
 						new SqlParameter("@Id",memberId),
@@ -184,7 +184,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 		  {
 			  using (var dataStore = new DataStore())
 			  {
-				  var sql = $@"UPDATE dbo.Members SET IsOnDock=0,FolderId=@FolderId WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+				  var sql = $@"UPDATE dbo.Member SET IsOnDock=0,FolderId=@FolderId WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
 				  var parameters = new List<SqlParameter>
 				  {
 						new SqlParameter("@FolderId",folderId),
@@ -203,7 +203,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 		  {
 			  using (var dataStore = new DataStore())
 			  {
-				  var sql = $@"UPDATE dbo.Members SET IsOnDock=1,FolderId=0 WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+				  var sql = $@"UPDATE dbo.Member SET IsOnDock=1,FolderId=0 WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
 				  var parameters = new List<SqlParameter>
 				  {
 						new SqlParameter("@Id",memberId),
@@ -221,7 +221,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 		  {
 			  using (var dataStore = new DataStore())
 			  {
-				  var sql = $@"UPDATE dbo.Members SET FolderId=@FolderId WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+				  var sql = $@"UPDATE dbo.Member SET FolderId=@FolderId WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
 				  var parameters = new List<SqlParameter>
 				  {
 						new SqlParameter("@FolderId",folderId),
@@ -240,7 +240,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 		  {
 			  using (var dataStore = new DataStore())
 			  {
-				  var sql = $@"UPDATE dbo.Members SET FolderId=0,DeskIndex=@DeskIndex WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+				  var sql = $@"UPDATE dbo.Member SET FolderId=0,DeskIndex=@DeskIndex WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
 				  var parameters = new List<SqlParameter>
 				  {
 						new SqlParameter("@DeskIndex",deskId),
@@ -259,7 +259,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 		  {
 			  using (var dataStore = new DataStore())
 			  {
-				  var sql = $@"UPDATE dbo.Members SET FolderId=@FolderId WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+				  var sql = $@"UPDATE dbo.Member SET FolderId=@FolderId WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
 				  var parameters = new List<SqlParameter>
 				  {
 						new SqlParameter("@FolderId",folderId),
@@ -284,7 +284,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 					  var set = new StringBuilder();
 					  #region 查询成员是否在应用码头中
 					  {
-						  var sql = $@"SELECT COUNT(*) FROM dbo.Members AS a WHERE a.Id=0 AND a.AccountId=0 AND a.IsDeleted=0 AND IsOnDock=1";
+						  var sql = $@"SELECT COUNT(*) FROM dbo.Member AS a WHERE a.Id=0 AND a.AccountId=0 AND a.IsDeleted=0 AND IsOnDock=1";
 						  if (dataStore.FindSingleValue<Int32>(sql) > 0)
 						  {
 							  set.Append($@" ,IsOnDock=0");
@@ -294,7 +294,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 					  #region 成员移动到其他桌面
 					  {
-						  var sql = $@"UPDATE dbo.Members SET DeskIndex=@DeskIndex {set} WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+						  var sql = $@"UPDATE dbo.Member SET DeskIndex=@DeskIndex {set} WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
 						  var parameters = new List<SqlParameter>
 					  {
 							new SqlParameter("@DeskIndex",deskId),
@@ -323,7 +323,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			{
 				using (var dataStore = new DataStore())
 				{
-					var sql = $@"UPDATE dbo.Members SET IsOnDock=0,DeskIndex=@DeskIndex WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+					var sql = $@"UPDATE dbo.Member SET IsOnDock=0,DeskIndex=@DeskIndex WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
 					var parameters = new List<SqlParameter>
 				{
 					new SqlParameter("@DeskIndex",deskId),
@@ -343,7 +343,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 				var folder = new Member(folderName, folderImg, 0);
 				using (var dataStore = new DataStore())
 				{
-					var sql = $@"INSERT dbo.Members
+					var sql = $@"INSERT dbo.Member
                             (
                                 AppId,
                                 Width,
