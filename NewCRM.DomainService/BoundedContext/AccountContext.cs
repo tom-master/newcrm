@@ -68,7 +68,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                          #region 添加在线用户列表
                          {
-                             var sql = $@"INSERT dbo.Onlines
+                             var sql = $@"INSERT dbo.Online
                                     (
                                         IpAddress,
                                         AccountId,
@@ -146,7 +146,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             {
                 using (var dataStore = new DataStore())
                 {
-                    var sql = $@"SELECT a.Url,a.Width,a.Height,a.Source FROM dbo.Wallpapers AS a WHERE a.Id=@wallpaperId AND a.IsDeleted=0";
+                    var sql = $@"SELECT a.Url,a.Width,a.Height,a.Source FROM dbo.Wallpaper AS a WHERE a.Id=@wallpaperId AND a.IsDeleted=0";
                     var parameters = new List<SqlParameter> { new SqlParameter("@wallpaperId", wallPaperId) };
                     return dataStore.Find<Wallpaper>(sql, parameters).FirstOrDefault();
                 }
@@ -373,7 +373,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                         #region 将当前用户从在线列表中移除
                         {
-                            var sql = $@"UPDATE dbo.Onlines SET IsDeleted=1 WHERE AccountId=@accountId AND IsDeleted=0 SELECT CAST(@@ROWCOUNT AS INT)";
+                            var sql = $@"UPDATE dbo.Online SET IsDeleted=1 WHERE AccountId=@accountId AND IsDeleted=0 SELECT CAST(@@ROWCOUNT AS INT)";
                             var rowCount = dataStore.FindSingleValue<Int32>(sql, parameters);
                             if (rowCount == 0)
                             {

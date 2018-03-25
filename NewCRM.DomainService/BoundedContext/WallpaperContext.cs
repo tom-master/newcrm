@@ -21,7 +21,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                  {
                      #region 前置条件验证
                      {
-                         var sql = $@"SELECT COUNT(*) FROM dbo.Wallpapers AS a WHERE a.AccountId=@AccountId AND a.IsDeleted=0";
+                         var sql = $@"SELECT COUNT(*) FROM dbo.Wallpaper AS a WHERE a.AccountId=@AccountId AND a.IsDeleted=0";
                          var parameters = new List<SqlParameter>
                      {
                         new SqlParameter("@AccountId",wallpaper.AccountId)
@@ -37,7 +37,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                      var newWallpaperId = 0;
                      #region 插入壁纸
                      {
-                         var sql = $@"INSERT dbo.Wallpapers
+                         var sql = $@"INSERT dbo.Wallpaper
                             ( Title ,
                               Url ,
                               ShortUrl ,
@@ -82,7 +82,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                      #region 获取返回值
                      {
-                         var sql = $@"SELECT a.Id,a.Url FROM dbo.Wallpapers AS a WHERE a.Id=@parameters AND a.IsDeleted=0";
+                         var sql = $@"SELECT a.Id,a.Url FROM dbo.Wallpaper AS a WHERE a.Id=@parameters AND a.IsDeleted=0";
                          var parameters = new List<SqlParameter>
                      {
                         new SqlParameter("@Id",newWallpaperId)
@@ -115,7 +115,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.Title,
                             a.Url,
                             a.Width
-                            FROM dbo.Wallpapers AS a WHERE a.Md5=@Md5 AND a.IsDeleted=0";
+                            FROM dbo.Wallpaper AS a WHERE a.Md5=@Md5 AND a.IsDeleted=0";
                     var parameters = new List<SqlParameter>
                     {
                         new SqlParameter("@Md5",md5)
@@ -141,7 +141,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.Title,
                             a.Url,
                             a.Width
-                            FROM dbo.Wallpapers AS a WHERE a.AccountId=@AccountId AND a.Source=@Source AND a.IsDeleted=0";
+                            FROM dbo.Wallpaper AS a WHERE a.AccountId=@AccountId AND a.Source=@Source AND a.IsDeleted=0";
                     var parameters = new List<SqlParameter>
                     {
                         new SqlParameter("@AccountId",accountId),
@@ -168,7 +168,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.Title,
                             a.Url,
                             a.Width
-                            FROM dbo.Wallpapers AS a WHERE a.Source=@Source AND a.IsDeleted=0";
+                            FROM dbo.Wallpaper AS a WHERE a.Source=@Source AND a.IsDeleted=0";
                     var parameters = new List<SqlParameter>
                     {
                         new SqlParameter("@Source",(Int32)WallpaperSource.System)
@@ -247,7 +247,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                     #region 移除壁纸
                     {
-                        var sql = $@"UPDATE dbo.Wallpapers SET IsDeleted=1 WHERE Id=@WallpaperId AND AccountId=@AccountId AND IsDeleted=0";
+                        var sql = $@"UPDATE dbo.Wallpaper SET IsDeleted=1 WHERE Id=@WallpaperId AND AccountId=@AccountId AND IsDeleted=0";
                         dataStore.SqlExecute(sql, parameters);
                     }
                     #endregion
