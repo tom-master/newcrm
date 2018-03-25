@@ -177,7 +177,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 						};
 						#region 前置条件验证
 						{
-							var sql = $@"SELECT COUNT(*) FROM dbo.AccountRoles AS a WHERE a.RoleId=@roleId AND a.IsDeleted=0";
+							var sql = $@"SELECT COUNT(*) FROM dbo.AccountRole AS a WHERE a.RoleId=@roleId AND a.IsDeleted=0";
 							var result = dataStore.FindSingleValue<Int32>(sql, parameters);
 							if (result > 0)
 							{

@@ -309,7 +309,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a2.Name AS AccountName,
                             a.IsIconByUpload
                             FROM dbo.Apps AS a 
-                            LEFT JOIN dbo.Accounts AS a2
+                            LEFT JOIN dbo.Account AS a2
                             ON a2.Id=a.AccountId AND a2.IsDeleted=0 AND a2.IsDisable=0
                             WHERE a.Id=@Id AND a.IsDeleted=0";
 					var parameters = new List<SqlParameter>

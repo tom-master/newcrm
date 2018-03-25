@@ -41,7 +41,7 @@ namespace NewCRM.Domain.Entitys
         {
             lock(_sync)
             {
-                var instanceName = $@"{GetType().FullName}.{e.PropertyName}";
+                var instanceName = $@"{e.PropertyName}";
                 if(!_propertyValues.Keys.Contains(instanceName))
                 {
                     _propertyValues.Add(new KeyValuePair<String, Object>(instanceName, e.PropertyValue));
