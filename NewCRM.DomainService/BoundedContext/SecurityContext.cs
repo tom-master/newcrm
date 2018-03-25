@@ -22,7 +22,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 					var sql = $@"SELECT
                             a.RoleId,
                             a.AppId
-                            FROM dbo.RolePowers AS a 
+                            FROM dbo.RolePower AS a 
                             WHERE a.IsDeleted=0";
 					return dataStore.Find<RolePower>(sql);
 				}
@@ -40,7 +40,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.Name,
                             a.RoleIdentity,
                             a.Remark
-                            FROM dbo.Roles AS a 
+                            FROM dbo.Role AS a 
                             WHERE a.Id=@Id AND a.IsDeleted=0";
 					var parameters = new List<SqlParameter> { new SqlParameter("@Id", roleId) };
 					return dataStore.FindOne<Role>(sql, parameters);
@@ -63,7 +63,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 				{
 					var sql = $@"SELECT
 	                            COUNT(*)
-	                            FROM dbo.Roles AS a 
+	                            FROM dbo.Role AS a 
                                 WHERE 1=1 {where} AND a.IsDeleted=0";
 
 					totalCount = dataStore.FindSingleValue<Int32>(sql, parameters);
@@ -80,7 +80,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 	                                a.RoleIdentity,
 	                                a.Remark,
                                     a.Id
-	                                FROM dbo.Roles AS a WHERE 1=1 {where} AND a.IsDeleted=0
+	                                FROM dbo.Role AS a WHERE 1=1 {where} AND a.IsDeleted=0
                                 ) AS aa WHERE aa.rownumber>@pageSize*(@pageIndex-1)";
 					parameters.Add(new SqlParameter("@pageIndex", pageIndex));
 					parameters.Add(new SqlParameter("@pageSize", pageSize));
@@ -99,7 +99,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 				{
 					#region 检查app是否为系统app
 					{
-						var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a WHERE a.Id=@Id AND a.IsDeleted=0 AND a.IsSystem=1";
+						var sql = $@"SELECT COUNT(*) FROM dbo.App AS a WHERE a.Id=@Id AND a.IsDeleted=0 AND a.IsSystem=1";
 						var parameters = new List<SqlParameter>
 					{
 						new SqlParameter("@Id",accessAppId)
@@ -113,7 +113,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 					#endregion
 
 					{
-						var sql = $@"SELECT a.AppId FROM dbo.RolePowers AS a WHERE a.RoleId IN({String.Join(",", roleIds)}) AND a.IsDeleted=0";
+						var sql = $@"SELECT a.AppId FROM dbo.RolePower AS a WHERE a.RoleId IN({String.Join(",", roleIds)}) AND a.IsDeleted=0";
 						var result = dataStore.Find<RolePower>(sql);
 						return result.Any(a => a.AppId == accessAppId);
 					}
@@ -128,7 +128,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			{
 				using (var dataStore = new DataStore())
 				{
-					var sql = $@"SELECT COUNT(*) FROM dbo.Roles AS a WHERE a.Name=@name AND a.IsDeleted=0";
+					var sql = $@"SELECT COUNT(*) FROM dbo.Role AS a WHERE a.Name=@name AND a.IsDeleted=0";
 					var parameters = new List<SqlParameter>
 					{
 						new SqlParameter("@name",name)
@@ -147,13 +147,13 @@ namespace NewCRM.Domain.Services.BoundedContext
 				{
 					#region 修改角色
 					{
-						var sql = $@"UPDATE dbo.Roles SET Name=@name,RoleIdentity=@identity WHERE Id=@Id AND IsDeleted=0";
+						var sql = $@"UPDATE dbo.Role SET Name=@name,RoleIdentity=@identity WHERE Id=@Id AND IsDeleted=0";
 						var parameters = new List<SqlParameter>
-				  {
-						new SqlParameter("@name",role.Name),
-						new SqlParameter("@identity",role.RoleIdentity),
-						new SqlParameter("@Id",role.Id)
-				  };
+						{
+								new SqlParameter("@name",role.Name),
+								new SqlParameter("@identity",role.RoleIdentity),
+								new SqlParameter("@Id",role.Id)
+						};
 						dataStore.SqlExecute(sql, parameters);
 					}
 					#endregion
@@ -188,14 +188,14 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 						#region 删除角色
 						{
-							var sql = $@"UPDATE dbo.Roles SET IsDeleted=1 WHERE Id=@roleId AND IsDeleted=0";
+							var sql = $@"UPDATE dbo.Role SET IsDeleted=1 WHERE Id=@roleId AND IsDeleted=0";
 							dataStore.SqlExecute(sql, parameters);
 						}
 						#endregion
 
 						#region 移除权限
 						{
-							var sql = $@"UPDATE dbo.RolePowers SET IsDeleted=1 WHERE RoleId=@roleId AND IsDeleted=0";
+							var sql = $@"UPDATE dbo.RolePower SET IsDeleted=1 WHERE RoleId=@roleId AND IsDeleted=0";
 							dataStore.SqlExecute(sql, parameters);
 						}
 						#endregion
@@ -220,7 +220,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 				{
 					#region 添加角色
 					{
-						var sql = $@"INSERT dbo.Roles
+						var sql = $@"INSERT dbo.Role
                                 ( Name ,
                                   RoleIdentity ,
                                   Remark ,
@@ -259,7 +259,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 					{
 						#region 移除之前的角色权限
 						{
-							var sql = $@"UPDATE dbo.RolePowers SET IsDeleted=1 WHERE RoleId=@RoleId";
+							var sql = $@"UPDATE dbo.RolePower SET IsDeleted=1 WHERE RoleId=@RoleId";
 							var parameters = new List<SqlParameter>
 					   {
 							new SqlParameter("@RoleId",roleId)
@@ -273,7 +273,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 							var sqlBuilder = new StringBuilder();
 							foreach (var item in powerIds)
 							{
-								sqlBuilder.Append($@"INSERT dbo.RolePowers
+								sqlBuilder.Append($@"INSERT dbo.RolePower
                                                     ( RoleId ,
                                                       AppId ,
                                                       IsDeleted ,

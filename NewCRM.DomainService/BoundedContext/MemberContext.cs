@@ -238,7 +238,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 							#region app使用量-1
 							{
-								var sql = $@"UPDATE dbo.Apps SET UseCount=UseCount-1 WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
+								var sql = $@"UPDATE dbo.App SET UseCount=UseCount-1 WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
 								var parameters = new List<SqlParameter>
 						   {
 								new SqlParameter("@Id", appId),

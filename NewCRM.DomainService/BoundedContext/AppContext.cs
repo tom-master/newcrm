@@ -24,7 +24,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			{
 				using (var dataStore = new DataStore())
 				{
-					var sql = $@"SELECT a.Id FROM dbo.Apps AS a WHERE a.AccountId=@accountId AND a.IsDeleted=0";
+					var sql = $@"SELECT a.Id FROM dbo.App AS a WHERE a.AccountId=@accountId AND a.IsDeleted=0";
 					var parameters = new List<SqlParameter>
 					{
 						new SqlParameter("@accountId",accountId)
@@ -71,7 +71,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 								END
                             ) AS IsInstall,
                             ISNULL(a.IsIconByUpload,0) AS IsIconByUpload
-                            FROM dbo.Apps AS a 
+                            FROM dbo.App AS a 
 							LEFT JOIN dbo.Members AS a2 ON a2.AccountId=@accountId AND a2.IsDeleted=0 AND a2.AppId=a.Id
                             WHERE a.AppAuditState=@AppAuditState AND a.AppReleaseState=@AppReleaseState AND a.IsRecommand=1";
 					var parameters = new List<SqlParameter>
@@ -139,7 +139,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 				#region totalCount
 				{
-					var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a 
+					var sql = $@"SELECT COUNT(*) FROM dbo.App AS a 
                                 LEFT JOIN dbo.AppStars AS a1
                                 ON a1.AppId=a.Id AND a1.IsDeleted=0 {where}";
 					totalCount = dataStore.FindSingleValue<Int32>(sql, parameters);
@@ -171,7 +171,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 		                                    END
 	                                    ) AS IsInstall,
                                         a.IsIconByUpload
-	                                    FROM dbo.Apps AS a
+	                                    FROM dbo.App AS a
 	                                    LEFT JOIN dbo.Members AS a1 ON a1.AccountId=a.AccountId AND a1.AppId=a.Id AND a1.IsDeleted=0
                                         {where}
                                 ) AS aa WHERE aa.rownumber>@pageSize*(@pageIndex-1) {orderBy}";
@@ -247,7 +247,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 				#region totalCount
 				{
-					var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a {where} ";
+					var sql = $@"SELECT COUNT(*) FROM dbo.App AS a {where} ";
 					totalCount = dataStore.FindSingleValue<Int32>(sql, parameters);
 				}
 				#endregion
@@ -268,7 +268,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                         a.AppTypeId,
                         a.AccountId,
                         a.IsIconByUpload
-	                    FROM dbo.Apps AS a {where} 
+	                    FROM dbo.App AS a {where} 
                     ) AS aa WHERE aa.rownumber>@pageSize*(@pageIndex-1)";
 					parameters.Add(new SqlParameter("@pageIndex", pageIndex));
 					parameters.Add(new SqlParameter("@pageSize", pageSize));
@@ -308,7 +308,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.AppTypeId,
                             a2.Name AS AccountName,
                             a.IsIconByUpload
-                            FROM dbo.Apps AS a 
+                            FROM dbo.App AS a 
                             LEFT JOIN dbo.Account AS a2
                             ON a2.Id=a.AccountId AND a2.IsDeleted=0 AND a2.IsDisable=0
                             WHERE a.Id=@Id AND a.IsDeleted=0";
@@ -352,7 +352,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 						where.Append($@" AND a.Id IN({String.Join(",", appIds)})");
 					}
 
-					var sql = $@"SELECT a.Id,a.Name,a.IconUrl FROM dbo.Apps AS a {where}";
+					var sql = $@"SELECT a.Id,a.Name,a.IconUrl FROM dbo.App AS a {where}";
 					return dataStore.Find<App>(sql);
 				}
 			});
@@ -436,7 +436,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			  {
 				  #region app
 				  {
-					  var sql = $@"INSERT dbo.Apps
+					  var sql = $@"INSERT dbo.App
                             (
                                 Name,
                                 IconUrl,
@@ -530,7 +530,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 		  {
 			  using (var dataStore = new DataStore())
 			  {
-				  var sql = $@"UPDATE dbo.Apps SET AppAuditState=@AppAuditState WHERE Id=@appId AND IsDeleted=0";
+				  var sql = $@"UPDATE dbo.App SET AppAuditState=@AppAuditState WHERE Id=@appId AND IsDeleted=0";
 				  var parameters = new List<SqlParameter>
 				  {
 						new SqlParameter("@AppAuditState",(Int32)AppAuditState.Pass),
@@ -548,7 +548,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 		  {
 			  using (var dataStore = new DataStore())
 			  {
-				  var sql = $@"UPDATE dbo.Apps SET AppAuditState=@AppAuditState WHERE Id=@appId AND IsDeleted=0";
+				  var sql = $@"UPDATE dbo.App SET AppAuditState=@AppAuditState WHERE Id=@appId AND IsDeleted=0";
 				  var parameters = new List<SqlParameter>
 				  {
 						new SqlParameter("@AppAuditState",(Int32)AppAuditState.Deny),
@@ -571,14 +571,14 @@ namespace NewCRM.Domain.Services.BoundedContext
 				  {
 					  #region 取消之前的推荐app
 					  {
-						  var sql = $@"UPDATE dbo.Apps SET IsRecommand=0 WHERE IsRecommand=1 AND IsDeleted=0";
+						  var sql = $@"UPDATE dbo.App SET IsRecommand=0 WHERE IsRecommand=1 AND IsDeleted=0";
 						  dataStore.SqlExecute(sql);
 					  }
 					  #endregion
 
 					  #region 设置新的推荐app
 					  {
-						  var sql = $@"UPDATE dbo.Apps SET IsRecommand=1 WHERE Id=@appId AND IsDeleted=0";
+						  var sql = $@"UPDATE dbo.App SET IsRecommand=1 WHERE Id=@appId AND IsDeleted=0";
 						  var parameters = new List<SqlParameter>
 					  {
 							new SqlParameter("@appId",appId)
@@ -621,7 +621,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 					   #region 移除app
 					   {
-						   var sql = $@"UPDATE dbo.Apps SET IsDeleted=1 WHERE Id=@appId";
+						   var sql = $@"UPDATE dbo.App SET IsDeleted=1 WHERE Id=@appId";
 						   dataStore.SqlExecute(sql, parameters);
 					   }
 					   #endregion
@@ -646,7 +646,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			   {
 				   #region 发布app
 				   {
-					   var sql = $@"UPDATE dbo.Apps SET AppReleaseState=@AppReleaseState WHERE Id=@appId AND IsDeleted=0 AND AppAuditState=@AppAuditState";
+					   var sql = $@"UPDATE dbo.App SET AppReleaseState=@AppReleaseState WHERE Id=@appId AND IsDeleted=0 AND AppAuditState=@AppAuditState";
 					   var parameters = new List<SqlParameter>
 					   {
 							new SqlParameter("@AppReleaseState",(Int32)AppReleaseState.Release),
@@ -717,7 +717,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 				  };
 				  #region 前置条件验证
 				  {
-					  var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a WHERE a.AppTypeId=@AppTypeId AND a.IsDeleted=0";
+					  var sql = $@"SELECT COUNT(*) FROM dbo.App AS a WHERE a.AppTypeId=@AppTypeId AND a.IsDeleted=0";
 					  if (dataStore.FindSingleValue<Int32>(sql, parameters) > 0)
 					  {
 						  throw new BusinessException($@"当前分类下已有绑定app,不能删除当前分类");
@@ -818,7 +818,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 		   {
 			   using (var dataStore = new DataStore())
 			   {
-				   var sql = $@"UPDATE dbo.Apps SET IconUrl=@url WHERE Id=@appId AND AccountId=@accountId AND IsDeleted=0 ";
+				   var sql = $@"UPDATE dbo.App SET IconUrl=@url WHERE Id=@appId AND AccountId=@accountId AND IsDeleted=0 ";
 				   dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@url", newIcon), new SqlParameter("@appId", appId), new SqlParameter("@accountId", accountId) });
 			   }
 		   });
@@ -852,7 +852,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                                 a.IsFlash,
                                 a.IsDraw,
                                 a.IsIconByUpload
-                                FROM  dbo.Apps AS a WHERE a.AppAuditState=@AppAuditState AND a.AppReleaseState=@AppReleaseState AND a.IsDeleted=0 AND a.Id=@Id";
+                                FROM  dbo.App AS a WHERE a.AppAuditState=@AppAuditState AND a.AppReleaseState=@AppReleaseState AND a.IsDeleted=0 AND a.Id=@Id";
 						   var parameters = new List<SqlParameter>
 						   {
 								new SqlParameter("@AppAuditState",(Int32)AppAuditState.Pass),
@@ -948,7 +948,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 					   #region 更改app使用数量
 					   {
-						   var sql = $@"UPDATE dbo.Apps SET UseCount=UseCount+1 WHERE Id=@appId AND IsDeleted=0";
+						   var sql = $@"UPDATE dbo.App SET UseCount=UseCount+1 WHERE Id=@appId AND IsDeleted=0";
 						   var parameters = new List<SqlParameter>
 						   {
 								new SqlParameter("@appId",app.Id)

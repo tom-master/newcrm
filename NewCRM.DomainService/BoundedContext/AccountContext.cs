@@ -243,7 +243,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a1.Name,
                             a1.RoleIdentity
                             FROM dbo.AccountRole AS a
-                            INNER JOIN dbo.Roles AS a1
+                            INNER JOIN dbo.Role AS a1
                             ON a1.Id=a.RoleId AND a1.IsDeleted=0 
                             WHERE a.AccountId=@accountId AND a.IsDeleted=0 ";
                     var parameters = new List<SqlParameter> { new SqlParameter("@accountId", accountId) };
@@ -258,7 +258,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             {
                 using (var dataStore = new DataStore())
                 {
-                    var sql = $@"SELECT a.RoleId,a.AppId FROM dbo.RolePowers AS a WHERE a.IsDeleted=0";
+                    var sql = $@"SELECT a.RoleId,a.AppId FROM dbo.RolePower AS a WHERE a.IsDeleted=0";
                     return dataStore.Find<RolePower>(sql);
                 }
             });
@@ -320,7 +320,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             {
                 using (var dataStore = new DataStore())
                 {
-                    var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a WHERE a.Name=@name AND a.IsDeleted=0 ";
+                    var sql = $@"SELECT COUNT(*) FROM dbo.App AS a WHERE a.Name=@name AND a.IsDeleted=0 ";
                     var parameters = new List<SqlParameter>
                 {
                     new SqlParameter("@name",name)
@@ -338,7 +338,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             {
                 using (var dataStore = new DataStore())
                 {
-                    var sql = $@"SELECT COUNT(*) FROM dbo.Apps AS a WHERE a.AppUrl = @url AND a.IsDeleted=0";
+                    var sql = $@"SELECT COUNT(*) FROM dbo.App AS a WHERE a.AppUrl = @url AND a.IsDeleted=0";
                     var parameters = new List<SqlParameter>
                   {
                         new SqlParameter("@url",url)
@@ -649,7 +649,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                   var parameters = new List<SqlParameter> { new SqlParameter("@accountId", accountId) };
                   #region 前置条件验证
                   {
-                      var sql = $@"SELECT COUNT(*) FROM dbo.Roles AS a
+                      var sql = $@"SELECT COUNT(*) FROM dbo.Role AS a
                                 INNER JOIN dbo.AccountRole AS a1
                                 ON a1.AccountId=@accountId AND a1.RoleId=a.Id AND a1.IsDeleted=0
                                 WHERE a.IsDeleted=0 AND a.IsAllowDisable=0";
