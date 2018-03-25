@@ -18,7 +18,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             {
                 using (var dataStore = new DataStore())
                 {
-                    var sql = $@"UPDATE dbo.Configs SET Skin=@skin WHERE AccountId=@AccountId AND IsDeleted=0";
+                    var sql = $@"UPDATE dbo.Config SET Skin=@skin WHERE AccountId=@AccountId AND IsDeleted=0";
                     dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@skin", newSkin), new SqlParameter("@AccountId", accountId) });
                 }
             });

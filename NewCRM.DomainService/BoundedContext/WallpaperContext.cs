@@ -187,7 +187,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                 {
                     using(var dataStore = new DataStore())
                     {
-                        var sql = $@"UPDATE dbo.Configs SET WallpaperMode=@WallpaperMode WHERE AccountId=@accountId AND IsDeleted=0";
+                        var sql = $@"UPDATE dbo.Config SET WallpaperMode=@WallpaperMode WHERE AccountId=@accountId AND IsDeleted=0";
                         var parameters = new List<SqlParameter>
                           {
                                 new SqlParameter("@WallpaperMode",(Int32)wallpaperMode),
@@ -210,7 +210,7 @@ namespace NewCRM.Domain.Services.BoundedContext
             {
                 using(var dataStore = new DataStore())
                 {
-                    var sql = $@"UPDATE dbo.Configs SET IsBing=0,WallpaperId=@WallpaperId WHERE AccountId=@AccountId AND IsDeleted=0";
+                    var sql = $@"UPDATE dbo.Config SET IsBing=0,WallpaperId=@WallpaperId WHERE AccountId=@AccountId AND IsDeleted=0";
                     var parameters = new List<SqlParameter>
                     {
                         new SqlParameter("@WallpaperId",newWallpaperId),
@@ -235,7 +235,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                     };
                     #region 前置条件验证
                     {
-                        var sql = $@"SELECT COUNT(*) FROM dbo.Configs AS a WHERE a.AccountId=@AccountId AND a.WallpaperId=@WallpaperId AND a.IsDeleted=0";
+                        var sql = $@"SELECT COUNT(*) FROM dbo.Config AS a WHERE a.AccountId=@AccountId AND a.WallpaperId=@WallpaperId AND a.IsDeleted=0";
 
                         var result = dataStore.FindSingleValue<Int32>(sql, parameters);
                         if(result > 0)

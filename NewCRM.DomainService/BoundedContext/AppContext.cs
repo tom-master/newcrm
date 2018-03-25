@@ -41,7 +41,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			{
 				using (var dataStore = new DataStore())
 				{
-					var sql = $@"SELECT a.Id,a.Name FROM dbo.AppTypes AS a WHERE a.IsDeleted=0";
+					var sql = $@"SELECT a.Id,a.Name FROM dbo.AppType AS a WHERE a.IsDeleted=0";
 					return dataStore.Find<AppType>(sql);
 				}
 			});
@@ -62,7 +62,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.Remark,
                             a.AppStyle AS Style,
                             (
-		                        SELECT AVG(stars.StartNum) FROM dbo.AppStars AS stars WHERE stars.AppId=a.Id AND stars.IsDeleted=0 GROUP BY stars.AppId
+		                        SELECT AVG(stars.StartNum) FROM dbo.AppStar AS stars WHERE stars.AppId=a.Id AND stars.IsDeleted=0 GROUP BY stars.AppId
                             ) AS AppStars,
                             (
 	                            CASE 
@@ -140,7 +140,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 				#region totalCount
 				{
 					var sql = $@"SELECT COUNT(*) FROM dbo.App AS a 
-                                LEFT JOIN dbo.AppStars AS a1
+                                LEFT JOIN dbo.AppStar AS a1
                                 ON a1.AppId=a.Id AND a1.IsDeleted=0 {where}";
 					totalCount = dataStore.FindSingleValue<Int32>(sql, parameters);
 				}
@@ -157,7 +157,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 	                                    a.AddTime,
 	                                    a.UseCount,
 	                                    (
-		                                    SELECT AVG(stars.StartNum) FROM dbo.AppStars AS stars WHERE stars.AppId=a.Id AND stars.IsDeleted=0 GROUP BY stars.AppId
+		                                    SELECT AVG(stars.StartNum) FROM dbo.AppStar AS stars WHERE stars.AppId=a.Id AND stars.IsDeleted=0 GROUP BY stars.AppId
 	                                    ) AS StarCount,
 	                                    a.Name,
 	                                    a.IconUrl,
@@ -291,7 +291,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.Remark,
                             a.UseCount,
                             (
-		                      SELECT AVG(stars.StartNum) FROM dbo.AppStars AS stars WHERE stars.AppId=a.Id AND stars.IsDeleted=0 GROUP BY stars.AppId
+		                      SELECT AVG(stars.StartNum) FROM dbo.AppStar AS stars WHERE stars.AppId=a.Id AND stars.IsDeleted=0 GROUP BY stars.AppId
 	                        ) AS StarCount,
                             a.AddTime,
                             a.AccountId,
@@ -365,7 +365,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			{
 				using (var dataStore = new DataStore())
 				{
-					var sql = $@"SELECT COUNT(*) FROM dbo.AppTypes AS a WHERE a.Name=@name AND a.IsDeleted=0";
+					var sql = $@"SELECT COUNT(*) FROM dbo.AppType AS a WHERE a.Name=@name AND a.IsDeleted=0";
 					var parameters = new List<SqlParameter>
 					{
 						new SqlParameter("@name",appTypeName)
@@ -384,7 +384,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 				{
 					#region 前置条件判断
 					{
-						var sql = $@"SELECT COUNT(*) FROM dbo.AppStars AS a WHERE a.AccountId=@accountId AND a.AppId=@appId AND a.IsDeleted=0";
+						var sql = $@"SELECT COUNT(*) FROM dbo.AppStar AS a WHERE a.AccountId=@accountId AND a.AppId=@appId AND a.IsDeleted=0";
 						var parameters = new List<SqlParameter>
 					  {
 							new SqlParameter("@accountId",accountId),
@@ -400,7 +400,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 					#region sql
 					{
-						var sql = $@"INSERT dbo.AppStars
+						var sql = $@"INSERT dbo.AppStar
                                     ( AccountId ,
                                       StartNum ,
                                       IsDeleted ,
@@ -614,7 +614,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 					   };
 					   #region 移除app的评分
 					   {
-						   var sql = $@"UPDATE dbo.AppStars SET IsDeleted=1 WHERE AppId=@appId";
+						   var sql = $@"UPDATE dbo.AppStar SET IsDeleted=1 WHERE AppId=@appId";
 						   dataStore.SqlExecute(sql, parameters);
 					   }
 					   #endregion
@@ -727,7 +727,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 				  #region 移除app分类
 				  {
-					  var sql = $@"UPDATE dbo.AppTypes SET IsDeleted=1 WHERE Id=@AppTypeId";
+					  var sql = $@"UPDATE dbo.AppType SET IsDeleted=1 WHERE Id=@AppTypeId";
 					  dataStore.SqlExecute(sql, parameters);
 				  }
 				  #endregion
@@ -744,7 +744,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			  {
 				  #region 前置条件验证
 				  {
-					  var sql = $@"SELECT COUNT(*) FROM dbo.AppTypes AS a WHERE a.Name=@name AND a.IsDeleted=0";
+					  var sql = $@"SELECT COUNT(*) FROM dbo.AppType AS a WHERE a.Name=@name AND a.IsDeleted=0";
 					  var result = dataStore.FindSingleValue<Int32>(sql, new List<SqlParameter> { new SqlParameter("@name", appType.Name) });
 					  if (result > 0)
 					  {
@@ -755,7 +755,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 				  #region 添加app分类
 				  {
-					  var sql = $@"INSERT dbo.AppTypes
+					  var sql = $@"INSERT dbo.AppType
                                 (
                                     Name,
                                     Remark,
@@ -792,7 +792,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			   {
 				   #region 前置条件验证
 				   {
-					   var sql = $@"SELECT COUNT(*) FROM dbo.AppTypes AS a WHERE a.Name=@name AND a.IsDeleted=0";
+					   var sql = $@"SELECT COUNT(*) FROM dbo.AppType AS a WHERE a.Name=@name AND a.IsDeleted=0";
 					   var result = dataStore.FindSingleValue<Int32>(sql, new List<SqlParameter> { new SqlParameter("@name", appTypeName) });
 					   if (result > 0)
 					   {
@@ -803,7 +803,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 				   #region 更新app分类
 				   {
-					   var sql = $@"UPDATE dbo.AppTypes SET Name=@name WHERE Id=@Id AND IsDeleted=0";
+					   var sql = $@"UPDATE dbo.AppType SET Name=@name WHERE Id=@Id AND IsDeleted=0";
 					   dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@name", appTypeName), new SqlParameter("Id", appTypeId) });
 				   }
 				   #endregion

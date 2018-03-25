@@ -35,7 +35,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                          {
                              var sql = @"SELECT a.Id,a.Name,a.LoginPassword,a1.AccountFace 
                                     FROM dbo.Account AS a
-                                    INNER JOIN dbo.Configs AS a1
+                                    INNER JOIN dbo.Config AS a1
                                     ON a1.AccountId=a.Id 
                                     WHERE a.Name=@name AND a.IsDeleted=0 AND a.IsDisable=0";
                              result = dataStore.Find<Account>(sql, new List<SqlParameter> { new SqlParameter("@name", accountName) }).FirstOrDefault();
@@ -130,7 +130,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.WallpaperId,
                             a.IsBing,
                             a.AccountId
-                            FROM dbo.Configs AS a WHERE a.AccountId=@accountId AND a.IsDeleted=0";
+                            FROM dbo.Config AS a WHERE a.AccountId=@accountId AND a.IsDeleted=0";
                      var parameters = new List<SqlParameter> { new SqlParameter("@accountId", accountId) };
                      var result = dataStore.Find<Config>(sql, parameters).FirstOrDefault();
                      return result;
@@ -178,7 +178,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                 #region totalCount
                 {
                     var sql = $@"SELECT COUNT(*) FROM dbo.Account AS a 
-                                 INNER JOIN dbo.Configs AS a1 ON a1.AccountId=a.Id AND a1.IsDeleted=0 {where} ";
+                                 INNER JOIN dbo.Config AS a1 ON a1.AccountId=a.Id AND a1.IsDeleted=0 {where} ";
                     totalCount = dataStore.FindSingleValue<Int32>(sql, parameters);
                 }
                 #endregion
@@ -190,7 +190,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 	                            SELECT ROW_NUMBER() OVER(ORDER BY a.Id DESC) AS rownumber,
                                 a.Id,a.IsAdmin,a.Name,a.IsDisable,a1.AccountFace 
 	                            FROM dbo.Account AS a 
-	                            INNER JOIN dbo.Configs AS a1
+	                            INNER JOIN dbo.Config AS a1
 	                            ON a1.AccountId=a.Id AND a1.IsDeleted=0
 	                            {where} 
                             ) AS a2 WHERE a2.rownumber>@pageSize*(@pageIndex-1)";
@@ -222,7 +222,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                             a.LockScreenPassword,
                             a.LoginPassword
                             FROM dbo.Account AS a 
-                            INNER JOIN dbo.Configs AS a1
+                            INNER JOIN dbo.Config AS a1
                             ON a1.AccountId=a.Id
                             WHERE a.Id=@accountId AND a.IsDeleted=0 AND a.IsDisable=0";
                     var parameters = new List<SqlParameter> { new SqlParameter("@accountId", accountId) };
@@ -410,7 +410,7 @@ namespace NewCRM.Domain.Services.BoundedContext
                        #region 初始化配置
                        {
                            var config = new Config();
-                           var sql = $@"INSERT dbo.Configs
+                           var sql = $@"INSERT dbo.Config
                                 ( Skin ,
                                   AppSize ,
                                   AppVerticalSpacing ,
@@ -515,7 +515,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                        #region 更新用户的配置
                        {
-                           var sql = $@"UPDATE dbo.Configs SET AccountId=@accountId WHERE IsDeleted=0 AND Id=@id SELECT CAST(@@ROWCOUNT AS INT)";
+                           var sql = $@"UPDATE dbo.Config SET AccountId=@accountId WHERE IsDeleted=0 AND Id=@id SELECT CAST(@@ROWCOUNT AS INT)";
                            var parameters = new List<SqlParameter> { new SqlParameter("@accountId", accountId), new SqlParameter("@id", configId) };
                            var rowCount = dataStore.FindSingleValue<Int32>(sql, parameters);
                            if (rowCount == 0)
@@ -675,7 +675,7 @@ namespace NewCRM.Domain.Services.BoundedContext
           {
               using (var dataStore = new DataStore())
               {
-                  var sql = $@"UPDATE dbo.Configs SET AccountFace=@face WHERE AccountId=@accountId AND IsDeleted=0";
+                  var sql = $@"UPDATE dbo.Config SET AccountFace=@face WHERE AccountId=@accountId AND IsDeleted=0";
                   dataStore.SqlExecute(sql, new List<SqlParameter> { new SqlParameter("@face", newFace), new SqlParameter("@accountId", accountId) });
               }
           });
@@ -751,7 +751,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
                       #region 移除账户配置
                       {
-                          var sql = $@"UPDATE dbo.Configs SET IsDeleted=1 WHERE AccountId=@accountId AND IsDeleted=0";
+                          var sql = $@"UPDATE dbo.Config SET IsDeleted=1 WHERE AccountId=@accountId AND IsDeleted=0";
                           dataStore.SqlExecute(sql, parameters);
                       }
                       #endregion

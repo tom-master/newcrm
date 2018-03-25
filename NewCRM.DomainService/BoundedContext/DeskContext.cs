@@ -20,7 +20,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 		  {
 			  using (var dataStore = new DataStore())
 			  {
-				  var sql = $@"UPDATE dbo.Configs SET DefaultDeskNumber=@DefaultDeskNumber WHERE AccountId=@AccountId AND IsDeleted=0";
+				  var sql = $@"UPDATE dbo.Config SET DefaultDeskNumber=@DefaultDeskNumber WHERE AccountId=@AccountId AND IsDeleted=0";
 				  var parameters = new List<SqlParameter>
 				  {
 						new SqlParameter("@DefaultDeskNumber",newDefaultDeskNumber),
@@ -38,7 +38,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 		  {
 			  using (var dataStore = new DataStore())
 			  {
-				  var sql = $@"UPDATE dbo.Configs SET DockPosition=@DockPosition WHERE AccountId=@AccountId AND DefaultDeskNumber=@defaultDeskNumber AND IsDeleted=0";
+				  var sql = $@"UPDATE dbo.Config SET DockPosition=@DockPosition WHERE AccountId=@AccountId AND DefaultDeskNumber=@defaultDeskNumber AND IsDeleted=0";
 				  var parameters = new List<SqlParameter>
 				  {
 						new SqlParameter("@DockPosition",(Int32)EnumExtensions.ToEnum<DockPostion>(newPosition)),
@@ -57,7 +57,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 		  {
 			  using (var dataStore = new DataStore())
 			  {
-				  var sql = $@"UPDATE dbo.Configs SET AppXy=@AppXy WHERE AccountId=@AccountId AND IsDeleted=0";
+				  var sql = $@"UPDATE dbo.Config SET AppXy=@AppXy WHERE AccountId=@AccountId AND IsDeleted=0";
 				  var parameters = new List<SqlParameter>
 				  {
 						new SqlParameter("@AppXy",(Int32)AppAlignMode.X),
@@ -75,7 +75,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 		  {
 			  using (var dataStore = new DataStore())
 			  {
-				  var sql = $@"UPDATE dbo.Configs SET AppXy=@AppXy WHERE AccountId=@AccountId AND IsDeleted=0";
+				  var sql = $@"UPDATE dbo.Config SET AppXy=@AppXy WHERE AccountId=@AccountId AND IsDeleted=0";
 				  var parameters = new List<SqlParameter>
 				  {
 						new SqlParameter("@AppXy",(Int32)AppAlignMode.Y),
@@ -93,7 +93,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 		  {
 			  using (var dataStore = new DataStore())
 			  {
-				  var sql = $@"UPDATE dbo.Configs SET AppSize=@AppSize WHERE AccountId=@AccountId AND IsDeleted=0";
+				  var sql = $@"UPDATE dbo.Config SET AppSize=@AppSize WHERE AccountId=@AccountId AND IsDeleted=0";
 				  var parameters = new List<SqlParameter>
 				  {
 						new SqlParameter("@AppSize",newSize),
@@ -111,7 +111,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 		  {
 			  using (var dataStore = new DataStore())
 			  {
-				  var sql = $@"UPDATE dbo.Configs SET AppVerticalSpacing=@AppVerticalSpacing WHERE AccountId=@AccountId AND IsDeleted=0";
+				  var sql = $@"UPDATE dbo.Config SET AppVerticalSpacing=@AppVerticalSpacing WHERE AccountId=@AccountId AND IsDeleted=0";
 				  var parameters = new List<SqlParameter>
 				  {
 						new SqlParameter("@AppVerticalSpacing",newSize),
@@ -130,7 +130,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 		  {
 			  using (var dataStore = new DataStore())
 			  {
-				  var sql = $@"UPDATE dbo.Configs SET AppHorizontalSpacing=@AppHorizontalSpacing WHERE AccountId=@AccountId AND IsDeleted=0";
+				  var sql = $@"UPDATE dbo.Config SET AppHorizontalSpacing=@AppHorizontalSpacing WHERE AccountId=@AccountId AND IsDeleted=0";
 				  var parameters = new List<SqlParameter>
 				  {
 						new SqlParameter("@AppHorizontalSpacing",newSize),
@@ -413,7 +413,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			{
 				using (var dataStore = new DataStore())
 				{
-					var sql = $@"UPDATE dbo.Configs SET IsBing=@IsBing WHERE AccountId=@AccountId AND IsDeleted=0";
+					var sql = $@"UPDATE dbo.Config SET IsBing=@IsBing WHERE AccountId=@AccountId AND IsDeleted=0";
 					var parameters = new List<SqlParameter>
 					{
 						new SqlParameter("@IsBing",(source.ToLower() == WallpaperSource.Bing.ToString().ToLower() ? 1 : 0)),
