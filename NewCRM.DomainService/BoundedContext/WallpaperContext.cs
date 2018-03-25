@@ -6,7 +6,7 @@ using NewCRM.Domain.Entitys.System;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomException;
-using NewLib.Data.SqlMapper.InternalDataStore;
+using NewLib.Data.Mapper.InternalDataStore;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {

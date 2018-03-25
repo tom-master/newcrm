@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using NewCRM.Domain.Entitys.Security;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Infrastructure.CommonTools.CustomException;
-using NewLib.Data.SqlMapper.InternalDataStore;
+using NewLib.Data.Mapper.InternalDataStore;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {

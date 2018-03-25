@@ -11,7 +11,7 @@ using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewLib;
-using NewLib.Data.SqlMapper.InternalDataStore;
+using NewLib.Data.Mapper.InternalDataStore;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {

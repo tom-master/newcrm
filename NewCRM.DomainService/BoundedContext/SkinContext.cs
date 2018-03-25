@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using NewCRM.Domain.Services.Interface;
-using NewLib.Data.SqlMapper.InternalDataStore;
+using NewLib.Data.Mapper.InternalDataStore;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {
