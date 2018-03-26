@@ -310,6 +310,9 @@ namespace NewCRM.Domain.Entitys.System
 			Int32 appId,
 			Int32 width,
 			Int32 height,
+			Int32 accountId,
+			Int32 deskIndex,
+			Boolean isIconByUpload = default(Boolean),
 			Boolean isLock = default(Boolean),
 			Boolean isMax = default(Boolean),
 			Boolean isFull = default(Boolean),
@@ -335,7 +338,8 @@ namespace NewCRM.Domain.Entitys.System
 			AppUrl = appUrl;
 			MemberType = appId == 0 ? MemberType.Folder : MemberType.App;
 			DeskIndex = 1;
-			IsIconByUpload = false;
+			IsIconByUpload = isIconByUpload;
+			AccountId = accountId;
 		}
 
 		/// <summary>
@@ -370,72 +374,72 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Member ModifyWidth(Int32 width)
 		{
-            if(width <= 0)
-            {
-                throw new ArgumentException($@"{nameof(width)} less than or equal to zero");
-            }
+			if (width <= 0)
+			{
+				throw new ArgumentException($@"{nameof(width)} less than or equal to zero");
+			}
 
-            Width = width;
+			Width = width;
 			OnPropertyChanged(nameof(Width));
 			return this;
 		}
 
 		public Member ModifyHeight(Int32 height)
 		{
-            if(height <= 0)
-            {
-                throw new ArgumentException($@"{nameof(height)} less than or equal to zero");
-            }
+			if (height <= 0)
+			{
+				throw new ArgumentException($@"{nameof(height)} less than or equal to zero");
+			}
 
-            Height = height;
+			Height = height;
 			OnPropertyChanged(nameof(Height));
 			return this;
 		}
 
 		public Member ModifyFolderId(Int32 folderId)
 		{
-            if(folderId <= 0)
-            {
-                throw new ArgumentException($@"{nameof(folderId)} less than or equal to zero");
-            }
+			if (folderId <= 0)
+			{
+				throw new ArgumentException($@"{nameof(folderId)} less than or equal to zero");
+			}
 
-            FolderId = folderId;
+			FolderId = folderId;
 			OnPropertyChanged(nameof(FolderId));
 			return this;
 		}
 
 		public Member ModifyName(String name)
 		{
-            if(String.IsNullOrEmpty(name))
-            {
-                throw new ArgumentException($@"{nameof(name)} is null");
-            }
+			if (String.IsNullOrEmpty(name))
+			{
+				throw new ArgumentException($@"{nameof(name)} is null");
+			}
 
-            Name = name;
+			Name = name;
 			OnPropertyChanged(nameof(Name));
 			return this;
 		}
 
 		public Member ModifyIconUrl(String iconUrl)
 		{
-            if(String.IsNullOrEmpty(iconUrl))
-            {
-                throw new ArgumentException($@"{nameof(iconUrl)} is null");
-            }
+			if (String.IsNullOrEmpty(iconUrl))
+			{
+				throw new ArgumentException($@"{nameof(iconUrl)} is null");
+			}
 
-            IconUrl = iconUrl;
+			IconUrl = iconUrl;
 			OnPropertyChanged(nameof(IconUrl));
 			return this;
 		}
 
 		public Member ModifyAppUrl(String appUrl)
-        {
-            if(String.IsNullOrEmpty(appUrl))
-            {
-                throw new ArgumentException($@"{nameof(appUrl)} is null");
-            }
+		{
+			if (String.IsNullOrEmpty(appUrl))
+			{
+				throw new ArgumentException($@"{nameof(appUrl)} is null");
+			}
 
-            AppUrl = appUrl;
+			AppUrl = appUrl;
 			OnPropertyChanged(nameof(AppUrl));
 			return this;
 		}
@@ -512,12 +516,12 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Member ModifyDeskIndex(Int32 deskIndex)
 		{
-            if(deskIndex <= 0)
-            {
-                throw new ArgumentException($@"{nameof(deskIndex)} less than or equal to zero");
-            }
+			if (deskIndex <= 0)
+			{
+				throw new ArgumentException($@"{nameof(deskIndex)} less than or equal to zero");
+			}
 
-            DeskIndex = deskIndex;
+			DeskIndex = deskIndex;
 			OnPropertyChanged(nameof(DeskIndex));
 			return this;
 		}
