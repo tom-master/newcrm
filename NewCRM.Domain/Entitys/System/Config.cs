@@ -363,5 +363,10 @@ namespace NewCRM.Domain.Entitys.System
             OnPropertyChanged(nameof(WallpaperId));
             return this;
         }
+
+		public Config OnDock()
+		{
+			
+		}
     }
 }

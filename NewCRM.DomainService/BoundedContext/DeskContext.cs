@@ -17,109 +17,84 @@ namespace NewCRM.Domain.Services.BoundedContext
 		{
 			Parameter.Validate(accountId).Validate(newDefaultDeskNumber);
 			await Task.Run(() =>
-		  {
-			  using (var dataStore = new DataStore())
-			  {
-				  var sql = $@"UPDATE dbo.Config SET DefaultDeskNumber=@DefaultDeskNumber WHERE AccountId=@AccountId AND IsDeleted=0";
-				  var parameters = new List<SqlParameter>
-				  {
-						new SqlParameter("@DefaultDeskNumber",newDefaultDeskNumber),
-						new SqlParameter("@AccountId",accountId)
-				  };
-				  dataStore.SqlExecute(sql, parameters);
-			  }
-		  });
+			{
+				using (var dataStore = new DataStore())
+				{
+					var config = new Config();
+					config.ModifyDefaultDeskNumber(newDefaultDeskNumber);
+					dataStore.ExecuteModify(config, conf => conf.AccountId == accountId);
+				}
+			});
 		}
 
 		public async Task ModifyDockPositionAsync(Int32 accountId, Int32 defaultDeskNumber, String newPosition)
 		{
 			Parameter.Validate(accountId).Validate(defaultDeskNumber).Validate(newPosition);
 			await Task.Run(() =>
-		  {
-			  using (var dataStore = new DataStore())
-			  {
-				  var sql = $@"UPDATE dbo.Config SET DockPosition=@DockPosition WHERE AccountId=@AccountId AND DefaultDeskNumber=@defaultDeskNumber AND IsDeleted=0";
-				  var parameters = new List<SqlParameter>
-				  {
-						new SqlParameter("@DockPosition",(Int32)EnumExtensions.ToEnum<DockPostion>(newPosition)),
-						new SqlParameter("@AccountId",accountId),
-						new SqlParameter("@DefaultDeskNumber",defaultDeskNumber)
-				  };
-				  dataStore.SqlExecute(sql, parameters);
-			  }
-		  });
+			{
+				using (var dataStore = new DataStore())
+				{
+					var config = new Config();
+					config.ModifyDockPosition(EnumExtensions.ToEnum<DockPostion>(newPosition));
+					dataStore.ExecuteModify(config, conf => conf.AccountId == accountId && conf.DefaultDeskNumber == defaultDeskNumber);
+				}
+			});
 		}
 
 		public async Task ModifyMemberDirectionToXAsync(Int32 accountId)
 		{
 			Parameter.Validate(accountId);
 			await Task.Run(() =>
-		  {
-			  using (var dataStore = new DataStore())
-			  {
-				  var sql = $@"UPDATE dbo.Config SET AppXy=@AppXy WHERE AccountId=@AccountId AND IsDeleted=0";
-				  var parameters = new List<SqlParameter>
-				  {
-						new SqlParameter("@AppXy",(Int32)AppAlignMode.X),
-						new SqlParameter("@AccountId",accountId)
-				  };
-				  dataStore.SqlExecute(sql, parameters);
-			  }
-		  });
+			{
+				using (var dataStore = new DataStore())
+				{
+					var config = new Config();
+					config.ModifyAppX();
+					dataStore.ExecuteModify(config, conf => conf.AccountId == accountId);
+				}
+			});
 		}
 
 		public async Task ModifyMemberDirectionToYAsync(Int32 accountId)
 		{
 			Parameter.Validate(accountId);
 			await Task.Run(() =>
-		  {
-			  using (var dataStore = new DataStore())
-			  {
-				  var sql = $@"UPDATE dbo.Config SET AppXy=@AppXy WHERE AccountId=@AccountId AND IsDeleted=0";
-				  var parameters = new List<SqlParameter>
-				  {
-						new SqlParameter("@AppXy",(Int32)AppAlignMode.Y),
-						new SqlParameter("@AccountId",accountId)
-				  };
-				  dataStore.SqlExecute(sql, parameters);
-			  }
-		  });
+			{
+				using (var dataStore = new DataStore())
+				{
+					var config = new Config();
+					config.ModifyAppY();
+					dataStore.ExecuteModify(config, conf => conf.AccountId == accountId);
+				}
+			});
 		}
 
 		public async Task ModifyMemberDisplayIconSizeAsync(Int32 accountId, Int32 newSize)
 		{
 			Parameter.Validate(accountId).Validate(newSize);
 			await Task.Run(() =>
-		  {
-			  using (var dataStore = new DataStore())
-			  {
-				  var sql = $@"UPDATE dbo.Config SET AppSize=@AppSize WHERE AccountId=@AccountId AND IsDeleted=0";
-				  var parameters = new List<SqlParameter>
-				  {
-						new SqlParameter("@AppSize",newSize),
-						new SqlParameter("@AccountId",accountId)
-				  };
-				  dataStore.SqlExecute(sql, parameters);
-			  }
-		  });
+			{
+				using (var dataStore = new DataStore())
+				{
+					var config = new Config();
+					config.ModifyAppSize(newSize);
+					dataStore.ExecuteModify(config, conf => conf.AccountId == accountId);
+				}
+			});
 		}
 
 		public async Task ModifyMemberHorizontalSpacingAsync(Int32 accountId, Int32 newSize)
 		{
 			Parameter.Validate(accountId).Validate(newSize);
 			await Task.Run(() =>
-		  {
-			  using (var dataStore = new DataStore())
-			  {
-				  var sql = $@"UPDATE dbo.Config SET AppVerticalSpacing=@AppVerticalSpacing WHERE AccountId=@AccountId AND IsDeleted=0";
-				  var parameters = new List<SqlParameter>
-				  {
-						new SqlParameter("@AppVerticalSpacing",newSize),
-						new SqlParameter("@AccountId",accountId)
-				  };
-				  dataStore.SqlExecute(sql, parameters);
-			  }
-		  });
+			{
+				using (var dataStore = new DataStore())
+				{
+					var config = new Config();
+					config.ModifyAppVerticalSpacing(newSize);
+					dataStore.ExecuteModify(config, conf => conf.AccountId == accountId);
+				}
+			});
 
 		}
 
@@ -127,193 +102,153 @@ namespace NewCRM.Domain.Services.BoundedContext
 		{
 			Parameter.Validate(accountId).Validate(newSize);
 			await Task.Run(() =>
-		  {
-			  using (var dataStore = new DataStore())
-			  {
-				  var sql = $@"UPDATE dbo.Config SET AppHorizontalSpacing=@AppHorizontalSpacing WHERE AccountId=@AccountId AND IsDeleted=0";
-				  var parameters = new List<SqlParameter>
-				  {
-						new SqlParameter("@AppHorizontalSpacing",newSize),
-						new SqlParameter("@AccountId",accountId)
-				  };
-				  dataStore.SqlExecute(sql, parameters);
-			  }
-		  });
+			{
+				using (var dataStore = new DataStore())
+				{
+					var config = new Config();
+					config.ModifyAppHorizontalSpacing(newSize);
+					dataStore.ExecuteModify(config, conf => conf.AccountId == accountId);
+				}
+			});
 		}
 
 		public async Task MemberInDockAsync(Int32 accountId, Int32 memberId)
 		{
 			Parameter.Validate(accountId).Validate(memberId);
 			await Task.Run(() =>
-		  {
-			  using (var dataStore = new DataStore())
-			  {
-				  var sql = $@"UPDATE dbo.Member SET IsOnDock=1 WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
-				  var parameters = new List<SqlParameter>
-				  {
-						new SqlParameter("@Id",memberId),
-						new SqlParameter("@AccountId",accountId)
-				  };
-				  dataStore.SqlExecute(sql, parameters);
-			  }
-		  });
+			{
+				using (var dataStore = new DataStore())
+				{
+					var member = new Member();
+					member.OnDock();
+					dataStore.ExecuteModify(member, mem => mem.Id == memberId && mem.AccountId == accountId);
+				}
+			});
 		}
 
 		public async Task MemberOutDockAsync(Int32 accountId, Int32 memberId, Int32 deskId)
 		{
 			Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
 			await Task.Run(() =>
-		  {
-			  using (var dataStore = new DataStore())
-			  {
-				  var sql = $@"UPDATE dbo.Member SET IsOnDock=0 WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
-				  var parameters = new List<SqlParameter>
-				  {
-						new SqlParameter("@Id",memberId),
-						new SqlParameter("@AccountId",accountId)
-				  };
-				  dataStore.SqlExecute(sql, parameters);
-			  }
-		  });
+			{
+				using (var dataStore = new DataStore())
+				{
+					var member = new Member();
+					member.OutDock();
+					dataStore.ExecuteModify(member, mem => mem.Id == memberId && mem.AccountId == accountId);
+				}
+			});
 		}
 
 		public async Task DockToFolderAsync(Int32 accountId, Int32 memberId, Int32 folderId)
 		{
 			Parameter.Validate(accountId).Validate(memberId).Validate(folderId);
 			await Task.Run(() =>
-		  {
-			  using (var dataStore = new DataStore())
-			  {
-				  var sql = $@"UPDATE dbo.Member SET IsOnDock=0,FolderId=@FolderId WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
-				  var parameters = new List<SqlParameter>
-				  {
-						new SqlParameter("@FolderId",folderId),
-						new SqlParameter("@Id",memberId),
-						new SqlParameter("@AccountId",accountId)
-				  };
-				  dataStore.SqlExecute(sql, parameters);
-			  }
-		  });
+			{
+				using (var dataStore = new DataStore())
+				{
+					var member = new Member();
+					member.OutDock().ModifyFolderId(folderId);
+					dataStore.ExecuteModify(member, mem => mem.Id == memberId && mem.AccountId == accountId);
+				}
+			});
 		}
 
 		public async Task FolderToDockAsync(Int32 accountId, Int32 memberId)
 		{
 			Parameter.Validate(accountId).Validate(memberId);
 			await Task.Run(() =>
-		  {
-			  using (var dataStore = new DataStore())
-			  {
-				  var sql = $@"UPDATE dbo.Member SET IsOnDock=1,FolderId=0 WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
-				  var parameters = new List<SqlParameter>
-				  {
-						new SqlParameter("@Id",memberId),
-						new SqlParameter("@AccountId",accountId)
-				  };
-				  dataStore.SqlExecute(sql, parameters);
-			  }
-		  });
+			{
+				using (var dataStore = new DataStore())
+				{
+					var member = new Member();
+					member.OnDock().ModifyFolderId(0);
+					dataStore.ExecuteModify(member, mem => mem.Id == memberId && mem.AccountId == accountId);
+				}
+			});
 		}
 
 		public async Task DeskToFolderAsync(Int32 accountId, Int32 memberId, Int32 folderId)
 		{
 			Parameter.Validate(accountId).Validate(memberId).Validate(folderId);
 			await Task.Run(() =>
-		  {
-			  using (var dataStore = new DataStore())
-			  {
-				  var sql = $@"UPDATE dbo.Member SET FolderId=@FolderId WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
-				  var parameters = new List<SqlParameter>
-				  {
-						new SqlParameter("@FolderId",folderId),
-						new SqlParameter("@Id",memberId),
-						new SqlParameter("@AccountId",accountId)
-				  };
-				  dataStore.SqlExecute(sql, parameters);
-			  }
-		  });
+			{
+				using (var dataStore = new DataStore())
+				{
+					var member = new Member();
+					member.ModifyFolderId(folderId);
+					dataStore.ExecuteModify(member, mem => mem.Id == memberId && mem.AccountId == accountId);
+				}
+			});
 		}
 
 		public async Task FolderToDeskAsync(Int32 accountId, Int32 memberId, Int32 deskId)
 		{
 			Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
 			await Task.Run(() =>
-		  {
-			  using (var dataStore = new DataStore())
-			  {
-				  var sql = $@"UPDATE dbo.Member SET FolderId=0,DeskIndex=@DeskIndex WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
-				  var parameters = new List<SqlParameter>
-				  {
-						new SqlParameter("@DeskIndex",deskId),
-						new SqlParameter("@Id",memberId),
-						new SqlParameter("@AccountId",accountId)
-				  };
-				  dataStore.SqlExecute(sql, parameters);
-			  }
-		  });
+			{
+				using (var dataStore = new DataStore())
+				{
+					var member = new Member();
+					member.ModifyFolderId(0).ModifyDeskIndex(deskId);
+					dataStore.ExecuteModify(member, mem => mem.Id == memberId && mem.AccountId == accountId);
+				}
+			});
 		}
 
 		public async Task FolderToOtherFolderAsync(Int32 accountId, Int32 memberId, Int32 folderId)
 		{
 			Parameter.Validate(accountId).Validate(memberId).Validate(folderId);
 			await Task.Run(() =>
-		  {
-			  using (var dataStore = new DataStore())
-			  {
-				  var sql = $@"UPDATE dbo.Member SET FolderId=@FolderId WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
-				  var parameters = new List<SqlParameter>
-				  {
-						new SqlParameter("@FolderId",folderId),
-						new SqlParameter("@Id",memberId),
-						new SqlParameter("@AccountId",accountId)
-				  };
-				  dataStore.SqlExecute(sql, parameters);
-			  }
-		  });
+			{
+				using (var dataStore = new DataStore())
+				{
+					var member = new Member();
+					member.ModifyFolderId(folderId);
+					dataStore.ExecuteModify(member, mem => mem.Id == memberId && mem.AccountId == accountId);
+				}
+			});
 		}
 
 		public async Task DeskToOtherDeskAsync(Int32 accountId, Int32 memberId, Int32 deskId)
 		{
 			Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
 			await Task.Run(() =>
-		  {
-			  using (var dataStore = new DataStore())
-			  {
-				  dataStore.OpenTransaction();
-				  try
-				  {
-					  var set = new StringBuilder();
-					  #region 查询成员是否在应用码头中
-					  {
-						  var sql = $@"SELECT COUNT(*) FROM dbo.Member AS a WHERE a.Id=0 AND a.AccountId=0 AND a.IsDeleted=0 AND IsOnDock=1";
-						  if (dataStore.FindSingleValue<Int32>(sql) > 0)
-						  {
-							  set.Append($@" ,IsOnDock=0");
-						  }
-					  }
-					  #endregion
+			{
+				using (var dataStore = new DataStore())
+				{
+					dataStore.OpenTransaction();
+					try
+					{
+						var member = new Member();
+						member.ModifyDeskIndex(deskId);
 
-					  #region 成员移动到其他桌面
-					  {
-						  var sql = $@"UPDATE dbo.Member SET DeskIndex=@DeskIndex {set} WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
-						  var parameters = new List<SqlParameter>
-					  {
-							new SqlParameter("@DeskIndex",deskId),
-							new SqlParameter("@Id",memberId),
-							new SqlParameter("@AccountId",accountId)
-					  };
-						  dataStore.SqlExecute(sql, parameters);
-					  }
-					  #endregion
+						var set = new StringBuilder();
+						#region 查询成员是否在应用码头中
+						{
+							var sql = $@"SELECT COUNT(*) FROM dbo.Member AS a WHERE a.Id=0 AND a.AccountId=0 AND a.IsDeleted=0 AND IsOnDock=1";
+							if (dataStore.FindSingleValue<Int32>(sql) > 0)
+							{
+								member.OutDock();
+							}
+						}
+						#endregion
 
-					  dataStore.Commit();
-				  }
-				  catch (Exception)
-				  {
-					  dataStore.Rollback();
-					  throw;
-				  }
-			  }
-		  });
+						#region 成员移动到其他桌面
+						{
+							dataStore.ExecuteModify(member, mem => mem.Id == memberId && mem.AccountId == accountId);
+						}
+						#endregion
+
+						dataStore.Commit();
+					}
+					catch (Exception)
+					{
+						dataStore.Rollback();
+						throw;
+					}
+				}
+			});
 		}
 
 		public async Task DockToOtherDeskAsync(Int32 accountId, Int32 memberId, Int32 deskId)
@@ -323,14 +258,9 @@ namespace NewCRM.Domain.Services.BoundedContext
 			{
 				using (var dataStore = new DataStore())
 				{
-					var sql = $@"UPDATE dbo.Member SET IsOnDock=0,DeskIndex=@DeskIndex WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
-					var parameters = new List<SqlParameter>
-				{
-					new SqlParameter("@DeskIndex",deskId),
-					new SqlParameter("@Id",memberId),
-					new SqlParameter("@AccountId",accountId)
-				};
-					dataStore.SqlExecute(sql, parameters);
+					var member = new Member();
+					member.OutDock().ModifyDeskIndex(deskId);
+					dataStore.ExecuteModify(member, mem => mem.Id == memberId && mem.AccountId == accountId);
 				}
 			});
 		}
@@ -340,68 +270,10 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(deskId).Validate(folderImg).Validate(folderName);
 			await Task.Run(() =>
 			{
-				var folder = new Member(folderName, folderImg, 0);
+				var folder = new Member(folderName, folderImg, 0, accountId, deskId, false);
 				using (var dataStore = new DataStore())
 				{
-					var sql = $@"INSERT dbo.Member
-                            (
-                                AppId,
-                                Width,
-                                Height,
-                                FolderId,
-                                Name,
-                                IconUrl,
-                                AppUrl,
-                                IsOnDock,
-                                IsMax,
-                                IsFull,
-                                IsSetbar,
-                                IsOpenMax,
-                                IsLock,
-                                IsFlash,
-                                IsDraw,
-                                IsResize,
-                                MemberType,
-                                DeskIndex,
-                                IsDeleted,
-                                AddTime,
-                                LastModifyTime,
-                                AccountId
-                            )
-                            VALUES
-                            (   0,         -- AppId - int
-                                @Width,         -- Width - int
-                                @Height,         -- Height - int
-                                0,         -- FolderId - int
-                                @Name,       -- Name - nvarchar(6)
-                                @IconUrl,       -- IconUrl - nvarchar(max)
-                                N'',       -- AppUrl - nvarchar(max)
-                                0,      -- IsOnDock - bit
-                                0,      -- IsMax - bit
-                                0,      -- IsFull - bit
-                                0,      -- IsSetbar - bit
-                                0,      -- IsOpenMax - bit
-                                0,      -- IsLock - bit
-                                0,      -- IsFlash - bit
-                                0,      -- IsDraw - bit
-                                0,      -- IsResize - bit
-                                @MemberType,         -- MemberType - int
-                                @deskId,         -- DeskIndex - int
-                                0,      -- IsDeleted - bit
-                                GETDATE(), -- AddTime - datetime
-                                GETDATE(), -- LastModifyTime - datetime
-                                @accountId          -- AccountId - int
-                            )";
-					var parameters = new List<SqlParameter>
-					{
-						new SqlParameter("@Width",folder.Width),
-						new SqlParameter("@Height",folder.Height),
-						new SqlParameter("@Name",folder.Name),
-						new SqlParameter("@MemberType",(Int32)folder.MemberType),
-						new SqlParameter("@deskId",deskId),
-						new SqlParameter("@accountId",accountId),
-					};
-					dataStore.SqlExecute(sql, parameters);
+					dataStore.ExecuteAdd(folder);
 				}
 			});
 		}
@@ -413,13 +285,16 @@ namespace NewCRM.Domain.Services.BoundedContext
 			{
 				using (var dataStore = new DataStore())
 				{
-					var sql = $@"UPDATE dbo.Config SET IsBing=@IsBing WHERE AccountId=@AccountId AND IsDeleted=0";
-					var parameters = new List<SqlParameter>
+					var config = new Config();
+					if (source.ToLower() == WallpaperSource.Bing.ToString().ToLower())
 					{
-						new SqlParameter("@IsBing",(source.ToLower() == WallpaperSource.Bing.ToString().ToLower() ? 1 : 0)),
-						new SqlParameter("@AccountId",accountId)
-					};
-					dataStore.SqlExecute(sql, parameters);
+						config.FromBing();
+					}
+					else
+					{
+						config.NotFromBing();
+					}
+					dataStore.ExecuteModify(config, conf => conf.AccountId == accountId);
 				}
 			});
 		}

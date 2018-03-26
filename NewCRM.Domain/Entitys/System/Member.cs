@@ -345,7 +345,12 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 实例化一个成员对象
 		/// </summary>
-		public Member(String name, String iconUrl, Int32 appId)
+		public Member(String name,
+			String iconUrl,
+			Int32 appId,
+			Int32 accountId,
+			Int32 deskIndex,
+			Boolean isIconByUpload = default(Boolean))
 		{
 			AppId = appId;
 			Width = 800;
@@ -354,9 +359,10 @@ namespace NewCRM.Domain.Entitys.System
 			IsOpenMax = false;
 			Name = name;
 			IconUrl = iconUrl;
-			DeskIndex = 1;
+			DeskIndex = deskIndex;
 			MemberType = appId == 0 ? MemberType.Folder : MemberType.App;
-			IsIconByUpload = false;
+			IsIconByUpload = isIconByUpload;
+			AccountId = accountId;
 		}
 
 		public Member()
