@@ -18,37 +18,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			{
 				using (var dataStore = new DataStore())
 				{
-					var sql = $@"INSERT dbo.Log
-								( LogLevelEnum ,
-								  Controller ,
-								  Action ,
-								  ExceptionMessage ,
-								  Track ,
-								  AccountId ,
-								  IsDeleted ,
-								  AddTime ,
-								  LastModifyTime
-								)
-						VALUES  ( @LogLevelEnum , -- LogLevelEnum - int
-								  @Controller , -- Controller - nvarchar(max)
-								  @Action , -- Action - nvarchar(max)
-								  @ExceptionMessage , -- ExceptionMessage - nvarchar(max)
-								  @Track , -- Track - nvarchar(max)
-								  @AccountId , -- AccountId - int
-								  0 , -- IsDeleted - bit
-								  GETDATE() , -- AddTime - datetime
-								  GETDATE()  -- LastModifyTime - datetime
-								)";
-					var parameters = new List<SqlParameter>
-					  {
-							new SqlParameter("@LogLevelEnum",(Int32)log.LogLevelEnum),
-							new SqlParameter("@Controller",log.Controller),
-							new SqlParameter("@Action",log.Action),
-							new SqlParameter("@ExceptionMessage",log.ExceptionMessage),
-							new SqlParameter("@Track",log.Track),
-							new SqlParameter("@AccountId",log.AccountId),
-					  };
-					dataStore.SqlExecute(sql, parameters);
+					dataStore.ExecuteAdd(log);
 				}
 			});
 		}
