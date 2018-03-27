@@ -9,14 +9,14 @@ using NewLib.Data.Mapper.InternalDataStore;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {
-	public class LoggerContext: BaseServiceContext, ILoggerContext
+	public class LoggerContext : BaseServiceContext, ILoggerContext
 	{
 		public async Task AddLoggerAsync(Log log)
 		{
 			Parameter.Validate(log);
 			await Task.Run(() =>
 			{
-				using (var dataStore = new DataStore())
+				using(var dataStore = new DataStore())
 				{
 					dataStore.ExecuteAdd(log);
 				}
@@ -25,15 +25,16 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public IList<Log> GetLogs(Int32 accountId, Int32 logLevel, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
 		{
-			using (var dataStore = new DataStore())
+			using(var dataStore = new DataStore())
 			{
 				var where = new StringBuilder();
 				var parameters = new List<SqlParameter>();
-				if (accountId != 0)
+				if(accountId != 0)
 				{
 					parameters.Add(new SqlParameter("AccountId", accountId));
 					where.Append($@" AND a.AccountId=@AccountId");
 				}
+
 				#region totalCount
 				{
 					var sql = $@"SELECT COUNT(*) FROM dbo.Log AS a WHERE 1=1 {where}";

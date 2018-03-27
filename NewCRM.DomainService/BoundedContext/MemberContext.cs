@@ -11,14 +11,14 @@ using NewLib.Data.Mapper.InternalDataStore;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {
-	public class MemberContext: BaseServiceContext, IMemberContext
+	public class MemberContext : BaseServiceContext, IMemberContext
 	{
 		public async Task<List<Member>> GetMembersAsync(Int32 accountId)
 		{
 			Parameter.Validate(accountId);
 			return await Task.Run<List<Member>>(() =>
 			{
-				using (var dataStore = new DataStore())
+				using(var dataStore = new DataStore())
 				{
 					var sql = $@"SELECT 
                             a.MemberType,
@@ -50,11 +50,11 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(accountId).Validate(memberId);
 			return await Task.Run(() =>
 			{
-				using (var dataStore = new DataStore())
+				using(var dataStore = new DataStore())
 				{
 					var where = new StringBuilder();
 					var parameters = new List<SqlParameter>();
-					if (isFolder)
+					if(isFolder)
 					{
 						parameters.Add(new SqlParameter("@Id", memberId));
 						parameters.Add(new SqlParameter("@MemberType", (Int32)MemberType.Folder));
@@ -100,7 +100,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(name);
 			return await Task.Run(() =>
 			{
-				using (var dataStore = new DataStore())
+				using(var dataStore = new DataStore())
 				{
 					var sql = $@"SELECT COUNT(*) FROM dbo.Member AS a WHERE a.Name=@name AND a.IsDeleted=0";
 					var parameters = new List<SqlParameter>
@@ -118,19 +118,14 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(accountId).Validate(memberName).Validate(memberIcon).Validate(memberId);
 			await Task.Run(() =>
 			{
-				using (var dataStore = new DataStore())
+				using(var dataStore = new DataStore())
 				{
 					#region sql
 					{
-						var sql = $@"UPDATE Members SET Name=@name,IconUrl=@url WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
-						var parameters = new List<SqlParameter>
-				  {
-						new SqlParameter("@Id",memberId),
-						new SqlParameter("@AccountId",accountId),
-						new SqlParameter("@name",memberName),
-						new SqlParameter("@url",memberIcon)
-				  };
-						dataStore.SqlExecute(sql, parameters);
+						var member = new Member();
+						member.ModifyName(memberName);
+						member.ModifyIconUrl(memberIcon);
+						dataStore.ExecuteModify(member, mem => mem.AccountId == accountId && mem.Id == memberId);
 					}
 					#endregion
 				}
@@ -142,16 +137,11 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(accountId).Validate(memberId).Validate(newIcon);
 			await Task.Run(() =>
 			{
-				using (var dataStore = new DataStore())
+				using(var dataStore = new DataStore())
 				{
-					var sql = $@"UPDATE dbo.Member SET IconUrl=@url WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
-					var parameters = new List<SqlParameter>
-				   {
-						new SqlParameter("@Id",memberId),
-						new SqlParameter("@AccountId",accountId),
-						new SqlParameter("@url",newIcon)
-				   };
-					dataStore.SqlExecute(sql, parameters);
+					var member = new Member();
+					member.ModifyIconUrl(newIcon);
+					dataStore.ExecuteModify(member, mem => mem.Id == memberId && mem.AccountId == accountId);
 				}
 			});
 		}
@@ -161,23 +151,25 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(accountId).Validate(member);
 			await Task.Run(() =>
 			{
-				using (var dataStore = new DataStore())
+				using(var dataStore = new DataStore())
 				{
-					var sql = $@"UPDATE dbo.Member SET IsIconByUpload=@IsIconByUpload,IconUrl=@IconUrl,Name=@Name,Width=@Width,Height=@Height,IsResize=@IsResize,IsOpenMax=@IsOpenMax,IsFlash=@IsFlash WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
-					var parameters = new List<SqlParameter>
-				   {
-						new SqlParameter("@IsIconByUpload",(member.IsIconByUpload ? 1 : 0)),
-						new SqlParameter("@IconUrl",member.IconUrl),
-						new SqlParameter("@Name",member.Name),
-						new SqlParameter("@Width",member.Width),
-						new SqlParameter("@Height",member.Height),
-						new SqlParameter("@IsResize",member.IsResize.ParseToInt32()),
-						new SqlParameter("@IsOpenMax",member.IsOpenMax.ParseToInt32()),
-						new SqlParameter("@IsFlash",member.IsFlash.ParseToInt32()),
-						new SqlParameter("@Id",member.Id),
-						new SqlParameter("@AccountId",accountId)
-				   };
-					dataStore.SqlExecute(sql, parameters);
+					if(member.IsIconByUpload)
+					{
+						member.IconFromUpload();
+					}
+					else
+					{
+						member.IconNotFromUpload();
+					}
+
+					member.ModifyIconUrl(member.IconUrl);
+					member.ModifyName(member.Name);
+					member.ModifyWidth(member.Width);
+					member.ModifyHeight(member.Height);
+					member.ModifyIsResize(member.IsResize);
+					member.ModifyIsOpenMax(member.IsOpenMax);
+					member.ModifyIsFlash(member.IsFlash);
+					dataStore.ExecuteModify(member, mem => mem.Id == member.Id && mem.AccountId == accountId);
 				}
 			});
 		}
@@ -187,7 +179,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(accountId).Validate(memberId);
 			await Task.Run(() =>
 			{
-				using (var dataStore = new DataStore())
+				using(var dataStore = new DataStore())
 				{
 					dataStore.OpenTransaction();
 					try
@@ -198,25 +190,21 @@ namespace NewCRM.Domain.Services.BoundedContext
 						{
 							var sql = $@"SELECT a.MemberType FROM dbo.Member AS a WHERE a.Id=@Id AND a.AccountId=@AccountId AND a.IsDeleted=0";
 							var parameters = new List<SqlParameter>
-					   {
-							new SqlParameter("@Id", memberId),
-							new SqlParameter("@AccountId", accountId)
-					   };
+							{
+								new SqlParameter("@Id", memberId),
+								new SqlParameter("@AccountId", accountId)
+							};
 							isFolder = (dataStore.FindSingleValue<Int32>(sql, parameters)) == (Int32)MemberType.Folder;
 						}
 						#endregion
 
-						if (isFolder)
+						if(isFolder)
 						{
 							#region 将文件夹内的成员移出
 							{
-								var sql = $@"UPDATE dbo.Member SET FolderId=0 WHERE AccountId=@AccountId AND IsDeleted=0 AND FolderId=@FolderId";
-								var parameters = new List<SqlParameter>
-						   {
-								new SqlParameter("@FolderId", memberId),
-								new SqlParameter("@AccountId", accountId)
-						   };
-								dataStore.SqlExecute(sql, parameters);
+								var member = new Member();
+								member.ModifyFolderId(0);
+								dataStore.ExecuteModify(member, mem => mem.AccountId == accountId && mem.FolderId == memberId);
 							}
 							#endregion
 						}
@@ -228,42 +216,34 @@ namespace NewCRM.Domain.Services.BoundedContext
 							{
 								var sql = $@"SELECT a.AppId FROM dbo.Member AS a WHERE a.Id=@Id AND a.AccountId=@AccountId AND a.IsDeleted=0";
 								var parameters = new List<SqlParameter>
-						   {
-								new SqlParameter("@Id", memberId),
-								new SqlParameter("@AccountId", accountId)
-						   };
+								{
+									new SqlParameter("@Id", memberId),
+									new SqlParameter("@AccountId", accountId)
+								};
 								appId = dataStore.FindSingleValue<Int32>(sql, parameters);
 							}
 							#endregion
 
 							#region app使用量-1
 							{
-								var sql = $@"UPDATE dbo.App SET UseCount=UseCount-1 WHERE Id=@Id AND AccountId=@AccountId AND IsDeleted=0";
-								var parameters = new List<SqlParameter>
-						   {
-								new SqlParameter("@Id", appId),
-								new SqlParameter("@AccountId", accountId)
-						   };
-								dataStore.SqlExecute(sql, parameters);
+								var app = new App();
+								app.DecreaseUseCount();
+								dataStore.ExecuteModify(app, a => a.Id == appId && a.AccountId == accountId);
 							}
 							#endregion
 						}
 
 						#region 移除成员
 						{
-							var sql = $@"UPDATE dbo.Member SET IsDeleted=1 WHERE Id=@Id AND AccountId=@AccountId";
-							var parameters = new List<SqlParameter>
-					   {
-							new SqlParameter("@Id", memberId),
-							new SqlParameter("@AccountId", accountId)
-					   };
-							dataStore.SqlExecute(sql, parameters);
+							var member = new Member();
+							member.Remove();
+							dataStore.ExecuteModify(member, mem => mem.Id == memberId && mem.AccountId == accountId);
 						}
 						#endregion
 
 						dataStore.Commit();
 					}
-					catch (Exception)
+					catch(Exception)
 					{
 						dataStore.Rollback();
 						throw;
