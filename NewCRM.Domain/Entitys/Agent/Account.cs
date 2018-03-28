@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Linq;
+using NewLib.Data.Mapper.MapperExtension;
 
 namespace NewCRM.Domain.Entitys.Agent
 {
@@ -24,12 +25,14 @@ namespace NewCRM.Domain.Entitys.Agent
 
 		private Boolean _isAdmin;
 
+		private Int32 _configId;
+
 		private IEnumerable<AccountRole> _roles;
 
 		/// <summary>
 		/// 用户名
 		/// </summary>
-		[Required]
+		[PropertyRequired, InputRange(6)]
 		public String Name
 		{
 			get
@@ -45,7 +48,7 @@ namespace NewCRM.Domain.Entitys.Agent
 		/// <summary>
 		/// 登陆密码
 		/// </summary>
-		[MinLength(6)]
+		[PropertyRequired, InputRange(6, 8)]
 		public String LoginPassword
 		{
 			get
@@ -61,7 +64,7 @@ namespace NewCRM.Domain.Entitys.Agent
 		/// <summary>
 		/// 锁屏密码
 		/// </summary>
-		[MinLength(6)]
+		[PropertyRequired, InputRange(6, 8)]
 		public String LockScreenPassword
 		{
 			get
@@ -77,6 +80,7 @@ namespace NewCRM.Domain.Entitys.Agent
 		/// <summary>
 		/// 是否禁用
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsDisable
 		{
 			get
@@ -92,6 +96,7 @@ namespace NewCRM.Domain.Entitys.Agent
 		/// <summary>
 		/// 最后一次登录的时间
 		/// </summary>
+		[DateTimePropertyDefaultValue]
 		public DateTime LastLoginTime
 		{
 			get
@@ -107,6 +112,7 @@ namespace NewCRM.Domain.Entitys.Agent
 		/// <summary>
 		/// 是否在线
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsOnline
 		{
 			get
@@ -122,6 +128,7 @@ namespace NewCRM.Domain.Entitys.Agent
 		/// <summary>
 		/// 是否为管理员
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsAdmin
 		{
 			get
@@ -131,6 +138,19 @@ namespace NewCRM.Domain.Entitys.Agent
 			private set
 			{
 				_isAdmin = value;
+			}
+		}
+
+		[PropertyRequired]
+		public Int32 ConfigId
+		{
+			get
+			{
+				return _configId;
+			}
+			private set
+			{
+				_configId = value;
 			}
 		}
 
