@@ -1,51 +1,51 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
+using NewLib.Data.Mapper.MapperExtension;
 
 namespace NewCRM.Domain.Entitys.Security
 {
-    public class RolePower : DomainModelBase
-    {
-        #region private field
-        private Int32 _roleId;
+	public class RolePower: DomainModelBase
+	{
+		#region private field
+		private Int32 _roleId;
 
-        private Int32 _appId;
-        #endregion
+		private Int32 _appId;
+		#endregion
 
-        #region public property
-        [Required]
-        public Int32 RoleId
-        {
-            get { return _roleId; }
-            private set
-            {
-                _roleId = value;
-            }
-        }
+		#region public property
+		[PropertyRequired]
+		public Int32 RoleId
+		{
+			get { return _roleId; }
+			private set
+			{
+				_roleId = value;
+			}
+		}
 
-        [Required]
-        public Int32 AppId
-        {
-            get { return _appId; }
-            private set
-            {
-                _appId = value;
-            }
-        }
-        #endregion
+		[PropertyRequired]
+		public Int32 AppId
+		{
+			get { return _appId; }
+			private set
+			{
+				_appId = value;
+			}
+		}
+		#endregion
 
-        #region ctor
+		#region ctor
 
-        public RolePower(Int32 roleId, Int32 appId)
-        {
-            RoleId = roleId;
-            AppId = appId;
-        }
+		public RolePower(Int32 roleId, Int32 appId)
+		{
+			RoleId = roleId;
+			AppId = appId;
+		}
 
-        public RolePower()
-        {
+		public RolePower()
+		{
 
-        }
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }
