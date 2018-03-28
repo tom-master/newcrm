@@ -141,6 +141,9 @@ namespace NewCRM.Domain.Entitys.Agent
 			}
 		}
 
+		/// <summary>
+		/// 配置Id
+		/// </summary>
 		[PropertyRequired]
 		public Int32 ConfigId
 		{
