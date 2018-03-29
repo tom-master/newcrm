@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace NewCRM.Domain.Entitys.System
 {
 	[Description("用户配置"), Serializable]
-	public partial class Config: DomainModelBase
+	public partial class Config : DomainModelBase
 	{
 		#region private field
 
@@ -43,7 +43,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 皮肤
 		/// </summary>
-		[Required]
+		[PropertyRequired]
 		public String Skin
 		{
 			get { return _skin; }
@@ -56,7 +56,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 用户头像
 		/// </summary>
-		[Required]
+		[PropertyRequired]
 		public String AccountFace
 		{
 			get { return _accountFace; }
@@ -69,6 +69,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// app尺寸
 		/// </summary>
+		[PropertyRequired]
 		public Int32 AppSize
 		{
 			get { return _appSize; }
@@ -81,6 +82,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// app垂直间距
 		/// </summary>
+		[PropertyRequired]
 		public Int32 AppVerticalSpacing
 		{
 			get { return _appVerticalSpacing; }
@@ -93,6 +95,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// app水平间距
 		/// </summary>
+		[PropertyRequired]
 		public Int32 AppHorizontalSpacing
 		{
 			get { return _appHorizontalSpacing; }
@@ -105,6 +108,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 默认桌面编号
 		/// </summary>
+		[PropertyDefaultValue(typeof(Int32), 1)]
 		public Int32 DefaultDeskNumber
 		{
 			get { return _defaultDeskNumber; }
@@ -117,6 +121,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 默认桌面数量
 		/// </summary>
+		[PropertyDefaultValue(typeof(Int32), 5)]
 		public Int32 DefaultDeskCount
 		{
 			get { return _defaultDeskCount; }
@@ -129,6 +134,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 壁纸的展示模式
 		/// </summary>
+		[PropertyRequired]
 		public WallpaperMode WallpaperMode
 		{
 			get { return _wallpaperMode; }
@@ -141,6 +147,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 壁纸来源
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsBing
 		{
 			get { return _isBing; }
@@ -153,6 +160,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// app排列方向
 		/// </summary>
+		[PropertyRequired]
 		public AppAlignMode AppXy
 		{
 			get { return _appXy; }
@@ -165,6 +173,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 码头位置
 		/// </summary>
+		[PropertyDefaultValue(typeof(DockPostion), DockPostion.Top)]
 		public DockPostion DockPosition
 		{
 			get { return _dockPosition; }
@@ -177,6 +186,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 账户Id
 		/// </summary>
+		[PropertyRequired]
 		public Int32 AccountId
 		{
 			get { return _accountId; }
@@ -189,6 +199,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 壁纸Id
 		/// </summary>
+		[PropertyRequired]
 		public Int32 WallpaperId
 		{
 			get { return _wallpaperId; }
@@ -202,7 +213,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		#region ctor
 
-		public Config()
+		public Config(Int32 accountId, Int32 wallpaperId)
 		{
 			AppXy = AppAlignMode.X;
 			DockPosition = DockPostion.Top;
@@ -214,6 +225,8 @@ namespace NewCRM.Domain.Entitys.System
 			AppHorizontalSpacing = 50;
 			DefaultDeskNumber = 1;
 			DefaultDeskCount = 5;
+			AccountId = accountId;
+			WallpaperId = wallpaperId;
 		}
 
 		#endregion
@@ -228,12 +241,13 @@ namespace NewCRM.Domain.Entitys.System
 		public Config ModifyAccountId(Int32 accountId)
 		{
 			AccountId = accountId;
+			OnPropertyChanged(nameof(AccountId));
 			return this;
 		}
 
 		public Config ModifySkin(String skin)
 		{
-			if (String.IsNullOrEmpty(skin))
+			if(String.IsNullOrEmpty(skin))
 			{
 				throw new ArgumentException($@"{nameof(skin)} is null");
 			}
@@ -245,7 +259,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Config ModifyAccountFace(String accountFace)
 		{
-			if (String.IsNullOrEmpty(accountFace))
+			if(String.IsNullOrEmpty(accountFace))
 			{
 				throw new ArgumentException($@"{nameof(accountFace)} is null");
 			}
@@ -257,7 +271,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Config ModifyAppSize(Int32 appSize)
 		{
-			if (appSize <= 0)
+			if(appSize <= 0)
 			{
 				throw new ArgumentException($@"{nameof(appSize)} less than or equal to zero");
 			}
@@ -269,7 +283,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Config ModifyAppVerticalSpacing(Int32 appVerticalSpacing)
 		{
-			if (appVerticalSpacing <= 0)
+			if(appVerticalSpacing <= 0)
 			{
 				throw new ArgumentException($@"{nameof(appVerticalSpacing)} less than or equal to zero");
 			}
@@ -281,7 +295,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Config ModifyAppHorizontalSpacing(Int32 appHorizontalSpacing)
 		{
-			if (appHorizontalSpacing <= 0)
+			if(appHorizontalSpacing <= 0)
 			{
 				throw new ArgumentException($@"{nameof(appHorizontalSpacing)} less than or equal to zero");
 			}
@@ -293,7 +307,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Config ModifyDefaultDeskNumber(Int32 deskNumber)
 		{
-			if (deskNumber <= 0)
+			if(deskNumber <= 0)
 			{
 				throw new ArgumentException($@"{nameof(deskNumber)} less than or equal to zero");
 			}
@@ -305,7 +319,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Config ModifyDefaultDeskCount(Int32 deskCount)
 		{
-			if (deskCount <= 0)
+			if(deskCount <= 0)
 			{
 				throw new ArgumentException($@"{nameof(deskCount)} less than or equal to zero");
 			}
