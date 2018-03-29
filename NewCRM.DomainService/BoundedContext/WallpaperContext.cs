@@ -27,7 +27,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 							new SqlParameter("@AccountId",wallpaper.AccountId)
 						 };
 						 var result = dataStore.FindSingleValue<Int32>(sql, parameters);
-						 if(result >= 6)
+						 if(result > 6)
 						 {
 							 throw new BusinessException("最多只能上传6张图片");
 						 }
