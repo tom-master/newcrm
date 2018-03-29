@@ -16,7 +16,7 @@ using static NewCRM.Infrastructure.CommonTools.CacheKey;
 
 namespace NewCRM.Application.Services
 {
-	public class AccountServices: BaseServiceContext, IAccountServices
+	public class AccountServices : BaseServiceContext, IAccountServices
 	{
 		private readonly IAccountContext _accountContext;
 
@@ -82,7 +82,7 @@ namespace NewCRM.Application.Services
 		{
 			Parameter.Validate(accountId);
 			var account = await GetCache(new AccountCacheKey(accountId), () => _accountContext.GetAccountAsync(accountId));
-			if (account == null)
+			if(account == null)
 			{
 				throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
 			}

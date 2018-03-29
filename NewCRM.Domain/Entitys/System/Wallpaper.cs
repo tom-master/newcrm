@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Domain.Entitys.System
