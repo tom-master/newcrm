@@ -9,7 +9,7 @@ namespace NewCRM.Domain.Entitys.System
 	/// 成员
 	/// </summary>
 	[Serializable, Description("成员")]
-	public partial class Member: DomainModelBase
+	public partial class Member : DomainModelBase
 	{
 		#region private field
 
@@ -60,6 +60,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 应用Id
 		/// </summary>
+		[PropertyRequired]
 		public Int32 AppId
 		{
 			get { return _appId; }
@@ -72,6 +73,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 成员的宽
 		/// </summary>
+		[PropertyRequired]
 		public Int32 Width
 		{
 			get { return _width; }
@@ -84,6 +86,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 成员的高
 		/// </summary>
+		[PropertyRequired]
 		public Int32 Height
 		{
 			get { return _height; }
@@ -96,6 +99,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 文件夹Id
 		/// </summary>
+		[PropertyDefaultValue(typeof(Int32), 0)]
 		public Int32 FolderId
 		{
 			get { return _folderId; }
@@ -108,7 +112,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 名称
 		/// </summary>
-		[Required, MaxLength(6)]
+		[PropertyRequired, InputRange(3, 6)]
 		public String Name
 		{
 			get { return _name; }
@@ -121,7 +125,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 图标地址
 		/// </summary>
-		[Required]
+		[PropertyRequired]
 		public String IconUrl
 		{
 			get { return _iconUrl; }
@@ -134,6 +138,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// app地址
 		/// </summary>
+		[PropertyRequired]
 		public String AppUrl
 		{
 			get { return _appUrl; }
@@ -146,6 +151,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 成员是否在应用码头上
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsOnDock
 		{
 			get { return _isOnDock; }
@@ -158,6 +164,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 是否能最大化
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsMax
 		{
 			get { return _isMax; }
@@ -170,6 +177,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 是否打开后铺满全屏
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsFull
 		{
 			get { return _isFull; }
@@ -182,6 +190,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 是否显示app底部的按钮
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsSetbar
 		{
 			get { return _isSetbar; }
@@ -194,6 +203,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 是否打开最大化
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsOpenMax
 		{
 			get { return _isOpenMax; }
@@ -206,6 +216,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 是否锁定
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsLock
 		{
 			get { return _isLock; }
@@ -218,6 +229,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 是否为福莱希
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsFlash
 		{
 			get { return _isFlash; }
@@ -230,6 +242,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 是否可以拖动
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsDraw
 		{
 			get { return _isDraw; }
@@ -242,6 +255,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 是否可以拉伸
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsResize
 		{
 			get { return _isResize; }
@@ -254,6 +268,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 成员类型
 		/// </summary>
+		[PropertyRequired]
 		public MemberType MemberType
 		{
 			get { return _memberType; }
@@ -266,6 +281,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 桌面索引
 		/// </summary>
+		[PropertyDefaultValue(typeof(Int32), 1)]
 		public Int32 DeskIndex
 		{
 			get { return _deskIndex; }
@@ -278,6 +294,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 账户Id
 		/// </summary>
+		[PropertyRequired]
 		public Int32 AccountId
 		{
 			get { return _accountId; }
@@ -287,6 +304,10 @@ namespace NewCRM.Domain.Entitys.System
 			}
 		}
 
+		/// <summary>
+		/// 图标是否来自上传
+		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsIconByUpload
 		{
 			get { return _isIconByUpload; }
@@ -380,7 +401,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Member ModifyWidth(Int32 width)
 		{
-			if (width <= 0)
+			if(width <= 0)
 			{
 				throw new ArgumentException($@"{nameof(width)} less than or equal to zero");
 			}
@@ -392,7 +413,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Member ModifyHeight(Int32 height)
 		{
-			if (height <= 0)
+			if(height <= 0)
 			{
 				throw new ArgumentException($@"{nameof(height)} less than or equal to zero");
 			}
@@ -404,7 +425,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Member ModifyFolderId(Int32 folderId)
 		{
-			if (folderId <= 0)
+			if(folderId <= 0)
 			{
 				throw new ArgumentException($@"{nameof(folderId)} less than or equal to zero");
 			}
@@ -416,7 +437,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Member ModifyName(String name)
 		{
-			if (String.IsNullOrEmpty(name))
+			if(String.IsNullOrEmpty(name))
 			{
 				throw new ArgumentException($@"{nameof(name)} is null");
 			}
@@ -428,7 +449,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Member ModifyIconUrl(String iconUrl)
 		{
-			if (String.IsNullOrEmpty(iconUrl))
+			if(String.IsNullOrEmpty(iconUrl))
 			{
 				throw new ArgumentException($@"{nameof(iconUrl)} is null");
 			}
@@ -440,7 +461,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Member ModifyAppUrl(String appUrl)
 		{
-			if (String.IsNullOrEmpty(appUrl))
+			if(String.IsNullOrEmpty(appUrl))
 			{
 				throw new ArgumentException($@"{nameof(appUrl)} is null");
 			}
@@ -522,7 +543,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Member ModifyDeskIndex(Int32 deskIndex)
 		{
-			if (deskIndex <= 0)
+			if(deskIndex <= 0)
 			{
 				throw new ArgumentException($@"{nameof(deskIndex)} less than or equal to zero");
 			}
