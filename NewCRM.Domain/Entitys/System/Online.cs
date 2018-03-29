@@ -12,15 +12,15 @@ namespace NewCRM.Domain.Entitys.System
         private String _ipAddress;
 
         private Int32 _accountId;
-        #endregion
+		#endregion
 
-        #region public property
+		#region public property
 
-        /// <summary>
-        /// Ip地址
-        /// </summary>
-        [Required]
-        public String IpAddress
+		/// <summary>
+		/// Ip地址
+		/// </summary>
+		[PropertyRequired]
+		public String IpAddress
         {
             get { return _ipAddress; }
             private set
@@ -29,11 +29,11 @@ namespace NewCRM.Domain.Entitys.System
             }
         }
 
-        /// <summary>
-        /// 用户Id
-        /// </summary>
-        [Required]
-        public Int32 AccountId
+		/// <summary>
+		/// 用户Id
+		/// </summary>
+		[PropertyRequired]
+		public Int32 AccountId
         {
             get { return _accountId; }
             private set
