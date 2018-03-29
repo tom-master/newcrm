@@ -7,7 +7,7 @@ namespace NewCRM.Domain.Entitys.System
 {
 
 	[Serializable, Description("应用")]
-	public partial class App: DomainModelBase
+	public partial class App : DomainModelBase
 	{
 		#region private field
 
@@ -69,7 +69,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 名称
 		/// </summary>
-		[Required, MaxLength(6)]
+		[PropertyRequired, InputRange(6)]
 		public String Name
 		{
 			get { return _name; }
@@ -82,7 +82,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 图标地址
 		/// </summary>
-		[Required]
+		[PropertyRequired]
 		public String IconUrl
 		{
 			get { return _iconUrl; }
@@ -95,6 +95,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// app地址
 		/// </summary>
+		[PropertyRequired]
 		public String AppUrl
 		{
 			get { return _appUrl; }
@@ -107,7 +108,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 备注
 		/// </summary>
-		[MaxLength(50)]
+		[InputRange(50), PropertyDefaultValue(typeof(String), "")]
 		public String Remark
 		{
 			get { return _remark; }
@@ -120,6 +121,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 宽度
 		/// </summary>
+		[PropertyRequired]
 		public Int32 Width
 		{
 			get { return _width; }
@@ -132,6 +134,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 高度
 		/// </summary>
+		[PropertyRequired]
 		public Int32 Height
 		{
 			get { return _height; }
@@ -144,6 +147,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 使用数
 		/// </summary>
+		[PropertyDefaultValue(typeof(Int32), 0)]
 		public Int32 UseCount
 		{
 			get { return _useCount; }
@@ -156,6 +160,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 是否能最大化
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsMax
 		{
 			get { return _isMax; }
@@ -168,6 +173,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 是否打开后铺满全屏
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsFull
 		{
 			get { return _isFull; }
@@ -180,6 +186,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 是否显示app底部的按钮
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsSetbar
 		{
 			get { return _isSetbar; }
@@ -192,6 +199,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 是否打开最大化
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsOpenMax
 		{
 			get { return _isOpenMax; }
@@ -204,6 +212,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 是否锁定
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsLock
 		{
 			get { return _isLock; }
@@ -216,6 +225,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 是否为系统应用
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsSystem
 		{
 			get { return _isSystem; }
@@ -228,6 +238,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 是否为福莱希
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsFlash
 		{
 			get { return _isFlash; }
@@ -240,6 +251,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 是否可以拖动
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsDraw
 		{
 			get { return _isDraw; }
@@ -252,6 +264,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 是否可以拉伸
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsResize
 		{
 			get { return _isResize; }
@@ -264,6 +277,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 开发者(用户)Id
 		/// </summary>
+		[PropertyRequired]
 		public Int32 AccountId
 		{
 			get { return _accountId; }
@@ -276,6 +290,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// App类型Id
 		/// </summary>
+		[PropertyRequired]
 		public Int32 AppTypeId
 		{
 			get { return _appTypeId; }
@@ -288,6 +303,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 是否推荐
 		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsRecommand
 		{
 			get { return _isRecommand; }
@@ -300,6 +316,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 审核状态
 		/// </summary>
+		[PropertyDefaultValue(typeof(AppAuditState), AppAuditState.UnAuditState)]
 		public AppAuditState AppAuditState
 		{
 			get { return _appAuditState; }
@@ -312,6 +329,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 发布状态
 		/// </summary>
+		[PropertyDefaultValue(typeof(AppReleaseState), AppReleaseState.UnRelease)]
 		public AppReleaseState AppReleaseState
 		{
 			get { return _appReleaseState; }
@@ -324,6 +342,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// app样式
 		/// </summary>
+		[PropertyRequired]
 		public AppStyle AppStyle
 		{
 			get { return _appStyle; }
@@ -333,6 +352,9 @@ namespace NewCRM.Domain.Entitys.System
 			}
 		}
 
+		/// <summary>
+		/// 是否安装
+		/// </summary>
 		public Boolean IsInstall
 		{
 			get { return _isInstall; }
@@ -360,6 +382,10 @@ namespace NewCRM.Domain.Entitys.System
 			}
 		}
 
+		/// <summary>
+		/// 图标是否来自上传
+		/// </summary>
+		[PropertyDefaultValue(typeof(Boolean), false)]
 		public Boolean IsIconByUpload
 		{
 			get { return _isIconByUpload; }
@@ -396,7 +422,7 @@ namespace NewCRM.Domain.Entitys.System
 			Height = height > 600 ? 600 : height;
 			AppTypeId = appTypeId;
 			AppStyle = appStyle;
-			if (accountId == 0)
+			if(accountId == 0)
 			{
 				IsSystem = true;
 			}
@@ -427,7 +453,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public App ModifyName(String appName)
 		{
-			if (String.IsNullOrEmpty(appName))
+			if(String.IsNullOrEmpty(appName))
 			{
 				throw new ArgumentException($@"{nameof(appName)} is null");
 			}
@@ -439,7 +465,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public App ModifyIconUrl(String iconUrl)
 		{
-			if (String.IsNullOrEmpty(iconUrl))
+			if(String.IsNullOrEmpty(iconUrl))
 			{
 				throw new ArgumentException($@"{nameof(iconUrl)} is null");
 			}
@@ -451,7 +477,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public App ModifyWidth(Int32 width)
 		{
-			if (width <= 0)
+			if(width <= 0)
 			{
 				throw new ArgumentException($@"{nameof(width)} less than or equal to zero");
 			}
@@ -463,7 +489,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public App ModifyHeight(Int32 height)
 		{
-			if (height <= 0)
+			if(height <= 0)
 			{
 				throw new ArgumentException($@"{nameof(height)} less than or equal to zero");
 			}
@@ -643,22 +669,24 @@ namespace NewCRM.Domain.Entitys.System
 
 		public App ModifyUrl(String newAppUrl)
 		{
-			if (String.IsNullOrEmpty(newAppUrl))
+			if(String.IsNullOrEmpty(newAppUrl))
 			{
 				throw new ArgumentException($@"{nameof(newAppUrl)} is null");
 			}
 
 			AppUrl = newAppUrl;
+			OnPropertyChanged(nameof(AppUrl));
 			return this;
 		}
 
 		public App ModifyRemark(String newRemark)
 		{
-			if (String.IsNullOrEmpty(newRemark))
+			if(String.IsNullOrEmpty(newRemark))
 			{
 				throw new ArgumentException($@"{nameof(newRemark)} is null");
 			}
 			Remark = newRemark;
+			OnPropertyChanged(nameof(Remark));
 			return this;
 		}
 	}
