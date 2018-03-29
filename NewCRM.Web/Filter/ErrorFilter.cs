@@ -28,17 +28,8 @@ namespace NewCRM.Web.Filter
 					ContentEncoding = Encoding.UTF8,
 					JsonRequestBehavior = JsonRequestBehavior.AllowGet
 				};
+				return;
 			}
-			else
-			{
-				var notPermissionMessage = $@"<script>top.alertInfo('出现未知错误，请重试')</script>";
-				filterContext.Result = new ContentResult
-				{
-					ContentEncoding = Encoding.UTF8,
-					Content = notPermissionMessage
-				};
-			}
-
 
 			DependencyResolver.Current.GetService<ILoggerServices>().AddLoggerAsync(new LogDto
 			{
@@ -50,6 +41,14 @@ namespace NewCRM.Web.Filter
 				Id = new Random().Next(1, Int32.MaxValue),
 				AddTime = DateTime.Now.ToString(CultureInfo.CurrentCulture)
 			});
+
+			var notPermissionMessage = $@"<script>top.alertInfo('出现未知错误，请重试')</script>";
+			filterContext.Result = new ContentResult
+			{
+				ContentEncoding = Encoding.UTF8,
+				Content = notPermissionMessage
+			};
+
 		}
 	}
 }
