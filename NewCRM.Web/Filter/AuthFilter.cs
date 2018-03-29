@@ -1,38 +1,36 @@
-﻿using NewCRM.Application.Services.Interface;
-using NewCRM.Dto;
-using NewCRM.Infrastructure.CommonTools;
-using Nito.AsyncEx;
-using System;
+﻿using System;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
+using NewCRM.Application.Services.Interface;
+using NewCRM.Infrastructure.CommonTools;
+using Nito.AsyncEx;
 
 namespace NewCRM.Web.Filter
 {
-	public class AuthFilter: IAuthorizationFilter
+	public class AuthFilter : IAuthorizationFilter
 	{
 		public void OnAuthorization(AuthorizationContext filterContext)
 		{
 			var actionName = filterContext.RequestContext.RouteData.Values["action"].ToString().ToLower();
 			var controllerName = filterContext.RequestContext.RouteData.Values["controller"].ToString().ToLower();
-			if ((controllerName == "login" && actionName == "index") || actionName == "landing" || actionName == "desktop")
+			if((controllerName == "login" && actionName == "index") || actionName == "landing" || actionName == "desktop")
 			{
 				return;
 			}
 
-			if (filterContext.HttpContext.Request.Cookies["memberID"] == null)
+			if(filterContext.HttpContext.Request.Cookies["memberID"] == null)
 			{
 				ReturnMessage(filterContext, "登陆超时，请刷新页面后重新登陆");
 				return;
 			}
 
-			if (actionName != "createwindow")
+			if(actionName != "createwindow")
 			{
 				return;
 			}
 			//文件夹
-			if (filterContext.RequestContext.HttpContext.Request.Form["type"] == "folder")
+			if(filterContext.RequestContext.HttpContext.Request.Form["type"] == "folder")
 			{
 				return;
 			}
@@ -42,18 +40,18 @@ namespace NewCRM.Web.Filter
 			var appId = Int32.Parse(filterContext.RequestContext.HttpContext.Request.Params["id"]);
 			var isPermission = AsyncContext.Run(() => DependencyResolver.Current.GetService<ISecurityServices>().CheckPermissionsAsync(appId, account.Roles.Select(role => role.Id).ToArray()));
 
-			if (!isPermission)
+			if(!isPermission)
 			{
 				ReturnMessage(filterContext, "对不起，您没有访问的权限！");
 			}
 		}
 
-		private static void ReturnMessage(AuthorizationContext filterContext, String message)
+		private void ReturnMessage(AuthorizationContext filterContext, String message)
 		{
 			var notPermissionMessage = $@"<script>top.alertInfo('{message}',1)</script>";
 			var isAjaxRequest = filterContext.RequestContext.HttpContext.Request.IsAjaxRequest();
 
-			if (!isAjaxRequest)
+			if(!isAjaxRequest)
 			{
 				filterContext.Result = new ContentResult
 				{
