@@ -25,6 +25,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public IList<Log> GetLogs(Int32 accountId, Int32 logLevel, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
 		{
+
 			using(var dataStore = new DataStore())
 			{
 				var where = new StringBuilder();
