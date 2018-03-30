@@ -14,16 +14,22 @@ namespace NewCRM.Web.Controllers
     {
         private readonly IAppServices _appServices;
 
-        public AppTypesController(IAppServices appServices) => _appServices = appServices;
+		public AppTypesController(IAppServices appServices)
+		{
+			_appServices = appServices;
+		}
 
-        #region 类目管理
+		#region 类目管理
 
-        /// <summary>
-        /// 首页
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public ActionResult Index() => View();
+		/// <summary>
+		/// 首页
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet]
+		public ActionResult Index()
+		{
+			return View();
+		}
 
         /// <summary>
         /// 创建新的类目
