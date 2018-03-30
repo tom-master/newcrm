@@ -38,7 +38,6 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Landing(LoginParameter loginParameter)
         {
-
             #region 参数验证
             Parameter.Validate(loginParameter);
             #endregion
