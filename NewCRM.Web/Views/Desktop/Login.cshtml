@@ -28,7 +28,6 @@
 <script>
     $(function () {
         $("#login").click(function (event) {
-
             if ($('#accountname').val() === '' || $('#password').val() === '') {
                 alert("请输入用户名和密码")
                 return false;
@@ -43,12 +42,12 @@
             }
             $.ajax({
                 type: 'POST',
-                url: '/login/landing',
+                url: '/Desktop/landing',
                 data: { loginParameter },
                 success: function (responseText) {
                     if (responseText.IsSuccess) {
                         $('.loading').hide();
-                        location.href = '/Index/Desktop';
+                        location.href = '/Desktop/Index';
                     } else {
                         endLogin();
                         alert('账号或密码错误')

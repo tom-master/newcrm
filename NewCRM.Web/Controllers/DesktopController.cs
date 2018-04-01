@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using NewCRM.Application.Services.Interface;
 using NewCRM.Domain.ValueObject;
@@ -9,15 +10,16 @@ using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
 using NewCRM.Web.Controllers.ControllerHelper;
 using NewLib;
+using Newtonsoft.Json;
 using Nito.AsyncEx;
 
 namespace NewCRM.Web.Controllers
 {
-	public class IndexController: BaseController
+	public class DesktopController: BaseController
 	{
 		private readonly IDeskServices _deskServices;
 
-		public IndexController(IDeskServices deskServices)
+		public DesktopController(IDeskServices deskServices)
 		{
 			_deskServices = deskServices;
 		}
@@ -29,7 +31,7 @@ namespace NewCRM.Web.Controllers
 		/// </summary>
 		/// <returns></returns>
 		[HttpGet]
-		public async Task<ActionResult> Desktop()
+		public async Task<ActionResult> Index()
 		{
 			ViewBag.Title = "桌面";
 			if (Request.Cookies["memberID"] != null)
@@ -46,7 +48,57 @@ namespace NewCRM.Web.Controllers
 			return RedirectToAction("Index", "Login");
 		}
 
+		/// <summary>
+		/// 首页
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet]
+		public ActionResult Login()
+		{
+			var accountId = Request.Cookies["memberID"];
+			if (accountId != null)
+			{
+				return RedirectToAction("Index", "Desktop");
+			}
+
+			return View();
+		}
+
+
 		#endregion
+
+
+		/// <summary>
+		/// 登陆
+		/// </summary>
+		[HttpPost]
+		public async Task<ActionResult> Landing(LoginParameter loginParameter)
+		{
+			#region 参数验证
+			Parameter.Validate(loginParameter);
+			#endregion
+
+			var response = new ResponseModel<AccountDto>();
+
+			var account = await AccountServices.LoginAsync(loginParameter.Name, loginParameter.Password, Request.ServerVariables["REMOTE_ADDR"]);
+			if (account != null)
+			{
+				response.Message = "登陆成功";
+				response.IsSuccess = true;
+				Response.Cookies.Add(new HttpCookie("memberID")
+				{
+					Value = account.Id.ToString(),
+					Expires = loginParameter.IsRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddMinutes(30)
+				});
+
+				Response.Cookies.Add(new HttpCookie("Account")
+				{
+					Value = JsonConvert.SerializeObject(new { AccountFace = ProfileManager.FileUrl + account.AccountFace, account.Name }),
+					Expires = loginParameter.IsRememberPasswrod ? DateTime.Now.AddDays(7) : DateTime.Now.AddMinutes(30)
+				});
+			}
+			return Json(response);
+		}
 
 		/// <summary>
 		/// 解锁屏幕

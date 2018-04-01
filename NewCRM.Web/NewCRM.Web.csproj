@@ -178,9 +178,8 @@
     <Compile Include="Controllers\AppTypesController.cs" />
     <Compile Include="Controllers\ControllerHelper\BaseController.cs" />
     <Compile Include="Controllers\DeskController.cs" />
-    <Compile Include="Controllers\IndexController.cs" />
+    <Compile Include="Controllers\DesktopController.cs" />
     <Compile Include="Controllers\LogController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\DeskOptionsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
@@ -520,7 +519,7 @@
     <Content Include="Views\AccountSetting\AccountSafe.cshtml" />
     <Content Include="Views\Security\AddSystemAppGotoPower.cshtml" />
     <Content Include="Views\Log\Index.cshtml" />
-    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Desktop\Login.cshtml" />
     <None Include="Properties\PublishProfiles\release.pubxml" />
     <None Include="Views\Security\CreateNewRole.cshtml" />
     <Content Include="Views\AccountManager\Index.cshtml" />
@@ -543,7 +542,7 @@
     <Content Include="Views\DeskOptions\SetSkin.cshtml" />
     <Content Include="Views\DeskOptions\SystemWallPaper.cshtml" />
     <Content Include="Views\Desk\EditMember.cshtml" />
-    <Content Include="Views\Index\Desktop.cshtml" />
+    <Content Include="Views\Desktop\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutApps.cshtml" />
     <Content Include="Views\Shared\_LayoutRoot.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
