@@ -8,7 +8,6 @@ using NewCRM.Domain.Services;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
-using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewLib;
 using Nito.AsyncEx;

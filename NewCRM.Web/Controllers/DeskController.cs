@@ -44,7 +44,7 @@ namespace NewCRM.Web.Controllers
         public async Task<ActionResult> MemberMove(String moveType, Int32 memberId, Int32 from, Int32 to)
         {
             #region 参数验证
-            Parameter.Validate(moveType).Validate(memberId).Validate(from).Validate(to);
+            Parameter.Validate(moveType).Validate(memberId);
             #endregion
 
             switch (moveType)
