@@ -22,7 +22,12 @@ namespace NewCRM.Web.Controllers.ControllerHelper
 			get
 			{
 				var accountId = Request.Cookies["MemberID"];
-				return Request.Cookies["memberID"] == null ? AsyncContext.Run(() => AccountServices.GetAccountAsync(Int32.Parse(accountId.Value))).Id : Int32.Parse(accountId.Value);
+
+				if (accountId != null)
+				{
+					return Int32.Parse(accountId.Value);
+				}
+				return 0;
 			}
 		}
 
