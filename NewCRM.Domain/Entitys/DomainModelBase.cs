@@ -1,11 +1,19 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using NewLib.Data.Mapper.MapperExtension;
 
 namespace NewCRM.Domain.Entitys
 {
 	[Serializable]
 	public abstract class DomainModelBase: PropertyMonitor
 	{
+
+		#region private fields
+		private Int32 _id;
+		private Boolean _isDelete;
+		private DateTime _addTime, _lastModifyTime;
+		#endregion
+
 		#region ctor
 
 		protected DomainModelBase()
@@ -17,27 +25,56 @@ namespace NewCRM.Domain.Entitys
 
 		#region public property
 
-		[Key]
-		public Int32 Id { get; protected set; }
+		public Int32 Id
+		{
+			get
+			{
+				return _id;
+			}
+			protected set
+			{
+				_id = value;
+			}
+		}
 
-		public Boolean IsDeleted { get; private set; }
+		[PropertyDefaultValue(typeof(Boolean), false)]
+		public Boolean IsDeleted
+		{
+			get
+			{
+				return _isDelete;
+			}
+			protected set
+			{
+				_isDelete = value;
+			}
+		}
 
+		[DateTimePropertyDefaultValue]
 		public DateTime AddTime
 		{
 			get
 			{
-				return DateTime.Now;
+				return _addTime;
 			}
-			set { }
+
+			protected set
+			{
+				_addTime = value;
+			}
 		}
 
+		[DateTimePropertyDefaultValue]
 		public DateTime LastModifyTime
 		{
 			get
 			{
-				return DateTime.Now;
+				return _lastModifyTime;
 			}
-			set { }
+			protected set
+			{
+				_lastModifyTime = value;
+			}
 		}
 
 		public void Remove()

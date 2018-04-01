@@ -8,7 +8,6 @@ namespace TestCenter
 		[TestMethod]
 		public void TestMethod1()
 		{
-			var a = 0;
 		}
 	}
 }

@@ -54,9 +54,8 @@ namespace NewCRM.Domain.Services.BoundedContext
 						 #region 设置用户在线
 						 {
 
-							 var account = new Account();
-							 account.Online();
-							 var rowCount = dataStore.ExecuteModify(account, acc => acc.Id == result.Id);
+							 result.Online();
+							 var rowCount = dataStore.ExecuteModify(result, acc => acc.Id == result.Id);
 
 							 if (rowCount == 0)
 							 {
