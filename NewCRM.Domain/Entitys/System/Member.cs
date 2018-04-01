@@ -113,7 +113,7 @@ namespace NewCRM.Domain.Entitys.System
 		/// <summary>
 		/// 名称
 		/// </summary>
-		[PropertyRequired, InputRange(3, 6)]
+		[PropertyRequired, InputRange(6)]
 		public String Name
 		{
 			get { return _name; }
@@ -426,11 +426,6 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Member ModifyFolderId(Int32 folderId)
 		{
-			if(folderId <= 0)
-			{
-				throw new ArgumentException($@"{nameof(folderId)} less than or equal to zero");
-			}
-
 			FolderId = folderId;
 			OnPropertyChanged(nameof(FolderId));
 			return this;

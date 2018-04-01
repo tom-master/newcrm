@@ -10,14 +10,14 @@ using NewLib.Data.Mapper.InternalDataStore;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {
-	public class WallpaperContext : BaseServiceContext, IWallpaperContext
+	public class WallpaperContext: BaseServiceContext, IWallpaperContext
 	{
 		public async Task<Tuple<Int32, String>> AddWallpaperAsync(Wallpaper wallpaper)
 		{
 			Parameter.Validate(wallpaper);
 			return await Task.Run(() =>
 			 {
-				 using(var dataStore = new DataStore())
+				 using (var dataStore = new DataStore())
 				 {
 					 #region 前置条件验证
 					 {
@@ -27,7 +27,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 							new SqlParameter("@AccountId",wallpaper.AccountId)
 						 };
 						 var result = dataStore.FindSingleValue<Int32>(sql, parameters);
-						 if(result > 6)
+						 if (result > 6)
 						 {
 							 throw new BusinessException("最多只能上传6张图片");
 						 }
@@ -35,6 +35,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 					 #endregion
 
 					 var newWallpaperId = 0;
+
 					 #region 插入壁纸
 					 {
 						 newWallpaperId = dataStore.ExecuteAdd(wallpaper);
@@ -49,7 +50,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 							new SqlParameter("@Id",newWallpaperId)
 						 };
 						 var result = dataStore.FindOne<Wallpaper>(sql, parameters);
-						 if(result != null)
+						 if (result != null)
 						 {
 							 return new Tuple<Int32, String>(result.Id, result.Url);
 						 }
@@ -64,7 +65,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 		{
 			return await Task.Run(() =>
 			{
-				using(var dataStore = new DataStore())
+				using (var dataStore = new DataStore())
 				{
 					var sql = $@"SELECT
                             a.AccountId,
@@ -90,7 +91,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 		{
 			return await Task.Run(() =>
 			{
-				using(var dataStore = new DataStore())
+				using (var dataStore = new DataStore())
 				{
 					var sql = $@"SELECT
                             a.AccountId,
@@ -117,7 +118,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 		{
 			return await Task.Run(() =>
 			{
-				using(var dataStore = new DataStore())
+				using (var dataStore = new DataStore())
 				{
 					var sql = $@"SELECT
                             a.AccountId,
@@ -144,9 +145,9 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(accountId).Validate(newMode);
 			await Task.Run(() =>
 			{
-				if(Enum.TryParse(newMode, true, out WallpaperMode wallpaperMode))
+				if (Enum.TryParse(newMode, true, out WallpaperMode wallpaperMode))
 				{
-					using(var dataStore = new DataStore())
+					using (var dataStore = new DataStore())
 					{
 						var config = new Config();
 						config.ModifyWallpaperMode(wallpaperMode);
@@ -165,7 +166,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(accountId).Validate(newWallpaperId);
 			await Task.Run(() =>
 			{
-				using(var dataStore = new DataStore())
+				using (var dataStore = new DataStore())
 				{
 					var config = new Config();
 					config.NotFromBing().ModifyWallpaperId(newWallpaperId);
@@ -179,7 +180,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(accountId).Validate(wallpaperId);
 			await Task.Run(() =>
 			{
-				using(var dataStore = new DataStore())
+				using (var dataStore = new DataStore())
 				{
 					var parameters = new List<SqlParameter>
 					{
@@ -190,7 +191,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 					{
 						var sql = $@"SELECT COUNT(*) FROM dbo.Config AS a WHERE a.AccountId=@AccountId AND a.WallpaperId=@WallpaperId AND a.IsDeleted=0";
 						var result = dataStore.FindSingleValue<Int32>(sql, parameters);
-						if(result > 0)
+						if (result > 0)
 						{
 							throw new BusinessException("当前壁纸正在使用中，不能删除");
 						}

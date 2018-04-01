@@ -544,116 +544,116 @@ namespace NewCRM.Domain.Services.BoundedContext
 		{
 			Parameter.Validate(accountId).Validate(newFace);
 			await Task.Run(() =>
-		  {
-			  using (var dataStore = new DataStore())
-			  {
-				  var config = new Config().ModifyAccountFace(newFace);
-				  dataStore.ExecuteModify(config, conf => conf.AccountId == accountId);
-			  }
-		  });
+			{
+				using (var dataStore = new DataStore())
+				{
+					var config = new Config().ModifyAccountFace(newFace);
+					dataStore.ExecuteModify(config, conf => conf.AccountId == accountId);
+				}
+			});
 		}
 
 		public async Task ModifyPasswordAsync(Int32 accountId, String newPassword, Boolean isTogetherSetLockPassword)
 		{
 			Parameter.Validate(accountId).Validate(newPassword);
 			await Task.Run(() =>
-		  {
-			  using (var dataStore = new DataStore())
-			  {
-				  var lockPassword = "";
-				  var parameters = new List<SqlParameter>();
-				  var account = new Account();
-				  if (isTogetherSetLockPassword)
-				  {
-					  account.ModifyLockScreenPassword(newPassword);
-				  }
-				  account.ModifyLoginPassword(lockPassword);
-				  dataStore.ExecuteModify(account, acc => acc.Id == accountId && !acc.IsDisable);
-			  }
-		  });
+			{
+				using (var dataStore = new DataStore())
+				{
+					var lockPassword = "";
+					var parameters = new List<SqlParameter>();
+					var account = new Account();
+					if (isTogetherSetLockPassword)
+					{
+						account.ModifyLockScreenPassword(newPassword);
+					}
+					account.ModifyLoginPassword(lockPassword);
+					dataStore.ExecuteModify(account, acc => acc.Id == accountId && !acc.IsDisable);
+				}
+			});
 		}
 
 		public async Task ModifyLockScreenPasswordAsync(Int32 accountId, String newScreenPassword)
 		{
 			Parameter.Validate(accountId).Validate(newScreenPassword);
 			await Task.Run(() =>
-		  {
-			  using (var dataStore = new DataStore())
-			  {
-				  var account = new Account().ModifyLockScreenPassword(newScreenPassword);
-				  dataStore.ExecuteModify(account, acc => acc.Id == accountId && !acc.IsDisable);
-			  }
-		  });
+			{
+				using (var dataStore = new DataStore())
+				{
+					var account = new Account().ModifyLockScreenPassword(newScreenPassword);
+					dataStore.ExecuteModify(account, acc => acc.Id == accountId && !acc.IsDisable);
+				}
+			});
 		}
 
 		public async Task RemoveAccountAsync(Int32 accountId)
 		{
 			Parameter.Validate(accountId);
 			await Task.Run(() =>
-		  {
-			  using (var dataStore = new DataStore())
-			  {
-				  dataStore.OpenTransaction();
+			{
+				using (var dataStore = new DataStore())
+				{
+					dataStore.OpenTransaction();
 
-				  try
-				  {
-					  #region 前置条件验证
-					  {
-						  var parameters = new List<SqlParameter>
+					try
+					{
+						#region 前置条件验证
+						{
+							var parameters = new List<SqlParameter>
 						  {
 							  new SqlParameter("@accountId",accountId)
 						  };
 
-						  var sql = $@"SELECT a.IsAdmin FROM dbo.Account AS a WHERE a.Id=@accountId AND a.IsDeleted=0 AND a.IsDisable=0";
-						  var isAdmin = Boolean.Parse(dataStore.FindSingleValue<String>(sql, parameters));
-						  if (isAdmin)
-						  {
-							  throw new BusinessException("不能删除管理员");
-						  }
-					  }
-					  #endregion
+							var sql = $@"SELECT a.IsAdmin FROM dbo.Account AS a WHERE a.Id=@accountId AND a.IsDeleted=0 AND a.IsDisable=0";
+							var isAdmin = Boolean.Parse(dataStore.FindSingleValue<String>(sql, parameters));
+							if (isAdmin)
+							{
+								throw new BusinessException("不能删除管理员");
+							}
+						}
+						#endregion
 
-					  #region 移除账户
-					  {
-						  var account = new Account();
-						  account.Remove();
-						  dataStore.ExecuteModify(account, acc => acc.Id == accountId && !acc.IsDisable);
-					  }
-					  #endregion
+						#region 移除账户
+						{
+							var account = new Account();
+							account.Remove();
+							dataStore.ExecuteModify(account, acc => acc.Id == accountId && !acc.IsDisable);
+						}
+						#endregion
 
-					  #region 移除账户配置
-					  {
-						  var config = new Config();
-						  config.Remove();
-						  dataStore.ExecuteModify(config, conf => conf.AccountId == accountId);
-					  }
-					  #endregion
+						#region 移除账户配置
+						{
+							var config = new Config();
+							config.Remove();
+							dataStore.ExecuteModify(config, conf => conf.AccountId == accountId);
+						}
+						#endregion
 
-					  #region 移除用户角色
-					  {
-						  var accountRole = new AccountRole();
-						  accountRole.Remove();
-						  dataStore.ExecuteModify(accountRole, accRole => accRole.AccountId == accountId);
-					  }
-					  #endregion
+						#region 移除用户角色
+						{
+							var accountRole = new AccountRole();
+							accountRole.Remove();
+							dataStore.ExecuteModify(accountRole, accRole => accRole.AccountId == accountId);
+						}
+						#endregion
 
-					  #region 移除用户安装的app
-					  {
-						  var member = new Member();
-						  member.Remove();
-						  dataStore.ExecuteModify(member, mem => mem.AccountId == accountId);
-					  }
-					  #endregion
+						#region 移除用户安装的app
+						{
+							var member = new Member();
+							member.Remove();
+							dataStore.ExecuteModify(member, mem => mem.AccountId == accountId);
+						}
+						#endregion
 
-					  dataStore.Commit();
-				  }
-				  catch (Exception)
-				  {
-					  dataStore.Rollback();
-					  throw;
-				  }
-			  }
-		  });
+						dataStore.Commit();
+					}
+					catch (Exception)
+					{
+						dataStore.Rollback();
+						throw;
+					}
+				}
+			});
 		}
 	}
 }

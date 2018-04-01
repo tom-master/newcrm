@@ -11,14 +11,14 @@ using NewLib.Data.Mapper.InternalDataStore;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {
-	public class MemberContext : BaseServiceContext, IMemberContext
+	public class MemberContext: BaseServiceContext, IMemberContext
 	{
 		public async Task<List<Member>> GetMembersAsync(Int32 accountId)
 		{
 			Parameter.Validate(accountId);
 			return await Task.Run<List<Member>>(() =>
 			{
-				using(var dataStore = new DataStore())
+				using (var dataStore = new DataStore())
 				{
 					var sql = $@"SELECT 
                             a.MemberType,
@@ -50,11 +50,11 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(accountId).Validate(memberId);
 			return await Task.Run(() =>
 			{
-				using(var dataStore = new DataStore())
+				using (var dataStore = new DataStore())
 				{
 					var where = new StringBuilder();
 					var parameters = new List<SqlParameter>();
-					if(isFolder)
+					if (isFolder)
 					{
 						parameters.Add(new SqlParameter("@Id", memberId));
 						parameters.Add(new SqlParameter("@MemberType", (Int32)MemberType.Folder));
@@ -100,7 +100,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(name);
 			return await Task.Run(() =>
 			{
-				using(var dataStore = new DataStore())
+				using (var dataStore = new DataStore())
 				{
 					var sql = $@"SELECT COUNT(*) FROM dbo.Member AS a WHERE a.Name=@name AND a.IsDeleted=0";
 					var parameters = new List<SqlParameter>
@@ -118,7 +118,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(accountId).Validate(memberName).Validate(memberIcon).Validate(memberId);
 			await Task.Run(() =>
 			{
-				using(var dataStore = new DataStore())
+				using (var dataStore = new DataStore())
 				{
 					#region sql
 					{
@@ -137,7 +137,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(accountId).Validate(memberId).Validate(newIcon);
 			await Task.Run(() =>
 			{
-				using(var dataStore = new DataStore())
+				using (var dataStore = new DataStore())
 				{
 					var member = new Member();
 					member.ModifyIconUrl(newIcon);
@@ -151,9 +151,9 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(accountId).Validate(member);
 			await Task.Run(() =>
 			{
-				using(var dataStore = new DataStore())
+				using (var dataStore = new DataStore())
 				{
-					if(member.IsIconByUpload)
+					if (member.IsIconByUpload)
 					{
 						member.IconFromUpload();
 					}
@@ -179,7 +179,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(accountId).Validate(memberId);
 			await Task.Run(() =>
 			{
-				using(var dataStore = new DataStore())
+				using (var dataStore = new DataStore())
 				{
 					dataStore.OpenTransaction();
 					try
@@ -198,7 +198,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 						}
 						#endregion
 
-						if(isFolder)
+						if (isFolder)
 						{
 							#region 将文件夹内的成员移出
 							{
@@ -223,10 +223,21 @@ namespace NewCRM.Domain.Services.BoundedContext
 								appId = dataStore.FindSingleValue<Int32>(sql, parameters);
 							}
 							#endregion
+							App app = null;
+							#region 查询app
+							{
+								var sql = $@"SELECT a.UseCount FROM dbo.App AS a WHERE a.Id=@Id AND a.AccountId=@AccountId AND a.IsDeleted=0";
+								var parameters = new List<SqlParameter>
+								{
+									new SqlParameter("@Id",appId),
+									new SqlParameter("@AccountId",accountId)
+								};
+								app = dataStore.FindOne<App>(sql, parameters);
+							}
+							#endregion
 
 							#region app使用量-1
 							{
-								var app = new App();
 								app.DecreaseUseCount();
 								dataStore.ExecuteModify(app, a => a.Id == appId && a.AccountId == accountId);
 							}
@@ -243,7 +254,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 						dataStore.Commit();
 					}
-					catch(Exception)
+					catch (Exception)
 					{
 						dataStore.Rollback();
 						throw;

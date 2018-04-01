@@ -45,7 +45,7 @@ namespace NewCRM.Web.Controllers
 				return View();
 			}
 
-			return RedirectToAction("Index", "Login");
+			return RedirectToAction("Login", "Desktop");
 		}
 
 		/// <summary>
