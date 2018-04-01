@@ -31,7 +31,7 @@ namespace NewCRM.Web.Controllers
             Parameter.Validate(memberId);
             #endregion
 
-            var result = await _deskServices.GetMemberAsync(Account.Id, memberId);
+            var result = await _deskServices.GetMemberAsync(AccountId, memberId);
             return View(result);
         }
 
@@ -50,31 +50,31 @@ namespace NewCRM.Web.Controllers
             switch (moveType)
             {
                 case "desk-dock": //成员从桌面移动到码头
-                    await _deskServices.MemberInDockAsync(Account.Id, memberId);
+                    await _deskServices.MemberInDockAsync(AccountId, memberId);
                     break;
                 case "dock-desk": //成员从码头移动到桌面
-                    await _deskServices.MemberOutDockAsync(Account.Id, memberId, to);
+                    await _deskServices.MemberOutDockAsync(AccountId, memberId, to);
                     break;
                 case "dock-folder": //成员从码头移动到桌面文件夹中
-                    await _deskServices.DockToFolderAsync(Account.Id, memberId, to);
+                    await _deskServices.DockToFolderAsync(AccountId, memberId, to);
                     break;
                 case "folder-dock": //成员从文件夹移动到码头
-                    await _deskServices.FolderToDockAsync(Account.Id, memberId);
+                    await _deskServices.FolderToDockAsync(AccountId, memberId);
                     break;
                 case "desk-folder": //成员从桌面移动到文件夹
-                    await _deskServices.DeskToFolderAsync(Account.Id, memberId, to);
+                    await _deskServices.DeskToFolderAsync(AccountId, memberId, to);
                     break;
                 case "folder-desk": //成员从文件夹移动到桌面
-                    await _deskServices.FolderToDeskAsync(Account.Id, memberId, to);
+                    await _deskServices.FolderToDeskAsync(AccountId, memberId, to);
                     break;
                 case "folder-folder": //成员从文件夹移动到另一个文件夹中
-                    await _deskServices.FolderToOtherFolderAsync(Account.Id, memberId, to);
+                    await _deskServices.FolderToOtherFolderAsync(AccountId, memberId, to);
                     break;
                 case "desk-desk": //桌面移动到另一个桌面
-                    await _deskServices.DeskToOtherDeskAsync(Account.Id, memberId, to);
+                    await _deskServices.DeskToOtherDeskAsync(AccountId, memberId, to);
                     break;
                 case "dock-otherdesk"://应用码头移动到另一个桌面
-                    await _deskServices.DockToOtherDeskAsync(Account.Id, memberId, to);
+                    await _deskServices.DockToOtherDeskAsync(AccountId, memberId, to);
                     break;
             }
             var response = new ResponseModel
@@ -97,7 +97,7 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             var response = new ResponseModel();
-            await _deskServices.ModifyFolderInfoAsync(Account.Id, name, icon, memberId);
+            await _deskServices.ModifyFolderInfoAsync(AccountId, name, icon, memberId);
             response.IsSuccess = true;
             response.Message = "修改成功";
 
@@ -129,7 +129,7 @@ namespace NewCRM.Web.Controllers
             };
 
             var response = new ResponseModel();
-            await _deskServices.ModifyMemberInfoAsync(Account.Id, memberDto);
+            await _deskServices.ModifyMemberInfoAsync(AccountId, memberDto);
             response.IsSuccess = true;
             response.Message = "修改成员信息成功";
 
@@ -147,7 +147,7 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             var response = new ResponseModel<String>();
-            await _deskServices.ModifyMemberIconAsync(Account.Id, memberId, newIcon);
+            await _deskServices.ModifyMemberIconAsync(AccountId, memberId, newIcon);
 
             response.IsSuccess = true;
             response.Message = "更新图标成功";
@@ -167,7 +167,7 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             var response = new ResponseModel();
-            await _deskServices.UninstallMemberAsync(Account.Id, memberId);
+            await _deskServices.UninstallMemberAsync(AccountId, memberId);
             response.IsSuccess = true;
             response.Message = "卸载成功";
 
@@ -186,7 +186,7 @@ namespace NewCRM.Web.Controllers
             #endregion
 
             var response = new ResponseModel();
-            await _deskServices.CreateNewFolderAsync(folderName, folderImg, deskId, Account.Id);
+            await _deskServices.CreateNewFolderAsync(folderName, folderImg, deskId, AccountId);
             response.IsSuccess = true;
             response.Message = "新建文件夹成功";
 

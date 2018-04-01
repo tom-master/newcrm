@@ -13,7 +13,7 @@ using Nito.AsyncEx;
 
 namespace NewCRM.Web.Controllers
 {
-	public class IndexController : BaseController
+	public class IndexController: BaseController
 	{
 		private readonly IDeskServices _deskServices;
 
@@ -32,9 +32,9 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> Desktop()
 		{
 			ViewBag.Title = "桌面";
-			if(Request.Cookies["memberID"] != null)
+			if (Request.Cookies["memberID"] != null)
 			{
-				var account = Account;
+				var account = await AccountServices.GetAccountAsync(AccountId);
 				account.AccountFace = ProfileManager.FileUrl + account.AccountFace;
 				ViewData["Account"] = account;
 				ViewData["AccountConfig"] = await AccountServices.GetConfigAsync(account.Id);
@@ -60,8 +60,8 @@ namespace NewCRM.Web.Controllers
 			#endregion
 
 			var response = new ResponseModel();
-			var result = await AccountServices.UnlockScreenAsync(Account.Id, unlockPassword);
-			if(result)
+			var result = await AccountServices.UnlockScreenAsync(AccountId, unlockPassword);
+			if (result)
 			{
 				response.IsSuccess = true;
 			}
@@ -75,7 +75,7 @@ namespace NewCRM.Web.Controllers
 		[HttpPost]
 		public async Task<ActionResult> Logout()
 		{
-			await AccountServices.LogoutAsync(Account.Id);
+			await AccountServices.LogoutAsync(AccountId);
 			InternalLogout();
 			return new EmptyResult();
 		}
@@ -87,7 +87,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> GetSkin()
 		{
 			var response = new ResponseModel<String>();
-			var skinName = (await AccountServices.GetConfigAsync(Account.Id)).Skin;
+			var skinName = (await AccountServices.GetConfigAsync(AccountId)).Skin;
 			response.IsSuccess = true;
 			response.Model = skinName;
 			response.Message = "初始化皮肤成功";
@@ -102,9 +102,9 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> GetWallpaper()
 		{
 			var response = new ResponseModel<ConfigDto>();
-			var result = await AccountServices.GetConfigAsync(Account.Id);
+			var result = await AccountServices.GetConfigAsync(AccountId);
 
-			if(result.IsBing)
+			if (result.IsBing)
 			{
 				result.WallpaperSource = WallpaperSource.Bing.ToString().ToLower();
 				result.WallpaperUrl = AsyncContext.Run(BingHelper.GetEverydayBackgroundImageAsync);
@@ -124,7 +124,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> GetDockPos()
 		{
 			var response = new ResponseModel<String>();
-			var result = (await AccountServices.GetConfigAsync(Account.Id)).DockPosition;
+			var result = (await AccountServices.GetConfigAsync(AccountId)).DockPosition;
 			response.IsSuccess = true;
 			response.Message = "初始化应用码头成功";
 			response.Model = result;
@@ -139,7 +139,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> GetAccountDeskMembers()
 		{
 			var response = new ResponseModel<IDictionary<String, IList<dynamic>>>();
-			var result = await _deskServices.GetDeskMembersAsync(Account.Id);
+			var result = await _deskServices.GetDeskMembersAsync(AccountId);
 			response.IsSuccess = true;
 			response.Message = "获取我的应用成功";
 			response.Model = result;
@@ -154,7 +154,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> GetAccountFace()
 		{
 			var response = new ResponseModel<String>();
-			var result = (await AccountServices.GetConfigAsync(Account.Id)).AccountFace;
+			var result = (await AccountServices.GetConfigAsync(AccountId)).AccountFace;
 			response.IsSuccess = true;
 			response.Message = "获取用户头像成功";
 			response.Model = ProfileManager.FileUrl + result;
@@ -174,7 +174,7 @@ namespace NewCRM.Web.Controllers
 			#endregion
 
 			var response = new ResponseModel<dynamic>();
-			var internalMemberResult = type == "folder" ? await _deskServices.GetMemberAsync(Account.Id, id, true) : await _deskServices.GetMemberAsync(Account.Id, id);
+			var internalMemberResult = type == "folder" ? await _deskServices.GetMemberAsync(AccountId, id, true) : await _deskServices.GetMemberAsync(AccountId, id);
 			response.IsSuccess = true;
 			response.Message = "创建一个窗口成功";
 			response.Model = new

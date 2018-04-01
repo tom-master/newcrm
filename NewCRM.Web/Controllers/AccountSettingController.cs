@@ -6,7 +6,7 @@ using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
-	public class AccountSettingController : BaseController
+	public class AccountSettingController: BaseController
 	{
 		#region 页面
 
@@ -16,7 +16,7 @@ namespace NewCRM.Web.Controllers
 		[HttpGet]
 		public async Task<ActionResult> Index()
 		{
-			return View(await AccountServices.GetAccountAsync(Account.Id));
+			return View(await AccountServices.GetAccountAsync(AccountId));
 		}
 
 		#endregion
@@ -32,7 +32,7 @@ namespace NewCRM.Web.Controllers
 			#endregion
 
 			var response = new ResponseModel();
-			await AccountServices.ModifyAccountFaceAsync(Account.Id, accountFace);
+			await AccountServices.ModifyAccountFaceAsync(AccountId, accountFace);
 			response.IsSuccess = true;
 			response.Model = "头像上传成功";
 
@@ -50,7 +50,7 @@ namespace NewCRM.Web.Controllers
 			#endregion
 
 			var response = new ResponseModel();
-			await AccountServices.ModifyPasswordAsync(Account.Id, forms["password"], Int32.Parse(forms["lockPwdIsEqLoginPwd"]) == 1);
+			await AccountServices.ModifyPasswordAsync(AccountId, forms["password"], Int32.Parse(forms["lockPwdIsEqLoginPwd"]) == 1);
 			response.Message = "账户密码修改成功";
 			response.IsSuccess = true;
 			InternalLogout();
@@ -68,7 +68,7 @@ namespace NewCRM.Web.Controllers
 			#endregion
 
 			var response = new ResponseModel();
-			await AccountServices.ModifyLockScreenPasswordAsync(Account.Id, forms["lockpassword"]);
+			await AccountServices.ModifyLockScreenPasswordAsync(AccountId, forms["lockpassword"]);
 
 			response.Message = "锁屏密码修改成功";
 			response.IsSuccess = true;
@@ -86,7 +86,7 @@ namespace NewCRM.Web.Controllers
 			Parameter.Validate(param);
 			#endregion
 
-			var result = await AccountServices.CheckPasswordAsync(Account.Id, param);
+			var result = await AccountServices.CheckPasswordAsync(AccountId, param);
 			return Json(result ? new { status = "y", info = "" } : new { status = "n", info = "原始密码错误" }, JsonRequestBehavior.AllowGet);
 		}
 	}

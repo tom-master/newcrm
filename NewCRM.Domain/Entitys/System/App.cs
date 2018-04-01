@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using NewCRM.Domain.ValueObject;
+using NewLib.Data.Mapper.MapperExtension;
 
 namespace NewCRM.Domain.Entitys.System
 {

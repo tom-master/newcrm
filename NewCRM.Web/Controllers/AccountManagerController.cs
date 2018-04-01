@@ -11,7 +11,7 @@ using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
-	public class AccountManagerController : BaseController
+	public class AccountManagerController: BaseController
 	{
 		private readonly ISecurityServices _securityServices;
 
@@ -37,7 +37,7 @@ namespace NewCRM.Web.Controllers
 		[HttpGet]
 		public async Task<ActionResult> CreateNewAccount(Int32 accountId = 0)
 		{
-			if(accountId != 0)
+			if (accountId != 0)
 			{
 				ViewData["Account"] = await AccountServices.GetAccountAsync(accountId);
 			}
@@ -61,7 +61,7 @@ namespace NewCRM.Web.Controllers
 			#endregion
 
 			var accounts = AccountServices.GetAccounts(accountName, accountType, pageIndex, pageSize, out var totalCount);
-			if(accounts != null)
+			if (accounts != null)
 			{
 				response.TotalCount = totalCount;
 				response.Message = "获取账户列表成功";
@@ -84,7 +84,7 @@ namespace NewCRM.Web.Controllers
 
 			var response = new ResponseModel<AccountDto>();
 			var dto = WapperAccountDto(forms);
-			if(dto.Id == 0)
+			if (dto.Id == 0)
 			{
 				await AccountServices.AddNewAccountAsync(dto);
 
@@ -94,11 +94,11 @@ namespace NewCRM.Web.Controllers
 			else
 			{
 				await AccountServices.ModifyAccountAsync(dto);
-				if(!String.IsNullOrEmpty(dto.Password))
+				if (!String.IsNullOrEmpty(dto.Password))
 				{
 					Response.Cookies.Add(new HttpCookie("memberID")
 					{
-						Value = AccountAsync().Id.ToString(),
+						Value = AccountId.ToString(),
 						Expires = DateTime.Now.AddDays(-1)
 					});
 				}
@@ -153,7 +153,7 @@ namespace NewCRM.Web.Controllers
 			#endregion
 
 			var response = new ResponseModel<String>();
-			if(!Boolean.Parse(isDisable))
+			if (!Boolean.Parse(isDisable))
 			{
 				await AccountServices.DisableAsync(accountId);
 				response.IsSuccess = true;
@@ -174,7 +174,7 @@ namespace NewCRM.Web.Controllers
 		private AccountDto WapperAccountDto(FormCollection forms)
 		{
 			var roleIds = new List<RoleDto>();
-			if((forms["val_roleIds"] + "").Length > 0)
+			if ((forms["val_roleIds"] + "").Length > 0)
 			{
 				roleIds = forms["val_roleIds"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(role => new RoleDto
 				{

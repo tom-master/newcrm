@@ -65,7 +65,7 @@ namespace NewCRM.Web.Controllers
 
 			foreach(var appDto in result)
 			{
-				appDto.IsCreater = appDto.AccountId == Account.Id;
+				appDto.IsCreater = appDto.AccountId == AccountId;
 			}
 
 			response.TotalCount = totalCount;

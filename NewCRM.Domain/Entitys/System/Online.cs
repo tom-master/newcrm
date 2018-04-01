@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+using NewLib.Data.Mapper.MapperExtension;
 
 namespace NewCRM.Domain.Entitys.System
 {
-    [Description("在线人数"), Serializable]
+	[Description("在线人数"), Serializable]
     public partial class Online : DomainModelBase
     {
         #region private field

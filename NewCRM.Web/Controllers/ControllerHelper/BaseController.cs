@@ -10,21 +10,20 @@ using Unity.Attributes;
 
 namespace NewCRM.Web.Controllers.ControllerHelper
 {
-	public class BaseController : Controller
+	public class BaseController: Controller
 	{
 		protected ParameterValidate Parameter => new ParameterValidate();
 
 		[Dependency]
 		protected IAccountServices AccountServices { get; set; }
 
-		protected async Task<AccountDto> AccountAsync()
+		protected Int32 AccountId
 		{
-			var accountId = Request.Cookies["memberID"];
-			if(accountId != null)
+			get
 			{
-				return await AccountServices.GetAccountAsync(Int32.Parse(accountId.Value));
+				var accountId = Request.Cookies["MemberID"];
+				return Request.Cookies["memberID"] == null ? AsyncContext.Run(() => AccountServices.GetAccountAsync(Int32.Parse(accountId.Value))).Id : Int32.Parse(accountId.Value);
 			}
-			return null;
 		}
 
 		protected void InternalLogout()
