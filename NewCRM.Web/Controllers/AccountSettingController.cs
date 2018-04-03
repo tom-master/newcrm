@@ -6,7 +6,7 @@ using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
-	public class AccountSettingController: BaseController
+	public class AccountSettingController : BaseController
 	{
 		#region 页面
 
@@ -16,7 +16,8 @@ namespace NewCRM.Web.Controllers
 		[HttpGet]
 		public async Task<ActionResult> Index()
 		{
-			return View(await AccountServices.GetAccountAsync(AccountId));
+			var account = await AccountServices.GetAccountAsync(AccountId);
+			return View(account);
 		}
 
 		#endregion
@@ -50,10 +51,13 @@ namespace NewCRM.Web.Controllers
 			#endregion
 
 			var response = new ResponseModel();
+
 			await AccountServices.ModifyPasswordAsync(AccountId, forms["password"], Int32.Parse(forms["lockPwdIsEqLoginPwd"]) == 1);
+			InternalLogout();
+
 			response.Message = "账户密码修改成功";
 			response.IsSuccess = true;
-			InternalLogout();
+			
 			return Json(response);
 		}
 
