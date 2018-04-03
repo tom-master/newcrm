@@ -38,6 +38,7 @@ namespace NewCRM.Web.Controllers
 			{
 				ViewData["AppTypes"] = (await _appServices.GetAppTypesAsync()).Where(w => w.Name != "系统").ToList();
 			}
+
 			ViewData["TodayRecommendApp"] = await _appServices.GetTodayRecommendAsync(AccountId);
 			ViewData["AccountName"] = account.Name;
 			ViewData["AccountApp"] = await _appServices.GetAccountDevelopAppCountAndNotReleaseAppCountAsync(AccountId);

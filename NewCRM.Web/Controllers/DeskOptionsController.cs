@@ -57,12 +57,15 @@ namespace NewCRM.Web.Controllers
             return View();
         }
 
-        /// <summary>
-        /// 设置皮肤
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public ActionResult SetSkin() => View();
+		/// <summary>
+		/// 设置皮肤
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet]
+		public ActionResult SetSkin()
+		{
+			return View();
+		}
 
         /// <summary>
         /// 程序设置

@@ -72,6 +72,7 @@ namespace NewCRM.Web.Controllers
 			response.IsSuccess = true;
 			response.Message = "获取app列表成功";
 			response.Model = result;
+
 			return Json(response, JsonRequestBehavior.AllowGet);
 		}
 
