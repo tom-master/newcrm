@@ -7,9 +7,12 @@ using Unity.Attributes;
 
 namespace NewCRM.Web.Controllers.ControllerHelper
 {
-	public class BaseController: Controller
+	public class BaseController : Controller
 	{
-		protected ParameterValidate Parameter => new ParameterValidate();
+		protected ParameterValidate Parameter
+		{
+			get { return new ParameterValidate(); }
+		}
 
 		[Dependency]
 		protected IAccountServices AccountServices { get; set; }
@@ -20,7 +23,7 @@ namespace NewCRM.Web.Controllers.ControllerHelper
 			{
 				var accountId = Request.Cookies["MemberID"];
 
-				if (accountId != null)
+				if(accountId != null)
 				{
 					return Int32.Parse(accountId.Value);
 				}

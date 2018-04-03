@@ -24,8 +24,9 @@ namespace NewCRM.Domain.Services
 			{
 				cacheResult = await Task.Run(() => _cacheQuery.StringGetAsync<TModel>(cache.GetKey()), cts.Token);
 			}
-			catch (OperationCanceledException)
+			catch (OperationCanceledException ex)
 			{
+
 			}
 
 			if (cacheResult != null)
