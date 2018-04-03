@@ -20,7 +20,10 @@ namespace NewCRM.Application.Services
     public class WallpaperServices : BaseServiceContext, IWallpaperServices
     {
         private readonly IWallpaperContext _wallpaperContext;
-        public WallpaperServices(IWallpaperContext wallpaperContext) => _wallpaperContext = wallpaperContext;
+		public WallpaperServices(IWallpaperContext wallpaperContext)
+		{
+			_wallpaperContext = wallpaperContext;
+		}
 
         public async Task<List<WallpaperDto>> GetWallpapersAsync()
         {

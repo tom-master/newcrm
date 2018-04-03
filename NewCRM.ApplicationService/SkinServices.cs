@@ -16,7 +16,10 @@ namespace NewCRM.Application.Services
 	{
 		private readonly ISkinContext _skinContext;
 
-		public SkinServices(ISkinContext skinContext) => _skinContext = skinContext;
+		public SkinServices(ISkinContext skinContext)
+		{
+			_skinContext = skinContext;
+		}
 
 		public async Task<IDictionary<String, dynamic>> GetAllSkinAsync(String skinPath)
 		{
@@ -61,7 +64,10 @@ namespace NewCRM.Application.Services
 			return "";
 		}
 
-		private String Get(String path, Func<String, Int32> filterFunc) => path.Substring(filterFunc(path));
+		private String Get(String path, Func<String, Int32> filterFunc)
+		{
+			return path.Substring(filterFunc(path));
+		}
 
 		#endregion
 

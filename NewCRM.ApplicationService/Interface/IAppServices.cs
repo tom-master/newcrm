@@ -30,13 +30,13 @@ namespace NewCRM.Application.Services.Interface
         /// 获取所有的app
         /// </summary>
         /// <returns></returns>
-        List<AppDto> GetAllApps(Int32 accountId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
+        List<AppDto> GetApps(Int32 accountId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
 
         /// <summary>
         /// 获取用户的app
         /// </summary>
         /// <returns></returns>
-        List<AppDto> GetAccountAllApps(Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
+        List<AppDto> GetAccountApps(Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize, out Int32 totalCount);
 
         /// <summary>
         /// 根据appId获取App
@@ -54,13 +54,13 @@ namespace NewCRM.Application.Services.Interface
         /// 获取所有的app样式
         /// </summary>
         /// <returns></returns>
-        IEnumerable<AppStyleDto> GetAllAppStyles();
+        IEnumerable<AppStyleDto> GetAppStyles();
 
         /// <summary>
         /// 获取所有的app状态
         /// </summary>
         /// <returns></returns>
-        IEnumerable<AppStateDto> GetAllAppStates();
+        IEnumerable<AppStateDto> GetAppStates();
 
         /// <summary>
         /// 获取系统app

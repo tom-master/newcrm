@@ -15,7 +15,10 @@ namespace NewCRM.Application.Services
 	{
 		private readonly ISecurityContext _securityContext;
 
-		public SecurityServices(ISecurityContext securityContext) => _securityContext = securityContext;
+		public SecurityServices(ISecurityContext securityContext)
+		{
+			_securityContext = securityContext;
+		}
 
         public async Task<RoleDto> GetRoleAsync(Int32 roleId)
 		{
@@ -83,6 +86,5 @@ namespace NewCRM.Application.Services
 			Parameter.Validate(roleId);
 			await _securityContext.AddPowerToCurrentRoleAsync(roleId, powerIds);
 		}
-
 	}
 }

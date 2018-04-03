@@ -15,7 +15,7 @@ using static NewCRM.Infrastructure.CommonTools.CacheKey;
 
 namespace NewCRM.Application.Services
 {
-	public class DeskServices: BaseServiceContext, IDeskServices
+	public class DeskServices : BaseServiceContext, IDeskServices
 	{
 		private readonly IMemberContext _memberContext;
 		private readonly IDeskContext _deskContext;
@@ -30,10 +30,11 @@ namespace NewCRM.Application.Services
 		{
 			Parameter.Validate(accountId).Validate(memberId);
 			var result = await _memberContext.GetMemberAsync(accountId, memberId, isFolder);
-			if (result == null)
+			if(result == null)
 			{
 				throw new BusinessException($"未找到app");
 			}
+
 			return new MemberDto
 			{
 				AppId = result.AppId,
@@ -67,17 +68,19 @@ namespace NewCRM.Application.Services
 			var result = await GetCache(new DesktopCacheKey(accountId), () => _memberContext.GetMembersAsync(accountId));
 			var deskGroup = result.GroupBy(a => a.DeskIndex);
 			var deskDictionary = new Dictionary<String, IList<dynamic>>();
-			foreach (var desk in deskGroup)
+			foreach(var desk in deskGroup)
 			{
 				var members = desk.ToList();
 				var deskMembers = new List<dynamic>();
-				foreach (var member in members)
+				foreach(var member in members)
 				{
-					if (member.MemberType == MemberType.Folder)
+					var internalType = member.MemberType.ToString().ToLower();
+
+					if(member.MemberType == MemberType.Folder)
 					{
 						deskMembers.Add(new
 						{
-							type = member.MemberType.ToString().ToLower(),
+							type = internalType,
 							memberId = member.Id,
 							appId = member.AppId,
 							name = member.Name,
@@ -106,9 +109,8 @@ namespace NewCRM.Application.Services
 					}
 					else
 					{
-						if (member.FolderId == 0)
+						if(member.FolderId == 0)
 						{
-							var internalType = member.MemberType.ToString().ToLower();
 							deskMembers.Add(new
 							{
 								type = internalType,
@@ -231,7 +233,7 @@ namespace NewCRM.Application.Services
 
 		public async Task CreateNewFolderAsync(String folderName, String folderImg, Int32 deskId, Int32 accountId)
 		{
-			Parameter.Validate(folderName).Validate(folderImg).Validate(deskId);
+			Parameter.Validate(folderName).Validate(folderImg).Validate(deskId).Validate(accountId);
 			await _deskContext.CreateNewFolderAsync(deskId, folderName, folderImg, accountId);
 		}
 
@@ -244,7 +246,7 @@ namespace NewCRM.Application.Services
 
 		public async Task ModifyMemberIconAsync(Int32 accountId, Int32 memberId, String newIcon)
 		{
-			Parameter.Validate(memberId).Validate(newIcon);
+			Parameter.Validate(accountId).Validate(memberId).Validate(newIcon);
 			await _memberContext.ModifyMemberIconAsync(accountId, memberId, newIcon);
 			RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
 		}

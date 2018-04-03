@@ -56,7 +56,7 @@ namespace NewCRM.Application.Services
 			return await _appContext.GetAccountDevelopAppCountAndNotReleaseAppCountAsync(accountId);
 		}
 
-		public List<AppDto> GetAllApps(Int32 accountId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+		public List<AppDto> GetApps(Int32 accountId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
 		{
 			Parameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
 
@@ -77,7 +77,7 @@ namespace NewCRM.Application.Services
 			}).ToList();
 		}
 
-		public List<AppDto> GetAccountAllApps(Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
+		public List<AppDto> GetAccountApps(Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
 		{
 			Parameter.Validate(accountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
 
@@ -139,7 +139,7 @@ namespace NewCRM.Application.Services
 			return result;
 		}
 
-		public IEnumerable<AppStyleDto> GetAllAppStyles()
+		public IEnumerable<AppStyleDto> GetAppStyles()
 		{
 			var descriptions = GetEnumDescriptions(typeof(AppStyle));
 			foreach (var description in descriptions)
@@ -153,7 +153,7 @@ namespace NewCRM.Application.Services
 			}
 		}
 
-		public IEnumerable<AppStateDto> GetAllAppStates()
+		public IEnumerable<AppStateDto> GetAppStates()
 		{
 			var appStates = new List<dynamic>();
 
@@ -324,7 +324,10 @@ namespace NewCRM.Application.Services
 		#region private method
 		// <summary>
 		// <summary> 获取传入的枚举类型的字面量的描述
-		private static IEnumerable<dynamic> GetEnumDescriptions(Type enumType) => enumType.GetFields().Where(field => field.CustomAttributes.Any()).Select(s => new { s.CustomAttributes.ToArray()[0].ConstructorArguments[0].Value, Id = s.GetRawConstantValue(), Type = enumType.Name }).Cast<dynamic>().ToList();
+		private static IEnumerable<dynamic> GetEnumDescriptions(Type enumType)
+		{
+			return enumType.GetFields().Where(field => field.CustomAttributes.Any()).Select(s => new { s.CustomAttributes.ToArray()[0].ConstructorArguments[0].Value, Id = s.GetRawConstantValue(), Type = enumType.Name }).Cast<dynamic>().ToList();
+		}
 
 		#endregion
 	}
