@@ -72,8 +72,8 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> AccountAppManage()
 		{
 			ViewData["AppTypes"] = await _appServices.GetAppTypesAsync();
-			ViewData["AppStyles"] = _appServices.GetAllAppStyles().ToList();
-			ViewData["AppStates"] = _appServices.GetAllAppStates().ToList();
+			ViewData["AppStyles"] = _appServices.GetAppStyles().ToList();
+			ViewData["AppStates"] = _appServices.GetAppStates().ToList();
 
 			return View();
 		}
@@ -107,7 +107,7 @@ namespace NewCRM.Web.Controllers
 		{
 			var response = new ResponseModels<IList<AppDto>>();
 
-			var result = _appServices.GetAllApps(AccountId, appTypeId, orderId, searchText, pageIndex, pageSize, out var totalCount);
+			var result = _appServices.GetApps(AccountId, appTypeId, orderId, searchText, pageIndex, pageSize, out var totalCount);
 			if (result != null)
 			{
 				response.TotalCount = totalCount;
@@ -166,7 +166,7 @@ namespace NewCRM.Web.Controllers
 		public ActionResult GetAccountApps(String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize)
 		{
 			var response = new ResponseModels<IList<AppDto>>();
-			var result = _appServices.GetAccountAllApps(AccountId, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out var totalCount);
+			var result = _appServices.GetAccountApps(AccountId, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out var totalCount);
 			if (result != null)
 			{
 				response.TotalCount = totalCount;
