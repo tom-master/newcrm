@@ -2530,15 +2530,7 @@ NewCrm.msgbox._setPosition = function (tips, timeout, topPosition) {
     tips.firstChild.style.display = "";
     timeout && (_s._timer = setTimeout(_s._hide, timeout));
 };
-//NewCrm.msgbox.hide = function (timeout) {
-//    var _s = NewCrm.msgbox;
-//    if (timeout) {
-//        clearTimeout(_s._timer);
-//        _s._timer = setTimeout(_s._hide, timeout);
-//    } else {
-//        _s._hide();
-//    }
-//};
+
 NewCrm.msgbox._hide = function () {
     var _mBox = NewCrm.dom.get("q_Msgbox"), _s = NewCrm.msgbox;
     clearTimeout(_s._timer);
