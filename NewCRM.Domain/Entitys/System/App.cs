@@ -514,65 +514,128 @@ namespace NewCRM.Domain.Entitys.System
 			return this;
 		}
 
-		public App ModifyIsMax(Boolean isMax)
+		public App Max()
 		{
-			IsMax = isMax;
+			IsMax = true;
 			OnPropertyChanged(nameof(IsMax));
 			return this;
 		}
 
-		public App ModifyIsFull(Boolean isFull)
+		public App NotMax()
 		{
-			IsFull = isFull;
+			IsMax = false;
+			OnPropertyChanged(nameof(IsMax));
+			return this;
+		}
+
+		public App Full()
+		{
+			IsFull = true;
 			OnPropertyChanged(nameof(IsFull));
 			return this;
 		}
 
-		public App ModifyIsSetbar(Boolean isSetbar)
+		public App NotFull()
 		{
-			IsSetbar = isSetbar;
+			IsFull = false;
+			OnPropertyChanged(nameof(IsFull));
+			return this;
+		}
+
+		public App Setbar()
+		{
+			IsSetbar = true;
 			OnPropertyChanged(nameof(IsSetbar));
 			return this;
 		}
 
-		public App ModifyIsOpenMax(Boolean isOpenMax)
+		public App NotSetbar()
 		{
-			IsOpenMax = isOpenMax;
+			IsSetbar = false;
+			OnPropertyChanged(nameof(IsSetbar));
+			return this;
+		}
+
+		public App OpenMax()
+		{
+			IsOpenMax = true;
 			OnPropertyChanged(nameof(IsOpenMax));
 			return this;
 		}
 
-		public App ModifyIsLock(Boolean isLock)
+		public App NotOpenMax()
 		{
-			IsLock = isLock;
+			IsOpenMax = false;
+			OnPropertyChanged(nameof(IsOpenMax));
+			return this;
+		}
+
+		public App Lock()
+		{
+			IsLock = true;
 			OnPropertyChanged(nameof(IsLock));
 			return this;
 		}
 
-		public App ModifyIsSystem(Boolean isSystem)
+		public App NotLock()
 		{
-			IsSystem = isSystem;
+			IsLock = false;
+			OnPropertyChanged(nameof(IsLock));
+			return this;
+		}
+
+		public App System()
+		{
+			IsSystem = true;
 			OnPropertyChanged(nameof(IsSystem));
 			return this;
 		}
 
-		public App ModifyIsFlash(Boolean isFlash)
+		public App NotSystem()
 		{
-			IsFlash = isFlash;
+			IsSystem = false;
+			OnPropertyChanged(nameof(IsSystem));
+			return this;
+		}
+
+		public App Flash()
+		{
+			IsFlash = true;
 			OnPropertyChanged(nameof(IsFlash));
 			return this;
 		}
 
-		public App ModifyIsDraw(Boolean isDraw)
+		public App NotFlash()
 		{
-			IsDraw = isDraw;
+			IsFlash = false;
+			OnPropertyChanged(nameof(IsFlash));
+			return this;
+		}
+
+		public App Draw()
+		{
+			IsDraw = true;
 			OnPropertyChanged(nameof(IsDraw));
 			return this;
 		}
 
-		public App ModifyIsResize(Boolean isResize)
+		public App NotDraw()
 		{
-			IsResize = isResize;
+			IsDraw = false;
+			OnPropertyChanged(nameof(IsDraw));
+			return this;
+		}
+
+		public App Resize()
+		{
+			IsResize = true;
+			OnPropertyChanged(nameof(IsResize));
+			return this;
+		}
+
+		public App NotResize()
+		{
+			IsResize = false;
 			OnPropertyChanged(nameof(IsResize));
 			return this;
 		}
@@ -600,14 +663,14 @@ namespace NewCRM.Domain.Entitys.System
 
 		public App AppRelease()
 		{
-			AppReleaseState = NewCRM.Domain.ValueObject.AppReleaseState.Release;
+			AppReleaseState = AppReleaseState.Release;
 			OnPropertyChanged(nameof(AppReleaseState));
 			return this;
 		}
 
 		public App AppUnrelease()
 		{
-			AppReleaseState = NewCRM.Domain.ValueObject.AppReleaseState.UnRelease;
+			AppReleaseState = AppReleaseState.UnRelease;
 			OnPropertyChanged(nameof(AppReleaseState));
 			return this;
 		}
