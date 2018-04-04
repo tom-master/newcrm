@@ -11,10 +11,10 @@
     <label class="label-text">默认显示：</label>
     <div class="label-box form-inline control-group">
         @{
-            for (int i = 1; i <= desks; i++)
+            for(int i = 1 ; i <= desks ; i++)
             {<text>
             <label class="radio" style="margin-right: 10px">
-                <input type="radio" name="desk" value="@i" @{ if (i == accountConfig.DefaultDeskNumber) { <text> checked="checked" </text>       } }>第@{@i}桌面
+                <input type="radio" name="desk" value="@i" @{ if(i == accountConfig.DefaultDeskNumber) { <text> checked="checked" </text>        } }>第@{@i}桌面
             </label>
             </text>
     }
@@ -26,15 +26,14 @@
     <label class="label-text">来自：</label>
     <div class="label-box form-inline control-group">
         @{
-            if (accountConfig.IsBing)
+            if(accountConfig.IsBing)
             {
                 <label class="radio" style="margin-right: 10px">
                     <input type="radio" name="wallpapersource" value="bing" checked="checked" />Bing
                 </label>
                 <label class="radio">
                     <input type="radio" name="wallpapersource" value="system" />系统自带
-                </label>
-            }
+                </label>}
             else
             {
                 <label class="radio" style="margin-right: 10px">
@@ -42,8 +41,7 @@
                 </label>
                 <label class="radio">
                     <input type="radio" name="wallpapersource" value="system" checked="checked" />系统自带
-                </label>
-            }
+                </label>}
 
         }
 
@@ -55,10 +53,10 @@
     <label class="label-text">排列方式：</label>
     <div class="label-box form-inline control-group">
         <label class="radio" style="margin-right: 10px">
-            <input type="radio" name="appxy" value="x" @{ if (accountConfig.AppXy == "x") { <text> checked="checked" </text>                              } } />横向排列
+            <input type="radio" name="appxy" value="x" @{ if(accountConfig.AppXy == "x") { <text> checked="checked" </text>                               } } />横向排列
         </label>
         <label class="radio">
-            <input type="radio" name="appxy" value="y" @{ if (accountConfig.AppXy == "y") { <text> checked="checked" </text>                              } } />纵向排列
+            <input type="radio" name="appxy" value="y" @{ if(accountConfig.AppXy == "y") { <text> checked="checked" </text>                               } } />纵向排列
         </label>
     </div>
 </div>
@@ -99,7 +97,7 @@
             <td colspan="3">
                 <div class="set_top form-inline">
                     <label class="radio">
-                        <input type="radio" name="dockpos" value="top" @{ if (accountConfig.DockPosition == "top") { <text> checked="checked" </text>                          } }>顶部
+                        <input type="radio" name="dockpos" value="top" @{ if(accountConfig.DockPosition == "top") { <text> checked="checked" </text>                           } }>顶部
                     </label>
                 </div>
             </td>
@@ -108,18 +106,18 @@
             <td width="75">
                 <div class="set_left form-inline">
                     <label class="radio">
-                        <input type="radio" name="dockpos" value="left" @{ if (accountConfig.DockPosition == "left") { <text> checked="checked" </text>                         } }>左侧
+                        <input type="radio" name="dockpos" value="left" @{ if(accountConfig.DockPosition == "left") { <text> checked="checked" </text>                          } }>左侧
                     </label>
                 </div>
             </td>
             <td class="set_view set_view_@{var position = accountConfig.DockPosition; <text>@position</text>}"></td>
             <td width="75">
-                <div class="set_right form-inline"><label class="radio"><input type="radio" name="dockpos" value="right" @{ if (accountConfig.DockPosition == "right") { <text> checked="checked" </text>                         } }>右侧</label></div>
+                <div class="set_right form-inline"><label class="radio"><input type="radio" name="dockpos" value="right" @{ if(accountConfig.DockPosition == "right") { <text> checked="checked" </text>                          } }>右侧</label></div>
             </td>
         </tr>
         <tr>
             <td colspan="3">
-                <div class="set_none form-inline"><label class="radio"><input type="radio" name="dockpos" value="none" @{ if (accountConfig.DockPosition == "none") { <text> checked="checked" </text>                        } }>停用并隐藏（如果应用码头存在应用，则会将应用转移到当前桌面）</label></div>
+                <div class="set_none form-inline"><label class="radio"><input type="radio" name="dockpos" value="none" @{ if(accountConfig.DockPosition == "none") { <text> checked="checked" </text>                         } }>停用并隐藏（如果应用码头存在应用，则会将应用转移到当前桌面）</label></div>
             </td>
         </tr>
     </table>
@@ -141,10 +139,6 @@
                 var xy = $('input[name="appxy"]:checked').val();
                 window.parent.HROS.app.updateXY(xy);
             });
-            //$('input[name="appsize"]').change(function () {
-            //    var size = $('input[name="appsize"]:checked').val();
-            //    window.parent.HROS.app.updateSize(size);
-            //});
 
             //更新应用图标大小
             $('.appsize-minus, .appsize-plus').click(function () {
@@ -156,16 +150,19 @@
                 }
                 updateSize(size);
             });
+
             $('input[name="appsize"]').keyup(function () {
                 var size = parseInt($('input[name="appsize"]').val());
                 updateSize(size);
             });
+
             var updateSize = function (size) {
                 if (size < 32) {
                     size = 32;
                 } else if (size > 64) {
                     size = 64;
                 }
+
                 $('input[name="appsize"]').val(size);
                 window.parent.HROS.app.updateSize(size);
             };

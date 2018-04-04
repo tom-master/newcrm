@@ -28,7 +28,7 @@
 <script>
     $(function () {
         $("#login").click(function (event) {
-            if ($('#accountname').val() === '' || $('#password').val() === '') {
+            if (!$('#accountname').val() || !$('#password').val()) {
                 alert("请输入用户名和密码")
                 return false;
             }
