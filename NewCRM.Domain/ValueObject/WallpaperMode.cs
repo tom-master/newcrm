@@ -7,15 +7,34 @@ namespace NewCRM.Domain.ValueObject
     /// </summary>
     public enum WallpaperMode
     {
-        [Description("填充")]
+		/// <summary>
+		/// 填充
+		/// </summary>
+		[Description("填充")]
         Fill = 1,
-        [Description("适应")]
+
+		/// <summary>
+		/// 适应
+		/// </summary>
+		[Description("适应")]
         Adapted = 2,
-        [Description("平铺")]
+
+		/// <summary>
+		/// 平铺
+		/// </summary>
+		[Description("平铺")]
         Tile = 3,
-        [Description("拉伸")]
+
+		/// <summary>
+		/// 拉伸
+		/// </summary>
+		[Description("拉伸")]
         Draw = 4,
-        [Description("居中")]
+
+		/// <summary>
+		/// 居中
+		/// </summary>
+		[Description("居中")]
         Center = 5
     }
 }

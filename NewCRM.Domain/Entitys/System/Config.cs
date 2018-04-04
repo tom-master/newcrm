@@ -362,9 +362,34 @@ namespace NewCRM.Domain.Entitys.System
 			return this;
 		}
 
-		public Config ModifyWallpaperMode(WallpaperMode wallpaperMode)
+		public Config DisplayToFill()
 		{
-			WallpaperMode = wallpaperMode;
+			WallpaperMode = WallpaperMode.Fill;
+			OnPropertyChanged(nameof(WallpaperMode));
+			return this;
+		}
+
+		public Config DisplayToAdapted()
+		{
+			WallpaperMode = WallpaperMode.Adapted;
+			OnPropertyChanged(nameof(WallpaperMode));
+			return this;
+		}
+		public Config DisplayToTile()
+		{
+			WallpaperMode = WallpaperMode.Tile;
+			OnPropertyChanged(nameof(WallpaperMode));
+			return this;
+		}
+		public Config DisplayToDraw()
+		{
+			WallpaperMode = WallpaperMode.Draw;
+			OnPropertyChanged(nameof(WallpaperMode));
+			return this;
+		}
+		public Config DisplayToCenter()
+		{
+			WallpaperMode = WallpaperMode.Center;
 			OnPropertyChanged(nameof(WallpaperMode));
 			return this;
 		}
@@ -383,23 +408,41 @@ namespace NewCRM.Domain.Entitys.System
 			return this;
 		}
 
-		public Config ModifyAppX()
+		public Config AppX()
 		{
 			AppXy = AppAlignMode.X;
 			OnPropertyChanged(nameof(AppXy));
 			return this;
 		}
 
-		public Config ModifyAppY()
+		public Config AppY()
 		{
 			AppXy = AppAlignMode.Y;
 			OnPropertyChanged(nameof(AppXy));
 			return this;
 		}
 
-		public Config ModifyDockPosition(DockPostion dockPostion)
+		public Config DockOnTop()
 		{
-			DockPosition = dockPostion;
+			DockPosition = DockPostion.Top;
+			OnPropertyChanged(nameof(DockPosition));
+			return this;
+		}
+		public Config DockOnLeft()
+		{
+			DockPosition = DockPostion.Left;
+			OnPropertyChanged(nameof(DockPosition));
+			return this;
+		}
+		public Config DockOnRight()
+		{
+			DockPosition = DockPostion.Right;
+			OnPropertyChanged(nameof(DockPosition));
+			return this;
+		}
+		public Config DockDisable()
+		{
+			DockPosition = DockPostion.None;
 			OnPropertyChanged(nameof(DockPosition));
 			return this;
 		}
