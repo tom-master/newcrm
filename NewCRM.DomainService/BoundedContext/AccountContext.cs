@@ -96,21 +96,21 @@ namespace NewCRM.Domain.Services.BoundedContext
 				 using (var dataStore = new DataStore())
 				 {
 					 var sql = $@"SELECT 
-                            a.Id,
-                            a.Skin,
-                            a.AccountFace,
-                            a.AppSize,
-                            a.AppVerticalSpacing,
-                            a.AppHorizontalSpacing,
-                            a.DefaultDeskNumber,
-                            a.DefaultDeskCount,
-                            a.AppXy,
-                            a.DockPosition,
-                            a.WallpaperMode,
-                            a.WallpaperId,
-                            a.IsBing,
-                            a.AccountId
-                            FROM dbo.Config AS a WHERE a.AccountId=@accountId AND a.IsDeleted=0";
+								a.Id,
+								a.Skin,
+								a.AccountFace,
+								a.AppSize,
+								a.AppVerticalSpacing,
+								a.AppHorizontalSpacing,
+								a.DefaultDeskNumber,
+								a.DefaultDeskCount,
+								a.AppXy,
+								a.DockPosition,
+								a.WallpaperMode,
+								a.WallpaperId,
+								a.IsBing,
+								a.AccountId
+								FROM dbo.Config AS a WHERE a.AccountId=@accountId AND a.IsDeleted=0";
 					 var parameters = new List<SqlParameter> { new SqlParameter("@accountId", accountId) };
 					 var result = dataStore.Find<Config>(sql, parameters).FirstOrDefault();
 					 return result;

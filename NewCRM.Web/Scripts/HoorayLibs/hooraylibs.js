@@ -2554,7 +2554,7 @@ if (typeof define === "function") {
 } else {
     window.NewCrm = NewCrm;
 }
-var arr = []
+
 NewCrm.msgbox.info = function (msg, timeout) {
     NewCrm.msgbox.show(msg, 1, timeout || 2000);
 };
