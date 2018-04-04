@@ -6,7 +6,7 @@ using NewLib.Data.Mapper.MapperExtension;
 namespace NewCRM.Domain.Entitys.System
 {
 	[Description("用户配置"), Serializable]
-	public partial class Config: DomainModelBase
+	public partial class Config : DomainModelBase
 	{
 		#region private field
 
@@ -249,7 +249,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Config ModifySkin(String skin)
 		{
-			if (String.IsNullOrEmpty(skin))
+			if(String.IsNullOrEmpty(skin))
 			{
 				throw new ArgumentException($@"{nameof(skin)} is null");
 			}
@@ -261,7 +261,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Config ModifyAccountFace(String accountFace)
 		{
-			if (String.IsNullOrEmpty(accountFace))
+			if(String.IsNullOrEmpty(accountFace))
 			{
 				throw new ArgumentException($@"{nameof(accountFace)} is null");
 			}
@@ -273,21 +273,43 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Config ModifyAppSize(Int32 appSize)
 		{
-			if (appSize <= 0)
+			if(appSize <= 0)
 			{
 				throw new ArgumentException($@"{nameof(appSize)} less than or equal to zero");
 			}
 
-			AppSize = appSize;
+			if(appSize < 32)
+			{
+				AppSize = 32;
+			}
+			else if(appSize > 64)
+			{
+				AppSize = 64;
+			}
+			else
+			{
+				AppSize = appSize;
+			}
+
 			OnPropertyChanged(nameof(AppSize));
+
 			return this;
 		}
 
 		public Config ModifyAppVerticalSpacing(Int32 appVerticalSpacing)
 		{
-			if (appVerticalSpacing <= 0)
+			if(appVerticalSpacing <= 0)
 			{
 				throw new ArgumentException($@"{nameof(appVerticalSpacing)} less than or equal to zero");
+			}
+
+			if(appVerticalSpacing < 0)
+			{
+				AppVerticalSpacing = 0;
+			}
+			else if(appVerticalSpacing > 100)
+			{
+				AppVerticalSpacing = 100;
 			}
 
 			AppVerticalSpacing = appVerticalSpacing;
@@ -297,9 +319,18 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Config ModifyAppHorizontalSpacing(Int32 appHorizontalSpacing)
 		{
-			if (appHorizontalSpacing <= 0)
+			if(appHorizontalSpacing <= 0)
 			{
 				throw new ArgumentException($@"{nameof(appHorizontalSpacing)} less than or equal to zero");
+			}
+
+			if(appHorizontalSpacing < 0)
+			{
+				AppHorizontalSpacing = 0;
+			}
+			else if(appHorizontalSpacing > 100)
+			{
+				AppHorizontalSpacing = 100;
 			}
 
 			AppHorizontalSpacing = appHorizontalSpacing;
@@ -309,7 +340,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Config ModifyDefaultDeskNumber(Int32 deskNumber)
 		{
-			if (deskNumber <= 0)
+			if(deskNumber <= 0)
 			{
 				throw new ArgumentException($@"{nameof(deskNumber)} less than or equal to zero");
 			}
@@ -321,7 +352,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Config ModifyDefaultDeskCount(Int32 deskCount)
 		{
-			if (deskCount <= 0)
+			if(deskCount <= 0)
 			{
 				throw new ArgumentException($@"{nameof(deskCount)} less than or equal to zero");
 			}
