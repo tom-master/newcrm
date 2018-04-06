@@ -358,35 +358,35 @@ namespace NewCRM.Domain.Entitys.System
 			return this;
 		}
 
-		public Config WallpaperModeToFill()
+		public Config ToFill()
 		{
 			WallpaperMode = WallpaperMode.Fill;
 			OnPropertyChanged(nameof(WallpaperMode));
 			return this;
 		}
 
-		public Config WallpaperModeToAdapted()
+		public Config ToAdapted()
 		{
 			WallpaperMode = WallpaperMode.Adapted;
 			OnPropertyChanged(nameof(WallpaperMode));
 			return this;
 		}
 
-		public Config WallpaperModeToTile()
+		public Config ToTile()
 		{
 			WallpaperMode = WallpaperMode.Tile;
 			OnPropertyChanged(nameof(WallpaperMode));
 			return this;
 		}
 
-		public Config WallpaperModeToDraw()
+		public Config ToDraw()
 		{
 			WallpaperMode = WallpaperMode.Draw;
 			OnPropertyChanged(nameof(WallpaperMode));
 			return this;
 		}
 
-		public Config ModifyWallpaperModeToCenter()
+		public Config ToCenter()
 		{
 			WallpaperMode = WallpaperMode.Center;
 			OnPropertyChanged(nameof(WallpaperMode));
