@@ -567,9 +567,35 @@ namespace NewCRM.Domain.Services.BoundedContext
 					{
 						app.StyleToWidget();
 					}
-					app.ModifyIsResize(app.IsResize);
-					app.ModifyIsOpenMax(app.IsOpenMax);
-					app.ModifyIsFlash(app.IsFlash);
+
+					if (app.IsResize)
+					{
+						app.Resize();
+					}
+					else
+					{
+						app.NotResize();
+					}
+
+					if (app.IsOpenMax)
+					{
+						app.OpenMax();
+					}
+					else
+					{
+						app.NotOpenMax();
+					}
+
+					if (app.IsFlash)
+					{
+						app.Flash();
+					}
+					else
+					{
+						app.NotFlash();
+					}
+
+
 					app.ModifyRemark(app.Remark);
 
 					if (app.AppAuditState == AppAuditState.Wait)

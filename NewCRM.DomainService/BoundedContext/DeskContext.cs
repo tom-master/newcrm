@@ -27,15 +27,16 @@ namespace NewCRM.Domain.Services.BoundedContext
 			});
 		}
 
-		public async Task ModifyDockPositionAsync(Int32 accountId, Int32 defaultDeskNumber, String newPosition)
+		public async Task ModifyDockPositionAsync(Int32 accountId, Int32 defaultDeskNumber, String position)
 		{
-			Parameter.Validate(accountId).Validate(defaultDeskNumber).Validate(newPosition);
+			Parameter.Validate(accountId).Validate(defaultDeskNumber).Validate(position);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
 				{
 					var config = new Config();
-					config.ModifyDockPosition(EnumExtensions.ToEnum<DockPostion>(newPosition));
+					var newPosition = EnumExtensions.ToEnum<DockPostion>(position);
+					config.PositionTo(newPosition);
 					dataStore.ExecuteModify(config, conf => conf.AccountId == accountId && conf.DefaultDeskNumber == defaultDeskNumber);
 				}
 			});
