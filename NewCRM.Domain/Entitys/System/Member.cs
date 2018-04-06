@@ -481,58 +481,114 @@ namespace NewCRM.Domain.Entitys.System
 			return this;
 		}
 
-		public Member ModifyIsMax(Boolean isMax)
+		public Member Max()
 		{
-			IsMax = isMax;
+			IsMax = true;
 			OnPropertyChanged(nameof(IsMax));
 			return this;
 		}
 
-		public Member ModifyIsFull(Boolean isFull)
+		public Member NotMax()
 		{
-			IsFull = isFull;
+			IsMax = false;
+			OnPropertyChanged(nameof(IsMax));
+			return this;
+		}
+
+		public Member Full()
+		{
+			IsFull = true;
 			OnPropertyChanged(nameof(IsFull));
 			return this;
 		}
 
-		public Member ModifyIsSetbar(Boolean isSetbar)
+		public Member NotFull()
 		{
-			IsSetbar = isSetbar;
+			IsFull = false;
+			OnPropertyChanged(nameof(IsFull));
+			return this;
+		}
+
+		public Member Setbar()
+		{
+			IsSetbar = true;
 			OnPropertyChanged(nameof(IsSetbar));
 			return this;
 		}
 
-		public Member ModifyIsOpenMax(Boolean isOpenMax)
+		public Member NotSetbar()
 		{
-			IsOpenMax = isOpenMax;
+			IsSetbar = false;
+			OnPropertyChanged(nameof(IsSetbar));
+			return this;
+		}
+
+		public Member OpenMax()
+		{
+			IsOpenMax = true;
 			OnPropertyChanged(nameof(IsOpenMax));
 			return this;
 		}
 
-		public Member ModifyIsLock(Boolean isLock)
+		public Member NotOpenMax()
 		{
-			IsLock = isLock;
+			IsOpenMax = false;
+			OnPropertyChanged(nameof(IsOpenMax));
+			return this;
+		}
+
+		public Member Lock()
+		{
+			IsLock = true;
 			OnPropertyChanged(nameof(IsLock));
 			return this;
 		}
 
-		public Member ModifyIsFlash(Boolean isFlash)
+		public Member NotLock()
 		{
-			IsFlash = isFlash;
+			IsLock = false;
+			OnPropertyChanged(nameof(IsLock));
+			return this;
+		}
+
+		public Member Flash()
+		{
+			IsFlash = true;
 			OnPropertyChanged(nameof(IsFlash));
 			return this;
 		}
 
-		public Member ModifyIsDraw(Boolean isDraw)
+		public Member NotFlash()
 		{
-			IsDraw = isDraw;
+			IsFlash = false;
+			OnPropertyChanged(nameof(IsFlash));
+			return this;
+		}
+
+		public Member Draw()
+		{
+			IsDraw = true;
 			OnPropertyChanged(nameof(IsDraw));
 			return this;
 		}
 
-		public Member ModifyIsResize(Boolean isResize)
+		public Member NotDraw()
 		{
-			IsResize = isResize;
+			IsDraw = false;
+			OnPropertyChanged(nameof(IsDraw));
+			return this;
+		}
+
+		public Member Resize()
+		{
+			IsResize = true;
+			OnPropertyChanged(nameof(IsResize));
+			return this;
+		}
+
+		public Member NotResize()
+		{
+			IsResize = false;
 			OnPropertyChanged(nameof(IsResize));
 			return this;
 		}
