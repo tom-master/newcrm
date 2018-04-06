@@ -8,7 +8,7 @@ namespace NewCRM.Domain.Entitys.System
 {
 
 	[Serializable, Description("应用")]
-	public partial class App : DomainModelBase
+	public partial class App: DomainModelBase
 	{
 		#region private field
 
@@ -423,7 +423,7 @@ namespace NewCRM.Domain.Entitys.System
 			Height = height > 600 ? 600 : height;
 			AppTypeId = appTypeId;
 			AppStyle = appStyle;
-			if(accountId == 0)
+			if (accountId == 0)
 			{
 				IsSystem = true;
 			}
@@ -454,7 +454,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public App ModifyName(String appName)
 		{
-			if(String.IsNullOrEmpty(appName))
+			if (String.IsNullOrEmpty(appName))
 			{
 				throw new ArgumentException($@"{nameof(appName)} is null");
 			}
@@ -466,7 +466,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public App ModifyIconUrl(String iconUrl)
 		{
-			if(String.IsNullOrEmpty(iconUrl))
+			if (String.IsNullOrEmpty(iconUrl))
 			{
 				throw new ArgumentException($@"{nameof(iconUrl)} is null");
 			}
@@ -478,7 +478,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public App ModifyWidth(Int32 width)
 		{
-			if(width <= 0)
+			if (width <= 0)
 			{
 				throw new ArgumentException($@"{nameof(width)} less than or equal to zero");
 			}
@@ -490,7 +490,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public App ModifyHeight(Int32 height)
 		{
-			if(height <= 0)
+			if (height <= 0)
 			{
 				throw new ArgumentException($@"{nameof(height)} less than or equal to zero");
 			}
@@ -514,65 +514,129 @@ namespace NewCRM.Domain.Entitys.System
 			return this;
 		}
 
-		public App ModifyIsMax(Boolean isMax)
+		public App Max()
 		{
-			IsMax = isMax;
+			IsMax = true;
 			OnPropertyChanged(nameof(IsMax));
 			return this;
 		}
 
-		public App ModifyIsFull(Boolean isFull)
+		public App NotMax()
 		{
-			IsFull = isFull;
+			IsMax = false;
+			OnPropertyChanged(nameof(IsMax));
+			return this;
+		}
+
+		public App Full()
+		{
+			IsFull = true;
 			OnPropertyChanged(nameof(IsFull));
 			return this;
 		}
 
-		public App ModifyIsSetbar(Boolean isSetbar)
+		public App NotFull()
 		{
-			IsSetbar = isSetbar;
+			IsFull = false;
+			OnPropertyChanged(nameof(IsFull));
+			return this;
+		}
+
+		public App Setbar()
+		{
+			IsSetbar = true;
 			OnPropertyChanged(nameof(IsSetbar));
 			return this;
 		}
 
-		public App ModifyIsOpenMax(Boolean isOpenMax)
+		public App NotSetbar()
 		{
-			IsOpenMax = isOpenMax;
+			IsSetbar = false;
+			OnPropertyChanged(nameof(IsSetbar));
+			return this;
+		}
+
+		public App OpenMax()
+		{
+			IsOpenMax = true;
 			OnPropertyChanged(nameof(IsOpenMax));
 			return this;
 		}
 
-		public App ModifyIsLock(Boolean isLock)
+		public App NotOpenMax()
 		{
-			IsLock = isLock;
+			IsOpenMax = false;
+			OnPropertyChanged(nameof(IsOpenMax));
+			return this;
+		}
+
+		public App Lock()
+		{
+			IsLock = true;
 			OnPropertyChanged(nameof(IsLock));
 			return this;
 		}
 
-		public App ModifyIsSystem(Boolean isSystem)
+		public App NotLock()
 		{
-			IsSystem = isSystem;
+			IsLock = false;
+			OnPropertyChanged(nameof(IsLock));
+			return this;
+		}
+
+
+		public App System()
+		{
+			IsSystem = true;
 			OnPropertyChanged(nameof(IsSystem));
 			return this;
 		}
 
-		public App ModifyIsFlash(Boolean isFlash)
+		public App NotSystem()
 		{
-			IsFlash = isFlash;
+			IsSystem = false;
+			OnPropertyChanged(nameof(IsSystem));
+			return this;
+		}
+
+		public App Flash()
+		{
+			IsFlash = true;
 			OnPropertyChanged(nameof(IsFlash));
 			return this;
 		}
 
-		public App ModifyIsDraw(Boolean isDraw)
+		public App NotFlash()
 		{
-			IsDraw = isDraw;
+			IsFlash = false;
+			OnPropertyChanged(nameof(IsFlash));
+			return this;
+		}
+
+		public App Draw()
+		{
+			IsDraw = true;
 			OnPropertyChanged(nameof(IsDraw));
 			return this;
 		}
 
-		public App ModifyIsResize(Boolean isResize)
+		public App NotDraw()
 		{
-			IsResize = isResize;
+			IsDraw = false;
+			OnPropertyChanged(nameof(IsDraw));
+			return this;
+		}
+
+		public App Resize()
+		{
+			IsResize = true;
+			OnPropertyChanged(nameof(IsResize));
+			return this;
+		}
+
+		public App NotResize()
+		{
+			IsResize = false;
 			OnPropertyChanged(nameof(IsResize));
 			return this;
 		}
@@ -600,14 +664,14 @@ namespace NewCRM.Domain.Entitys.System
 
 		public App AppRelease()
 		{
-			AppReleaseState = NewCRM.Domain.ValueObject.AppReleaseState.Release;
+			AppReleaseState = AppReleaseState.Release;
 			OnPropertyChanged(nameof(AppReleaseState));
 			return this;
 		}
 
 		public App AppUnrelease()
 		{
-			AppReleaseState = NewCRM.Domain.ValueObject.AppReleaseState.UnRelease;
+			AppReleaseState = AppReleaseState.UnRelease;
 			OnPropertyChanged(nameof(AppReleaseState));
 			return this;
 		}
@@ -670,7 +734,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public App ModifyUrl(String newAppUrl)
 		{
-			if(String.IsNullOrEmpty(newAppUrl))
+			if (String.IsNullOrEmpty(newAppUrl))
 			{
 				throw new ArgumentException($@"{nameof(newAppUrl)} is null");
 			}
@@ -682,7 +746,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public App ModifyRemark(String newRemark)
 		{
-			if(String.IsNullOrEmpty(newRemark))
+			if (String.IsNullOrEmpty(newRemark))
 			{
 				throw new ArgumentException($@"{nameof(newRemark)} is null");
 			}
