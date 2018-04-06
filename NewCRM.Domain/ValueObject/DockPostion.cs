@@ -7,13 +7,28 @@ namespace NewCRM.Domain.ValueObject
     /// </summary>
     public enum DockPostion
     {
-        [Description("上")]
+		/// <summary>
+		/// 上
+		/// </summary>
+		[Description("上")]
         Top = 1,
-        [Description("左")]
+
+		/// <summary>
+		/// 左
+		/// </summary>
+		[Description("左")]
         Left = 2,
-        [Description("右")]
+
+		/// <summary>
+		/// 右
+		/// </summary>
+		[Description("右")]
         Right = 3,
-        [Description("停用")]
+
+		/// <summary>
+		/// 停用
+		/// </summary>
+		[Description("停用")]
         None = 4
     }
 }

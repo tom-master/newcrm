@@ -278,6 +278,15 @@ namespace NewCRM.Domain.Entitys.System
 				throw new ArgumentException($@"{nameof(appSize)} less than or equal to zero");
 			}
 
+			if (appSize < 32)
+			{
+				appSize = 32;
+			}
+			else if (appSize > 64)
+			{
+				appSize = 64;
+			}
+
 			AppSize = appSize;
 			OnPropertyChanged(nameof(AppSize));
 			return this;
@@ -290,6 +299,15 @@ namespace NewCRM.Domain.Entitys.System
 				throw new ArgumentException($@"{nameof(appVerticalSpacing)} less than or equal to zero");
 			}
 
+			if (appVerticalSpacing < 0)
+			{
+				appVerticalSpacing = 0;
+			}
+			else if (appVerticalSpacing > 100)
+			{
+				appVerticalSpacing = 100;
+			}
+
 			AppVerticalSpacing = appVerticalSpacing;
 			OnPropertyChanged(nameof(AppVerticalSpacing));
 			return this;
@@ -300,6 +318,15 @@ namespace NewCRM.Domain.Entitys.System
 			if (appHorizontalSpacing <= 0)
 			{
 				throw new ArgumentException($@"{nameof(appHorizontalSpacing)} less than or equal to zero");
+			}
+
+			if (appHorizontalSpacing < 0)
+			{
+				appHorizontalSpacing = 0;
+			}
+			else if (appHorizontalSpacing > 100)
+			{
+				appHorizontalSpacing = 100;
 			}
 
 			AppHorizontalSpacing = appHorizontalSpacing;
@@ -331,9 +358,37 @@ namespace NewCRM.Domain.Entitys.System
 			return this;
 		}
 
-		public Config ModifyWallpaperMode(WallpaperMode wallpaperMode)
+		public Config WallpaperModeToFill()
 		{
-			WallpaperMode = wallpaperMode;
+			WallpaperMode = WallpaperMode.Fill;
+			OnPropertyChanged(nameof(WallpaperMode));
+			return this;
+		}
+
+		public Config WallpaperModeToAdapted()
+		{
+			WallpaperMode = WallpaperMode.Adapted;
+			OnPropertyChanged(nameof(WallpaperMode));
+			return this;
+		}
+
+		public Config WallpaperModeToTile()
+		{
+			WallpaperMode = WallpaperMode.Tile;
+			OnPropertyChanged(nameof(WallpaperMode));
+			return this;
+		}
+
+		public Config WallpaperModeToDraw()
+		{
+			WallpaperMode = WallpaperMode.Draw;
+			OnPropertyChanged(nameof(WallpaperMode));
+			return this;
+		}
+
+		public Config ModifyWallpaperModeToCenter()
+		{
+			WallpaperMode = WallpaperMode.Center;
 			OnPropertyChanged(nameof(WallpaperMode));
 			return this;
 		}
@@ -366,9 +421,30 @@ namespace NewCRM.Domain.Entitys.System
 			return this;
 		}
 
-		public Config ModifyDockPosition(DockPostion dockPostion)
+		public Config DockPositionToTop()
 		{
-			DockPosition = dockPostion;
+			DockPosition = DockPostion.Top;
+			OnPropertyChanged(nameof(DockPosition));
+			return this;
+		}
+
+		public Config DockPositionToLeft()
+		{
+			DockPosition = DockPostion.Left;
+			OnPropertyChanged(nameof(DockPosition));
+			return this;
+		}
+
+		public Config DockPositionToRight()
+		{
+			DockPosition = DockPostion.Right;
+			OnPropertyChanged(nameof(DockPosition));
+			return this;
+		}
+
+		public Config DockPositionToNone()
+		{
+			DockPosition = DockPostion.None;
 			OnPropertyChanged(nameof(DockPosition));
 			return this;
 		}
