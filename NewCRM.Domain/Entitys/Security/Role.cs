@@ -128,18 +128,6 @@ namespace NewCRM.Domain.Entitys.Security
 			return this;
 		}
 
-		public Role ModifyRoleIdentity(String roleIdentity)
-		{
-			if (String.IsNullOrEmpty(roleIdentity))
-			{
-				throw new ArgumentException($@"{nameof(roleIdentity)} is null");
-			}
-
-			RoleIdentity = roleIdentity;
-			OnPropertyChanged(nameof(RoleIdentity));
-			return this;
-		}
-
 		public Role ModifyRolePower(params Int32[] appIds)
 		{
 			if (appIds.Length == 0)

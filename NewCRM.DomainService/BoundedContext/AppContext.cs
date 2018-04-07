@@ -462,7 +462,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 						#region 取消之前的推荐app
 						{
 							var app = new App().CancelRecommand();
-							dataStore.ExecuteModify(app, a => a.IsRecommand);
+							dataStore.ExecuteModify(app, a => a.IsRecommand == true);
 						}
 						#endregion
 

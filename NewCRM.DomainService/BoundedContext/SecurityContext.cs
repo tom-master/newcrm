@@ -135,7 +135,6 @@ namespace NewCRM.Domain.Services.BoundedContext
 					#region 修改角色
 					{
 						role.ModifyRoleName(role.Name);
-						role.ModifyRoleIdentity(role.RoleIdentity);
 						dataStore.ExecuteModify(role, r => r.Id == role.Id);
 					}
 					#endregion
