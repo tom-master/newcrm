@@ -33,7 +33,7 @@ namespace NewCRM.Application.Services
 					var fileName = Get(path, x => x.LastIndexOf(@"\", StringComparison.OrdinalIgnoreCase) + 1).Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[0];
 					dataDictionary.Add(fileName, new
 					{
-						cssPath = path.Substring(path.LastIndexOf("script", StringComparison.OrdinalIgnoreCase) - 1).Replace(@"\", "/"),
+						cssPath = path.Substring(path.LastIndexOf("Content", StringComparison.OrdinalIgnoreCase) - 1).Replace(@"\", "/"),
 						imgPath = GetLocalImagePath(fileName, skinPath)
 					});
 				});
@@ -58,7 +58,7 @@ namespace NewCRM.Application.Services
 			var dic = Directory.GetFiles(fullPath, "preview.png", SearchOption.AllDirectories).ToList();
 			foreach (var dicItem in from dicItem in dic let regex = new Regex(fileName) where regex.IsMatch(dicItem) select dicItem)
 			{
-				return dicItem.Substring(dicItem.LastIndexOf("script", StringComparison.OrdinalIgnoreCase) - 1).Replace(@"\", "/");
+				return dicItem.Substring(dicItem.LastIndexOf("Content", StringComparison.OrdinalIgnoreCase) - 1).Replace(@"\", "/");
 			}
 
 			return "";
