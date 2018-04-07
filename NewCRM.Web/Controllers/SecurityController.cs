@@ -202,10 +202,10 @@ namespace NewCRM.Web.Controllers
 		/// 检查角色名称
 		/// </summary>
 		[HttpPost]
-		public async Task<ActionResult> CheckRoleName(String name)
+		public async Task<ActionResult> CheckRoleName(String param)
 		{
-			Parameter.Validate(name);
-			var result = await _securityServices.CheckRoleNameAsync(name);
+			Parameter.Validate(param);
+			var result = await _securityServices.CheckRoleNameAsync(param);
 			return Json(!result ? new { status = "y", info = "" } : new { status = "n", info = "角色名称已存在" });
 		}
 
