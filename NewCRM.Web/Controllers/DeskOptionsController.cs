@@ -222,7 +222,7 @@ namespace NewCRM.Web.Controllers
         /// 更换皮肤
         /// </summary>
         [HttpPost]
-        public async Task<ActionResult> ModifySkinAsync(String skin)
+        public async Task<ActionResult> ModifySkin(String skin)
         {
             #region 参数验证
             Parameter.Validate(skin);

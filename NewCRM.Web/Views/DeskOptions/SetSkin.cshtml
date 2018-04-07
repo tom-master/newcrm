@@ -20,7 +20,6 @@
 
         function loadAllSkin(callback) {
             HROS.request.get('/DeskOptions/GetSkins', {}, function (responseText) {
-                debugger
                 if (responseText.IsSuccess) {
                     var html = '';
                     $.each(responseText.Model.result.Result, function (k, v) {
