@@ -50,7 +50,7 @@ namespace NewCRM.Domain.Entitys
 			}
 		}
 
-		[DateTimePropertyDefaultValue]
+		[DateTimeDefaultValue]
 		public DateTime AddTime
 		{
 			get
@@ -64,7 +64,7 @@ namespace NewCRM.Domain.Entitys
 			}
 		}
 
-		[DateTimePropertyDefaultValue]
+		[DateTimeDefaultValue]
 		public DateTime LastModifyTime
 		{
 			get

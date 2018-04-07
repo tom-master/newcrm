@@ -96,7 +96,7 @@ namespace NewCRM.Domain.Entitys.Agent
 		/// <summary>
 		/// 最后一次登录的时间
 		/// </summary>
-		[DateTimePropertyDefaultValue]
+		[DateTimeDefaultValue]
 		public DateTime LastLoginTime
 		{
 			get
