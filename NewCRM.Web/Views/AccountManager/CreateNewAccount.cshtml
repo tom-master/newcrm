@@ -24,7 +24,7 @@
                         if (accountResult.Name == null)
                         {
                             <text>
-                                <input type="text" name="val_accountname" datatype="s4-12" ajaxurl="/AccountManager/CheckAccountNameExist" nullmsg="请输入用户名" errormsg="用户名长度为4-12个字符">
+                                <input type="text" name="val_accountname" datatype="s4-12" ajaxurl="@Url.Action("CheckAccountNameExist","AccountManager")" nullmsg="请输入用户名" errormsg="用户名长度为4-12个字符">
                             </text>
                         }
                         else

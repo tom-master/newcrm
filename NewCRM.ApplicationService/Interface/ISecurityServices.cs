@@ -29,14 +29,19 @@ namespace NewCRM.Application.Services.Interface
         /// </summary>
         Task<Boolean> CheckRoleNameAsync(String name);
 
-        #endregion
+		/// <summary>
+		/// 检查角色标识
+		/// </summary>
+		Task<Boolean> CheckRoleIdentityAsync(String name);
 
-        #region not have return value
+		#endregion
 
-        /// <summary>
-        /// 新建角色
-        /// </summary>
-        Task AddNewRoleAsync(RoleDto role);
+		#region not have return value
+
+		/// <summary>
+		/// 新建角色
+		/// </summary>
+		Task AddNewRoleAsync(RoleDto role);
 
         /// <summary>
         /// 修改角色信息
