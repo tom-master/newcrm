@@ -560,15 +560,14 @@ namespace NewCRM.Domain.Services.BoundedContext
 			{
 				using (var dataStore = new DataStore())
 				{
-					var lockPassword = "";
 					var parameters = new List<SqlParameter>();
 					var account = new Account();
 					if (isTogetherSetLockPassword)
 					{
 						account.ModifyLockScreenPassword(newPassword);
 					}
-					account.ModifyLoginPassword(lockPassword);
-					dataStore.ExecuteModify(account, acc => acc.Id == accountId && !acc.IsDisable);
+					account.ModifyLoginPassword(newPassword);
+					dataStore.ExecuteModify(account, acc => acc.Id == accountId && acc.IsDisable == false);
 				}
 			});
 		}
