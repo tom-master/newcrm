@@ -7,6 +7,7 @@ using NewCRM.Application.Services.Interface;
 using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Web.Controllers.ControllerHelper;
+using NewLib.Validate;
 
 namespace NewCRM.Web.Controllers
 {
@@ -73,7 +74,7 @@ namespace NewCRM.Web.Controllers
         public async Task<ActionResult> RemoveAppType(Int32 appTypeId)
         {
             #region 参数验证
-            Parameter.Validate(appTypeId);
+            new Parameter().Validate(appTypeId);
             #endregion
 
             var response = new ResponseModel();
@@ -92,7 +93,7 @@ namespace NewCRM.Web.Controllers
         public async Task<ActionResult> CreateAppType(FormCollection forms, Int32 appTypeId = 0)
         {
             #region 参数验证
-            Parameter.Validate(forms);
+            new Parameter().Validate(forms);
             #endregion
 
             var response = new ResponseModel();
@@ -119,7 +120,7 @@ namespace NewCRM.Web.Controllers
         public async Task<ActionResult> CheckAppTypeName(String param)
         {
             #region 参数验证
-            Parameter.Validate(param);
+            new Parameter().Validate(param);
             #endregion
 
             var result = await _appServices.CheckAppTypeNameAsync(param);

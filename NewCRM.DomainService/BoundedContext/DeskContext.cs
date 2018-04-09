@@ -51,7 +51,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 				using (var dataStore = new DataStore())
 				{
 					var config = new Config();
-					config.ModifyAppX();
+					config.DirectionToX();
 					dataStore.ExecuteModify(config, conf => conf.AccountId == accountId);
 				}
 			});
@@ -65,7 +65,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 				using (var dataStore = new DataStore())
 				{
 					var config = new Config();
-					config.ModifyAppY();
+					config.DirectionToY();
 					dataStore.ExecuteModify(config, conf => conf.AccountId == accountId);
 				}
 			});
