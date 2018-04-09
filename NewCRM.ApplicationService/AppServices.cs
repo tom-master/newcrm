@@ -15,7 +15,7 @@ using static NewCRM.Infrastructure.CommonTools.CacheKey;
 
 namespace NewCRM.Application.Services
 {
-	public class AppServices:  IAppServices
+	public class AppServices : IAppServices
 	{
 		private readonly IAppContext _appContext;
 		private readonly IDeskContext _deskContext;
@@ -28,7 +28,7 @@ namespace NewCRM.Application.Services
 
 		public async Task<List<AppTypeDto>> GetAppTypesAsync()
 		{
-			var result = await GetCache(new AppTypeCacheKey(), () => _appContext.GetAppTypesAsync());
+			var result = await CacheHelper.GetCache(new AppTypeCacheKey(), () => _appContext.GetAppTypesAsync());
 			return result.Select(s => new AppTypeDto
 			{
 				Id = s.Id,
@@ -42,7 +42,7 @@ namespace NewCRM.Application.Services
 
 			var result = await _appContext.GetTodayRecommendAsync(accountId);
 			result.AppIcon = result.IsIconByUpload ? ProfileManager.FileUrl + result.AppIcon : result.AppIcon;
-			if (result == null)
+			if(result == null)
 			{
 				return new TodayRecommendAppDto();
 			}
@@ -104,7 +104,7 @@ namespace NewCRM.Application.Services
 			Parameter.Validate(appId);
 
 			var result = await _appContext.GetAppAsync(appId);
-			var appTypes = await GetCache(new AppTypeCacheKey(), () => GetAppTypesAsync());
+			var appTypes = await CacheHelper.GetCache(new AppTypeCacheKey(), () => GetAppTypesAsync());
 
 			return new AppDto
 			{
@@ -142,7 +142,7 @@ namespace NewCRM.Application.Services
 		public IEnumerable<AppStyleDto> GetAppStyles()
 		{
 			var descriptions = GetEnumDescriptions(typeof(AppStyle));
-			foreach (var description in descriptions)
+			foreach(var description in descriptions)
 			{
 				yield return new AppStyleDto
 				{
@@ -159,7 +159,7 @@ namespace NewCRM.Application.Services
 
 			appStates.AddRange(GetEnumDescriptions(typeof(AppAuditState)));
 			appStates.AddRange(GetEnumDescriptions(typeof(AppReleaseState)));
-			foreach (var appState in appStates)
+			foreach(var appState in appStates)
 			{
 				yield return new AppStateDto
 				{
@@ -191,11 +191,11 @@ namespace NewCRM.Application.Services
 		{
 			Parameter.Validate(accountId).Validate(direction);
 
-			if (direction.ToLower() == "x")
+			if(direction.ToLower() == "x")
 			{
 				await _deskContext.ModifyMemberDirectionToXAsync(accountId);
 			}
-			else if (direction.ToLower() == "y")
+			else if(direction.ToLower() == "y")
 			{
 				await _deskContext.ModifyMemberDirectionToYAsync(accountId);
 			}
@@ -203,28 +203,28 @@ namespace NewCRM.Application.Services
 			{
 				throw new BusinessException($"未能识别的App排列方向:{direction.ToLower()}");
 			}
-			RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
 		}
 
 		public async Task ModifyAppIconSizeAsync(Int32 accountId, Int32 newSize)
 		{
 			Parameter.Validate(accountId).Validate(newSize);
 			await _deskContext.ModifyMemberDisplayIconSizeAsync(accountId, newSize);
-			RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
 		}
 
 		public async Task ModifyAppVerticalSpacingAsync(Int32 accountId, Int32 newSize)
 		{
 			Parameter.Validate(accountId).Validate(newSize);
 			await _deskContext.ModifyMemberHorizontalSpacingAsync(accountId, newSize);
-			RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
 		}
 
 		public async Task ModifyAppHorizontalSpacingAsync(Int32 accountId, Int32 newSize)
 		{
 			Parameter.Validate(accountId).Validate(newSize);
 			await _deskContext.ModifyMemberVerticalSpacingAsync(accountId, newSize);
-			RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
 		}
 
 		public async Task ModifyAppStarAsync(Int32 accountId, Int32 appId, Int32 starCount)
@@ -232,7 +232,7 @@ namespace NewCRM.Application.Services
 			Parameter.Validate(accountId).Validate(appId).Validate(starCount, true);
 
 			var isInstall = await _appContext.IsInstallAppAsync(accountId, appId);
-			if (!isInstall)
+			if(!isInstall)
 			{
 				throw new BusinessException("您还没有安装这个App，因此不能打分");
 			}
@@ -243,7 +243,7 @@ namespace NewCRM.Application.Services
 		{
 			Parameter.Validate(accountId).Validate(appId).Validate(deskNum);
 			await _appContext.InstallAsync(accountId, appId, deskNum);
-			RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
 		}
 
 		public async Task ModifyAccountAppInfoAsync(Int32 accountId, AppDto appDto)
@@ -267,7 +267,7 @@ namespace NewCRM.Application.Services
 		{
 			Parameter.Validate(appTypeId);
 			await _appContext.DeleteAppTypeAsync(appTypeId);
-			RemoveOldKeyWhenModify(new AppTypeCacheKey());
+			CacheHelper.RemoveOldKeyWhenModify(new AppTypeCacheKey());
 		}
 
 		public async Task CreateNewAppTypeAsync(AppTypeDto appTypeDto)
@@ -275,14 +275,14 @@ namespace NewCRM.Application.Services
 			Parameter.Validate(appTypeDto);
 			var appType = appTypeDto.ConvertToModel<AppTypeDto, AppType>();
 			await _appContext.CreateNewAppTypeAsync(appType);
-			RemoveOldKeyWhenModify(new AppTypeCacheKey());
+			CacheHelper.RemoveOldKeyWhenModify(new AppTypeCacheKey());
 		}
 
 		public async Task ModifyAppTypeAsync(AppTypeDto appTypeDto, Int32 appTypeId)
 		{
 			Parameter.Validate(appTypeDto).Validate(appTypeId);
 			await _appContext.ModifyAppTypeAsync(appTypeDto.Name, appTypeId);
-			RemoveOldKeyWhenModify(new AppTypeCacheKey());
+			CacheHelper.RemoveOldKeyWhenModify(new AppTypeCacheKey());
 		}
 
 		public async Task PassAsync(Int32 appId)

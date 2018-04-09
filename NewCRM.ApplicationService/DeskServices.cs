@@ -15,7 +15,7 @@ using static NewCRM.Infrastructure.CommonTools.CacheKey;
 
 namespace NewCRM.Application.Services
 {
-	public class DeskServices :  IDeskServices
+	public class DeskServices : IDeskServices
 	{
 		private readonly IMemberContext _memberContext;
 		private readonly IDeskContext _deskContext;
@@ -144,91 +144,91 @@ namespace NewCRM.Application.Services
 		{
 			Parameter.Validate(accountId).Validate(newDefaultDeskNumber);
 			await _deskContext.ModifyDefaultDeskNumberAsync(accountId, newDefaultDeskNumber);
-			RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
 		}
 
 		public async Task ModifyDockPositionAsync(Int32 accountId, Int32 defaultDeskNumber, String newPosition)
 		{
 			Parameter.Validate(accountId).Validate(defaultDeskNumber).Validate(newPosition);
 			await _deskContext.ModifyDockPositionAsync(accountId, defaultDeskNumber, newPosition);
-			RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
 		}
 
 		public async Task MemberInDockAsync(Int32 accountId, Int32 memberId)
 		{
 			Parameter.Validate(accountId).Validate(memberId);
 			await _deskContext.MemberInDockAsync(accountId, memberId);
-			RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
 		}
 
 		public async Task MemberOutDockAsync(Int32 accountId, Int32 memberId, Int32 deskId)
 		{
 			Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
 			await _deskContext.MemberOutDockAsync(accountId, memberId, deskId);
-			RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
 		}
 
 		public async Task DockToFolderAsync(Int32 accountId, Int32 memberId, Int32 folderId)
 		{
 			Parameter.Validate(accountId).Validate(memberId).Validate(folderId);
 			await _deskContext.DockToFolderAsync(accountId, memberId, folderId);
-			RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
 		}
 
 		public async Task FolderToDockAsync(Int32 accountId, Int32 memberId)
 		{
 			Parameter.Validate(accountId).Validate(memberId);
 			await _deskContext.FolderToDockAsync(accountId, memberId);
-			RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
 		}
 
 		public async Task DeskToFolderAsync(Int32 accountId, Int32 memberId, Int32 folderId)
 		{
 			Parameter.Validate(accountId).Validate(memberId).Validate(folderId);
 			await _deskContext.DeskToFolderAsync(accountId, memberId, folderId);
-			RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
 		}
 
 		public async Task FolderToDeskAsync(Int32 accountId, Int32 memberId, Int32 deskId)
 		{
 			Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
 			await _deskContext.FolderToDeskAsync(accountId, memberId, deskId);
-			RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
 		}
 
 		public async Task FolderToOtherFolderAsync(Int32 accountId, Int32 memberId, Int32 folderId)
 		{
 			Parameter.Validate(accountId).Validate(memberId).Validate(folderId);
 			await _deskContext.FolderToOtherFolderAsync(accountId, memberId, folderId);
-			RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
 		}
 
 		public async Task DeskToOtherDeskAsync(Int32 accountId, Int32 memberId, Int32 deskId)
 		{
 			Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
 			await _deskContext.DeskToOtherDeskAsync(accountId, memberId, deskId);
-			RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
 		}
 
 		public async Task ModifyFolderInfoAsync(Int32 accountId, String memberName, String memberIcon, Int32 memberId)
 		{
 			Parameter.Validate(accountId).Validate(memberName).Validate(memberIcon).Validate(memberId);
 			await _memberContext.ModifyFolderInfoAsync(accountId, memberName, memberIcon, memberId);
-			RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
 		}
 
 		public async Task UninstallMemberAsync(Int32 accountId, Int32 memberId)
 		{
 			Parameter.Validate(accountId).Validate(memberId);
 			await _memberContext.UninstallMemberAsync(accountId, memberId);
-			RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
 		}
 
 		public async Task ModifyMemberInfoAsync(Int32 accountId, MemberDto member)
 		{
 			Parameter.Validate(accountId).Validate(member);
 			await _memberContext.ModifyMemberInfoAsync(accountId, member.ConvertToModel<MemberDto, Member>());
-			RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
 		}
 
 		public async Task CreateNewFolderAsync(String folderName, String folderImg, Int32 deskId, Int32 accountId)
@@ -241,21 +241,21 @@ namespace NewCRM.Application.Services
 		{
 			Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
 			await _deskContext.DockToOtherDeskAsync(accountId, memberId, deskId);
-			RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
 		}
 
 		public async Task ModifyMemberIconAsync(Int32 accountId, Int32 memberId, String newIcon)
 		{
 			Parameter.Validate(accountId).Validate(memberId).Validate(newIcon);
 			await _memberContext.ModifyMemberIconAsync(accountId, memberId, newIcon);
-			RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new DesktopCacheKey(accountId));
 		}
 
 		public async Task ModifyWallpaperSourceAsync(String source, Int32 accountId)
 		{
 			Parameter.Validate(source).Validate(accountId);
 			await _deskContext.ModifyWallpaperSourceAsync(source, accountId);
-			RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
 		}
 	}
 }

@@ -46,7 +46,7 @@ namespace NewCRM.Application.Services
 		{
 			Parameter.Validate(accountId).Validate(newSkin);
 			await _skinContext.ModifySkinAsync(accountId, newSkin);
-			RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
 		}
 
 		#region private method
