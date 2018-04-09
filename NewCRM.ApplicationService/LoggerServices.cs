@@ -16,7 +16,7 @@ namespace NewCRM.Application.Services
 
 		public LoggerServices(ILoggerContext loggerContext)
 		{
-			_loggerContext = loggerContext
+			_loggerContext = loggerContext;
 		}
 
         public async Task AddLoggerAsync(LogDto log)

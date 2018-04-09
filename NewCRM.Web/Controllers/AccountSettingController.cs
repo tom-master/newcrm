@@ -84,7 +84,7 @@ namespace NewCRM.Web.Controllers
 		/// 检查旧密码和输入的密码是否一致
 		/// </summary>
 		[HttpPost]
-		public async Task<ActionResult> CheckPasswordAsync(String param)
+		public async Task<ActionResult> CheckPassword(String param)
 		{
 			#region 参数验证
 			Parameter.Validate(param);

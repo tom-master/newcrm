@@ -11,7 +11,7 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Application.Services
 {
-	public class SecurityServices : BaseServiceContext, ISecurityServices
+	public class SecurityServices: BaseServiceContext, ISecurityServices
 	{
 		private readonly ISecurityContext _securityContext;
 
@@ -20,12 +20,12 @@ namespace NewCRM.Application.Services
 			_securityContext = securityContext;
 		}
 
-        public async Task<RoleDto> GetRoleAsync(Int32 roleId)
+		public async Task<RoleDto> GetRoleAsync(Int32 roleId)
 		{
 			Parameter.Validate(roleId);
 
 			var result = await _securityContext.GetRoleAsync(roleId);
-			if(result == null)
+			if (result == null)
 			{
 				throw new BusinessException("角色可能已被删除，请刷新后再试");
 			}
@@ -61,6 +61,12 @@ namespace NewCRM.Application.Services
 		{
 			Parameter.Validate(name);
 			return await _securityContext.CheckRoleNameAsync(name);
+		}
+
+		public async Task<Boolean> CheckRoleIdentityAsync(String name)
+		{
+			Parameter.Validate(name);
+			return await _securityContext.CheckRoleIdentityAsync(name);
 		}
 
 		public async Task RemoveRoleAsync(Int32 roleId)

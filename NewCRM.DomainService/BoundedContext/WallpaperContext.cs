@@ -150,7 +150,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 					using (var dataStore = new DataStore())
 					{
 						var config = new Config();
-						config.ModifyWallpaperMode(wallpaperMode);
+						config.ModeTo(wallpaperMode);
 						dataStore.ExecuteModify(config, conf => conf.AccountId == accountId);
 					}
 				}

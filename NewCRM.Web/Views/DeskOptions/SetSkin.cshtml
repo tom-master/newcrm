@@ -22,7 +22,7 @@
             HROS.request.get('/DeskOptions/GetSkins', {}, function (responseText) {
                 if (responseText.IsSuccess) {
                     var html = '';
-                    $.each(responseText.Model.data, function (k, v) {
+                    $.each(responseText.Model.result.Result, function (k, v) {
                         html += '<li skin="' + k + '"><img src="' + v.imgPath + '"  data-css="' + v.skinPath + '"><div></div></li>';
                     });
                     $('#skinList').append(html);

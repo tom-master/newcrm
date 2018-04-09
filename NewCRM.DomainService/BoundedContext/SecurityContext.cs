@@ -11,13 +11,13 @@ using NewLib.Data.Mapper.InternalDataStore;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {
-	public class SecurityContext : BaseServiceContext, ISecurityContext
+	public class SecurityContext: BaseServiceContext, ISecurityContext
 	{
 		public async Task<List<RolePower>> GetPowersAsync()
 		{
 			return await Task.Run(() =>
 			{
-				using(var dataStore = new DataStore())
+				using (var dataStore = new DataStore())
 				{
 					var sql = $@"SELECT a.RoleId, a.AppId FROM dbo.RolePower AS a WHERE a.IsDeleted=0";
 					return dataStore.Find<RolePower>(sql);
@@ -30,7 +30,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(roleId);
 			return await Task.Run(() =>
 			{
-				using(var dataStore = new DataStore())
+				using (var dataStore = new DataStore())
 				{
 					var sql = $@"SELECT a.Name, a.RoleIdentity, a.Remark FROM dbo.Role AS a WHERE a.Id=@Id AND a.IsDeleted=0";
 					var parameters = new List<SqlParameter> { new SqlParameter("@Id", roleId) };
@@ -41,11 +41,11 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public List<Role> GetRoles(String roleName, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
 		{
-			using(var dataStore = new DataStore())
+			using (var dataStore = new DataStore())
 			{
 				var where = new StringBuilder();
 				var parameters = new List<SqlParameter>();
-				if(!String.IsNullOrEmpty(roleName))
+				if (!String.IsNullOrEmpty(roleName))
 				{
 					parameters.Add(new SqlParameter("@roleName", $@"%{roleName}%"));
 					where.Append($@" AND a.Name LIKE @roleName");
@@ -82,7 +82,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(accessAppId).Validate(roleIds);
 			return await Task.Run(() =>
 			{
-				using(var dataStore = new DataStore())
+				using (var dataStore = new DataStore())
 				{
 					#region 检查app是否为系统app
 					{
@@ -92,7 +92,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 							new SqlParameter("@Id",accessAppId)
 						};
 						var result = dataStore.FindSingleValue<Int32>(sql, parameters);
-						if(result <= 0)
+						if (result <= 0)
 						{
 							return true;
 						}
@@ -113,7 +113,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(name);
 			return await Task.Run(() =>
 			{
-				using(var dataStore = new DataStore())
+				using (var dataStore = new DataStore())
 				{
 					var sql = $@"SELECT COUNT(*) FROM dbo.Role AS a WHERE a.Name=@name AND a.IsDeleted=0";
 					var parameters = new List<SqlParameter>
@@ -125,17 +125,33 @@ namespace NewCRM.Domain.Services.BoundedContext
 			});
 		}
 
+		public async Task<Boolean> CheckRoleIdentityAsync(String name)
+		{
+			Parameter.Validate(name);
+			return await Task.Run(() =>
+			{
+				using (var dataStore = new DataStore())
+				{
+					var sql = $@"SELECT COUNT(*) FROM dbo.Role AS a WHERE a.RoleIdentity=@RoleIdentity AND a.IsDeleted=0";
+					var parameters = new List<SqlParameter>
+					{
+						new SqlParameter("@RoleIdentity",name)
+					};
+					return dataStore.FindSingleValue<Int32>(sql, parameters) > 0;
+				}
+			});
+		}
+
 		public async Task ModifyRoleAsync(Role role)
 		{
 			Parameter.Validate(role);
 			await Task.Run(() =>
 			{
-				using(var dataStore = new DataStore())
+				using (var dataStore = new DataStore())
 				{
 					#region 修改角色
 					{
 						role.ModifyRoleName(role.Name);
-						role.ModifyRoleIdentity(role.RoleIdentity);
 						dataStore.ExecuteModify(role, r => r.Id == role.Id);
 					}
 					#endregion
@@ -148,7 +164,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(roleId);
 			await Task.Run(() =>
 			{
-				using(var dataStore = new DataStore())
+				using (var dataStore = new DataStore())
 				{
 					dataStore.OpenTransaction();
 					try
@@ -161,7 +177,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 						{
 							var sql = $@"SELECT COUNT(*) FROM dbo.AccountRole AS a WHERE a.RoleId=@roleId AND a.IsDeleted=0";
 							var result = dataStore.FindSingleValue<Int32>(sql, parameters);
-							if(result > 0)
+							if (result > 0)
 							{
 								throw new BusinessException("当前角色已绑定了账户，无法删除");
 							}
@@ -186,7 +202,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 						dataStore.Commit();
 					}
-					catch(Exception)
+					catch (Exception)
 					{
 						dataStore.Rollback();
 						throw;
@@ -200,7 +216,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(role);
 			await Task.Run(() =>
 			{
-				using(var dataStore = new DataStore())
+				using (var dataStore = new DataStore())
 				{
 					#region 添加角色
 					{
@@ -216,12 +232,12 @@ namespace NewCRM.Domain.Services.BoundedContext
 			Parameter.Validate(roleId).Validate(powerIds);
 			await Task.Run(() =>
 			{
-				if(!powerIds.Any())
+				if (!powerIds.Any())
 				{
 					throw new BusinessException("权限列表为空");
 				}
 
-				using(var dataStore = new DataStore())
+				using (var dataStore = new DataStore())
 				{
 					dataStore.OpenTransaction();
 					try
@@ -237,7 +253,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 						#region 添加角色权限
 						{
 							var sqlBuilder = new StringBuilder();
-							foreach(var item in powerIds)
+							foreach (var item in powerIds)
 							{
 								var rolePower = new RolePower(roleId, item);
 								dataStore.ExecuteAdd(rolePower);
@@ -247,7 +263,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 						dataStore.Commit();
 					}
-					catch(Exception)
+					catch (Exception)
 					{
 						dataStore.Rollback();
 						throw;

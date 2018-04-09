@@ -212,7 +212,7 @@ namespace NewCRM.Web.Controllers
             var result = _skinServices.GetAllSkinAsync(skinPath);
             response.IsSuccess = true;
             response.Message = "获取皮肤列表成功";
-            response.Model = new { data = result, currentSkin = (await AccountServices.GetConfigAsync(AccountId)).Skin };
+            response.Model = new { result, currentSkin = (await AccountServices.GetConfigAsync(AccountId)).Skin };
 
             return Json(response, JsonRequestBehavior.AllowGet);
 
@@ -222,7 +222,7 @@ namespace NewCRM.Web.Controllers
         /// 更换皮肤
         /// </summary>
         [HttpPost]
-        public async Task<ActionResult> ModifySkinAsync(String skin)
+        public async Task<ActionResult> ModifySkin(String skin)
         {
             #region 参数验证
             Parameter.Validate(skin);

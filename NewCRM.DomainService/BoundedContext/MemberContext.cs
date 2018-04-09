@@ -166,9 +166,35 @@ namespace NewCRM.Domain.Services.BoundedContext
 					member.ModifyName(member.Name);
 					member.ModifyWidth(member.Width);
 					member.ModifyHeight(member.Height);
-					member.ModifyIsResize(member.IsResize);
-					member.ModifyIsOpenMax(member.IsOpenMax);
-					member.ModifyIsFlash(member.IsFlash);
+
+					if (member.IsResize)
+					{
+						member.Resize();
+					}
+					else
+					{
+						member.NotResize();
+					}
+
+					if (member.IsOpenMax)
+					{
+						member.OpenMax();
+					}
+					else
+					{
+						member.NotOpenMax();
+					}
+
+					if (member.IsFlash)
+					{
+						member.Flash();
+					}
+					else
+					{
+						member.NotFlash();
+					}
+
+
 					dataStore.ExecuteModify(member, mem => mem.Id == member.Id && mem.AccountId == accountId);
 				}
 			});

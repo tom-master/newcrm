@@ -10,7 +10,7 @@ using NewCRM.Web.Controllers.ControllerHelper;
 
 namespace NewCRM.Web.Controllers
 {
-	public class SecurityController : BaseController
+	public class SecurityController: BaseController
 	{
 		private readonly ISecurityServices _securityServices;
 		private readonly IAppServices _appServices;
@@ -42,7 +42,7 @@ namespace NewCRM.Web.Controllers
 		[HttpGet]
 		public async Task<ActionResult> CreateNewRole(Int32 roleId = default(Int32))
 		{
-			if(roleId != 0)
+			if (roleId != 0)
 			{
 				ViewData["RoleResult"] = await _securityServices.GetRoleAsync(roleId);
 			}
@@ -62,7 +62,7 @@ namespace NewCRM.Web.Controllers
 			#endregion
 
 			var role = new RoleDto();
-			if(roleId != 0)
+			if (roleId != 0)
 			{
 				role = await _securityServices.GetRoleAsync(roleId);
 				ViewData["RolePowerResult"] = role;
@@ -139,7 +139,7 @@ namespace NewCRM.Web.Controllers
 			Parameter.Validate(forms);
 			#endregion
 
-			if(roleId != 0)
+			if (roleId != 0)
 			{
 				await _securityServices.ModifyRoleAsync(WapperRoleDto(forms));
 			}
@@ -168,7 +168,7 @@ namespace NewCRM.Web.Controllers
 
 			var response = new ResponseModel();
 			var powerIds = forms["val_apps_id"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
-			if(powerIds.Any())
+			if (powerIds.Any())
 			{
 				await _securityServices.AddPowerToCurrentRoleAsync(Int32.Parse(forms["val_roleId"]), powerIds);
 				response.IsSuccess = true;
@@ -202,11 +202,22 @@ namespace NewCRM.Web.Controllers
 		/// 检查角色名称
 		/// </summary>
 		[HttpPost]
-		public async Task<ActionResult> CheckRoleName(String name)
+		public async Task<ActionResult> CheckRoleName(String param)
 		{
-			Parameter.Validate(name);
-			var result = await _securityServices.CheckRoleNameAsync(name);
+			Parameter.Validate(param);
+			var result = await _securityServices.CheckRoleNameAsync(param);
 			return Json(!result ? new { status = "y", info = "" } : new { status = "n", info = "角色名称已存在" });
+		}
+
+		/// <summary>
+		/// 检查角色标识
+		/// </summary>
+		[HttpPost]
+		public async Task<ActionResult> CheckRoleIdentity(String param)
+		{
+			Parameter.Validate(param);
+			var result = await _securityServices.CheckRoleIdentityAsync(param);
+			return Json(!result ? new { status = "y", info = "" } : new { status = "n", info = "角色标识已存在" });
 		}
 
 
@@ -215,7 +226,7 @@ namespace NewCRM.Web.Controllers
 		private static RoleDto WapperRoleDto(FormCollection forms)
 		{
 			var roleId = 0;
-			if((forms["roleId"] + "").Length > 0)
+			if ((forms["roleId"] + "").Length > 0)
 			{
 				roleId = Int32.Parse(forms["roleId"]);
 			}

@@ -8,7 +8,7 @@ namespace NewCRM.Domain.Entitys.System
 {
 
 	[Serializable, Description("应用")]
-	public partial class App : DomainModelBase
+	public partial class App: DomainModelBase
 	{
 		#region private field
 
@@ -423,7 +423,7 @@ namespace NewCRM.Domain.Entitys.System
 			Height = height > 600 ? 600 : height;
 			AppTypeId = appTypeId;
 			AppStyle = appStyle;
-			if(accountId == 0)
+			if (accountId == 0)
 			{
 				IsSystem = true;
 			}
@@ -454,7 +454,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public App ModifyName(String appName)
 		{
-			if(String.IsNullOrEmpty(appName))
+			if (String.IsNullOrEmpty(appName))
 			{
 				throw new ArgumentException($@"{nameof(appName)} is null");
 			}
@@ -466,7 +466,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public App ModifyIconUrl(String iconUrl)
 		{
-			if(String.IsNullOrEmpty(iconUrl))
+			if (String.IsNullOrEmpty(iconUrl))
 			{
 				throw new ArgumentException($@"{nameof(iconUrl)} is null");
 			}
@@ -478,7 +478,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public App ModifyWidth(Int32 width)
 		{
-			if(width <= 0)
+			if (width <= 0)
 			{
 				throw new ArgumentException($@"{nameof(width)} less than or equal to zero");
 			}
@@ -490,7 +490,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public App ModifyHeight(Int32 height)
 		{
-			if(height <= 0)
+			if (height <= 0)
 			{
 				throw new ArgumentException($@"{nameof(height)} less than or equal to zero");
 			}
@@ -583,6 +583,7 @@ namespace NewCRM.Domain.Entitys.System
 			OnPropertyChanged(nameof(IsLock));
 			return this;
 		}
+
 
 		public App System()
 		{
@@ -733,7 +734,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public App ModifyUrl(String newAppUrl)
 		{
-			if(String.IsNullOrEmpty(newAppUrl))
+			if (String.IsNullOrEmpty(newAppUrl))
 			{
 				throw new ArgumentException($@"{nameof(newAppUrl)} is null");
 			}
@@ -745,7 +746,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public App ModifyRemark(String newRemark)
 		{
-			if(String.IsNullOrEmpty(newRemark))
+			if (String.IsNullOrEmpty(newRemark))
 			{
 				throw new ArgumentException($@"{nameof(newRemark)} is null");
 			}

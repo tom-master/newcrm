@@ -33,27 +33,28 @@
         switch (Request["target"])
         {
             case "baseinfo":
-                {
-                    Html.RenderPartial("~/Views/AccountSetting/BaseInfo.cshtml", Model);
-                    break;
-                }
+            {
+                Html.RenderPartial("~/Views/AccountSetting/BaseInfo.cshtml", Model);
+                break;
+            }
             case "modifyface":
-                {
-                    Html.RenderPartial("~/Views/AccountSetting/ModifyFace.cshtml", Model);
-                    break;
-                }
+            {
+                Html.RenderPartial("~/Views/AccountSetting/ModifyFace.cshtml", Model);
+                break;
+            }
             case "accountsafe":
-                {
-                    Html.RenderPartial("~/Views/AccountSetting/AccountSafe.cshtml");
-                    break;
-                }
+            {
+
+                Html.RenderPartial("~/Views/AccountSetting/AccountSafe.cshtml");
+                break;
+            }
             default:
-                {
-                    <text>
-                        @Html.Partial("~/Views/AccountSetting/BaseInfo.cshtml", Model);
-                    </text>
-                    break;
-                }
+            {
+                <text>
+                    @Html.Partial("~/Views/AccountSetting/BaseInfo.cshtml", Model);
+                </text>
+                break;
+            }
         }
     }
 }
@@ -126,7 +127,8 @@
                             name: '是',
                             callback: function () {
                                 $('#lockPwdIsEqLoginPwd').val('1')
-                                form[0].submit()
+                                debugger
+                                $('#form').submit()
 
                             }
                         }
@@ -136,13 +138,17 @@
             }
         });
 
-        $('#hform').load(function () {
-            var responseText = $(this);
-            if (responseText.IsSuccess) {
-                window.parent.NewCrm.msgbox.success('登陆密码修改成功，请刷新页面后重新登陆');
-            } else {
-                window.parent.NewCrm.msgbox.fail('修改失败');
-            }
+        $(function () {
+            debugger
+            $('#hidden_frame').on('load', function () {
+                debugger
+                var responseText = $(this);
+                if (responseText.IsSuccess) {
+                    window.parent.NewCrm.msgbox.success('登陆密码修改成功，请刷新页面后重新登陆');
+                } else {
+                    window.parent.NewCrm.msgbox.fail('修改失败');
+                }
+            })
         })
 
         $('#form2').Validform({

@@ -278,19 +278,16 @@ namespace NewCRM.Domain.Entitys.System
 				throw new ArgumentException($@"{nameof(appSize)} less than or equal to zero");
 			}
 
-			if(appSize < 32)
+			if (appSize < 32)
 			{
-				AppSize = 32;
+				appSize = 32;
 			}
-			else if(appSize > 64)
+			else if (appSize > 64)
 			{
-				AppSize = 64;
-			}
-			else
-			{
-				AppSize = appSize;
+				appSize = 64;
 			}
 
+			AppSize = appSize;
 			OnPropertyChanged(nameof(AppSize));
 
 			return this;
@@ -303,13 +300,13 @@ namespace NewCRM.Domain.Entitys.System
 				throw new ArgumentException($@"{nameof(appVerticalSpacing)} less than or equal to zero");
 			}
 
-			if(appVerticalSpacing < 0)
+			if (appVerticalSpacing < 0)
 			{
-				AppVerticalSpacing = 0;
+				appVerticalSpacing = 0;
 			}
-			else if(appVerticalSpacing > 100)
+			else if (appVerticalSpacing > 100)
 			{
-				AppVerticalSpacing = 100;
+				appVerticalSpacing = 100;
 			}
 
 			AppVerticalSpacing = appVerticalSpacing;
@@ -324,13 +321,13 @@ namespace NewCRM.Domain.Entitys.System
 				throw new ArgumentException($@"{nameof(appHorizontalSpacing)} less than or equal to zero");
 			}
 
-			if(appHorizontalSpacing < 0)
+			if (appHorizontalSpacing < 0)
 			{
-				AppHorizontalSpacing = 0;
+				appHorizontalSpacing = 0;
 			}
-			else if(appHorizontalSpacing > 100)
+			else if (appHorizontalSpacing > 100)
 			{
-				AppHorizontalSpacing = 100;
+				appHorizontalSpacing = 100;
 			}
 
 			AppHorizontalSpacing = appHorizontalSpacing;
@@ -362,16 +359,9 @@ namespace NewCRM.Domain.Entitys.System
 			return this;
 		}
 
-		public Config DisplayToFill()
+		public Config ModeTo(WallpaperMode mode)
 		{
-			WallpaperMode = WallpaperMode.Fill;
-			OnPropertyChanged(nameof(WallpaperMode));
-			return this;
-		}
-
-		public Config DisplayToAdapted()
-		{
-			WallpaperMode = WallpaperMode.Adapted;
+			WallpaperMode = mode;
 			OnPropertyChanged(nameof(WallpaperMode));
 			return this;
 		}
@@ -422,27 +412,9 @@ namespace NewCRM.Domain.Entitys.System
 			return this;
 		}
 
-		public Config DockOnTop()
+		public Config PositionTo(DockPostion postion)
 		{
-			DockPosition = DockPostion.Top;
-			OnPropertyChanged(nameof(DockPosition));
-			return this;
-		}
-		public Config DockOnLeft()
-		{
-			DockPosition = DockPostion.Left;
-			OnPropertyChanged(nameof(DockPosition));
-			return this;
-		}
-		public Config DockOnRight()
-		{
-			DockPosition = DockPostion.Right;
-			OnPropertyChanged(nameof(DockPosition));
-			return this;
-		}
-		public Config DockDisable()
-		{
-			DockPosition = DockPostion.None;
+			DockPosition = postion;
 			OnPropertyChanged(nameof(DockPosition));
 			return this;
 		}

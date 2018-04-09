@@ -7,6 +7,7 @@ namespace NewCRM.Domain.ValueObject
     /// </summary>
     public enum WallpaperMode
     {
+
 		/// <summary>
 		/// 填充
 		/// </summary>

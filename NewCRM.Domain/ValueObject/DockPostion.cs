@@ -10,19 +10,19 @@ namespace NewCRM.Domain.ValueObject
 		/// <summary>
 		/// 上
 		/// </summary>
-        [Description("上")]
+		[Description("上")]
         Top = 1,
 
 		/// <summary>
 		/// 左
 		/// </summary>
-        [Description("左")]
+		[Description("左")]
         Left = 2,
 
 		/// <summary>
 		/// 右
 		/// </summary>
-        [Description("右")]
+		[Description("右")]
         Right = 3,
 
 		/// <summary>

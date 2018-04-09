@@ -28,8 +28,8 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> Index()
 		{
 			ViewData["AppTypes"] = await _appServices.GetAppTypesAsync();
-			ViewData["AppStyles"] = _appServices.GetAllAppStyles().ToList();
-			ViewData["AppStates"] = _appServices.GetAllAppStates().Where(w => w.Name == "未审核" || w.Name == "已发布").ToList();
+			ViewData["AppStyles"] = _appServices.GetAppStyles().ToList();
+			ViewData["AppStates"] = _appServices.GetAppStates().Where(w => w.Name == "未审核" || w.Name == "已发布").ToList();
 
 			return View();
 		}
@@ -61,7 +61,7 @@ namespace NewCRM.Web.Controllers
 		public ActionResult GetApps(String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize)
 		{
 			var response = new ResponseModels<IList<AppDto>>();
-			var result = _appServices.GetAccountAllApps(0, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out var totalCount);
+			var result = _appServices.GetAccountApps(0, searchText, appTypeId, appStyleId, appState, pageIndex, pageSize, out var totalCount);
 
 			foreach(var appDto in result)
 			{

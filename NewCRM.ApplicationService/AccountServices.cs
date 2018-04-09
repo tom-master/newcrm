@@ -22,7 +22,7 @@ namespace NewCRM.Application.Services
 
 		public AccountServices(IAccountContext accountContext)
 		{
-			_accountContext = accountContext
+			_accountContext = accountContext;
 		}
 
 		public async Task<AccountDto> LoginAsync(String accountName, String password, String requestIp)
@@ -160,7 +160,7 @@ namespace NewCRM.Application.Services
 			var account = accountDto.ConvertToModel<AccountDto, Account>();
 
 			var accountType = EnumExtensions.ToEnum<AccountType>(account.IsAdmin ? 2 /*管理员*/ : 1 /*用户*/);
-			var newPassword = PasswordUtil.CreateDbPassword(account.LoginPassword)
+			var newPassword = PasswordUtil.CreateDbPassword(account.LoginPassword);
 
 			var internalNewAccount = new Account(account.Name, newPassword, account.Roles, accountType);
 			await _accountContext.AddNewAccountAsync(internalNewAccount);
@@ -202,8 +202,8 @@ namespace NewCRM.Application.Services
 		public async Task ModifyPasswordAsync(Int32 accountId, String newPassword, Boolean isTogetherSetLockPassword)
 		{
 			Parameter.Validate(newPassword);
-			var newPassword = PasswordUtil.CreateDbPassword(newPassword);
-			await _accountContext.ModifyPasswordAsync(accountId, newPassword, isTogetherSetLockPassword);
+			var password = PasswordUtil.CreateDbPassword(newPassword);
+			await _accountContext.ModifyPasswordAsync(accountId, password, isTogetherSetLockPassword);
 		}
 
 		public async Task ModifyLockScreenPasswordAsync(Int32 accountId, String newScreenPassword)

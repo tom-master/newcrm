@@ -11,6 +11,7 @@
 
 <form action="/Security/CreateRole?roleId=@Request["roleId"]" method="post" id="form" name="form">
     <div class="creatbox">
+        <input type="hidden" id="roleId" name="roleId" value="@Request["roleId"]" />
         <div class="middle" style="overflow: hidden; position: inherit; bottom: 0px;">
             <div class="input-label">
                 <label class="label-text">角色名称：</label>
@@ -19,13 +20,13 @@
                         if (roleResult.Name == null)
                         {
                             <text>
-                                <input type="text" class="text" name="val_roleName" id="val_roleName" value="" datatype="*" nullmsg="请输入角色标识" />
+                                <input type="text" class="text" name="val_roleName" id="val_roleName" ajaxurl="@Url.Action("CheckRoleName","Security")" value="" datatype="*" nullmsg="请输入角色标识" />
                             </text>
                         }
                         else
                         {
                             <text>
-                                <input type="text" class="text" name="val_roleName" id="val_roleName" value="@roleResult.Name" datatype="*" nullmsg="请输入角色标识" />
+                                <input type="text" class="text" name="val_roleName" id="val_roleName" ajaxurl="@Url.Action("CheckRoleName","Security")" value="@roleResult.Name" datatype="*" nullmsg="请输入角色标识" />
                             </text>
                         }
                     }
@@ -41,7 +42,7 @@
                         if (roleResult.RoleIdentity == null)
                         {
                             <text>
-                                <input type="text" class="text" name="val_roleIdentity" id="val_roleIdentity" value="" datatype="*" nullmsg="请输入角色名称" />
+                                <input type="text" class="text" name="val_roleIdentity" id="val_roleIdentity" ajaxurl="@Url.Action("CheckRoleIdentity","Security")" value="" datatype="*" nullmsg="请输入角色名称" />
                             </text>
                         }
                         else
@@ -51,8 +52,6 @@
                             </text>
                         }
                     }
-
-
                     <span class="help-inline"></span>
                 </div>
             </div>
