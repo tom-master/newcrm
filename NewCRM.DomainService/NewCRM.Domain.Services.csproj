@@ -57,7 +57,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseServiceContext.cs" />
     <Compile Include="BoundedContext\AppContext.cs" />
     <Compile Include="BoundedContext\DeskContext.cs" />
     <Compile Include="BoundedContext\LoggerContext.cs" />

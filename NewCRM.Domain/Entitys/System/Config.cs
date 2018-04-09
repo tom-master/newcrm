@@ -6,7 +6,7 @@ using NewLib.Data.Mapper.MapperExtension;
 namespace NewCRM.Domain.Entitys.System
 {
 	[Description("用户配置"), Serializable]
-	public partial class Config: DomainModelBase
+	public partial class Config : DomainModelBase
 	{
 		#region private field
 
@@ -249,7 +249,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Config ModifySkin(String skin)
 		{
-			if (String.IsNullOrEmpty(skin))
+			if(String.IsNullOrEmpty(skin))
 			{
 				throw new ArgumentException($@"{nameof(skin)} is null");
 			}
@@ -261,7 +261,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Config ModifyAccountFace(String accountFace)
 		{
-			if (String.IsNullOrEmpty(accountFace))
+			if(String.IsNullOrEmpty(accountFace))
 			{
 				throw new ArgumentException($@"{nameof(accountFace)} is null");
 			}
@@ -273,7 +273,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Config ModifyAppSize(Int32 appSize)
 		{
-			if (appSize <= 0)
+			if(appSize <= 0)
 			{
 				throw new ArgumentException($@"{nameof(appSize)} less than or equal to zero");
 			}
@@ -289,12 +289,13 @@ namespace NewCRM.Domain.Entitys.System
 
 			AppSize = appSize;
 			OnPropertyChanged(nameof(AppSize));
+
 			return this;
 		}
 
 		public Config ModifyAppVerticalSpacing(Int32 appVerticalSpacing)
 		{
-			if (appVerticalSpacing <= 0)
+			if(appVerticalSpacing <= 0)
 			{
 				throw new ArgumentException($@"{nameof(appVerticalSpacing)} less than or equal to zero");
 			}
@@ -315,7 +316,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Config ModifyAppHorizontalSpacing(Int32 appHorizontalSpacing)
 		{
-			if (appHorizontalSpacing <= 0)
+			if(appHorizontalSpacing <= 0)
 			{
 				throw new ArgumentException($@"{nameof(appHorizontalSpacing)} less than or equal to zero");
 			}
@@ -336,7 +337,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Config ModifyDefaultDeskNumber(Int32 deskNumber)
 		{
-			if (deskNumber <= 0)
+			if(deskNumber <= 0)
 			{
 				throw new ArgumentException($@"{nameof(deskNumber)} less than or equal to zero");
 			}
@@ -348,7 +349,7 @@ namespace NewCRM.Domain.Entitys.System
 
 		public Config ModifyDefaultDeskCount(Int32 deskCount)
 		{
-			if (deskCount <= 0)
+			if(deskCount <= 0)
 			{
 				throw new ArgumentException($@"{nameof(deskCount)} less than or equal to zero");
 			}
@@ -361,6 +362,24 @@ namespace NewCRM.Domain.Entitys.System
 		public Config ModeTo(WallpaperMode mode)
 		{
 			WallpaperMode = mode;
+			OnPropertyChanged(nameof(WallpaperMode));
+			return this;
+		}
+		public Config DisplayToTile()
+		{
+			WallpaperMode = WallpaperMode.Tile;
+			OnPropertyChanged(nameof(WallpaperMode));
+			return this;
+		}
+		public Config DisplayToDraw()
+		{
+			WallpaperMode = WallpaperMode.Draw;
+			OnPropertyChanged(nameof(WallpaperMode));
+			return this;
+		}
+		public Config DisplayToCenter()
+		{
+			WallpaperMode = WallpaperMode.Center;
 			OnPropertyChanged(nameof(WallpaperMode));
 			return this;
 		}
@@ -379,14 +398,14 @@ namespace NewCRM.Domain.Entitys.System
 			return this;
 		}
 
-		public Config ModifyAppX()
+		public Config AppX()
 		{
 			AppXy = AppAlignMode.X;
 			OnPropertyChanged(nameof(AppXy));
 			return this;
 		}
 
-		public Config ModifyAppY()
+		public Config AppY()
 		{
 			AppXy = AppAlignMode.Y;
 			OnPropertyChanged(nameof(AppXy));

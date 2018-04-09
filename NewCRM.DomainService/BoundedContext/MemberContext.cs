@@ -11,7 +11,7 @@ using NewLib.Data.Mapper.InternalDataStore;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {
-	public class MemberContext: BaseServiceContext, IMemberContext
+	public class MemberContext:  IMemberContext
 	{
 		public async Task<List<Member>> GetMembersAsync(Int32 accountId)
 		{

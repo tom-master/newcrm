@@ -1,4 +1,5 @@
 ﻿using System;
+using NewCRM.Domain.ValueObject;
 
 namespace NewCRM.Dto
 {
@@ -7,7 +8,7 @@ namespace NewCRM.Dto
         /// <summary>
         /// 日志等级
         /// </summary>
-        public Int32 LogLevelEnum { get; set; }
+        public LogLevel LogLevelEnum { get; set; }
 
         /// <summary>
         /// 类名

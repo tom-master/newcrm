@@ -77,12 +77,13 @@
             $('.title ul > li').each(function (k, v) {
                 $(v).removeClass('focus');
             });
+            var baseUrl = '@Url.Action("Index", "AccountSetting")'
             if (value === 'baseinfo') {
-                location.href = '/AccountSetting/Index?target=baseinfo';
+                location.href = baseUrl + '?target=baseinfo';
             } else if (value === 'modifyface') {
-                location.href = '/AccountSetting/Index?target=modifyface';
+                location.href = baseUrl + '?target=modifyface';
             } else if (value === 'accountsafe') {
-                location.href = '/AccountSetting/Index?target=accountsafe';
+                location.href = baseUrl + '?target=accountsafe';
             }
         });
 

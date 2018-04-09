@@ -15,7 +15,7 @@ using NewLib.Data.Mapper.InternalDataStore;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {
-	public class AppContext: BaseServiceContext, IAppContext
+	public class AppContext:  IAppContext
 	{
 		public async Task<Tuple<Int32, Int32>> GetAccountDevelopAppCountAndNotReleaseAppCountAsync(Int32 accountId)
 		{

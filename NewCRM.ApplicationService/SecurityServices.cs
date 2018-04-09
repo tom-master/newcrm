@@ -11,7 +11,7 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Application.Services
 {
-	public class SecurityServices: BaseServiceContext, ISecurityServices
+	public class SecurityServices:  ISecurityServices
 	{
 		private readonly ISecurityContext _securityContext;
 

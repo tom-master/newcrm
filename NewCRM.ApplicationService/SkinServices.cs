@@ -12,7 +12,7 @@ using static NewCRM.Infrastructure.CommonTools.CacheKey;
 
 namespace NewCRM.Application.Services
 {
-	public class SkinServices: BaseServiceContext, ISkinServices
+	public class SkinServices : ISkinServices
 	{
 		private readonly ISkinContext _skinContext;
 
@@ -46,7 +46,7 @@ namespace NewCRM.Application.Services
 		{
 			Parameter.Validate(accountId).Validate(newSkin);
 			await _skinContext.ModifySkinAsync(accountId, newSkin);
-			RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
 		}
 
 		#region private method
@@ -56,7 +56,7 @@ namespace NewCRM.Application.Services
 			Parameter.Validate(fileName).Validate(fullPath);
 
 			var dic = Directory.GetFiles(fullPath, "preview.png", SearchOption.AllDirectories).ToList();
-			foreach (var dicItem in from dicItem in dic let regex = new Regex(fileName) where regex.IsMatch(dicItem) select dicItem)
+			foreach(var dicItem in from dicItem in dic let regex = new Regex(fileName) where regex.IsMatch(dicItem) select dicItem)
 			{
 				return dicItem.Substring(dicItem.LastIndexOf("Content", StringComparison.OrdinalIgnoreCase) - 1).Replace(@"\", "/");
 			}
