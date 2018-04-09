@@ -169,6 +169,7 @@ namespace NewCRM.Application.Services
 		public async Task ModifyAccountAsync(AccountDto accountDto)
 		{
 			Parameter.Validate(accountDto);
+
 			var account = accountDto.ConvertToModel<AccountDto, Account>();
 			await _accountContext.ModifyAccountAsync(account);
 		}
@@ -194,14 +195,15 @@ namespace NewCRM.Application.Services
 		public async Task ModifyAccountFaceAsync(Int32 accountId, String newFace)
 		{
 			Parameter.Validate(accountId).Validate(newFace);
-			await _accountContext.ModifyAccountFaceAsync(accountId, newFace);
 
+			await _accountContext.ModifyAccountFaceAsync(accountId, newFace);
 			CacheHelper.RemoveOldKeyWhenModify(new ConfigCacheKey(accountId), new AccountCacheKey(accountId));
 		}
 
 		public async Task ModifyPasswordAsync(Int32 accountId, String newPassword, Boolean isTogetherSetLockPassword)
 		{
 			Parameter.Validate(newPassword);
+
 			var password = PasswordUtil.CreateDbPassword(newPassword);
 			await _accountContext.ModifyPasswordAsync(accountId, password, isTogetherSetLockPassword);
 		}
@@ -209,6 +211,7 @@ namespace NewCRM.Application.Services
 		public async Task ModifyLockScreenPasswordAsync(Int32 accountId, String newScreenPassword)
 		{
 			Parameter.Validate(newScreenPassword);
+
 			var newPassword = PasswordUtil.CreateDbPassword(newScreenPassword);
 			await _accountContext.ModifyLockScreenPasswordAsync(accountId, newPassword);
 			CacheHelper.RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
