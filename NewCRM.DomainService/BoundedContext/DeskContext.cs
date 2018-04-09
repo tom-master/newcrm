@@ -11,7 +11,7 @@ using NewLib.Data.Mapper.InternalDataStore;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {
-	public class DeskContext: BaseServiceContext, IDeskContext
+	public class DeskContext:  IDeskContext
 	{
 		public async Task ModifyDefaultDeskNumberAsync(Int32 accountId, Int32 newDefaultDeskNumber)
 		{

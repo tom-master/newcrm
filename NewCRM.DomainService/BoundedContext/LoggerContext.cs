@@ -9,7 +9,7 @@ using NewLib.Data.Mapper.InternalDataStore;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {
-	public class LoggerContext : BaseServiceContext, ILoggerContext
+	public class LoggerContext :  ILoggerContext
 	{
 		public async Task AddLoggerAsync(Log log)
 		{

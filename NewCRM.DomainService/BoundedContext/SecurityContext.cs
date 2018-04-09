@@ -11,7 +11,7 @@ using NewLib.Data.Mapper.InternalDataStore;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {
-	public class SecurityContext: BaseServiceContext, ISecurityContext
+	public class SecurityContext: ISecurityContext
 	{
 		public async Task<List<RolePower>> GetPowersAsync()
 		{

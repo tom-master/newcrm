@@ -8,7 +8,7 @@ using NewLib.Data.Mapper.InternalDataStore;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {
-	public class SkinContext : BaseServiceContext, ISkinContext
+	public class SkinContext : ISkinContext
 	{
 		/// <summary>
 		/// 修改皮肤
