@@ -75,14 +75,14 @@ namespace NewCRM.Application.Services
 			using(var stream = await new HttpClient().GetStreamAsync(new Uri(url)))
 			using(image = Image.FromStream(stream))
 			{
-				var wallpaperMd5 = FileHelper.GetMD5(stream);
-				var webWallpaper = await GetUploadWallpaperAsync(wallpaperMd5);
+				var md5 = FileHelper.GetMD5(stream);
+				var webWallpaper = await GetUploadWallpaperAsync(md5);
 				if(webWallpaper != null)
 				{
 					return new Tuple<Int32, String>(webWallpaper.Id, webWallpaper.ShortUrl);
 				}
 
-				var wallpaperResult = await AddWallpaperAsync(new WallpaperDto
+				var result = await AddWallpaperAsync(new WallpaperDto
 				{
 					Width = image.Width,
 					Height = image.Height,
@@ -93,7 +93,7 @@ namespace NewCRM.Application.Services
 					Md5 = wallpaperMd5,
 					ShortUrl = url
 				});
-				return new Tuple<Int32, String>(wallpaperResult.Item1, wallpaperResult.Item2);
+				return new Tuple<Int32, String>(result.Item1, result.Item2);
 			}
 		}
 
