@@ -10,6 +10,7 @@ using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomHelper;
 using NewCRM.Web.Controllers.ControllerHelper;
 using NewLib;
+using NewLib.Validate;
 using Newtonsoft.Json;
 using Nito.AsyncEx;
 
@@ -75,7 +76,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> Landing(LoginParameter loginParameter)
 		{
 			#region 参数验证
-			Parameter.Validate(loginParameter);
+			new Parameter().Validate(loginParameter);
 			#endregion
 
 			var response = new ResponseModel<AccountDto>();
@@ -108,7 +109,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> UnlockScreen(String unlockPassword)
 		{
 			#region 参数验证
-			Parameter.Validate(unlockPassword);
+			new Parameter().Validate(unlockPassword);
 			#endregion
 
 			var response = new ResponseModel();
@@ -222,7 +223,7 @@ namespace NewCRM.Web.Controllers
 		{
 
 			#region 参数验证
-			Parameter.Validate(id).Validate(type);
+			new Parameter().Validate(id).Validate(type);
 			#endregion
 
 			var response = new ResponseModel<dynamic>();

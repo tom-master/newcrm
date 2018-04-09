@@ -12,6 +12,7 @@ using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewLib;
 using NewLib.Security;
+using NewLib.Validate;
 using static NewCRM.Infrastructure.CommonTools.CacheKey;
 
 namespace NewCRM.Application.Services
@@ -27,7 +28,7 @@ namespace NewCRM.Application.Services
 
 		public async Task<AccountDto> LoginAsync(String accountName, String password, String requestIp)
 		{
-			Parameter.Validate(accountName).Validate(password).Validate(requestIp);
+			new Parameter().Validate(accountName).Validate(password).Validate(requestIp);
 
 			var account = await _accountContext.ValidateAsync(accountName, password, requestIp);
 			return new AccountDto
@@ -40,7 +41,7 @@ namespace NewCRM.Application.Services
 
 		public async Task<ConfigDto> GetConfigAsync(Int32 accountId)
 		{
-			Parameter.Validate(accountId);
+			new Parameter().Validate(accountId);
 
 			var config = await CacheHelper.GetCache(new ConfigCacheKey(accountId), () => _accountContext.GetConfigAsync(accountId));
 			var wallpaper = await CacheHelper.GetCache(new WallpaperCacheKey(accountId), () => _accountContext.GetWallpaperAsync(config.WallpaperId));
@@ -69,7 +70,7 @@ namespace NewCRM.Application.Services
 
 		public List<AccountDto> GetAccounts(String accountName, String accountType, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
 		{
-			Parameter.Validate(accountName).Validate(accountType);
+			new Parameter().Validate(accountName).Validate(accountType);
 
 			var result = _accountContext.GetAccounts(accountName, accountType, pageIndex, pageSize, out totalCount);
 
@@ -85,7 +86,7 @@ namespace NewCRM.Application.Services
 
 		public async Task<AccountDto> GetAccountAsync(Int32 accountId)
 		{
-			Parameter.Validate(accountId);
+			new Parameter().Validate(accountId);
 
 			var account = await CacheHelper.GetCache(new AccountCacheKey(accountId), () => _accountContext.GetAccountAsync(accountId));
 			if(account == null)
@@ -124,38 +125,38 @@ namespace NewCRM.Application.Services
 
 		public async Task<Boolean> CheckAccountNameExistAsync(String accountName)
 		{
-			Parameter.Validate(accountName);
+			new Parameter().Validate(accountName);
 			return await _accountContext.CheckAccountNameExistAsync(accountName);
 		}
 
 		public async Task<Boolean> CheckPasswordAsync(Int32 accountId, String oldAccountPassword)
 		{
-			Parameter.Validate(accountId).Validate(oldAccountPassword);
+			new Parameter().Validate(accountId).Validate(oldAccountPassword);
 			var result = await _accountContext.GetOldPasswordAsync(accountId);
 			return PasswordUtil.ComparePasswords(result, oldAccountPassword);
 		}
 
 		public async Task<Boolean> UnlockScreenAsync(Int32 accountId, String unlockPassword)
 		{
-			Parameter.Validate(accountId).Validate(unlockPassword);
+			new Parameter().Validate(accountId).Validate(unlockPassword);
 			return await _accountContext.UnlockScreenAsync(accountId, unlockPassword);
 		}
 
 		public async Task<Boolean> CheckAppNameAsync(String name)
 		{
-			Parameter.Validate(name);
+			new Parameter().Validate(name);
 			return await _accountContext.CheckAppNameAsync(name);
 		}
 
 		public async Task<Boolean> CheckAppUrlAsync(String url)
 		{
-			Parameter.Validate(url);
+			new Parameter().Validate(url);
 			return await _accountContext.CheckAppUrlAsync(url);
 		}
 
 		public async Task AddNewAccountAsync(AccountDto accountDto)
 		{
-			Parameter.Validate(accountDto);
+			new Parameter().Validate(accountDto);
 
 			var account = accountDto.ConvertToModel<AccountDto, Account>();
 
@@ -168,7 +169,7 @@ namespace NewCRM.Application.Services
 
 		public async Task ModifyAccountAsync(AccountDto accountDto)
 		{
-			Parameter.Validate(accountDto);
+			new Parameter().Validate(accountDto);
 
 			var account = accountDto.ConvertToModel<AccountDto, Account>();
 			await _accountContext.ModifyAccountAsync(account);
@@ -176,25 +177,25 @@ namespace NewCRM.Application.Services
 
 		public async Task LogoutAsync(Int32 accountId)
 		{
-			Parameter.Validate(accountId);
+			new Parameter().Validate(accountId);
 			await _accountContext.LogoutAsync(accountId);
 		}
 
 		public async Task EnableAsync(Int32 accountId)
 		{
-			Parameter.Validate(accountId);
+			new Parameter().Validate(accountId);
 			await _accountContext.EnableAsync(accountId);
 		}
 
 		public async Task DisableAsync(Int32 accountId)
 		{
-			Parameter.Validate(accountId);
+			new Parameter().Validate(accountId);
 			await _accountContext.DisableAsync(accountId);
 		}
 
 		public async Task ModifyAccountFaceAsync(Int32 accountId, String newFace)
 		{
-			Parameter.Validate(accountId).Validate(newFace);
+			new Parameter().Validate(accountId).Validate(newFace);
 
 			await _accountContext.ModifyAccountFaceAsync(accountId, newFace);
 			CacheHelper.RemoveOldKeyWhenModify(new ConfigCacheKey(accountId), new AccountCacheKey(accountId));
@@ -202,7 +203,7 @@ namespace NewCRM.Application.Services
 
 		public async Task ModifyPasswordAsync(Int32 accountId, String newPassword, Boolean isTogetherSetLockPassword)
 		{
-			Parameter.Validate(newPassword);
+			new Parameter().Validate(newPassword);
 
 			var password = PasswordUtil.CreateDbPassword(newPassword);
 			await _accountContext.ModifyPasswordAsync(accountId, password, isTogetherSetLockPassword);
@@ -210,7 +211,7 @@ namespace NewCRM.Application.Services
 
 		public async Task ModifyLockScreenPasswordAsync(Int32 accountId, String newScreenPassword)
 		{
-			Parameter.Validate(newScreenPassword);
+			new Parameter().Validate(newScreenPassword);
 
 			var newPassword = PasswordUtil.CreateDbPassword(newScreenPassword);
 			await _accountContext.ModifyLockScreenPasswordAsync(accountId, newPassword);
@@ -219,7 +220,7 @@ namespace NewCRM.Application.Services
 
 		public async Task RemoveAccountAsync(Int32 accountId)
 		{
-			Parameter.Validate(accountId);
+			new Parameter().Validate(accountId);
 			await _accountContext.RemoveAccountAsync(accountId);
 		}
 	}

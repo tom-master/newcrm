@@ -7,6 +7,7 @@ using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewLib.Data.Mapper.InternalDataStore;
+using NewLib.Validate;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {
@@ -14,7 +15,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 	{
 		public async Task<Tuple<Int32, String>> AddWallpaperAsync(Wallpaper wallpaper)
 		{
-			Parameter.Validate(wallpaper);
+			new Parameter().Validate(wallpaper);
 			return await Task.Run(() =>
 			 {
 				 using(var dataStore = new DataStore())
@@ -142,7 +143,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task ModifyWallpaperModeAsync(Int32 accountId, String newMode)
 		{
-			Parameter.Validate(accountId).Validate(newMode);
+			new Parameter().Validate(accountId).Validate(newMode);
 			await Task.Run(() =>
 			{
 				if(Enum.TryParse(newMode, true, out WallpaperMode wallpaperMode))
@@ -163,7 +164,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task ModifyWallpaperAsync(Int32 accountId, Int32 newWallpaperId)
 		{
-			Parameter.Validate(accountId).Validate(newWallpaperId);
+			new Parameter().Validate(accountId).Validate(newWallpaperId);
 			await Task.Run(() =>
 			{
 				using(var dataStore = new DataStore())
@@ -177,7 +178,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task RemoveWallpaperAsync(Int32 accountId, Int32 wallpaperId)
 		{
-			Parameter.Validate(accountId).Validate(wallpaperId);
+			new Parameter().Validate(accountId).Validate(wallpaperId);
 			await Task.Run(() =>
 			{
 				using(var dataStore = new DataStore())

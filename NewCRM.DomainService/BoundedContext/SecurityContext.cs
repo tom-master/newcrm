@@ -8,6 +8,7 @@ using NewCRM.Domain.Entitys.Security;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewLib.Data.Mapper.InternalDataStore;
+using NewLib.Validate;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {
@@ -27,7 +28,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task<Role> GetRoleAsync(Int32 roleId)
 		{
-			Parameter.Validate(roleId);
+			new Parameter().Validate(roleId);
 			return await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -79,7 +80,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task<Boolean> CheckPermissionsAsync(Int32 accessAppId, params Int32[] roleIds)
 		{
-			Parameter.Validate(accessAppId).Validate(roleIds);
+			new Parameter().Validate(accessAppId).Validate(roleIds);
 			return await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -110,7 +111,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task<Boolean> CheckRoleNameAsync(String name)
 		{
-			Parameter.Validate(name);
+			new Parameter().Validate(name);
 			return await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -127,7 +128,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task<Boolean> CheckRoleIdentityAsync(String name)
 		{
-			Parameter.Validate(name);
+			new Parameter().Validate(name);
 			return await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -144,7 +145,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task ModifyRoleAsync(Role role)
 		{
-			Parameter.Validate(role);
+			new Parameter().Validate(role);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -161,7 +162,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task RemoveRoleAsync(Int32 roleId)
 		{
-			Parameter.Validate(roleId);
+			new Parameter().Validate(roleId);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -213,7 +214,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task AddNewRoleAsync(Role role)
 		{
-			Parameter.Validate(role);
+			new Parameter().Validate(role);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -229,7 +230,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task AddPowerToCurrentRoleAsync(Int32 roleId, IEnumerable<Int32> powerIds)
 		{
-			Parameter.Validate(roleId).Validate(powerIds);
+			new Parameter().Validate(roleId).Validate(powerIds);
 			await Task.Run(() =>
 			{
 				if (!powerIds.Any())

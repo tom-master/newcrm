@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Web.Controllers.ControllerHelper;
+using NewLib.Validate;
 
 namespace NewCRM.Web.Controllers
 {
-	public class AccountSettingController : BaseController
+	public class AccountSettingController: BaseController
 	{
 		#region 页面
 
@@ -29,7 +30,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> ModifyAccountFace(String accountFace)
 		{
 			#region 参数验证
-			Parameter.Validate(accountFace);
+			new Parameter().Validate(accountFace);
 			#endregion
 
 			var response = new ResponseModel();
@@ -47,7 +48,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> ModifyAccountPassword(FormCollection forms)
 		{
 			#region 参数验证
-			Parameter.Validate(forms);
+			new Parameter().Validate(forms);
 			#endregion
 
 			var response = new ResponseModel();
@@ -57,7 +58,7 @@ namespace NewCRM.Web.Controllers
 
 			response.Message = "账户密码修改成功";
 			response.IsSuccess = true;
-			
+
 			return Json(response);
 		}
 
@@ -68,7 +69,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> ModifyLockScreenPassword(FormCollection forms)
 		{
 			#region 参数验证
-			Parameter.Validate(forms);
+			new Parameter().Validate(forms);
 			#endregion
 
 			var response = new ResponseModel();
@@ -87,7 +88,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> CheckPassword(String param)
 		{
 			#region 参数验证
-			Parameter.Validate(param);
+			new Parameter().Validate(param);
 			#endregion
 
 			var result = await AccountServices.CheckPasswordAsync(AccountId, param);

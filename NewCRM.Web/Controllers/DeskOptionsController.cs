@@ -8,6 +8,7 @@ using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Web.Controllers.ControllerHelper;
 using NewLib;
+using NewLib.Validate;
 
 namespace NewCRM.Web.Controllers
 {
@@ -87,8 +88,8 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ModifyWallpaperDisplayModel(String wallPaperShowType)
         {
-            #region 参数验证
-            Parameter.Validate(wallPaperShowType);
+			#region 参数验证
+			new Parameter().Validate(wallPaperShowType);
             #endregion
 
             var response = new ResponseModel();
@@ -105,8 +106,8 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ModifyWallpaper(Int32 wallpaperId)
         {
-            #region 参数验证
-            Parameter.Validate(wallpaperId);
+			#region 参数验证
+			new Parameter().Validate(wallpaperId);
             #endregion
 
             var response = new ResponseModel();
@@ -138,8 +139,8 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> RemoveWallpaper(Int32 wallPaperId)
         {
-            #region 参数验证
-            Parameter.Validate(wallPaperId);
+			#region 参数验证
+			new Parameter().Validate(wallPaperId);
             #endregion
 
             var response = new ResponseModel<IList<WallpaperDto>>();
@@ -156,8 +157,8 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> UploadWallPaper(WallpaperDto wallpaper)
         {
-            #region 参数验证
-            Parameter.Validate(wallpaper);
+			#region 参数验证
+			new Parameter().Validate(wallpaper);
             #endregion
 
             var response = new ResponseModel<dynamic>();
@@ -186,8 +187,8 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> WebWallPaper(String webUrl)
         {
-            #region 参数验证
-            Parameter.Validate(webUrl);
+			#region 参数验证
+			new Parameter().Validate(webUrl);
             #endregion
 
             var response = new ResponseModel<Tuple<Int32, String>>();
@@ -224,8 +225,8 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ModifySkin(String skin)
         {
-            #region 参数验证
-            Parameter.Validate(skin);
+			#region 参数验证
+			new Parameter().Validate(skin);
             #endregion
 
             var response = new ResponseModel();
@@ -243,8 +244,8 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ModifyDefaultDesk(Int32 deskNum)
         {
-            #region 参数验证
-            Parameter.Validate(deskNum);
+			#region 参数验证
+			new Parameter().Validate(deskNum);
             #endregion
 
             var response = new ResponseModel();
@@ -261,8 +262,8 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ModifyAppXy(String appXy)
         {
-            #region 参数验证
-            Parameter.Validate(appXy);
+			#region 参数验证
+			new Parameter().Validate(appXy);
             #endregion
 
             var response = new ResponseModel();
@@ -280,8 +281,8 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ModifyAppSize(Int32 appSize)
         {
-            #region 参数验证
-            Parameter.Validate(appSize);
+			#region 参数验证
+			new Parameter().Validate(appSize);
             #endregion
 
             var response = new ResponseModel();
@@ -298,8 +299,8 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ModifyAppVertical(Int32 appVertical)
         {
-            #region 参数验证
-            Parameter.Validate(appVertical);
+			#region 参数验证
+			new Parameter().Validate(appVertical);
             #endregion
 
             var response = new ResponseModel();
@@ -316,8 +317,8 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ModifyAppHorizontal(Int32 appHorizontal)
         {
-            #region 参数验证
-            Parameter.Validate(appHorizontal);
+			#region 参数验证
+			new Parameter().Validate(appHorizontal);
             #endregion
 
             var response = new ResponseModel();
@@ -334,8 +335,8 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ModifyDockPosition(String pos, Int32 deskNum)
         {
-            #region 参数验证
-            Parameter.Validate(pos).Validate(deskNum);
+			#region 参数验证
+			new Parameter().Validate(pos).Validate(deskNum);
             #endregion
 
             var response = new ResponseModel();
@@ -352,8 +353,8 @@ namespace NewCRM.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ModifyWallpaperSource(String source)
         {
-            #region 参数验证
-            Parameter.Validate(source);
+			#region 参数验证
+			new Parameter().Validate(source);
             #endregion
 
             var response = new ResponseModel();

@@ -7,6 +7,7 @@ using NewCRM.Application.Services.Interface;
 using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Web.Controllers.ControllerHelper;
+using NewLib.Validate;
 
 namespace NewCRM.Web.Controllers
 {
@@ -58,7 +59,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> AttachmentPowerAsync(Int32 roleId)
 		{
 			#region 参数验证
-			Parameter.Validate(roleId);
+			new Parameter().Validate(roleId);
 			#endregion
 
 			var role = new RoleDto();
@@ -98,7 +99,7 @@ namespace NewCRM.Web.Controllers
 		public ActionResult GetRoles(String roleName, Int32 pageIndex, Int32 pageSize)
 		{
 			#region 参数验证
-			Parameter.Validate(roleName);
+			new Parameter().Validate(roleName);
 			#endregion
 
 			var response = new ResponseModels<IList<RoleDto>>();
@@ -118,7 +119,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> RemoveRole(Int32 roleId)
 		{
 			#region 参数验证
-			Parameter.Validate(roleId);
+			new Parameter().Validate(roleId);
 			#endregion
 
 			var response = new ResponseModel();
@@ -136,7 +137,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> CreateRole(FormCollection forms, Int32 roleId = 0)
 		{
 			#region 参数验证
-			Parameter.Validate(forms);
+			new Parameter().Validate(forms);
 			#endregion
 
 			if (roleId != 0)
@@ -163,7 +164,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> AddPowerToRole(FormCollection forms)
 		{
 			#region 参数验证
-			Parameter.Validate(forms);
+			new Parameter().Validate(forms);
 			#endregion
 
 			var response = new ResponseModel();
@@ -204,7 +205,7 @@ namespace NewCRM.Web.Controllers
 		[HttpPost]
 		public async Task<ActionResult> CheckRoleName(String param)
 		{
-			Parameter.Validate(param);
+			new Parameter().Validate(param);
 			var result = await _securityServices.CheckRoleNameAsync(param);
 			return Json(!result ? new { status = "y", info = "" } : new { status = "n", info = "角色名称已存在" });
 		}
@@ -215,7 +216,7 @@ namespace NewCRM.Web.Controllers
 		[HttpPost]
 		public async Task<ActionResult> CheckRoleIdentity(String param)
 		{
-			Parameter.Validate(param);
+			new Parameter().Validate(param);
 			var result = await _securityServices.CheckRoleIdentityAsync(param);
 			return Json(!result ? new { status = "y", info = "" } : new { status = "n", info = "角色标识已存在" });
 		}

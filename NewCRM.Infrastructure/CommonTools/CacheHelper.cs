@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using NewCRM.Infrastructure.CommonTools;
 using NewLib.Data.Redis.InternalHelper;
-using NewLib.Validate;
 
 namespace NewCRM.Domain.Services
 {

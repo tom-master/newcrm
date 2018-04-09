@@ -8,14 +8,15 @@ using NewCRM.Domain.Services.Interface;
 using NewCRM.Domain.ValueObject;
 using NewLib;
 using NewLib.Data.Mapper.InternalDataStore;
+using NewLib.Validate;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {
-	public class DeskContext:  IDeskContext
+	public class DeskContext: IDeskContext
 	{
 		public async Task ModifyDefaultDeskNumberAsync(Int32 accountId, Int32 newDefaultDeskNumber)
 		{
-			Parameter.Validate(accountId).Validate(newDefaultDeskNumber);
+			new Parameter().Validate(accountId).Validate(newDefaultDeskNumber);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -29,7 +30,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task ModifyDockPositionAsync(Int32 accountId, Int32 defaultDeskNumber, String position)
 		{
-			Parameter.Validate(accountId).Validate(defaultDeskNumber).Validate(position);
+			new Parameter().Validate(accountId).Validate(defaultDeskNumber).Validate(position);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -44,7 +45,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task ModifyMemberDirectionToXAsync(Int32 accountId)
 		{
-			Parameter.Validate(accountId);
+			new Parameter().Validate(accountId);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -58,7 +59,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task ModifyMemberDirectionToYAsync(Int32 accountId)
 		{
-			Parameter.Validate(accountId);
+			new Parameter().Validate(accountId);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -72,7 +73,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task ModifyMemberDisplayIconSizeAsync(Int32 accountId, Int32 newSize)
 		{
-			Parameter.Validate(accountId).Validate(newSize);
+			new Parameter().Validate(accountId).Validate(newSize);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -86,7 +87,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task ModifyMemberHorizontalSpacingAsync(Int32 accountId, Int32 newSize)
 		{
-			Parameter.Validate(accountId).Validate(newSize);
+			new Parameter().Validate(accountId).Validate(newSize);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -101,7 +102,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task ModifyMemberVerticalSpacingAsync(Int32 accountId, Int32 newSize)
 		{
-			Parameter.Validate(accountId).Validate(newSize);
+			new Parameter().Validate(accountId).Validate(newSize);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -115,7 +116,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task MemberInDockAsync(Int32 accountId, Int32 memberId)
 		{
-			Parameter.Validate(accountId).Validate(memberId);
+			new Parameter().Validate(accountId).Validate(memberId);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -129,7 +130,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task MemberOutDockAsync(Int32 accountId, Int32 memberId, Int32 deskId)
 		{
-			Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
+			new Parameter().Validate(accountId).Validate(memberId).Validate(deskId);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -143,7 +144,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task DockToFolderAsync(Int32 accountId, Int32 memberId, Int32 folderId)
 		{
-			Parameter.Validate(accountId).Validate(memberId).Validate(folderId);
+			new Parameter().Validate(accountId).Validate(memberId).Validate(folderId);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -157,7 +158,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task FolderToDockAsync(Int32 accountId, Int32 memberId)
 		{
-			Parameter.Validate(accountId).Validate(memberId);
+			new Parameter().Validate(accountId).Validate(memberId);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -171,7 +172,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task DeskToFolderAsync(Int32 accountId, Int32 memberId, Int32 folderId)
 		{
-			Parameter.Validate(accountId).Validate(memberId).Validate(folderId);
+			new Parameter().Validate(accountId).Validate(memberId).Validate(folderId);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -185,7 +186,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task FolderToDeskAsync(Int32 accountId, Int32 memberId, Int32 deskId)
 		{
-			Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
+			new Parameter().Validate(accountId).Validate(memberId).Validate(deskId);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -199,7 +200,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task FolderToOtherFolderAsync(Int32 accountId, Int32 memberId, Int32 folderId)
 		{
-			Parameter.Validate(accountId).Validate(memberId).Validate(folderId);
+			new Parameter().Validate(accountId).Validate(memberId).Validate(folderId);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -213,7 +214,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task DeskToOtherDeskAsync(Int32 accountId, Int32 memberId, Int32 deskId)
 		{
-			Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
+			new Parameter().Validate(accountId).Validate(memberId).Validate(deskId);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -254,7 +255,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task DockToOtherDeskAsync(Int32 accountId, Int32 memberId, Int32 deskId)
 		{
-			Parameter.Validate(accountId).Validate(memberId).Validate(deskId);
+			new Parameter().Validate(accountId).Validate(memberId).Validate(deskId);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -268,7 +269,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task CreateNewFolderAsync(Int32 deskId, String folderName, String folderImg, Int32 accountId)
 		{
-			Parameter.Validate(deskId).Validate(folderImg).Validate(folderName);
+			new Parameter().Validate(deskId).Validate(folderImg).Validate(folderName);
 			await Task.Run(() =>
 			{
 				var folder = new Member(folderName, folderImg, 0, accountId, deskId, false);
@@ -281,7 +282,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task ModifyWallpaperSourceAsync(String source, Int32 accountId)
 		{
-			Parameter.Validate(source).Validate(accountId);
+			new Parameter().Validate(source).Validate(accountId);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())

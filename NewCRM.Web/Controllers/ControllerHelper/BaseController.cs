@@ -9,11 +9,6 @@ namespace NewCRM.Web.Controllers.ControllerHelper
 {
 	public class BaseController : Controller
 	{
-		protected ParameterValidate Parameter
-		{
-			get { return new ParameterValidate(); }
-		}
-
 		[Dependency]
 		protected IAccountServices AccountServices { get; set; }
 

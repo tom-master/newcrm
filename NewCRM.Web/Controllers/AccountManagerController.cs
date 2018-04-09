@@ -8,6 +8,7 @@ using NewCRM.Application.Services.Interface;
 using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Web.Controllers.ControllerHelper;
+using NewLib.Validate;
 
 namespace NewCRM.Web.Controllers
 {
@@ -57,7 +58,7 @@ namespace NewCRM.Web.Controllers
 			var response = new ResponseModels<IList<AccountDto>>();
 
 			#region 参数验证
-			Parameter.Validate(accountName).Validate(accountType);
+			new Parameter().Validate(accountName).Validate(accountType);
 			#endregion
 
 			var accounts = AccountServices.GetAccounts(accountName, accountType, pageIndex, pageSize, out var totalCount);
@@ -79,7 +80,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> NewAccount(FormCollection forms)
 		{
 			#region 参数验证
-			Parameter.Validate(forms);
+			new Parameter().Validate(forms);
 			#endregion
 
 			var response = new ResponseModel<AccountDto>();
@@ -117,7 +118,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> CheckAccountNameExist(String param)
 		{
 			#region 参数验证
-			Parameter.Validate(param);
+			new Parameter().Validate(param);
 			#endregion
 
 			var result = await AccountServices.CheckAccountNameExistAsync(param);
@@ -131,7 +132,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> RemoveAccount(Int32 accountId)
 		{
 			#region 参数验证
-			Parameter.Validate(accountId);
+			new Parameter().Validate(accountId);
 			#endregion
 
 			var response = new ResponseModel<String>();
@@ -149,7 +150,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> ChangeAccountStatus(Int32 accountId, String isDisable)
 		{
 			#region 参数验证
-			Parameter.Validate(accountId).Validate(isDisable);
+			new Parameter().Validate(accountId).Validate(isDisable);
 			#endregion
 
 			var response = new ResponseModel<String>();

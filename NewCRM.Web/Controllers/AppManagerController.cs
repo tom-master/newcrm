@@ -7,6 +7,7 @@ using NewCRM.Application.Services.Interface;
 using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Web.Controllers.ControllerHelper;
+using NewLib.Validate;
 
 namespace NewCRM.Web.Controllers
 {
@@ -83,7 +84,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> Pass(Int32 appId)
 		{
 			#region 参数验证	
-			Parameter.Validate(appId);
+			new Parameter().Validate(appId);
 			#endregion
 
 			var response = new ResponseModel();
@@ -101,7 +102,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> DenyAsync(Int32 appId)
 		{
 			#region 参数验证	
-			Parameter.Validate(appId);
+			new Parameter().Validate(appId);
 			#endregion
 
 			var response = new ResponseModel();
@@ -119,7 +120,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> Recommend(Int32 appId)
 		{
 			#region 参数验证	
-			Parameter.Validate(appId);
+			new Parameter().Validate(appId);
 			#endregion
 
 			var response = new ResponseModel();
@@ -137,7 +138,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> RemoveApp(Int32 appId)
 		{
 			#region 参数验证	
-			Parameter.Validate(appId);
+			new Parameter().Validate(appId);
 			#endregion
 
 			var response = new ResponseModel();
@@ -156,7 +157,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> CheckAppName(String param)
 		{
 			#region 参数验证
-			Parameter.Validate(param);
+			new Parameter().Validate(param);
 			#endregion
 
 			var result = await AccountServices.CheckAppNameAsync(param);
@@ -170,7 +171,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> CheckAppUrl(String param)
 		{
 			#region 参数验证
-			Parameter.Validate(param);
+			new Parameter().Validate(param);
 			#endregion
 
 			var result = await AccountServices.CheckAppUrlAsync(param);

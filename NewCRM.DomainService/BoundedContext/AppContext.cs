@@ -12,6 +12,7 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewCRM.Infrastructure.CommonTools.CustomExtension;
 using NewLib;
 using NewLib.Data.Mapper.InternalDataStore;
+using NewLib.Validate;
 
 namespace NewCRM.Domain.Services.BoundedContext
 {
@@ -19,7 +20,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 	{
 		public async Task<Tuple<Int32, Int32>> GetAccountDevelopAppCountAndNotReleaseAppCountAsync(Int32 accountId)
 		{
-			Parameter.Validate(accountId);
+			new Parameter().Validate(accountId);
 			return await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -49,7 +50,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task<TodayRecommendAppDto> GetTodayRecommendAsync(Int32 accountId)
 		{
-			Parameter.Validate(accountId);
+			new Parameter().Validate(accountId);
 			return await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -87,7 +88,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public List<App> GetApps(Int32 accountId, Int32 appTypeId, Int32 orderId, String searchText, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
 		{
-			Parameter.Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
+			new Parameter().Validate(accountId, true).Validate(orderId).Validate(searchText).Validate(pageIndex, true).Validate(pageSize);
 			using (var dataStore = new DataStore())
 			{
 				var parameters = new List<SqlParameter>
@@ -185,7 +186,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public List<App> GetAccountApps(Int32 accountId, String searchText, Int32 appTypeId, Int32 appStyleId, String appState, Int32 pageIndex, Int32 pageSize, out Int32 totalCount)
 		{
-			Parameter.Validate(accountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
+			new Parameter().Validate(accountId, true).Validate(searchText).Validate(appTypeId, true).Validate(appStyleId, true).Validate(pageIndex).Validate(pageSize);
 
 			using (var dataStore = new DataStore())
 			{
@@ -280,7 +281,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task<App> GetAppAsync(Int32 appId)
 		{
-			Parameter.Validate(appId);
+			new Parameter().Validate(appId);
 			return await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -323,7 +324,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task<Boolean> IsInstallAppAsync(Int32 accountId, Int32 appId)
 		{
-			Parameter.Validate(accountId).Validate(appId);
+			new Parameter().Validate(accountId).Validate(appId);
 			return await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -360,7 +361,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task<Boolean> CheckAppTypeNameAsync(String appTypeName)
 		{
-			Parameter.Validate(appTypeName);
+			new Parameter().Validate(appTypeName);
 			return await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -377,7 +378,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task ModifyAppStarAsync(Int32 accountId, Int32 appId, Int32 starCount)
 		{
-			Parameter.Validate(accountId).Validate(appId).Validate(starCount);
+			new Parameter().Validate(accountId).Validate(appId).Validate(starCount);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -425,7 +426,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task PassAsync(Int32 appId)
 		{
-			Parameter.Validate(appId);
+			new Parameter().Validate(appId);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -438,7 +439,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task DenyAsync(Int32 appId)
 		{
-			Parameter.Validate(appId);
+			new Parameter().Validate(appId);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -451,7 +452,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task SetTodayRecommandAppAsync(Int32 appId)
 		{
-			Parameter.Validate(appId);
+			new Parameter().Validate(appId);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -486,7 +487,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task RemoveAppAsync(Int32 appId)
 		{
-			Parameter.Validate(appId);
+			new Parameter().Validate(appId);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -523,7 +524,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task ReleaseAppAsync(Int32 appId)
 		{
-			Parameter.Validate(appId);
+			new Parameter().Validate(appId);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -540,7 +541,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task ModifyAccountAppInfoAsync(Int32 accountId, App app)
 		{
-			Parameter.Validate(accountId).Validate(accountId).Validate(app);
+			new Parameter().Validate(accountId).Validate(accountId).Validate(app);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -613,7 +614,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task DeleteAppTypeAsync(Int32 appTypeId)
 		{
-			Parameter.Validate(appTypeId);
+			new Parameter().Validate(appTypeId);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -645,7 +646,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task CreateNewAppTypeAsync(AppType appType)
 		{
-			Parameter.Validate(appType);
+			new Parameter().Validate(appType);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -672,7 +673,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task ModifyAppTypeAsync(String appTypeName, Int32 appTypeId)
 		{
-			Parameter.Validate(appTypeName).Validate(appTypeId);
+			new Parameter().Validate(appTypeName).Validate(appTypeId);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -701,7 +702,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task ModifyAppIconAsync(Int32 accountId, Int32 appId, String newIcon)
 		{
-			Parameter.Validate(accountId).Validate(appId).Validate(newIcon);
+			new Parameter().Validate(accountId).Validate(appId).Validate(newIcon);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())
@@ -715,7 +716,7 @@ namespace NewCRM.Domain.Services.BoundedContext
 
 		public async Task InstallAsync(Int32 accountId, Int32 appId, Int32 deskNum)
 		{
-			Parameter.Validate(accountId).Validate(appId).Validate(deskNum);
+			new Parameter().Validate(accountId).Validate(appId).Validate(deskNum);
 			await Task.Run(() =>
 			{
 				using (var dataStore = new DataStore())

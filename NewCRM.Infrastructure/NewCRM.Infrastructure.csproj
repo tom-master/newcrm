@@ -35,6 +35,9 @@
     <Reference Include="NewLib">
       <HintPath>..\..\dev\Newlib\NewLib\bin\Debug\NewLib.dll</HintPath>
     </Reference>
+    <Reference Include="NewLib.Data">
+      <HintPath>..\..\dev\Newlib\NewLib.Data\bin\Debug\NewLib.Data.dll</HintPath>
+    </Reference>
     <Reference Include="NewLib.Security">
       <HintPath>..\..\dev\Newlib\NewLib.Security\bin\Debug\NewLib.Security.dll</HintPath>
     </Reference>

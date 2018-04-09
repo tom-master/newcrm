@@ -8,6 +8,7 @@ using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Web.Controllers.ControllerHelper;
 using NewLib;
+using NewLib.Validate;
 
 namespace NewCRM.Web.Controllers
 {
@@ -54,7 +55,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> AppDetail(Int32 appId)
 		{
 			#region 参数验证
-			Parameter.Validate(appId);
+			new Parameter().Validate(appId);
 			#endregion
 
 			ViewData["IsInstallApp"] = await _appServices.IsInstallAppAsync(AccountId, appId);
@@ -130,7 +131,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> ModifyAppStart(Int32 appId, Int32 starCount)
 		{
 			#region 参数验证
-			Parameter.Validate(appId).Validate(starCount);
+			new Parameter().Validate(appId).Validate(starCount);
 			#endregion
 
 			var response = new ResponseModel();
@@ -148,7 +149,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> InstallApp(Int32 appId, Int32 deskNum)
 		{
 			#region 参数验证
-			Parameter.Validate(appId).Validate(deskNum);
+			new Parameter().Validate(appId).Validate(deskNum);
 			#endregion
 
 			var response = new ResponseModel();
@@ -189,7 +190,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> ModifyAppInfo(FormCollection forms)
 		{
 			#region 参数验证
-			Parameter.Validate(forms);
+			new Parameter().Validate(forms);
 			#endregion
 
 			var response = new ResponseModel();
@@ -207,7 +208,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> ModifyAppIcon(Int32 appId, String newIcon)
 		{
 			#region 参数验证
-			Parameter.Validate(appId).Validate(newIcon);
+			new Parameter().Validate(appId).Validate(newIcon);
 			#endregion
 
 			var response = new ResponseModel<String>();
@@ -227,7 +228,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> CreateApp(FormCollection forms)
 		{
 			#region 参数验证
-			Parameter.Validate(forms);
+			new Parameter().Validate(forms);
 			#endregion
 
 			var response = new ResponseModel();
@@ -249,7 +250,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> ReleaseApp(Int32 appId)
 		{
 			#region 参数验证
-			Parameter.Validate(appId);
+			new Parameter().Validate(appId);
 			#endregion
 
 			var response = new ResponseModel();
@@ -267,7 +268,7 @@ namespace NewCRM.Web.Controllers
 		public async Task<ActionResult> RemoveApp(Int32 appId)
 		{
 			#region 参数验证
-			Parameter.Validate(appId);
+			new Parameter().Validate(appId);
 			#endregion
 
 			var response = new ResponseModel();

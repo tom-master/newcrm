@@ -8,6 +8,7 @@ using NewCRM.Application.Services.Interface;
 using NewCRM.Domain.Services;
 using NewCRM.Domain.Services.Interface;
 using NewCRM.Infrastructure.CommonTools;
+using NewLib.Validate;
 using static NewCRM.Infrastructure.CommonTools.CacheKey;
 
 namespace NewCRM.Application.Services
@@ -23,7 +24,7 @@ namespace NewCRM.Application.Services
 
 		public async Task<IDictionary<String, dynamic>> GetAllSkinAsync(String skinPath)
 		{
-			Parameter.Validate(skinPath);
+			new Parameter().Validate(skinPath);
 
 			return await Task.Run(() =>
 			{
@@ -44,7 +45,7 @@ namespace NewCRM.Application.Services
 
 		public async Task ModifySkinAsync(Int32 accountId, String newSkin)
 		{
-			Parameter.Validate(accountId).Validate(newSkin);
+			new Parameter().Validate(accountId).Validate(newSkin);
 			await _skinContext.ModifySkinAsync(accountId, newSkin);
 			CacheHelper.RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
 		}
@@ -53,7 +54,7 @@ namespace NewCRM.Application.Services
 
 		private String GetLocalImagePath(String fileName, String fullPath)
 		{
-			Parameter.Validate(fileName).Validate(fullPath);
+			new Parameter().Validate(fileName).Validate(fullPath);
 
 			var dic = Directory.GetFiles(fullPath, "preview.png", SearchOption.AllDirectories).ToList();
 			foreach(var dicItem in from dicItem in dic let regex = new Regex(fileName) where regex.IsMatch(dicItem) select dicItem)

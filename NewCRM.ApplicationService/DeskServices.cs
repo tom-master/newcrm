@@ -11,6 +11,7 @@ using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
 using NewLib;
+using NewLib.Validate;
 using static NewCRM.Infrastructure.CommonTools.CacheKey;
 
 namespace NewCRM.Application.Services
@@ -63,7 +64,7 @@ namespace NewCRM.Application.Services
 
 		public async Task<IDictionary<String, IList<dynamic>>> GetDeskMembersAsync(Int32 accountId)
 		{
-			Parameter.Validate(accountId);
+			new Parameter().Validate(accountId);
 
 			var result = await GetCache(new DesktopCacheKey(accountId), () => _memberContext.GetMembersAsync(accountId));
 			var deskGroup = result.GroupBy(a => a.DeskIndex);
