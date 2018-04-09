@@ -12,6 +12,11 @@ namespace NewCRM.Web.Filter
 	{
 		public void OnAuthorization(AuthorizationContext filterContext)
 		{
+			if(ValidateToken(filterContext))
+			{
+				return;
+			}
+
 			var actionName = filterContext.RequestContext.RouteData.Values["action"].ToString().ToLower();
 			var controllerName = filterContext.RequestContext.RouteData.Values["controller"].ToString().ToLower();
 			if((controllerName == "desktop" && actionName == "login") || actionName == "landing" || actionName == "index")
@@ -82,6 +87,7 @@ namespace NewCRM.Web.Filter
 				return false;
 			}
 
+			return true;
 		}
 	}
 }
