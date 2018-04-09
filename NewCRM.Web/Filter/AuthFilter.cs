@@ -12,8 +12,10 @@ namespace NewCRM.Web.Filter
 	{
 		public void OnAuthorization(AuthorizationContext filterContext)
 		{
+
 			if(ValidateToken(filterContext))
 			{
+				ReturnMessage(filterContext, "token验证失败！");
 				return;
 			}
 
@@ -39,8 +41,8 @@ namespace NewCRM.Web.Filter
 			{
 				return;
 			}
-			var account = AsyncContext.Run(() => DependencyResolver.Current.GetService<IAccountServices>()
-			.GetAccountAsync(Int32.Parse(filterContext.HttpContext.Request.Cookies["memberID"].Value)));
+
+			var account = AsyncContext.Run(() => DependencyResolver.Current.GetService<IAccountServices>().GetAccountAsync(Int32.Parse(filterContext.HttpContext.Request.Cookies["memberID"].Value)));
 
 			var appId = Int32.Parse(filterContext.RequestContext.HttpContext.Request.Params["id"]);
 			var isPermission = AsyncContext.Run(() => DependencyResolver.Current.GetService<ISecurityServices>().CheckPermissionsAsync(appId, account.Roles.Select(role => role.Id).ToArray()));
@@ -84,7 +86,7 @@ namespace NewCRM.Web.Filter
 			var token = filterContext.RequestContext.RouteData.Values["token"].ToString();
 			if(String.IsNullOrEmpty(token))
 			{
-				return false;
+				//return false;
 			}
 
 			return true;

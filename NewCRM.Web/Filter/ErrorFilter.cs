@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Text;
 using System.Web.Mvc;
 using NewCRM.Application.Services.Interface;
+using NewCRM.Domain.ValueObject;
 using NewCRM.Dto;
 using NewCRM.Infrastructure.CommonTools;
 using NewCRM.Infrastructure.CommonTools.CustomException;
@@ -16,6 +17,7 @@ namespace NewCRM.Web.Filter
 			filterContext.ExceptionHandled = true;
 
 			var isAjaxRequest = filterContext.RequestContext.HttpContext.Request.IsAjaxRequest();
+			var exception = filterContext.Exception is BusinessException;
 			if(isAjaxRequest)
 			{
 				filterContext.Result = new JsonResult
@@ -23,7 +25,7 @@ namespace NewCRM.Web.Filter
 					Data = new ResponseModel<String>
 					{
 						IsSuccess = false,
-						Message = filterContext.Exception is BusinessException ? filterContext.Exception.Message : "出现未知错误，请重试",
+						Message = exception ? filterContext.Exception.Message : "出现未知错误，请重试",
 					},
 					ContentEncoding = Encoding.UTF8,
 					JsonRequestBehavior = JsonRequestBehavior.AllowGet
@@ -37,18 +39,16 @@ namespace NewCRM.Web.Filter
 				Controller = filterContext.RouteData.Values["controller"].ToString(),
 				ExceptionMessage = filterContext.Exception.Message,
 				Track = filterContext.Exception.StackTrace,
-				LogLevelEnum = 4,
+				LogLevelEnum = exception ? LogLevel.Warning : LogLevel.Error,
 				Id = new Random().Next(1, Int32.MaxValue),
 				AddTime = DateTime.Now.ToString(CultureInfo.CurrentCulture)
 			});
 
-			var notPermissionMessage = $@"<script>top.alertInfo('出现未知错误，请重试')</script>";
 			filterContext.Result = new ContentResult
 			{
 				ContentEncoding = Encoding.UTF8,
-				Content = notPermissionMessage
+				Content = $@"<script>top.alertInfo('出现未知错误，请重试')</script>"
 			};
-
 		}
 	}
 }

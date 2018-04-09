@@ -599,9 +599,9 @@ namespace NewCRM.Domain.Services.BoundedContext
 						#region 前置条件验证
 						{
 							var parameters = new List<SqlParameter>
-						  {
-							  new SqlParameter("@accountId",accountId)
-						  };
+							{
+								new SqlParameter("@accountId",accountId)
+							};
 
 							var sql = $@"SELECT a.IsAdmin FROM dbo.Account AS a WHERE a.Id=@accountId AND a.IsDeleted=0 AND a.IsDisable=0";
 							var isAdmin = Boolean.Parse(dataStore.FindSingleValue<String>(sql, parameters));
