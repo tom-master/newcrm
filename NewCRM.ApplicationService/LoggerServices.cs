@@ -10,7 +10,7 @@ using NewCRM.Dto;
 
 namespace NewCRM.Application.Services
 {
-    public class LoggerServices : BaseServiceContext, ILoggerServices
+    public class LoggerServices :  ILoggerServices
     {
         private ILoggerContext _loggerContext;
 

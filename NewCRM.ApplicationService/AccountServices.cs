@@ -16,7 +16,7 @@ using static NewCRM.Infrastructure.CommonTools.CacheKey;
 
 namespace NewCRM.Application.Services
 {
-	public class AccountServices : BaseServiceContext, IAccountServices
+	public class AccountServices : IAccountServices
 	{
 		private readonly IAccountContext _accountContext;
 
@@ -42,8 +42,8 @@ namespace NewCRM.Application.Services
 		{
 			Parameter.Validate(accountId);
 
-			var config = await GetCache(new ConfigCacheKey(accountId), () => _accountContext.GetConfigAsync(accountId));
-			var wallpaper = await GetCache(new WallpaperCacheKey(accountId), () => _accountContext.GetWallpaperAsync(config.WallpaperId));
+			var config = await CacheHelper.GetCache(new ConfigCacheKey(accountId), () => _accountContext.GetConfigAsync(accountId));
+			var wallpaper = await CacheHelper.GetCache(new WallpaperCacheKey(accountId), () => _accountContext.GetWallpaperAsync(config.WallpaperId));
 
 			return new ConfigDto
 			{
@@ -87,14 +87,14 @@ namespace NewCRM.Application.Services
 		{
 			Parameter.Validate(accountId);
 
-			var account = await GetCache(new AccountCacheKey(accountId), () => _accountContext.GetAccountAsync(accountId));
+			var account = await CacheHelper.GetCache(new AccountCacheKey(accountId), () => _accountContext.GetAccountAsync(accountId));
 			if(account == null)
 			{
 				throw new BusinessException("该用户可能已被禁用或被删除，请联系管理员");
 			}
 
-			var roles = await GetCache(new AccountRoleCacheKey(account.Id), () => _accountContext.GetRolesAsync(account.Id));
-			var powers = await GetCache(new PowersCacheKey(account.Id), () => _accountContext.GetPowersAsync());
+			var roles = await CacheHelper.GetCache(new AccountRoleCacheKey(account.Id), () => _accountContext.GetRolesAsync(account.Id));
+			var powers = await CacheHelper.GetCache(new PowersCacheKey(account.Id), () => _accountContext.GetPowersAsync());
 
 			return new AccountDto
 			{
@@ -196,7 +196,7 @@ namespace NewCRM.Application.Services
 			Parameter.Validate(accountId).Validate(newFace);
 			await _accountContext.ModifyAccountFaceAsync(accountId, newFace);
 
-			RemoveOldKeyWhenModify(new ConfigCacheKey(accountId), new AccountCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new ConfigCacheKey(accountId), new AccountCacheKey(accountId));
 		}
 
 		public async Task ModifyPasswordAsync(Int32 accountId, String newPassword, Boolean isTogetherSetLockPassword)
@@ -211,7 +211,7 @@ namespace NewCRM.Application.Services
 			Parameter.Validate(newScreenPassword);
 			var newPassword = PasswordUtil.CreateDbPassword(newScreenPassword);
 			await _accountContext.ModifyLockScreenPasswordAsync(accountId, newPassword);
-			RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
+			CacheHelper.RemoveOldKeyWhenModify(new ConfigCacheKey(accountId));
 		}
 
 		public async Task RemoveAccountAsync(Int32 accountId)

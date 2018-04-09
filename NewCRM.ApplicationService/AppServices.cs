@@ -15,7 +15,7 @@ using static NewCRM.Infrastructure.CommonTools.CacheKey;
 
 namespace NewCRM.Application.Services
 {
-	public class AppServices: BaseServiceContext, IAppServices
+	public class AppServices:  IAppServices
 	{
 		private readonly IAppContext _appContext;
 		private readonly IDeskContext _deskContext;
