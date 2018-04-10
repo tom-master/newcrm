@@ -23,8 +23,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.NewCrm.App.Appliction.Ser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCrm.Infrastructure", "NewCRM.Infrastructure\NewCrm.Infrastructure.csproj", "{457EE31D-B485-4D98-A0A2-1FF2F58123D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCenter", "TestCenter\TestCenter.csproj", "{65D0754B-2881-4E71-AA86-E39FEDE14E56}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7.NewCrm.App.FileServices", "7.NewCrm.App.FileServices", "{EA2BC3E4-ADCE-48A8-943B-1FAEE6761986}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCrm.FileServices", "NewCRM.FileServices\NewCrm.FileServices.csproj", "{B418DA7E-B496-4ED8-828B-6655908D3E2F}"
@@ -63,10 +61,6 @@ Global
 		{457EE31D-B485-4D98-A0A2-1FF2F58123D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{457EE31D-B485-4D98-A0A2-1FF2F58123D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{457EE31D-B485-4D98-A0A2-1FF2F58123D9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{65D0754B-2881-4E71-AA86-E39FEDE14E56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{65D0754B-2881-4E71-AA86-E39FEDE14E56}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{65D0754B-2881-4E71-AA86-E39FEDE14E56}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{65D0754B-2881-4E71-AA86-E39FEDE14E56}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B418DA7E-B496-4ED8-828B-6655908D3E2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B418DA7E-B496-4ED8-828B-6655908D3E2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B418DA7E-B496-4ED8-828B-6655908D3E2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
