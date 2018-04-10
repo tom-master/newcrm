@@ -112,9 +112,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\NewCRM.Infrastructure\NewCRM.Infrastructure.csproj">
+    <ProjectReference Include="..\NewCRM.Infrastructure\NewCrm.Infrastructure.csproj">
       <Project>{457EE31D-B485-4D98-A0A2-1FF2F58123D9}</Project>
-      <Name>NewCRM.Infrastructure</Name>
+      <Name>NewCrm.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

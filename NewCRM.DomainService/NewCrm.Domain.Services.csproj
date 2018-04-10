@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0C635AA2-3953-4AA0-A07F-CF8B1B7BBC6E}</ProjectGuid>
+    <ProjectGuid>{149045D7-DB5D-4580-8199-18E68DDD6A7C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NewCRM.Dto</RootNamespace>
-    <AssemblyName>NewCRM.Dto</AssemblyName>
+    <RootNamespace>NewCRM.Domain.Services</RootNamespace>
+    <AssemblyName>NewCRM.Domain.Services</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -32,21 +32,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
-    </Reference>
     <Reference Include="NewCRM.Infrastructure">
       <HintPath>..\NewCRM.Infrastructure\bin\Debug\NewCRM.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="NewLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="NewLib">
       <HintPath>..\..\dev\Newlib\NewLib\bin\Debug\NewLib.dll</HintPath>
+    </Reference>
+    <Reference Include="NewLib.Data, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dev\Newlib\NewLib.Data\bin\Debug\NewLib.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="NewLib.Security">
+      <HintPath>..\..\dev\Newlib\NewLib.Security\bin\Debug\NewLib.Security.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,22 +57,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppDto.cs" />
-    <Compile Include="AppStateDto.cs" />
-    <Compile Include="AppStyleDto.cs" />
-    <Compile Include="AppTypeDto.cs" />
-    <Compile Include="BaseDto.cs" />
-    <Compile Include="ConfigDto.cs" />
-    <Compile Include="DeskDto.cs" />
-    <Compile Include="DtoConfiguration.cs" />
-    <Compile Include="LogDto.cs" />
-    <Compile Include="MapperProfile\DtoProfile.cs" />
-    <Compile Include="MemberDto.cs" />
-    <Compile Include="PowerDto.cs" />
-    <Compile Include="RoleDto.cs" />
-    <Compile Include="TodayRecommendAppDto.cs" />
-    <Compile Include="AccountDto.cs" />
-    <Compile Include="WallpaperDto.cs" />
+    <Compile Include="BoundedContext\AppContext.cs" />
+    <Compile Include="BoundedContext\DeskContext.cs" />
+    <Compile Include="BoundedContext\LoggerContext.cs" />
+    <Compile Include="BoundedContext\SecurityContext.cs" />
+    <Compile Include="BoundedContext\SkinContext.cs" />
+    <Compile Include="BoundedContext\WallpaperContext.cs" />
+    <Compile Include="Interface\IAppContext.cs" />
+    <Compile Include="BoundedContext\MemberContext.cs" />
+    <Compile Include="BoundedContext\AccountContext.cs" />
+    <Compile Include="Interface\IAccountContext.cs" />
+    <Compile Include="Interface\IDeskContext.cs" />
+    <Compile Include="Interface\ILoggerContext.cs" />
+    <Compile Include="Interface\IMemberContext.cs" />
+    <Compile Include="Interface\ISecurityContext.cs" />
+    <Compile Include="Interface\ISkinContext.cs" />
+    <Compile Include="Interface\IWallpaperContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -77,11 +80,15 @@
       <Project>{173C1046-4529-4D70-B6F5-501C61514E86}</Project>
       <Name>NewCrm.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NewCRM.Dto\NewCrm.Dto.csproj">
+      <Project>{0C635AA2-3953-4AA0-A07F-CF8B1B7BBC6E}</Project>
+      <Name>NewCrm.Dto</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

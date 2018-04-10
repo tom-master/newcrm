@@ -93,17 +93,17 @@
     <Compile Include="WallpaperServices.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NewCRM.DomainService\NewCRM.Domain.Services.csproj">
+    <ProjectReference Include="..\NewCRM.DomainService\NewCrm.Domain.Services.csproj">
       <Project>{149045D7-DB5D-4580-8199-18E68DDD6A7C}</Project>
-      <Name>NewCRM.Domain.Services</Name>
+      <Name>NewCrm.Domain.Services</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NewCRM.Domain\NewCRM.Domain.csproj">
+    <ProjectReference Include="..\NewCRM.Domain\NewCrm.Domain.csproj">
       <Project>{173C1046-4529-4D70-B6F5-501C61514E86}</Project>
-      <Name>NewCRM.Domain</Name>
+      <Name>NewCrm.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NewCRM.Infrastructure\NewCRM.Infrastructure.csproj">
+    <ProjectReference Include="..\NewCRM.Infrastructure\NewCrm.Infrastructure.csproj">
       <Project>{457EE31D-B485-4D98-A0A2-1FF2F58123D9}</Project>
-      <Name>NewCRM.Infrastructure</Name>
+      <Name>NewCrm.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
