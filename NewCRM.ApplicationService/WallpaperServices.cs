@@ -79,7 +79,7 @@ namespace NewCRM.Application.Services
 				var md5 = FileHelper.GetMD5(stream);
 				var webWallpaper = await GetUploadWallpaperAsync(md5);
 				if (webWallpaper != null)
-				{
+				{ 
 					return new Tuple<Int32, String>(webWallpaper.Id, webWallpaper.ShortUrl);
 				}
 
