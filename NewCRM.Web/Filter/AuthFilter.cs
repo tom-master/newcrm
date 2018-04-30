@@ -13,11 +13,11 @@ namespace NewCRM.Web.Filter
 		public void OnAuthorization(AuthorizationContext filterContext)
 		{
 
-			if(ValidateToken(filterContext))
-			{
-				ReturnMessage(filterContext, "token验证失败！");
-				return;
-			}
+			//if(ValidateToken(filterContext))
+			//{
+			//	ReturnMessage(filterContext, "token验证失败！");
+			//	return;
+			//}
 
 			var actionName = filterContext.RequestContext.RouteData.Values["action"].ToString().ToLower();
 			var controllerName = filterContext.RequestContext.RouteData.Values["controller"].ToString().ToLower();
