@@ -10,7 +10,7 @@ using NewCRM.Infrastructure.CommonTools.CustomException;
 
 namespace NewCRM.Web.Filter
 {
-	public sealed class ErrorFilter : IExceptionFilter
+	public sealed class ErrorFilter: IExceptionFilter
 	{
 		public void OnException(ExceptionContext filterContext)
 		{
@@ -18,7 +18,7 @@ namespace NewCRM.Web.Filter
 
 			var isAjaxRequest = filterContext.RequestContext.HttpContext.Request.IsAjaxRequest();
 			var exception = filterContext.Exception is BusinessException;
-			if(isAjaxRequest)
+			if (isAjaxRequest)
 			{
 				filterContext.Result = new JsonResult
 				{
@@ -30,7 +30,14 @@ namespace NewCRM.Web.Filter
 					ContentEncoding = Encoding.UTF8,
 					JsonRequestBehavior = JsonRequestBehavior.AllowGet
 				};
-				return;
+			}
+			else
+			{
+				filterContext.Result = new ContentResult
+				{
+					ContentEncoding = Encoding.UTF8,
+					Content = $@"<script>top.alertInfo('出现未知错误，请重试')</script>"
+				};
 			}
 
 			DependencyResolver.Current.GetService<ILoggerServices>().AddLoggerAsync(new LogDto
@@ -44,11 +51,7 @@ namespace NewCRM.Web.Filter
 				AddTime = DateTime.Now.ToString(CultureInfo.CurrentCulture)
 			});
 
-			filterContext.Result = new ContentResult
-			{
-				ContentEncoding = Encoding.UTF8,
-				Content = $@"<script>top.alertInfo('出现未知错误，请重试')</script>"
-			};
+
 		}
 	}
 }
