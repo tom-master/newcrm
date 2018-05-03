@@ -1,0 +1,593 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F34C371A-E2E5-499B-A0FD-36EF9CCA486A}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NewCRM.Web</RootNamespace>
+    <AssemblyName>NewCRM.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <TargetFrameworkProfile />
+    <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.5.4\lib\net45\CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NewLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dev\Newlib\NewLib\bin\Debug\NewLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.4.0.1\lib\net45\Nito.AsyncEx.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Concurrent, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.4.0.1\lib\net45\Nito.AsyncEx.Concurrent.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Enlightenment, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.4.0.1\lib\net45\Nito.AsyncEx.Enlightenment.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Unity.Abstractions, Version=3.1.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Abstractions.3.1.1\lib\net45\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Configuration, Version=5.1.3.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.5.4\lib\net45\Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.5.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Container.5.5.3\lib\net45\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Interception, Version=5.3.0.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.5.4\lib\net45\Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Interception.Configuration, Version=5.1.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.5.4\lib\net45\Unity.Interception.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mvc, Version=5.0.12.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Mvc.5.0.12\lib\net45\Unity.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RegistrationByConvention, Version=2.1.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.5.4\lib\net45\Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ServiceLocation, Version=2.1.0.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.5.4\lib\net45\Unity.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="Controllers\AccountSettingController.cs" />
+    <Compile Include="Controllers\AppManagerController.cs" />
+    <Compile Include="Controllers\AppMarketController.cs" />
+    <Compile Include="Controllers\AppTypesController.cs" />
+    <Compile Include="Controllers\ControllerHelper\BaseController.cs" />
+    <Compile Include="Controllers\DeskController.cs" />
+    <Compile Include="Controllers\DesktopController.cs" />
+    <Compile Include="Controllers\LogController.cs" />
+    <Compile Include="Controllers\SecurityController.cs" />
+    <Compile Include="Controllers\DeskOptionsController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\AccountManagerController.cs" />
+    <Compile Include="Filter\AuthFilter.cs" />
+    <Compile Include="Filter\ErrorFilter.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="fonts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NewCRM.ApplicationService\NewCrm.Application.Services.csproj">
+      <Project>{053A2AA0-4738-4CF3-AA99-D805411BFC40}</Project>
+      <Name>NewCrm.Application.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NewCRM.DomainService\NewCrm.Domain.Services.csproj">
+      <Project>{149045D7-DB5D-4580-8199-18E68DDD6A7C}</Project>
+      <Name>NewCrm.Domain.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NewCRM.Domain\NewCrm.Domain.csproj">
+      <Project>{173C1046-4529-4D70-B6F5-501C61514E86}</Project>
+      <Name>NewCrm.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NewCRM.Dto\NewCrm.Dto.csproj">
+      <Project>{0C635AA2-3953-4AA0-A07F-CF8B1B7BBC6E}</Project>
+      <Name>NewCrm.Dto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NewCRM.Infrastructure\NewCrm.Infrastructure.csproj">
+      <Project>{457EE31D-B485-4D98-A0A2-1FF2F58123D9}</Project>
+      <Name>NewCrm.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Properties\PublishProfiles\release.pubxml.user" />
+    <Content Include="wwwroot\js\dynamicBackground.js" />
+    <Content Include="wwwroot\js\handlebars-v4.0.5.js" />
+    <Content Include="wwwroot\css\globle.css" />
+    <Content Include="wwwroot\css\index.css" />
+    <Content Include="wwwroot\css\login.css" />
+    <Content Include="wwwroot\css\sys.css" />
+    <Content Include="wwwroot\images\skins\chrome.css" />
+    <Content Include="wwwroot\images\skins\chrome\chrome_s.gif" />
+    <Content Include="wwwroot\images\skins\chrome\chrome_s2.gif" />
+    <Content Include="wwwroot\images\skins\chrome\preview.png" />
+    <Content Include="wwwroot\images\skins\default.css" />
+    <Content Include="wwwroot\images\skins\default\preview.png" />
+    <Content Include="wwwroot\images\skins\ext.css" />
+    <Content Include="wwwroot\images\skins\ext\ext.png" />
+    <Content Include="wwwroot\images\skins\ext\preview.png" />
+    <Content Include="wwwroot\images\skins\mac.css" />
+    <Content Include="wwwroot\images\skins\mac\preview.png" />
+    <Content Include="wwwroot\images\skins\qq.css" />
+    <Content Include="wwwroot\images\skins\qq\preview.png" />
+    <Content Include="wwwroot\images\ui\addicon.png" />
+    <Content Include="wwwroot\images\ui\amg_1.png" />
+    <Content Include="wwwroot\images\ui\amg_2.png" />
+    <Content Include="wwwroot\images\ui\amg_3.png" />
+    <Content Include="wwwroot\images\ui\amg_4.png" />
+    <Content Include="wwwroot\images\ui\amg_5.png" />
+    <Content Include="wwwroot\images\ui\amg_body.png" />
+    <Content Include="wwwroot\images\ui\amg_line_y.png" />
+    <Content Include="wwwroot\images\ui\amg_shortcut_hover.png" />
+    <Content Include="wwwroot\images\ui\amg_top.png" />
+    <Content Include="wwwroot\images\ui\app.png" />
+    <Content Include="wwwroot\images\ui\app_list.png" />
+    <Content Include="wwwroot\images\ui\app_spr_img.png" />
+    <Content Include="wwwroot\images\ui\app_spr_nav.png" />
+    <Content Include="wwwroot\images\ui\app_spr_x.png" />
+    <Content Include="wwwroot\images\ui\avatar.png" />
+    <Content Include="wwwroot\images\ui\avatar_120.jpg" />
+    <Content Include="wwwroot\images\ui\avatar_24.jpg" />
+    <Content Include="wwwroot\images\ui\avatar_48.jpg" />
+    <Content Include="wwwroot\images\ui\bought-table.png" />
+    <Content Include="wwwroot\images\ui\browser.png" />
+    <Content Include="wwwroot\images\ui\browser_backup.png" />
+    <Content Include="wwwroot\images\ui\circle_mask.png" />
+    <Content Include="wwwroot\images\ui\class.png" />
+    <Content Include="wwwroot\images\ui\commend_day.gif" />
+    <Content Include="wwwroot\images\ui\default_icon.png" />
+    <Content Include="wwwroot\images\ui\desk_sprite.png" />
+    <Content Include="wwwroot\images\ui\dj.png" />
+    <Content Include="wwwroot\images\ui\dock_setting.jpg" />
+    <Content Include="wwwroot\images\ui\file_default.png" />
+    <Content Include="wwwroot\images\ui\file_excel.png" />
+    <Content Include="wwwroot\images\ui\file_image.png" />
+    <Content Include="wwwroot\images\ui\file_music.png" />
+    <Content Include="wwwroot\images\ui\file_pdf.png" />
+    <Content Include="wwwroot\images\ui\file_ppt.png" />
+    <Content Include="wwwroot\images\ui\file_rar.png" />
+    <Content Include="wwwroot\images\ui\file_txt.png" />
+    <Content Include="wwwroot\images\ui\file_video.png" />
+    <Content Include="wwwroot\images\ui\file_word.png" />
+    <Content Include="wwwroot\images\ui\file_zip.png" />
+    <Content Include="wwwroot\images\ui\folder_default.png" />
+    <Content Include="wwwroot\images\ui\folder_doc.png" />
+    <Content Include="wwwroot\images\ui\folder_game.png" />
+    <Content Include="wwwroot\images\ui\folder_life.png" />
+    <Content Include="wwwroot\images\ui\folder_music.png" />
+    <Content Include="wwwroot\images\ui\folder_tool.png" />
+    <Content Include="wwwroot\images\ui\folder_video.png" />
+    <Content Include="wwwroot\images\ui\forder_selector.png" />
+    <Content Include="wwwroot\images\ui\google_ui_sprite.png" />
+    <Content Include="wwwroot\images\ui\hoorayos.png" />
+    <Content Include="wwwroot\images\ui\icon_main.png" />
+    <Content Include="wwwroot\images\ui\input-label.png" />
+    <Content Include="wwwroot\images\ui\kugou.png" />
+    <Content Include="wwwroot\images\ui\kw.png" />
+    <Content Include="wwwroot\images\ui\loading.gif" />
+    <Content Include="wwwroot\images\ui\loading_128.gif" />
+    <Content Include="wwwroot\images\ui\loading_16.gif" />
+    <Content Include="wwwroot\images\ui\loading_24.gif" />
+    <Content Include="wwwroot\images\ui\loading_48.gif" />
+    <Content Include="wwwroot\images\ui\login-input.png" />
+    <Content Include="wwwroot\images\ui\loginbg.jpg" />
+    <Content Include="wwwroot\images\ui\loginbg.png" />
+    <Content Include="wwwroot\images\ui\logincheck.gif" />
+    <Content Include="wwwroot\images\ui\loginsubmit.png" />
+    <Content Include="wwwroot\images\ui\login_icon.png" />
+    <Content Include="wwwroot\images\ui\logo.png" />
+    <Content Include="wwwroot\images\ui\nav_bar.png" />
+    <Content Include="wwwroot\images\ui\open.png" />
+    <Content Include="wwwroot\images\ui\papp.png" />
+    <Content Include="wwwroot\images\ui\popup_menu.gif" />
+    <Content Include="wwwroot\images\ui\qq.png" />
+    <Content Include="wwwroot\images\ui\quick_view.png" />
+    <Content Include="wwwroot\images\ui\quick_view_body.png" />
+    <Content Include="wwwroot\images\ui\scrollbar_bg.png" />
+    <Content Include="wwwroot\images\ui\scrollbar_bgy.png" />
+    <Content Include="wwwroot\images\ui\selected.gif" />
+    <Content Include="wwwroot\images\ui\selected.png" />
+    <Content Include="wwwroot\images\ui\share_icon.png" />
+    <Content Include="wwwroot\images\ui\shortcut_text.png" />
+    <Content Include="wwwroot\images\ui\skin_chrome.png" />
+    <Content Include="wwwroot\images\ui\skin_default.png" />
+    <Content Include="wwwroot\images\ui\skin_ext.png" />
+    <Content Include="wwwroot\images\ui\skin_mac.png" />
+    <Content Include="wwwroot\images\ui\skin_qq.png" />
+    <Content Include="wwwroot\images\ui\spr_x.png" />
+    <Content Include="wwwroot\images\ui\suggess_list_bg.png" />
+    <Content Include="wwwroot\images\ui\swdt.png" />
+    <Content Include="wwwroot\images\ui\system-chart-bar.png" />
+    <Content Include="wwwroot\images\ui\system-document-edit.png" />
+    <Content Include="wwwroot\images\ui\system-documents.png" />
+    <Content Include="wwwroot\images\ui\system-gear.png" />
+    <Content Include="wwwroot\images\ui\system-mail.png" />
+    <Content Include="wwwroot\images\ui\system-puzzle.png" />
+    <Content Include="wwwroot\images\ui\system-shapes.png" />
+    <Content Include="wwwroot\images\ui\system-star.png" />
+    <Content Include="wwwroot\images\ui\system-users.png" />
+    <Content Include="wwwroot\images\ui\system-wrench.png" />
+    <Content Include="wwwroot\images\ui\task_bg1.png" />
+    <Content Include="wwwroot\images\ui\task_bg2.png" />
+    <Content Include="wwwroot\images\ui\transparent.gif" />
+    <Content Include="wwwroot\images\ui\update_browser_bg.png" />
+    <Content Include="wwwroot\images\ui\warning.png" />
+    <Content Include="wwwroot\images\ui\widget_title_bg.png" />
+    <Content Include="wwwroot\images\ui\window_mask_bg.png" />
+    <Content Include="wwwroot\images\ui\window_mask_icon.png" />
+    <Content Include="wwwroot\images\wallpaper\wallpaper1.jpg" />
+    <Content Include="wwwroot\images\wallpaper\wallpaper2.jpg" />
+    <Content Include="wwwroot\images\wallpaper\wallpaper3.jpg" />
+    <Content Include="wwwroot\images\wallpaper\wallpaper4.jpg" />
+    <Content Include="wwwroot\images\wallpaper\wallpaper5.jpg" />
+    <Content Include="wwwroot\images\wallpaper\wallpaper6.jpg" />
+    <Content Include="wwwroot\images\wallpaper\wallpaper7.jpg" />
+    <Content Include="wwwroot\images\wallpaper\wallpaper8.jpg" />
+    <Content Include="wwwroot\images\wallpaper\wallpaper9.jpg" />
+    <Content Include="wwwroot\js\artDialog4.1.7\artDialog.js" />
+    <Content Include="wwwroot\js\artDialog4.1.7\artDialog.source.js" />
+    <Content Include="wwwroot\js\artDialog4.1.7\index.html" />
+    <Content Include="wwwroot\js\artDialog4.1.7\jquery.artDialog.js" />
+    <Content Include="wwwroot\js\artDialog4.1.7\jquery.artDialog.source.js" />
+    <Content Include="wwwroot\js\artDialog4.1.7\license.txt" />
+    <Content Include="wwwroot\js\artDialog4.1.7\plugins\iframeTools.js" />
+    <Content Include="wwwroot\js\artDialog4.1.7\plugins\iframeTools.source.js" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\aero.css" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\aero\aero_s.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\aero\aero_s2.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\aero\ie6\aui_close.hover.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\aero\ie6\aui_close.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\aero\ie6\aui_e.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\aero\ie6\aui_n.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\aero\ie6\aui_ne.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\aero\ie6\aui_nw.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\aero\ie6\aui_s.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\aero\ie6\aui_se.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\aero\ie6\aui_sw.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\aero\ie6\aui_title_icon.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\aero\ie6\aui_w.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\black.css" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\black\bg.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\black\bg2.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\black\bg_css3.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\black\bg_css3_2.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\black\ie6\close.hover.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\black\ie6\close.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\black\ie6\e.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\black\ie6\n.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\black\ie6\ne.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\black\ie6\nw.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\black\ie6\s.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\black\ie6\se.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\black\ie6\sw.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\black\ie6\w.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\blue.css" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\blue\bg.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\blue\bg2.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\blue\bg_css3.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\blue\bg_css3_2.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\blue\ie6\close.hover.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\blue\ie6\close.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\blue\ie6\e.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\blue\ie6\n.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\blue\ie6\ne.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\blue\ie6\nw.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\blue\ie6\s.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\blue\ie6\se.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\blue\ie6\sw.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\blue\ie6\w.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\chrome.css" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\chrome\border.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\chrome\chrome_s.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\default.css" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\green.css" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\green\bg.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\green\bg2.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\green\bg_css3.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\green\bg_css3_2.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\green\color_bg.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\green\ie6\close.hover.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\green\ie6\close.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\green\ie6\e.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\green\ie6\n.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\green\ie6\ne.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\green\ie6\nw.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\green\ie6\s.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\green\ie6\se.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\green\ie6\sw.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\green\ie6\w.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\icons\error.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\icons\face-sad.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\icons\face-smile.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\icons\loading.gif" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\icons\question.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\icons\succeed.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\icons\warning.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\idialog.css" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\idialog\idialog_s.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\idialog\idialog_s2.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\idialog\ie6\aui_close.hover.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\idialog\ie6\aui_close.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\idialog\ie6\aui_e.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\idialog\ie6\aui_n.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\idialog\ie6\aui_ne.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\idialog\ie6\aui_nw.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\idialog\ie6\aui_s.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\idialog\ie6\aui_se.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\idialog\ie6\aui_sw.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\idialog\ie6\aui_w.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\opera.css" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\opera\ie6\aui_close.hover.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\opera\ie6\aui_close.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\opera\ie6\aui_e.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\opera\ie6\aui_n.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\opera\ie6\aui_ne.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\opera\ie6\aui_nw.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\opera\ie6\aui_s.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\opera\ie6\aui_se.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\opera\ie6\aui_sw.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\opera\ie6\aui_w.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\opera\s1.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\opera\s2.png" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\simple.css" />
+    <Content Include="wwwroot\js\artDialog4.1.7\skins\twitter.css" />
+    <Content Include="wwwroot\js\bootstrap\css\bootstrap-responsive.css" />
+    <Content Include="wwwroot\js\bootstrap\css\bootstrap-responsive.min.css" />
+    <Content Include="wwwroot\js\bootstrap\css\bootstrap.css" />
+    <Content Include="wwwroot\js\bootstrap\css\bootstrap.min.css" />
+    <Content Include="wwwroot\js\bootstrap\img\glyphicons-halflings-white.png" />
+    <Content Include="wwwroot\js\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="wwwroot\js\bootstrap\js\bootstrap.min.js" />
+    <Content Include="wwwroot\js\fullAvatarEditor-2.3\crossdomain.xml" />
+    <Content Include="wwwroot\js\fullAvatarEditor-2.3\expressInstall.swf" />
+    <Content Include="wwwroot\js\fullAvatarEditor-2.3\fullAvatarEditor.swf" />
+    <Content Include="wwwroot\js\fullAvatarEditor-2.3\scripts\fullAvatarEditor.js" />
+    <Content Include="wwwroot\js\fullAvatarEditor-2.3\scripts\swfobject.js" />
+    <Content Include="wwwroot\js\HoorayJs\hros.min.js" />
+    <Content Include="wwwroot\js\HoorayJs\jquery-browser.js" />
+    <Content Include="wwwroot\js\HoorayJs\zoom.swf" />
+    <Content Include="wwwroot\js\HoorayLibs\gb_tip_layer.png" />
+    <Content Include="wwwroot\js\HoorayLibs\gb_tip_layer_ie6.png" />
+    <Content Include="wwwroot\js\HoorayLibs\gb_tip_loading.gif" />
+    <Content Include="wwwroot\js\HoorayLibs\hooraylibs.css" />
+    <Content Include="wwwroot\js\HoorayLibs\hooraylibs.js" />
+    <Content Include="wwwroot\js\HoorayLibs\scrolltotop.gif" />
+    <Content Include="wwwroot\js\HoorayLibs\ZeroClipboard.swf" />
+    <Content Include="wwwroot\js\sugar\sugar-1.4.1.min.js" />
+    <Content Include="wwwroot\js\validate\Validform_v5.3.2\Validform_v5.3.2_min.js" />
+    <Content Include="wwwroot\js\webuploader-0.1.5\Uploader.swf" />
+    <Content Include="wwwroot\js\webuploader-0.1.5\webuploader.css" />
+    <Content Include="wwwroot\js\webuploader-0.1.5\webuploader.custom.js" />
+    <Content Include="wwwroot\js\webuploader-0.1.5\webuploader.custom.min.js" />
+    <Content Include="wwwroot\js\webuploader-0.1.5\webuploader.fis.js" />
+    <Content Include="wwwroot\js\webuploader-0.1.5\webuploader.flashonly.js" />
+    <Content Include="wwwroot\js\webuploader-0.1.5\webuploader.flashonly.min.js" />
+    <Content Include="wwwroot\js\webuploader-0.1.5\webuploader.html5only.js" />
+    <Content Include="wwwroot\js\webuploader-0.1.5\webuploader.html5only.min.js" />
+    <Content Include="wwwroot\js\webuploader-0.1.5\webuploader.js" />
+    <Content Include="wwwroot\js\webuploader-0.1.5\webuploader.min.js" />
+    <Content Include="wwwroot\js\webuploader-0.1.5\webuploader.noimage.js" />
+    <Content Include="wwwroot\js\webuploader-0.1.5\webuploader.noimage.min.js" />
+    <Content Include="wwwroot\js\webuploader-0.1.5\webuploader.nolog.js" />
+    <Content Include="wwwroot\js\webuploader-0.1.5\webuploader.nolog.min.js" />
+    <Content Include="wwwroot\js\webuploader-0.1.5\webuploader.withoutimage.js" />
+    <Content Include="wwwroot\js\webuploader-0.1.5\webuploader.withoutimage.min.js" />
+    <Content Include="wwwroot\js\jquery-3.2.1.min.js" />
+    <Content Include="Views\AppMarket\AccountAppManageNewApp.cshtml" />
+    <Content Include="Views\Security\AttachmentPower.cshtml" />
+    <Content Include="Views\AppTypes\Index.cshtml" />
+    <Content Include="Views\AppTypes\CreateNewAppType.cshtml" />
+    <Content Include="Views\AppManager\Index.cshtml" />
+    <Content Include="Views\AppManager\AppAudit.cshtml" />
+    <Content Include="Views\AccountSetting\Index.cshtml" />
+    <Content Include="Views\AccountSetting\BaseInfo.cshtml" />
+    <Content Include="Views\AccountSetting\ModifyFace.cshtml" />
+    <Content Include="Views\AccountSetting\AccountSafe.cshtml" />
+    <Content Include="Views\Security\AddSystemAppGotoPower.cshtml" />
+    <Content Include="Views\Log\Index.cshtml" />
+    <Content Include="Views\Desktop\Login.cshtml" />
+    <None Include="Properties\PublishProfiles\release.pubxml" />
+    <None Include="Views\Security\CreateNewRole.cshtml" />
+    <Content Include="Views\AccountManager\Index.cshtml" />
+    <Content Include="Views\AccountManager\CreateNewAccount.cshtml" />
+    <Content Include="WebSite.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <Content Include="wwwroot\js\HoorayJs\第1步：合并JS.bat" />
+    <Content Include="wwwroot\js\HoorayLibs\devil.php" />
+    <Content Include="Views\AppMarket\AppDetail.cshtml" />
+    <Content Include="Views\AppMarket\Index.cshtml" />
+    <Content Include="Views\AppMarket\AccountAppManage.cshtml" />
+    <Content Include="Views\AppMarket\AccountAppManageDetail.cshtml" />
+    <Content Include="Views\AppMarket\AccountAppManageEdit.cshtml" />
+    <Content Include="Views\AppMarket\AccountAppManageInfo.cshtml" />
+    <Content Include="Views\Security\Index.cshtml" />
+    <Content Include="Views\DeskOptions\CustomWallPaper.cshtml" />
+    <Content Include="Views\DeskOptions\DeskSet.cshtml" />
+    <Content Include="Views\DeskOptions\SetSkin.cshtml" />
+    <Content Include="Views\DeskOptions\SystemWallPaper.cshtml" />
+    <Content Include="Views\Desk\EditMember.cshtml" />
+    <Content Include="Views\Desktop\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutApps.cshtml" />
+    <Content Include="Views\Shared\_LayoutRoot.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>2829</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:4861/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>
